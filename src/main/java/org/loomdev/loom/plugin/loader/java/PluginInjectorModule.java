@@ -2,14 +2,12 @@ package org.loomdev.loom.plugin.loader.java;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
-import com.google.inject.Scopes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.plugin.PluginMetadata;
 import org.loomdev.api.plugin.annotation.PluginDirectory;
 import org.loomdev.api.server.Server;
-import org.loomdev.loom.plugin.loader.LoomPluginMetadata;
 
 import java.nio.file.Path;
 

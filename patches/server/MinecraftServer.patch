@@ -6,7 +6,7 @@
  
 +    // Loom start
 +    public joptsimple.OptionSet optionSet;
-+    public org.loomdev.loom.LoomServer loomServer;
++    public org.loomdev.loom.server.LoomServer loomServer;
 +    // Loom end
 +
      public static <S extends MinecraftServer> S startServer(Function<Thread, S> function) {
@@ -29,7 +29,7 @@
          super("Server");
 +        // Loom start
 +        this.optionSet = optionSet;
-+        this.loomServer = new org.loomdev.loom.LoomServer(this);
++        this.loomServer = new org.loomdev.loom.server.LoomServer(this);
 +        // Loom end
          this.tickTimeTracker = new TickTimeTracker(Util.nanoTimeSupplier, this::getTicks);
          this.profiler = DummyProfiler.INSTANCE;

@@ -101,9 +101,9 @@
 -                minecraftdedicatedserver1.setDemo(optionset.has(optionspec2));
 -                minecraftdedicatedserver1.setServerId((String) optionset.valueOf(optionspec12));
 -                boolean flag1 = !optionset.has(optionspec) && !optionset.valuesOf(nonoptionargumentspec).contains("nogui");
-+                minecraftdedicatedserver1.setServerName((String) optionSet.valueOf("host")); // Loom :: change to optionSet
-+                minecraftdedicatedserver1.setServerPort((Integer) optionSet.valueOf("port")); // Loom :: change to optionSet
-+                minecraftdedicatedserver1.setDemo(optionSet.has("demo")); // Loom :: change to optionSet
++                // minecraftdedicatedserver1.setServerName((String) optionSet.valueOf("host")); // Loom :: change to optionSet and removed
++                // minecraftdedicatedserver1.setServerPort((Integer) optionSet.valueOf("port")); // Loom :: change to optionSet  and removed
++                // minecraftdedicatedserver1.setDemo(optionSet.has("demo")); // Loom :: change to optionSet  and removed
 +                // minecraftdedicatedserver1.setServerId((String) optionSet.valueOf("")); // Loom :: change to optionSet and removed
 +                boolean flag1 = !optionSet.has("nogui") && !optionSet.nonOptionArguments().contains("nogui"); // Loom :: change to optionSet
  
