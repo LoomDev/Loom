@@ -1,0 +1,22 @@
+--- a/net/minecraft/server/dedicated/MinecraftDedicatedServer.java
++++ b/net/minecraft/server/dedicated/MinecraftDedicatedServer.java
+@@ -68,8 +68,8 @@
+     @Nullable
+     private DedicatedServerGui gui;
+ 
+-    public MinecraftDedicatedServer(Thread thread, RegistryTracker.Modifiable registrytracker_modifiable, LevelStorage.Session levelstorage_session, ResourcePackManager<ResourcePackProfile> resourcepackmanager, ServerResourceManager serverresourcemanager, SaveProperties saveproperties, ServerPropertiesLoader serverpropertiesloader, DataFixer datafixer, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) {
+-        super(thread, registrytracker_modifiable, levelstorage_session, saveproperties, resourcepackmanager, Proxy.NO_PROXY, datafixer, serverresourcemanager, minecraftsessionservice, gameprofilerepository, usercache, worldgenerationprogresslistenerfactory);
++    public MinecraftDedicatedServer(joptsimple.OptionSet optionSet, Thread thread, RegistryTracker.Modifiable registrytracker_modifiable, LevelStorage.Session levelstorage_session, ResourcePackManager<ResourcePackProfile> resourcepackmanager, ServerResourceManager serverresourcemanager, SaveProperties saveproperties, ServerPropertiesLoader serverpropertiesloader, DataFixer datafixer, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) { // Loom :: add optionSet
++        super(optionSet, thread, registrytracker_modifiable, levelstorage_session, saveproperties, resourcepackmanager, Proxy.NO_PROXY, datafixer, serverresourcemanager, minecraftsessionservice, gameprofilerepository, usercache, worldgenerationprogresslistenerfactory); // Loom :: add optionSet
+         this.propertiesLoader = serverpropertiesloader;
+         this.rconCommandOutput = new RconCommandOutput(this);
+     }
+@@ -532,7 +532,5 @@
+         return this.propertiesLoader.getPropertiesHandler().syncChunkWrites;
+     }
+ 
+-    public PlayerManager getPlayerManager() {
+-        return this.getPlayerManager();
+-    }
++    // Loom :: decompile error
+ }

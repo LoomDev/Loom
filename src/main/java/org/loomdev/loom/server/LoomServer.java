@@ -1,0 +1,84 @@
+package org.loomdev.loom.server;
+
+import com.google.gson.Gson;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.minecraft.server.MinecraftServer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.loomdev.api.plugin.PluginManager;
+import org.loomdev.api.server.Server;
+import org.loomdev.loom.plugin.LoomPluginManager;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+
+public class LoomServer implements Server {
+
+    private static final Logger LOGGER = LogManager.getLogger(LoomServer.class);
+    public static final Gson GSON = GsonComponentSerializer.gson().serializer();
+
+    private final MinecraftServer minecraftServer;
+    private final LoomPluginManager pluginManager;
+
+    private File pluginDirectory;
+
+    public LoomServer(MinecraftServer minecraftServer) {
+        this.minecraftServer = minecraftServer;
+        this.pluginManager = new LoomPluginManager(this);
+
+        this.pluginDirectory = (File) this.minecraftServer.optionSet.valueOf("plugins");
+
+        init();
+    }
+
+    private void init() {
+        // Create required files and directories
+        if (!this.pluginDirectory.exists()) {
+            this.pluginDirectory.mkdirs();
+        }
+
+        // Load plugins
+        try {
+            this.pluginManager.loadPlugins(this.getPluginDirectory());
+        } catch (IOException e) {
+            LOGGER.error("Unable to load plugins. Failed to create a directory stream.", e);
+        }
+    }
+
+    @Override
+    public String getName() {
+        return "Loom";
+    }
+
+    @Override
+    public String getVersion() {
+        return LoomServer.class.getPackage().getImplementationVersion();
+    }
+
+    @Override
+    public Path getRootDirectory() {
+        return new File("").toPath();
+    }
+
+    @Override
+    public Path getPluginDirectory() {
+        return this.pluginDirectory.toPath();
+    }
+
+    @Override
+    public PluginManager getPluginManager() {
+        return this.pluginManager;
+    }
+
+    @Override
+    public void broadcastMessage(String s) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void broadcastMessage(TextComponent textComponent) {
+        throw new UnsupportedOperationException();
+    }
+}

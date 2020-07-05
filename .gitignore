@@ -192,4 +192,7 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
+### LoomDev ###
+/decompiled/
+/src/main/java/net/minecraft/
 /dev-server

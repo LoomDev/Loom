@@ -1,0 +1,111 @@
+--- a/net/minecraft/server/Main.java
++++ b/net/minecraft/server/Main.java
+@@ -64,7 +64,8 @@
+ 
+     public Main() {}
+ 
+-    public static void main(String[] astring) {
++    public static void main(final OptionSet optionSet) { // Loom :: args -> OptionSet
++        /* // Loom start :: replace all
+         OptionParser optionparser = new OptionParser();
+         OptionSpec<Void> optionspec = optionparser.accepts("nogui");
+         OptionSpec<Void> optionspec1 = optionparser.accepts("initSettings", "Initializes 'server.properties' and 'eula.txt', then quits");
+@@ -88,19 +89,21 @@
+                 optionparser.printHelpOn((OutputStream) System.err);
+                 return;
+             }
++         */ // Loom end :: replace all
+ 
++        try {
+             CrashReport.initCrashReport();
+             Bootstrap.initialize();
+             Bootstrap.logMissing();
+             Util.method_29476();
+-            Path path = Paths.get("server.properties");
++            Path path = ((File) optionSet.valueOf("config")).toPath(); // Loom :: change hardcoded location to use optionSet.
+             ServerPropertiesLoader serverpropertiesloader = new ServerPropertiesLoader(path);
+ 
+             serverpropertiesloader.store();
+             Path path1 = Paths.get("eula.txt");
+             EulaReader eulareader = new EulaReader(path1);
+ 
+-            if (optionset.has((OptionSpec) optionspec1)) {
++            if (optionSet.has("initSettings")) { // Loom ::  change to optionSet
+                 Main.LOGGER.info("Initialized '{}' and '{}'", (Object) path.toAbsolutePath(), (Object) path1.toAbsolutePath());
+                 return;
+             }
+@@ -110,18 +113,18 @@
+                 return;
+             }
+ 
+-            File file = new File((String) optionset.valueOf((OptionSpec) optionspec9));
++            File file = (File) optionSet.valueOf("universe"); // Loom :: change hardcoded location to use optionSet.
+             YggdrasilAuthenticationService yggdrasilauthenticationservice = new YggdrasilAuthenticationService(Proxy.NO_PROXY, UUID.randomUUID().toString());
+             MinecraftSessionService minecraftsessionservice = yggdrasilauthenticationservice.createMinecraftSessionService();
+             GameProfileRepository gameprofilerepository = yggdrasilauthenticationservice.createProfileRepository();
+             UserCache usercache = new UserCache(gameprofilerepository, new File(file, MinecraftServer.USER_CACHE_FILE.getName()));
+-            String s = (String) Optional.ofNullable(optionset.valueOf((OptionSpec) optionspec10)).orElse(serverpropertiesloader.getPropertiesHandler().levelName);
++            String s = (String) Optional.ofNullable(optionSet.valueOf("world")).orElse(serverpropertiesloader.getPropertiesHandler().levelName); // Loom :: change hardcoded location to use optionSet.
+             LevelStorage levelstorage = LevelStorage.create(file.toPath());
+             LevelStorage.Session levelstorage_session = levelstorage.createSession(s);
+ 
+             MinecraftServer.convertLevel(levelstorage_session);
+             DataPackSettings datapacksettings = levelstorage_session.method_29585();
+-            boolean flag = optionset.has((OptionSpec) optionspec6);
++            boolean flag = optionSet.has("safeMode"); // Loom ::  change to optionSet
+ 
+             if (flag) {
+                 Main.LOGGER.warn("Safe mode active, only vanilla datapack will be loaded");
+@@ -144,40 +147,41 @@
+             serverresourcemanager.loadRegistryTags();
+             RegistryTracker.Modifiable registrytracker_modifiable = RegistryTracker.create();
+             RegistryOps<Tag> registryops = RegistryOps.of(NbtOps.INSTANCE, serverresourcemanager.getResourceManager(), registrytracker_modifiable);
+-            Object object = levelstorage_session.readLevelProperties(registryops, datapacksettings1);
++            SaveProperties object = levelstorage_session.readLevelProperties(registryops, datapacksettings1); // Loom :: decompile error
+ 
+             if (object == null) {
+                 LevelInfo levelinfo;
+                 GeneratorOptions generatoroptions;
+ 
+-                if (optionset.has((OptionSpec) optionspec2)) {
++                if (optionSet.has("demo")) { // Loom :: change to optionSet
+                     levelinfo = MinecraftServer.DEMO_LEVEL_INFO;
+                     generatoroptions = GeneratorOptions.DEMO_CONFIG;
+                 } else {
+                     ServerPropertiesHandler serverpropertieshandler = serverpropertiesloader.getPropertiesHandler();
+ 
+                     levelinfo = new LevelInfo(serverpropertieshandler.levelName, serverpropertieshandler.gameMode, serverpropertieshandler.hardcore, serverpropertieshandler.difficulty, false, new GameRules(), datapacksettings1);
+-                    generatoroptions = optionset.has((OptionSpec) optionspec3) ? serverpropertieshandler.field_24623.withBonusChest() : serverpropertieshandler.field_24623;
++                    generatoroptions =  serverpropertieshandler.field_24623; // Loom :: removed bonusChest option for multi-world support.
+                 }
+ 
+                 object = new LevelProperties(levelinfo, generatoroptions, Lifecycle.stable());
+             }
+ 
+-            if (optionset.has((OptionSpec) optionspec4)) {
+-                forceUpgradeWorld(levelstorage_session, Schemas.getFixer(), optionset.has((OptionSpec) optionspec5), () -> {
++            if (optionSet.has("forceUpgrade")) { // Loom :: change to optionSet
++                forceUpgradeWorld(levelstorage_session, Schemas.getFixer(), optionSet.has("eraseCache"), () -> { // Loom :: change to optionSet
+                     return true;
+                 }, ((SaveProperties) object).getGeneratorOptions().getWorlds());
+             }
+ 
+             levelstorage_session.method_27425(registrytracker_modifiable, (SaveProperties) object);
++            SaveProperties finalObject = object; // Loom :: decompile error
+             final MinecraftDedicatedServer minecraftdedicatedserver = (MinecraftDedicatedServer) MinecraftServer.startServer((thread) -> {
+-                MinecraftDedicatedServer minecraftdedicatedserver1 = new MinecraftDedicatedServer(thread, registrytracker_modifiable, levelstorage_session, resourcepackmanager, serverresourcemanager, object, serverpropertiesloader, Schemas.getFixer(), minecraftsessionservice, gameprofilerepository, usercache, WorldGenerationProgressLogger::new);
++                MinecraftDedicatedServer minecraftdedicatedserver1 = new MinecraftDedicatedServer(optionSet, thread, registrytracker_modifiable, levelstorage_session, resourcepackmanager, serverresourcemanager, finalObject, serverpropertiesloader, Schemas.getFixer(), minecraftsessionservice, gameprofilerepository, usercache, WorldGenerationProgressLogger::new); // Loom :: add optionSet
+ 
+-                minecraftdedicatedserver1.setServerName((String) optionset.valueOf(optionspec8));
+-                minecraftdedicatedserver1.setServerPort((Integer) optionset.valueOf(optionspec11));
+-                minecraftdedicatedserver1.setDemo(optionset.has(optionspec2));
+-                minecraftdedicatedserver1.setServerId((String) optionset.valueOf(optionspec12));
+-                boolean flag1 = !optionset.has(optionspec) && !optionset.valuesOf(nonoptionargumentspec).contains("nogui");
++                minecraftdedicatedserver1.setServerName((String) optionSet.valueOf("host")); // Loom :: change to optionSet
++                minecraftdedicatedserver1.setServerPort((Integer) optionSet.valueOf("port")); // Loom :: change to optionSet
++                minecraftdedicatedserver1.setDemo(optionSet.has("demo")); // Loom :: change to optionSet
++                // minecraftdedicatedserver1.setServerId((String) optionSet.valueOf("")); // Loom :: change to optionSet and removed
++                boolean flag1 = !optionSet.has("nogui") && !optionSet.nonOptionArguments().contains("nogui"); // Loom :: change to optionSet
+ 
+                 if (flag1 && !GraphicsEnvironment.isHeadless()) {
+                     minecraftdedicatedserver1.createGui();

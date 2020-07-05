@@ -1,0 +1,72 @@
+--- a/net/minecraft/server/MinecraftServer.java
++++ b/net/minecraft/server/MinecraftServer.java
+@@ -216,6 +216,11 @@
+     private final StructureManager structureManager;
+     protected final SaveProperties saveProperties;
+ 
++    // Loom start
++    public joptsimple.OptionSet optionSet;
++    public org.loomdev.loom.LoomServer loomServer;
++    // Loom end
++
+     public static <S extends MinecraftServer> S startServer(Function<Thread, S> function) {
+         AtomicReference<S> atomicreference = new AtomicReference();
+         Thread thread = new Thread(() -> {
+@@ -225,15 +230,19 @@
+         thread.setUncaughtExceptionHandler((thread1, throwable) -> {
+             MinecraftServer.LOGGER.error((Object) throwable);
+         });
+-        S s0 = (MinecraftServer) function.apply(thread);
++        S s0 = (S) function.apply(thread); // Loom - decompile error
+ 
+         atomicreference.set(s0);
+         thread.start();
+         return s0;
+     }
+ 
+-    public MinecraftServer(Thread thread, RegistryTracker.Modifiable registrytracker_modifiable, LevelStorage.Session levelstorage_session, SaveProperties saveproperties, ResourcePackManager<ResourcePackProfile> resourcepackmanager, Proxy proxy, DataFixer datafixer, ServerResourceManager serverresourcemanager, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) {
++    public MinecraftServer(joptsimple.OptionSet optionSet, Thread thread, RegistryTracker.Modifiable registrytracker_modifiable, LevelStorage.Session levelstorage_session, SaveProperties saveproperties, ResourcePackManager<ResourcePackProfile> resourcepackmanager, Proxy proxy, DataFixer datafixer, ServerResourceManager serverresourcemanager, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) { // Loom :: add optionSet
+         super("Server");
++        // Loom start
++        this.optionSet = optionSet;
++        this.loomServer = new org.loomdev.loom.LoomServer(this);
++        // Loom end
+         this.tickTimeTracker = new TickTimeTracker(Util.nanoTimeSupplier, this::getTicks);
+         this.profiler = DummyProfiler.INSTANCE;
+         this.metadata = new ServerMetadata();
+@@ -1299,14 +1308,15 @@
+ 
+     public CompletableFuture<Void> reloadResources(Collection<String> collection) {
+         CompletableFuture<Void> completablefuture = CompletableFuture.supplyAsync(() -> {
+-            Stream stream = collection.stream();
++            Stream<String> stream = collection.stream(); // Loom - decompile error
+             ResourcePackManager resourcepackmanager = this.dataPackManager;
+ 
+             this.dataPackManager.getClass();
+-            return (ImmutableList) stream.map(resourcepackmanager::getProfile).filter(Objects::nonNull).map(ResourcePackProfile::createResourcePack).collect(ImmutableList.toImmutableList());
++            return stream.map(resourcepackmanager::getProfile).filter(Objects::nonNull).map(ResourcePackProfile::createResourcePack).collect(ImmutableList.toImmutableList()); // Loom - decompile error
+         }, this).thenCompose((immutablelist) -> {
+             return ServerResourceManager.reload(immutablelist, this.isDedicated() ? CommandManager.RegistrationEnvironment.DEDICATED : CommandManager.RegistrationEnvironment.INTEGRATED, this.getFunctionPermissionLevel(), this.workerExecutor, this);
+-        }).thenAcceptAsync((serverresourcemanager) -> {
++        })
++                .thenAcceptAsync((serverresourcemanager) -> {
+             this.serverResourceManager.close();
+             this.serverResourceManager = serverresourcemanager;
+             this.dataPackManager.setEnabledProfiles(collection);
+@@ -1719,15 +1729,5 @@
+         return this.saveProperties;
+     }
+ 
+-    public void executeTask(Runnable runnable) {
+-        this.executeTask((ServerTask) runnable);
+-    }
+-
+-    public boolean canExecute(Runnable runnable) {
+-        return this.canExecute((ServerTask) runnable);
+-    }
+-
+-    public Runnable createTask(Runnable runnable) {
+-        return this.createTask(runnable);
+-    }
++    // Loom - decompile errors
+ }
