@@ -154,8 +154,7 @@
                                 <filter>
                                     <artifact>org.loomdev:minecraft-server</artifact>
                                     <excludes>
-                                        <exclude>com/google/common/**</exclude>
-                                        <exclude>com/google/gson/**</exclude>
+                                        <!--<exclude>com/google/common/**</exclude>-->
                                         <exclude>com/google/thirdparty/**</exclude>
                                         <exclude>io/netty/**</exclude>
                                         <exclude>META-INF/native/libnetty*</exclude>
