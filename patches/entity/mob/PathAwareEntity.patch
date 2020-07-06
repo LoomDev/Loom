@@ -1,0 +1,16 @@
+--- a/net/minecraft/entity/mob/PathAwareEntity.java
++++ b/net/minecraft/entity/mob/PathAwareEntity.java
+@@ -13,6 +13,13 @@
+ 
+ public abstract class PathAwareEntity extends MobEntity {
+ 
++    // Loom start :: getLoomEntity
++    @Override
++    public org.loomdev.loom.entity.mob.PathAwareEntityImpl getLoomEntity() {
++        return (org.loomdev.loom.entity.mob.PathAwareEntityImpl) super.getLoomEntity();
++    }
++    // Loom end :: getLoomEntity
++
+     protected PathAwareEntity(EntityType<? extends PathAwareEntity> entitytype, World world) {
+         super(entitytype, world);
+     }

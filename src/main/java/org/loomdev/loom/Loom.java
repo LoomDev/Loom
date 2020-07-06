@@ -1,7 +1,10 @@
 package org.loomdev.loom;
 
+import com.google.common.collect.ImmutableMap;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.server.Main;
 
 import java.io.File;

@@ -1,0 +1,25 @@
+--- a/net/minecraft/entity/LivingEntity.java
++++ b/net/minecraft/entity/LivingEntity.java
+@@ -108,6 +108,13 @@
+ 
+ public abstract class LivingEntity extends Entity {
+ 
++    // Loom start :: getLoomEntity
++    @Override
++    public org.loomdev.loom.entity.LivingEntityImpl getLoomEntity() {
++        return (org.loomdev.loom.entity.LivingEntityImpl) super.getLoomEntity();
++    }
++    // Loom end :: getLoomEntity
++
+     private static final UUID SPRINTING_SPEED_BOOST_ID = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
+     private static final UUID SOUL_SPEED_BOOST_ID = UUID.fromString("87f46a96-686f-4796-b035-22e16ee9e038");
+     private static final EntityAttributeModifier SPRINTING_SPEED_BOOST = new EntityAttributeModifier(LivingEntity.SPRINTING_SPEED_BOOST_ID, "Sprinting speed boost", 0.30000001192092896D, EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
+@@ -2886,7 +2893,7 @@
+     }
+ 
+     public void wakeUp() {
+-        Optional optional = this.getSleepingPosition();
++        Optional<BlockPos> optional = this.getSleepingPosition(); // Loom :: decompile error
+         World world = this.world;
+ 
+         this.world.getClass();

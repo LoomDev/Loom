@@ -1,0 +1,28 @@
+--- a/net/minecraft/entity/player/PlayerEntity.java
++++ b/net/minecraft/entity/player/PlayerEntity.java
+@@ -108,8 +108,15 @@
+ 
+ public abstract class PlayerEntity extends LivingEntity {
+ 
++    // Loom start :: getLoomEntity
++    @Override
++    public org.loomdev.loom.entity.player.PlayerImpl getLoomEntity() {
++        return (org.loomdev.loom.entity.player.PlayerImpl) super.getLoomEntity();
++    }
++    // Loom end :: getLoomEntity
++
+     public static final EntityDimensions STANDING_DIMENSIONS = EntityDimensions.changing(0.6F, 1.8F);
+-    private static final Map<EntityPose, EntityDimensions> POSE_DIMENSIONS = ImmutableMap.builder().put(EntityPose.STANDING, PlayerEntity.STANDING_DIMENSIONS).put(EntityPose.SLEEPING, PlayerEntity.SLEEPING_DIMENSIONS).put(EntityPose.FALL_FLYING, EntityDimensions.changing(0.6F, 0.6F)).put(EntityPose.SWIMMING, EntityDimensions.changing(0.6F, 0.6F)).put(EntityPose.SPIN_ATTACK, EntityDimensions.changing(0.6F, 0.6F)).put(EntityPose.CROUCHING, EntityDimensions.changing(0.6F, 1.5F)).put(EntityPose.DYING, EntityDimensions.fixed(0.2F, 0.2F)).build();
++    private static final Map<EntityPose, EntityDimensions> POSE_DIMENSIONS = ImmutableMap.<EntityPose, EntityDimensions>builder().put(EntityPose.STANDING, PlayerEntity.STANDING_DIMENSIONS).put(EntityPose.SLEEPING, PlayerEntity.SLEEPING_DIMENSIONS).put(EntityPose.FALL_FLYING, EntityDimensions.changing(0.6F, 0.6F)).put(EntityPose.SWIMMING, EntityDimensions.changing(0.6F, 0.6F)).put(EntityPose.SPIN_ATTACK, EntityDimensions.changing(0.6F, 0.6F)).put(EntityPose.CROUCHING, EntityDimensions.changing(0.6F, 1.5F)).put(EntityPose.DYING, EntityDimensions.fixed(0.2F, 0.2F)).build(); // Loom :: decompile error
+     private static final TrackedData<Float> ABSORPTION_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
+     private static final TrackedData<Integer> SCORE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+     protected static final TrackedData<Byte> PLAYER_MODEL_PARTS = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BYTE);
+@@ -1611,7 +1618,7 @@
+     }
+ 
+     public Iterable<ItemStack> getItemsHand() {
+-        return Lists.newArrayList((Object[])(this.getMainHandStack(), this.getOffHandStack()));
++        return Lists.newArrayList(this.getMainHandStack(), this.getOffHandStack()); // Loom :: decompile error
+     }
+ 
+     public Iterable<ItemStack> getArmorItems() {

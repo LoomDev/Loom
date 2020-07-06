@@ -1,0 +1,34 @@
+--- a/net/minecraft/entity/mob/MobEntity.java
++++ b/net/minecraft/entity/mob/MobEntity.java
+@@ -78,6 +78,13 @@
+ 
+ public abstract class MobEntity extends LivingEntity {
+ 
++    // Loom start :: getLoomEntity
++    @Override
++    public org.loomdev.loom.entity.mob.MobEntityImpl getLoomEntity() {
++        return (org.loomdev.loom.entity.mob.MobEntityImpl) super.getLoomEntity();
++    }
++    // Loom end :: getLoomEntity
++
+     private static final TrackedData<Byte> MOB_FLAGS = DataTracker.registerData(MobEntity.class, TrackedDataHandlerRegistry.BYTE);
+     public int ambientSoundChance;
+     protected int experiencePoints;
+@@ -1089,7 +1096,7 @@
+             if (itemstack.getItem() instanceof SpawnEggItem) {
+                 if (!this.world.isClient) {
+                     SpawnEggItem spawneggitem = (SpawnEggItem) itemstack.getItem();
+-                    Optional<MobEntity> optional = spawneggitem.spawnBaby(playerentity, this, this.getType(), this.world, this.getPos(), itemstack);
++                    Optional<MobEntity> optional = spawneggitem.spawnBaby(playerentity, this, (EntityType<? extends MobEntity>) this.getType(), this.world, this.getPos(), itemstack); // Loom :: decompile error
+ 
+                     optional.ifPresent((mobentity) -> {
+                         this.onPlayerSpawnedChild(playerentity, mobentity);
+@@ -1140,7 +1147,7 @@
+         if (this.removed) {
+             return null;
+         } else {
+-            T t0 = (MobEntity) entitytype.create(this.world);
++            T t0 = (T) entitytype.create(this.world); // Loom :: decompile error
+ 
+             t0.copyPositionAndRotation(this);
+             t0.setCanPickUpLoot(this.canPickUpLoot());

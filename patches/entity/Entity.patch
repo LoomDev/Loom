@@ -1,0 +1,20 @@
+--- a/net/minecraft/entity/Entity.java
++++ b/net/minecraft/entity/Entity.java
+@@ -104,6 +104,17 @@
+ 
+ public abstract class Entity implements Nameable, CommandOutput {
+ 
++    // Loom start :: getLoomEntity
++    private org.loomdev.loom.entity.EntityImpl entityImpl;
++
++    public org.loomdev.loom.entity.EntityImpl getLoomEntity() {
++        if (entityImpl == null) {
++            entityImpl = org.loomdev.loom.entity.LoomEntityFactory.getLoomEntity(this);
++        }
++        return entityImpl;
++    }
++    // Loom end :: getLoomEntity
++
+     protected static final Logger LOGGER = LogManager.getLogger();
+     private static final AtomicInteger MAX_ENTITY_ID = new AtomicInteger();
+     private static final List<ItemStack> EMPTY_STACK_LIST = Collections.emptyList();
