@@ -1,0 +1,20 @@
+--- a/net/minecraft/network/packet/s2c/play/BlockUpdateS2CPacket.java
++++ b/net/minecraft/network/packet/s2c/play/BlockUpdateS2CPacket.java
+@@ -13,7 +13,7 @@
+ public class BlockUpdateS2CPacket implements Packet<ClientPlayPacketListener> {
+ 
+     private BlockPos pos;
+-    private BlockState state;
++    public BlockState state; // Loom :: private -> public accessor
+ 
+     public BlockUpdateS2CPacket() {}
+ 
+@@ -36,7 +36,5 @@
+         clientplaypacketlistener.onBlockUpdate(this);
+     }
+ 
+-    public void apply(PacketListener packetlistener) {
+-        this.apply((ClientPlayPacketListener) packetlistener);
+-    }
++    // Loom :: decompile error
+ }

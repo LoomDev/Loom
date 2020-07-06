@@ -15,7 +15,7 @@
              UserCache.setUseRemote(this.isOnlineMode());
              MinecraftDedicatedServer.LOGGER.info("Preparing level \"{}\"", (Object) this.getLevelName());
              this.loadWorld();
-+            ((org.loomdev.loom.plugin.LoomPluginManager) this.loomServer.getPluginManager()).enableAll(); // Loom :: enable plugins after world load
++            ((org.loomdev.loom.plugin.PluginManagerImpl) this.loomServer.getPluginManager()).enableAll(); // Loom :: enable plugins after world load
              long j = Util.getMeasuringTimeNano() - i;
              String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
  

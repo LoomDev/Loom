@@ -7,11 +7,13 @@ import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.loomdev.api.entity.player.Player;
+import org.loomdev.api.event.EventManager;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.server.Server;
 import org.loomdev.api.monitoring.TickTimes;
 import org.loomdev.api.monitoring.Tps;
-import org.loomdev.loom.plugin.LoomPluginManager;
+import org.loomdev.loom.event.EventManagerImpl;
+import org.loomdev.loom.plugin.PluginManagerImpl;
 import org.loomdev.loom.util.LoomTps;
 import org.loomdev.loom.util.LoomTickTimes;
 
@@ -27,7 +29,8 @@ public class LoomServer implements Server {
 
     private final MinecraftServer minecraftServer;
     private final File pluginDirectory;
-    private final LoomPluginManager pluginManager;
+    private final PluginManagerImpl pluginManager;
+    private final EventManagerImpl eventManager;
 
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
@@ -35,7 +38,8 @@ public class LoomServer implements Server {
     public LoomServer(MinecraftServer minecraftServer) {
         this.minecraftServer = minecraftServer;
         this.pluginDirectory = (File) this.minecraftServer.optionSet.valueOf("plugins");
-        this.pluginManager = new LoomPluginManager(this, this.getPluginDirectory());
+        this.pluginManager = new PluginManagerImpl(this, this.getPluginDirectory());
+        this.eventManager = new EventManagerImpl(this.pluginManager);
 
         this.tps = new LoomTps();
         this.tickTimes = new LoomTickTimes();
@@ -80,6 +84,11 @@ public class LoomServer implements Server {
     @Override
     public PluginManager getPluginManager() {
         return this.pluginManager;
+    }
+
+    @Override
+    public EventManager getEventManager() {
+        return this.eventManager;
     }
 
     @Override

@@ -2,13 +2,9 @@ package org.loomdev.loom.plugin.loader.java;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.loomdev.api.plugin.InvalidPluginException;
-import org.loomdev.api.plugin.PluginContainer;
-import org.loomdev.api.plugin.PluginLoader;
-import org.loomdev.api.plugin.PluginMetadata;
+import org.loomdev.api.plugin.*;
 import org.loomdev.api.plugin.ap.SerializedPluginMetadata;
 import org.loomdev.loom.plugin.PluginClassLoader;
-import org.loomdev.loom.plugin.loader.LoomPluginContainer;
 import org.loomdev.loom.plugin.loader.LoomPluginMetadata;
 import org.loomdev.loom.server.LoomServer;
 
@@ -48,13 +44,16 @@ public class JavaPluginLoader implements PluginLoader {
 
         PluginClassLoader loader = new PluginClassLoader(new URL[] { path.toUri().toURL() });
         loader.addToClassloaders();
+        Class<?> mainClass = loader.loadClass(pd.getMain());
 
-        Class mainClass = loader.loadClass(pd.getMain());
+        if (!Plugin.class.isAssignableFrom(mainClass)) {
+            throw new InvalidPluginException("The main class should implement the Plugin interface.");
+        }
         return createDescription(pd, path, mainClass);
     }
 
     @Override
-    public Object createPlugin(PluginMetadata pluginMetadata) {
+    public Plugin createPlugin(PluginMetadata pluginMetadata) {
         if (!(pluginMetadata instanceof JavaLoomPluginMetadata)) {
             throw new IllegalArgumentException("Description provided isn't of the Java plugin loader");
         }
@@ -67,7 +66,7 @@ public class JavaPluginLoader implements PluginLoader {
         }
 
         Injector injector = Guice.createInjector(new PluginInjectorModule(this.loomServer, javaDescription, this.pluginDirectory));
-        Object instance = injector.getInstance(javaDescription.getMainClass());
+        Plugin instance = (Plugin) injector.getInstance(javaDescription.getMainClass());
 
         if (instance == null) {
             throw new IllegalStateException(

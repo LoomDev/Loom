@@ -3,10 +3,7 @@ package org.loomdev.loom.plugin;
 import com.google.common.base.Preconditions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.loomdev.api.plugin.PluginContainer;
-import org.loomdev.api.plugin.PluginLoader;
-import org.loomdev.api.plugin.PluginManager;
-import org.loomdev.api.plugin.PluginMetadata;
+import org.loomdev.api.plugin.*;
 import org.loomdev.loom.plugin.loader.LoomPluginContainer;
 import org.loomdev.loom.plugin.loader.java.JavaPluginLoader;
 import org.loomdev.loom.server.LoomServer;
@@ -17,16 +14,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-public class LoomPluginManager implements PluginManager {
+public class PluginManagerImpl implements PluginManager {
 
     private static final Logger LOGGER = LogManager.getLogger(PluginManager.class);
 
     private final LoomServer loomServer;
     private final Path pluginDirectory;
     private final PluginLoader loader;
-    private final Map<String, PluginContainer> plugins = new HashMap<>();
+    private final Map<String, PluginContainer> plugins = new HashMap<>(); // TODO find a better solution for tracking plugins.
+    private final Map<Object, PluginContainer> pluginsByInstance = new HashMap(); // TODO find a better solution for tracking plugins. Is this event needed?
 
-    public LoomPluginManager(LoomServer loomServer, Path pluginDirectory) {
+    public PluginManagerImpl(LoomServer loomServer, Path pluginDirectory) {
         Preconditions.checkNotNull(pluginDirectory);
         Preconditions.checkArgument(pluginDirectory.toFile().isDirectory(), "provided path isn't a directory");
 
@@ -66,6 +64,11 @@ public class LoomPluginManager implements PluginManager {
     }
 
     @Override
+    public Optional<PluginContainer> fromInstance(Plugin o) {
+        return Optional.empty();
+    }
+
+    @Override
     public Collection<PluginContainer> getPlugins() {
         return this.plugins.values();
     }
@@ -92,17 +95,21 @@ public class LoomPluginManager implements PluginManager {
             return Result.NOT_FOUND;
         }
 
-        if(container.getInstance().isPresent()) {
+        if (container.isEnabled()) {
             return Result.ALREADY_IN_STATE;
         }
 
         try {
-            container.setInstance(loader.createPlugin(container.getMetadata()));
-            if (!container.getInstance().isPresent()) {
+            Plugin instance = loader.createPlugin(container.getMetadata());
+            if (instance == null) {
                 return Result.FAILED;
             }
 
-            // TODO register main class as event listener
+            container.setInstance(instance);
+            pluginsByInstance.put(instance, container);
+            this.loomServer.getEventManager().register(instance, instance);
+            instance.onPluginEnable();
+
             LOGGER.info("Enabled plugin {} ({})", container.getMetadata().getName().orElse(id), container.getMetadata().getVersion().orElse("Unknown version"));
             return Result.SUCCESS;
         } catch (Exception e) {
@@ -113,17 +120,22 @@ public class LoomPluginManager implements PluginManager {
 
     @Override
     public Result disablePlugin(String id) {
-        PluginContainer container = this.plugins.get(id);
+        LoomPluginContainer container = (LoomPluginContainer) this.plugins.get(id);
         if (container == null) {
             return Result.NOT_FOUND;
         }
 
-        if (!container.getInstance().isPresent()) {
+        if (container.isDisabled()) {
             return Result.ALREADY_IN_STATE;
         }
+        Plugin plugin = container.getInstance().get();
 
-        // TODO disable plugin
+        plugin.onPluginDisable();
+        this.loomServer.getEventManager().unregister(plugin);
+        pluginsByInstance.remove(plugin);
+        container.setInstance(null);
 
+        LOGGER.info("Disabled plugin {} ({})", container.getMetadata().getName().orElse(id), container.getMetadata().getVersion().orElse("Unknown version"));
         return Result.SUCCESS;
     }
 
