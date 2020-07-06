@@ -6,6 +6,8 @@ import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.loomdev.api.entity.Player;
+import org.loomdev.api.math.TickTimes;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.server.Server;
 import org.loomdev.loom.plugin.LoomPluginManager;
@@ -13,6 +15,7 @@ import org.loomdev.loom.plugin.LoomPluginManager;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Collection;
 
 public class LoomServer implements Server {
 
@@ -22,7 +25,7 @@ public class LoomServer implements Server {
     private final MinecraftServer minecraftServer;
     private final LoomPluginManager pluginManager;
 
-    private File pluginDirectory;
+    private final File pluginDirectory;
 
     public LoomServer(MinecraftServer minecraftServer) {
         this.minecraftServer = minecraftServer;
@@ -73,6 +76,11 @@ public class LoomServer implements Server {
     }
 
     @Override
+    public Collection<? extends Player> getOnlinePlayers() {
+        return null;
+    }
+
+    @Override
     public void broadcastMessage(String s) {
         throw new UnsupportedOperationException();
     }
@@ -80,5 +88,23 @@ public class LoomServer implements Server {
     @Override
     public void broadcastMessage(TextComponent textComponent) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public double[] getTps() {
+        return new double[] {
+                minecraftServer.tps1.getAverage(),
+                minecraftServer.tps5.getAverage(),
+                minecraftServer.tps15.getAverage()
+        };
+    }
+
+    @Override
+    public TickTimes[] getTickTimes() {
+        return new TickTimes[] {
+                minecraftServer.tickTimes5s,
+                minecraftServer.tickTimes10s,
+                minecraftServer.tickTimes60s
+        };
     }
 }
