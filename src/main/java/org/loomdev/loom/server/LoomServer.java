@@ -26,21 +26,21 @@ public class LoomServer implements Server {
     public static final Gson GSON = GsonComponentSerializer.gson().serializer();
 
     private final MinecraftServer minecraftServer;
+    private final File pluginDirectory;
     private final LoomPluginManager pluginManager;
 
-    private final File pluginDirectory;
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
 
     public LoomServer(MinecraftServer minecraftServer) {
         this.minecraftServer = minecraftServer;
-        this.pluginManager = new LoomPluginManager(this);
-
         this.pluginDirectory = (File) this.minecraftServer.optionSet.valueOf("plugins");
+        this.pluginManager = new LoomPluginManager(this, this.getPluginDirectory());
+
         this.tps = new LoomTps();
         this.tickTimes = new LoomTickTimes();
 
-        init();
+        init(); // TODO move to the appropriate place in nms.
     }
 
     private void init() {
@@ -51,7 +51,7 @@ public class LoomServer implements Server {
 
         // Load plugins
         try {
-            this.pluginManager.loadPlugins(this.getPluginDirectory());
+            this.pluginManager.loadPlugins();
         } catch (IOException e) {
             LOGGER.error("Unable to load plugins. Failed to create a directory stream.", e);
         }
@@ -69,7 +69,7 @@ public class LoomServer implements Server {
 
     @Override
     public Path getRootDirectory() {
-        return new File("").toPath();
+        return minecraftServer.getRunDirectory().toPath();
     }
 
     @Override

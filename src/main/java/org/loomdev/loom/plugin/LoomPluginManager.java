@@ -7,6 +7,7 @@ import org.loomdev.api.plugin.PluginContainer;
 import org.loomdev.api.plugin.PluginLoader;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.plugin.PluginMetadata;
+import org.loomdev.loom.plugin.loader.LoomPluginContainer;
 import org.loomdev.loom.plugin.loader.java.JavaPluginLoader;
 import org.loomdev.loom.server.LoomServer;
 
@@ -21,80 +22,111 @@ public class LoomPluginManager implements PluginManager {
     private static final Logger LOGGER = LogManager.getLogger(PluginManager.class);
 
     private final LoomServer loomServer;
+    private final Path pluginDirectory;
+    private final PluginLoader loader;
     private final Map<String, PluginContainer> plugins = new HashMap<>();
-    private final Map<Object, PluginContainer> pluginInstances = new IdentityHashMap<>();
-    private final Map<String, PluginContainer> enabledPlugins = new HashMap<>();
-    private final Map<String, PluginContainer> disabledPlugins = new HashMap<>();
 
-    public LoomPluginManager(LoomServer loomServer) {
+    public LoomPluginManager(LoomServer loomServer, Path pluginDirectory) {
+        Preconditions.checkNotNull(pluginDirectory);
+        Preconditions.checkArgument(pluginDirectory.toFile().isDirectory(), "provided path isn't a directory");
+
         this.loomServer = loomServer;
+        this.pluginDirectory = pluginDirectory;
+        this.loader = new JavaPluginLoader(loomServer, pluginDirectory);
     }
 
-    public void loadPlugins(Path directory) throws IOException {
-        Preconditions.checkNotNull(directory);
-        Preconditions.checkArgument(directory.toFile().isDirectory(), "provided path isn't a directory");
+    public void loadPlugins() throws IOException {
+        LOGGER.info("Loading plugins...");
 
-        LOGGER.info("Loading plugins!");
-
-        List<PluginMetadata> found = new ArrayList<>();
-        PluginLoader loader = new JavaPluginLoader(this.loomServer, directory);
-
-        try (DirectoryStream<Path> stream = Files
-                .newDirectoryStream(directory, p -> p.toFile().isFile() && p.toString().endsWith(".jar"))) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(this.pluginDirectory, this::validPluginFile)) {
             for (Path path : stream) {
                 try {
-                    found.add(loader.loadPlugin(path));
+                    PluginMetadata metadata = loader.loadPlugin(path);
+                    this.plugins.put(metadata.getId(), new LoomPluginContainer(metadata, null));
+                    LOGGER.info("Loaded plugin: {} ({})", metadata.getName().orElse(metadata.getId()), metadata.getVersion().orElse("Unknown version"));
                 } catch (Exception e) {
                     LOGGER.error("Unable to load plugin {}", path, e);
                 }
             }
         }
 
-        if (found.isEmpty()) {
-            return;
-        }
-
-        for (PluginMetadata plugin : found) {
-            PluginContainer pluginObject;
-            try {
-                pluginObject = loader.createPlugin(plugin);
-            } catch (Exception e) {
-                LOGGER.error("Can't create plugin {}", plugin.getId(), e);
-                continue;
-            }
-
-            registerPlugin(pluginObject);
-        }
+        LOGGER.info("Loaded {} plugins.", this.plugins.size());
     }
 
-    private void registerPlugin(PluginContainer pluginObject) {
-        this.plugins.put(pluginObject.getMetadata().getId(), pluginObject);
-        pluginObject.getInstance().ifPresent(instance -> this.pluginInstances.put(instance, pluginObject));
-        LOGGER.info("Loaded plugin: {} ({})", pluginObject.getMetadata().getName(), pluginObject.getMetadata().getVersion());
+    public void enableAll() {
+        this.plugins.keySet().forEach(this::enablePlugin);
     }
 
     @Override
     public Optional<PluginContainer> getPlugin(String id) {
-        return Optional.empty();
+        if (!plugins.containsKey(id)) {
+            return Optional.empty();
+        }
+        return Optional.of(this.plugins.get(id));
     }
 
     @Override
     public Collection<PluginContainer> getPlugins() {
-        return null;
+        return this.plugins.values();
     }
 
     @Override
     public boolean isLoaded(String id) {
-        return false;
+        return this.plugins.containsKey(id);
     }
 
     @Override
-    public boolean enablePlugin(String id) {
-        return false;
+    public boolean isEnabled(String id) {
+        return this.plugins.containsKey(id) && this.plugins.get(id).getInstance().isPresent();
     }
 
     @Override
-    public boolean disablePlugin(String id) {
-        return false;
+    public boolean isDisabled(String id) {
+        return this.plugins.containsKey(id) && !this.plugins.get(id).getInstance().isPresent();
+    }
+
+    @Override
+    public Result enablePlugin(String id) {
+        LoomPluginContainer container = (LoomPluginContainer) this.plugins.get(id);
+        if (container == null) {
+            return Result.NOT_FOUND;
+        }
+
+        if(container.getInstance().isPresent()) {
+            return Result.ALREADY_IN_STATE;
+        }
+
+        try {
+            container.setInstance(loader.createPlugin(container.getMetadata()));
+            if (!container.getInstance().isPresent()) {
+                return Result.FAILED;
+            }
+
+            LOGGER.info("Enabled plugin {} ({})", container.getMetadata().getName().orElse(id), container.getMetadata().getVersion().orElse("Unknown version"));
+            return Result.SUCCESS;
+        } catch (Exception e) {
+            LOGGER.error("Can't enable plugin {}", container.getMetadata().getId(), e);
+            return Result.FAILED;
+        }
+    }
+
+    @Override
+    public Result disablePlugin(String id) {
+        PluginContainer container = this.plugins.get(id);
+        if (container == null) {
+            return Result.NOT_FOUND;
+        }
+
+        if (!container.getInstance().isPresent()) {
+            return Result.ALREADY_IN_STATE;
+        }
+
+        // TODO disable plugin
+
+        return Result.SUCCESS;
+    }
+
+    private boolean validPluginFile(Path path) {
+        return path.toFile().isFile() && path.toString().endsWith(".jar");
     }
 }

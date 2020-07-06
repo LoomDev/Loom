@@ -8,7 +8,7 @@ import java.util.Optional;
 public class LoomPluginContainer implements PluginContainer {
 
     private final PluginMetadata pluginMetadata;
-    private final Object instance;
+    private Object instance;
 
     public LoomPluginContainer(PluginMetadata pluginMetadata, Object instance) {
         this.pluginMetadata = pluginMetadata;
@@ -23,5 +23,9 @@ public class LoomPluginContainer implements PluginContainer {
     @Override
     public Optional<?> getInstance() {
         return Optional.ofNullable(this.instance);
+    }
+
+    public void setInstance(Object instance) {
+        this.instance = instance;
     }
 }

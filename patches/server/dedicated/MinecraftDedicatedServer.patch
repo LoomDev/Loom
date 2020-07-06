@@ -11,7 +11,15 @@
          this.propertiesLoader = serverpropertiesloader;
          this.rconCommandOutput = new RconCommandOutput(this);
      }
-@@ -532,7 +532,5 @@
+@@ -166,6 +166,7 @@
+             UserCache.setUseRemote(this.isOnlineMode());
+             MinecraftDedicatedServer.LOGGER.info("Preparing level \"{}\"", (Object) this.getLevelName());
+             this.loadWorld();
++            ((org.loomdev.loom.plugin.LoomPluginManager) this.loomServer.getPluginManager()).enableAll(); // Loom :: enable plugins after world load
+             long j = Util.getMeasuringTimeNano() - i;
+             String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
+ 
+@@ -532,7 +533,5 @@
          return this.propertiesLoader.getPropertiesHandler().syncChunkWrites;
      }
  

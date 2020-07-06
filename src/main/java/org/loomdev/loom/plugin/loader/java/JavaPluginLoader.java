@@ -54,7 +54,7 @@ public class JavaPluginLoader implements PluginLoader {
     }
 
     @Override
-    public PluginContainer createPlugin(PluginMetadata pluginMetadata) {
+    public Object createPlugin(PluginMetadata pluginMetadata) {
         if (!(pluginMetadata instanceof JavaLoomPluginMetadata)) {
             throw new IllegalArgumentException("Description provided isn't of the Java plugin loader");
         }
@@ -74,7 +74,7 @@ public class JavaPluginLoader implements PluginLoader {
                     "Got nothing from injector for plugin " + javaDescription.getId());
         }
 
-        return new LoomPluginContainer(pluginMetadata, instance);
+        return instance;
     }
 
     private Optional<SerializedPluginMetadata> getSerializedPluginInfo(Path source)
