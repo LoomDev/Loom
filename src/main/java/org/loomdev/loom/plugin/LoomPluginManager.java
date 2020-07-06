@@ -102,6 +102,7 @@ public class LoomPluginManager implements PluginManager {
                 return Result.FAILED;
             }
 
+            // TODO register main class as event listener
             LOGGER.info("Enabled plugin {} ({})", container.getMetadata().getName().orElse(id), container.getMetadata().getVersion().orElse("Unknown version"));
             return Result.SUCCESS;
         } catch (Exception e) {

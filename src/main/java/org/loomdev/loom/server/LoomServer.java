@@ -1,11 +1,12 @@
 package org.loomdev.loom.server;
 
 import com.google.gson.Gson;
-import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.Player;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.server.Server;
@@ -88,12 +89,7 @@ public class LoomServer implements Server {
     }
 
     @Override
-    public void broadcastMessage(String s) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void broadcastMessage(TextComponent textComponent) {
+    public void broadcastMessage(Component component) {
         throw new UnsupportedOperationException();
     }
 

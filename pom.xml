@@ -100,6 +100,11 @@
             <version>8.0.20</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>event-method-asm</artifactId>
+            <version>3.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
