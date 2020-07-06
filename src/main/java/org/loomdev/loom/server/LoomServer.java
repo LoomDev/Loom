@@ -7,10 +7,13 @@ import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.loomdev.api.entity.Player;
-import org.loomdev.api.math.TickTimes;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.server.Server;
+import org.loomdev.api.monitoring.TickTimes;
+import org.loomdev.api.monitoring.Tps;
 import org.loomdev.loom.plugin.LoomPluginManager;
+import org.loomdev.loom.util.LoomTps;
+import org.loomdev.loom.util.LoomTickTimes;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,12 +29,16 @@ public class LoomServer implements Server {
     private final LoomPluginManager pluginManager;
 
     private final File pluginDirectory;
+    private final LoomTps tps;
+    private final LoomTickTimes tickTimes;
 
     public LoomServer(MinecraftServer minecraftServer) {
         this.minecraftServer = minecraftServer;
         this.pluginManager = new LoomPluginManager(this);
 
         this.pluginDirectory = (File) this.minecraftServer.optionSet.valueOf("plugins");
+        this.tps = new LoomTps();
+        this.tickTimes = new LoomTickTimes();
 
         init();
     }
@@ -91,20 +98,12 @@ public class LoomServer implements Server {
     }
 
     @Override
-    public double[] getTps() {
-        return new double[] {
-                minecraftServer.tps1.getAverage(),
-                minecraftServer.tps5.getAverage(),
-                minecraftServer.tps15.getAverage()
-        };
+    public Tps getTps() {
+        return this.tps;
     }
 
     @Override
-    public TickTimes[] getTickTimes() {
-        return new TickTimes[] {
-                minecraftServer.tickTimes5s,
-                minecraftServer.tickTimes10s,
-                minecraftServer.tickTimes60s
-        };
+    public TickTimes getTickTimes() {
+        return this.tickTimes;
     }
 }

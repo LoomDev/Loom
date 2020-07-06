@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -216,6 +216,26 @@
+@@ -216,6 +216,14 @@
      private final StructureManager structureManager;
      protected final SaveProperties saveProperties;
  
@@ -8,26 +8,14 @@
 +    public joptsimple.OptionSet optionSet;
 +    public org.loomdev.loom.server.LoomServer loomServer;
 +
-+    public static final int TICK_TIME = 1000000000 / org.loomdev.loom.math.MovingAverage.TPS;
-+    private static final int SAMPLE_INTERVAL = 20;
 +    public static int currentTick = 0;
 +    private long lastTick = 0;
-+
-+    private static final java.math.BigDecimal TPS_BASE = new java.math.BigDecimal(1E9).multiply(new java.math.BigDecimal(SAMPLE_INTERVAL));
-+
-+    public final org.loomdev.loom.math.MovingAverage tps1 = new org.loomdev.loom.math.MovingAverage(60);
-+    public final org.loomdev.loom.math.MovingAverage tps5 = new org.loomdev.loom.math.MovingAverage(300);
-+    public final org.loomdev.loom.math.MovingAverage tps15 = new org.loomdev.loom.math.MovingAverage(900);
-+
-+    public final org.loomdev.api.math.TickTimes tickTimes5s = new org.loomdev.api.math.TickTimes(100);
-+    public final org.loomdev.api.math.TickTimes tickTimes10s = new org.loomdev.api.math.TickTimes(200);
-+    public final org.loomdev.api.math.TickTimes tickTimes60s = new org.loomdev.api.math.TickTimes(1200);
 +    // Loom end
 +
      public static <S extends MinecraftServer> S startServer(Function<Thread, S> function) {
          AtomicReference<S> atomicreference = new AtomicReference();
          Thread thread = new Thread(() -> {
-@@ -225,15 +245,19 @@
+@@ -225,15 +233,19 @@
          thread.setUncaughtExceptionHandler((thread1, throwable) -> {
              MinecraftServer.LOGGER.error((Object) throwable);
          });
@@ -49,13 +37,13 @@
          this.tickTimeTracker = new TickTimeTracker(Util.nanoTimeSupplier, this::getTicks);
          this.profiler = DummyProfiler.INSTANCE;
          this.metadata = new ServerMetadata();
-@@ -656,10 +680,13 @@
+@@ -656,10 +668,13 @@
                  this.metadata.setVersion(new ServerMetadata.Version(SharedConstants.getGameVersion().getName(), SharedConstants.getGameVersion().getProtocolVersion()));
                  this.setFavicon(this.metadata);
  
 +                // Loom start :: tick loop improvements
 +                long start = System.nanoTime(), currentTime, tickSection = start;
-+                lastTick = start - TICK_TIME;
++                lastTick = start - org.loomdev.loom.util.LoomTps.TICK_TIME;
                  while (this.running) {
 -                    long i = Util.getMeasuringTimeMs() - this.timeReference;
 +                    long i = ((currentTime = System.nanoTime()) / (1000L * 1000L)) - this.timeReference;
@@ -65,16 +53,13 @@
                          long j = i / 50L;
  
                          MinecraftServer.LOGGER.warn("Can't keep up! Is the server overloaded? Running {}ms or {} ticks behind", (Object) i, (Object) j);
-@@ -667,6 +694,17 @@
+@@ -667,6 +682,14 @@
                          this.lastTimeReference = this.timeReference;
                      }
  
-+                    if (++MinecraftServer.currentTick % SAMPLE_INTERVAL == 0) {
++                    if (++MinecraftServer.currentTick % org.loomdev.loom.util.LoomTps.SAMPLE_INTERVAL == 0) {
 +                        final long diff = currentTime - tickSection;
-+                        java.math.BigDecimal currentTps = TPS_BASE.divide(new java.math.BigDecimal(diff), 30, java.math.RoundingMode.HALF_UP);
-+                        tps1.add(currentTps, diff);
-+                        tps5.add(currentTps, diff);
-+                        tps15.add(currentTps, diff);
++                        ((org.loomdev.loom.util.LoomTps) this.loomServer.getTps()).add(diff);
 +                        tickSection = currentTime;
 +                    }
 +
@@ -83,20 +68,16 @@
                      this.timeReference += 50L;
                      TickDurationMonitor tickdurationmonitor = TickDurationMonitor.create("Server");
  
-@@ -850,6 +888,12 @@
+@@ -850,6 +873,8 @@
          this.tickTime = this.tickTime * 0.8F + (float) l / 1000000.0F * 0.19999999F;
          long i1 = Util.getMeasuringTimeNano();
  
-+        // Loom start :: monitor tick times
-+        tickTimes5s.add(this.ticks, l);
-+        tickTimes10s.add(this.ticks, l);
-+        tickTimes60s.add(this.ticks, l);
-+        // Loom end
++        ((org.loomdev.loom.util.LoomTickTimes) this.loomServer.getTickTimes()).addTickTimes(this.ticks, l); // Loom :: monitor tick times
 +
          this.metricsData.pushSample(i1 - i);
          this.profiler.pop();
      }
-@@ -954,7 +998,7 @@
+@@ -954,7 +979,7 @@
      }
  
      public String getServerModName() {
@@ -105,7 +86,7 @@
      }
  
      public CrashReport populateCrashReport(CrashReport crashreport) {
-@@ -1299,11 +1343,11 @@
+@@ -1299,11 +1324,11 @@
  
      public CompletableFuture<Void> reloadResources(Collection<String> collection) {
          CompletableFuture<Void> completablefuture = CompletableFuture.supplyAsync(() -> {
@@ -119,7 +100,7 @@
          }, this).thenCompose((immutablelist) -> {
              return ServerResourceManager.reload(immutablelist, this.isDedicated() ? CommandManager.RegistrationEnvironment.DEDICATED : CommandManager.RegistrationEnvironment.INTEGRATED, this.getFunctionPermissionLevel(), this.workerExecutor, this);
          }).thenAcceptAsync((serverresourcemanager) -> {
-@@ -1719,15 +1763,5 @@
+@@ -1719,15 +1744,5 @@
          return this.saveProperties;
      }
  
