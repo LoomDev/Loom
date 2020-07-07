@@ -3,6 +3,7 @@ package org.loomdev.loom.plugin;
 import com.google.common.base.Preconditions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.plugin.*;
 import org.loomdev.loom.plugin.loader.LoomPluginContainer;
 import org.loomdev.loom.plugin.loader.java.JavaPluginLoader;
@@ -21,8 +22,8 @@ public class PluginManagerImpl implements PluginManager {
     private final LoomServer loomServer;
     private final Path pluginDirectory;
     private final PluginLoader loader;
-    private final Map<String, PluginContainer> plugins = new HashMap<>(); // TODO find a better solution for tracking plugins.
-    private final Map<Object, PluginContainer> pluginsByInstance = new HashMap(); // TODO find a better solution for tracking plugins. Is this event needed?
+    private final Map<String, PluginContainer> plugins = new HashMap<>();
+    private final Map<Object, PluginContainer> pluginsByInstance = new IdentityHashMap<>();
 
     public PluginManagerImpl(LoomServer loomServer, Path pluginDirectory) {
         Preconditions.checkNotNull(pluginDirectory);
@@ -56,19 +57,19 @@ public class PluginManagerImpl implements PluginManager {
     }
 
     @Override
+    @NonNull
     public Optional<PluginContainer> getPlugin(String id) {
-        if (!plugins.containsKey(id)) {
-            return Optional.empty();
-        }
-        return Optional.of(this.plugins.get(id));
+        return Optional.ofNullable(this.plugins.get(id));
     }
 
     @Override
-    public Optional<PluginContainer> fromInstance(Plugin o) {
-        return Optional.empty();
+    @NonNull
+    public Optional<PluginContainer> fromInstance(Plugin plugin) {
+        return Optional.ofNullable(this.pluginsByInstance.get(plugin));
     }
 
     @Override
+    @NonNull
     public Collection<PluginContainer> getPlugins() {
         return this.plugins.values();
     }
@@ -89,6 +90,7 @@ public class PluginManagerImpl implements PluginManager {
     }
 
     @Override
+    @NonNull
     public Result enablePlugin(String id) {
         LoomPluginContainer container = (LoomPluginContainer) this.plugins.get(id);
         if (container == null) {
@@ -119,6 +121,7 @@ public class PluginManagerImpl implements PluginManager {
     }
 
     @Override
+    @NonNull
     public Result disablePlugin(String id) {
         LoomPluginContainer container = (LoomPluginContainer) this.plugins.get(id);
         if (container == null) {
