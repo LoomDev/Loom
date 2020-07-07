@@ -1,44 +1,15 @@
 --- a/net/minecraft/server/network/ServerPlayerInteractionManager.java
 +++ b/net/minecraft/server/network/ServerPlayerInteractionManager.java
-@@ -236,7 +236,40 @@
+@@ -236,6 +236,12 @@
      public boolean tryBreakBlock(BlockPos blockpos) {
          BlockState blockstate = this.world.getBlockState(blockpos);
  
--        if (!this.player.getMainHandStack().getItem().canMine(blockstate, this.world, blockpos, this.player)) {
 +        // Loom start :: fire BlockBrokenEvent
-+        boolean canMineWithCurrentItem = this.player.getMainHandStack().getItem().canMine(blockstate, this.world, blockpos, this.player);
-+
-+        // Send the block change to the client, unless its a create sword break because then it's not broken.
-+        if (world.getBlockEntity(blockpos) == null && !canMineWithCurrentItem) { // TODO check if the double network communication is necessary.
-+            net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket packet = new net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket(world, blockpos);
-+            packet.state = net.minecraft.block.Blocks.AIR.getDefaultState();
-+            this.player.networkHandler.sendPacket(packet);
-+        }
-+
-+        if (org.loomdev.loom.event.LoomEventDispatcher.fireBlockBrokenEvent(blockstate.getBlock(), this.player, null, canMineWithCurrentItem).isCancelled()) {
-+            if (canMineWithCurrentItem) {
-+                return false;
-+            }
-+
-+            // Send the old block state to the client.
-+            this.player.networkHandler.sendPacket(new net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket(world, blockpos));
-+
-+            // Brute force all possible updates
-+            for (Direction dir : Direction.values()) {
-+                this.player.networkHandler.sendPacket(new net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket(world, blockpos.offset(dir)));
-+            }
-+
-+            // Update any tile entity data for this block
-+            BlockEntity blockEntity = this.world.getBlockEntity(blockpos);
-+            if (blockEntity != null) {
-+                this.player.networkHandler.sendPacket(blockEntity.toUpdatePacket());
-+            }
-+
++        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBroken(blockstate, player).isCancelled()) {
 +            return false;
 +        }
-+        // Loom end :: fire BlockBrokenEvent
++        // Loom end
 +
-+        if (false && !this.player.getMainHandStack().getItem().canMine(blockstate, this.world, blockpos, this.player)) { // Loom :: moved up
+         if (!this.player.getMainHandStack().getItem().canMine(blockstate, this.world, blockpos, this.player)) {
              return false;
          } else {
-             BlockEntity blockentity = this.world.getBlockEntity(blockpos);

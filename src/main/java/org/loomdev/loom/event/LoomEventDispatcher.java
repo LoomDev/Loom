@@ -1,11 +1,20 @@
 package org.loomdev.loom.event;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.BlockPos;
+import org.loomdev.api.entity.Entity;
 import org.loomdev.api.event.Event;
 import org.loomdev.api.event.EventManager;
 import org.loomdev.api.event.block.BlockBrokenEvent;
+import org.loomdev.api.event.block.BlockPlacedEvent;
+import org.loomdev.api.event.block.entity.ArmorStandPlacedEvent;
+import org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent;
+import org.loomdev.api.world.Location;
+
+import java.util.UUID;
 
 public final class LoomEventDispatcher {
 
@@ -19,17 +28,47 @@ public final class LoomEventDispatcher {
         return eventManager.fire(event);
     }
 
-    public static BlockBrokenEvent fireBlockBrokenEvent(Block mcBlock, ServerPlayerEntity serverPlayerEntity, BlockState mcBlockState, boolean canceled) {
+    public static ArmorStandPlacedEvent onArmorStandPlaced(ArmorStandEntity armorStand, BlockPos blockpos, PlayerEntity player) {
+        ArmorStandPlacedEvent event = new ArmorStandPlacedEvent(
+                new Entity() {
+                    @Override
+                    public int getEntityId() {
+                        return 0;
+                    }
+
+                    @Override
+                    public UUID getUniqueId() {
+                        return UUID.randomUUID();
+                    }
+                }, new Location(null, 0, 0, 0), null
+        );
+        return fire(event);
+    }
+
+    public static BlockBrokenEvent onBlockBroken(BlockState state, ServerPlayerEntity player) {
         BlockBrokenEvent event = new BlockBrokenEvent(
                 () -> null, // TODO change to block
-                serverPlayerEntity.getLoomEntity(),
-                null
+                player.getLoomEntity()
         );
-        event.setCancelled(canceled);
+        return fire(event);
+    }
+
+    public static BlockPlacedEvent onBlockPlaced(BlockState state, PlayerEntity player) {
+        BlockPlacedEvent event = new BlockPlacedEvent(
+                () -> null, // TODO change to block
+                player.getLoomEntity()
+        );
+        return fire(event);
+    }
+
+    public static SpongeAbsorbedEvent onSpongeAbsorbed(BlockState state) {
+        SpongeAbsorbedEvent event = new SpongeAbsorbedEvent(
+                () -> null
+        );
         return fire(event);
     }
 
     private LoomEventDispatcher() {
-        throw new UnsupportedOperationException("LoomEventDispatcher should not be instantiated");
+        throw new UnsupportedOperationException("LoomEventDispatcher should not be instantiated.");
     }
 }

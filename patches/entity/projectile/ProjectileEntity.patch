@@ -1,0 +1,11 @@
+--- a/net/minecraft/entity/projectile/ProjectileEntity.java
++++ b/net/minecraft/entity/projectile/ProjectileEntity.java
+@@ -21,7 +21,7 @@
+     private int ownerEntityId;
+     private boolean leftOwner;
+ 
+-    ProjectileEntity(EntityType<? extends ProjectileEntity> entitytype, World world) {
++    public ProjectileEntity(EntityType<? extends ProjectileEntity> entitytype, World world) {
+         super(entitytype, world);
+     }
+ 

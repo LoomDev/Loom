@@ -1,0 +1,15 @@
+--- a/net/minecraft/block/SpongeBlock.java
++++ b/net/minecraft/block/SpongeBlock.java
+@@ -39,6 +39,12 @@
+     private boolean absorbWater(World world, BlockPos blockpos) {
+         Queue<Pair<BlockPos, Integer>> queue = Lists.newLinkedList();
+ 
++        // Loom start :: fire SpongeAbsorbedEvent
++        if (org.loomdev.loom.event.LoomEventDispatcher.onSpongeAbsorbed(world.getBlockState(blockpos)).isCancelled()) {
++            return false;
++        }
++        // Loom end
++
+         queue.add(new Pair<>(blockpos, 0));
+         int i = 0;
+ 

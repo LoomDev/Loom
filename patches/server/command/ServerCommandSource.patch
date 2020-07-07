@@ -1,0 +1,22 @@
+--- a/net/minecraft/server/command/ServerCommandSource.java
++++ b/net/minecraft/server/command/ServerCommandSource.java
+@@ -230,7 +230,7 @@
+     }
+ 
+     public Collection<String> getPlayerNames() {
+-        return Lists.newArrayList((Object[]) this.server.getPlayerNames());
++        return Lists.newArrayList(this.server.getPlayerNames()); // Loom :: decompile error
+     }
+ 
+     public Collection<String> getTeamNames() {
+@@ -252,4 +252,10 @@
+     public Set<RegistryKey<World>> getWorldKeys() {
+         return this.server.getWorldRegistryKeys();
+     }
++
++    // Loom start :: get loom command source
++    public org.loomdev.api.command.CommandSource getCommandSource() {
++        return output.getCommandSource(this);
++    }
++    // Loom end
+ }

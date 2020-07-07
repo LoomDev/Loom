@@ -16,7 +16,7 @@ import java.util.*;
 
 public class PluginManagerImpl implements PluginManager {
 
-    private static final Logger LOGGER = LogManager.getLogger(PluginManager.class);
+    private static final Logger LOGGER = LogManager.getLogger("Plugin Manager");
 
     private final LoomServer loomServer;
     private final Path pluginDirectory;

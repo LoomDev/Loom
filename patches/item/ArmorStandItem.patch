@@ -1,0 +1,15 @@
+--- a/net/minecraft/item/ArmorStandItem.java
++++ b/net/minecraft/item/ArmorStandItem.java
+@@ -34,6 +34,12 @@
+             ItemStack itemstack = itemusagecontext.getStack();
+             ArmorStandEntity armorstandentity = (ArmorStandEntity) EntityType.ARMOR_STAND.create(world, itemstack.getTag(), (Text) null, itemusagecontext.getPlayer(), blockpos, SpawnReason.SPAWN_EGG, true, true);
+ 
++            // Loom start :: fire BlockBrokenEvent
++            if (org.loomdev.loom.event.LoomEventDispatcher.onArmorStandPlaced(armorstandentity, blockpos, itemplacementcontext.getPlayer()).isCancelled()) {
++                return ActionResult.FAIL;
++            }
++            // Loom end
++
+             if (world.doesNotCollide((Entity) armorstandentity) && world.getEntities(armorstandentity, armorstandentity.getBoundingBox()).isEmpty()) {
+                 if (!world.isClient) {
+                     float f = (float) MathHelper.floor((MathHelper.wrapDegrees(itemusagecontext.getPlayerYaw() - 180.0F) + 22.5F) / 45.0F) * 45.0F;

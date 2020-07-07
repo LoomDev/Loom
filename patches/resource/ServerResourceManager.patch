@@ -1,0 +1,11 @@
+--- a/net/minecraft/resource/ServerResourceManager.java
++++ b/net/minecraft/resource/ServerResourceManager.java
+@@ -16,7 +16,7 @@
+ 
+     private static final CompletableFuture<Unit> field_25334 = CompletableFuture.completedFuture(Unit.INSTANCE);
+     private final ReloadableResourceManager resourceManager;
+-    private final CommandManager commandManager;
++    public final CommandManager commandManager; // Loom :: public access
+     private final RecipeManager recipeManager;
+     private final RegistryTagManager registryTagManager;
+     private final LootConditionManager lootConditionManager;
