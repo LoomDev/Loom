@@ -1,0 +1,23 @@
+--- a/net/minecraft/server/PlayerManager.java
++++ b/net/minecraft/server/PlayerManager.java
+@@ -192,8 +192,9 @@
+         } else {
+             translatabletext = new TranslatableText("multiplayer.player.joined.renamed", new Object[]{serverplayerentity.getDisplayName(), s});
+         }
+-
+-        this.broadcastChatMessage(translatabletext.formatted(Formatting.YELLOW), MessageType.SYSTEM, Util.NIL_UUID);
++        
++        org.loomdev.api.event.player.PlayerJoinedEvent event = org.loomdev.loom.event.LoomEventDispatcher.firePlayerJoinedEvent(serverplayerentity, translatabletext.formatted(Formatting.YELLOW)); // Loom :: fire PlayerJoinedEvent
++        this.broadcastChatMessage(org.loomdev.loom.util.TextTransformer.toMinecraft(event.getJoinMessage()), MessageType.SYSTEM, Util.NIL_UUID); // Loom :: override message with PlayerJoinedEvent message.
+         serverplaynetworkhandler.requestTeleport(serverplayerentity.getX(), serverplayerentity.getY(), serverplayerentity.getZ(), serverplayerentity.yaw, serverplayerentity.pitch);
+         this.players.add(serverplayerentity);
+         this.playerMap.put(serverplayerentity.getUuid(), serverplayerentity);
+@@ -637,7 +638,7 @@
+     }
+ 
+     public void removeFromOperators(GameProfile gameprofile) {
+-        this.ops.remove((Object) gameprofile);
++        this.ops.remove(gameprofile); // Loom :: decompile error
+         ServerPlayerEntity serverplayerentity = this.getPlayer(gameprofile.getId());
+ 
+         if (serverplayerentity != null) {
