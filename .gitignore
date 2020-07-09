@@ -195,4 +195,4 @@ buildNumber.properties
 ### LoomDev ###
 /decompiled/
 /src/main/java/net/minecraft/
-/dev-server
+/dev-server/

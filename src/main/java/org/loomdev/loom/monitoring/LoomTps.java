@@ -17,17 +17,17 @@ public class LoomTps implements Tps {
 
     @Override
     public double getTps() {
-        return getTps(TpsInterval.SECONDS_1);
+        return getTps(TpsInterval.MINUTES_1);
     }
 
     @Override
     public double getTps(TpsInterval tpsInterval) {
         switch (tpsInterval) {
-            case SECONDS_1:
+            case MINUTES_1:
                 return tps1.getAverage();
-            case SECONDS_5:
+            case MINUTES_5:
                 return tps5.getAverage();
-            case SECONDS_15:
+            case MINUTES_15:
                 return tps15.getAverage();
         }
         throw new IllegalArgumentException("Invalid TpsInterval");

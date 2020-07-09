@@ -1,0 +1,14 @@
+--- a/net/minecraft/block/LeavesBlock.java
++++ b/net/minecraft/block/LeavesBlock.java
+@@ -35,6 +35,11 @@
+ 
+     public void randomTick(BlockState blockstate, ServerWorld serverworld, BlockPos blockpos, Random random) {
+         if (!(Boolean) blockstate.get(LeavesBlock.PERSISTENT) && (Integer) blockstate.get(LeavesBlock.DISTANCE) == 7) {
++            // Loom start :: fire LeavesDecayedEvent
++            if (org.loomdev.loom.event.LoomEventDispatcher.onLeavesDecayed(blockstate).isCancelled()) {
++                return;
++            }
++            // Loom end
+             dropStacks(blockstate, serverworld, blockpos);
+             serverworld.removeBlock(blockpos, false);
+         }

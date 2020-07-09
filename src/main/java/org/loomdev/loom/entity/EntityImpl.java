@@ -321,4 +321,12 @@ public class EntityImpl implements Entity {
     public void setRotation(float v, float v1) {
         // TODO
     }
+
+    @Override
+    public void sendMessage(@NonNull String s) {
+    }
+
+    @Override
+    public void sendMessage(@NonNull Component component) {
+    }
 }

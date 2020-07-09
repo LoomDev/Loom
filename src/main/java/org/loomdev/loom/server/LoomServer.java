@@ -1,19 +1,27 @@
 package org.loomdev.loom.server;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.LiteralText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.EventManager;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.server.Server;
 import org.loomdev.api.monitoring.TickTimes;
 import org.loomdev.api.monitoring.Tps;
+import org.loomdev.loom.command.CommandManagerImpl;
 import org.loomdev.loom.event.EventManagerImpl;
 import org.loomdev.loom.plugin.PluginManagerImpl;
 import org.loomdev.loom.monitoring.LoomTps;
@@ -34,6 +42,7 @@ public class LoomServer implements Server {
     private final File pluginDirectory;
     private final PluginManagerImpl pluginManager;
     private final EventManagerImpl eventManager;
+    private final CommandManagerImpl commandManager;
 
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
@@ -43,6 +52,7 @@ public class LoomServer implements Server {
         this.pluginDirectory = (File) this.minecraftServer.optionSet.valueOf("plugins");
         this.pluginManager = new PluginManagerImpl(this, this.getPluginDirectory());
         this.eventManager = new EventManagerImpl(this.pluginManager);
+        this.commandManager = new CommandManagerImpl(this, minecraftServer);
 
         this.tps = new LoomTps();
         this.tickTimes = new LoomTickTimes();
@@ -65,13 +75,18 @@ public class LoomServer implements Server {
     }
 
     @Override
-    public @NonNull String getName() {
+    public @NotNull String getName() {
         return "Loom";
     }
 
     @Override
     public @NonNull String getVersion() {
         return LoomServer.class.getPackage().getImplementationVersion();
+    }
+
+    @Override
+    public @NonNull String getMinecraftVersion() {
+        return minecraftServer.getVersion();
     }
 
     @Override
@@ -92,6 +107,11 @@ public class LoomServer implements Server {
     @Override
     public @NonNull EventManager getEventManager() {
         return this.eventManager;
+    }
+
+    @Override
+    public @NonNull CommandManager getCommandManager() {
+        return this.commandManager;
     }
 
     @Override

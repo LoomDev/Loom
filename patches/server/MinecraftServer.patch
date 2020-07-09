@@ -1,6 +1,11 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -216,6 +216,14 @@
+@@ -212,10 +212,18 @@
+     private final Executor workerExecutor;
+     @Nullable
+     private String serverId;
+-    private ServerResourceManager serverResourceManager;
++    public ServerResourceManager serverResourceManager; // Loom :: public access
      private final StructureManager structureManager;
      protected final SaveProperties saveProperties;
  
@@ -15,7 +20,7 @@
      public static <S extends MinecraftServer> S startServer(Function<Thread, S> function) {
          AtomicReference<S> atomicreference = new AtomicReference();
          Thread thread = new Thread(() -> {
-@@ -225,15 +233,19 @@
+@@ -225,15 +233,20 @@
          thread.setUncaughtExceptionHandler((thread1, throwable) -> {
              MinecraftServer.LOGGER.error((Object) throwable);
          });
@@ -32,11 +37,20 @@
          super("Server");
 +        // Loom start
 +        this.optionSet = optionSet;
++        this.serverResourceManager = serverresourcemanager;
 +        this.loomServer = new org.loomdev.loom.server.LoomServer(this);
 +        // Loom end
          this.tickTimeTracker = new TickTimeTracker(Util.nanoTimeSupplier, this::getTicks);
          this.profiler = DummyProfiler.INSTANCE;
          this.metadata = new ServerMetadata();
+@@ -252,7 +265,6 @@
+         this.saveProperties = saveproperties;
+         this.proxy = proxy;
+         this.dataPackManager = resourcepackmanager;
+-        this.serverResourceManager = serverresourcemanager;
+         this.sessionService = minecraftsessionservice;
+         this.gameProfileRepo = gameprofilerepository;
+         this.userCache = usercache;
 @@ -656,10 +668,13 @@
                  this.metadata.setVersion(new ServerMetadata.Version(SharedConstants.getGameVersion().getName(), SharedConstants.getGameVersion().getProtocolVersion()));
                  this.setFavicon(this.metadata);

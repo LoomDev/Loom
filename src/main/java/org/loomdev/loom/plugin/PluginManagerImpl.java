@@ -54,6 +54,9 @@ public class PluginManagerImpl implements PluginManager {
 
     public void enableAll() {
         this.plugins.keySet().forEach(this::enablePlugin);
+
+        // Update command map
+        this.loomServer.getCommandManager().updateCommandMap();
     }
 
     @Override
