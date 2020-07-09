@@ -2,18 +2,16 @@ package org.loomdev.loom.entity;
 
 import com.google.common.base.Preconditions;
 import net.kyori.adventure.text.Component;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.math.BoundingBox;
 import org.loomdev.api.math.Vector3d;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
-import org.loomdev.loom.util.TextTransformer;
+import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +32,7 @@ public class EntityImpl implements Entity {
 
     @Override
     public @NonNull EntityType getType() {
-        return null;
+        return EntityType.UNKNOWN;
     }
 
     @Override
@@ -49,12 +47,12 @@ public class EntityImpl implements Entity {
 
     @Override
     public @NonNull Component getName() {
-        return TextTransformer.toKyori(this.mcEntity.getName()); // TODO check
+        return TextTransformer.toLoom(this.mcEntity.getName()); // TODO check
     }
 
     @Override
     public @NonNull Component getDisplayName() {
-        return TextTransformer.toKyori(this.mcEntity.getName()); // TODO check
+        return TextTransformer.toLoom(this.mcEntity.getName()); // TODO check
     }
 
     @Override
@@ -62,7 +60,7 @@ public class EntityImpl implements Entity {
         if (!this.hasCustomName()) {
             return Optional.empty();
         }
-        return Optional.of(TextTransformer.toKyori(this.mcEntity.getCustomName())); // TODO check
+        return Optional.of(TextTransformer.toLoom(this.mcEntity.getCustomName())); // TODO check
     }
 
     @Override
@@ -290,26 +288,6 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public boolean isSneaking() {
-        return this.mcEntity.isSneaking();
-    }
-
-    @Override
-    public void setSneaking(boolean flag) {
-        this.mcEntity.setSneaking(flag);
-    }
-
-    @Override
-    public boolean isSprinting() {
-        return this.mcEntity.isSprinting();
-    }
-
-    @Override
-    public void setSprinting(boolean flag) {
-        this.mcEntity.setSprinting(flag);
-    }
-
-    @Override
     public boolean isSwimming() {
         return this.mcEntity.isSwimming();
     }
@@ -337,16 +315,6 @@ public class EntityImpl implements Entity {
     @Override
     public void setInvulnerable(boolean flag) {
         this.mcEntity.setInvulnerable(flag);
-    }
-
-    @Override
-    public int getAir() {
-        return this.mcEntity.getAir();
-    }
-
-    @Override
-    public void setAir(int ticks) {
-        this.mcEntity.setAir(ticks);
     }
 
     @Override

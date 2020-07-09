@@ -1,0 +1,32 @@
+--- a/net/minecraft/entity/AreaEffectCloudEntity.java
++++ b/net/minecraft/entity/AreaEffectCloudEntity.java
+@@ -41,15 +41,15 @@
+     private static final TrackedData<Boolean> WAITING = DataTracker.registerData(AreaEffectCloudEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+     private static final TrackedData<ParticleEffect> PARTICLE_ID = DataTracker.registerData(AreaEffectCloudEntity.class, TrackedDataHandlerRegistry.PARTICLE);
+     private Potion potion;
+-    private final List<StatusEffectInstance> effects;
+-    private final Map<Entity, Integer> affectedEntities;
++    public final List<StatusEffectInstance> effects; // Loom :: public accessor
++    public final Map<Entity, Integer> affectedEntities; // Loom :: public accessor
+     private int duration;
+-    private int waitTime;
++    public int waitTime; // Loom :: public accessor
+     private int reapplicationDelay;
+     private boolean customColor;
+     private int durationOnUse;
+-    private float radiusOnUse;
+-    private float radiusGrowth;
++    public float radiusOnUse; // Loom :: public accessor
++    public float radiusGrowth; // Loom :: public accessor
+     private LivingEntity owner;
+     private UUID ownerUuid;
+ 
+@@ -139,7 +139,7 @@
+         this.getDataTracker().set(AreaEffectCloudEntity.PARTICLE_ID, particleeffect);
+     }
+ 
+-    protected void setWaiting(boolean flag) {
++    public void setWaiting(boolean flag) { // Loom :: public accessor
+         this.getDataTracker().set(AreaEffectCloudEntity.WAITING, flag);
+     }
+ 

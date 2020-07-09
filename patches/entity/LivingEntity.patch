@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/LivingEntity.java
 +++ b/net/minecraft/entity/LivingEntity.java
-@@ -108,6 +108,13 @@
+@@ -108,6 +108,23 @@
  
  public abstract class LivingEntity extends Entity {
  
@@ -9,12 +9,34 @@
 +    public org.loomdev.loom.entity.LivingEntityImpl getLoomEntity() {
 +        return (org.loomdev.loom.entity.LivingEntityImpl) super.getLoomEntity();
 +    }
++    public int maxAir;
++
++    @Override
++    public int getMaxAir() {
++        return maxAir; // Loom :: override default max air ticks
++    }
++
++    public void resetMaxAir() {
++        this.maxAir = super.getMaxAir();
++    }
 +    // Loom end :: getLoomEntity
 +
      private static final UUID SPRINTING_SPEED_BOOST_ID = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
      private static final UUID SOUL_SPEED_BOOST_ID = UUID.fromString("87f46a96-686f-4796-b035-22e16ee9e038");
      private static final EntityAttributeModifier SPRINTING_SPEED_BOOST = new EntityAttributeModifier(LivingEntity.SPRINTING_SPEED_BOOST_ID, "Sprinting speed boost", 0.30000001192092896D, EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
-@@ -2886,7 +2893,7 @@
+@@ -191,9 +208,11 @@
+     private float leaningPitch;
+     private float lastLeaningPitch;
+     protected Brain<?> brain;
++    public boolean pickUpLoot; // Loom :: moved from MobEntity
+ 
+     protected LivingEntity(EntityType<? extends LivingEntity> entitytype, World world) {
+         super(entitytype, world);
++        this.maxAir = super.getMaxAir(); // Loom :: default max air to the default minecraft value.
+         this.equippedHand = DefaultedList.ofSize(2, ItemStack.EMPTY);
+         this.equippedArmor = DefaultedList.ofSize(4, ItemStack.EMPTY);
+         this.defaultMaxHealth = 20;
+@@ -2886,7 +2905,7 @@
      }
  
      public void wakeUp() {

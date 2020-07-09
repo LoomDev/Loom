@@ -1,4 +1,4 @@
-package org.loomdev.loom.util;
+package org.loomdev.loom.monitoring;
 
 import org.loomdev.api.monitoring.Tps;
 import org.loomdev.loom.math.MovingAverage;

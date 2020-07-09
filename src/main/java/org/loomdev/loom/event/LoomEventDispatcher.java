@@ -6,7 +6,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import org.loomdev.api.entity.Entity;
 import org.loomdev.api.event.Event;
 import org.loomdev.api.event.EventManager;
 import org.loomdev.api.event.block.BlockBrokenEvent;
@@ -15,12 +14,12 @@ import org.loomdev.api.event.block.entity.ArmorStandPlacedEvent;
 import org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent;
 import org.loomdev.api.event.player.PlayerJoinedEvent;
 import org.loomdev.api.world.Location;
-import org.loomdev.loom.util.TextTransformer;
+import org.loomdev.loom.util.transformer.TextTransformer;
 
 public final class LoomEventDispatcher {
+    private LoomEventDispatcher() { throw new UnsupportedOperationException("LoomEventDispatcher should not be instantiated."); }
 
     private static EventManager eventManager;
-
     static void setEventManager(EventManager eventManager) {
         LoomEventDispatcher.eventManager = eventManager;
     }
@@ -62,8 +61,13 @@ public final class LoomEventDispatcher {
     }
 
     public static PlayerJoinedEvent firePlayerJoinedEvent(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
-        return new PlayerJoinedEvent(serverPlayerEntity.getLoomEntity(), TextTransformer.toKyori(joinMessage));
+        return fire(
+                new PlayerJoinedEvent(
+                        serverPlayerEntity.getLoomEntity(),
+                        TextTransformer.toLoom(joinMessage)
+                )
+        );
     }
 
-    private LoomEventDispatcher() { throw new UnsupportedOperationException("LoomEventDispatcher should not be instantiated."); }
+
 }

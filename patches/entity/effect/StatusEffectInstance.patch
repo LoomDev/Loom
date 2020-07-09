@@ -1,0 +1,20 @@
+--- a/net/minecraft/entity/effect/StatusEffectInstance.java
++++ b/net/minecraft/entity/effect/StatusEffectInstance.java
+@@ -18,7 +18,7 @@
+     private boolean showParticles;
+     private boolean showIcon;
+     @Nullable
+-    private StatusEffectInstance hiddenEffect;
++    public StatusEffectInstance hiddenEffect; // Loom :: public accessor
+ 
+     public StatusEffectInstance(StatusEffect statuseffect) {
+         this(statuseffect, 0, 0);
+@@ -275,7 +275,5 @@
+         return (this.getDuration() <= 32147 || statuseffectinstance.getDuration() <= 32147) && (!this.isAmbient() || !statuseffectinstance.isAmbient()) ? ComparisonChain.start().compare(this.isAmbient(), statuseffectinstance.isAmbient()).compare(this.getDuration(), statuseffectinstance.getDuration()).compare(this.getEffectType().getColor(), statuseffectinstance.getEffectType().getColor()).result() : ComparisonChain.start().compare(this.isAmbient(), statuseffectinstance.isAmbient()).compare(this.getEffectType().getColor(), statuseffectinstance.getEffectType().getColor()).result();
+     }
+ 
+-    public int compareTo(Object object) {
+-        return this.compareTo((StatusEffectInstance) object);
+-    }
++    // Loom :: decompile error
+ }

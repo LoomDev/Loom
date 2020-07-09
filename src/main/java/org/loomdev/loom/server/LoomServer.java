@@ -14,11 +14,10 @@ import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.server.Server;
 import org.loomdev.api.monitoring.TickTimes;
 import org.loomdev.api.monitoring.Tps;
-import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.event.EventManagerImpl;
 import org.loomdev.loom.plugin.PluginManagerImpl;
-import org.loomdev.loom.util.LoomTps;
-import org.loomdev.loom.util.LoomTickTimes;
+import org.loomdev.loom.monitoring.LoomTps;
+import org.loomdev.loom.monitoring.LoomTickTimes;
 
 import java.io.File;
 import java.io.IOException;

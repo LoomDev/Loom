@@ -1,8 +1,6 @@
 package org.loomdev.loom.entity.player;
 
 import net.kyori.adventure.text.Component;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.MessageType;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -10,7 +8,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.loom.entity.LivingEntityImpl;
-import org.loomdev.loom.util.TextTransformer;
+import org.loomdev.loom.math.MathHelp;
+import org.loomdev.loom.util.transformer.TextTransformer;
 
 public class PlayerImpl extends LivingEntityImpl implements Player {
     public PlayerImpl(ServerPlayerEntity entity) {
@@ -27,4 +26,47 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
         Text message = TextTransformer.toMinecraft(component);
         getMinecraftEntity().networkHandler.sendPacket(new GameMessageS2CPacket(message, MessageType.CHAT, Util.NIL_UUID));
     }
+
+    @Override
+    public boolean isSneaking() {
+        return getMinecraftEntity().isSneaking();
+    }
+
+    @Override
+    public void setSneaking(boolean flag) {
+        getMinecraftEntity().setSneaking(flag);
+    }
+
+    @Override
+    public boolean isSprinting() {
+        return getMinecraftEntity().isSprinting();
+    }
+
+    @Override
+    public void setSprinting(boolean flag) {
+        getMinecraftEntity().setSprinting(flag);
+    }
+
+    @Override
+    public float getWalkSpeed() {
+        return getMinecraftEntity().abilities.walkSpeed * 2f;
+    }
+
+    @Override
+    public void setWalkSpeed(float speed) {
+        getMinecraftEntity().abilities.walkSpeed = MathHelp.clamp(speed, -1f, 1f);
+        getMinecraftEntity().sendAbilitiesUpdate();
+    }
+
+    @Override
+    public float getFlySpeed() {
+        return getMinecraftEntity().abilities.flySpeed * 2f;
+    }
+
+    @Override
+    public void setFlySpeed(float speed) {
+        getMinecraftEntity().abilities.flySpeed = MathHelp.clamp(speed, -1f, 1f);
+        getMinecraftEntity().sendAbilitiesUpdate();
+    }
+
 }

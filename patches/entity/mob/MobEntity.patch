@@ -14,6 +14,17 @@
      private static final TrackedData<Byte> MOB_FLAGS = DataTracker.registerData(MobEntity.class, TrackedDataHandlerRegistry.BYTE);
      public int ambientSoundChance;
      protected int experiencePoints;
+@@ -94,8 +101,8 @@
+     protected final float[] handDropChances;
+     private final DefaultedList<ItemStack> armorItems;
+     protected final float[] armorDropChances;
+-    private boolean pickUpLoot;
+-    private boolean persistent;
++    // private boolean pickUpLoot; // Loom :: moved to LivingEntity
++    public boolean persistent; // Loom :: public accessor
+     private final Map<PathNodeType, Float> pathfindingPenalties;
+     private Identifier lootTable;
+     private long lootTableSeed;
 @@ -1089,7 +1096,7 @@
              if (itemstack.getItem() instanceof SpawnEggItem) {
                  if (!this.world.isClient) {

@@ -1,4 +1,4 @@
-package org.loomdev.loom.util;
+package org.loomdev.loom.util.transformer;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -11,7 +11,7 @@ public final class TextTransformer {
     public static Text toMinecraft(@NonNull Component component) {
         return Text.Serializer.fromJson(GsonComponentSerializer.gson().serialize(component));
     }
-    public static Component toKyori(@NonNull Text text) {
+    public static Component toLoom(@NonNull Text text) {
         return GsonComponentSerializer.gson().deserialize(Text.Serializer.toJson(text));
     }
 }

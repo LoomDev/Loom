@@ -43,7 +43,7 @@
  
 +                // Loom start :: tick loop improvements
 +                long start = System.nanoTime(), currentTime, tickSection = start;
-+                lastTick = start - org.loomdev.loom.util.LoomTps.TICK_TIME;
++                lastTick = start - org.loomdev.loom.monitoring.LoomTps.TICK_TIME;
                  while (this.running) {
 -                    long i = Util.getMeasuringTimeMs() - this.timeReference;
 +                    long i = ((currentTime = System.nanoTime()) / (1000L * 1000L)) - this.timeReference;
@@ -57,9 +57,9 @@
                          this.lastTimeReference = this.timeReference;
                      }
  
-+                    if (++MinecraftServer.currentTick % org.loomdev.loom.util.LoomTps.SAMPLE_INTERVAL == 0) {
++                    if (++MinecraftServer.currentTick % org.loomdev.loom.monitoring.LoomTps.SAMPLE_INTERVAL == 0) {
 +                        final long diff = currentTime - tickSection;
-+                        ((org.loomdev.loom.util.LoomTps) this.loomServer.getTps()).add(diff);
++                        ((org.loomdev.loom.monitoring.LoomTps) this.loomServer.getTps()).add(diff);
 +                        tickSection = currentTime;
 +                    }
 +
@@ -72,7 +72,7 @@
          this.tickTime = this.tickTime * 0.8F + (float) l / 1000000.0F * 0.19999999F;
          long i1 = Util.getMeasuringTimeNano();
  
-+        ((org.loomdev.loom.util.LoomTickTimes) this.loomServer.getTickTimes()).addTickTimes(this.ticks, l); // Loom :: monitor tick times
++        ((org.loomdev.loom.monitoring.LoomTickTimes) this.loomServer.getTickTimes()).addTickTimes(this.ticks, l); // Loom :: monitor tick times
 +
          this.metricsData.pushSample(i1 - i);
          this.profiler.pop();
