@@ -5,7 +5,7 @@
              int i = this.getNextTickDelay(world, blockpos, fluidstate, fluidstate1);
  
 +            // Loom start :: fire FluidLevelChangedEvent
-+            if (org.loomdev.loom.event.LoomEventDispatcher.onFluidLevelChanged(world.getBlockState(blockpos)).isCancelled()) {
++            if (org.loomdev.loom.event.LoomEventDispatcher.onFluidLevelChanged(world, blockpos).isCancelled()) {
 +                return;
 +            }
 +            // Loom end

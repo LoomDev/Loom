@@ -50,8 +50,6 @@ public class EventManagerImpl implements EventManager {
                 new ASMEventExecutorFactory<>(cl),
                 new LoomMethodScanner()
         );
-
-        LoomEventDispatcher.setEventManager(this);
     }
 
     @Override

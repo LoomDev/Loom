@@ -1,21 +1,19 @@
 package org.loomdev.loom.command;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-import com.mojang.brigadier.CommandDispatcher;
+import com.google.common.collect.Multimap;;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.ServerCommandSource;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.plugin.Plugin;
-import org.loomdev.api.plugin.PluginContainer;
 import org.loomdev.api.plugin.PluginMetadata;
+import org.loomdev.loom.command.loom.PluginsCommand;
 import org.loomdev.loom.command.loom.TpsCommand;
 import org.loomdev.loom.command.loom.VersionCommand;
+import org.loomdev.loom.plugin.PluginManagerImpl;
 import org.loomdev.loom.server.LoomServer;
 
 import java.util.HashMap;
@@ -25,22 +23,22 @@ import java.util.Map;
 public class CommandManagerImpl implements CommandManager {
 
     private final LoomServer server;
-    private final CommandDispatcher<ServerCommandSource> dispatcher;
+    private final LoomCommandWrapper wrapper;
 
     private final Map<String, Command> registeredCommands = new HashMap<>();
     private final Multimap<String, String> pluginCommands = ArrayListMultimap.create();
 
     public CommandManagerImpl(LoomServer server, MinecraftServer minecraftServer) {
         this.server = server;
-        this.dispatcher = minecraftServer.serverResourceManager.commandManager.getDispatcher();
+        this.wrapper = new LoomCommandWrapper(server, minecraftServer.serverResourceManager.commandManager.getDispatcher());
 
-        // Register Loom built-in command
-        register(new TpsCommand(server, minecraftServer));
+        register(new PluginsCommand());
+        register(new TpsCommand(server));
         register(new VersionCommand(server));
     }
 
     @Override
-    public synchronized void register(@NonNull Plugin plugin, @NotNull Command command) {
+    public void register(@NonNull Plugin plugin, @NonNull Command command) {
         server.getPluginManager().fromInstance(plugin).ifPresent((container) -> {
             PluginMetadata metadata = container.getMetadata();
             String name = command.getName().toLowerCase(Locale.ENGLISH).trim();
@@ -59,18 +57,18 @@ public class CommandManagerImpl implements CommandManager {
         });
     }
 
-    private synchronized void register(@NotNull Command command) {
+    private void register(@NonNull Command command) {
         String name = command.getName().toLowerCase(Locale.ENGLISH).trim();
 
         // Register command name if no conflicts exist
         if (!registeredCommands.containsKey(name)) {
-            register(DUMMY_METADATA, command, command.getName());
+            register(PluginManagerImpl.DUMMY_METADATA, command, command.getName());
         }
 
         // Register non-conflicting aliases
         for (String alias : command.getAliases()) {
             if (!registeredCommands.containsKey(alias)) {
-                register(DUMMY_METADATA, command, alias);
+                register(PluginManagerImpl.DUMMY_METADATA, command, alias);
             }
         }
     }
@@ -88,8 +86,8 @@ public class CommandManagerImpl implements CommandManager {
     }
 
     @Override
-    public int handle(@NotNull CommandSource source, @NotNull String input) {
-        String[] args = input.split("\\s+");
+    public int handle(@NonNull CommandSource source, @NonNull String input) {
+        String[] args = input.split("\\s+"); // TODO remove command from arg, aka first index
 
         if (args.length == 0) {
             return 0;
@@ -105,19 +103,9 @@ public class CommandManagerImpl implements CommandManager {
         return 1;
     }
 
-    @Override
     public void updateCommandMap() {
-        LoomCommandWrapper wrapper = new LoomCommandWrapper(this.server, this.dispatcher);
-        registeredCommands.forEach((name, command) -> wrapper.registerCommand(name));
+        registeredCommands.forEach((name, command) -> this.wrapper.registerCommand(name));
     }
 
     // TODO methods for enabling/disabling commands based on plugins
-
-    private static final PluginMetadata DUMMY_METADATA = new PluginMetadata() {
-
-        @Override
-        public @NonNull String getId() {
-            return "loom";
-        }
-    };
 }

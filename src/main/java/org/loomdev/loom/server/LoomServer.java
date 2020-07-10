@@ -1,19 +1,14 @@
 package org.loomdev.loom.server;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.Loom;
 import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.EventManager;
@@ -48,6 +43,7 @@ public class LoomServer implements Server {
     private final LoomTickTimes tickTimes;
 
     public LoomServer(MinecraftServer minecraftServer) {
+        Loom.setServer(this);
         this.minecraftServer = minecraftServer;
         this.pluginDirectory = (File) this.minecraftServer.optionSet.valueOf("plugins");
         this.pluginManager = new PluginManagerImpl(this, this.getPluginDirectory());
@@ -75,7 +71,7 @@ public class LoomServer implements Server {
     }
 
     @Override
-    public @NotNull String getName() {
+    public @NonNull String getName() {
         return "Loom";
     }
 

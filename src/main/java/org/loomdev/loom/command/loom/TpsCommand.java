@@ -21,7 +21,7 @@ public class TpsCommand extends Command {
 
     private static final DecimalFormat FORMAT = new DecimalFormat("########0.0");
 
-    public TpsCommand(LoomServer server, MinecraftServer minecraftServer) {
+    public TpsCommand(LoomServer server) {
         super("tps", "mspt");
         setDescription("Displays the server's current TPS and tick times.");
         setUsage("/tps");

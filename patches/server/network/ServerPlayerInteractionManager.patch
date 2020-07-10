@@ -5,7 +5,7 @@
          BlockState blockstate = this.world.getBlockState(blockpos);
  
 +        // Loom start :: fire BlockBrokenEvent
-+        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBroken(blockstate, player).isCancelled()) {
++        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBroken(world, blockpos, player).isCancelled()) {
 +            return false;
 +        }
 +        // Loom end

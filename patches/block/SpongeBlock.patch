@@ -5,7 +5,7 @@
          Queue<Pair<BlockPos, Integer>> queue = Lists.newLinkedList();
  
 +        // Loom start :: fire SpongeAbsorbedEvent
-+        if (org.loomdev.loom.event.LoomEventDispatcher.onSpongeAbsorbed(world.getBlockState(blockpos)).isCancelled()) {
++        if (org.loomdev.loom.event.LoomEventDispatcher.onSpongeAbsorbed(world, blockpos).isCancelled()) {
 +            return false;
 +        }
 +        // Loom end

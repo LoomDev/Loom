@@ -66,6 +66,11 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
+    public void updateInventory() {
+        getMinecraftEntity().openHandledScreen(getMinecraftEntity().currentScreenHandler);
+    }
+
+    @Override
     public void sendMessage(@NonNull String text) {
         this.sendMessage(TextComponent.of(text));
     }

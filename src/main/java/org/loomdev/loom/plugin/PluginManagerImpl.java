@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.plugin.*;
+import org.loomdev.loom.command.CommandManagerImpl;
 import org.loomdev.loom.plugin.loader.LoomPluginContainer;
 import org.loomdev.loom.plugin.loader.java.JavaPluginLoader;
 import org.loomdev.loom.server.LoomServer;
@@ -22,6 +23,7 @@ public class PluginManagerImpl implements PluginManager {
     private final LoomServer loomServer;
     private final Path pluginDirectory;
     private final PluginLoader loader;
+
     private final Map<String, PluginContainer> plugins = new HashMap<>();
     private final Map<Object, PluginContainer> pluginsByInstance = new IdentityHashMap<>();
 
@@ -56,7 +58,7 @@ public class PluginManagerImpl implements PluginManager {
         this.plugins.keySet().forEach(this::enablePlugin);
 
         // Update command map
-        this.loomServer.getCommandManager().updateCommandMap();
+        ((CommandManagerImpl) this.loomServer.getCommandManager()).updateCommandMap();
     }
 
     @Override
@@ -115,7 +117,8 @@ public class PluginManagerImpl implements PluginManager {
             this.loomServer.getEventManager().register(instance, instance);
             instance.onPluginEnable();
 
-            LOGGER.info("Enabled plugin {} ({})", container.getMetadata().getName().orElse(id), container.getMetadata().getVersion().orElse("Unknown version"));
+            LOGGER.info("Enabled plugin {} ({})", container.getMetadata().getName().orElse(id),
+                    container.getMetadata().getVersion().orElse("Unknown version"));
             return Result.SUCCESS;
         } catch (Exception e) {
             LOGGER.error("Can't enable plugin {}", container.getMetadata().getId(), e);
@@ -134,6 +137,7 @@ public class PluginManagerImpl implements PluginManager {
         if (container.isDisabled()) {
             return Result.ALREADY_IN_STATE;
         }
+
         Plugin plugin = container.getInstance().get();
 
         plugin.onPluginDisable();
@@ -148,4 +152,11 @@ public class PluginManagerImpl implements PluginManager {
     private boolean validPluginFile(Path path) {
         return path.toFile().isFile() && path.toString().endsWith(".jar");
     }
+
+    public static final PluginMetadata DUMMY_METADATA = new PluginMetadata() {
+        @Override
+        public @NonNull String getId() {
+            return "loom";
+        }
+    };
 }

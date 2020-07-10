@@ -1,0 +1,16 @@
+--- a/net/minecraft/item/ItemStack.java
++++ b/net/minecraft/item/ItemStack.java
+@@ -157,6 +157,13 @@
+         BlockPos blockpos = itemusagecontext.getBlockPos();
+         CachedBlockPosition cachedblockposition = new CachedBlockPosition(itemusagecontext.getWorld(), blockpos, false);
+ 
++        // Loom start :: fire BlockPlacedEvent
++        if (playerentity != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockPlaced(itemusagecontext.getWorld(), blockpos, playerentity).isCancelled()) {
++            playerentity.getLoomEntity().updateInventory();
++            return ActionResult.FAIL;
++        }
++        // Loom end
++
+         if (playerentity != null && !playerentity.abilities.allowModifyWorld && !this.canPlaceOn(itemusagecontext.getWorld().getTagManager(), cachedblockposition)) {
+             return ActionResult.PASS;
+         } else {

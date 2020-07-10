@@ -4,7 +4,7 @@
  
  public abstract class Entity implements Nameable, CommandOutput {
  
-+    // Loom start :: getLoomEntity
++    // Loom start :: loom entity getter
 +    private org.loomdev.loom.entity.EntityImpl entityImpl;
 +
 +    public org.loomdev.loom.entity.EntityImpl getLoomEntity() {
