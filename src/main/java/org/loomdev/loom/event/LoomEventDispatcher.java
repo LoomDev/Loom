@@ -1,6 +1,7 @@
 package org.loomdev.loom.event;
 
-import net.minecraft.block.BlockState;;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.TextColor;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -10,15 +11,17 @@ import net.minecraft.world.WorldAccess;
 import org.loomdev.api.Loom;
 import org.loomdev.api.block.Block;
 import org.loomdev.api.block.Material;
-import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.Event;
 import org.loomdev.api.event.block.BlockBrokenEvent;
+import org.loomdev.api.event.block.BlockPlacedEvent;
 import org.loomdev.api.event.block.entity.ArmorStandPlacedEvent;
 import org.loomdev.api.event.block.fluid.FluidLevelChangedEvent;
 import org.loomdev.api.event.block.plant.CoralDiedEvent;
 import org.loomdev.api.event.block.plant.LeavesDecayedEvent;
+import org.loomdev.api.event.block.plant.PlantFertilizedEvent;
 import org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent;
-import org.loomdev.api.event.player.PlayerJoinedEvent;
+import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
+import org.loomdev.api.event.player.connection.PlayerJoinedEvent;
 import org.loomdev.api.world.Chunk;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
@@ -44,14 +47,13 @@ public final class LoomEventDispatcher {
         return fire(event);
     }
 
-    public static BlockBrokenEvent onBlockBroken(WorldAccess world, BlockPos pos, PlayerEntity playerEntity) {
-        Player player = playerEntity.getLoomEntity();
-        BlockBrokenEvent event = new BlockBrokenEvent(new BlockImpl(world, pos), player);
+    public static BlockBrokenEvent onBlockBroken(WorldAccess world, BlockPos pos, PlayerEntity player) {
+        BlockBrokenEvent event = new BlockBrokenEvent(new BlockImpl(world, pos), player.getLoomEntity());
         return fire(event);
     }
 
-    public static BlockBrokenEvent onBlockPlaced(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        BlockBrokenEvent event = new BlockBrokenEvent(new BlockImpl(world, pos), player.getLoomEntity());
+    public static BlockPlacedEvent onBlockPlaced(WorldAccess world, BlockPos pos, PlayerEntity player) {
+        BlockPlacedEvent event = new BlockPlacedEvent(new BlockImpl(world, pos), player.getLoomEntity());
         return fire(event);
     }
 
@@ -65,6 +67,11 @@ public final class LoomEventDispatcher {
         return fire(event);
     }
 
+    public static PlantFertilizedEvent onPlantFertilized(WorldAccess world, BlockPos pos, PlayerEntity player) {
+        PlantFertilizedEvent event = new PlantFertilizedEvent(new BlockImpl(world, pos), player.getLoomEntity());
+        return fire(event);
+    }
+
     public static FluidLevelChangedEvent onFluidLevelChanged(WorldAccess world, BlockPos pos) {
         FluidLevelChangedEvent event = new FluidLevelChangedEvent(new BlockImpl(world, pos));
         return fire(event);
@@ -75,8 +82,12 @@ public final class LoomEventDispatcher {
         return fire(event);
     }
 
-    public static PlayerJoinedEvent firePlayerJoinedEvent(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
+    public static PlayerJoinedEvent onPlayerJoined(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
         return fire(new PlayerJoinedEvent(serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
+    }
+
+    public static PlayerDisconnectedEvent onPlayerDisconnected(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
+        return fire(new PlayerDisconnectedEvent(serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
     }
 
     private static final Block DUMMY_BLOCK = new Block() {

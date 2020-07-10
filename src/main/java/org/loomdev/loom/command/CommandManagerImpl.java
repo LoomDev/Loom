@@ -10,6 +10,7 @@ import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginMetadata;
+import org.loomdev.loom.command.loom.DebugCommand;
 import org.loomdev.loom.command.loom.PluginsCommand;
 import org.loomdev.loom.command.loom.TpsCommand;
 import org.loomdev.loom.command.loom.VersionCommand;
@@ -32,6 +33,7 @@ public class CommandManagerImpl implements CommandManager {
         this.server = server;
         this.wrapper = new LoomCommandWrapper(server, minecraftServer.serverResourceManager.commandManager.getDispatcher());
 
+        register(new DebugCommand());
         register(new PluginsCommand());
         register(new TpsCommand(server));
         register(new VersionCommand(server));

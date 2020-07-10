@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.minecraft.network.MessageType;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
+import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
@@ -71,13 +72,44 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
+    public void sendActionbar(String message) {
+        sendActionbar(TextComponent.of(message));
+    }
+
+    @Override
+    public void sendActionbar(Component message) {
+        getMinecraftEntity().sendMessage(TextTransformer.toMinecraft(message), true);
+    }
+
+    @Override
+    public void sendTitle(String title, String subtitle) {
+        sendTitle(title, subtitle, 10, 70, 20);
+    }
+
+    @Override
+    public void sendTitle(Component title, Component subtitle) {
+        sendTitle(title, subtitle, 10, 70, 20);
+    }
+
+    @Override
+    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+        sendTitle(TextComponent.of(title), TextComponent.of(subtitle), fadeIn, stay, fadeOut);
+    }
+
+    @Override
+    public void sendTitle(Component title, Component subtitle, int fadeIn, int stay, int fadeOut) {
+        getMinecraftEntity().networkHandler.sendPacket(new TitleS2CPacket(TitleS2CPacket.Action.TIMES, null, fadeIn, stay, fadeOut));
+        getMinecraftEntity().networkHandler.sendPacket(new TitleS2CPacket(TitleS2CPacket.Action.TITLE, TextTransformer.toMinecraft(title), 0, 0, 0));
+        getMinecraftEntity().networkHandler.sendPacket(new TitleS2CPacket(TitleS2CPacket.Action.SUBTITLE, TextTransformer.toMinecraft(subtitle), 0, 0, 0));
+    }
+
+    @Override
     public void sendMessage(@NonNull String text) {
         this.sendMessage(TextComponent.of(text));
     }
 
     @Override
     public void sendMessage(@NonNull Component component) {
-        Text message = TextTransformer.toMinecraft(component);
-        getMinecraftEntity().networkHandler.sendPacket(new GameMessageS2CPacket(message, MessageType.CHAT, Util.NIL_UUID));
+        getMinecraftEntity().sendMessage(TextTransformer.toMinecraft(component), false);
     }
 }

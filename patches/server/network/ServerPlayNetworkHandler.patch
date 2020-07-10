@@ -1,0 +1,23 @@
+--- a/net/minecraft/server/network/ServerPlayNetworkHandler.java
++++ b/net/minecraft/server/network/ServerPlayNetworkHandler.java
+@@ -401,7 +401,7 @@
+     public void onRecipeBookData(RecipeBookDataC2SPacket recipebookdatac2spacket) {
+         NetworkThreadUtils.forceMainThread(recipebookdatac2spacket, this, this.player.getServerWorld());
+         if (recipebookdatac2spacket.getMode() == RecipeBookDataC2SPacket.Mode.SHOWN) {
+-            Optional optional = this.server.getRecipeManager().get(recipebookdatac2spacket.getRecipeId());
++            Optional<? extends net.minecraft.recipe.Recipe<?>> optional = this.server.getRecipeManager().get(recipebookdatac2spacket.getRecipeId());
+             ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
+ 
+             optional.ifPresent(serverrecipebook::onRecipeDisplayed);
+@@ -1015,7 +1015,10 @@
+     public void onDisconnected(Text text) {
+         ServerPlayNetworkHandler.LOGGER.info("{} lost connection: {}", (Object) this.player.getName().getString(), (Object) text.getString());
+         this.server.forcePlayerSampleUpdate();
+-        this.server.getPlayerManager().broadcastChatMessage((new TranslatableText("multiplayer.player.left", new Object[]{this.player.getDisplayName()})).formatted(Formatting.YELLOW), MessageType.SYSTEM, Util.NIL_UUID);
++        // Loom start :: fire PlayerDisconnectedEvent
++        org.loomdev.api.event.player.connection.PlayerDisconnectedEvent event = org.loomdev.loom.event.LoomEventDispatcher.onPlayerDisconnected(player, (new TranslatableText("multiplayer.player.left", new Object[]{this.player.getDisplayName()})).formatted(Formatting.YELLOW));
++        this.server.getPlayerManager().broadcastChatMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getDisconnectMessage()), MessageType.SYSTEM, Util.NIL_UUID);
++        // Loom end
+         this.player.onDisconnect();
+         this.server.getPlayerManager().remove(this.player);
+         if (this.isHost()) {

@@ -5,7 +5,7 @@
          }
  
 -        this.broadcastChatMessage(translatabletext.formatted(Formatting.YELLOW), MessageType.SYSTEM, Util.NIL_UUID);
-+        org.loomdev.api.event.player.PlayerJoinedEvent event = org.loomdev.loom.event.LoomEventDispatcher.firePlayerJoinedEvent(serverplayerentity, translatabletext.formatted(Formatting.YELLOW));
++        org.loomdev.api.event.player.connection.PlayerJoinedEvent event = org.loomdev.loom.event.LoomEventDispatcher.onPlayerJoined(serverplayerentity, translatabletext.formatted(Formatting.YELLOW));
 +        
 +        this.broadcastChatMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getJoinMessage()), MessageType.SYSTEM, Util.NIL_UUID);
          serverplaynetworkhandler.requestTeleport(serverplayerentity.getX(), serverplayerentity.getY(), serverplayerentity.getZ(), serverplayerentity.yaw, serverplayerentity.pitch);
