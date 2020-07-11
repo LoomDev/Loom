@@ -3,6 +3,7 @@ package org.loomdev.loom.entity.decoration;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.ArmorStand;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.math.EulerAngle;
@@ -16,6 +17,11 @@ public class ArmorStandImpl extends LivingEntityImpl implements ArmorStand {
 
     public ArmorStandImpl(ArmorStandEntity entity) {
         super(entity);
+    }
+
+    @Override
+    public @NonNull EntityType getType() {
+        return EntityType.ARMOR_STAND;
     }
 
     @Override

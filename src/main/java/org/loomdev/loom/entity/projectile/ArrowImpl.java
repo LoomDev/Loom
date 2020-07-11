@@ -4,6 +4,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.effect.StatusEffect;
 import org.loomdev.api.entity.effect.StatusEffectType;
 import org.loomdev.api.entity.projectile.Arrow;
@@ -19,6 +20,11 @@ public class ArrowImpl extends PersistentProjectileImpl implements Arrow {
 
     public ArrowImpl(ArrowEntity entity) {
         super(entity);
+    }
+
+    @Override
+    public @NonNull EntityType getType() {
+        return EntityType.ARROW;
     }
 
     @Override
