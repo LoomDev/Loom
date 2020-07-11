@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.kyori.event.PostResult;
 import net.kyori.event.SimpleEventBus;
 import net.kyori.event.method.MethodSubscriptionAdapter;
@@ -23,6 +24,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.IdentityHashMap;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class EventManagerImpl implements EventManager {
 
@@ -30,9 +34,10 @@ public class EventManagerImpl implements EventManager {
 
     private final ListMultimap<Object, Object> registeredListenersByPlugin;
     private final ListMultimap<Object, EventHandler<? extends Event>> registeredHandlersByPlugin;
+    private final PluginManager pluginManager;
     private final LoomEventBus bus;
     private final MethodSubscriptionAdapter<Object> methodAdapter;
-    private final PluginManager pluginManager;
+    private final ExecutorService executorService;
 
     public EventManagerImpl(PluginManager pluginManager) {
         this.pluginManager = pluginManager;
@@ -49,6 +54,13 @@ public class EventManagerImpl implements EventManager {
                 bus,
                 new ASMEventExecutorFactory<>(cl),
                 new LoomMethodScanner()
+        );
+        this.executorService = Executors.newFixedThreadPool(
+                Runtime.getRuntime().availableProcessors(),
+                new ThreadFactoryBuilder()
+                    .setNameFormat("Loom Event Executor #%d")
+                    .setDaemon(true)
+                    .build()
         );
     }
 
@@ -103,15 +115,44 @@ public class EventManagerImpl implements EventManager {
     }
 
     @Override
-    public <E extends Event> E fire(E event) { // TODO make calls async? or when possible?
-        if (event == null) {
-            throw new NullPointerException("event");
-        }
+    public <E extends Event> E fire(E event) {
+        Preconditions.checkNotNull(event);
 
         if (!bus.hasSubscribers(event.getClass())) {
             return event;
         }
 
+        fireEvent(event);
+        return event;
+    }
+
+    @Override
+    public <E extends Event> CompletableFuture<E> fireAsync(E event) {
+        Preconditions.checkNotNull(event);
+
+        if (!bus.hasSubscribers(event.getClass())) {
+            return CompletableFuture.completedFuture(event);
+        }
+
+        CompletableFuture<E> eventFuture = new CompletableFuture<>();
+        executorService.execute(() -> {
+            fireEvent(event);
+            eventFuture.complete(event);
+        });
+        return eventFuture;
+    }
+
+    @Override
+    public <E extends Event> void fireAndForgetAsync(E event) {
+        Preconditions.checkNotNull(event);
+
+        if (!bus.hasSubscribers(event.getClass())) {
+            return;
+        }
+        executorService.execute(() -> fireEvent(event));
+    }
+
+    private <E extends Event> void fireEvent(E event) {
         PostResult result = bus.post(event);
         if (!result.exceptions().isEmpty()) {
             LOGGER.error("Some errors occurred whilst posting event {}.", event);
@@ -120,7 +161,5 @@ public class EventManagerImpl implements EventManager {
                 LOGGER.error("#{}: \n", ++i, exception);
             }
         }
-        return event;
     }
-
 }
