@@ -1,0 +1,11 @@
+--- a/net/minecraft/entity/mob/EndermanEntity.java
++++ b/net/minecraft/entity/mob/EndermanEntity.java
+@@ -225,7 +225,7 @@
+     }
+ 
+     public boolean hurtByWater() {
+-        return true;
++        return hurtByWaterOverride.orElse(true); // hurt by water override
+     }
+ 
+     protected void mobTick() {

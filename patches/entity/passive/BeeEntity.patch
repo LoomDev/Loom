@@ -1,0 +1,67 @@
+--- a/net/minecraft/entity/passive/BeeEntity.java
++++ b/net/minecraft/entity/passive/BeeEntity.java
+@@ -88,6 +88,13 @@
+ 
+ public class BeeEntity extends AnimalEntity implements Angerable, Flutterer {
+ 
++    // Loom start :: getLoomEntity
++    @Override
++    public org.loomdev.loom.entity.passive.BeeImpl getLoomEntity() {
++        return (org.loomdev.loom.entity.passive.BeeImpl) super.getLoomEntity();
++    }
++    // Loom end :: getLoomEntity
++
+     private static final TrackedData<Byte> multipleByteTracker = DataTracker.registerData(BeeEntity.class, TrackedDataHandlerRegistry.BYTE);
+     private static final TrackedData<Integer> anger = DataTracker.registerData(BeeEntity.class, TrackedDataHandlerRegistry.INTEGER);
+     private static final IntRange field_25363 = Durations.betweenSeconds(20, 39);
+@@ -96,10 +103,10 @@
+     private float lastPitch;
+     private int ticksSinceSting;
+     private int ticksSincePollination;
+-    private int cannotEnterHiveTicks;
++    public int cannotEnterHiveTicks; // Loom :: public accessor
+     private int cropsGrownSincePollination;
+     private int ticksLeftToFindHive = 0;
+-    private int ticksUntilCanPollinate = 0;
++    public int ticksUntilCanPollinate = 0; // Loom :: public accessor
+     @Nullable
+     private BlockPos flowerPos = null;
+     @Nullable
+@@ -437,7 +444,7 @@
+         return this.getBeeFlag(8);
+     }
+ 
+-    private void setHasNectar(boolean flag) {
++    public void setHasNectar(boolean flag) { // Loom :: public accessor
+         if (flag) {
+             this.resetPollinationTicks();
+         }
+@@ -449,7 +456,7 @@
+         return this.getBeeFlag(4);
+     }
+ 
+-    private void setHasStung(boolean flag) {
++    public void setHasStung(boolean flag) { // Loom :: public accessor
+         this.setBeeFlag(4, flag);
+     }
+ 
+@@ -541,7 +548,7 @@
+ 
+     protected void fall(double d0, boolean flag, BlockState blockstate, BlockPos blockpos) {}
+ 
+-    protected boolean hasWings() {
++    public boolean hasWings() { // Loom :: public accessor (inherited from Entity)
+         return true;
+     }
+ 
+@@ -576,9 +583,7 @@
+         return blockpos.isWithinDistance((Vec3i) this.getBlockPos(), (double) i);
+     }
+ 
+-    public PassiveEntity createChild(PassiveEntity passiveentity) {
+-        return this.createChild(passiveentity);
+-    }
++    // Loom :: decompile error
+ 
+     class EnterHiveGoal extends BeeEntity.NotAngryGoal {
+ 

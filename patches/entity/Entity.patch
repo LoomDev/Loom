@@ -18,3 +18,72 @@
      protected static final Logger LOGGER = LogManager.getLogger();
      private static final AtomicInteger MAX_ENTITY_ID = new AtomicInteger();
      private static final List<ItemStack> EMPTY_STACK_LIST = Collections.emptyList();
+@@ -155,7 +166,7 @@
+     protected boolean submergedInWater;
+     @Nullable
+     protected Tag<Fluid> field_25599;
+-    protected boolean inLava;
++    public boolean inLava; // Loom :: plubic accessor
+     public int timeUntilRegen;
+     protected boolean firstUpdate;
+     protected final DataTracker dataTracker;
+@@ -192,6 +203,7 @@
+     private long pistonMovementTick;
+     private EntityDimensions dimensions;
+     private float standingEyeHeight;
++    public Optional<Boolean> fireResistantOverride = Optional.empty();
+ 
+     public Entity(EntityType<?> entitytype, World world) {
+         this.entityId = Entity.MAX_ENTITY_ID.incrementAndGet();
+@@ -433,7 +445,7 @@
+         this.setFireTicks(0);
+     }
+ 
+-    protected void destroy() {
++    public void destroy() { Bat
+         this.remove();
+     }
+ 
+@@ -842,7 +854,7 @@
+         return 0.0F;
+     }
+ 
+-    protected boolean hasWings() {
++    public boolean hasWings() { // Loom :: public acessor
+         return false;
+     }
+ 
+@@ -892,7 +904,7 @@
+     }
+ 
+     public boolean isFireImmune() {
+-        return this.getType().isFireImmune();
++        return fireResistantOverride.orElse(this.getType().isFireImmune()); // Loom :: fire resistance override.
+     }
+ 
+     public boolean handleFallDamage(float f, float f1) {
+@@ -913,13 +925,13 @@
+         return this.touchingWater;
+     }
+ 
+-    private boolean isBeingRainedOn() {
++    public boolean isBeingRainedOn() { // Loom :: plubic accessor
+         BlockPos blockpos = this.getBlockPos();
+ 
+         return this.world.hasRain(blockpos) || this.world.hasRain(blockpos.add(0.0D, (double) this.dimensions.height, 0.0D));
+     }
+ 
+-    private boolean isInsideBubbleColumn() {
++    public boolean isInsideBubbleColumn() { // Loom :: plubic accessor
+         return this.world.getBlockState(this.getBlockPos()).isOf(Blocks.BUBBLE_COLUMN);
+     }
+ 
+@@ -2308,7 +2320,7 @@
+         return this.getHorizontalFacing();
+     }
+ 
+-    protected HoverEvent getHoverEvent() {
++    public HoverEvent getHoverEvent() { // Loom :: public accessor
+         return new HoverEvent(HoverEvent.Action.SHOW_ENTITY, new HoverEvent.EntityContent(this.getType(), this.getUuid(), this.getName()));
+     }
+ 

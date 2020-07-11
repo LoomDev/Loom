@@ -1,0 +1,16 @@
+--- a/net/minecraft/entity/passive/BatEntity.java
++++ b/net/minecraft/entity/passive/BatEntity.java
+@@ -32,6 +32,13 @@
+ 
+ public class BatEntity extends AmbientEntity {
+ 
++    // Loom start :: getLoomEntity
++    @Override
++    public org.loomdev.loom.entity.passive.BatImpl getLoomEntity() {
++        return (org.loomdev.loom.entity.passive.BatImpl) super.getLoomEntity();
++    }
++    // Loom end :: getLoomEntity
++
+     private static final TrackedData<Byte> BAT_FLAGS = DataTracker.registerData(BatEntity.class, TrackedDataHandlerRegistry.BYTE);
+     private static final TargetPredicate CLOSE_PLAYER_PREDICATE = (new TargetPredicate()).setBaseMaxDistance(4.0D).includeTeammates();
+     private BlockPos hangingPosition;

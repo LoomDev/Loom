@@ -4,18 +4,25 @@ import com.google.common.base.Preconditions;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.util.math.BlockPos;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.loomdev.api.block.Material;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.effect.StatusEffect;
 import org.loomdev.api.entity.effect.StatusEffectType;
+import org.loomdev.api.item.ItemStack;
+import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.Hand;
+import org.loomdev.api.world.Location;
+import org.loomdev.api.world.World;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.util.transformer.StatusEffectTransformer;
 import org.loomdev.loom.util.transformer.StatusEffectTypeTransformer;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class LivingEntityImpl extends EntityImpl implements LivingEntity {
@@ -74,17 +81,17 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
 
     @Override
     public int getMaxAir() {
-        return getMinecraftEntity().maxAir;
+        return getMinecraftEntity().getMaxAir();
     }
 
     @Override
     public void setMaxAir(int ticks) {
-        getMinecraftEntity().maxAir = ticks;
+        getMinecraftEntity().maxAirOverride = Optional.of(ticks);
     }
 
     @Override
     public void resetMaxAir() {
-        getMinecraftEntity().resetMaxAir();
+        getMinecraftEntity().maxAirOverride = Optional.empty();
     }
 
     @Override
@@ -125,6 +132,233 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     @Override
     public void setCanPickItems(boolean flag) {
         getMinecraftEntity().pickUpLoot = flag;
+    }
+
+    @Override
+    public Sound getHurtSound() {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public Sound getHurtSound(org.loomdev.api.entity.damage.@NonNull DamageSource damageSource) {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public void setHurtSound(@NonNull Sound sound) {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public void setHurtSound(org.loomdev.api.entity.damage.@NonNull DamageSource damageSource, @NonNull Sound sound) {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public void playHurtSound() {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public void playHurtSound(org.loomdev.api.entity.damage.@NonNull DamageSource damageSource) {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public Sound getDeathSound() {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public void setDeathSound(@NonNull Sound sound) {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public Sound getFallSound() {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public void setFallSound(@NonNull Sound sound) {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public Sound getDrinkSound() {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public void setDrinkSound(@NonNull Sound sound) {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public Sound getEatSound() {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public void setEatSound(@NonNull Sound sound) {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public float getSoundVolume() {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public void setSoundVolume(float v) {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public float getSoundPitch() {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public void setSoundPitch(float v) {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public boolean isAlive() {
+        return getMinecraftEntity().isAlive();
+    }
+
+    @Override
+    public int getStuckArrowCount() {
+        return getMinecraftEntity().getStuckArrowCount();
+    }
+
+    @Override
+    public void setStuckArrowCount(int count) {
+        getMinecraftEntity().setStuckArrowCount(count);
+    }
+
+    @Override
+    public int getStingerCount() {
+        return getMinecraftEntity().getStingerCount();
+    }
+
+    @Override
+    public void setStringerCount(int count) {
+        getMinecraftEntity().setStingerCount(count);
+    }
+
+    @Override
+    public boolean isHolding(@NonNull Material material) {
+        return false; // TODO transform
+    }
+
+    @Override
+    public boolean isHolding(@NonNull Predicate<Material> predicate) {
+        return false; // TODO transform
+    }
+
+    @Override
+    public @NonNull Optional<ItemStack> getStackInHand(@NonNull Hand hand) {
+        return Optional.empty(); // TODO transform
+    }
+
+    @Override
+    public void setStackInHand(@NonNull Hand hand, @NonNull ItemStack itemStack) {
+        // TODO transform
+    }
+
+    @Override
+    public float getMovementSpeed() {
+        return getMinecraftEntity().getMovementSpeed();
+    }
+
+    @Override
+    public void setMovementSpeed(float v) {
+        getMinecraftEntity().setMovementSpeed(v);
+    }
+
+    @Override
+    public boolean isHurtByWater() {
+        return getMinecraftEntity().hurtByWater();
+    }
+
+    @Override
+    public void setHurtByWater(boolean flag) {
+        getMinecraftEntity().hurtByWaterOverride = Optional.of(flag);
+    }
+
+    @Override
+    public void resetHurtByWater() {
+        getMinecraftEntity().hurtByWaterOverride = Optional.empty();
+    }
+
+    @Override
+    public boolean canSee(@NonNull Entity entity) {
+        return getMinecraftEntity().canSee(((EntityImpl) entity).getMinecraftEntity());
+    }
+
+    @Override
+    public float getHeadYaw() {
+        return getMinecraftEntity().getHeadYaw();
+    }
+
+    @Override
+    public void setHeadYaw(float v) {
+        getMinecraftEntity().setHeadYaw(v);
+    }
+
+    @Override
+    public float getBodyYaw() {
+        return getMinecraftEntity().getYaw(1.0F);
+    }
+
+    @Override
+    public void setBodyYaw(float v) {
+        getMinecraftEntity().setYaw(v);
+    }
+
+    @Override
+    public boolean isUsingItem() {
+        return getMinecraftEntity().isUsingItem();
+    }
+
+    @Override
+    public @NonNull Hand getActiveHand() {
+        return Hand.valueOf(getMinecraftEntity().getActiveHand().name());
+    }
+
+    @Override
+    public void setCurrentHand(Hand hand) {
+        getMinecraftEntity().setCurrentHand(net.minecraft.util.Hand.valueOf(hand.name()));
+    }
+
+    @Override
+    public boolean isGliding() {
+        return getMinecraftEntity().isFallFlying();
+    }
+
+    @Override
+    public Optional<Location> getSleepingPosition() {
+        // TODO world??
+        return getMinecraftEntity().getSleepingPosition().map(bp -> new Location(null, bp.getX(), bp.getY(), bp.getZ()));
+    }
+
+    @Override
+    public void setSleepingPosition(Location location) {
+        // TODO world??
+        getMinecraftEntity().setSleepingPosition(new BlockPos(location.getX(), location.getY(), location.getZ()));
+    }
+
+    @Override
+    public void clearSleepingPosition() {
+        getMinecraftEntity().clearSleepingPosition();
+    }
+
+    @Override
+    public ItemStack eatFood(World world, ItemStack itemStack) {
+        return (ItemStack) null; // getMinecraftEntity().eatFood(null, null); // TODO transform
     }
 
     @Override

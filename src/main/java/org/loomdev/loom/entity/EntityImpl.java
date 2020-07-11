@@ -2,13 +2,20 @@ package org.loomdev.loom.entity;
 
 import com.google.common.base.Preconditions;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
+import org.loomdev.api.entity.damage.DamageSource;
+import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.math.BoundingBox;
 import org.loomdev.api.math.Vector3d;
+import org.loomdev.api.sound.Sound;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.util.transformer.TextTransformer;
@@ -131,6 +138,11 @@ public class EntityImpl implements Entity {
     }
 
     @Override
+    public void destroy() {
+        getMinecraftEntity().destroy();
+    }
+
+    @Override
     public boolean isDead() {
         return !this.mcEntity.isAlive();
     }
@@ -208,6 +220,11 @@ public class EntityImpl implements Entity {
     }
 
     @Override
+    public void addVelocity(@NonNull Vector3d vec) {
+        getMinecraftEntity().addVelocity(vec.getX(), vec.getY(), vec.getZ());
+    }
+
+    @Override
     public boolean isOnGround() {
         return this.mcEntity.isOnGround();
     }
@@ -273,6 +290,11 @@ public class EntityImpl implements Entity {
     }
 
     @Override
+    public boolean isOnFire() {
+        return getMinecraftEntity().isOnFire();
+    }
+
+    @Override
     public double getFallDistance() {
         return this.mcEntity.fallDistance;
     }
@@ -318,15 +340,123 @@ public class EntityImpl implements Entity {
     }
 
     @Override
+    public boolean isInvulnerableTo(DamageSource damageSource) {
+        return false; // TODO
+    }
+
+    @Override
     public void setRotation(float v, float v1) {
         // TODO
     }
 
     @Override
-    public void sendMessage(@NonNull String s) {
+    public boolean hasWings() {
+        return getMinecraftEntity().hasWings();
     }
 
     @Override
-    public void sendMessage(@NonNull Component component) {
+    public void playSound(Sound sound, float v, float p) {
+        getMinecraftEntity().playSound(Registry.SOUND_EVENT.get(sound.rawId()), v, p);
     }
+
+    @Override
+    public boolean isFireResistant() {
+        return getMinecraftEntity().isFireImmune();
+    }
+
+    @Override
+    public void setFireResistant(boolean flag) {
+        this.getMinecraftEntity().fireResistantOverride = Optional.of(flag);
+    }
+
+    @Override
+    public void resetFireResistance() {
+        getMinecraftEntity().fireResistantOverride = Optional.empty();
+    }
+
+    @Override
+    public boolean isTouchingWater() {
+        return getMinecraftEntity().isTouchingWater();
+    }
+
+    @Override
+    public boolean isBeingRainedOn() {
+        return getMinecraftEntity().isBeingRainedOn();
+    }
+
+    @Override
+    public boolean isInsideBubbleColumn() {
+        return getMinecraftEntity().isInsideBubbleColumn();
+    }
+
+    @Override
+    public boolean isSubmergedInWater() {
+        return getMinecraftEntity().isSubmergedInWater();
+    }
+
+    @Override
+    public boolean isInLava() {
+        return getMinecraftEntity().isInLava();
+    }
+
+    @Override
+    public void setInLava(boolean flag) {
+        getMinecraftEntity().inLava = flag;
+    }
+
+    @Override
+    public boolean isSubmergedInLava() {
+        return getMinecraftEntity().isSubmergedIn(FluidTags.LAVA);
+    }
+
+    @Override
+    public float getBrightnessAtEyes() {
+        return getMinecraftEntity().getBrightnessAtEyes();
+    }
+
+    @Override
+    public float distanceTo(@NonNull Entity entity) {
+        return getMinecraftEntity().distanceTo(((EntityImpl) entity).getMinecraftEntity());
+    }
+
+    @Override
+    public double squaredDistanceTo(@NonNull Entity entity) {
+        return getMinecraftEntity().squaredDistanceTo(((EntityImpl) entity).getMinecraftEntity());
+    }
+
+    @Override
+    public void pushAwayFrom(@NonNull Entity entity) {
+        getMinecraftEntity().pushAwayFrom(((EntityImpl) entity).getMinecraftEntity());
+    }
+
+    @Override
+    public void dropStack(@NonNull ItemStack itemStack) {
+        getMinecraftEntity().dropStack(null); // TODO transform
+    }
+
+    @Override
+    public void dropStack(@NonNull ItemStack itemStack, float yOffset) {
+        getMinecraftEntity().dropStack(null, yOffset); // TODO transform
+    }
+
+    @Override
+    public boolean isInsideWall() {
+        return getMinecraftEntity().isInsideWall();
+    }
+
+    @Override
+    public boolean canFly() {
+        return getMinecraftEntity().canFly();
+    }
+
+    @Override
+    public HoverEvent<HoverEvent.ShowEntity> getHoverEvent() {
+        throw new UnsupportedOperationException("This operation is currently not yet supported.");
+    }
+
+    @Override
+    public void sendMessage(@NonNull String s) { }
+
+    @Override
+    public void sendMessage(@NonNull Component component) { }
 }

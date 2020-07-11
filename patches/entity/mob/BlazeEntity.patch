@@ -1,0 +1,11 @@
+--- a/net/minecraft/entity/mob/BlazeEntity.java
++++ b/net/minecraft/entity/mob/BlazeEntity.java
+@@ -96,7 +96,7 @@
+     }
+ 
+     public boolean hurtByWater() {
+-        return true;
++        return hurtByWaterOverride.orElse(true); // hurt by water override
+     }
+ 
+     protected void mobTick() {

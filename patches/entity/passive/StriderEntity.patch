@@ -1,0 +1,11 @@
+--- a/net/minecraft/entity/passive/StriderEntity.java
++++ b/net/minecraft/entity/passive/StriderEntity.java
+@@ -349,7 +349,7 @@
+     }
+ 
+     public boolean hurtByWater() {
+-        return true;
++        return hurtByWaterOverride.orElse(true); // hurt by water override
+     }
+ 
+     public boolean isOnFire() {

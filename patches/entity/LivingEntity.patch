@@ -1,30 +1,27 @@
 --- a/net/minecraft/entity/LivingEntity.java
 +++ b/net/minecraft/entity/LivingEntity.java
-@@ -108,6 +108,23 @@
+@@ -108,6 +108,20 @@
  
  public abstract class LivingEntity extends Entity {
  
-+    // Loom start :: loom additions
++    // Loom start
 +    @Override
 +    public org.loomdev.loom.entity.LivingEntityImpl getLoomEntity() {
 +        return (org.loomdev.loom.entity.LivingEntityImpl) super.getLoomEntity();
 +    }
-+    public int maxAir;
++    public Optional<Integer> maxAirOverride = Optional.empty();
++    public Optional<Boolean> hurtByWaterOverride = Optional.empty();
 +
 +    @Override
 +    public int getMaxAir() {
-+        return maxAir; // Loom :: override default max air ticks
++        return maxAirOverride.orElse(super.getMaxAir()); // Loom :: override default max air ticks
 +    }
-+
-+    public void resetMaxAir() {
-+        this.maxAir = super.getMaxAir();
-+    }
-+    // Loom end :: loom additions
++    // Loom end
 +
      private static final UUID SPRINTING_SPEED_BOOST_ID = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
      private static final UUID SOUL_SPEED_BOOST_ID = UUID.fromString("87f46a96-686f-4796-b035-22e16ee9e038");
      private static final EntityAttributeModifier SPRINTING_SPEED_BOOST = new EntityAttributeModifier(LivingEntity.SPRINTING_SPEED_BOOST_ID, "Sprinting speed boost", 0.30000001192092896D, EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
-@@ -191,9 +208,11 @@
+@@ -191,9 +205,11 @@
      private float leaningPitch;
      private float lastLeaningPitch;
      protected Brain<?> brain;
@@ -36,7 +33,16 @@
          this.equippedHand = DefaultedList.ofSize(2, ItemStack.EMPTY);
          this.equippedArmor = DefaultedList.ofSize(4, ItemStack.EMPTY);
          this.defaultMaxHealth = 20;
-@@ -2886,7 +2905,7 @@
+@@ -2363,7 +2379,7 @@
+     }
+ 
+     public boolean hurtByWater() {
+-        return false;
++        return hurtByWaterOverride.orElse(false); // hurt by water override
+     }
+ 
+     private void initAi() {
+@@ -2886,7 +2902,7 @@
      }
  
      public void wakeUp() {
