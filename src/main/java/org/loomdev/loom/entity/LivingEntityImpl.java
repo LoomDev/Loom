@@ -31,7 +31,9 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
 
     @Override
     public @NonNull List<StatusEffect> getStatusEffects() {
-        return getMinecraftEntity().getStatusEffects().stream().map(StatusEffectTransformer::toLoom).collect(Collectors.toList());
+        return getMinecraftEntity().getStatusEffects().stream()
+                .map(StatusEffectTransformer::toLoom)
+                .collect(Collectors.toList());
     }
 
     @Override

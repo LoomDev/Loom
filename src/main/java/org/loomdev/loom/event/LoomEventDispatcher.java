@@ -1,7 +1,5 @@
 package org.loomdev.loom.event;
 
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.TextColor;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -11,6 +9,7 @@ import net.minecraft.world.WorldAccess;
 import org.loomdev.api.Loom;
 import org.loomdev.api.block.Block;
 import org.loomdev.api.block.Material;
+import org.loomdev.api.entity.decoration.ArmorStand;
 import org.loomdev.api.event.Event;
 import org.loomdev.api.event.block.BlockBrokenEvent;
 import org.loomdev.api.event.block.BlockPlacedEvent;
@@ -22,6 +21,7 @@ import org.loomdev.api.event.block.plant.PlantFertilizedEvent;
 import org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent;
 import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
 import org.loomdev.api.event.player.connection.PlayerJoinedEvent;
+import org.loomdev.api.math.EulerAngle;
 import org.loomdev.api.world.Chunk;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
@@ -90,41 +90,4 @@ public final class LoomEventDispatcher {
         return fire(new PlayerDisconnectedEvent(serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
     }
 
-    private static final Block DUMMY_BLOCK = new Block() {
-
-        @Override
-        public int getX() {
-            return 0;
-        }
-
-        @Override
-        public int getY() {
-            return 0;
-        }
-
-        @Override
-        public int getZ() {
-            return 0;
-        }
-
-        @Override
-        public Chunk getChunk() {
-            return null;
-        }
-
-        @Override
-        public World getWorld() {
-            return null;
-        }
-
-        @Override
-        public Material getMaterial() {
-            return null;
-        }
-
-        @Override
-        public Material setMaterial() {
-            return null;
-        }
-    };
 }

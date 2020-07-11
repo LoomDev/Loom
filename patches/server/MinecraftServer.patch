@@ -5,7 +5,7 @@
      @Nullable
      private String serverId;
 -    private ServerResourceManager serverResourceManager;
-+    public ServerResourceManager serverResourceManager; // Loom :: public access
++    public ServerResourceManager serverResourceManager; // Loom :: public accessor
      private final StructureManager structureManager;
      protected final SaveProperties saveProperties;
  

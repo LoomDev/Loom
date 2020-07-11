@@ -1,6 +1,16 @@
 --- a/net/minecraft/entity/projectile/ProjectileEntity.java
 +++ b/net/minecraft/entity/projectile/ProjectileEntity.java
-@@ -21,7 +21,7 @@
+@@ -17,11 +17,17 @@
+ 
+ public abstract class ProjectileEntity extends Entity {
+ 
++    // Loom start
++    @Override
++    public org.loomdev.loom.entity.projectile.ProjectileImpl getLoomEntity() {
++        return (org.loomdev.loom.entity.projectile.ProjectileImpl) super.getLoomEntity();
++    }
++    // Loom end
+     private UUID ownerUuid;
      private int ownerEntityId;
      private boolean leftOwner;
  

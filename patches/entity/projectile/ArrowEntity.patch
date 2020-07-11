@@ -1,0 +1,29 @@
+--- a/net/minecraft/entity/projectile/ArrowEntity.java
++++ b/net/minecraft/entity/projectile/ArrowEntity.java
+@@ -23,9 +23,16 @@
+ 
+ public class ArrowEntity extends PersistentProjectileEntity {
+ 
++    // Loom start
++    @Override
++    public org.loomdev.loom.entity.projectile.ArrowImpl getLoomEntity() {
++        return (org.loomdev.loom.entity.projectile.ArrowImpl) super.getLoomEntity();
++    }
++    // Loom end
++
+     private static final TrackedData<Integer> COLOR = DataTracker.registerData(ArrowEntity.class, TrackedDataHandlerRegistry.INTEGER);
+     private Potion potion;
+-    private final Set<StatusEffectInstance> effects;
++    public final Set<StatusEffectInstance> effects; // Loom :: public accessor
+     private boolean colorSet;
+ 
+     public ArrowEntity(EntityType<? extends ArrowEntity> entitytype, World world) {
+@@ -140,7 +147,7 @@
+         return (Integer) this.dataTracker.get(ArrowEntity.COLOR);
+     }
+ 
+-    private void setColor(int i) {
++    public void setColor(int i) { // Loom :: public accessor
+         this.colorSet = true;
+         this.dataTracker.set(ArrowEntity.COLOR, i);
+     }

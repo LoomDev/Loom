@@ -4,7 +4,7 @@
  
  public abstract class LivingEntity extends Entity {
  
-+    // Loom start :: getLoomEntity
++    // Loom start :: loom additions
 +    @Override
 +    public org.loomdev.loom.entity.LivingEntityImpl getLoomEntity() {
 +        return (org.loomdev.loom.entity.LivingEntityImpl) super.getLoomEntity();
@@ -19,7 +19,7 @@
 +    public void resetMaxAir() {
 +        this.maxAir = super.getMaxAir();
 +    }
-+    // Loom end :: getLoomEntity
++    // Loom end :: loom additions
 +
      private static final UUID SPRINTING_SPEED_BOOST_ID = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
      private static final UUID SOUL_SPEED_BOOST_ID = UUID.fromString("87f46a96-686f-4796-b035-22e16ee9e038");
