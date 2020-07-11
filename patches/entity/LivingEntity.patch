@@ -21,7 +21,7 @@
      private static final UUID SPRINTING_SPEED_BOOST_ID = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
      private static final UUID SOUL_SPEED_BOOST_ID = UUID.fromString("87f46a96-686f-4796-b035-22e16ee9e038");
      private static final EntityAttributeModifier SPRINTING_SPEED_BOOST = new EntityAttributeModifier(LivingEntity.SPRINTING_SPEED_BOOST_ID, "Sprinting speed boost", 0.30000001192092896D, EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
-@@ -191,9 +205,11 @@
+@@ -191,6 +205,7 @@
      private float leaningPitch;
      private float lastLeaningPitch;
      protected Brain<?> brain;
@@ -29,11 +29,16 @@
  
      protected LivingEntity(EntityType<? extends LivingEntity> entitytype, World world) {
          super(entitytype, world);
-+        this.maxAir = super.getMaxAir(); // Loom :: default max air to the default minecraft value.
-         this.equippedHand = DefaultedList.ofSize(2, ItemStack.EMPTY);
-         this.equippedArmor = DefaultedList.ofSize(4, ItemStack.EMPTY);
-         this.defaultMaxHealth = 20;
-@@ -2363,7 +2379,7 @@
+@@ -1574,7 +1589,7 @@
+ 
+     }
+ 
+-    protected void destroy() {
++    public void destroy() { // Loom :: public accessor (inherited from Entity)
+         this.damage(DamageSource.OUT_OF_WORLD, 4.0F);
+     }
+ 
+@@ -2363,7 +2378,7 @@
      }
  
      public boolean hurtByWater() {
@@ -42,7 +47,7 @@
      }
  
      private void initAi() {
-@@ -2886,7 +2902,7 @@
+@@ -2886,7 +2901,7 @@
      }
  
      public void wakeUp() {

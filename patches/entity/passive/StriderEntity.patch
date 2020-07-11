@@ -9,3 +9,14 @@
      }
  
      public boolean isOnFire() {
+@@ -457,9 +457,7 @@
+         return super.initialize(worldaccess, localdifficulty, spawnreason, (EntityData) entitydata, compoundtag);
+     }
+ 
+-    public PassiveEntity createChild(PassiveEntity passiveentity) {
+-        return this.createChild(passiveentity);
+-    }
++    // Loom :: decompile error
+ 
+     static class Navigation extends MobNavigation {
+ 

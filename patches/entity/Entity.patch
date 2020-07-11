@@ -40,7 +40,7 @@
      }
  
 -    protected void destroy() {
-+    public void destroy() { Bat
++    public void destroy() {
          this.remove();
      }
  
