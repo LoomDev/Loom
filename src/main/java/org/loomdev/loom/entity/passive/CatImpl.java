@@ -1,0 +1,59 @@
+package org.loomdev.loom.entity.passive;
+
+import net.minecraft.entity.passive.CatEntity;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.loomdev.api.entity.EntityType;
+import org.loomdev.api.entity.passive.Cat;
+import org.loomdev.api.util.DyeColor;
+
+public class CatImpl extends TameableEntityImpl implements Cat {
+
+    public CatImpl(CatEntity entity) {
+        super(entity);
+    }
+
+    @Override
+    public @NonNull EntityType getType() {
+        return EntityType.CAT;
+    }
+
+    @Override
+    public CatEntity getMinecraftEntity() {
+        return (CatEntity) super.getMinecraftEntity();
+    }
+
+    @Override
+    public Type getCatType() {
+        return Type.getById(getMinecraftEntity().getCatType());
+    }
+
+    @Override
+    public void setCatType(Type type) {
+        getMinecraftEntity().setCatType(type.getId());
+    }
+
+    @Override
+    public DyeColor getCollarColor() {
+        return DyeColor.getById(getMinecraftEntity().getCollarColor().getId());
+    }
+
+    @Override
+    public void setCollarColor(DyeColor dyeColor) {
+        getMinecraftEntity().setCollarColor(net.minecraft.util.DyeColor.byId(dyeColor.getId()));
+    }
+
+    @Override
+    public void hiss() {
+        getMinecraftEntity().hiss();
+    }
+
+    @Override
+    public boolean isSitting() {
+        return getMinecraftEntity().isSitting();
+    }
+
+    @Override
+    public void setSitting(boolean flag) {
+        getMinecraftEntity().setSitting(flag);
+    }
+}

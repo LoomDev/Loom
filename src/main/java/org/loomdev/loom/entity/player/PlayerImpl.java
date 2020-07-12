@@ -9,6 +9,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.loom.entity.LivingEntityImpl;
 import org.loomdev.loom.math.MathHelp;
@@ -17,6 +18,11 @@ import org.loomdev.loom.util.transformer.TextTransformer;
 public class PlayerImpl extends LivingEntityImpl implements Player {
     public PlayerImpl(ServerPlayerEntity entity) {
         super(entity);
+    }
+
+    @Override
+    public @NonNull EntityType getType() {
+        return EntityType.PLAYER;
     }
 
     @Override

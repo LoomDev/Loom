@@ -9,3 +9,17 @@
      }
  
      protected void mobTick() {
+@@ -126,11 +126,11 @@
+         return this.isFireActive();
+     }
+ 
+-    private boolean isFireActive() {
++    public boolean isFireActive() { // Loom :: public accessor
+         return ((Byte) this.dataTracker.get(BlazeEntity.BLAZE_FLAGS) & 1) != 0;
+     }
+ 
+-    private void setFireActive(boolean flag) {
++    public void setFireActive(boolean flag) { // Loom :: public accessor
+         byte b0 = (Byte) this.dataTracker.get(BlazeEntity.BLAZE_FLAGS);
+ 
+         if (flag) {
