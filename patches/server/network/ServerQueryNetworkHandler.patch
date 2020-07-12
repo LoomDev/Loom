@@ -1,0 +1,23 @@
+--- a/net/minecraft/server/network/ServerQueryNetworkHandler.java
++++ b/net/minecraft/server/network/ServerQueryNetworkHandler.java
+@@ -33,7 +33,20 @@
+             this.connection.disconnect(ServerQueryNetworkHandler.REQUEST_HANDLED);
+         } else {
+             this.responseSent = true;
++            // Loom start :: fire ServerPingedEvent
++            org.loomdev.loom.event.LoomEventDispatcher.onServerPinged(this.connection, this.server.getServerMetadata()).thenAccept(event -> {
++                if (event.isCancelled()) {
++                    return;
++                }
++
++                this.server.getServerMetadata().setDescription(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMotd()));
++                this.server.getServerMetadata().setPlayers(new net.minecraft.server.ServerMetadata.Players(event.getMaxPlayerSlots(), event.getOnlinePlayers()));
++                if (event.getFavicon() != null) {
++                    this.server.getServerMetadata().setFavicon(event.getFavicon());
++                }
+             this.connection.send(new QueryResponseS2CPacket(this.server.getServerMetadata()));
++            });
++            // Loom end
+         }
+     }
+ 

@@ -1,7 +1,11 @@
 package org.loomdev.loom.event;
 
+import net.kyori.adventure.text.TextComponent;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.ClientConnection;
+import net.minecraft.network.packet.c2s.query.QueryRequestC2SPacket;
+import net.minecraft.server.ServerMetadata;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
@@ -17,12 +21,14 @@ import org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent;
 import org.loomdev.api.event.player.PlayerMessageSentEvent;
 import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
 import org.loomdev.api.event.player.connection.PlayerJoinedEvent;
+import org.loomdev.api.event.server.ServerPingedEvent;
 import org.loomdev.api.world.Location;
 import org.loomdev.loom.block.BlockImpl;
 import org.loomdev.loom.entity.decoration.ArmorStandImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
+import java.net.InetSocketAddress;
 import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 
@@ -97,5 +103,15 @@ public final class LoomEventDispatcher {
 
     public static CompletableFuture<PlayerMessageSentEvent> onPlayerMessageSent(ServerPlayerEntity serverPlayerEntity, String message) {
         return fireAsync(new PlayerMessageSentEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), message, new HashSet<>(Loom.getServer().getOnlinePlayers())));
+    }
+
+    public static CompletableFuture<ServerPingedEvent> onServerPinged(ClientConnection connection, ServerMetadata metadata) {
+        return fireAsync(new ServerPingedEvent(
+                ((InetSocketAddress) connection.getAddress()).getAddress(),
+                (TextComponent) TextTransformer.toLoom(metadata.getDescription()),
+                metadata.getPlayers().getOnlinePlayerCount(),
+                metadata.getPlayers().getPlayerLimit(),
+                metadata.getFavicon()
+        ));
     }
 }
