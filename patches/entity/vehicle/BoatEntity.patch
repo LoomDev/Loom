@@ -1,0 +1,11 @@
+--- a/net/minecraft/entity/vehicle/BoatEntity.java
++++ b/net/minecraft/entity/vehicle/BoatEntity.java
+@@ -373,7 +373,7 @@
+         this.dataTracker.set(BoatEntity.RIGHT_PADDLE_MOVING, flag1);
+     }
+ 
+-    private BoatEntity.Location checkLocation() {
++    public BoatEntity.Location checkLocation() { // Loom :: public accessor
+         BoatEntity.Location boatentity_location = this.getUnderWaterLocation();
+ 
+         if (boatentity_location != null) {

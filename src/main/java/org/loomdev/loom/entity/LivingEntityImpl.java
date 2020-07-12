@@ -87,12 +87,12 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
 
     @Override
     public void setMaxAir(int ticks) {
-        getMinecraftEntity().maxAirOverride = OptionalInt.of(ticks);
+        getMinecraftEntity().maxAirOverride = Optional.of(ticks);
     }
 
     @Override
     public void resetMaxAir() {
-        getMinecraftEntity().maxAirOverride = OptionalInt.empty();
+        getMinecraftEntity().maxAirOverride = Optional.empty();
     }
 
     @Override

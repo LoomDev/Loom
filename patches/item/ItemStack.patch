@@ -7,7 +7,7 @@
 +        // Loom start :: fire BlockPlacedEvent and PlantFertilizedEvent
 +        if (playerentity != null) {
 +            if (item != Items.BONE_MEAL && org.loomdev.loom.event.LoomEventDispatcher.onBlockPlaced(itemusagecontext.getWorld(), blockpos, playerentity).isCancelled()) {
-+                playerentity.getLoomEntity().updateInventory();
++                ((org.loomdev.loom.entity.player.PlayerImpl) playerentity.getLoomEntity()).updateInventory();
 +                return ActionResult.FAIL;
 +            } else if (item == Items.BONE_MEAL && org.loomdev.loom.event.LoomEventDispatcher.onPlantFertilized(itemusagecontext.getWorld(), blockpos, playerentity).isCancelled()) {
 +                return ActionResult.FAIL;

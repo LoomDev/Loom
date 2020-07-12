@@ -135,7 +135,7 @@ public class BeeImpl extends AnimalEntityImpl implements Bee {
 
     @Override
     public Optional<LivingEntity> getTarget() {
-        return Optional.ofNullable(getMinecraftEntity().getTarget().getLoomEntity());
+        return Optional.ofNullable( getMinecraftEntity().getTarget()).map(e -> (LivingEntityImpl) e.getLoomEntity());
     }
 
     @Override
