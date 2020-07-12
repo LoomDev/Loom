@@ -8,6 +8,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.command.CommandSource;
+import org.loomdev.api.event.EventHandler;
 import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginMetadata;
 import org.loomdev.loom.command.loom.DebugCommand;
@@ -17,6 +18,7 @@ import org.loomdev.loom.command.loom.VersionCommand;
 import org.loomdev.loom.plugin.PluginManagerImpl;
 import org.loomdev.loom.server.LoomServer;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -85,6 +87,17 @@ public class CommandManagerImpl implements CommandManager {
             registeredCommands.put(name, command);
             pluginCommands.put(metadata.getId(), name);
         }
+    }
+
+    @Override
+    public void unregister(@NonNull Plugin plugin) {
+        server.getPluginManager().fromInstance(plugin).ifPresent((container) -> {
+            Collection<String> commands = pluginCommands.get(container.getMetadata().getId());
+
+            if (commands != null) {
+                commands.forEach(registeredCommands::remove);
+            }
+        });
     }
 
     @Override

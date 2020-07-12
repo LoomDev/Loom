@@ -35,6 +35,8 @@ public class PluginsCommand extends Command {
             Loom.getServer().getPluginManager().enablePlugin(args[2]);
         } else if (args[1].equalsIgnoreCase("disable")) {
             Loom.getServer().getPluginManager().disablePlugin(args[2]);
+        } else if (args[1].equalsIgnoreCase("unload")) {
+            Loom.getServer().broadcastMessage(Loom.getServer().getPluginManager().unloadPlugin(args[2]).toString());
         }
     }
 

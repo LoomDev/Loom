@@ -30,7 +30,7 @@ import java.util.concurrent.Executors;
 
 public class EventManagerImpl implements EventManager {
 
-    private static final Logger LOGGER = LogManager.getLogger(EventManagerImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger("Event Manager");
 
     private final ListMultimap<Object, Object> registeredListenersByPlugin;
     private final ListMultimap<Object, EventHandler<? extends Event>> registeredHandlersByPlugin;

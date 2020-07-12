@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class PluginClassLoader extends URLClassLoader {
+
     private static final Set<PluginClassLoader> loaders = new CopyOnWriteArraySet<>();
 
     static {

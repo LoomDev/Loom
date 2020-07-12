@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import org.loomdev.api.plugin.*;
 import org.loomdev.api.plugin.ap.SerializedPluginMetadata;
 import org.loomdev.loom.plugin.PluginClassLoader;
+import org.loomdev.loom.plugin.loader.LoomPluginContainer;
 import org.loomdev.loom.plugin.loader.LoomPluginMetadata;
 import org.loomdev.loom.server.LoomServer;
 
@@ -30,7 +31,7 @@ public class JavaPluginLoader implements PluginLoader {
     }
 
     @Override
-    public PluginMetadata loadPlugin(Path path) throws Exception {
+    public PluginContainer loadPlugin(Path path) throws Exception {
         Optional<SerializedPluginMetadata> serialized = getSerializedPluginInfo(path);
 
         if (!serialized.isPresent()) {
@@ -49,7 +50,8 @@ public class JavaPluginLoader implements PluginLoader {
         if (!Plugin.class.isAssignableFrom(mainClass)) {
             throw new InvalidPluginException("The main class should implement the Plugin interface.");
         }
-        return createDescription(pd, path, mainClass);
+
+        return new LoomPluginContainer(createDescription(pd, path, mainClass), null, loader);
     }
 
     @Override
@@ -76,8 +78,7 @@ public class JavaPluginLoader implements PluginLoader {
         return instance;
     }
 
-    private Optional<SerializedPluginMetadata> getSerializedPluginInfo(Path source)
-            throws Exception {
+    private Optional<SerializedPluginMetadata> getSerializedPluginInfo(Path source) throws Exception {
         boolean foundBungeeBukkitPluginFile = false;
         try (JarInputStream in = new JarInputStream(
                 new BufferedInputStream(Files.newInputStream(source)))) {

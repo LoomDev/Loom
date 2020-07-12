@@ -27,8 +27,7 @@ public class PluginManagerImpl implements PluginManager {
     private final Map<String, PluginContainer> plugins = new HashMap<>();
     private final Map<Object, PluginContainer> pluginsByInstance = new IdentityHashMap<>();
 
-    public PluginManagerImpl(LoomServer loomServer, Path pluginDirectory) {
-        Preconditions.checkNotNull(pluginDirectory);
+    public PluginManagerImpl(@NonNull LoomServer loomServer, @NonNull Path pluginDirectory) {
         Preconditions.checkArgument(pluginDirectory.toFile().isDirectory(), "provided path isn't a directory");
 
         this.loomServer = loomServer;
@@ -36,19 +35,30 @@ public class PluginManagerImpl implements PluginManager {
         this.loader = new JavaPluginLoader(loomServer, pluginDirectory);
     }
 
+    public Result loadPlugin(Path path) {
+        try {
+            PluginContainer plugin = loader.loadPlugin(path);
+            PluginMetadata metadata = plugin.getMetadata();
+
+            if (plugins.containsKey(metadata.getId())) {
+                return Result.ALREADY_IN_STATE;
+            }
+
+            this.plugins.put(metadata.getId(), plugin);
+            LOGGER.info("Loaded plugin: {} ({})", metadata.getName().orElse(metadata.getId()), metadata.getVersion().orElse("Unknown version"));
+            return Result.SUCCESS;
+        } catch (Exception e) {
+            LOGGER.error("Failed to load plugin: {}", path, e);
+            return Result.FAILED;
+        }
+    }
+
+
     public void loadPlugins() throws IOException {
         LOGGER.info("Loading plugins...");
 
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(this.pluginDirectory, this::validPluginFile)) {
-            for (Path path : stream) {
-                try {
-                    PluginMetadata metadata = loader.loadPlugin(path);
-                    this.plugins.put(metadata.getId(), new LoomPluginContainer(metadata, null));
-                    LOGGER.info("Loaded plugin: {} ({})", metadata.getName().orElse(metadata.getId()), metadata.getVersion().orElse("Unknown version"));
-                } catch (Exception e) {
-                    LOGGER.error("Unable to load plugin {}", path, e);
-                }
-            }
+            stream.forEach(this::loadPlugin);
         }
 
         LOGGER.info("Loaded {} plugins.", this.plugins.size());
@@ -142,11 +152,35 @@ public class PluginManagerImpl implements PluginManager {
 
         plugin.onPluginDisable();
         this.loomServer.getEventManager().unregister(plugin);
+        this.loomServer.getCommandManager().unregister(plugin);
         pluginsByInstance.remove(plugin);
         container.setInstance(null);
 
         LOGGER.info("Disabled plugin {} ({})", container.getMetadata().getName().orElse(id), container.getMetadata().getVersion().orElse("Unknown version"));
         return Result.SUCCESS;
+    }
+
+    @Override
+    public Result unloadPlugin(@NonNull String id) {
+        PluginContainer plugin = this.plugins.get(id);
+
+        if (plugin == null) {
+            return Result.NOT_FOUND;
+        }
+
+        try {
+            PluginMetadata metadata = plugin.getMetadata();
+            this.disablePlugin(metadata.getId());
+            this.plugins.remove(metadata.getId());
+            // TODO remove from plugin instances map as well
+
+            ((PluginClassLoader) plugin.getClassLoader()).close();
+            LOGGER.info("Unloaded plugin: {} ({})", metadata.getName().orElse(metadata.getId()), metadata.getVersion().orElse("Unknown version"));
+            return Result.SUCCESS;
+        } catch (IOException e) {
+            LOGGER.error("Failed to unload plugin: {}", plugin.getMetadata().getId(), e);
+            return Result.FAILED;
+        }
     }
 
     private boolean validPluginFile(Path path) {
