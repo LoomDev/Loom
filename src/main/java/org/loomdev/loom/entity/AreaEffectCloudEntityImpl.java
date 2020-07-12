@@ -144,7 +144,7 @@ public class AreaEffectCloudEntityImpl extends EntityImpl implements AreaEffectC
 
     @Override
     public @NonNull Optional<LivingEntity> getOwner() {
-        return Optional.ofNullable(getMinecraftEntity().getOwner()).map(net.minecraft.entity.LivingEntity::getLoomEntity);
+        return Optional.ofNullable(getMinecraftEntity().getOwner()).map(e -> (LivingEntityImpl) e.getLoomEntity());
     }
 
     @Override

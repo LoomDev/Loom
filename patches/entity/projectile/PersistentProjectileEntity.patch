@@ -1,17 +1,6 @@
 --- a/net/minecraft/entity/projectile/PersistentProjectileEntity.java
 +++ b/net/minecraft/entity/projectile/PersistentProjectileEntity.java
-@@ -46,20 +46,28 @@
- 
- public abstract class PersistentProjectileEntity extends ProjectileEntity {
- 
-+    // Loom start
-+    @Override
-+    public org.loomdev.loom.entity.projectile.PersistentProjectileImpl getLoomEntity() {
-+        return (org.loomdev.loom.entity.projectile.PersistentProjectileImpl) super.getLoomEntity();
-+    }
-+    // Loom end
-+
-     private static final TrackedData<Byte> PROJECTILE_FLAGS = DataTracker.registerData(PersistentProjectileEntity.class, TrackedDataHandlerRegistry.BYTE);
+@@ -50,16 +50,17 @@
      private static final TrackedData<Byte> PIERCE_LEVEL = DataTracker.registerData(PersistentProjectileEntity.class, TrackedDataHandlerRegistry.BYTE);
      @Nullable
      private BlockState inBlockState;
@@ -32,7 +21,7 @@
  
      protected PersistentProjectileEntity(EntityType<? extends PersistentProjectileEntity> entitytype, World world) {
          super(entitytype, world);
-@@ -578,7 +586,7 @@
+@@ -578,7 +579,7 @@
      }
  
      protected float getDragInWater() {

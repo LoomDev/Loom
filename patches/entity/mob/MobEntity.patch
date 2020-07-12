@@ -1,20 +1,6 @@
 --- a/net/minecraft/entity/mob/MobEntity.java
 +++ b/net/minecraft/entity/mob/MobEntity.java
-@@ -78,6 +78,13 @@
- 
- public abstract class MobEntity extends LivingEntity {
- 
-+    // Loom start :: getLoomEntity
-+    @Override
-+    public org.loomdev.loom.entity.mob.MobEntityImpl getLoomEntity() {
-+        return (org.loomdev.loom.entity.mob.MobEntityImpl) super.getLoomEntity();
-+    }
-+    // Loom end :: getLoomEntity
-+
-     private static final TrackedData<Byte> MOB_FLAGS = DataTracker.registerData(MobEntity.class, TrackedDataHandlerRegistry.BYTE);
-     public int ambientSoundChance;
-     protected int experiencePoints;
-@@ -94,8 +101,8 @@
+@@ -94,8 +94,8 @@
      protected final float[] handDropChances;
      private final DefaultedList<ItemStack> armorItems;
      protected final float[] armorDropChances;
@@ -25,7 +11,7 @@
      private final Map<PathNodeType, Float> pathfindingPenalties;
      private Identifier lootTable;
      private long lootTableSeed;
-@@ -1089,7 +1096,7 @@
+@@ -1089,7 +1089,7 @@
              if (itemstack.getItem() instanceof SpawnEggItem) {
                  if (!this.world.isClient) {
                      SpawnEggItem spawneggitem = (SpawnEggItem) itemstack.getItem();
@@ -34,7 +20,7 @@
  
                      optional.ifPresent((mobentity) -> {
                          this.onPlayerSpawnedChild(playerentity, mobentity);
-@@ -1140,7 +1147,7 @@
+@@ -1140,7 +1140,7 @@
          if (this.removed) {
              return null;
          } else {

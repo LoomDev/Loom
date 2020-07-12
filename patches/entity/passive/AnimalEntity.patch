@@ -1,16 +1,8 @@
 --- a/net/minecraft/entity/passive/AnimalEntity.java
 +++ b/net/minecraft/entity/passive/AnimalEntity.java
-@@ -27,8 +27,15 @@
- 
+@@ -28,7 +28,7 @@
  public abstract class AnimalEntity extends PassiveEntity {
  
-+    // Loom start :: getLoomEntity
-+    @Override
-+    public org.loomdev.loom.entity.passive.AnimalEntityImpl getLoomEntity() {
-+        return (org.loomdev.loom.entity.passive.AnimalEntityImpl) super.getLoomEntity();
-+    }
-+    // Loom end :: getLoomEntity
-+
      private int loveTicks;
 -    private UUID lovingPlayer;
 +    public UUID lovingPlayer; // Loom :: public accessor

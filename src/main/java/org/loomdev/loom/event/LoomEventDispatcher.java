@@ -1,7 +1,5 @@
 package org.loomdev.loom.event;
 
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.TextColor;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -9,7 +7,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldAccess;
 import org.loomdev.api.Loom;
-import org.loomdev.api.entity.decoration.ArmorStand;
 import org.loomdev.api.event.Event;
 import org.loomdev.api.event.block.BlockBrokenEvent;
 import org.loomdev.api.event.block.BlockPlacedEvent;
@@ -20,9 +17,10 @@ import org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent;
 import org.loomdev.api.event.player.PlayerMessageSentEvent;
 import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
 import org.loomdev.api.event.player.connection.PlayerJoinedEvent;
-
 import org.loomdev.api.world.Location;
 import org.loomdev.loom.block.BlockImpl;
+import org.loomdev.loom.entity.decoration.ArmorStandImpl;
+import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.util.HashSet;
@@ -44,19 +42,19 @@ public final class LoomEventDispatcher {
 
     public static ArmorStandPlacedEvent onArmorStandPlaced(ArmorStandEntity armorStand, BlockPos blockpos, PlayerEntity player) {
         ArmorStandPlacedEvent event = new ArmorStandPlacedEvent(
-                armorStand.getLoomEntity(),
+                (ArmorStandImpl) armorStand.getLoomEntity(),
                 new Location(null, blockpos.getX(), blockpos.getY(), blockpos.getZ()),
-                player.getLoomEntity()
+                (PlayerImpl) player.getLoomEntity()
         );
         return fire(event);
     }
 
     public static BlockBrokenEvent onBlockBroken(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fire(new BlockBrokenEvent(new BlockImpl(world, pos), player.getLoomEntity()));
+        return fire(new BlockBrokenEvent(new BlockImpl(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static BlockPlacedEvent onBlockPlaced(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fire(new BlockPlacedEvent(new BlockImpl(world, pos), player.getLoomEntity()));
+        return fire(new BlockPlacedEvent(new BlockImpl(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static CoralDiedEvent onCoralDied(WorldAccess world, BlockPos pos) {
@@ -74,11 +72,11 @@ public final class LoomEventDispatcher {
     }
 
     public static PlantFertilizedEvent onPlantFertilized(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fire(new PlantFertilizedEvent(new BlockImpl(world, pos), player.getLoomEntity()));
+        return fire(new PlantFertilizedEvent(new BlockImpl(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static PlantHarvestedEvent onPlantHarvested(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fire(new PlantHarvestedEvent(new BlockImpl(world, pos), player.getLoomEntity()));
+        return fire(new PlantHarvestedEvent(new BlockImpl(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static FluidLevelChangedEvent onFluidLevelChanged(WorldAccess world, BlockPos pos) {
@@ -90,14 +88,14 @@ public final class LoomEventDispatcher {
     }
 
     public static PlayerJoinedEvent onPlayerJoined(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
-        return fire(new PlayerJoinedEvent(serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
+        return fire(new PlayerJoinedEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
     }
 
     public static PlayerDisconnectedEvent onPlayerDisconnected(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
-        return fire(new PlayerDisconnectedEvent(serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
+        return fire(new PlayerDisconnectedEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
     }
 
     public static CompletableFuture<PlayerMessageSentEvent> onPlayerMessageSent(ServerPlayerEntity serverPlayerEntity, String message) {
-        return fireAsync(new PlayerMessageSentEvent(serverPlayerEntity.getLoomEntity(), message, new HashSet<>(Loom.getServer().getOnlinePlayers())));
+        return fireAsync(new PlayerMessageSentEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), message, new HashSet<>(Loom.getServer().getOnlinePlayers())));
     }
 }

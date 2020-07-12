@@ -17,6 +17,7 @@ import org.loomdev.api.server.Server;
 import org.loomdev.api.monitoring.TickTimes;
 import org.loomdev.api.monitoring.Tps;
 import org.loomdev.loom.command.CommandManagerImpl;
+import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.event.EventManagerImpl;
 import org.loomdev.loom.plugin.PluginManagerImpl;
 import org.loomdev.loom.monitoring.LoomTps;
@@ -115,7 +116,7 @@ public class LoomServer implements Server {
         return this.minecraftServer.getPlayerManager()
                 .getPlayerList()
                 .stream()
-                .map(PlayerEntity::getLoomEntity)
+                .map(e -> (PlayerImpl) e.getLoomEntity())
                 .collect(Collectors.toList());
     }
 

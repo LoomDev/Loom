@@ -1,20 +1,6 @@
 --- a/net/minecraft/entity/passive/BeeEntity.java
 +++ b/net/minecraft/entity/passive/BeeEntity.java
-@@ -88,6 +88,13 @@
- 
- public class BeeEntity extends AnimalEntity implements Angerable, Flutterer {
- 
-+    // Loom start :: getLoomEntity
-+    @Override
-+    public org.loomdev.loom.entity.passive.BeeImpl getLoomEntity() {
-+        return (org.loomdev.loom.entity.passive.BeeImpl) super.getLoomEntity();
-+    }
-+    // Loom end :: getLoomEntity
-+
-     private static final TrackedData<Byte> multipleByteTracker = DataTracker.registerData(BeeEntity.class, TrackedDataHandlerRegistry.BYTE);
-     private static final TrackedData<Integer> anger = DataTracker.registerData(BeeEntity.class, TrackedDataHandlerRegistry.INTEGER);
-     private static final IntRange field_25363 = Durations.betweenSeconds(20, 39);
-@@ -96,10 +103,10 @@
+@@ -96,10 +96,10 @@
      private float lastPitch;
      private int ticksSinceSting;
      private int ticksSincePollination;
@@ -27,7 +13,7 @@
      @Nullable
      private BlockPos flowerPos = null;
      @Nullable
-@@ -437,7 +444,7 @@
+@@ -437,7 +437,7 @@
          return this.getBeeFlag(8);
      }
  
@@ -36,7 +22,7 @@
          if (flag) {
              this.resetPollinationTicks();
          }
-@@ -449,7 +456,7 @@
+@@ -449,7 +449,7 @@
          return this.getBeeFlag(4);
      }
  
@@ -45,7 +31,7 @@
          this.setBeeFlag(4, flag);
      }
  
-@@ -541,7 +548,7 @@
+@@ -541,7 +541,7 @@
  
      protected void fall(double d0, boolean flag, BlockState blockstate, BlockPos blockpos) {}
  
@@ -54,7 +40,7 @@
          return true;
      }
  
-@@ -576,9 +583,7 @@
+@@ -576,9 +576,7 @@
          return blockpos.isWithinDistance((Vec3i) this.getBlockPos(), (double) i);
      }
  
