@@ -22,6 +22,7 @@ import org.loomdev.loom.util.transformer.StatusEffectTypeTransformer;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -86,12 +87,12 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
 
     @Override
     public void setMaxAir(int ticks) {
-        getMinecraftEntity().maxAirOverride = Optional.of(ticks);
+        getMinecraftEntity().maxAirOverride = OptionalInt.of(ticks);
     }
 
     @Override
     public void resetMaxAir() {
-        getMinecraftEntity().maxAirOverride = Optional.empty();
+        getMinecraftEntity().maxAirOverride = OptionalInt.empty();
     }
 
     @Override

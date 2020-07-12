@@ -53,8 +53,8 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public @NonNull Component getName() {
-        return TextTransformer.toLoom(this.mcEntity.getName()); // TODO check
+    public @NonNull String getName() {
+        return this.mcEntity.getName().getString(); // TODO check
     }
 
     @Override

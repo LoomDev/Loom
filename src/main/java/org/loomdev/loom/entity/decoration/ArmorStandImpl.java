@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity.decoration;
 
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.entity.EntityType;

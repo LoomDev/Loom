@@ -21,3 +21,45 @@
          this.player.onDisconnect();
          this.server.getPlayerManager().remove(this.player);
          if (this.isHost()) {
+@@ -1071,7 +1074,16 @@
+     }
+ 
+     public void onGameMessage(ChatMessageC2SPacket chatmessagec2spacket) {
++        // Loom start :: make sure all chat is async
++        if (this.server.isStopped()) {
++            return;
++        }
++
++        if (chatmessagec2spacket.getChatMessage().startsWith("/")) {
+         NetworkThreadUtils.forceMainThread(chatmessagec2spacket, this, this.player.getServerWorld());
++        }
++        // Loom end
++
+         if (this.player.getClientChatVisibility() == ChatVisibility.HIDDEN) {
+             this.sendPacket(new GameMessageS2CPacket((new TranslatableText("chat.cannotSend")).formatted(Formatting.RED), MessageType.SYSTEM, Util.NIL_UUID));
+         } else {
+@@ -1088,9 +1100,21 @@
+             if (s.startsWith("/")) {
+                 this.executeCommand(s);
+             } else {
+-                TranslatableText translatabletext = new TranslatableText("chat.type.text", new Object[]{this.player.getDisplayName(), s});
+-
+-                this.server.getPlayerManager().broadcastChatMessage(translatabletext, MessageType.CHAT, this.player.getUuid());
++                // Loom start :: fire PlayerMessageSentEvent and apply formatting
++                org.loomdev.loom.event.LoomEventDispatcher.onPlayerMessageSent(this.player, s).thenAccept(event -> {
++                   try {
++                       net.kyori.adventure.text.TextComponent message = net.kyori.adventure.text.TextComponent.builder()
++                               .append(event.getPrefix().orElse(net.kyori.adventure.text.TextComponent.empty()))
++                               .append(event.getMessage())
++                               .append(event.getSuffix().orElse(net.kyori.adventure.text.TextComponent.empty()))
++                               .build();
++
++                       event.getRecipients().forEach(recipient -> recipient.sendMessage(message));
++                   } catch (Exception e) {
++                       e.printStackTrace();
++                   }
++                });
++                // Loom end
+             }
+ 
+             this.messageCooldown += 20;
