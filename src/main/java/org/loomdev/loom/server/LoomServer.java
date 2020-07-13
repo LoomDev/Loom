@@ -2,6 +2,7 @@ package org.loomdev.loom.server;
 
 import com.google.gson.Gson;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
@@ -10,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.command.CommandManager;
+import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.EventManager;
 import org.loomdev.api.plugin.PluginManager;
@@ -17,6 +19,7 @@ import org.loomdev.api.server.Server;
 import org.loomdev.api.monitoring.TickTimes;
 import org.loomdev.api.monitoring.Tps;
 import org.loomdev.loom.command.CommandManagerImpl;
+import org.loomdev.loom.command.ConsoleSource;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.event.EventManagerImpl;
 import org.loomdev.loom.plugin.PluginManagerImpl;
@@ -39,6 +42,7 @@ public class LoomServer implements Server {
     private final PluginManagerImpl pluginManager;
     private final EventManagerImpl eventManager;
     private final CommandManagerImpl commandManager;
+    private final CommandSource consoleSource;
 
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
@@ -50,6 +54,7 @@ public class LoomServer implements Server {
         this.pluginManager = new PluginManagerImpl(this, this.pluginDirectory);
         this.eventManager = new EventManagerImpl(this.pluginManager);
         this.commandManager = new CommandManagerImpl(this, minecraftServer);
+        this.consoleSource = new ConsoleSource(minecraftServer);
 
         this.tps = new LoomTps();
         this.tickTimes = new LoomTickTimes();
@@ -62,7 +67,7 @@ public class LoomServer implements Server {
         try {
             this.pluginManager.loadPlugins();
         } catch (IOException e) {
-            LOGGER.error("Unable to load plugins. Failed to create a directory stream.", e);
+            LOGGER.error("Failed to load plugins- unable to create a directory stream.", e);
         }
     }
 
@@ -116,8 +121,18 @@ public class LoomServer implements Server {
     }
 
     @Override
+    public void broadcastMessage(@NonNull String message) {
+        this.broadcastMessage(TextComponent.of(message));
+    }
+
+    @Override
     public void broadcastMessage(@NonNull Component component) {
         this.getOnlinePlayers().forEach(player -> player.sendMessage(component));
+    }
+
+    @Override
+    public @NonNull CommandSource getConsoleSource() {
+        return this.consoleSource;
     }
 
     @Override

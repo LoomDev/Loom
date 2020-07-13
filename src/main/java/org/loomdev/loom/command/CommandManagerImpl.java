@@ -3,6 +3,7 @@ package org.loomdev.loom.command;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.command.ServerCommandSource;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.command.Command;
@@ -25,6 +26,7 @@ import java.util.Map;
 public class CommandManagerImpl implements CommandManager {
 
     private final LoomServer server;
+    private final MinecraftServer minecraftServer;
     private final LoomCommandWrapper wrapper;
 
     private final Map<String, Command> commands = new HashMap<>();
@@ -32,6 +34,7 @@ public class CommandManagerImpl implements CommandManager {
 
     public CommandManagerImpl(LoomServer server, MinecraftServer minecraftServer) {
         this.server = server;
+        this.minecraftServer = minecraftServer;
         this.wrapper = new LoomCommandWrapper(server, minecraftServer.serverResourceManager.commandManager.getDispatcher());
 
         register(new DebugCommand());
@@ -113,7 +116,8 @@ public class CommandManagerImpl implements CommandManager {
             return 0;
         }
 
-        Command command = commands.get(args[0].toLowerCase(Locale.ENGLISH).substring(1));
+        String name = args[0].toLowerCase(Locale.ENGLISH);
+        Command command = commands.get(name.startsWith("/") ? name.substring(1) : name);
 
         if (command == null) {
             return 0;

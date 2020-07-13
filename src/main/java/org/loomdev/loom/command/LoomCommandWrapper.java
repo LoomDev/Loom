@@ -35,12 +35,16 @@ public class LoomCommandWrapper implements com.mojang.brigadier.Command<ServerCo
 
     @Override
     public int run(CommandContext<ServerCommandSource> context) {
-        return server.getCommandManager().handle(context.getSource().getEntity().getLoomEntity(), context.getInput());
+        if (context.getSource().getEntity() != null) {
+            return server.getCommandManager().handle(context.getSource().getEntity().getLoomEntity(), context.getInput());
+        }
+
+        return server.getCommandManager().handle(this.server.getConsoleSource(), context.getInput());
     }
 
     @Override
     public boolean test(ServerCommandSource serverCommandSource) {
-        return true; // check for permissions in command manager
+        return true; // TODO check for permissions in command manager
     }
 
     @Override
