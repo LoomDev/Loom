@@ -2,11 +2,9 @@ package org.loomdev.loom.event;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.kyori.event.PostResult;
-import net.kyori.event.SimpleEventBus;
 import net.kyori.event.method.MethodSubscriptionAdapter;
 import net.kyori.event.method.SimpleMethodSubscriptionAdapter;
 import net.kyori.event.method.asm.ASMEventExecutorFactory;
@@ -18,7 +16,7 @@ import org.loomdev.api.event.EventManager;
 import org.loomdev.api.event.EventOrder;
 import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginManager;
-import org.loomdev.loom.plugin.PluginClassLoader;
+import org.loomdev.loom.plugin.loader.PluginClassLoader;
 
 import java.net.URL;
 import java.util.ArrayList;

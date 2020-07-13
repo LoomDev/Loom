@@ -47,7 +47,7 @@ public class LoomServer implements Server {
         Loom.setServer(this);
         this.minecraftServer = minecraftServer;
         this.pluginDirectory = (File) this.minecraftServer.optionSet.valueOf("plugins");
-        this.pluginManager = new PluginManagerImpl(this, this.getPluginDirectory());
+        this.pluginManager = new PluginManagerImpl(this, this.pluginDirectory);
         this.eventManager = new EventManagerImpl(this.pluginManager);
         this.commandManager = new CommandManagerImpl(this, minecraftServer);
 
@@ -58,11 +58,6 @@ public class LoomServer implements Server {
     }
 
     private void init() {
-        // Create required files and directories
-        if (!this.pluginDirectory.exists()) {
-            this.pluginDirectory.mkdirs();
-        }
-
         // Load plugins
         try {
             this.pluginManager.loadPlugins();

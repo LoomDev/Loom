@@ -1,6 +1,7 @@
-package org.loomdev.loom.plugin.loader;
+package org.loomdev.loom.plugin.data;
 
 import com.google.common.collect.ImmutableList;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.plugin.PluginMetadata;
 
 import java.nio.file.Path;
@@ -15,14 +16,16 @@ public class LoomPluginMetadata implements PluginMetadata {
     private final String description;
     private final List<String> authors;
     private final Path source;
+    private final Class<?> mainClass;
 
-    public LoomPluginMetadata(String id, String name, String version, String description, List<String> authors, Path source) {
+    public LoomPluginMetadata(String id, String name, String version, String description, List<String> authors, Path source, Class<?> mainClass) {
         this.id = id;
         this.name = name;
         this.version = version;
         this.description = description;
         this.authors = authors;
         this.source = source;
+        this.mainClass = mainClass;
     }
 
     @Override
@@ -53,5 +56,9 @@ public class LoomPluginMetadata implements PluginMetadata {
     @Override
     public Optional<Path> getSource() {
         return Optional.ofNullable(this.source);
+    }
+
+    public @NonNull Class<?> getMainClass() {
+        return mainClass;
     }
 }

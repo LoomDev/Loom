@@ -21,6 +21,7 @@ import org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent;
 import org.loomdev.api.event.player.PlayerMessageSentEvent;
 import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
 import org.loomdev.api.event.player.connection.PlayerJoinedEvent;
+import org.loomdev.api.event.player.connection.PlayerLoggedInEvent;
 import org.loomdev.api.event.server.ServerPingedEvent;
 import org.loomdev.api.world.Location;
 import org.loomdev.loom.block.BlockImpl;
@@ -92,6 +93,10 @@ public final class LoomEventDispatcher {
     public static SpongeAbsorbedEvent onSpongeAbsorbed(WorldAccess world, BlockPos pos) {
         return fire(new SpongeAbsorbedEvent(new BlockImpl(world, pos)));
     }
+
+    /*public static PlayerLoggedInEvent onPlayerLoggedIn(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
+        return fire(new PlayerLoggedInEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
+    }*/
 
     public static PlayerJoinedEvent onPlayerJoined(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
         return fire(new PlayerJoinedEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));

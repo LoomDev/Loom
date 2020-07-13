@@ -9,6 +9,7 @@ import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginContainer;
+import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.plugin.PluginMetadata;
 
 import java.util.Collection;
@@ -36,7 +37,9 @@ public class PluginsCommand extends Command {
         } else if (args[1].equalsIgnoreCase("disable")) {
             Loom.getServer().getPluginManager().disablePlugin(args[2]);
         } else if (args[1].equalsIgnoreCase("unload")) {
-            Loom.getServer().broadcastMessage(Loom.getServer().getPluginManager().unloadPlugin(args[2]).toString());
+            Loom.getServer().broadcastMessage("unload command called");
+            PluginManager.Result result = Loom.getServer().getPluginManager().unloadPlugin(args[2]);
+            Loom.getServer().broadcastMessage(result.toString());
         }
     }
 

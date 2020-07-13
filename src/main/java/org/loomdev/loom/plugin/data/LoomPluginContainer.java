@@ -1,31 +1,33 @@
-package org.loomdev.loom.plugin.loader;
+package org.loomdev.loom.plugin.data;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginContainer;
 import org.loomdev.api.plugin.PluginMetadata;
-import org.loomdev.loom.plugin.PluginClassLoader;
+import org.loomdev.loom.plugin.loader.PluginClassLoader;
 
 import java.util.Optional;
 
 public class LoomPluginContainer implements PluginContainer {
 
     private final PluginMetadata pluginMetadata;
+    private final PluginClassLoader classloader;
     private Plugin instance;
-    private PluginClassLoader classloader;
 
-    public LoomPluginContainer(PluginMetadata pluginMetadata, Plugin instance, PluginClassLoader classloader) {
+    public LoomPluginContainer(@NonNull PluginMetadata pluginMetadata, @Nullable Plugin instance, @NonNull PluginClassLoader classloader) {
         this.pluginMetadata = pluginMetadata;
         this.instance = instance;
         this.classloader = classloader;
     }
 
     @Override
-    public PluginMetadata getMetadata() {
+    public @NonNull PluginMetadata getMetadata() {
         return this.pluginMetadata;
     }
 
     @Override
-    public Optional<Plugin> getInstance() {
+    public @NonNull Optional<Plugin> getInstance() {
         return Optional.ofNullable(this.instance);
     }
 
@@ -44,7 +46,7 @@ public class LoomPluginContainer implements PluginContainer {
     }
 
     @Override
-    public ClassLoader getClassLoader() {
+    public @NonNull ClassLoader getClassLoader() {
         return this.classloader;
     }
 }

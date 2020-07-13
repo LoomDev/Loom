@@ -1,4 +1,4 @@
-package org.loomdev.loom.plugin;
+package org.loomdev.loom.plugin.loader;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
