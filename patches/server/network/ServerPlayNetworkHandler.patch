@@ -9,19 +9,20 @@
              ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
  
              optional.ifPresent(serverrecipebook::onRecipeDisplayed);
-@@ -1015,7 +1015,10 @@
+@@ -1015,7 +1015,11 @@
      public void onDisconnected(Text text) {
          ServerPlayNetworkHandler.LOGGER.info("{} lost connection: {}", (Object) this.player.getName().getString(), (Object) text.getString());
          this.server.forcePlayerSampleUpdate();
 -        this.server.getPlayerManager().broadcastChatMessage((new TranslatableText("multiplayer.player.left", new Object[]{this.player.getDisplayName()})).formatted(Formatting.YELLOW), MessageType.SYSTEM, Util.NIL_UUID);
 +        // Loom start :: fire PlayerDisconnectedEvent
-+        org.loomdev.api.event.player.connection.PlayerDisconnectedEvent event = org.loomdev.loom.event.LoomEventDispatcher.onPlayerDisconnected(player, (new TranslatableText("multiplayer.player.left", new Object[]{this.player.getDisplayName()})).formatted(Formatting.YELLOW));
-+        this.server.getPlayerManager().broadcastChatMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getDisconnectMessage()), MessageType.SYSTEM, Util.NIL_UUID);
++        org.loomdev.loom.event.LoomEventDispatcher.onPlayerDisconnected(player, (new TranslatableText("multiplayer.player.left", new Object[]{this.player.getDisplayName()})).formatted(Formatting.YELLOW)).thenAccept(event -> {
++            this.server.getPlayerManager().broadcastChatMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getDisconnectMessage()), MessageType.SYSTEM, Util.NIL_UUID);
++        });
 +        // Loom end
          this.player.onDisconnect();
          this.server.getPlayerManager().remove(this.player);
          if (this.isHost()) {
-@@ -1071,7 +1074,16 @@
+@@ -1071,7 +1075,16 @@
      }
  
      public void onGameMessage(ChatMessageC2SPacket chatmessagec2spacket) {
@@ -38,7 +39,7 @@
          if (this.player.getClientChatVisibility() == ChatVisibility.HIDDEN) {
              this.sendPacket(new GameMessageS2CPacket((new TranslatableText("chat.cannotSend")).formatted(Formatting.RED), MessageType.SYSTEM, Util.NIL_UUID));
          } else {
-@@ -1088,9 +1100,17 @@
+@@ -1088,9 +1101,17 @@
              if (s.startsWith("/")) {
                  this.executeCommand(s);
              } else {
