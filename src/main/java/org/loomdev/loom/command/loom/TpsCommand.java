@@ -1,5 +1,7 @@
 package org.loomdev.loom.command.loom;
 
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.minecraft.server.MinecraftServer;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -39,12 +41,21 @@ public class TpsCommand extends Command {
         times.addAll(eval(tickTimes.getTimes(TickTimes.TickTimesInterval.SECONDS_10)));
         times.addAll(eval(tickTimes.getTimes(TickTimes.TickTimesInterval.SECONDS_60)));
 
-        source.sendMessage("§6TPS from last 1m, 5m, 15m: " + String.format("%s, %s, %s",
-                getFormattedTps(tps, Tps.TpsInterval.MINUTES_1),
-                getFormattedTps(tps, Tps.TpsInterval.MINUTES_5),
-                getFormattedTps(tps, Tps.TpsInterval.MINUTES_15)));
-        source.sendMessage("§6Tick rates from last 5s, 10s, 15s:");
-        source.sendMessage(String.format("%s§7/%s§7/%s§e, %s§7/%s§7/%s§e, %s§7/%s§7/%s", times.toArray()));
+        source.sendMessage(TextComponent.builder()
+                .append(TextComponent.of("TPS from the last 1m, 5m, 15m: "))
+                .append(TextComponent.of(String.format("%s§f, %s§f, %s",
+                        getFormattedTps(tps, Tps.TpsInterval.MINUTES_1),
+                        getFormattedTps(tps, Tps.TpsInterval.MINUTES_5),
+                        getFormattedTps(tps, Tps.TpsInterval.MINUTES_15))))
+                .build()
+        );
+
+        source.sendMessage(TextComponent.builder()
+                .append(TextComponent.of("Tick rates: "))
+                .append(TextComponent.of(String.format("%s§7/%s§7/%s§f, %s§7/%s§7/%s§f, %s§7/%s§7/%s", times.toArray()))
+                        .hoverEvent(HoverEvent.showText(TextComponent.of("Tick rates from last 5s, 10s, 15s"))))
+                .build()
+        );
     }
 
     private static String getFormattedTps(Tps tps, Tps.TpsInterval interval) {
@@ -69,6 +80,6 @@ public class TpsCommand extends Command {
     }
 
     private static String getColor(double avg) {
-        return /*ChatColor.COLOR_CHAR*/ "§" + (avg >= 50 ? "c" : avg >= 40 ? "e" : "a") + FORMAT.format(avg); // TODO
+        return "§" + (avg >= 50 ? "c" : avg >= 40 ? "e" : "a") + FORMAT.format(avg);
     }
 }
