@@ -2,11 +2,9 @@ package org.loomdev.loom.entity;
 
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.mob.BlazeEntity;
-import net.minecraft.entity.mob.CaveSpiderEntity;
-import net.minecraft.entity.mob.SpiderEntity;
-import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.passive.CatEntity;
@@ -14,10 +12,8 @@ import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.loomdev.loom.entity.decoration.ArmorStandImpl;
-import org.loomdev.loom.entity.mob.BlazeImpl;
-import org.loomdev.loom.entity.mob.CaveSpiderImpl;
-import org.loomdev.loom.entity.mob.SpiderImpl;
-import org.loomdev.loom.entity.mob.ZombieImpl;
+import org.loomdev.loom.entity.misc.LightningImpl;
+import org.loomdev.loom.entity.mob.*;
 import org.loomdev.loom.entity.passive.BatImpl;
 import org.loomdev.loom.entity.passive.BeeImpl;
 import org.loomdev.loom.entity.passive.CatImpl;
@@ -60,6 +56,10 @@ public final class LoomEntityFactory {
         register(BoatEntity.class, BoatImpl.class);
         register(CatEntity.class, CatImpl.class);
         register(CaveSpiderEntity.class, CaveSpiderImpl.class);
+
+        register(CreeperEntity.class, CreeperImpl.class);
+
+        register(LightningEntity.class, LightningImpl.class);
 
         register(ServerPlayerEntity.class, PlayerImpl.class);
         register(SpiderEntity.class, SpiderImpl.class);

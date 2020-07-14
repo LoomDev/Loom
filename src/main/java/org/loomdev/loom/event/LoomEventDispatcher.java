@@ -1,16 +1,19 @@
 package org.loomdev.loom.event;
 
 import net.kyori.adventure.text.TextComponent;
+import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.ClientConnection;
-import net.minecraft.network.packet.c2s.query.QueryRequestC2SPacket;
 import net.minecraft.server.ServerMetadata;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldAccess;
 import org.loomdev.api.Loom;
+import org.loomdev.api.entity.misc.Lightning;
+import org.loomdev.api.entity.mob.Creeper;
 import org.loomdev.api.event.Event;
 import org.loomdev.api.event.block.BlockBrokenEvent;
 import org.loomdev.api.event.block.BlockPlacedEvent;
@@ -18,10 +21,11 @@ import org.loomdev.api.event.block.entity.ArmorStandPlacedEvent;
 import org.loomdev.api.event.block.fluid.FluidLevelChangedEvent;
 import org.loomdev.api.event.block.plant.*;
 import org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent;
+import org.loomdev.api.event.entity.creeper.CreeperChargedEvent;
+import org.loomdev.api.event.entity.creeper.CreeperIgnitedEvent;
 import org.loomdev.api.event.player.PlayerMessageSentEvent;
 import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
-import org.loomdev.api.event.player.connection.PlayerJoinedEvent;
-import org.loomdev.api.event.player.connection.PlayerLoggedInEvent;
+import org.loomdev.api.event.player.connection.PlayerJoinedEvent;;
 import org.loomdev.api.event.server.ServerPingedEvent;
 import org.loomdev.api.world.Location;
 import org.loomdev.loom.block.BlockImpl;
@@ -118,5 +122,17 @@ public final class LoomEventDispatcher {
                 metadata.getPlayers().getPlayerLimit(),
                 metadata.getFavicon()
         ));
+    }
+
+    public static CompletableFuture<CreeperChargedEvent> onCreeperCharged(CreeperEntity creeper, CreeperChargedEvent.Cause cause) {
+        return fireAsync(new CreeperChargedEvent((Creeper) creeper.getLoomEntity(), cause));
+    }
+
+    public static CompletableFuture<CreeperChargedEvent> onCreeperCharged(CreeperEntity creeper, LightningEntity lightning, CreeperChargedEvent.Cause cause) {
+        return fireAsync(new CreeperChargedEvent((Creeper) creeper.getLoomEntity(), (Lightning) lightning.getLoomEntity(), cause));
+    }
+
+    public static CompletableFuture<CreeperIgnitedEvent> onCreeperIgnited(CreeperEntity creeper) {
+        return fireAsync(new CreeperIgnitedEvent((Creeper) creeper.getLoomEntity()));
     }
 }

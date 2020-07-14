@@ -1,0 +1,11 @@
+--- a/net/minecraft/entity/LightningEntity.java
++++ b/net/minecraft/entity/LightningEntity.java
+@@ -24,7 +24,7 @@
+     private int ambientTick;
+     public long seed;
+     private int remainingActions;
+-    private boolean cosmetic;
++    public boolean cosmetic; // Loom :: public access
+     @Nullable
+     private ServerPlayerEntity channeler;
+ 

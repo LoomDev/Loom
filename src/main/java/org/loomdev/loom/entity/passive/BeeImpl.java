@@ -38,7 +38,7 @@ public class BeeImpl extends AnimalEntityImpl implements Bee {
     }
 
     @Override
-    public void setFlowerLocation(@Nullable Location location) {
+    public void setFlowerLocation(@Nullable Location location) { // TODO this will break
         getMinecraftEntity().setFlowerPos(new BlockPos(location.getX(), location.getY(), location.getZ()));
     }
 
@@ -79,8 +79,8 @@ public class BeeImpl extends AnimalEntityImpl implements Bee {
     }
 
     @Override
-    public void setHasString(boolean b) {
-        getMinecraftEntity().setHasStung(b);
+    public void setHasStung(boolean stung) {
+        getMinecraftEntity().setHasStung(stung);
     }
 
     @Override
