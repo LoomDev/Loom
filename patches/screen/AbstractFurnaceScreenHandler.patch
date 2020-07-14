@@ -1,0 +1,20 @@
+--- a/net/minecraft/screen/AbstractFurnaceScreenHandler.java
++++ b/net/minecraft/screen/AbstractFurnaceScreenHandler.java
+@@ -68,7 +68,7 @@
+     }
+ 
+     public void fillInputSlots(boolean flag, Recipe<?> recipe, ServerPlayerEntity serverplayerentity) {
+-        (new FurnaceInputSlotFiller<>(this)).fillInputSlots(serverplayerentity, recipe, flag);
++        (new FurnaceInputSlotFiller<>(this)).fillInputSlots(serverplayerentity, (Recipe<Inventory>) recipe, flag); // Loom :: decompile error
+     }
+ 
+     public boolean matches(Recipe<? super Inventory> recipe) {
+@@ -145,7 +145,7 @@
+         return this.world.getRecipeManager().getFirstMatch(this.recipeType, new SimpleInventory(new ItemStack[]{itemstack}), this.world).isPresent();
+     }
+ 
+-    protected boolean isFuel(ItemStack itemstack) {
++    public boolean isFuel(ItemStack itemstack) { // Loom :: decompile error
+         return AbstractFurnaceBlockEntity.canUseAsFuel(itemstack);
+     }
+ }
