@@ -18,7 +18,7 @@
      protected static final Logger LOGGER = LogManager.getLogger();
      private static final AtomicInteger MAX_ENTITY_ID = new AtomicInteger();
      private static final List<ItemStack> EMPTY_STACK_LIST = Collections.emptyList();
-@@ -155,7 +166,7 @@
+@@ -155,10 +166,10 @@
      protected boolean submergedInWater;
      @Nullable
      protected Tag<Fluid> field_25599;
@@ -26,7 +26,11 @@
 +    public boolean inLava; // Loom :: plubic accessor
      public int timeUntilRegen;
      protected boolean firstUpdate;
-     protected final DataTracker dataTracker;
+-    protected final DataTracker dataTracker;
++    public final DataTracker dataTracker; // Loom :: public accessor
+     protected static final TrackedData<Byte> FLAGS = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.BYTE);
+     private static final TrackedData<Integer> AIR = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.INTEGER);
+     private static final TrackedData<Optional<Text>> CUSTOM_NAME = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.OPTIONAL_TEXT_COMPONENT);
 @@ -192,6 +203,7 @@
      private long pistonMovementTick;
      private EntityDimensions dimensions;

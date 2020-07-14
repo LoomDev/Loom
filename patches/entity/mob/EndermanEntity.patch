@@ -1,5 +1,14 @@
 --- a/net/minecraft/entity/mob/EndermanEntity.java
 +++ b/net/minecraft/entity/mob/EndermanEntity.java
+@@ -62,7 +62,7 @@
+     private static final EntityAttributeModifier ATTACKING_SPEED_BOOST = new EntityAttributeModifier(EndermanEntity.ATTACKING_SPEED_BOOST_ID, "Attacking speed boost", 0.15000000596046448D, EntityAttributeModifier.Operation.ADDITION);
+     private static final TrackedData<Optional<BlockState>> CARRIED_BLOCK = DataTracker.registerData(EndermanEntity.class, TrackedDataHandlerRegistry.OPTIONAL_BLOCK_STATE);
+     private static final TrackedData<Boolean> ANGRY = DataTracker.registerData(EndermanEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+-    private static final TrackedData<Boolean> PROVOKED = DataTracker.registerData(EndermanEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
++    public static final TrackedData<Boolean> PROVOKED = DataTracker.registerData(EndermanEntity.class, TrackedDataHandlerRegistry.BOOLEAN); // Loom :: public accessor
+     private static final Predicate<LivingEntity> PLAYER_ENDERMITE_PREDICATE = (livingentity) -> {
+         return livingentity instanceof EndermiteEntity && ((EndermiteEntity) livingentity).isPlayerSpawned();
+     };
 @@ -225,7 +225,7 @@
      }
  

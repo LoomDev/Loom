@@ -1,0 +1,30 @@
+--- a/net/minecraft/entity/mob/GuardianEntity.java
++++ b/net/minecraft/entity/mob/GuardianEntity.java
+@@ -107,7 +107,7 @@
+         return (Boolean) this.dataTracker.get(GuardianEntity.SPIKES_RETRACTED);
+     }
+ 
+-    private void setSpikesRetracted(boolean flag) {
++    public void setSpikesRetracted(boolean flag) { // Loom :: public accessor
+         this.dataTracker.set(GuardianEntity.SPIKES_RETRACTED, flag);
+     }
+ 
+@@ -115,7 +115,7 @@
+         return 80;
+     }
+ 
+-    private void setBeamTarget(int i) {
++    public void setBeamTarget(int i) { // Loom :: public accessor
+         this.dataTracker.set(GuardianEntity.BEAM_TARGET_ID, i);
+     }
+ 
+@@ -455,8 +455,6 @@
+             return (livingentity instanceof PlayerEntity || livingentity instanceof SquidEntity) && livingentity.squaredDistanceTo((Entity) this.owner) > 9.0D;
+         }
+ 
+-        public boolean test(@Nullable Object object) {
+-            return this.test((LivingEntity) object);
+-        }
++        // Loom :: decompile error
+     }
+ }
