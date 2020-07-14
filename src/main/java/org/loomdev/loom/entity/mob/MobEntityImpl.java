@@ -1,11 +1,7 @@
 package org.loomdev.loom.entity.mob;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.registry.Registry;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.entity.mob.MobEntity;
 import org.loomdev.api.entity.player.Player;
-import org.loomdev.api.sound.Sound;
 import org.loomdev.loom.entity.LivingEntityImpl;
 
 public class MobEntityImpl extends LivingEntityImpl implements MobEntity {

@@ -15,7 +15,7 @@ import org.loomdev.api.entity.damage.DamageSource;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.math.BoundingBox;
 import org.loomdev.api.math.Vector3d;
-import org.loomdev.api.sound.Sound;
+import org.loomdev.api.sound.Sounds;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.util.transformer.TextTransformer;
@@ -355,7 +355,7 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public void playSound(Sound sound, float v, float p) {
+    public void playSound(Sounds sound, float v, float p) {
         getMinecraftEntity().playSound(Registry.SOUND_EVENT.get(sound.rawId()), v, p);
     }
 

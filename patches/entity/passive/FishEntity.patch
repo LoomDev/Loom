@@ -1,0 +1,20 @@
+--- a/net/minecraft/entity/passive/FishEntity.java
++++ b/net/minecraft/entity/passive/FishEntity.java
+@@ -79,7 +79,7 @@
+         this.dataTracker.startTracking(FishEntity.FROM_BUCKET, false);
+     }
+ 
+-    private boolean isFromBucket() {
++    public boolean isFromBucket() { // Loom :: public accessor
+         return (Boolean) this.dataTracker.get(FishEntity.FROM_BUCKET);
+     }
+ 
+@@ -104,7 +104,7 @@
+         Predicate predicate = EntityPredicates.EXCEPT_SPECTATOR;
+ 
+         predicate.getClass();
+-        goalselector.add(2, new FleeEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, predicate::test));
++        goalselector.add(2, new FleeEntityGoal<PlayerEntity>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, predicate::test)); // Loom :: decompile error
+         this.goalSelector.add(4, new FishEntity.SwimToRandomPlaceGoal(this));
+     }
+ 

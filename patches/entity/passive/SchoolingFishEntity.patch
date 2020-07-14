@@ -1,0 +1,20 @@
+--- a/net/minecraft/entity/passive/SchoolingFishEntity.java
++++ b/net/minecraft/entity/passive/SchoolingFishEntity.java
+@@ -15,6 +15,8 @@
+ 
+ public abstract class SchoolingFishEntity extends FishEntity {
+ 
++    public java.util.OptionalInt maxGroupSizeOverride = java.util.OptionalInt.empty(); // Loom :: Max group size override
++
+     private SchoolingFishEntity leader;
+     private int groupSize = 1;
+ 
+@@ -32,7 +34,7 @@
+     }
+ 
+     public int getMaxGroupSize() {
+-        return super.getLimitPerChunk();
++        return maxGroupSizeOverride.orElse(super.getLimitPerChunk()); // Loom :: Max group size override
+     }
+ 
+     protected boolean hasSelfControl() {

@@ -7,7 +7,7 @@ import net.minecraft.util.registry.Registry;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.entity.projectile.PersistentProjectile;
 import org.loomdev.api.item.ItemStack;
-import org.loomdev.api.sound.Sound;
+import org.loomdev.api.sound.Sounds;
 
 public class PersistentProjectileImpl extends ProjectileImpl implements PersistentProjectile {
 
@@ -111,12 +111,12 @@ public class PersistentProjectileImpl extends ProjectileImpl implements Persiste
     }
 
     @Override
-    public Sound getSound() {
-        return Sound.getByRawId(Registry.SOUND_EVENT.getRawId(getMinecraftEntity().sound)).orElse(null);
+    public Sounds getSound() {
+        return Sounds.getByRawId(Registry.SOUND_EVENT.getRawId(getMinecraftEntity().sound)).orElse(null);
     }
 
     @Override
-    public void setSound(Sound sound) {
+    public void setSound(Sounds sound) {
         getMinecraftEntity().sound = Registry.SOUND_EVENT.get(sound.rawId());
     }
 }

@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity.passive;
 
-import net.minecraft.entity.mob.MobEntity;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.block.Material;
 import org.loomdev.api.entity.passive.AnimalEntity;

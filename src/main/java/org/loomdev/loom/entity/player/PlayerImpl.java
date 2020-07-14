@@ -143,13 +143,13 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
         return !hiddenPlayers.contains(player.getUniqueId());
     }
 
-    @Override
+    //@Override
     public void setPlayerListHeader(@NonNull TextComponent text) {
         this.playerListHeader = text;
         updatePlayerList();
     }
 
-    @Override
+    //@Override
     public void setPlayerListFooter(@NonNull TextComponent text) {
         this.playerListFooter = text;
         updatePlayerList();

@@ -19,4 +19,24 @@ public class ZombieImpl extends HostileEntityImpl implements Zombie {
     public ZombieEntity getMinecraftEntity() {
         return (ZombieEntity) super.getMinecraftEntity();
     }
+
+    @Override
+    public boolean canBreakDoors() {
+        return getMinecraftEntity().canBreakDoors();
+    }
+
+    @Override
+    public void setCanBreakDoors(boolean b) {
+        getMinecraftEntity().setCanBreakDoors(b);
+    }
+
+    @Override
+    public boolean isBaby() {
+        return getMinecraftEntity().isBaby();
+    }
+
+    @Override
+    public void setBaby(boolean b) {
+        getMinecraftEntity().setBaby(b);
+    }
 }

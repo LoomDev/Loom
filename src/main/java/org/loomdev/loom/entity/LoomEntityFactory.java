@@ -5,20 +5,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.mob.*;
-import net.minecraft.entity.passive.BatEntity;
-import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.entity.passive.CatEntity;
+import net.minecraft.entity.passive.*;
 import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.entity.projectile.DragonFireballEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.loomdev.loom.entity.decoration.ArmorStandImpl;
 import org.loomdev.loom.entity.misc.LightningImpl;
 import org.loomdev.loom.entity.mob.*;
-import org.loomdev.loom.entity.passive.BatImpl;
-import org.loomdev.loom.entity.passive.BeeImpl;
-import org.loomdev.loom.entity.passive.CatImpl;
+import org.loomdev.loom.entity.passive.*;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.entity.projectile.ArrowImpl;
+import org.loomdev.loom.entity.projectile.DragonFireballImpl;
 import org.loomdev.loom.entity.vehicle.BoatImpl;
 
 import java.lang.reflect.Constructor;
@@ -56,8 +54,14 @@ public final class LoomEntityFactory {
         register(BoatEntity.class, BoatImpl.class);
         register(CatEntity.class, CatImpl.class);
         register(CaveSpiderEntity.class, CaveSpiderImpl.class);
-
+        register(ChickenEntity.class, ChickenImpl.class);
+        register(CodEntity.class, CodImpl.class);
+        register(CowEntity.class, CowImpl.class);
         register(CreeperEntity.class, CreeperImpl.class);
+        register(DolphinEntity.class, DolphinImpl.class);
+        register(DonkeyEntity.class, DonkeyImpl.class);
+        register(DragonFireballEntity.class, DragonFireballImpl.class);
+        register(DrownedEntity.class, DrownedImpl.class);
 
         register(LightningEntity.class, LightningImpl.class);
 

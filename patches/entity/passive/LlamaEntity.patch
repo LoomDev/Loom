@@ -1,0 +1,22 @@
+--- a/net/minecraft/entity/passive/LlamaEntity.java
++++ b/net/minecraft/entity/passive/LlamaEntity.java
+@@ -331,7 +331,7 @@
+     }
+ 
+     public int getMaxTemper() {
+-        return 30;
++        return maxTemperOverride.orElse(30); // Loom :: Max temper override
+     }
+ 
+     public boolean canBreedWith(AnimalEntity animalentity) {
+@@ -447,9 +447,7 @@
+         this.spitAt(livingentity);
+     }
+ 
+-    public PassiveEntity createChild(PassiveEntity passiveentity) {
+-        return this.createChild(passiveentity);
+-    }
++    // Loom :: decompile error
+ 
+     static class ChaseWolvesGoal extends FollowTargetGoal<WolfEntity> {
+ 

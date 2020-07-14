@@ -1,0 +1,20 @@
+--- a/net/minecraft/entity/passive/HorseBaseEntity.java
++++ b/net/minecraft/entity/passive/HorseBaseEntity.java
+@@ -67,6 +67,8 @@
+ 
+ public abstract class HorseBaseEntity extends AnimalEntity implements InventoryChangedListener, JumpingMount, Saddleable {
+ 
++    public java.util.OptionalInt maxTemperOverride = java.util.OptionalInt.empty(); // Loom :: Max temper override
++
+     private static final Predicate<LivingEntity> IS_BRED_HORSE = (livingentity) -> {
+         return livingentity instanceof HorseBaseEntity && ((HorseBaseEntity) livingentity).isBred();
+     };
+@@ -377,7 +379,7 @@
+     }
+ 
+     public int getMaxTemper() {
+-        return 100;
++        return maxTemperOverride.orElse(100); // Loom :: Max temper override
+     }
+ 
+     protected float getSoundVolume() {
