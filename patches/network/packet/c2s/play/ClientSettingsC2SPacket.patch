@@ -1,0 +1,20 @@
+--- a/net/minecraft/network/packet/c2s/play/ClientSettingsC2SPacket.java
++++ b/net/minecraft/network/packet/c2s/play/ClientSettingsC2SPacket.java
+@@ -11,7 +11,7 @@
+ public class ClientSettingsC2SPacket implements Packet<ServerPlayPacketListener> {
+ 
+     private String language;
+-    private int viewDistance;
++    public int viewDistance; // Loom :: public access
+     private ChatVisibility chatVisibility;
+     private boolean chatColors;
+     private int playerModelBitMask;
+@@ -57,7 +57,5 @@
+         return this.mainArm;
+     }
+ 
+-    public void apply(PacketListener packetlistener) {
+-        this.apply((ServerPlayPacketListener) packetlistener);
+-    }
++    // Loom :: decompile error
+ }

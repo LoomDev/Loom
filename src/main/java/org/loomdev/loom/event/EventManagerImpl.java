@@ -54,7 +54,7 @@ public class EventManagerImpl implements EventManager {
                 new LoomMethodScanner()
         );
         this.executorService = Executors.newFixedThreadPool(
-                Runtime.getRuntime().availableProcessors(),
+                Runtime.getRuntime().availableProcessors(), // TODO configurable in loom.yml
                 new ThreadFactoryBuilder()
                     .setNameFormat("Loom Event Executor #%d")
                     .setDaemon(true)

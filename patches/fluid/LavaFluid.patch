@@ -1,0 +1,32 @@
+--- a/net/minecraft/fluid/LavaFluid.java
++++ b/net/minecraft/fluid/LavaFluid.java
+@@ -50,7 +50,14 @@
+ 
+                     if (blockstate.isAir()) {
+                         if (this.canLightFire(world, blockpos1)) {
+-                            world.setBlockState(blockpos1, AbstractFireBlock.getState(world, blockpos1));
++                            // Loom start :: fire BlockIgnitedEvent
++                            final BlockPos block1 = blockpos1;
++                            org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos1, blockpos).thenAccept(event -> {
++                                if (!event.isCancelled()) {
++                            world.setBlockState(block1, AbstractFireBlock.getState(world, block1));
++                                }
++                            });
++                            // Loom end
+                             return;
+                         }
+                     } else if (blockstate.getMaterial().blocksMovement()) {
+@@ -66,7 +73,13 @@
+                     }
+ 
+                     if (world.isAir(blockpos2.up()) && this.hasBurnableBlock(world, blockpos2)) {
++                        // Loom start :: fire BlockIgnitedEvent
++                        org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos2.up(), blockpos).thenAccept(event -> {
++                            if (!event.isCancelled()) {
+                         world.setBlockState(blockpos2.up(), AbstractFireBlock.getState(world, blockpos2));
++                            }
++                        });
++                        // Loom end
+                     }
+                 }
+             }

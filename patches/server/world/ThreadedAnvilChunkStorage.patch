@@ -1,0 +1,77 @@
+--- a/net/minecraft/server/world/ThreadedAnvilChunkStorage.java
++++ b/net/minecraft/server/world/ThreadedAnvilChunkStorage.java
+@@ -241,9 +241,12 @@
+ 
+         return completablefuture1.thenApply((list1) -> {
+             List<Chunk> list2 = Lists.newArrayList();
+-            final int l1 = 0;
++            // Loom start :: decompile error
++            int count = 0;
+ 
+-            for (Iterator iterator = list1.iterator(); iterator.hasNext(); ++l1) {
++            for (Iterator iterator = list1.iterator(); iterator.hasNext(); ++count) {
++                final int l1 = 0;
++                // Loom end
+                 final Either<Chunk, ChunkHolder.Unloaded> either = (Either) iterator.next();
+                 Optional<Chunk> optional = either.left();
+ 
+@@ -345,7 +348,7 @@
+             ThreadedAnvilChunkStorage.LOGGER.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", (Object) this.saveDir.getName());
+         } else {
+             this.chunkHolders.values().stream().filter(ChunkHolder::isTicking).forEach((chunkholder) -> {
+-                Chunk chunk = (Chunk) chunkholder.getFuture().getNow((Object) null);
++                Chunk chunk = (Chunk) chunkholder.getFuture().getNow(null); // Loom :: decompile error
+ 
+                 if (chunk instanceof ReadOnlyChunk || chunk instanceof WorldChunk) {
+                     this.save(chunk);
+@@ -395,7 +398,7 @@
+ 
+     private void tryUnloadChunk(long i, ChunkHolder chunkholder) {
+         CompletableFuture<Chunk> completablefuture = chunkholder.getFuture();
+-        Consumer consumer = (chunk) -> {
++        Consumer<Chunk> consumer = (chunk) -> { // Loom :: decompile error
+             CompletableFuture<Chunk> completablefuture1 = chunkholder.getFuture();
+ 
+             if (completablefuture1 != completablefuture) {
+@@ -620,7 +623,7 @@
+ 
+                             if (!(entity instanceof PlayerEntity) && !this.world.loadEntity(entity)) {
+                                 if (list == null) {
+-                                    list = Lists.newArrayList((Object[]) (entity));
++                                    list = Lists.newArrayList(entity); // Loom :: decompile error
+                                 } else {
+                                     list.add(entity);
+                                 }
+@@ -829,7 +832,7 @@
+                 return chunk instanceof WorldChunk ? Optional.of((WorldChunk) chunk) : Optional.empty();
+             });
+ 
+-            csvwriter.printRow(chunkpos.x, chunkpos.z, chunkholder.getLevel(), optional.isPresent(), optional.map(Chunk::getStatus).orElse((Object) null), optional1.map(WorldChunk::getLevelType).orElse((Object) null), getFutureStatus(chunkholder.getBorderFuture()), getFutureStatus(chunkholder.getTickingFuture()), getFutureStatus(chunkholder.getEntityTickingFuture()), this.ticketManager.getTicket(long2objectmap_entry.getLongKey()), !this.isTooFarFromPlayersToSpawnMobs(chunkpos), optional1.map((worldchunk) -> {
++            csvwriter.printRow(chunkpos.x, chunkpos.z, chunkholder.getLevel(), optional.isPresent(), optional.map(Chunk::getStatus).orElse(null), optional1.map(WorldChunk::getLevelType).orElse(null), getFutureStatus(chunkholder.getBorderFuture()), getFutureStatus(chunkholder.getTickingFuture()), getFutureStatus(chunkholder.getEntityTickingFuture()), this.ticketManager.getTicket(long2objectmap_entry.getLongKey()), !this.isTooFarFromPlayersToSpawnMobs(chunkpos), optional1.map((worldchunk) -> { // Loom :: decompile error
+                 return Stream.of(worldchunk.getEntitySectionArray()).mapToInt(TypeFilterableList::size).sum();
+             }).orElse(0), optional1.map((worldchunk) -> {
+                 return worldchunk.getBlockEntities().size();
+@@ -840,7 +843,7 @@
+ 
+     private static String getFutureStatus(CompletableFuture<Either<WorldChunk, ChunkHolder.Unloaded>> completablefuture) {
+         try {
+-            Either<WorldChunk, ChunkHolder.Unloaded> either = (Either) completablefuture.getNow((Object) null);
++            Either<WorldChunk, ChunkHolder.Unloaded> either = (Either) completablefuture.getNow(null); // Loom :: decompile error
+ 
+             return either != null ? (String) either.map((worldchunk) -> {
+                 return "done";
+@@ -1258,6 +1261,14 @@
+                         }
+                     }
+ 
++                    // Loom start :: vanish api
++                    if (this.entity instanceof ServerPlayerEntity) {
++                        if (!((org.loomdev.loom.entity.player.PlayerImpl) serverplayerentity.getLoomEntity()).canSee((org.loomdev.loom.entity.player.PlayerImpl) this.entity.getLoomEntity())) {
++                            flag1 = false;
++                        }
++                    }
++                    // Loom end
++
+                     if (flag1 && this.playersTracking.add(serverplayerentity)) {
+                         this.entry.startTracking(serverplayerentity);
+                     }

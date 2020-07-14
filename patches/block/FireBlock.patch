@@ -1,0 +1,68 @@
+--- a/net/minecraft/block/FireBlock.java
++++ b/net/minecraft/block/FireBlock.java
+@@ -146,12 +146,14 @@
+                 boolean flag1 = serverworld.hasHighHumidity(blockpos);
+                 int k = flag1 ? -50 : 0;
+ 
+-                this.trySpreadingFire(serverworld, blockpos.east(), 300 + k, random, i);
+-                this.trySpreadingFire(serverworld, blockpos.west(), 300 + k, random, i);
+-                this.trySpreadingFire(serverworld, blockpos.down(), 250 + k, random, i);
+-                this.trySpreadingFire(serverworld, blockpos.up(), 250 + k, random, i);
+-                this.trySpreadingFire(serverworld, blockpos.north(), 300 + k, random, i);
+-                this.trySpreadingFire(serverworld, blockpos.south(), 300 + k, random, i);
++                // Loom start :: implement fire source paramter
++                this.trySpreadingFire(serverworld, blockpos.east(), 300 + k, random, i, blockpos);
++                this.trySpreadingFire(serverworld, blockpos.west(), 300 + k, random, i, blockpos);
++                this.trySpreadingFire(serverworld, blockpos.down(), 250 + k, random, i, blockpos);
++                this.trySpreadingFire(serverworld, blockpos.up(), 250 + k, random, i, blockpos);
++                this.trySpreadingFire(serverworld, blockpos.north(), 300 + k, random, i, blockpos);
++                this.trySpreadingFire(serverworld, blockpos.south(), 300 + k, random, i, blockpos);
++                // Loom end
+                 BlockPos.Mutable blockpos_mutable = new BlockPos.Mutable();
+ 
+                 for (int l = -1; l <= 1; ++l) {
+@@ -177,7 +179,15 @@
+                                     if (i2 > 0 && random.nextInt(k1) <= i2 && (!serverworld.isRaining() || !this.isRainingAround(serverworld, blockpos_mutable))) {
+                                         int j2 = Math.min(15, i + random.nextInt(5) / 4);
+ 
++                                        // Loom start :: fire BlockIgnitedEvent
++                                        org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(serverworld, blockpos_mutable, blockpos).thenAccept(event -> {
++                                            if (event.isCancelled()) {
++                                                return;
++                                            }
++
+                                         serverworld.setBlockState(blockpos_mutable, this.method_24855(serverworld, blockpos_mutable, j2), 3);
++                                        });
++                                        // Loom end
+                                     }
+                                 }
+                             }
+@@ -201,12 +211,18 @@
+         return blockstate.contains(Properties.WATERLOGGED) && (Boolean) blockstate.get(Properties.WATERLOGGED) ? 0 : this.burnChances.getInt(blockstate.getBlock());
+     }
+ 
+-    private void trySpreadingFire(World world, BlockPos blockpos, int i, Random random, int j) {
++    private void trySpreadingFire(World world, BlockPos blockpos, int i, Random random, int j, BlockPos sourcepos) { // Loom :: add fire source position parameter
+         int k = this.getSpreadChance(world.getBlockState(blockpos));
+ 
+         if (random.nextInt(i) < k) {
+             BlockState blockstate = world.getBlockState(blockpos);
+ 
++            // Loom start :: fire BlockBurnedEvent
++            org.loomdev.loom.event.LoomEventDispatcher.onBlockBurned(world, blockpos, sourcepos).thenAccept(event -> {
++                if (event.isCancelled()) {
++                    return;
++                }
++
+             if (random.nextInt(j + 10) < 5 && !world.hasRain(blockpos)) {
+                 int l = Math.min(j + random.nextInt(5) / 4, 15);
+ 
+@@ -222,6 +238,8 @@
+ 
+                 TntBlock.primeTnt(world, blockpos);
+             }
++            });
++            // Loom end
+         }
+ 
+     }

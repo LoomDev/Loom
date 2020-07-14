@@ -4,8 +4,11 @@ import com.google.gson.Gson;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.minecraft.SharedConstants;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -18,6 +21,7 @@ import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.server.Server;
 import org.loomdev.api.monitoring.TickTimes;
 import org.loomdev.api.monitoring.Tps;
+import org.loomdev.api.world.World;
 import org.loomdev.loom.command.CommandManagerImpl;
 import org.loomdev.loom.command.ConsoleSource;
 import org.loomdev.loom.entity.player.PlayerImpl;
@@ -25,11 +29,12 @@ import org.loomdev.loom.event.EventManagerImpl;
 import org.loomdev.loom.plugin.PluginManagerImpl;
 import org.loomdev.loom.monitoring.LoomTps;
 import org.loomdev.loom.monitoring.LoomTickTimes;
+import org.loomdev.loom.world.WorldImpl;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collection;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class LoomServer implements Server {
@@ -46,6 +51,8 @@ public class LoomServer implements Server {
 
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
+
+    private final Map<String, World> worlds = new LinkedHashMap<>();
 
     public LoomServer(MinecraftServer minecraftServer) {
         Loom.setServer(this);
@@ -143,5 +150,34 @@ public class LoomServer implements Server {
     @Override
     public @NonNull TickTimes getTickTimes() {
         return this.tickTimes;
+    }
+
+    @Override
+    public @NonNull Optional<World> getWorld(@NonNull String name) {
+        for (ServerWorld world : this.minecraftServer.getWorlds()) {
+            if (world.field_24456.getLevelName().equals(name)) {
+                return Optional.of(WorldImpl.of(world));
+            }
+        }
+        
+        return Optional.empty();
+        //return Optional.ofNullable(this.worlds.get(name));
+    }
+
+    @Override
+    public @NonNull Optional<World> getWorld(@NonNull UUID uuid) {
+        return this.worlds.values().stream()
+                .filter(world -> world.getUUID().equals(uuid))
+                .findFirst();
+    }
+
+    @Override
+    public int getProtocolVersion() {
+        return SharedConstants.getGameVersion().getProtocolVersion();
+    }
+
+    @Override
+    public int getViewDistance() {
+        return this.minecraftServer.getPlayerManager().getViewDistance();
     }
 }

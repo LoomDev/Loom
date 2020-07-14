@@ -5,21 +5,29 @@ import net.kyori.adventure.text.TextComponent;
 import net.minecraft.network.packet.s2c.play.PlayerListHeaderS2CPacket;
 import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.LiteralText;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.loomdev.api.Loom;
+import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
+import org.loomdev.api.world.Location;
+import org.loomdev.api.world.Weather;
 import org.loomdev.loom.entity.LivingEntityImpl;
 import org.loomdev.loom.math.MathHelp;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
+import java.net.InetSocketAddress;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
 public class PlayerImpl extends LivingEntityImpl implements Player {
 
-    private TextComponent playerListHeader = TextComponent.empty();
-    private TextComponent playerListFooter = TextComponent.empty();
+    private Optional<TextComponent> tabListName = Optional.empty();
+    private TextComponent tabListHeader = TextComponent.empty();
+    private TextComponent tabListFooter = TextComponent.empty();
 
     private final Set<UUID> hiddenPlayers = new HashSet<>();
 
@@ -35,6 +43,11 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     public ServerPlayerEntity getMinecraftEntity() {
         return (ServerPlayerEntity) super.getMinecraftEntity();
+    }
+
+    @Override
+    public boolean isConnected() {
+        return getMinecraftEntity().networkHandler != null;
     }
 
     @Override
@@ -80,6 +93,11 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
+    public int getViewDistance() {
+        return getMinecraftEntity().viewDistance.orElse(Loom.getServer().getViewDistance());
+    }
+
+    @Override
     public void updateInventory() {
         getMinecraftEntity().openHandledScreen(getMinecraftEntity().currentScreenHandler);
     }
@@ -90,7 +108,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public void sendActionbar(@NonNull Component message) {
+    public void sendActionbar(@NonNull TextComponent message) {
         getMinecraftEntity().sendMessage(TextTransformer.toMinecraft(message), true);
     }
 
@@ -110,7 +128,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public void sendTitle(@NonNull Component title, @NonNull Component subtitle) {
+    public void sendTitle(@NonNull TextComponent title, @NonNull TextComponent subtitle) {
         sendTitle(title, subtitle, 10, 70, 20);
     }
 
@@ -120,7 +138,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public void sendTitle(@NonNull Component title, @NonNull Component subtitle, int fadeIn, int stay, int fadeOut) {
+    public void sendTitle(@NonNull TextComponent title, @NonNull TextComponent subtitle, int fadeIn, int stay, int fadeOut) {
         getMinecraftEntity().networkHandler.sendPacket(new TitleS2CPacket(TitleS2CPacket.Action.TIMES, null, fadeIn, stay, fadeOut));
         getMinecraftEntity().networkHandler.sendPacket(new TitleS2CPacket(TitleS2CPacket.Action.TITLE, TextTransformer.toMinecraft(title), 0, 0, 0));
         getMinecraftEntity().networkHandler.sendPacket(new TitleS2CPacket(TitleS2CPacket.Action.SUBTITLE, TextTransformer.toMinecraft(subtitle), 0, 0, 0));
@@ -143,22 +161,111 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
         return !hiddenPlayers.contains(player.getUniqueId());
     }
 
-    //@Override
-    public void setPlayerListHeader(@NonNull TextComponent text) {
-        this.playerListHeader = text;
+    @Override
+    public @NonNull Optional<InetSocketAddress> getAddress() {
+        return Optional.ofNullable((InetSocketAddress) getMinecraftEntity().networkHandler.connection.getAddress());
+    }
+
+    @Override
+    public int getProtocolVersion() {
+        return Loom.getServer().getProtocolVersion(); // TODO
+    }
+
+    @Override
+    public @NonNull Optional<TextComponent> getTabListName() {
+        return Optional.of(this.tabListName.orElse(this.getDisplayName()));
+    }
+
+    @Override
+    public void setTabListName(@NonNull TextComponent name) {
+        this.tabListName = Optional.of(name);
+    }
+
+    @Override
+    public @NonNull Optional<TextComponent> getTabListHeader() {
+        return Optional.of(this.tabListHeader);
+    }
+
+    @Override
+    public void setTabListHeader(@NonNull TextComponent header) {
+        this.tabListHeader = header;
         updatePlayerList();
     }
 
-    //@Override
-    public void setPlayerListFooter(@NonNull TextComponent text) {
-        this.playerListFooter = text;
+    @Override
+    public @NonNull Optional<TextComponent> getTabListFooter() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void setTabListFooter(@NonNull TextComponent footer) {
+        this.tabListFooter = footer;
         updatePlayerList();
+    }
+
+    @Override
+    public @NonNull Optional<Location> getBedLocation() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void setBedLocation(@NonNull Location location) {
+
+    }
+
+    @Override
+    public @NonNull Optional<Location> getCompassTarget() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void setCompassTarget(@NonNull Location location) {
+
+    }
+
+    @Override
+    public @NonNull Optional<Entity> getSpectatorTarget() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void setSpectatorTarget(@NonNull Entity entity) {
+
+    }
+
+    @Override
+    public @NonNull Optional<Weather> getWeather() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void setWeather(@NonNull Weather weather) {
+
+    }
+
+    @Override
+    public void resetWeather() {
+
+    }
+
+    @Override
+    public void kick(@NonNull String message) {
+        if (isConnected()) {
+            getMinecraftEntity().networkHandler.disconnect(new LiteralText(message));
+        }
+    }
+
+    @Override
+    public void kick(@NonNull TextComponent message) {
+        if (isConnected()) {
+            getMinecraftEntity().networkHandler.disconnect(TextTransformer.toMinecraft(message));
+        }
     }
 
     private void updatePlayerList() {
         PlayerListHeaderS2CPacket packet = new PlayerListHeaderS2CPacket();
-        packet.header = TextTransformer.toMinecraft(this.playerListHeader);
-        packet.footer = TextTransformer.toMinecraft(this.playerListFooter);
+        packet.header = TextTransformer.toMinecraft(this.tabListHeader);
+        packet.footer = TextTransformer.toMinecraft(this.tabListFooter);
         getMinecraftEntity().networkHandler.sendPacket(packet);
     }
 }

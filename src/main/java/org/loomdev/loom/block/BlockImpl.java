@@ -19,6 +19,10 @@ public class BlockImpl implements Block {
         this.mcBlock = world.getBlockState(pos);
     }
 
+    public static BlockImpl of(WorldAccess world, BlockPos pos) {
+        return new BlockImpl(world, pos);
+    }
+
     public net.minecraft.block.BlockState getMinecraftBlock() {
         return this.mcBlock;
     }

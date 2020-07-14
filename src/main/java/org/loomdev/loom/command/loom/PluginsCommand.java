@@ -11,7 +11,9 @@ import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginContainer;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.plugin.PluginMetadata;
+import org.loomdev.loom.plugin.PluginManagerImpl;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
@@ -40,6 +42,12 @@ public class PluginsCommand extends Command {
             Loom.getServer().broadcastMessage("unload command called");
             PluginManager.Result result = Loom.getServer().getPluginManager().unloadPlugin(args[2]);
             Loom.getServer().broadcastMessage(result.toString());
+        } else if (args[1].equalsIgnoreCase("load-all")) {
+            try {
+                ((PluginManagerImpl) Loom.getServer().getPluginManager()).loadPlugins();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

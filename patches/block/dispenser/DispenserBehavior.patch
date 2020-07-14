@@ -1,0 +1,16 @@
+--- a/net/minecraft/block/dispenser/DispenserBehavior.java
++++ b/net/minecraft/block/dispenser/DispenserBehavior.java
+@@ -403,7 +403,13 @@
+                 BlockState blockstate = world.getBlockState(blockpos);
+ 
+                 if (AbstractFireBlock.method_30032(world, blockpos)) {
++                    // Loom start :: fire BlockIgnitedEvent
++                    org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, blockpointer.getBlockPos()).thenAccept(event -> {
++                       if (!event.isCancelled()) {
+                     world.setBlockState(blockpos, AbstractFireBlock.getState(world, blockpos));
++                       }
++                    });
++                    // Loom end
+                 } else if (CampfireBlock.method_30035(blockstate)) {
+                     world.setBlockState(blockpos, (BlockState) blockstate.with(Properties.LIT, true));
+                 } else if (blockstate.getBlock() instanceof TntBlock) {

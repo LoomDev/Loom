@@ -1,15 +1,34 @@
 --- a/net/minecraft/server/network/ServerPlayerInteractionManager.java
 +++ b/net/minecraft/server/network/ServerPlayerInteractionManager.java
-@@ -236,6 +236,12 @@
-     public boolean tryBreakBlock(BlockPos blockpos) {
-         BlockState blockstate = this.world.getBlockState(blockpos);
+@@ -102,7 +102,13 @@
  
+                 if (f >= 1.0F) {
+                     this.failedToMine = false;
++                    // Loom start :: fire BlockBrokenEvent
++                    org.loomdev.loom.event.LoomEventDispatcher.onBlockBroken(this.world, this.failedMiningPos, this.player).thenAccept(event -> {
++                        if (!event.isCancelled()) {
+                     this.tryBreakBlock(this.failedMiningPos);
++                        }
++                    });
++                    // Loom end
+                 }
+             }
+         } else if (this.mining) {
+@@ -225,12 +231,15 @@
+     }
+ 
+     public void finishMining(BlockPos blockpos, PlayerActionC2SPacket.Action playeractionc2spacket_action, String s) {
+-        if (this.tryBreakBlock(blockpos)) {
 +        // Loom start :: fire BlockBrokenEvent
-+        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBroken(world, blockpos, player).isCancelled()) {
-+            return false;
-+        }
-+        // Loom end
-+
-         if (!this.player.getMainHandStack().getItem().canMine(blockstate, this.world, blockpos, this.player)) {
-             return false;
++        org.loomdev.loom.event.LoomEventDispatcher.onBlockBroken(world, blockpos, player).thenAccept(event -> {
++        if (!event.isCancelled() && this.tryBreakBlock(blockpos)) {
+             this.player.networkHandler.sendPacket(new PlayerActionResponseS2CPacket(blockpos, this.world.getBlockState(blockpos), playeractionc2spacket_action, true, s));
          } else {
+             this.player.networkHandler.sendPacket(new PlayerActionResponseS2CPacket(blockpos, this.world.getBlockState(blockpos), playeractionc2spacket_action, false, s));
+         }
+-
++        });
++        // Loom end
+     }
+ 
+     public boolean tryBreakBlock(BlockPos blockpos) {

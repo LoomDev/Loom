@@ -1,6 +1,10 @@
 package org.loomdev.loom.event;
 
 import net.kyori.adventure.text.TextComponent;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.mob.CreeperEntity;
@@ -16,6 +20,8 @@ import org.loomdev.api.entity.misc.Lightning;
 import org.loomdev.api.entity.mob.Creeper;
 import org.loomdev.api.event.Event;
 import org.loomdev.api.event.block.BlockBrokenEvent;
+import org.loomdev.api.event.block.BlockBurnedEvent;
+import org.loomdev.api.event.block.BlockIgnitedEvent;
 import org.loomdev.api.event.block.BlockPlacedEvent;
 import org.loomdev.api.event.block.entity.ArmorStandPlacedEvent;
 import org.loomdev.api.event.block.fluid.FluidLevelChangedEvent;
@@ -60,50 +66,71 @@ public final class LoomEventDispatcher {
         return fire(event);
     }
 
-    public static BlockBrokenEvent onBlockBroken(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fire(new BlockBrokenEvent(new BlockImpl(world, pos), (PlayerImpl) player.getLoomEntity()));
+    public static CompletableFuture<BlockBrokenEvent> onBlockBroken(WorldAccess world, BlockPos pos, PlayerEntity player) {
+        return fireAsync(new BlockBrokenEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static BlockPlacedEvent onBlockPlaced(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fire(new BlockPlacedEvent(new BlockImpl(world, pos), (PlayerImpl) player.getLoomEntity()));
+        return fire(new BlockPlacedEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
-    public static CoralDiedEvent onCoralDied(WorldAccess world, BlockPos pos) {
-        return fire(new CoralDiedEvent(new BlockImpl(world, pos)));
+    public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, BlockPos ignitingpos) {
+        net.minecraft.block.Block ignitingBlock = world.getBlockState(ignitingpos).getBlock();
+        BlockIgnitedEvent.Cause cause = BlockIgnitedEvent.Cause.SPREAD;
+
+        if (ignitingBlock.is(Blocks.LAVA)) {
+            cause = BlockIgnitedEvent.Cause.LAVA;
+        } else if (ignitingBlock.is(Blocks.DISPENSER)) {
+            cause = BlockIgnitedEvent.Cause.FLINT_AND_STEEL;
+        }
+
+        return fireAsync(new BlockIgnitedEvent(BlockImpl.of(world, pos), cause, BlockImpl.of(world, ignitingpos), null));
     }
 
-    public static LeavesDecayedEvent onLeavesDecayed(WorldAccess world, BlockPos pos) {
-        return fire(new LeavesDecayedEvent(new BlockImpl(world, pos)));
+    public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, Entity igniter) {
+        return null; // TODO
+    }
+
+    public static CompletableFuture<BlockBurnedEvent> onBlockBurned(WorldAccess world, BlockPos pos, BlockPos ignitingpos) {
+        return fireAsync(new BlockBurnedEvent(BlockImpl.of(world, pos), BlockImpl.of(world, ignitingpos)));
+    }
+
+    public static CompletableFuture<CoralDiedEvent> onCoralDied(WorldAccess world, BlockPos pos) {
+        return fireAsync(new CoralDiedEvent(BlockImpl.of(world, pos)));
+    }
+
+    public static CompletableFuture<LeavesDecayedEvent> onLeavesDecayed(WorldAccess world, BlockPos pos) {
+        return fireAsync(new LeavesDecayedEvent(BlockImpl.of(world, pos)));
     }
 
     public static PlantGrewEvent onPlantGrew(WorldAccess world, BlockPos pos) {
-        PlantGrewEvent event = new PlantGrewEvent(new BlockImpl(world, pos)); // TODO remove variable
+        PlantGrewEvent event = new PlantGrewEvent(BlockImpl.of(world, pos)); // TODO remove variable
         event.setCancelled(true);
         return fire(event);
     }
 
     public static PlantFertilizedEvent onPlantFertilized(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fire(new PlantFertilizedEvent(new BlockImpl(world, pos), (PlayerImpl) player.getLoomEntity()));
+        return fire(new PlantFertilizedEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static PlantHarvestedEvent onPlantHarvested(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fire(new PlantHarvestedEvent(new BlockImpl(world, pos), (PlayerImpl) player.getLoomEntity()));
+        return fire(new PlantHarvestedEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static FluidLevelChangedEvent onFluidLevelChanged(WorldAccess world, BlockPos pos) {
-        return fire(new FluidLevelChangedEvent(new BlockImpl(world, pos)));
+        return fire(new FluidLevelChangedEvent(BlockImpl.of(world, pos)));
     }
 
     public static SpongeAbsorbedEvent onSpongeAbsorbed(WorldAccess world, BlockPos pos) {
-        return fire(new SpongeAbsorbedEvent(new BlockImpl(world, pos)));
+        return fire(new SpongeAbsorbedEvent(BlockImpl.of(world, pos)));
     }
 
     /*public static PlayerLoggedInEvent onPlayerLoggedIn(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
         return fire(new PlayerLoggedInEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
     }*/
 
-    public static PlayerJoinedEvent onPlayerJoined(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
-        return fire(new PlayerJoinedEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
+    public static CompletableFuture<PlayerJoinedEvent> onPlayerJoined(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
+        return fireAsync(new PlayerJoinedEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
     }
 
     public static CompletableFuture<PlayerDisconnectedEvent> onPlayerDisconnected(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {

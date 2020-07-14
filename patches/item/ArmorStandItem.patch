@@ -5,7 +5,7 @@
  
              if (world.doesNotCollide((Entity) armorstandentity) && world.getEntities(armorstandentity, armorstandentity.getBoundingBox()).isEmpty()) {
 +                // Loom start :: fire ArmorStandPlacedEvent
-+                if (org.loomdev.loom.event.LoomEventDispatcher.onArmorStandPlaced(armorstandentity, blockpos, itemplacementcontext.getPlayer()).isCancelled()) {
++                if (itemplacementcontext.getPlayer() != null && org.loomdev.loom.event.LoomEventDispatcher.onArmorStandPlaced(armorstandentity, blockpos, itemplacementcontext.getPlayer()).isCancelled()) {
 +                    return ActionResult.FAIL;
 +                }
 +                // Loom end

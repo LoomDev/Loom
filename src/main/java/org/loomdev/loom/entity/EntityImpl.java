@@ -2,8 +2,8 @@ package org.loomdev.loom.entity;
 
 import com.google.common.base.Preconditions;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -58,20 +58,20 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public @NonNull Component getDisplayName() {
-        return TextTransformer.toLoom(this.mcEntity.getName()); // TODO check
+    public @NonNull TextComponent getDisplayName() {
+        return (TextComponent) TextTransformer.toLoom(this.mcEntity.getDisplayName()); // TODO check
     }
 
     @Override
-    public @NonNull Optional<Component> getCustomName() {
+    public @NonNull Optional<TextComponent> getCustomName() {
         if (!this.hasCustomName()) {
             return Optional.empty();
         }
-        return Optional.of(TextTransformer.toLoom(this.mcEntity.getCustomName())); // TODO check
+        return Optional.of((TextComponent) TextTransformer.toLoom(this.mcEntity.getCustomName())); // TODO check
     }
 
     @Override
-    public void setCustomName(@NonNull Component component) {
+    public void setCustomName(@NonNull TextComponent component) {
         this.mcEntity.setCustomName(TextTransformer.toMinecraft(component)); // TODO check
     }
 
