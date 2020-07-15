@@ -7,6 +7,7 @@ import org.loomdev.api.scheduler.Task;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TaskImpl extends FutureTask<Void> implements Task {
@@ -124,8 +125,20 @@ public class TaskImpl extends FutureTask<Void> implements Task {
         }
 
         @Override
+        public Builder delay(long l, TimeUnit timeUnit) {
+            this.delayTicks = timeUnit.convert(l,  TimeUnit.SECONDS) / 20;
+            return this;
+        }
+
+        @Override
         public Builder delayTicks(long l) {
             this.delayTicks = l;
+            return this;
+        }
+
+        @Override
+        public Builder interval(long l, TimeUnit timeUnit) {
+            this.intervalTicks = timeUnit.convert(l, TimeUnit.SECONDS) / 20;
             return this;
         }
 
