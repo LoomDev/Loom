@@ -6,7 +6,7 @@ import org.loomdev.api.plugin.*;
 import org.loomdev.api.plugin.ap.SerializedPluginMetadata;
 import org.loomdev.loom.plugin.data.LoomPluginContainer;
 import org.loomdev.loom.plugin.data.LoomPluginMetadata;
-import org.loomdev.loom.server.LoomServer;
+import org.loomdev.loom.server.ServerImpl;
 
 import java.io.BufferedInputStream;
 import java.io.InputStreamReader;
@@ -21,11 +21,11 @@ import java.util.jar.JarInputStream;
 
 public class PluginLoaderImpl implements PluginLoader {
 
-    private final LoomServer loomServer;
+    private final ServerImpl server;
     private final Path pluginDirectory;
 
-    public PluginLoaderImpl(LoomServer loomServer, Path pluginDirectory) {
-        this.loomServer = loomServer;
+    public PluginLoaderImpl(ServerImpl server, Path pluginDirectory) {
+        this.server = server;
         this.pluginDirectory = pluginDirectory;
     }
 
@@ -66,7 +66,7 @@ public class PluginLoaderImpl implements PluginLoader {
             throw new IllegalArgumentException("No path present in plugin metadata.");
         }
 
-        Injector injector = Guice.createInjector(new PluginInjectorModule(this.loomServer, metadata, this.pluginDirectory));
+        Injector injector = Guice.createInjector(new PluginInjectorModule(this.server, metadata, this.pluginDirectory));
         Plugin instance = (Plugin) injector.getInstance(metadata.getMainClass());
 
         if (instance == null) {
@@ -83,7 +83,7 @@ public class PluginLoaderImpl implements PluginLoader {
             while ((entry = in.getNextJarEntry()) != null) {
                 if (entry.getName().equals("loom.json")) {
                     try (Reader pluginInfoReader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
-                        return Optional.of(LoomServer.GSON.fromJson(pluginInfoReader, SerializedPluginMetadata.class));
+                        return Optional.of(ServerImpl.GSON.fromJson(pluginInfoReader, SerializedPluginMetadata.class));
                     }
                 }
 

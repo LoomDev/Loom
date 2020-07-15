@@ -2,15 +2,13 @@ package org.loomdev.loom.command.loom;
 
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
-import net.minecraft.server.MinecraftServer;
-import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.monitoring.TickTimes;
 import org.loomdev.api.monitoring.Tps;
 import org.loomdev.api.server.Server;
-import org.loomdev.loom.server.LoomServer;
+import org.loomdev.loom.server.ServerImpl;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ public class TpsCommand extends Command {
 
     private static final DecimalFormat FORMAT = new DecimalFormat("########0.0");
 
-    public TpsCommand(LoomServer server) {
+    public TpsCommand(ServerImpl server) {
         super("tps", "mspt");
         setDescription("Displays the server's current TPS and tick times.");
         setUsage("/tps");

@@ -5,10 +5,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.SharedConstants;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -29,6 +27,7 @@ import org.loomdev.loom.event.EventManagerImpl;
 import org.loomdev.loom.plugin.PluginManagerImpl;
 import org.loomdev.loom.monitoring.LoomTps;
 import org.loomdev.loom.monitoring.LoomTickTimes;
+import org.loomdev.loom.scheduler.SchedulerImpl;
 import org.loomdev.loom.world.WorldImpl;
 
 import java.io.File;
@@ -37,9 +36,9 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class LoomServer implements Server {
+public class ServerImpl implements Server {
 
-    private static final Logger LOGGER = LogManager.getLogger(LoomServer.class);
+    private static final Logger LOGGER = LogManager.getLogger(ServerImpl.class);
     public static final Gson GSON = GsonComponentSerializer.gson().serializer();
 
     private final MinecraftServer minecraftServer;
@@ -47,14 +46,12 @@ public class LoomServer implements Server {
     private final PluginManagerImpl pluginManager;
     private final EventManagerImpl eventManager;
     private final CommandManagerImpl commandManager;
+    private final SchedulerImpl scheduler;
     private final CommandSource consoleSource;
-
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
 
-    private final Map<String, World> worlds = new LinkedHashMap<>();
-
-    public LoomServer(MinecraftServer minecraftServer) {
+    public ServerImpl(MinecraftServer minecraftServer) {
         Loom.setServer(this);
         this.minecraftServer = minecraftServer;
         this.pluginDirectory = (File) this.minecraftServer.optionSet.valueOf("plugins");
@@ -62,7 +59,8 @@ public class LoomServer implements Server {
         this.eventManager = new EventManagerImpl(this.pluginManager);
         this.commandManager = new CommandManagerImpl(this, minecraftServer);
         this.consoleSource = new ConsoleSource(minecraftServer);
-
+        this.scheduler = new SchedulerImpl(pluginManager);
+        this.scheduler.start();
         this.tps = new LoomTps();
         this.tickTimes = new LoomTickTimes();
 
@@ -85,7 +83,7 @@ public class LoomServer implements Server {
 
     @Override
     public @NonNull String getVersion() {
-        return LoomServer.class.getPackage().getImplementationVersion();
+        return ServerImpl.class.getPackage().getImplementationVersion();
     }
 
     @Override
@@ -116,6 +114,12 @@ public class LoomServer implements Server {
     @Override
     public @NonNull CommandManager getCommandManager() {
         return this.commandManager;
+    }
+
+    @NonNull
+    @Override
+    public SchedulerImpl getScheduler() {
+        return scheduler;
     }
 
     @Override
@@ -166,9 +170,7 @@ public class LoomServer implements Server {
 
     @Override
     public @NonNull Optional<World> getWorld(@NonNull UUID uuid) {
-        return this.worlds.values().stream()
-                .filter(world -> world.getUUID().equals(uuid))
-                .findFirst();
+        throw new UnsupportedOperationException("This method has not yet been implemented");
     }
 
     @Override

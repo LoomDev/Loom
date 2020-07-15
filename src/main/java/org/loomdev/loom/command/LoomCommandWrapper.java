@@ -11,17 +11,17 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.server.command.ServerCommandSource;
-import org.loomdev.loom.server.LoomServer;
+import org.loomdev.loom.server.ServerImpl;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 
 public class LoomCommandWrapper implements com.mojang.brigadier.Command<ServerCommandSource>, Predicate<ServerCommandSource>, SuggestionProvider<ServerCommandSource> {
 
-    private final LoomServer server;
+    private final ServerImpl server;
     private final CommandDispatcher<ServerCommandSource> dispatcher;
 
-    public LoomCommandWrapper(LoomServer server, CommandDispatcher<ServerCommandSource> dispatcher) {
+    public LoomCommandWrapper(ServerImpl server, CommandDispatcher<ServerCommandSource> dispatcher) {
         this.server = server;
         this.dispatcher = dispatcher;
     }

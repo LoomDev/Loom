@@ -1,8 +1,6 @@
 package org.loomdev.loom.event;
 
 import net.kyori.adventure.text.TextComponent;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LightningEntity;
@@ -33,7 +31,6 @@ import org.loomdev.api.event.player.PlayerMessagedEvent;
 import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
 import org.loomdev.api.event.player.connection.PlayerJoinedEvent;;
 import org.loomdev.api.event.server.ServerPingedEvent;
-import org.loomdev.api.world.Location;
 import org.loomdev.loom.block.BlockImpl;
 import org.loomdev.loom.entity.decoration.ArmorStandImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;

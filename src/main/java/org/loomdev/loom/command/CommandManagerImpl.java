@@ -3,7 +3,6 @@ package org.loomdev.loom.command;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.ServerCommandSource;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.command.Command;
@@ -16,7 +15,7 @@ import org.loomdev.loom.command.loom.PluginsCommand;
 import org.loomdev.loom.command.loom.TpsCommand;
 import org.loomdev.loom.command.loom.VersionCommand;
 import org.loomdev.loom.plugin.PluginManagerImpl;
-import org.loomdev.loom.server.LoomServer;
+import org.loomdev.loom.server.ServerImpl;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,14 +24,14 @@ import java.util.Map;
 
 public class CommandManagerImpl implements CommandManager {
 
-    private final LoomServer server;
+    private final ServerImpl server;
     private final MinecraftServer minecraftServer;
     private final LoomCommandWrapper wrapper;
 
     private final Map<String, Command> commands = new HashMap<>();
     private final Multimap<String, String> commandsByPlugin = ArrayListMultimap.create();
 
-    public CommandManagerImpl(LoomServer server, MinecraftServer minecraftServer) {
+    public CommandManagerImpl(ServerImpl server, MinecraftServer minecraftServer) {
         this.server = server;
         this.minecraftServer = minecraftServer;
         this.wrapper = new LoomCommandWrapper(server, minecraftServer.serverResourceManager.commandManager.getDispatcher());

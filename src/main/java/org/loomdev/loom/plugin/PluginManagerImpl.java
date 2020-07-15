@@ -9,7 +9,7 @@ import org.loomdev.loom.Loom;
 import org.loomdev.loom.plugin.data.LoomPluginContainer;
 import org.loomdev.loom.plugin.loader.PluginClassLoader;
 import org.loomdev.loom.plugin.loader.PluginLoaderImpl;
-import org.loomdev.loom.server.LoomServer;
+import org.loomdev.loom.server.ServerImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,14 +22,14 @@ public class PluginManagerImpl implements PluginManager {
 
     private static final Logger LOGGER = LogManager.getLogger("Plugin Manager");
 
-    private final LoomServer server;
+    private final ServerImpl server;
     private final Path pluginDirectory;
     private final PluginLoader pluginLoader;
 
     private final Map<String, PluginContainer> plugins = new HashMap<>();
     private final Map<Plugin, PluginContainer> pluginsByInstance = new IdentityHashMap<>();
 
-    public PluginManagerImpl(@NonNull LoomServer server, @NonNull File pluginDirectory) {
+    public PluginManagerImpl(@NonNull ServerImpl server, @NonNull File pluginDirectory) {
         this.server = server;
         this.pluginDirectory = pluginDirectory.toPath();
         this.pluginLoader = new PluginLoaderImpl(server, this.pluginDirectory);
