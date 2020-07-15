@@ -23,13 +23,13 @@ import org.loomdev.api.event.block.BlockBrokenEvent;
 import org.loomdev.api.event.block.BlockBurnedEvent;
 import org.loomdev.api.event.block.BlockIgnitedEvent;
 import org.loomdev.api.event.block.BlockPlacedEvent;
-import org.loomdev.api.event.block.entity.ArmorStandPlacedEvent;
 import org.loomdev.api.event.block.fluid.FluidLevelChangedEvent;
 import org.loomdev.api.event.block.plant.*;
 import org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent;
 import org.loomdev.api.event.entity.creeper.CreeperChargedEvent;
 import org.loomdev.api.event.entity.creeper.CreeperIgnitedEvent;
-import org.loomdev.api.event.player.PlayerMessageSentEvent;
+import org.loomdev.api.event.entity.decoration.ArmorStandPlacedEvent;
+import org.loomdev.api.event.player.PlayerMessagedEvent;
 import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
 import org.loomdev.api.event.player.connection.PlayerJoinedEvent;;
 import org.loomdev.api.event.server.ServerPingedEvent;
@@ -57,14 +57,16 @@ public final class LoomEventDispatcher {
         return Loom.getServer().getEventManager().fireAsync(event);
     }
 
-    public static ArmorStandPlacedEvent onArmorStandPlaced(ArmorStandEntity armorStand, BlockPos blockpos, PlayerEntity player) {
+    public static CompletableFuture<ArmorStandPlacedEvent> onArmorStandPlaced(ArmorStandEntity armorStand, BlockPos blockpos, PlayerEntity player) { // TODO also make async in nms
         ArmorStandPlacedEvent event = new ArmorStandPlacedEvent(
                 (ArmorStandImpl) armorStand.getLoomEntity(),
-                new Location(null, blockpos.getX(), blockpos.getY(), blockpos.getZ()),
-                (PlayerImpl) player.getLoomEntity()
+                (PlayerImpl) player.getLoomEntity(),
+                ArmorStandPlacedEvent.Cause.PLAYER
         );
-        return fire(event);
+        return fireAsync(event);
     }
+
+    // TODO dispenser armor stand place event
 
     public static CompletableFuture<BlockBrokenEvent> onBlockBroken(WorldAccess world, BlockPos pos, PlayerEntity player) {
         return fireAsync(new BlockBrokenEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
@@ -76,7 +78,7 @@ public final class LoomEventDispatcher {
 
     public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, BlockPos ignitingpos) {
         net.minecraft.block.Block ignitingBlock = world.getBlockState(ignitingpos).getBlock();
-        BlockIgnitedEvent.Cause cause = BlockIgnitedEvent.Cause.SPREAD;
+        BlockIgnitedEvent.Cause cause = BlockIgnitedEvent.Cause.FIRE_SPREAD;
 
         if (ignitingBlock.is(Blocks.LAVA)) {
             cause = BlockIgnitedEvent.Cause.LAVA;
@@ -84,7 +86,7 @@ public final class LoomEventDispatcher {
             cause = BlockIgnitedEvent.Cause.FLINT_AND_STEEL;
         }
 
-        return fireAsync(new BlockIgnitedEvent(BlockImpl.of(world, pos), cause, BlockImpl.of(world, ignitingpos), null));
+        return fireAsync(new BlockIgnitedEvent(BlockImpl.of(world, pos), BlockImpl.of(world, ignitingpos), cause));
     }
 
     public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, Entity igniter) {
@@ -95,18 +97,19 @@ public final class LoomEventDispatcher {
         return fireAsync(new BlockBurnedEvent(BlockImpl.of(world, pos), BlockImpl.of(world, ignitingpos)));
     }
 
-    public static CompletableFuture<CoralDiedEvent> onCoralDied(WorldAccess world, BlockPos pos) {
-        return fireAsync(new CoralDiedEvent(BlockImpl.of(world, pos)));
+    public static CompletableFuture<PlantDiedEvent> onPlantDied(WorldAccess world, BlockPos pos) {
+        return fireAsync(new PlantDiedEvent(BlockImpl.of(world, pos)));
     }
 
-    public static CompletableFuture<LeavesDecayedEvent> onLeavesDecayed(WorldAccess world, BlockPos pos) {
-        return fireAsync(new LeavesDecayedEvent(BlockImpl.of(world, pos)));
+    public static CompletableFuture<PlantDecayedEvent> onPlantDecayed(WorldAccess world, BlockPos pos) {
+        return fireAsync(new PlantDecayedEvent(BlockImpl.of(world, pos)));
     }
 
     public static PlantGrewEvent onPlantGrew(WorldAccess world, BlockPos pos) {
-        PlantGrewEvent event = new PlantGrewEvent(BlockImpl.of(world, pos)); // TODO remove variable
+        /*PlantGrewEvent event = new PlantGrewEvent(BlockImpl.of(world, pos)); // TODO remove variable
         event.setCancelled(true);
-        return fire(event);
+        return fire(event);*/
+        return null;
     }
 
     public static PlantFertilizedEvent onPlantFertilized(WorldAccess world, BlockPos pos, PlayerEntity player) {
@@ -117,12 +120,12 @@ public final class LoomEventDispatcher {
         return fire(new PlantHarvestedEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
-    public static FluidLevelChangedEvent onFluidLevelChanged(WorldAccess world, BlockPos pos) {
-        return fire(new FluidLevelChangedEvent(BlockImpl.of(world, pos)));
+    public static CompletableFuture<FluidLevelChangedEvent> onFluidLevelChanged(WorldAccess world, BlockPos pos) {
+        return fireAsync(new FluidLevelChangedEvent(BlockImpl.of(world, pos), null)); // TODO implement blockstate
     }
 
-    public static SpongeAbsorbedEvent onSpongeAbsorbed(WorldAccess world, BlockPos pos) {
-        return fire(new SpongeAbsorbedEvent(BlockImpl.of(world, pos)));
+    public static CompletableFuture<SpongeAbsorbedEvent> onSpongeAbsorbed(WorldAccess world, BlockPos pos) {
+        return fireAsync(new SpongeAbsorbedEvent(BlockImpl.of(world, pos), new HashSet<>())); // TODO add absorbedBlocks set + implement async in the nms sponge class
     }
 
     /*public static PlayerLoggedInEvent onPlayerLoggedIn(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
@@ -137,8 +140,20 @@ public final class LoomEventDispatcher {
         return fireAsync(new PlayerDisconnectedEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
     }
 
-    public static CompletableFuture<PlayerMessageSentEvent> onPlayerMessageSent(ServerPlayerEntity serverPlayerEntity, String message) {
-        return fireAsync(new PlayerMessageSentEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), message, new HashSet<>(Loom.getServer().getOnlinePlayers())));
+    public static CompletableFuture<PlayerMessagedEvent> onPlayerMessageSent(ServerPlayerEntity serverPlayerEntity, String message) {
+        return fireAsync(new PlayerMessagedEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), message, new HashSet<>(Loom.getServer().getOnlinePlayers())));
+    }
+
+    public static CompletableFuture<CreeperChargedEvent> onCreeperCharged(CreeperEntity creeper) {
+        return fireAsync(new CreeperChargedEvent((Creeper) creeper.getLoomEntity()));
+    }
+
+    public static CompletableFuture<CreeperChargedEvent> onCreeperCharged(CreeperEntity creeper, LightningEntity lightning) {
+        return fireAsync(new CreeperChargedEvent((Creeper) creeper.getLoomEntity(), (Lightning) lightning.getLoomEntity()));
+    }
+
+    public static CompletableFuture<CreeperIgnitedEvent> onCreeperIgnited(CreeperEntity creeper) {
+        return fireAsync(new CreeperIgnitedEvent((Creeper) creeper.getLoomEntity()));
     }
 
     public static CompletableFuture<ServerPingedEvent> onServerPinged(ClientConnection connection, ServerMetadata metadata) {
@@ -147,19 +162,9 @@ public final class LoomEventDispatcher {
                 (TextComponent) TextTransformer.toLoom(metadata.getDescription()),
                 metadata.getPlayers().getOnlinePlayerCount(),
                 metadata.getPlayers().getPlayerLimit(),
+                metadata.getVersion().getProtocolVersion(),
+                metadata.getVersion().getGameVersion(),
                 metadata.getFavicon()
         ));
-    }
-
-    public static CompletableFuture<CreeperChargedEvent> onCreeperCharged(CreeperEntity creeper, CreeperChargedEvent.Cause cause) {
-        return fireAsync(new CreeperChargedEvent((Creeper) creeper.getLoomEntity(), cause));
-    }
-
-    public static CompletableFuture<CreeperChargedEvent> onCreeperCharged(CreeperEntity creeper, LightningEntity lightning, CreeperChargedEvent.Cause cause) {
-        return fireAsync(new CreeperChargedEvent((Creeper) creeper.getLoomEntity(), (Lightning) lightning.getLoomEntity(), cause));
-    }
-
-    public static CompletableFuture<CreeperIgnitedEvent> onCreeperIgnited(CreeperEntity creeper) {
-        return fireAsync(new CreeperIgnitedEvent((Creeper) creeper.getLoomEntity()));
     }
 }

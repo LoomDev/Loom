@@ -31,7 +31,7 @@ public class CreeperImpl extends HostileEntityImpl implements Creeper {
 
     @Override
     public void setCharged(boolean charged) {
-        LoomEventDispatcher.onCreeperCharged(getMinecraftEntity(), CreeperChargedEvent.Cause.TRIGGERED).thenAccept(event -> {
+        LoomEventDispatcher.onCreeperCharged(getMinecraftEntity()).thenAccept(event -> {
             if (!event.isCancelled()) {
                 getMinecraftEntity().setCharged(charged);
             }

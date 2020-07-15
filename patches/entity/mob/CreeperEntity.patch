@@ -18,7 +18,7 @@
      public void onStruckByLightning(LightningEntity lightningentity) {
          super.onStruckByLightning(lightningentity);
 +        // Loom start :: call CreeperChargedEvent
-+        org.loomdev.loom.event.LoomEventDispatcher.onCreeperCharged(this, lightningentity, org.loomdev.api.event.entity.creeper.CreeperChargedEvent.Cause.LIGHTNING).thenAccept(event -> {
++        org.loomdev.loom.event.LoomEventDispatcher.onCreeperCharged(this, lightningentity).thenAccept(event -> {
 +            if (!event.isCancelled()) {
          this.dataTracker.set(CreeperEntity.CHARGED, true);
 +            }

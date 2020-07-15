@@ -5,7 +5,7 @@
      public void randomTick(BlockState blockstate, ServerWorld serverworld, BlockPos blockpos, Random random) {
          if (!(Boolean) blockstate.get(LeavesBlock.PERSISTENT) && (Integer) blockstate.get(LeavesBlock.DISTANCE) == 7) {
 +            // Loom start :: fire LeavesDecayedEvent
-+            org.loomdev.loom.event.LoomEventDispatcher.onLeavesDecayed(serverworld, blockpos).thenAccept(event -> {
++            org.loomdev.loom.event.LoomEventDispatcher.onPlantDecayed(serverworld, blockpos).thenAccept(event -> {
 +               if (!event.isCancelled()) {
              dropStacks(blockstate, serverworld, blockpos);
              serverworld.removeBlock(blockpos, false);

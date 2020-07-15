@@ -5,7 +5,7 @@
      public void scheduledTick(BlockState blockstate, ServerWorld serverworld, BlockPos blockpos, Random random) {
          if (!this.isInWater(serverworld, blockpos)) {
 +            // Loom start :: fire CoralDiedEvent
-+            org.loomdev.loom.event.LoomEventDispatcher.onCoralDied(serverworld, blockpos).thenAccept(event -> {
++            org.loomdev.loom.event.LoomEventDispatcher.onPlantDied(serverworld, blockpos).thenAccept(event -> {
 +                if (!event.isCancelled()) {
              serverworld.setBlockState(blockpos, this.deadCoralBlock.getDefaultState(), 2);
 +                }

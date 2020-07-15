@@ -6,9 +6,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
-import org.loomdev.api.particle.ParticleEffect;
-import org.loomdev.api.sound.Sound;
-import org.loomdev.loom.entity.player.PlayerImpl;
 
 public class DebugCommand extends Command {
 
