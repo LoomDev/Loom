@@ -43,7 +43,8 @@ public class SchedulerImpl implements Scheduler {
     }
 
     public void start() {
-        executor.scheduleAtFixedRate(this::pulse, 0, PULSE_EVERY, TimeUnit.MILLISECONDS); // TODO should this be changed to the ms tickloop?
+        System.out.println("start logger XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+        //executor.scheduleAtFixedRate(this::pulse, 0, PULSE_EVERY, TimeUnit.MILLISECONDS); // TODO should this be changed to the ms tickloop?
     }
 
     public void stop() {
@@ -52,8 +53,10 @@ public class SchedulerImpl implements Scheduler {
         asyncTaskExecutor.shutdown();
     }
 
-    private void pulse() {
+    public void pulse() {
         primaryThread = Thread.currentThread();
+
+        // System.out.println("pulse");
 
         for (Iterator<TaskImpl> it = tasks.values().iterator(); it.hasNext();) {
             TaskImpl task = it.next();

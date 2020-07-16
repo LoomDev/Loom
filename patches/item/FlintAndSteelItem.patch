@@ -1,0 +1,42 @@
+--- a/net/minecraft/item/FlintAndSteelItem.java
++++ b/net/minecraft/item/FlintAndSteelItem.java
+@@ -27,6 +27,9 @@
+         BlockState blockstate = world.getBlockState(blockpos);
+ 
+         if (CampfireBlock.method_30035(blockstate)) {
++            // Loom start :: fire BlockIgnitedEvent
++            org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, playerentity, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FLINT_AND_STEEL).thenAccept(event -> {
++                if (!event.isCancelled()) {
+             world.playSound(playerentity, blockpos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, FlintAndSteelItem.RANDOM.nextFloat() * 0.4F + 0.8F);
+             world.setBlockState(blockpos, (BlockState) blockstate.with(Properties.LIT, true), 11);
+             if (playerentity != null) {
+@@ -34,12 +37,17 @@
+                     playerentity1.sendToolBreakStatus(itemusagecontext.getHand());
+                 });
+             }
+-
++                }
++            });
++            // Loom end
+             return ActionResult.success(world.isClient());
+         } else {
+             BlockPos blockpos1 = blockpos.offset(itemusagecontext.getSide());
+ 
+             if (AbstractFireBlock.method_30032(world, blockpos1)) {
++                // Loom start :: fire BlockIgnitedEvent
++                org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos1, playerentity, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FLINT_AND_STEEL).thenAccept(event -> {
++                   if (!event.isCancelled()) {
+                 world.playSound(playerentity, blockpos1, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, FlintAndSteelItem.RANDOM.nextFloat() * 0.4F + 0.8F);
+                 BlockState blockstate1 = AbstractFireBlock.getState(world, blockpos1);
+ 
+@@ -52,7 +60,9 @@
+                         playerentity1.sendToolBreakStatus(itemusagecontext.getHand());
+                     });
+                 }
+-
++                   }
++                });
++                // Loom end
+                 return ActionResult.success(world.isClient());
+             } else {
+                 return ActionResult.FAIL;

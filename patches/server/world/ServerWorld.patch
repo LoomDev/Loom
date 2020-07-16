@@ -9,7 +9,27 @@
      public boolean savingDisabled;
      private boolean allPlayersSleeping;
      private int idleTimeout;
-@@ -443,7 +443,7 @@
+@@ -166,8 +166,11 @@
+     private final StructureAccessor structureAccessor;
+     private final boolean field_25143;
+ 
++    public final LevelStorage.Session levelstorage_session; // Loom :: expose level storage session
++
+     public ServerWorld(MinecraftServer minecraftserver, Executor executor, LevelStorage.Session levelstorage_session, ServerWorldProperties serverworldproperties, RegistryKey<World> registrykey, RegistryKey<DimensionType> registrykey1, DimensionType dimensiontype, WorldGenerationProgressListener worldgenerationprogresslistener, ChunkGenerator chunkgenerator, boolean flag, long i, List<Spawner> list, boolean flag1) {
+         super(serverworldproperties, registrykey, registrykey1, dimensiontype, minecraftserver::getProfiler, false, flag, i);
++        this.levelstorage_session = levelstorage_session;
+         this.blockTickScheduler = new ServerTickScheduler<>(this, (block) -> {
+             return block == null || block.getDefaultState().isAir();
+         }, Registry.BLOCK::getId, this::tickBlock);
+@@ -201,6 +204,7 @@
+             this.enderDragonFight = null;
+         }
+ 
++        ((org.loomdev.loom.server.ServerImpl) org.loomdev.api.Loom.getServer()).registerWorld(org.loomdev.loom.world.WorldImpl.of(this));
+     }
+ 
+     public void method_27910(int i, int j, boolean flag, boolean flag1) {
+@@ -443,7 +447,7 @@
  
      private void wakeSleepingPlayers() {
          ((List) this.players.stream().filter(LivingEntity::isSleeping).collect(Collectors.toList())).forEach((serverplayerentity) -> {
@@ -18,7 +38,7 @@
          });
      }
  
-@@ -1528,19 +1528,5 @@
+@@ -1528,19 +1532,5 @@
          });
      }
  

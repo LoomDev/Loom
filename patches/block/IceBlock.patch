@@ -1,0 +1,37 @@
+--- a/net/minecraft/block/IceBlock.java
++++ b/net/minecraft/block/IceBlock.java
+@@ -23,7 +23,16 @@
+         super.afterBreak(world, playerentity, blockpos, blockstate, blockentity, itemstack);
+         if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, itemstack) == 0) {
+             if (world.getDimension().isUltrawarm()) {
++                // Loom start :: fire BlockEvaporatedEvent
++                org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporated(world, blockpos, playerentity).thenAccept(event -> {
++                   if (!event.isCancelled()) {
+                 world.removeBlock(blockpos, false);
++                   } else {
++                       // Place the water anyway if this even is cancelled
++                       world.setBlockState(blockpos, Blocks.WATER.getDefaultState());
++                   }
++                });
++                // Loom end
+                 return;
+             }
+ 
+@@ -45,7 +54,17 @@
+ 
+     protected void melt(BlockState blockstate, World world, BlockPos blockpos) {
+         if (world.getDimension().isUltrawarm()) {
++            // Loom start :: fire BlockEvaporateEvent
++            org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporated(world, blockpos).thenAccept(event -> {
++                if (!event.isCancelled()) {
+             world.removeBlock(blockpos, false);
++                } else {
++                    // Place the water anyway if this even is cancelled
++                    world.setBlockState(blockpos, Blocks.WATER.getDefaultState());
++                    world.updateNeighbor(blockpos, Blocks.WATER, blockpos);
++                }
++            });
++            // Loom end
+         } else {
+             world.setBlockState(blockpos, Blocks.WATER.getDefaultState());
+             world.updateNeighbor(blockpos, Blocks.WATER, blockpos);

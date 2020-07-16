@@ -262,6 +262,11 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
         }
     }
 
+    @Override
+    public boolean isOp() {
+        return getMinecraftEntity().getServer().getPlayerManager().isOperator(getMinecraftEntity().getGameProfile());
+    }
+
     private void updatePlayerList() {
         PlayerListHeaderS2CPacket packet = new PlayerListHeaderS2CPacket();
         packet.header = TextTransformer.toMinecraft(this.tabListHeader);

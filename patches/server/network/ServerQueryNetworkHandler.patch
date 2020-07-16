@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/network/ServerQueryNetworkHandler.java
 +++ b/net/minecraft/server/network/ServerQueryNetworkHandler.java
-@@ -33,7 +33,18 @@
+@@ -33,7 +33,19 @@
              this.connection.disconnect(ServerQueryNetworkHandler.REQUEST_HANDLED);
          } else {
              this.responseSent = true;
@@ -10,9 +10,10 @@
 +                    return;
 +                }
 +
-+                this.server.getServerMetadata().setDescription(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMotd()));
-+                this.server.getServerMetadata().setPlayers(new net.minecraft.server.ServerMetadata.Players(event.getSlots(), event.getOnlinePlayers()));
-+                event.getFavicon().ifPresent(favicon -> this.server.getServerMetadata().setFavicon(favicon));
++                net.minecraft.server.ServerMetadata metadata = this.server.getServerMetadata();
++                metadata.setDescription(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMotd()));
++                metadata.setPlayers(new net.minecraft.server.ServerMetadata.Players(event.getSlots(), event.getOnlinePlayers()));
++                event.getFavicon().ifPresent(metadata::setFavicon);
              this.connection.send(new QueryResponseS2CPacket(this.server.getServerMetadata()));
 +            });
 +            // Loom end

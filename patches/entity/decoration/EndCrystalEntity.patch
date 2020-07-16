@@ -1,0 +1,16 @@
+--- a/net/minecraft/entity/decoration/EndCrystalEntity.java
++++ b/net/minecraft/entity/decoration/EndCrystalEntity.java
+@@ -52,7 +52,13 @@
+             BlockPos blockpos = this.getBlockPos();
+ 
+             if (((ServerWorld) this.world).getEnderDragonFight() != null && this.world.getBlockState(blockpos).isAir()) {
++                // Loom start :: fire BlockIgnitedEvent
++                org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(this.world, blockpos, this, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.END_CRYSTAL).thenAccept(event -> {
++                   if (!event.isCancelled()) {
+                 this.world.setBlockState(blockpos, AbstractFireBlock.getState(this.world, blockpos));
++                   }
++                });
++                // Loom end
+             }
+         }
+ 

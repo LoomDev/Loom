@@ -3,10 +3,12 @@ package org.loomdev.loom.command.loom;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
+import net.minecraft.server.network.ServerPlayerEntity;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
+import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginContainer;
 import org.loomdev.api.plugin.PluginManager;
@@ -31,6 +33,10 @@ public class PluginsCommand extends Command {
     public void execute(@NonNull CommandSource source, String[] args) {
         if (args.length < 2) {
             source.sendMessage(getList());
+            return;
+        }
+
+        if (source instanceof Player && !((Player) source).isOp()) {
             return;
         }
 
@@ -68,7 +74,7 @@ public class PluginsCommand extends Command {
         int index = 0;
         for (Map.Entry<String, PluginContainer> entry : plugins.entrySet()) {
             if (index++ > 0) {
-                builder.append(TextComponent.of(" ,").color(WHITE));
+                builder.append(TextComponent.of(", ").color(WHITE));
             }
 
             TextComponent.Builder pluginBuilder = TextComponent.builder();

@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -19,6 +20,7 @@ import org.loomdev.api.sound.Sounds;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.util.transformer.TextTransformer;
+import org.loomdev.loom.world.WorldImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -103,7 +105,7 @@ public class EntityImpl implements Entity {
 
     @Override
     public @NonNull World getWorld() {
-        return null; // TODO
+        return WorldImpl.of((ServerWorld) this.mcEntity.getEntityWorld()); // TODO change to the set cached world
     }
 
     @Override

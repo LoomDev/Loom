@@ -23,7 +23,7 @@
      @Nullable
      protected Tag<Fluid> field_25599;
 -    protected boolean inLava;
-+    public boolean inLava; // Loom :: plubic accessor
++    public boolean inLava; // Loom :: public accessor
      public int timeUntilRegen;
      protected boolean firstUpdate;
 -    protected final DataTracker dataTracker;
@@ -71,14 +71,14 @@
      }
  
 -    private boolean isBeingRainedOn() {
-+    public boolean isBeingRainedOn() { // Loom :: plubic accessor
++    public boolean isBeingRainedOn() { // Loom :: public accessor
          BlockPos blockpos = this.getBlockPos();
  
          return this.world.hasRain(blockpos) || this.world.hasRain(blockpos.add(0.0D, (double) this.dimensions.height, 0.0D));
      }
  
 -    private boolean isInsideBubbleColumn() {
-+    public boolean isInsideBubbleColumn() { // Loom :: plubic accessor
++    public boolean isInsideBubbleColumn() { // Loom :: public accessor
          return this.world.getBlockState(this.getBlockPos()).isOf(Blocks.BUBBLE_COLUMN);
      }
  

@@ -101,6 +101,13 @@
             <version>3.32.3</version>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- Development Tools -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>19.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

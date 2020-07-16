@@ -9,3 +9,35 @@
      @Nullable
      private ServerPlayerEntity channeler;
  
+@@ -101,7 +101,14 @@
+             BlockState blockstate = AbstractFireBlock.getState(this.world, blockpos);
+ 
+             if (this.world.getBlockState(blockpos).isAir() && blockstate.canPlaceAt(this.world, blockpos)) {
+-                this.world.setBlockState(blockpos, blockstate);
++                // Loom start :: fire BlockIgnitedEvent
++                final BlockState finalState = blockstate;
++                org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(this.world, blockpos, this, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LIGHTNING).thenAccept(event -> {
++                    if (!event.isCancelled()) {
++                this.world.setBlockState(blockpos, finalState);
++                    }
++                });
++                // Loom end
+             }
+ 
+             for (int j = 0; j < i; ++j) {
+@@ -109,7 +116,14 @@
+ 
+                 blockstate = AbstractFireBlock.getState(this.world, blockpos1);
+                 if (this.world.getBlockState(blockpos1).isAir() && blockstate.canPlaceAt(this.world, blockpos1)) {
+-                    this.world.setBlockState(blockpos1, blockstate);
++                    // Loom start :: fire BlockIgnitedEvent
++                    final BlockState finalState = blockstate;
++                    org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(this.world, blockpos1, this, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LIGHTNING).thenAccept(event -> {
++                        if (!event.isCancelled()) {
++                    this.world.setBlockState(blockpos1, finalState);
++                        }
++                    });
++                    // Loom end
+                 }
+             }
+ 

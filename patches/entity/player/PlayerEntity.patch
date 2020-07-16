@@ -9,7 +9,33 @@
      private static final TrackedData<Float> ABSORPTION_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
      private static final TrackedData<Integer> SCORE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
      protected static final TrackedData<Byte> PLAYER_MODEL_PARTS = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BYTE);
-@@ -1611,7 +1611,7 @@
+@@ -1315,7 +1315,8 @@
+         if (this.abilities.flying) {
+             this.setSwimming(false);
+         } else {
+-            super.updateSwimming();
++            this.setSwimming(false);
++            //super.updateSwimming();
+         }
+ 
+     }
+@@ -1421,7 +1422,15 @@
+             ItemStack itemstack = this.getEquippedStack(EquipmentSlot.CHEST);
+ 
+             if (itemstack.getItem() == Items.ELYTRA && ElytraItem.isUsable(itemstack)) {
++                // Loom start :: fire PlayerEnteredFlightEvent
++                org.loomdev.loom.event.LoomEventDispatcher.onPlayerEnteredFlight(this).thenAccept(event -> {
++                    if (event.isCancelled()) {
++                        this.stopFallFlying();
++                    } else {
+                 this.startFallFlying();
++                    }
++                });
++                // Loom end
+                 return true;
+             }
+         }
+@@ -1611,7 +1620,7 @@
      }
  
      public Iterable<ItemStack> getItemsHand() {

@@ -1,5 +1,6 @@
 package org.loomdev.loom.scheduler;
 
+import com.google.common.base.Preconditions;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.loomdev.api.plugin.Plugin;
@@ -25,6 +26,7 @@ public class TaskImpl extends FutureTask<Void> implements Task {
 
     public TaskImpl(Plugin plugin, Runnable task, boolean sync, long delay, long period) {
         super(task, null);
+        Preconditions.checkArgument(period != 0, "Period cannot be zero.");
         taskId = nextTaskId.getAndIncrement();
         this.plugin = plugin;
         this.sync = sync;
@@ -34,7 +36,7 @@ public class TaskImpl extends FutureTask<Void> implements Task {
     }
 
     public void cancel() {
-        cancel(false);
+        cancel(true);
     }
 
     TaskExecutionState shouldExecute() {
@@ -126,7 +128,7 @@ public class TaskImpl extends FutureTask<Void> implements Task {
 
         @Override
         public Builder delay(long l, TimeUnit timeUnit) {
-            this.delayTicks = timeUnit.convert(l,  TimeUnit.SECONDS) / 20;
+            this.delayTicks = timeUnit.convert(l, TimeUnit.SECONDS) / 20;
             return this;
         }
 

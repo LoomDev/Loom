@@ -11,7 +11,7 @@
  
 +    // Loom start
 +    public joptsimple.OptionSet optionSet;
-+    public org.loomdev.loom.server.LoomServer loomServer;
++    public org.loomdev.loom.server.ServerImpl loomServer;
 +
 +    public static int currentTick = 0;
 +    private long lastTick = 0;
@@ -43,7 +43,7 @@
          this.workerExecutor = Util.getServerWorkerExecutor();
 +        // Loom start :: start loom server
 +        this.optionSet = optionSet;
-+        this.loomServer = new org.loomdev.loom.server.LoomServer(this);
++        this.loomServer = new org.loomdev.loom.server.ServerImpl(this);
 +        // Loom end
      }
  
@@ -79,7 +79,7 @@
                      this.timeReference += 50L;
                      TickDurationMonitor tickdurationmonitor = TickDurationMonitor.create("Server");
  
-@@ -850,6 +873,8 @@
+@@ -850,27 +873,37 @@
          this.tickTime = this.tickTime * 0.8F + (float) l / 1000000.0F * 0.19999999F;
          long i1 = Util.getMeasuringTimeNano();
  
@@ -88,7 +88,38 @@
          this.metricsData.pushSample(i1 - i);
          this.profiler.pop();
      }
-@@ -954,7 +979,7 @@
+ 
+     protected void tickWorlds(BooleanSupplier booleansupplier) {
++        ((org.loomdev.loom.scheduler.SchedulerImpl) this.loomServer.getScheduler()).pulse(); // Loom :: pulse scheduler
+         this.profiler.push("commandFunctions");
+         this.getCommandFunctionManager().tick();
+         this.profiler.swap("levels");
+         Iterator iterator = this.getWorlds().iterator();
+ 
++        if (this.ticks % 20 == 0) {
++            for (int i = 0; i < this.getPlayerManager().getPlayerList().size(); ++i) {
++                ServerPlayerEntity entityplayer = (ServerPlayerEntity) this.getPlayerManager().getPlayerList().get(i);
++                entityplayer.networkHandler.sendPacket(new WorldTimeUpdateS2CPacket(entityplayer.world.getTime(), entityplayer.world.getTimeOfDay(), entityplayer.world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE))); // Add support for per player time TODO replace second time with player time
++            }
++        }
++
+         while (iterator.hasNext()) {
+             ServerWorld serverworld = (ServerWorld) iterator.next();
+ 
+             this.profiler.push(() -> {
+                 return serverworld + " " + serverworld.getRegistryKey().getValue();
+             });
+-            if (this.ticks % 20 == 0) {
++            /*if (this.ticks % 20 == 0) {
+                 this.profiler.push("timeSync");
+                 this.playerManager.sendToDimension(new WorldTimeUpdateS2CPacket(serverworld.getTime(), serverworld.getTimeOfDay(), serverworld.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE)), serverworld.getRegistryKey());
+                 this.profiler.pop();
+-            }
++            }*/
+ 
+             this.profiler.push("tick");
+ 
+@@ -954,7 +987,7 @@
      }
  
      public String getServerModName() {
@@ -97,7 +128,7 @@
      }
  
      public CrashReport populateCrashReport(CrashReport crashreport) {
-@@ -1299,11 +1324,11 @@
+@@ -1299,11 +1332,11 @@
  
      public CompletableFuture<Void> reloadResources(Collection<String> collection) {
          CompletableFuture<Void> completablefuture = CompletableFuture.supplyAsync(() -> {
@@ -111,7 +142,7 @@
          }, this).thenCompose((immutablelist) -> {
              return ServerResourceManager.reload(immutablelist, this.isDedicated() ? CommandManager.RegistrationEnvironment.DEDICATED : CommandManager.RegistrationEnvironment.INTEGRATED, this.getFunctionPermissionLevel(), this.workerExecutor, this);
          }).thenAcceptAsync((serverresourcemanager) -> {
-@@ -1719,15 +1744,5 @@
+@@ -1719,15 +1752,5 @@
          return this.saveProperties;
      }
  

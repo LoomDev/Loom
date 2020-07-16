@@ -5,7 +5,7 @@
  
                  if (AbstractFireBlock.method_30032(world, blockpos)) {
 +                    // Loom start :: fire BlockIgnitedEvent
-+                    org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, blockpointer.getBlockPos()).thenAccept(event -> {
++                    org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, blockpointer.getBlockPos(), org.loomdev.api.event.block.BlockIgnitedEvent.Cause.DISPENSER).thenAccept(event -> {
 +                       if (!event.isCancelled()) {
                      world.setBlockState(blockpos, AbstractFireBlock.getState(world, blockpos));
 +                       }

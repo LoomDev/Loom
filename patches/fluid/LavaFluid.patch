@@ -7,7 +7,7 @@
 -                            world.setBlockState(blockpos1, AbstractFireBlock.getState(world, blockpos1));
 +                            // Loom start :: fire BlockIgnitedEvent
 +                            final BlockPos block1 = blockpos1;
-+                            org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos1, blockpos).thenAccept(event -> {
++                            org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos1, blockpos, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LAVA).thenAccept(event -> {
 +                                if (!event.isCancelled()) {
 +                            world.setBlockState(block1, AbstractFireBlock.getState(world, block1));
 +                                }
@@ -21,7 +21,7 @@
  
                      if (world.isAir(blockpos2.up()) && this.hasBurnableBlock(world, blockpos2)) {
 +                        // Loom start :: fire BlockIgnitedEvent
-+                        org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos2.up(), blockpos).thenAccept(event -> {
++                        org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos2.up(), blockpos, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LAVA).thenAccept(event -> {
 +                            if (!event.isCancelled()) {
                          world.setBlockState(blockpos2.up(), AbstractFireBlock.getState(world, blockpos2));
 +                            }

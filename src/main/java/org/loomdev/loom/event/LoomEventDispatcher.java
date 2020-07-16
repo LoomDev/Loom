@@ -13,14 +13,14 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.explosion.Explosion;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.Loom;
 import org.loomdev.api.entity.misc.Lightning;
 import org.loomdev.api.entity.mob.Creeper;
+import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.Event;
-import org.loomdev.api.event.block.BlockBrokenEvent;
-import org.loomdev.api.event.block.BlockBurnedEvent;
-import org.loomdev.api.event.block.BlockIgnitedEvent;
-import org.loomdev.api.event.block.BlockPlacedEvent;
+import org.loomdev.api.event.block.*;
 import org.loomdev.api.event.block.fluid.FluidLevelChangedEvent;
 import org.loomdev.api.event.block.plant.*;
 import org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent;
@@ -30,6 +30,8 @@ import org.loomdev.api.event.entity.decoration.ArmorStandPlacedEvent;
 import org.loomdev.api.event.player.PlayerMessagedEvent;
 import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
 import org.loomdev.api.event.player.connection.PlayerJoinedEvent;;
+import org.loomdev.api.event.player.movement.PlayerEnteredFlightEvent;
+import org.loomdev.api.event.player.movement.PlayerEnteredSwimmingEvent;
 import org.loomdev.api.event.server.ServerPingedEvent;
 import org.loomdev.loom.block.BlockImpl;
 import org.loomdev.loom.entity.decoration.ArmorStandImpl;
@@ -54,12 +56,8 @@ public final class LoomEventDispatcher {
         return Loom.getServer().getEventManager().fireAsync(event);
     }
 
-    public static CompletableFuture<ArmorStandPlacedEvent> onArmorStandPlaced(ArmorStandEntity armorStand, BlockPos blockpos, PlayerEntity player) { // TODO also make async in nms
-        ArmorStandPlacedEvent event = new ArmorStandPlacedEvent(
-                (ArmorStandImpl) armorStand.getLoomEntity(),
-                (PlayerImpl) player.getLoomEntity(),
-                ArmorStandPlacedEvent.Cause.PLAYER
-        );
+    public static CompletableFuture<ArmorStandPlacedEvent> onArmorStandPlaced(ArmorStandEntity armorStand, PlayerEntity player) { // TODO also make async in nms
+        ArmorStandPlacedEvent event = new ArmorStandPlacedEvent((ArmorStandImpl) armorStand.getLoomEntity(), (PlayerImpl) player.getLoomEntity());
         return fireAsync(event);
     }
 
@@ -73,25 +71,29 @@ public final class LoomEventDispatcher {
         return fire(new BlockPlacedEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
-    public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, BlockPos ignitingpos) {
-        net.minecraft.block.Block ignitingBlock = world.getBlockState(ignitingpos).getBlock();
-        BlockIgnitedEvent.Cause cause = BlockIgnitedEvent.Cause.FIRE_SPREAD;
-
-        if (ignitingBlock.is(Blocks.LAVA)) {
-            cause = BlockIgnitedEvent.Cause.LAVA;
-        } else if (ignitingBlock.is(Blocks.DISPENSER)) {
-            cause = BlockIgnitedEvent.Cause.FLINT_AND_STEEL;
-        }
-
+    public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, BlockPos ignitingpos, BlockIgnitedEvent.Cause cause) {
         return fireAsync(new BlockIgnitedEvent(BlockImpl.of(world, pos), BlockImpl.of(world, ignitingpos), cause));
     }
 
-    public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, Entity igniter) {
-        return null; // TODO
+    public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, Entity igniter, BlockIgnitedEvent.Cause cause) { // TODO add Fireball nms implementations for this
+        return fireAsync(new BlockIgnitedEvent(BlockImpl.of(world, pos), igniter.getLoomEntity(), cause));
+    }
+
+    public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, Explosion explosion) {
+        org.loomdev.api.entity.Entity igniter = explosion.getCausingEntity() == null ? null : explosion.getCausingEntity().getLoomEntity();
+        return fireAsync(new BlockIgnitedEvent(BlockImpl.of(world, pos), igniter, BlockIgnitedEvent.Cause.EXPLOSION));
     }
 
     public static CompletableFuture<BlockBurnedEvent> onBlockBurned(WorldAccess world, BlockPos pos, BlockPos ignitingpos) {
         return fireAsync(new BlockBurnedEvent(BlockImpl.of(world, pos), BlockImpl.of(world, ignitingpos)));
+    }
+
+    public static CompletableFuture<BlockEvaporatedEvent> onBlockEvaporated(WorldAccess world, BlockPos pos) {
+        return fireAsync(new BlockEvaporatedEvent(BlockImpl.of(world, pos), null));
+    }
+
+    public static CompletableFuture<BlockEvaporatedEvent> onBlockEvaporated(WorldAccess world, BlockPos pos, PlayerEntity player) {
+        return fireAsync(new BlockEvaporatedEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static CompletableFuture<PlantDiedEvent> onPlantDied(WorldAccess world, BlockPos pos) {
@@ -141,6 +143,16 @@ public final class LoomEventDispatcher {
         return fireAsync(new PlayerMessagedEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), message, new HashSet<>(Loom.getServer().getOnlinePlayers())));
     }
 
+    public static CompletableFuture<PlayerEnteredFlightEvent> onPlayerEnteredFlight(PlayerEntity playerEntity) {
+        return fireAsync(new PlayerEnteredFlightEvent((PlayerImpl) playerEntity.getLoomEntity()));
+    }
+
+    public static CompletableFuture<PlayerEnteredSwimmingEvent> onPlayerEnteredSwimming(PlayerEntity playerEntity) {
+        PlayerEnteredSwimmingEvent event = new PlayerEnteredSwimmingEvent((PlayerImpl) playerEntity.getLoomEntity());
+        event.cancel(true);
+        return fireAsync(event);
+    }
+
     public static CompletableFuture<CreeperChargedEvent> onCreeperCharged(CreeperEntity creeper) {
         return fireAsync(new CreeperChargedEvent((Creeper) creeper.getLoomEntity()));
     }
@@ -156,7 +168,7 @@ public final class LoomEventDispatcher {
     public static CompletableFuture<ServerPingedEvent> onServerPinged(ClientConnection connection, ServerMetadata metadata) {
         return fireAsync(new ServerPingedEvent(
                 ((InetSocketAddress) connection.getAddress()).getAddress(),
-                (TextComponent) TextTransformer.toLoom(metadata.getDescription()),
+                TextTransformer.toLoom(metadata.getDescription()),
                 metadata.getPlayers().getOnlinePlayerCount(),
                 metadata.getPlayers().getPlayerLimit(),
                 metadata.getVersion().getProtocolVersion(),

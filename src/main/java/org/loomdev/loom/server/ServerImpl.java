@@ -10,6 +10,7 @@ import net.minecraft.server.world.ServerWorld;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.command.CommandSource;
@@ -50,6 +51,8 @@ public class ServerImpl implements Server {
     private final CommandSource consoleSource;
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
+
+    private final Map<UUID, World> worlds = new HashMap<>();
 
     public ServerImpl(MinecraftServer minecraftServer) {
         Loom.setServer(this);
@@ -156,21 +159,29 @@ public class ServerImpl implements Server {
         return this.tickTimes;
     }
 
+    public void registerWorld(@NotNull World world) {
+        if (this.worlds.containsKey(world.getUUID())) {
+            throw new IllegalStateException(String.format("World '%s' is a duplicate of an already loaded world.", world.getName()));
+        }
+
+        worlds.put(world.getUUID(), world);
+    }
+
+    @Override
+    public @NotNull Collection<World> getWorlds() {
+        return this.worlds.values();
+    }
+
     @Override
     public @NonNull Optional<World> getWorld(@NonNull String name) {
-        for (ServerWorld world : this.minecraftServer.getWorlds()) {
-            if (world.field_24456.getLevelName().equals(name)) {
-                return Optional.of(WorldImpl.of(world));
-            }
-        }
-        
-        return Optional.empty();
-        //return Optional.ofNullable(this.worlds.get(name));
+        return this.worlds.values().stream()
+                .filter(world -> world.getName().equals(name))
+                .findFirst();
     }
 
     @Override
     public @NonNull Optional<World> getWorld(@NonNull UUID uuid) {
-        throw new UnsupportedOperationException("This method has not yet been implemented");
+        return Optional.ofNullable(this.worlds.get(uuid));
     }
 
     @Override
