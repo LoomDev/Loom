@@ -3,15 +3,20 @@ package org.loomdev.loom.entity;
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.DragonFireballEntity;
+import net.minecraft.entity.projectile.FireworkRocketEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.loomdev.api.entity.mob.ElderGuardian;
+import org.loomdev.loom.entity.boss.dragon.EnderDragonImpl;
+import org.loomdev.loom.entity.boss.dragon.EnderDragonPartImpl;
 import org.loomdev.loom.entity.decoration.ArmorStandImpl;
 import org.loomdev.loom.entity.decoration.EndCrystalImpl;
 import org.loomdev.loom.entity.misc.LightningImpl;
@@ -20,6 +25,7 @@ import org.loomdev.loom.entity.passive.*;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.entity.projectile.ArrowImpl;
 import org.loomdev.loom.entity.projectile.DragonFireballImpl;
+import org.loomdev.loom.entity.projectile.FireworkRocketImpl;
 import org.loomdev.loom.entity.vehicle.BoatImpl;
 
 import java.lang.reflect.Constructor;
@@ -67,9 +73,15 @@ public final class LoomEntityFactory {
         register(DrownedEntity.class, DrownedImpl.class);
         register(ElderGuardianEntity.class, ElderGuardianImpl.class);
         register(EndCrystalEntity.class, EndCrystalImpl.class);
-        // dragon
+        register(EnderDragonEntity.class, EnderDragonImpl.class);
+        register(EnderDragonPart.class, EnderDragonPartImpl.class);
         register(EndermanEntity.class, EndermanImpl.class);
         register(EndermiteEntity.class, EndermiteImpl.class);
+        register(EvokerEntity.class, EvokerImpl.class);
+        register(EvokerFangsEntity.class, EvokerImpl.class);
+        register(FireworkRocketEntity.class, FireworkRocketImpl.class);
+        register(FoxEntity.class, FoxImpl.class);
+        register(GhastEntity.class, GhastImpl.class);
 
         register(GuardianEntity.class, GuardianImpl.class);
 

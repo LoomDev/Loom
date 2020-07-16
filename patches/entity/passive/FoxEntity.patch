@@ -1,0 +1,42 @@
+--- a/net/minecraft/entity/passive/FoxEntity.java
++++ b/net/minecraft/entity/passive/FoxEntity.java
+@@ -310,15 +310,15 @@
+         return FoxEntity.Type.fromId((Integer) this.dataTracker.get(FoxEntity.TYPE));
+     }
+ 
+-    private void setType(FoxEntity.Type foxentity_type) {
++    public void setType(FoxEntity.Type foxentity_type) { // Loom :: public accessor
+         this.dataTracker.set(FoxEntity.TYPE, foxentity_type.getId());
+     }
+ 
+-    private List<UUID> getTrustedUuids() {
++    public List<UUID> getTrustedUuids() { // Loom :: public accessor
+         List<UUID> list = Lists.newArrayList();
+ 
+-        list.add(((Optional) this.dataTracker.get(FoxEntity.OWNER)).orElse((Object) null));
+-        list.add(((Optional) this.dataTracker.get(FoxEntity.OTHER_TRUSTED)).orElse((Object) null));
++        list.add((this.dataTracker.get(FoxEntity.OWNER)).orElse(null)); // Loom :: decompile error
++        list.add((this.dataTracker.get(FoxEntity.OTHER_TRUSTED)).orElse(null)); // Loom :: decompile error
+         return list;
+     }
+ 
+@@ -398,7 +398,7 @@
+         return this.getFoxFlag(32);
+     }
+ 
+-    private void setSleeping(boolean flag) {
++    public void setSleeping(boolean flag) { // Loom :: public accessor
+         this.setFoxFlag(32, flag);
+     }
+ 
+@@ -644,9 +644,7 @@
+         return true;
+     }
+ 
+-    public PassiveEntity createChild(PassiveEntity passiveentity) {
+-        return this.createChild(passiveentity);
+-    }
++    // Loom :: decompile error
+ 
+     class LookAtEntityGoal extends net.minecraft.entity.ai.goal.LookAtEntityGoal {
+ 

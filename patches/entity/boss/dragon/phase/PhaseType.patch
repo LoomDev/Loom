@@ -1,0 +1,11 @@
+--- a/net/minecraft/entity/boss/dragon/phase/PhaseType.java
++++ b/net/minecraft/entity/boss/dragon/phase/PhaseType.java
+@@ -20,7 +20,7 @@
+     public static final PhaseType<HoverPhase> HOVER = register(HoverPhase.class, "Hover");
+     private final Class<? extends Phase> phaseClass;
+     private final int id;
+-    private final String name;
++    public final String name; // Loom :: public accessor
+ 
+     private PhaseType(int i, Class<? extends Phase> oclass, String s) {
+         this.id = i;

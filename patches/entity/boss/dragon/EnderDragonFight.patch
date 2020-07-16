@@ -1,0 +1,31 @@
+--- a/net/minecraft/entity/boss/dragon/EnderDragonFight.java
++++ b/net/minecraft/entity/boss/dragon/EnderDragonFight.java
+@@ -72,8 +72,8 @@
+     private boolean previouslyKilled;
+     private UUID dragonUuid;
+     private boolean doLegacyCheck;
+-    private BlockPos exitPortalLocation;
+-    private EnderDragonSpawnState dragonSpawnState;
++    public BlockPos exitPortalLocation; // Loom :: public accessor
++    public EnderDragonSpawnState dragonSpawnState; // Loom :: public accessor
+     private int spawnStateTimer;
+     private List<EndCrystalEntity> crystals;
+ 
+@@ -234,7 +234,7 @@
+ 
+     }
+ 
+-    protected void setSpawnState(EnderDragonSpawnState enderdragonspawnstate) {
++    public void setSpawnState(EnderDragonSpawnState enderdragonspawnstate) { // Loom :: public accessor
+         if (this.dragonSpawnState == null) {
+             throw new IllegalStateException("Dragon respawn isn't in progress, can't skip ahead in the animation.");
+         } else {
+@@ -419,7 +419,7 @@
+         Feature.END_GATEWAY.configure(EndGatewayFeatureConfig.createConfig()).generate(this.world, this.world.getStructureAccessor(), this.world.getChunkManager().getChunkGenerator(), new Random(), blockpos);
+     }
+ 
+-    private void generateEndPortal(boolean flag) {
++    public void generateEndPortal(boolean flag) { // Loom :: public accessor
+         EndPortalFeature endportalfeature = new EndPortalFeature(flag);
+ 
+         if (this.exitPortalLocation == null) {
