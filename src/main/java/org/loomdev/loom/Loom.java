@@ -1,11 +1,10 @@
 package org.loomdev.loom;
 
-import com.google.common.collect.ImmutableMap;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityPose;
 import net.minecraft.server.Main;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.loomdev.api.plugin.PluginMetadata;
 
 import java.io.File;
 import java.util.Arrays;
@@ -14,6 +13,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Loom {
+
+    public static final PluginMetadata LOOM_PLUGIN = new PluginMetadata() {
+        @Override
+        public @NonNull String getId() {
+            return "loom";
+        }
+
+        @Override
+        public @NonNull Class<?> getMainClass() {
+            return Loom.class;
+        }
+    };
 
     public static void main(String[] args) {
         OptionParser parser = new OptionParser() {

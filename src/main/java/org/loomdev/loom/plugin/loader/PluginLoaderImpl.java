@@ -6,6 +6,8 @@ import org.loomdev.api.plugin.*;
 import org.loomdev.api.plugin.ap.SerializedPluginMetadata;
 import org.loomdev.loom.plugin.data.LoomPluginContainer;
 import org.loomdev.loom.plugin.data.LoomPluginMetadata;
+import org.loomdev.loom.plugin.loader.injector.InjectionPointProvider;
+import org.loomdev.loom.plugin.loader.injector.PluginInjectorModule;
 import org.loomdev.loom.server.ServerImpl;
 
 import java.io.BufferedInputStream;
@@ -66,7 +68,8 @@ public class PluginLoaderImpl implements PluginLoader {
             throw new IllegalArgumentException("No path present in plugin metadata.");
         }
 
-        Injector injector = Guice.createInjector(new PluginInjectorModule(this.server, metadata, this.pluginDirectory));
+        // Injector injector = Guice.createInjector(new PluginInjectorModule(this.server, metadata, this.pluginDirectory));
+        Injector injector = Guice.createInjector(new InjectionPointProvider(), new PluginInjectorModule(this.server, metadata, this.pluginDirectory));
         Plugin instance = (Plugin) injector.getInstance(metadata.getMainClass());
 
         if (instance == null) {

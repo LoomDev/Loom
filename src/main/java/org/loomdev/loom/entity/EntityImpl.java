@@ -218,7 +218,7 @@ public class EntityImpl implements Entity {
 
     @Override
     public void setVelocity(@NonNull Vector3d vec) {
-        this.mcEntity.setVelocity(new Vec3d(vec.x, vec.y, vec.z));
+        this.mcEntity.setVelocity(new Vec3d(vec.getX(), vec.getY(), vec.getZ()));
     }
 
     @Override

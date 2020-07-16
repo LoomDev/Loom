@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.plugin.*;
+import org.loomdev.api.scheduler.Task;
 import org.loomdev.loom.Loom;
 import org.loomdev.loom.plugin.data.LoomPluginContainer;
 import org.loomdev.loom.plugin.loader.PluginClassLoader;
@@ -98,14 +99,14 @@ public class PluginManagerImpl implements PluginManager {
         PluginContainer plugin = this.plugins.get(id);
 
         if (plugin == null) {
-            return Result.NOT_FOUND;
+            return Result.ALREADY_IN_STATE;
         }
 
         try {
             PluginMetadata metadata = plugin.getMetadata();
             this.disablePlugin(metadata.getId());
             this.plugins.remove(metadata.getId());
-            // this.pluginsByInstance.remove(plugin.getInstance().get()); // TODO figure out a way to grab the instance from here
+
             ((PluginClassLoader) plugin.getClassLoader()).close();
             System.gc(); // TODO see if this is possible to remove
 
@@ -139,6 +140,7 @@ public class PluginManagerImpl implements PluginManager {
 
             container.setInstance(instance);
             pluginsByInstance.put(instance, container);
+
             this.server.getEventManager().register(instance, instance);
             instance.onPluginEnable(); // TODO fire async
 
@@ -167,6 +169,7 @@ public class PluginManagerImpl implements PluginManager {
         plugin.onPluginDisable(); // TODO fire async
         this.server.getEventManager().unregister(plugin);
         this.server.getCommandManager().unregister(plugin);
+        this.server.getScheduler().unregisterSchedulers(plugin);
         pluginsByInstance.remove(plugin);
         container.setInstance(null);
         System.gc();
@@ -193,15 +196,4 @@ public class PluginManagerImpl implements PluginManager {
         return path.toFile().isFile() && path.toString().endsWith(".jar");
     }
 
-    public static final PluginMetadata DUMMY_METADATA = new PluginMetadata() {
-        @Override
-        public @NonNull String getId() {
-            return "loom";
-        }
-
-        @Override
-        public @NonNull Class<?> getMainClass() {
-            return Loom.class;
-        }
-    };
 }

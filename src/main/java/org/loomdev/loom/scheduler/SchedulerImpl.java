@@ -12,29 +12,21 @@ import java.util.stream.Collectors;
 
 public class SchedulerImpl implements Scheduler {
 
-    /**
-     * The number of milliseconds between pulses.
-     */
-    static final int PULSE_EVERY = 50;
-
     private final PluginManager pluginManager;
     private final ScheduledExecutorService executor;
     private final ExecutorService asyncTaskExecutor;
 
     private final ConcurrentHashMap<Integer, TaskImpl> tasks = new ConcurrentHashMap<>();
 
-    private Thread primaryThread;
-
     public SchedulerImpl(PluginManager pluginManager) {
-        this.pluginManager = pluginManager;
+        this.pluginManager = pluginManager; // TODO remove?
 
         executor = Executors.newSingleThreadScheduledExecutor(); // Scheduler executor
         asyncTaskExecutor = new ThreadPoolExecutor(0, Runtime.getRuntime().availableProcessors(), 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<>()); // async task executor
-        this.primaryThread = Thread.currentThread();
     }
 
     @Override
-    public Task.@NonNull Builder createTaskBuilder() {
+    public Task.@NonNull Builder createTask() {
         return new TaskImpl.BuilderImpl(this);
     }
 
@@ -42,22 +34,15 @@ public class SchedulerImpl implements Scheduler {
         this.tasks.put(task.getTaskId(), task);
     }
 
-    public void start() {
-        System.out.println("start logger XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
-        //executor.scheduleAtFixedRate(this::pulse, 0, PULSE_EVERY, TimeUnit.MILLISECONDS); // TODO should this be changed to the ms tickloop?
-    }
+    public void start() { }
 
     public void stop() {
-        // TODO cancel all tasks
+        tasks.values().forEach(task -> disableTask(task.getTaskId(), true));
         executor.shutdownNow();
         asyncTaskExecutor.shutdown();
     }
 
     public void pulse() {
-        primaryThread = Thread.currentThread();
-
-        // System.out.println("pulse");
-
         for (Iterator<TaskImpl> it = tasks.values().iterator(); it.hasNext();) {
             TaskImpl task = it.next();
             switch (task.shouldExecute()) {
@@ -95,4 +80,21 @@ public class SchedulerImpl implements Scheduler {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public void unregisterSchedulers(Plugin plugin) {
+        getScheduledTasks(plugin).forEach(task -> {
+            disableTask(task.getTaskId(), true);
+        });
+    }
+
+    @Override
+    public void disableTask(int taskId, boolean interruptIfRunning) {
+        Task task = tasks.get(taskId);
+        if (interruptIfRunning) {
+            task.cancelInterrupt();
+        } else {
+            task.cancel();
+        }
+        this.tasks.remove(taskId);
+    }
 }

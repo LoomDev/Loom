@@ -10,6 +10,7 @@ import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginMetadata;
+import org.loomdev.loom.Loom;
 import org.loomdev.loom.command.loom.DebugCommand;
 import org.loomdev.loom.command.loom.PluginsCommand;
 import org.loomdev.loom.command.loom.TpsCommand;
@@ -67,13 +68,13 @@ public class CommandManagerImpl implements CommandManager {
 
         // Register command name if no conflicts exist
         if (!commands.containsKey(name)) {
-            register(PluginManagerImpl.DUMMY_METADATA, command, command.getName());
+            register(Loom.LOOM_PLUGIN, command, name);
         }
 
         // Register non-conflicting aliases
         for (String alias : command.getAliases()) {
             if (!commands.containsKey(alias)) {
-                register(PluginManagerImpl.DUMMY_METADATA, command, alias);
+                register(Loom.LOOM_PLUGIN, command, alias);
             }
         }
     }

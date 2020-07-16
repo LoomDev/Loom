@@ -36,6 +36,11 @@ public class TaskImpl extends FutureTask<Void> implements Task {
     }
 
     public void cancel() {
+        cancel(false);
+    }
+
+    @Override
+    public void cancelInterrupt() {
         cancel(true);
     }
 
@@ -152,7 +157,7 @@ public class TaskImpl extends FutureTask<Void> implements Task {
 
         @Override
         public Task complete(Plugin plugin) {
-            TaskImpl task = new TaskImpl(plugin, this.runnable, !this.async, delayTicks, intervalTicks);
+            TaskImpl task = new TaskImpl(plugin, this.runnable, !this.async, delayTicks, intervalTicks < 1 ? -1 : intervalTicks);
             this.scheduler.scheduleTask(task);
             return task;
         }
