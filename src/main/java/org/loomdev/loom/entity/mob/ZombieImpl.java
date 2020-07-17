@@ -39,4 +39,24 @@ public class ZombieImpl extends HostileEntityImpl implements Zombie {
     public void setBaby(boolean b) {
         getMinecraftEntity().setBaby(b);
     }
+
+    @Override
+    public int getConversionTime() {
+        return getMinecraftEntity().ticksUntilWaterConversion;
+    }
+
+    @Override
+    public void setConversionTime(int i) {
+        getMinecraftEntity().ticksUntilWaterConversion = i;
+    }
+
+    @Override
+    public boolean isConverting() {
+        return getMinecraftEntity().ticksUntilWaterConversion > 0;
+    }
+
+    @Override
+    public void convert(boolean b) {
+        getMinecraftEntity().convertInWater();
+    }
 }

@@ -82,6 +82,12 @@ public final class LoomEntityFactory {
         register(FireworkRocketEntity.class, FireworkRocketImpl.class);
         register(FoxEntity.class, FoxImpl.class);
         register(GhastEntity.class, GhastImpl.class);
+        register(GiantEntity.class, GiantImpl.class);
+        register(HoglinEntity.class, HoglinImpl.class);
+        register(HorseEntity.class, HorseImpl.class);
+        register(HuskEntity.class, HuskImpl.class);
+        register(IllusionerEntity.class, IllusionerImpl.class);
+        register(IronGolemEntity.class, IronGolemImpl.class);
 
         register(GuardianEntity.class, GuardianImpl.class);
 

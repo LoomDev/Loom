@@ -1,0 +1,29 @@
+--- a/net/minecraft/entity/mob/ZombieEntity.java
++++ b/net/minecraft/entity/mob/ZombieEntity.java
+@@ -75,7 +75,7 @@
+     private final BreakDoorGoal breakDoorsGoal;
+     private boolean canBreakDoors;
+     private int inWaterTime;
+-    private int ticksUntilWaterConversion;
++    public int ticksUntilWaterConversion; // Loom :: public accessor
+ 
+     public ZombieEntity(EntityType<? extends ZombieEntity> entitytype, World world) {
+         super(entitytype, world);
+@@ -237,9 +237,16 @@
+         this.getDataTracker().set(ZombieEntity.CONVERTING_IN_WATER, true);
+     }
+ 
++    // Loom start :: add override method to allow for silencing on force convert.
+     protected void convertInWater() {
++        convertInWater(false);
++
++    }
++
++    public void convertInWater(boolean silent) {
+         this.convertTo(EntityType.DROWNED);
+-        if (!this.isSilent()) {
++        if (!this.isSilent() && !silent) {
++            // Loom end :: add override method to allow for silencing on force convert.
+             this.world.syncWorldEvent((PlayerEntity) null, 1040, this.getBlockPos(), 0);
+         }
+ 
