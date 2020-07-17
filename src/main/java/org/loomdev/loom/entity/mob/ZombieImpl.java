@@ -56,7 +56,7 @@ public class ZombieImpl extends HostileEntityImpl implements Zombie {
     }
 
     @Override
-    public void convert(boolean b) {
-        getMinecraftEntity().convertInWater();
+    public void convert(boolean sound) {
+        getMinecraftEntity().convertInWater(!sound);
     }
 }
