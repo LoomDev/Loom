@@ -1,5 +1,6 @@
 package org.loomdev.loom.bossbar;
 
+import com.google.common.base.Preconditions;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.minecraft.entity.boss.ServerBossBar;
@@ -10,6 +11,7 @@ import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.util.Collection;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class BossBarImpl implements BossBar {
@@ -30,6 +32,11 @@ public class BossBarImpl implements BossBar {
                 net.minecraft.entity.boss.BossBar.Color.valueOf(color.name()),
                 net.minecraft.entity.boss.BossBar.Style.valueOf(style.name())
         );
+    }
+
+    @Override
+    public @NotNull UUID getUUID() {
+        return this.mcBar.getUuid();
     }
 
     @Override
@@ -64,7 +71,7 @@ public class BossBarImpl implements BossBar {
 
     @Override
     public void setColor(@NotNull Color color) {
-        this.mcBar.setColor(net.minecraft.entity.boss.BossBar.Color.byName(color.name()));
+        this.mcBar.setColor(net.minecraft.entity.boss.BossBar.Color.valueOf(color.name()));
     }
 
     @Override
@@ -74,7 +81,7 @@ public class BossBarImpl implements BossBar {
 
     @Override
     public void setStyle(@NotNull Style style) {
-        this.mcBar.setOverlay(net.minecraft.entity.boss.BossBar.Style.byName(style.name()));
+        this.mcBar.setOverlay(net.minecraft.entity.boss.BossBar.Style.valueOf(style.name()));
     }
 
     @Override
