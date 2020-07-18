@@ -79,15 +79,7 @@
                      this.timeReference += 50L;
                      TickDurationMonitor tickdurationmonitor = TickDurationMonitor.create("Server");
  
-@@ -706,6 +729,7 @@
- 
-             this.setCrashReport(crashreport);
-         } finally {
-+            loomServer.getScheduler().stop(); // Loom :: disable scheduler
-             try {
-                 this.stopped = true;
-                 this.shutdown();
-@@ -850,27 +874,37 @@
+@@ -850,27 +873,37 @@
          this.tickTime = this.tickTime * 0.8F + (float) l / 1000000.0F * 0.19999999F;
          long i1 = Util.getMeasuringTimeNano();
  
@@ -127,7 +119,7 @@
  
              this.profiler.push("tick");
  
-@@ -954,7 +988,7 @@
+@@ -954,7 +987,7 @@
      }
  
      public String getServerModName() {
@@ -136,7 +128,7 @@
      }
  
      public CrashReport populateCrashReport(CrashReport crashreport) {
-@@ -1299,11 +1333,11 @@
+@@ -1299,11 +1332,11 @@
  
      public CompletableFuture<Void> reloadResources(Collection<String> collection) {
          CompletableFuture<Void> completablefuture = CompletableFuture.supplyAsync(() -> {
@@ -150,7 +142,7 @@
          }, this).thenCompose((immutablelist) -> {
              return ServerResourceManager.reload(immutablelist, this.isDedicated() ? CommandManager.RegistrationEnvironment.DEDICATED : CommandManager.RegistrationEnvironment.INTEGRATED, this.getFunctionPermissionLevel(), this.workerExecutor, this);
          }).thenAcceptAsync((serverresourcemanager) -> {
-@@ -1719,15 +1753,5 @@
+@@ -1719,15 +1752,5 @@
          return this.saveProperties;
      }
  

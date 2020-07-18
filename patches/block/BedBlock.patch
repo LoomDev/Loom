@@ -1,0 +1,31 @@
+--- a/net/minecraft/block/BedBlock.java
++++ b/net/minecraft/block/BedBlock.java
+@@ -134,7 +134,18 @@
+         if (vec3d.y < 0.0D) {
+             double d0 = entity instanceof LivingEntity ? 1.0D : 0.8D;
+ 
+-            entity.setVelocity(vec3d.x, -vec3d.y * 0.6600000262260437D * d0, vec3d.z);
++            // Loom :: fire BlockBouncedEvent
++            org.loomdev.loom.event.LoomEventDispatcher.onBlockBounced(entity.world, entity.getBlockPos(), entity, d0).thenAccept(event -> {
++               if (!event.isCancelled()) {
++                   entity.setVelocity(vec3d.x, -vec3d.y * 0.6600000262260437D * event.getBounceMultiplier(), vec3d.z);
++               } else {
++                   // If cancelled, make sure the player doesn't bounce
++                   entity.setVelocity(0, 0, 0);
++               }
++
++               entity.velocityModified = true;
++            });
++            // Loom end;
+         }
+ 
+     }
+@@ -252,7 +263,7 @@
+                     Box box = entitytype.createSimpleBoundingBox(vec3d.x, vec3d.y, vec3d.z);
+ 
+                     if (worldview.doesNotCollide(box)) {
+-                        Stream stream = worldview.method_29546(box.stretch(0.0D, -0.20000000298023224D, 0.0D));
++                        Stream<BlockState> stream = worldview.method_29546(box.stretch(0.0D, -0.20000000298023224D, 0.0D)); // Loom :: decompile error
+ 
+                         entitytype.getClass();
+                         if (stream.noneMatch(entitytype::method_29496)) {

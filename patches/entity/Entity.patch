@@ -82,7 +82,21 @@
          return this.world.getBlockState(this.getBlockPos()).isOf(Blocks.BUBBLE_COLUMN);
      }
  
-@@ -2308,7 +2320,7 @@
+@@ -1846,7 +1858,13 @@
+     }
+ 
+     public void setSwimming(boolean flag) {
++        // Loom start :: fire PlayerToggledSwimmingEvent
++        /*org.loomdev.loom.event.LoomEventDispatcher.onEntityToggledSwimming(this).thenAccept(event -> {
++           if (!event.isCancelled()) {
+         this.setFlag(4, flag);
++           }
++        });*/ // TODO re-enable once entity mappings are done
++        // Loom end
+     }
+ 
+     public boolean isGlowing() {
+@@ -2308,7 +2326,7 @@
          return this.getHorizontalFacing();
      }
  

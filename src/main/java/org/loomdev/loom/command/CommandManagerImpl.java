@@ -15,13 +15,9 @@ import org.loomdev.loom.command.loom.DebugCommand;
 import org.loomdev.loom.command.loom.PluginsCommand;
 import org.loomdev.loom.command.loom.TpsCommand;
 import org.loomdev.loom.command.loom.VersionCommand;
-import org.loomdev.loom.plugin.PluginManagerImpl;
 import org.loomdev.loom.server.ServerImpl;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class CommandManagerImpl implements CommandManager {
 
@@ -49,10 +45,7 @@ public class CommandManagerImpl implements CommandManager {
             PluginMetadata metadata = container.getMetadata();
             String name = command.getName().toLowerCase(Locale.ENGLISH).trim();
 
-            // Register command name if no conflicts exist
-            if (!commands.containsKey(name)) {
-                register(metadata, command, command.getName());
-            }
+            register(metadata, command, command.getName());
 
             // Register non-conflicting aliases
             for (String alias : command.getAliases()) {
@@ -110,7 +103,7 @@ public class CommandManagerImpl implements CommandManager {
 
     @Override
     public int handle(@NonNull CommandSource source, @NonNull String input) {
-        String[] args = input.split("\\s+"); // TODO remove command from arg, aka first index
+        String[] args = input.split("\\s+");
 
         if (args.length == 0) {
             return 0;
@@ -123,7 +116,7 @@ public class CommandManagerImpl implements CommandManager {
             return 0;
         }
 
-        command.execute(source, args);
+        command.execute(source, Arrays.copyOfRange(args, 1, args.length));
         return 1;
     }
 }

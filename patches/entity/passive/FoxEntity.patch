@@ -40,3 +40,14 @@
  
      class LookAtEntityGoal extends net.minecraft.entity.ai.goal.LookAtEntityGoal {
  
+@@ -1089,9 +1087,7 @@
+             return livingentity instanceof FoxEntity ? false : (!(livingentity instanceof ChickenEntity) && !(livingentity instanceof RabbitEntity) && !(livingentity instanceof HostileEntity) ? (livingentity instanceof TameableEntity ? !((TameableEntity) livingentity).isTamed() : (livingentity instanceof PlayerEntity && (livingentity.isSpectator() || ((PlayerEntity) livingentity).isCreative()) ? false : (FoxEntity.this.canTrust(livingentity.getUuid()) ? false : !livingentity.isSleeping() && !livingentity.isSneaky()))) : true);
+         }
+ 
+-        public boolean test(Object object) {
+-            return this.test((LivingEntity) object);
+-        }
++        // Loom :: decompile error
+     }
+ 
+     class AvoidDaylightGoal extends EscapeSunlightGoal {

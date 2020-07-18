@@ -1,7 +1,6 @@
 package org.loomdev.loom.event;
 
-import net.kyori.adventure.text.TextComponent;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.enums.Instrument;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
@@ -10,28 +9,31 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.ServerMetadata;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.state.property.EnumProperty;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.explosion.Explosion;
-import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.Loom;
+import org.loomdev.api.block.enums.Note;
 import org.loomdev.api.entity.misc.Lightning;
 import org.loomdev.api.entity.mob.Creeper;
-import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.Event;
 import org.loomdev.api.event.block.*;
 import org.loomdev.api.event.block.fluid.FluidLevelChangedEvent;
+import org.loomdev.api.event.block.note.NoteBlockPlayedEvent;
 import org.loomdev.api.event.block.plant.*;
 import org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent;
 import org.loomdev.api.event.entity.creeper.CreeperChargedEvent;
 import org.loomdev.api.event.entity.creeper.CreeperIgnitedEvent;
 import org.loomdev.api.event.entity.decoration.ArmorStandPlacedEvent;
+import org.loomdev.api.event.entity.movement.EntityToggledSwimmingEvent;
 import org.loomdev.api.event.player.PlayerMessagedEvent;
 import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
 import org.loomdev.api.event.player.connection.PlayerJoinedEvent;;
 import org.loomdev.api.event.player.movement.PlayerEnteredFlightEvent;
-import org.loomdev.api.event.player.movement.PlayerEnteredSwimmingEvent;
 import org.loomdev.api.event.server.ServerPingedEvent;
 import org.loomdev.loom.block.BlockImpl;
 import org.loomdev.loom.entity.decoration.ArmorStandImpl;
@@ -71,6 +73,10 @@ public final class LoomEventDispatcher {
         return fire(new BlockPlacedEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
+    public static CompletableFuture<BlockDroppedExperienceEvent> onBlockDroppedExperience(WorldAccess world, BlockPos pos, int experience) {
+        return fireAsync(new BlockDroppedExperienceEvent(BlockImpl.of(world, pos), experience));
+    }
+
     public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, BlockPos ignitingpos, BlockIgnitedEvent.Cause cause) {
         return fireAsync(new BlockIgnitedEvent(BlockImpl.of(world, pos), BlockImpl.of(world, ignitingpos), cause));
     }
@@ -94,6 +100,19 @@ public final class LoomEventDispatcher {
 
     public static CompletableFuture<BlockEvaporatedEvent> onBlockEvaporated(WorldAccess world, BlockPos pos, PlayerEntity player) {
         return fireAsync(new BlockEvaporatedEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
+    }
+
+    public static CompletableFuture<BlockBouncedEvent> onBlockBounced(WorldAccess world, BlockPos pos, Entity entity, double multiplier) {
+        return fireAsync(new BlockBouncedEvent(BlockImpl.of(world, pos), entity.getLoomEntity(), multiplier));
+    }
+
+    public static CompletableFuture<NoteBlockPlayedEvent> onNoteBlockPlayed(WorldAccess world, BlockPos pos, Instrument instrument, int note, float pitch) {
+        NoteBlockPlayedEvent event = new NoteBlockPlayedEvent(BlockImpl.of(world, pos), org.loomdev.api.block.enums.Instrument.getByName(instrument.asString()), Note.getByUses(note), pitch);
+        System.out.println(instrument.asString());
+        event.setInstrument(org.loomdev.api.block.enums.Instrument.COW_BELL);
+        event.setPitch(1f);
+        event.cancel(true);
+        return fireAsync(event);
     }
 
     public static CompletableFuture<PlantDiedEvent> onPlantDied(WorldAccess world, BlockPos pos) {
@@ -147,12 +166,6 @@ public final class LoomEventDispatcher {
         return fireAsync(new PlayerEnteredFlightEvent((PlayerImpl) playerEntity.getLoomEntity()));
     }
 
-    public static CompletableFuture<PlayerEnteredSwimmingEvent> onPlayerEnteredSwimming(PlayerEntity playerEntity) {
-        PlayerEnteredSwimmingEvent event = new PlayerEnteredSwimmingEvent((PlayerImpl) playerEntity.getLoomEntity());
-        event.cancel(true);
-        return fireAsync(event);
-    }
-
     public static CompletableFuture<CreeperChargedEvent> onCreeperCharged(CreeperEntity creeper) {
         return fireAsync(new CreeperChargedEvent((Creeper) creeper.getLoomEntity()));
     }
@@ -163,6 +176,12 @@ public final class LoomEventDispatcher {
 
     public static CompletableFuture<CreeperIgnitedEvent> onCreeperIgnited(CreeperEntity creeper) {
         return fireAsync(new CreeperIgnitedEvent((Creeper) creeper.getLoomEntity()));
+    }
+
+    public static CompletableFuture<EntityToggledSwimmingEvent> onEntityToggledSwimming(Entity entity) {
+        EntityToggledSwimmingEvent event = new EntityToggledSwimmingEvent(entity.getLoomEntity());
+        event.cancel(true);
+        return fireAsync(event);
     }
 
     public static CompletableFuture<ServerPingedEvent> onServerPinged(ClientConnection connection, ServerMetadata metadata) {

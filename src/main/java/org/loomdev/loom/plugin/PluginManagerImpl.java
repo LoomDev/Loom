@@ -142,7 +142,8 @@ public class PluginManagerImpl implements PluginManager {
             pluginsByInstance.put(instance, container);
 
             this.server.getEventManager().register(instance, instance);
-            instance.onPluginEnable(); // TODO fire async
+            instance.onPluginEnable();
+            //Task.builder().async().execute(instance::onPluginEnable).complete(null); // TODO find a better way to do this
 
             LOGGER.info("Enabled {} ({}).", metadata.getName().orElse(id), metadata.getVersion().orElse("Unknown version"));
             return Result.SUCCESS;

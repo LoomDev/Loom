@@ -2,6 +2,7 @@ package org.loomdev.loom.entity;
 
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
@@ -12,6 +13,7 @@ import net.minecraft.entity.passive.*;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.DragonFireballEntity;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
+import net.minecraft.entity.projectile.SmallFireballEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.loomdev.api.entity.mob.ElderGuardian;
@@ -86,6 +88,8 @@ public final class LoomEntityFactory {
         register(GuardianEntity.class, GuardianImpl.class);
 
         register(LightningEntity.class, LightningImpl.class);
+
+        // FIXME temp so i can start the world;
 
         register(ServerPlayerEntity.class, PlayerImpl.class);
         register(SpiderEntity.class, SpiderImpl.class);

@@ -5,6 +5,7 @@ import com.google.inject.Provider;
 import org.loomdev.api.config.Configuration;
 import org.loomdev.api.config.ConfigurationException;
 import org.loomdev.api.config.file.TomlConfiguration;
+import org.loomdev.api.config.file.YamlConfiguration;
 import org.loomdev.api.plugin.PluginMetadata;
 import org.loomdev.api.plugin.annotation.Config;
 import org.loomdev.api.plugin.annotation.PluginDirectory;
@@ -54,6 +55,12 @@ public class ConfigProvider implements Provider<Configuration> {
         if (config.path().toLowerCase().endsWith(".toml")) {
             try {
                 configuration = TomlConfiguration.fromFile(configFile);
+            } catch (IOException e) {
+                throw new ConfigurationException(e);
+            }
+        } else if (config.path().toLowerCase().endsWith(".yml") || config.path().toLowerCase().endsWith(".yaml")) {
+            try {
+                configuration = YamlConfiguration.fromFile(configFile);
             } catch (IOException e) {
                 throw new ConfigurationException(e);
             }
