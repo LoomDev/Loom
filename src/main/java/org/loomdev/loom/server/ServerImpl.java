@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
+import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.player.Player;
@@ -21,6 +22,7 @@ import org.loomdev.api.server.Server;
 import org.loomdev.api.monitoring.TickTimes;
 import org.loomdev.api.monitoring.Tps;
 import org.loomdev.api.world.World;
+import org.loomdev.loom.bossbar.BossBarImpl;
 import org.loomdev.loom.command.CommandManagerImpl;
 import org.loomdev.loom.command.ConsoleSource;
 import org.loomdev.loom.entity.player.PlayerImpl;
@@ -192,5 +194,25 @@ public class ServerImpl implements Server {
     @Override
     public int getViewDistance() {
         return this.minecraftServer.getPlayerManager().getViewDistance();
+    }
+
+    @Override
+    public @NotNull BossBar createBossBar(@NotNull String text) {
+        return this.createBossBar(TextComponent.of(text));
+    }
+
+    @Override
+    public @NotNull BossBar createBossBar(@NotNull Component text) {
+        return new BossBarImpl(text);
+    }
+
+    @Override
+    public @NotNull BossBar createBossBar(@NotNull String text, BossBar.@NotNull Color color, BossBar.@NotNull Style style) {
+        return this.createBossBar(TextComponent.of(text), color, style);
+    }
+
+    @Override
+    public @NotNull BossBar createBossBar(@NotNull Component text, BossBar.@NotNull Color color, BossBar.@NotNull Style style) {
+        return new BossBarImpl(text, color, style);
     }
 }
