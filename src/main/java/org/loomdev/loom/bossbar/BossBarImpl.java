@@ -1,6 +1,5 @@
 package org.loomdev.loom.bossbar;
 
-import com.google.common.base.Preconditions;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.minecraft.entity.boss.ServerBossBar;

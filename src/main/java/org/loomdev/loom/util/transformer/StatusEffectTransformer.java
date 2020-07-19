@@ -2,6 +2,7 @@ package org.loomdev.loom.util.transformer;
 
 import net.minecraft.entity.effect.StatusEffectInstance;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.effect.StatusEffect;
 
 public final class StatusEffectTransformer {
@@ -17,23 +18,17 @@ public final class StatusEffectTransformer {
                 effect.getAmplifier(),
                 effect.isAmbient(),
                 effect.isShowParticles(),
-                effect.isShowIcon(),
-                effect.getNextEffect().map(StatusEffectTransformer::toMinecraft).orElse(null)
+                effect.isShowIcon()
         );
     }
 
-    public static StatusEffect toLoom(StatusEffectInstance effect) {
-        StatusEffect.Builder builder = new StatusEffect.Builder(StatusEffectTypeTransformer.toLoom(effect.getEffectType()))
+    public static StatusEffect toLoom(@NotNull StatusEffectInstance effect) {
+        return StatusEffect.builder(StatusEffectTypeTransformer.toLoom(effect.getEffectType()))
                 .duration(effect.getDuration())
                 .amplifier(effect.getAmplifier())
                 .ambient(effect.isAmbient())
                 .showParticles(effect.shouldShowParticles())
-                .showIcon(effect.shouldShowIcon());
-
-        if (effect.hiddenEffect != null) {
-            builder.nextEffect(toLoom(effect.hiddenEffect));
-        }
-
-        return builder.build();
+                .showIcon(effect.shouldShowIcon())
+                .build();
     }
 }

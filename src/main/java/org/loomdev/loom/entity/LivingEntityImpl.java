@@ -11,7 +11,7 @@ import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.effect.StatusEffect;
 import org.loomdev.api.item.ItemStack;
-import org.loomdev.api.sound.Sounds;
+import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.Hand;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
@@ -134,22 +134,22 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public Sounds getHurtSound() {
+    public Sound.Type getHurtSound() {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
     @Override
-    public Sounds getHurtSound(org.loomdev.api.entity.damage.@NotNull DamageSource damageSource) {
+    public Sound.Type getHurtSound(org.loomdev.api.entity.damage.@NotNull DamageSource damageSource) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
     @Override
-    public void setHurtSound(@NotNull Sounds sound) {
+    public void setHurtSound(@NotNull Sound.Type sound) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
     @Override
-    public void setHurtSound(org.loomdev.api.entity.damage.@NotNull DamageSource damageSource, @NotNull Sounds sound) {
+    public void setHurtSound(org.loomdev.api.entity.damage.@NotNull DamageSource damageSource, @NotNull Sound.Type sound) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
@@ -164,42 +164,42 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public Sounds getDeathSound() {
+    public Sound.Type getDeathSound() {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
     @Override
-    public void setDeathSound(@NotNull Sounds sound) {
+    public void setDeathSound(@NotNull Sound.Type sound) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
     @Override
-    public Sounds getFallSound() {
+    public Sound.Type getFallSound() {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
     @Override
-    public void setFallSound(@NotNull Sounds sound) {
+    public void setFallSound(@NotNull Sound.Type sound) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
     @Override
-    public Sounds getDrinkSound() {
+    public Sound.Type getDrinkSound() {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
     @Override
-    public void setDrinkSound(@NotNull Sounds sound) {
+    public void setDrinkSound(@NotNull Sound.Type sound) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
     @Override
-    public Sounds getEatSound() {
+    public Sound.Type getEatSound() {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
     @Override
-    public void setEatSound(@NotNull Sounds sound) {
+    public void setEatSound(@NotNull Sound.Type sound) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 

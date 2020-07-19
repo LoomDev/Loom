@@ -1,7 +1,6 @@
 package org.loomdev.loom.world;
 
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
-import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
@@ -13,16 +12,14 @@ import org.loomdev.api.block.Block;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
-import org.loomdev.api.particle.ParticleEffects;
-import org.loomdev.api.sound.Sounds;
+import org.loomdev.api.particle.Particle;
+import org.loomdev.api.sound.Sound;
 import org.loomdev.api.world.Chunk;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.block.BlockImpl;
-import org.loomdev.loom.entity.EntityImpl;
-import org.loomdev.loom.entity.LoomEntityFactory;
 import org.loomdev.loom.entity.player.PlayerImpl;
-;
+import org.loomdev.loom.util.transformer.ParticleTransformer;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -108,25 +105,31 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public void spawnParticle(@NotNull Location location, @NotNull ParticleEffects particleEffects) {
-        // TODO
-    }
-
-    @Override
-    public void spawnParticle(Location location, ParticleEffects particleEffect, int amount) {
+    public void spawnParticle(@NotNull Particle particle, @NotNull Location location) {
         this.world.spawnParticles(
-                (DefaultParticleType) Registry.PARTICLE_TYPE.get(new Identifier(particleEffect.getId())),
-                location.getX(), location.getY(), location.getZ(),
-                amount,
-                0, 0, 0, 0 // offset and data
-        );// TODO ._.
+                ParticleTransformer.toMinecraft(particle),
+                location.getX(),
+                location.getY(),
+                location.getZ(),
+                particle.getAmount(),
+                particle.getOffsetX(),
+                particle.getOffsetY(),
+                particle.getOffsetZ(),
+                particle.getExtraData()
+        );
     }
 
     @Override
-    public void playSound(Location location, Sounds sound, float volume, float pitch) {
-        // TODO implement sound category
+    public void playSound(@NotNull Sound sound, @NotNull Location location) {
         BlockPos pos = new BlockPos(location.getX(), location.getY(), location.getZ());
-        this.world.playSound(null, pos, Registry.SOUND_EVENT.get(sound.rawId()), SoundCategory.NEUTRAL, volume, pitch);
+        this.world.playSound(
+                null,
+                pos,
+                Registry.SOUND_EVENT.get(sound.getType().rawId()),
+                SoundCategory.valueOf(sound.getCategory().name()),
+                sound.getVolume(),
+                sound.getPitch()
+        );
     }
 
     @Override

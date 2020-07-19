@@ -10,13 +10,14 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.damage.DamageSource;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.math.BoundingBox;
 import org.loomdev.api.math.Vector3d;
-import org.loomdev.api.sound.Sounds;
+import org.loomdev.api.sound.Sound;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.util.transformer.TextTransformer;
@@ -357,8 +358,8 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public void playSound(Sounds sound, float v, float p) {
-        getMinecraftEntity().playSound(Registry.SOUND_EVENT.get(sound.rawId()), v, p);
+    public void emitSound(@NotNull Sound.Type sound, float volume, float pitch) {
+        getMinecraftEntity().playSound(Registry.SOUND_EVENT.get(sound.rawId()), volume, pitch);
     }
 
     @Override

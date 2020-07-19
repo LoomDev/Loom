@@ -5,12 +5,18 @@ import net.kyori.adventure.text.TextComponent;
 import net.minecraft.network.packet.s2c.play.PlayerListHeaderS2CPacket;
 import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.LiteralText;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
+import org.loomdev.api.entity.damage.DamageSource;
 import org.loomdev.api.entity.player.Player;
+import org.loomdev.api.sound.Sound;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.Weather;
 import org.loomdev.loom.entity.LivingEntityImpl;
@@ -265,6 +271,19 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     public boolean isOp() {
         return getMinecraftEntity().getServer().getPlayerManager().isOperator(getMinecraftEntity().getGameProfile());
+    }
+
+    @Override
+    public void playSound(@NotNull Sound sound, @NotNull Location location) {
+        BlockPos pos = new BlockPos(location.getX(), location.getY(), location.getZ());
+        getMinecraftEntity().getServerWorld().playSound(
+                getMinecraftEntity(),
+                pos,
+                Registry.SOUND_EVENT.get(sound.getType().rawId()),
+                SoundCategory.valueOf(sound.getCategory().name()),
+                sound.getVolume(),
+                sound.getPitch()
+        );
     }
 
     private void updatePlayerList() {
