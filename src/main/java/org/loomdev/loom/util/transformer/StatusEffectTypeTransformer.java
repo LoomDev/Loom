@@ -1,18 +1,17 @@
 package org.loomdev.loom.util.transformer;
 
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.util.registry.Registry;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.loomdev.api.entity.effect.StatusEffectType;
+import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.entity.effect.StatusEffect;
 
 public final class StatusEffectTypeTransformer {
     private StatusEffectTypeTransformer() { throw new UnsupportedOperationException("StatusEffectTypeTransformer shouldn't be initialized."); }
 
-    public static @NonNull StatusEffect toMinecraft(@NonNull StatusEffectType statusEffectType) {
+    public static @NotNull net.minecraft.entity.effect.StatusEffect toMinecraft(@NotNull StatusEffect.Type statusEffectType) {
         return Registry.STATUS_EFFECT.get(statusEffectType.rawId());
     }
 
-    public static @NonNull StatusEffectType toLoom(@NonNull StatusEffect statusEffect) {
-        return StatusEffectType.getByRawId(Registry.STATUS_EFFECT.getRawId(statusEffect));
+    public static @NotNull StatusEffect.Type toLoom(@NotNull net.minecraft.entity.effect.StatusEffect statusEffect) {
+        return StatusEffect.Type.getByRawId(Registry.STATUS_EFFECT.getRawId(statusEffect));
     }
 }

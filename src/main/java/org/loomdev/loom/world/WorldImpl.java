@@ -11,6 +11,7 @@ import net.minecraft.world.GameRules;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.Block;
 import org.loomdev.api.entity.Entity;
+import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.particle.ParticleEffects;
 import org.loomdev.api.sound.Sounds;
@@ -19,10 +20,12 @@ import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.block.BlockImpl;
 import org.loomdev.loom.entity.EntityImpl;
+import org.loomdev.loom.entity.LoomEntityFactory;
 import org.loomdev.loom.entity.player.PlayerImpl;
-import org.loomdev.loom.util.WorldUtil;;
+;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,13 +34,17 @@ public class WorldImpl implements World {
     private final ServerWorld world;
     private final UUID uuid;
 
-    public WorldImpl(ServerWorld world) {
+    private WorldImpl(ServerWorld world) {
         this.world = world;
         this.uuid = UUID.randomUUID(); // TODO CHANGE THIS TO A DEFINED UUID PER WORLD
     }
 
-    public static World of(ServerWorld world) {
+    public static @NotNull World of(ServerWorld world) {
         return new WorldImpl(world);
+    }
+
+    public ServerWorld getMinecraftWorld() {
+        return this.world;
     }
 
     @Override
@@ -46,23 +53,23 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public UUID getUUID() {
+    public @NotNull UUID getUUID() {
         return this.uuid;
     }
 
     @Override
-    public Block getBlock(int x, int y, int z) {
-        return BlockImpl.of(this.world, new BlockPos(x, y, z));
+    public @NotNull Block getBlock(int x, int y, int z) {
+        return BlockImpl.at(this.world, new BlockPos(x, y, z));
     }
 
     @Override
-    public Block getBlock(Location location) {
+    public @NotNull Block getBlock(@NotNull Location location) {
         return getBlock(location.getBlockX(), location.getBlockY(), location.getBlockZ());
     }
 
     @Override
-    public Chunk getChunk(int i, int i1) {
-        return null;
+    public @NotNull Chunk getChunk(int x, int z) {
+        return ChunkImpl.from(this.world.getChunk(x, z));
     }
 
     @Override
@@ -71,7 +78,7 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public boolean isChunkGenerated(Chunk chunk) {
+    public boolean isChunkGenerated(@NotNull Chunk chunk) {
         return false;
     }
 
@@ -86,22 +93,33 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public Entity spawnEntity(Entity entity, Location location) {
-        net.minecraft.entity.Entity mcEntity = ((EntityImpl) entity).getMinecraftEntity();
-        this.world.spawnEntity(mcEntity);
-        return mcEntity.getLoomEntity();
+    public @NotNull Optional<Entity> spawnEntity(@NotNull EntityType type, @NotNull Location location) {
+        return location.getWorld().map(world -> {
+            ServerWorld mcWorld = ((WorldImpl) world).getMinecraftWorld();
+            net.minecraft.entity.Entity mcEntity = Registry.ENTITY_TYPE.get(Identifier.tryParse(type.getId())).create(mcWorld);
+
+            if (mcEntity != null) {
+                mcEntity.updatePosition(location.getX(), location.getY(), location.getZ());
+                mcWorld.spawnEntity(mcEntity);
+            }
+
+            return mcEntity.getLoomEntity();
+        });
+    }
+
+    @Override
+    public void spawnParticle(@NotNull Location location, @NotNull ParticleEffects particleEffects) {
+        // TODO
     }
 
     @Override
     public void spawnParticle(Location location, ParticleEffects particleEffect, int amount) {
-        this.world.getServer().getPlayerManager().getPlayerList().forEach(player -> {
-            this.world.spawnParticles(
-                    (DefaultParticleType) Registry.PARTICLE_TYPE.get(new Identifier(particleEffect.getId())),
-                    location.getX(), location.getY(), location.getZ(),
-                    amount,
-                    0, 0, 0, 0 // offset and data
-            );
-        }); // TODO ._.
+        this.world.spawnParticles(
+                (DefaultParticleType) Registry.PARTICLE_TYPE.get(new Identifier(particleEffect.getId())),
+                location.getX(), location.getY(), location.getZ(),
+                amount,
+                0, 0, 0, 0 // offset and data
+        );// TODO ._.
     }
 
     @Override
@@ -112,7 +130,7 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public Collection<? extends Player> getPlayers() {
+    public @NotNull Collection<? extends Player> getPlayers() {
         return this.world.getPlayers()
                 .stream()
                 .map(e -> (PlayerImpl) e.getLoomEntity())

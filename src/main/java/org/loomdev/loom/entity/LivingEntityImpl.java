@@ -5,12 +5,11 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.math.BlockPos;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.Material;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.effect.StatusEffect;
-import org.loomdev.api.entity.effect.StatusEffectType;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.sound.Sounds;
 import org.loomdev.api.util.Hand;
@@ -37,25 +36,25 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public @NonNull List<StatusEffect> getStatusEffects() {
+    public @NotNull List<StatusEffect> getStatusEffects() {
         return getMinecraftEntity().getStatusEffects().stream()
                 .map(StatusEffectTransformer::toLoom)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void addStatusEffect(@NonNull StatusEffect statusEffect) {
+    public void addStatusEffect(@NotNull StatusEffect statusEffect) {
         getMinecraftEntity().addStatusEffect(StatusEffectTransformer.toMinecraft(statusEffect));
     }
 
     @Override
-    public @NonNull Optional<StatusEffect> getStatusEffect(@NonNull StatusEffectType statusEffectType) {
+    public @NotNull Optional<StatusEffect> getStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
         StatusEffectInstance statusEffectInstance = getMinecraftEntity().getStatusEffect(StatusEffectTypeTransformer.toMinecraft(statusEffectType));
         return Optional.ofNullable(statusEffectInstance).map(StatusEffectTransformer::toLoom);
     }
 
     @Override
-    public void removeStatusEffect(@NonNull StatusEffectType statusEffectType) {
+    public void removeStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
         getMinecraftEntity().removeStatusEffect(StatusEffectTypeTransformer.toMinecraft(statusEffectType));
     }
 
@@ -65,7 +64,7 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public boolean hasStatusEffect(@NonNull StatusEffectType statusEffectType) {
+    public boolean hasStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
         return getMinecraftEntity().hasStatusEffect(StatusEffectTypeTransformer.toMinecraft(statusEffectType));
     }
 
@@ -120,7 +119,7 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public boolean hasLineOfSight(@NonNull Entity entity) {
+    public boolean hasLineOfSight(@NotNull Entity entity) {
         return getMinecraftEntity().canSee(((EntityImpl) entity).getMinecraftEntity());
     }
 
@@ -140,17 +139,17 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public Sounds getHurtSound(org.loomdev.api.entity.damage.@NonNull DamageSource damageSource) {
+    public Sounds getHurtSound(org.loomdev.api.entity.damage.@NotNull DamageSource damageSource) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
     @Override
-    public void setHurtSound(@NonNull Sounds sound) {
+    public void setHurtSound(@NotNull Sounds sound) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
     @Override
-    public void setHurtSound(org.loomdev.api.entity.damage.@NonNull DamageSource damageSource, @NonNull Sounds sound) {
+    public void setHurtSound(org.loomdev.api.entity.damage.@NotNull DamageSource damageSource, @NotNull Sounds sound) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
@@ -160,7 +159,7 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public void playHurtSound(org.loomdev.api.entity.damage.@NonNull DamageSource damageSource) {
+    public void playHurtSound(org.loomdev.api.entity.damage.@NotNull DamageSource damageSource) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
@@ -170,7 +169,7 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public void setDeathSound(@NonNull Sounds sound) {
+    public void setDeathSound(@NotNull Sounds sound) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
@@ -180,7 +179,7 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public void setFallSound(@NonNull Sounds sound) {
+    public void setFallSound(@NotNull Sounds sound) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
@@ -190,7 +189,7 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public void setDrinkSound(@NonNull Sounds sound) {
+    public void setDrinkSound(@NotNull Sounds sound) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
@@ -200,7 +199,7 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public void setEatSound(@NonNull Sounds sound) {
+    public void setEatSound(@NotNull Sounds sound) {
         throw new UnsupportedOperationException("This operation is currently not yet supported.");
     }
 
@@ -250,22 +249,22 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public boolean isHolding(@NonNull Material material) {
+    public boolean isHolding(@NotNull Material material) {
         return false; // TODO transform
     }
 
     @Override
-    public boolean isHolding(@NonNull Predicate<Material> predicate) {
+    public boolean isHolding(@NotNull Predicate<Material> predicate) {
         return false; // TODO transform
     }
 
     @Override
-    public @NonNull Optional<ItemStack> getStackInHand(@NonNull Hand hand) {
+    public @NotNull Optional<ItemStack> getStackInHand(@NotNull Hand hand) {
         return Optional.empty(); // TODO transform
     }
 
     @Override
-    public void setStackInHand(@NonNull Hand hand, @NonNull ItemStack itemStack) {
+    public void setStackInHand(@NotNull Hand hand, @NotNull ItemStack itemStack) {
         // TODO transform
     }
 
@@ -295,7 +294,7 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public boolean canSee(@NonNull Entity entity) {
+    public boolean canSee(@NotNull Entity entity) {
         return getMinecraftEntity().canSee(((EntityImpl) entity).getMinecraftEntity());
     }
 
@@ -325,7 +324,7 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public @NonNull Hand getActiveHand() {
+    public @NotNull Hand getActiveHand() {
         return Hand.valueOf(getMinecraftEntity().getActiveHand().name());
     }
 

@@ -1,12 +1,10 @@
 package org.loomdev.loom.entity.projectile;
 
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.effect.StatusEffect;
-import org.loomdev.api.entity.effect.StatusEffectType;
 import org.loomdev.api.entity.projectile.Arrow;
 import org.loomdev.api.util.Color;
 import org.loomdev.loom.util.transformer.StatusEffectTransformer;
@@ -23,7 +21,7 @@ public class ArrowImpl extends PersistentProjectileImpl implements Arrow {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.ARROW;
     }
 
@@ -33,14 +31,14 @@ public class ArrowImpl extends PersistentProjectileImpl implements Arrow {
     }
 
     @Override
-    public @NonNull List<StatusEffect> getStatusEffects() {
+    public @NotNull List<StatusEffect> getStatusEffects() {
         return getMinecraftEntity().effects.stream()
                 .map(StatusEffectTransformer::toLoom)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public @NonNull Optional<StatusEffect> getStatusEffect(@NonNull StatusEffectType statusEffectType) {
+    public @NotNull Optional<StatusEffect> getStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
         return getMinecraftEntity().effects.stream()
                 .filter(effect -> effect.getEffectType().equals(StatusEffectTypeTransformer.toMinecraft(statusEffectType)))
                 .findFirst()
@@ -48,12 +46,12 @@ public class ArrowImpl extends PersistentProjectileImpl implements Arrow {
     }
 
     @Override
-    public void addStatusEffect(@NonNull StatusEffect statusEffect) {
+    public void addStatusEffect(@NotNull StatusEffect statusEffect) {
         getMinecraftEntity().effects.add(StatusEffectTransformer.toMinecraft(statusEffect));
     }
 
     @Override
-    public void removeStatusEffect(@NonNull StatusEffectType statusEffectType) {
+    public void removeStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
         getMinecraftEntity().effects.stream()
                 .filter(effect -> effect.getEffectType().equals(StatusEffectTypeTransformer.toMinecraft(statusEffectType)))
                 .findFirst()
@@ -66,7 +64,7 @@ public class ArrowImpl extends PersistentProjectileImpl implements Arrow {
     }
 
     @Override
-    public boolean hasStatusEffect(@NonNull StatusEffectType statusEffectType) {
+    public boolean hasStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
         return getMinecraftEntity().effects.stream()
                 .anyMatch(effect -> effect.getEffectType().equals(StatusEffectTypeTransformer.toMinecraft(statusEffectType)));
     }
