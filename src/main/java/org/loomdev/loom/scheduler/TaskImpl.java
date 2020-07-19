@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.scheduler.Task;
+import org.loomdev.api.scheduler.TaskRunnable;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -158,6 +159,9 @@ public class TaskImpl extends FutureTask<Void> implements Task {
         @Override
         public Task complete(Plugin plugin) {
             TaskImpl task = new TaskImpl(plugin, this.runnable, !this.async, delayTicks, intervalTicks < 1 ? -1 : intervalTicks);
+            if (runnable instanceof TaskRunnable) {
+                ((TaskRunnable) runnable).setTask(task);
+            }
             this.scheduler.scheduleTask(task);
             return task;
         }
