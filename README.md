@@ -12,3 +12,8 @@ Loom was created because of the lack of fast version updates from Spigot, CraftB
 Currently, we don't have written instructions for this step, but we are planning to create something very similar to Spigot's build tools for releasing Loom.
 
 We hope to create a stable and modern server software for many generations of Minecraft servers to come. Loom is completely open-source and licensed with the MIT license. Feel free to contribute to the project! ✨
+
+### Special thanks
+[![JProfiler](https://www.ej-technologies.com/images/product_banners/jprofiler_medium.png)](https://www.ej-technologies.com/products/jprofiler/overview.html)  
+
+Special thanks to ej-technologies for providing open source licenses of their excellent Java profiler, [JProfiler](https://www.ej-technologies.com/products/jprofiler/overview.html), for the core developers of Loom. Their tools help us uncover performance bottlenecks and ensure that all of the software we create is performant and optimal.
