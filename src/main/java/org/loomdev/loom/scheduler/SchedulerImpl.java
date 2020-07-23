@@ -19,7 +19,7 @@ public class SchedulerImpl implements Scheduler {
     private final ConcurrentHashMap<Integer, TaskImpl> tasks = new ConcurrentHashMap<>();
 
     public SchedulerImpl(PluginManager pluginManager) {
-        this.pluginManager = pluginManager; // TODO remove?
+        this.pluginManager = pluginManager;
 
         executor = Executors.newSingleThreadScheduledExecutor(); // Scheduler executor
         asyncTaskExecutor = new ThreadPoolExecutor(0, Runtime.getRuntime().availableProcessors(), 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<>()); // async task executor
@@ -82,9 +82,7 @@ public class SchedulerImpl implements Scheduler {
 
     @Override
     public void unregisterSchedulers(Plugin plugin) {
-        getScheduledTasks(plugin).forEach(task -> {
-            disableTask(task.getTaskId(), true);
-        });
+        getScheduledTasks(plugin).forEach(task -> disableTask(task.getTaskId(), true));
     }
 
     @Override

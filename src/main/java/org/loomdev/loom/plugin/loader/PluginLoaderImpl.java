@@ -2,17 +2,27 @@ package org.loomdev.loom.plugin.loader;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.loomdev.api.plugin.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.ApiVersion;
+import org.loomdev.api.plugin.Plugin;
+import org.loomdev.api.plugin.PluginContainer;
+import org.loomdev.api.plugin.PluginLoader;
+import org.loomdev.api.plugin.PluginMetadata;
 import org.loomdev.api.plugin.ap.SerializedPluginMetadata;
 import org.loomdev.loom.plugin.data.LoomPluginContainer;
 import org.loomdev.loom.plugin.data.LoomPluginMetadata;
 import org.loomdev.loom.plugin.loader.injector.InjectionPointProvider;
 import org.loomdev.loom.plugin.loader.injector.PluginInjectorModule;
+import org.loomdev.loom.plugin.loader.injector.PluginLoadingModule;
 import org.loomdev.loom.server.ServerImpl;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -20,8 +30,11 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
+import java.util.stream.Collectors;
 
 public class PluginLoaderImpl implements PluginLoader {
+
+    private static final Logger LOGGER = LogManager.getLogger("PluginLoader");
 
     private final ServerImpl server;
     private final Path pluginDirectory;
@@ -32,55 +45,133 @@ public class PluginLoaderImpl implements PluginLoader {
     }
 
     @Override
-    public PluginContainer loadPlugin(Path path) throws Exception {
-        Optional<SerializedPluginMetadata> serialized = getSerializedPluginInfo(path);
-
+    public @NotNull Optional<PluginMetadata> loadMetadata(@NotNull Path source) {
+        Optional<SerializedPluginMetadata> serialized = getSerializedPluginInfo(source);
         if (!serialized.isPresent()) {
-            throw new InvalidPluginException("Did not find a valid loom-plugin.json.");
+            LOGGER.warn("Plugin file '{}' doesn't contain a loom.json file.", source.getFileName());
+            return Optional.empty();
         }
 
         SerializedPluginMetadata data = serialized.get();
         if (!SerializedPluginMetadata.ID_PATTERN.matcher(data.getId()).matches()) {
-            throw new InvalidPluginException(String.format("Plugin ID '%s' is invalid.", data.getId()));
+            LOGGER.error("Plugin id '{}' is invalid. The id can only contain alphanumerical characters, dashed, underlines and can max. be 64 characters long.", data.getId());
+            return Optional.empty();
         }
 
-        PluginClassLoader loader = new PluginClassLoader(new URL[] { path.toUri().toURL() });
-        loader.addToClassloaders();
-        Class<?> mainClass = loader.loadClass(data.getMain());
+        String nameOrId = Optional.ofNullable(data.getName()).orElse(data.getId());
 
-        if (!Plugin.class.isAssignableFrom(mainClass)) {
-            throw new InvalidPluginException("Main class does not implement Plugin.");
+        ApiVersion minimumApiVersion;
+        try {
+            minimumApiVersion = ApiVersion.valueOf(data.getMinimumApiVersion());
+        } catch (IllegalArgumentException e) {
+            LOGGER.warn("This server cannot read the minimum required api version of '{}'. This probably means that the server is outdated and cannot load the plugin.", nameOrId);
+            return Optional.empty();
         }
 
-        return new LoomPluginContainer(createMetadata(data, path, mainClass), null, loader);
+        if (server.getApiVersion().isOlderThan(minimumApiVersion)) {
+            LOGGER.warn("Plugin '{}' requires a newer version of Loom-API to run. (Current version: {}, Required version: {})", nameOrId, server.getApiVersion().getName(), minimumApiVersion.getName());
+            return Optional.empty();
+        }
+
+        return Optional.of(createMetadata(data, source));
     }
 
     @Override
-    public Plugin createPlugin(PluginMetadata pluginMetadata) {
-        if (!(pluginMetadata instanceof LoomPluginMetadata)) {
+    public @NotNull Optional<PluginContainer> loadPlugin(@NotNull PluginMetadata metadata) {
+        if (!(metadata instanceof LoomPluginMetadata)) {
             throw new IllegalArgumentException("Invalid plugin metadata.");
         }
 
-        LoomPluginMetadata metadata = (LoomPluginMetadata) pluginMetadata;
-        Optional<Path> source = metadata.getSource();
+        try {
+            PluginClassLoader loader = new PluginClassLoader(new URL[] { metadata.getSource().toUri().toURL() });
+            loader.addToClassloaders();
+            Class<? extends Plugin> mainClass = (Class<? extends Plugin>) loader.loadClass(metadata.getMain());
 
-        if (!source.isPresent()) {
-            throw new IllegalArgumentException("No path present in plugin metadata.");
+            Injector injector = Guice.createInjector(new InjectionPointProvider(), new PluginLoadingModule(mainClass), new PluginInjectorModule(this.server, (LoomPluginMetadata) metadata, this.pluginDirectory));
+            Plugin instance = (Plugin) injector.getInstance(mainClass);
+
+            if (instance == null) {
+                throw new IllegalStateException(String.format("Got nothing from injector for %s.", metadata.getId()));
+            }
+
+            return Optional.of(new LoomPluginContainer(metadata, instance, loader));
+        } catch (MalformedURLException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
-        // Injector injector = Guice.createInjector(new PluginInjectorModule(this.server, metadata, this.pluginDirectory));
-        Injector injector = Guice.createInjector(new InjectionPointProvider(), new PluginInjectorModule(this.server, metadata, this.pluginDirectory));
-        Plugin instance = (Plugin) injector.getInstance(metadata.getMainClass());
-
-        if (instance == null) {
-            throw new IllegalStateException(String.format("Got nothing from injector for %s.", metadata.getId()));
-        }
-
-        return instance;
+        return Optional.empty();
     }
 
-    private Optional<SerializedPluginMetadata> getSerializedPluginInfo(Path source) throws Exception {
-        boolean bukkit = false;
+//    @Override
+//    public PluginContainer loadPlugin(Path path) {
+//        Optional<SerializedPluginMetadata> serialized = getSerializedPluginInfo(path);
+//        if (!serialized.isPresent()) {
+//            LOGGER.warn("Plugin file '{}' doesn't contain a loom.json file.", path.getFileName());
+//            return null;
+//        }
+//
+//        SerializedPluginMetadata data = serialized.get();
+//        if (!SerializedPluginMetadata.ID_PATTERN.matcher(data.getId()).matches()) {
+//            LOGGER.error("Plugin id '{}' is invalid. The id can only contain alphanumerical characters, dashed, underlines and can max. be 64 characters long.", data.getId());
+//            return null;
+//        }
+//
+//        String nameOrId = Optional.ofNullable(data.getName()).orElse(data.getId());
+//
+//        ApiVersion minimumApiVersion;
+//        try {
+//            minimumApiVersion = ApiVersion.valueOf(data.getMinimumApiVersion());
+//        } catch (IllegalArgumentException e) {
+//            LOGGER.warn("This server cannot read the minimum required api version of '{}'. This probably means that the server is outdated and cannot load the plugin.", nameOrId);
+//            return null;
+//        }
+//
+//        if (server.getApiVersion().isOlderThan(minimumApiVersion)) {
+//            LOGGER.warn("Plugin '{}' requires a newer version of Loom-API to run. (Current version: {}, Required version: {})", nameOrId, server.getApiVersion().getName(), minimumApiVersion.getName());
+//            return null;
+//        }
+//
+//        try {
+//            PluginClassLoader loader = new PluginClassLoader(new URL[] { path.toUri().toURL() });
+//            loader.addToClassloaders();
+//            Class<?> mainClass = loader.loadClass(data.getMain());
+//
+//            if (!Plugin.class.isAssignableFrom(mainClass)) {
+//                LOGGER.error("Main class of '{}' does not implement the Plugin interface.", nameOrId);
+//                return null;
+//            }
+//
+//            return new LoomPluginContainer(createMetadata(data, path, mainClass), null, loader);
+//        } catch (Exception ex) {
+//            LOGGER.error("Something went wrong attempting to load {}.", nameOrId, ex);
+//        }
+//        return null;
+//    }
+//
+//    @Override
+//    public Plugin createPlugin(PluginMetadata pluginMetadata) {
+//        if (!(pluginMetadata instanceof LoomPluginMetadata)) {
+//            throw new IllegalArgumentException("Invalid plugin metadata.");
+//        }
+//
+//        LoomPluginMetadata metadata = (LoomPluginMetadata) pluginMetadata;
+//        Optional<Path> source = metadata.getSource();
+//
+//        if (!source.isPresent()) {
+//            throw new IllegalArgumentException("No path present in plugin metadata.");
+//        }
+//
+//        Injector injector = Guice.createInjector(new InjectionPointProvider(), new PluginInjectorModule(this.server, metadata, this.pluginDirectory));
+//        Plugin instance = (Plugin) injector.getInstance(metadata.getMainClass());
+//
+//        if (instance == null) {
+//            throw new IllegalStateException(String.format("Got nothing from injector for %s.", metadata.getId()));
+//        }
+//
+//        return instance;
+//    }
+
+    private Optional<SerializedPluginMetadata> getSerializedPluginInfo(Path source) {
         try (JarInputStream in = new JarInputStream(new BufferedInputStream(Files.newInputStream(source)))) {
             JarEntry entry;
             while ((entry = in.getNextJarEntry()) != null) {
@@ -90,27 +181,26 @@ public class PluginLoaderImpl implements PluginLoader {
                     }
                 }
 
-                if (entry.getName().equals("plugin.yml")) {
-                   bukkit = true;
-                }
             }
-
-            if (bukkit) {
-                throw new InvalidPluginException(String.format("%s appears to be a Bukkit plugin.", source.getFileName()));
-            }
-            return Optional.empty();
+        } catch (IOException e) {
+            LOGGER.error("And error occurred attempting to read '{}'.", source.getFileName());
         }
+        return Optional.empty();
     }
 
-    private LoomPluginMetadata createMetadata(SerializedPluginMetadata description, Path source, Class<?> mainClass) {
+    private LoomPluginMetadata createMetadata(SerializedPluginMetadata description, Path source) {
         return new LoomPluginMetadata(
                 description.getId(),
                 description.getName(),
                 description.getVersion(),
                 description.getDescription(),
                 description.getAuthors(),
+                description.getDependencies().stream()
+                        .map(d -> new PluginMetadata.PluginDependency(d.getId(), d.isOptional()))
+                        .collect(Collectors.toList()),
+                ApiVersion.valueOf(description.getMinimumApiVersion()),
                 source,
-                mainClass
+                description.getMain()
         );
     }
 }

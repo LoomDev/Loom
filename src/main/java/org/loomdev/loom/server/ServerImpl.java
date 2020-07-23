@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.ApiVersion;
 import org.loomdev.api.Loom;
 import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.command.CommandManager;
@@ -73,12 +74,7 @@ public class ServerImpl implements Server {
     }
 
     private void init() {
-        // Load plugins
-        try {
-            this.pluginManager.loadPlugins();
-        } catch (IOException e) {
-            LOGGER.error("Failed to load plugins- unable to create a directory stream.", e);
-        }
+        this.pluginManager.scanPluginDirectory();
     }
 
     @Override
@@ -94,6 +90,11 @@ public class ServerImpl implements Server {
     @Override
     public @NonNull String getMinecraftVersion() {
         return minecraftServer.getVersion();
+    }
+
+    @Override
+    public @NonNull ApiVersion getApiVersion() {
+        return ApiVersion.LATEST;
     }
 
     @Override

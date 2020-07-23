@@ -56,7 +56,7 @@ public class WorldImpl implements World {
 
     @Override
     public @NotNull Block getBlock(int x, int y, int z) {
-        return BlockImpl.at(this.world, new BlockPos(x, y, z));
+        return BlockImpl.of(this.world, new BlockPos(x, y, z));
     }
 
     @Override
@@ -66,7 +66,8 @@ public class WorldImpl implements World {
 
     @Override
     public @NotNull Chunk getChunk(int x, int z) {
-        return ChunkImpl.from(this.world.getChunk(x, z));
+        // return ChunkImpl.from(this.world.getChunk(x, z));
+        return null;
     }
 
     @Override

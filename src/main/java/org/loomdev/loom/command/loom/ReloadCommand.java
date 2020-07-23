@@ -4,6 +4,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
+import org.loomdev.api.item.ItemTypes;
 import org.loomdev.api.plugin.PluginManager;
 
 public class ReloadCommand extends Command {
@@ -17,9 +18,6 @@ public class ReloadCommand extends Command {
 
     @Override
     public void execute(@NonNull CommandSource source, String[] args) {
-        PluginManager pluginManager = Loom.getServer().getPluginManager();
-        pluginManager.getPlugins().forEach(plugin -> { // TODO
-            pluginManager.unloadPlugin(plugin.getMetadata().getId());
-        });
+        // TODO minecraft reload and config stuff.
     }
 }

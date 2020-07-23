@@ -6,6 +6,7 @@ import org.loomdev.api.config.Configuration;
 import org.loomdev.api.config.ConfigurationException;
 import org.loomdev.api.config.file.TomlConfiguration;
 import org.loomdev.api.config.file.YamlConfiguration;
+import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginMetadata;
 import org.loomdev.api.plugin.annotation.Config;
 import org.loomdev.api.plugin.annotation.PluginDirectory;
@@ -21,7 +22,7 @@ import java.nio.file.Path;
 public class ConfigProvider implements Provider<Configuration> {
 
     @Inject
-    PluginMetadata metadata;
+    Class<? extends Plugin> pluginClass;
 
     @Inject
     @PluginDirectory
@@ -41,7 +42,7 @@ public class ConfigProvider implements Provider<Configuration> {
             }
 
             String defaultPath = config.defaultPath().trim().equalsIgnoreCase("") ? config.path() : config.defaultPath();
-            InputStream is = metadata.getMainClass().getClassLoader().getResourceAsStream(defaultPath);
+            InputStream is = pluginClass.getClassLoader().getResourceAsStream(defaultPath);
 
             try {
                 Files.createDirectories(configFile.toPath().getParent());

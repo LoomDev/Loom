@@ -7,19 +7,27 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.entity.boss.dragon.DragonFight;
 import org.loomdev.api.entity.boss.dragon.EnderDragon;
 import org.loomdev.api.world.Location;
+import org.loomdev.loom.bossbar.BossBarImpl;
 
 public class DragonFightImpl implements DragonFight {
 
     private final EnderDragonImpl enderDragon;
     private final EnderDragonFight fight;
+    private BossBarImpl bossBar;
 
     public DragonFightImpl(EnderDragonImpl enderDragon, EnderDragonFight fight) {
         this.enderDragon = enderDragon;
         this.fight = fight;
+        this.bossBar = new BossBarImpl(this.fight.bossBar);
     }
 
     @Override
-    public EnderDragon getDragon() {
+    public @NonNull BossBarImpl getBossBar() {
+        return bossBar;
+    }
+
+    @Override
+    public @NonNull EnderDragon getDragon() {
         return this.enderDragon;
     }
 

@@ -18,19 +18,19 @@ public class BossBarImpl implements BossBar {
     private final ServerBossBar mcBar;
 
     public BossBarImpl(Component text) {
-        mcBar = new ServerBossBar(
-                TextTransformer.toMinecraft(text),
-                net.minecraft.entity.boss.BossBar.Color.PURPLE,
-                net.minecraft.entity.boss.BossBar.Style.PROGRESS
-        );
+        this(text, Color.PURPLE, Style.PROGRESS);
     }
 
     public BossBarImpl(Component text, Color color, Style style) {
-        mcBar = new ServerBossBar(
+        this(new ServerBossBar(
                 TextTransformer.toMinecraft(text),
                 net.minecraft.entity.boss.BossBar.Color.valueOf(color.name()),
                 net.minecraft.entity.boss.BossBar.Style.valueOf(style.name())
-        );
+        ));
+    }
+
+    public BossBarImpl(ServerBossBar bar) {
+        this.mcBar = bar;
     }
 
     @Override

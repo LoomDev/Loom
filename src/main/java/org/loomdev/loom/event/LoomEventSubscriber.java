@@ -17,7 +17,7 @@ public class LoomEventSubscriber<E extends Event> implements EventSubscriber<E> 
     }
 
     @Override
-    public void invoke(@NonNull E event) throws Throwable {
+    public void invoke(@NonNull E event) {
         this.handler.execute(event);
     }
 

@@ -4,9 +4,12 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import net.minecraft.server.Main;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.ApiVersion;
 import org.loomdev.api.plugin.PluginMetadata;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,8 +24,23 @@ public class Loom {
         }
 
         @Override
-        public @NonNull Class<?> getMainClass() {
-            return Loom.class;
+        public @NotNull ApiVersion getMinimumApiVersion() {
+            return ApiVersion.LATEST;
+        }
+
+        @Override
+        public @NotNull Path getSource() {
+            return null;
+        }
+
+        @Override
+        public @NotNull String getMain() {
+            return "";
+        }
+
+        @Override
+        public State getState() {
+            return State.ENABLED;
         }
     };
 

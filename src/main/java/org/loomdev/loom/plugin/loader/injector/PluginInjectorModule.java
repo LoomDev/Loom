@@ -1,9 +1,7 @@
 package org.loomdev.loom.plugin.loader.injector;
 
-import com.google.inject.Binder;
-import com.google.inject.Binding;
+import com.google.inject.*;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.internal.asm.$ByteVector;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.spi.*;
@@ -13,6 +11,7 @@ import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.config.Configuration;
 import org.loomdev.api.config.file.TomlConfiguration;
 import org.loomdev.api.event.EventManager;
+import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.plugin.PluginMetadata;
 import org.loomdev.api.plugin.annotation.Config;
@@ -35,7 +34,7 @@ public class PluginInjectorModule implements Module {
     private final LoomPluginMetadata metadata;
     private final Path basePluginPath;
 
-    public PluginInjectorModule(Server server, LoomPluginMetadata metadata, Path basePluginPath) {
+    public PluginInjectorModule(Server server,LoomPluginMetadata metadata, Path basePluginPath) {
         this.server = server;
         this.metadata = metadata;
         this.basePluginPath = basePluginPath;
@@ -46,6 +45,7 @@ public class PluginInjectorModule implements Module {
         binder.bind(Logger.class).toInstance(LogManager.getLogger(this.metadata.getName().orElse(this.metadata.getId())));
         binder.bind(Server.class).toInstance(this.server);
         binder.bind(Path.class).annotatedWith(PluginDirectory.class).toInstance(basePluginPath.resolve(metadata.getId()));
+
         binder.bind(PluginMetadata.class).toInstance(this.metadata);
         binder.bind(PluginManager.class).toInstance(this.server.getPluginManager());
         binder.bind(EventManager.class).toInstance(this.server.getEventManager());

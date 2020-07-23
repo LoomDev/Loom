@@ -1,7 +1,6 @@
 package org.loomdev.loom.entity.boss.dragon;
 
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
-import net.minecraft.entity.boss.dragon.phase.Phase;
 import net.minecraft.entity.boss.dragon.phase.PhaseType;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.entity.ComplexEntityPart;

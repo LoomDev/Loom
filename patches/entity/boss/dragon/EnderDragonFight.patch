@@ -1,5 +1,14 @@
 --- a/net/minecraft/entity/boss/dragon/EnderDragonFight.java
 +++ b/net/minecraft/entity/boss/dragon/EnderDragonFight.java
+@@ -60,7 +60,7 @@
+ 
+     private static final Logger LOGGER = LogManager.getLogger();
+     private static final Predicate<Entity> VALID_ENTITY = EntityPredicates.VALID_ENTITY.and(EntityPredicates.maxDistance(0.0D, 128.0D, 0.0D, 192.0D));
+-    private final ServerBossBar bossBar;
++    public final ServerBossBar bossBar; // Loom :: public accessor
+     private final ServerWorld world;
+     private final List<Integer> gateways;
+     private final BlockPattern endPortalPattern;
 @@ -72,8 +72,8 @@
      private boolean previouslyKilled;
      private UUID dragonUuid;

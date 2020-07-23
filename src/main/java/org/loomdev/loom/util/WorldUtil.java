@@ -3,10 +3,7 @@ package org.loomdev.loom.util;
 import java.io.*;
 import java.util.UUID;
 
-public class WorldUtil {
-
-    private WorldUtil() {
-    }
+public final class WorldUtil {
 
     /**
      * Returns the unique ID for a given world directory
@@ -33,5 +30,9 @@ public class WorldUtil {
         }
 
         return uuid;
+    }
+
+    private WorldUtil() {
+        throw new UnsupportedOperationException("You should not be attempting to instantiate this class.");
     }
 }

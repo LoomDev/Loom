@@ -47,19 +47,19 @@ public class EventManagerImpl implements EventManager {
 
         this.registeredListenersByPlugin = Multimaps.synchronizedListMultimap(Multimaps.newListMultimap(new IdentityHashMap<>(), ArrayList::new));
         this.registeredHandlersByPlugin = Multimaps.synchronizedListMultimap(Multimaps.newListMultimap(new IdentityHashMap<>(), ArrayList::new));
+
         this.bus = new LoomEventBus();
         this.methodAdapter = new SimpleMethodSubscriptionAdapter<>(
                 bus,
                 new ASMEventExecutorFactory<>(cl),
-                new LoomMethodScanner()
-        );
+                new LoomMethodScanner());
+
         this.executorService = Executors.newFixedThreadPool(
                 Runtime.getRuntime().availableProcessors(), // TODO configurable in loom.yml
                 new ThreadFactoryBuilder()
                     .setNameFormat("Loom Event Executor #%d")
                     .setDaemon(true)
-                    .build()
-        );
+                    .build());
     }
 
     @Override

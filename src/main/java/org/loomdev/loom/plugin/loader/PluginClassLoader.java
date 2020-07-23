@@ -1,5 +1,7 @@
 package org.loomdev.loom.plugin.loader;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,7 +26,7 @@ public class PluginClassLoader extends URLClassLoader {
         loaders.add(this);
     }
 
-    void addPath(Path path) {
+    void addPath(@NotNull Path path) {
         try {
             addURL(path.toUri().toURL());
         } catch (MalformedURLException e) {
@@ -43,8 +45,7 @@ public class PluginClassLoader extends URLClassLoader {
         return loadClass0(name, resolve, true);
     }
 
-    private Class<?> loadClass0(String name, boolean resolve, boolean checkOther)
-            throws ClassNotFoundException {
+    private Class<?> loadClass0(String name, boolean resolve, boolean checkOther) throws ClassNotFoundException {
         try {
             return super.loadClass(name, resolve);
         } catch (ClassNotFoundException ignored) {
