@@ -1,5 +1,14 @@
 --- a/net/minecraft/item/ItemStack.java
 +++ b/net/minecraft/item/ItemStack.java
+@@ -78,7 +78,7 @@
+     private int count;
+     private int cooldown;
+     @Deprecated
+-    private final Item item;
++    public Item item; // Loom :: public accessor & non-final
+     private CompoundTag tag;
+     private boolean empty;
+     private Entity holder;
 @@ -157,6 +157,17 @@
          BlockPos blockpos = itemusagecontext.getBlockPos();
          CachedBlockPosition cachedblockposition = new CachedBlockPosition(itemusagecontext.getWorld(), blockpos, false);

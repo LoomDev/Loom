@@ -1,24 +1,23 @@
 package org.loomdev.loom.command.loom;
 
+import com.google.inject.internal.cglib.core.$ProcessArrayCallback;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.format.TextDecoration;
+import net.minecraft.util.Hand;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.loomdev.api.Loom;
-import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
-import org.loomdev.api.entity.Entity;
-import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.effect.AreaEffectCloudEntity;
-import org.loomdev.api.entity.effect.StatusEffect;
 import org.loomdev.api.entity.player.Player;
-import org.loomdev.api.scheduler.Task;
-import org.loomdev.api.util.Color;
-import org.loomdev.api.world.Location;
+import org.loomdev.api.item.ItemStack;
+import org.loomdev.api.item.ItemTypes;
+import org.loomdev.api.item.property.ItemProperties;
+import org.loomdev.api.util.ChatColor;
+import org.loomdev.loom.entity.player.PlayerImpl;
+import org.loomdev.loom.item.ItemStackImpl;
 
 import java.security.SecureRandom;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DebugCommand extends Command {
 
@@ -65,16 +64,47 @@ public class DebugCommand extends Command {
             world.displayParticle(((PlayerImpl) commandSource).getLocation(), ParticleEffect.HEART, 60);
         });*/
 
-        Location location = ((Player) commandSource).getLocation();
-        location.getWorld().flatMap(world -> world.spawnEntity(EntityType.AREA_EFFECT_CLOUD, location)).ifPresent(entity -> {
-            AreaEffectCloudEntity area = (AreaEffectCloudEntity) entity;
+//        Location location = ((Player) commandSource).getLocation();
+//        location.getWorld().flatMap(world -> world.spawnEntity(EntityType.AREA_EFFECT_CLOUD, location)).ifPresent(entity -> {
+//            AreaEffectCloudEntity area = (AreaEffectCloudEntity) entity;
+//
+//            area.setColor(Color.fromRgb(51, 214, 214).asRgb());
+//            area.addStatusEffect(StatusEffect.builder(StatusEffect.Type.JUMP_BOOST)
+//                    .duration(20)
+//                    .amplifier(50)
+//                    .build());
+//        });
 
-            area.setColor(Color.fromRgb(51, 214, 214).asRgb());
-            area.addStatusEffect(StatusEffect.builder(StatusEffect.Type.JUMP_BOOST)
-                    .duration(20)
-                    .amplifier(50)
-                    .build());
-        });
+        Player player = (Player) commandSource;
+        PlayerImpl p = (PlayerImpl) player;
+
+//        net.minecraft.item.ItemStack mcStack = p.getMinecraftEntity().getStackInHand(Hand.MAIN_HAND);
+//
+//        ItemStack itemStack = new ItemStackImpl(mcStack);
+//        itemStack.setType(ItemTypes.COMPASS);
+
+        ItemStack itemStack = ItemStack.builder()
+                .type(ItemTypes.DRAGON_EGG)
+                .amount(21)
+                .name(TextComponent.of("Name test").color(ChatColor.GOLD))
+//                .property(ItemProperties.Lore, data -> {
+//                    List<Component> lore = new ArrayList<>();
+//                    lore.add(TextComponent.of("Lore test 1").color(ChatColor.RED));
+//                    lore.add(TextComponent.of("Lore test 2").color(ChatColor.GREEN));
+//                    lore.add(TextComponent.of("Lore test 3").color(ChatColor.BLUE));
+//                    data.setLore(lore);
+//                })
+                .lore(
+                    TextComponent.of("Lore test 1").color(ChatColor.RED),
+                    TextComponent.of("Lore test 2").color(ChatColor.GREEN),
+                    TextComponent.of("Lore test 3").color(ChatColor.BLUE)
+                )
+                .appendLore(TextComponent.of("The lore of a pleb").color(ChatColor.LIGHT_PURPLE))
+                .build();
+
+        p.getMinecraftEntity().setStackInHand(Hand.MAIN_HAND, ((ItemStackImpl) itemStack).getMinecraftItemStack());
+        //p.getMinecraftEntity().updateCursorStack();
+        p.getMinecraftEntity().inventory.updateItems();
     }
 
     private static final SecureRandom random = new SecureRandom();

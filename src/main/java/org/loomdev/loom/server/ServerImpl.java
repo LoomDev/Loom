@@ -6,7 +6,6 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.SharedConstants;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.world.ServerWorld;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -18,24 +17,24 @@ import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.EventManager;
-import org.loomdev.api.plugin.PluginManager;
-import org.loomdev.api.server.Server;
 import org.loomdev.api.monitoring.TickTimes;
 import org.loomdev.api.monitoring.Tps;
+import org.loomdev.api.plugin.PluginManager;
+import org.loomdev.api.server.Server;
+import org.loomdev.api.util.registry.Registry;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.bossbar.BossBarImpl;
 import org.loomdev.loom.command.CommandManagerImpl;
 import org.loomdev.loom.command.ConsoleSource;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.event.EventManagerImpl;
-import org.loomdev.loom.plugin.PluginManagerImpl;
-import org.loomdev.loom.monitoring.LoomTps;
 import org.loomdev.loom.monitoring.LoomTickTimes;
+import org.loomdev.loom.monitoring.LoomTps;
+import org.loomdev.loom.plugin.PluginManagerImpl;
 import org.loomdev.loom.scheduler.SchedulerImpl;
-import org.loomdev.loom.world.WorldImpl;
+import org.loomdev.loom.util.registry.RegistryImp;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -54,6 +53,7 @@ public class ServerImpl implements Server {
     private final CommandSource consoleSource;
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
+    private final RegistryImp registry;
 
     private final Map<UUID, World> worlds = new HashMap<>();
 
@@ -69,6 +69,7 @@ public class ServerImpl implements Server {
         this.scheduler.start();
         this.tps = new LoomTps();
         this.tickTimes = new LoomTickTimes();
+        this.registry = new RegistryImp();
 
         init(); // TODO move to the appropriate place in nms.
     }
@@ -216,4 +217,10 @@ public class ServerImpl implements Server {
     public @NotNull BossBar createBossBar(@NotNull Component text, BossBar.@NotNull Color color, BossBar.@NotNull Style style) {
         return new BossBarImpl(text, color, style);
     }
+
+    @Override
+    public @NotNull Registry getRegistry() {
+        return this.registry;
+    }
+
 }
