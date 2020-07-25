@@ -164,9 +164,9 @@ public class ServerImpl implements Server {
     }
 
     public void registerWorld(@NotNull World world) {
-        if (this.worlds.containsKey(world.getUUID())) {
+        /*if (this.worlds.containsKey(world.getUUID())) {
             throw new IllegalStateException(String.format("World '%s' is a duplicate of an already loaded world.", world.getName()));
-        }
+        }*/
 
         worlds.put(world.getUUID(), world);
     }

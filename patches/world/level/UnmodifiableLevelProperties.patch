@@ -1,0 +1,16 @@
+--- a/net/minecraft/world/level/UnmodifiableLevelProperties.java
++++ b/net/minecraft/world/level/UnmodifiableLevelProperties.java
+@@ -45,6 +45,13 @@
+         return this.field_24179.getLevelName();
+     }
+ 
++    // Loom start :: implement per-world uuids
++    @Override
++    public UUID getUUID() {
++        return this.properties.getUUID();
++    }
++    // Loom end
++
+     public int getClearWeatherTime() {
+         return this.properties.getClearWeatherTime();
+     }

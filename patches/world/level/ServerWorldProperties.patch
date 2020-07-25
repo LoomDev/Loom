@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/ServerWorldProperties.java
++++ b/net/minecraft/world/level/ServerWorldProperties.java
+@@ -12,6 +12,8 @@
+ 
+     String getLevelName();
+ 
++    java.util.UUID getUUID(); // Loom :: implement per-world uuids
++
+     void setThundering(boolean bl);
+ 
+     int getRainTime();

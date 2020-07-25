@@ -8,10 +8,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.Loom;
 import org.loomdev.api.block.Block;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
+import org.loomdev.api.event.world.TimeChangedEvent;
 import org.loomdev.api.particle.Particle;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.world.Chunk;
@@ -19,6 +21,7 @@ import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.block.BlockImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
+import org.loomdev.loom.event.LoomEventDispatcher;
 import org.loomdev.loom.util.transformer.ParticleTransformer;
 
 import java.util.Collection;
@@ -31,13 +34,13 @@ public class WorldImpl implements World {
     private final ServerWorld world;
     private final UUID uuid;
 
-    private WorldImpl(ServerWorld world) {
+    public WorldImpl(ServerWorld world) {
         this.world = world;
         this.uuid = UUID.randomUUID(); // TODO CHANGE THIS TO A DEFINED UUID PER WORLD
     }
 
-    public static @NotNull World of(ServerWorld world) {
-        return new WorldImpl(world);
+    public static /*@NotNull*/ World of(ServerWorld world) {
+        return Loom.getServer().getWorld(world.field_24456.getLevelName()).orElse(null); // TODO use uuid
     }
 
     public ServerWorld getMinecraftWorld() {
@@ -51,12 +54,12 @@ public class WorldImpl implements World {
 
     @Override
     public @NotNull UUID getUUID() {
-        return this.uuid;
+        return world.field_24456.getUUID();
     }
 
     @Override
     public @NotNull Block getBlock(int x, int y, int z) {
-        return BlockImpl.of(this.world, new BlockPos(x, y, z));
+        return BlockImpl.at(this.world, new BlockPos(x, y, z));
     }
 
     @Override
@@ -143,24 +146,55 @@ public class WorldImpl implements World {
 
     @Override
     public long getTime() {
-        long time = this.world.getTimeOfDay() % 24000;
-        if (time < 0) time += 24000;
+        long time = getAbsoluteTime() % 24000;
+        if (time < 0) {
+            time += 24000;
+        }
         return time;
     }
 
     @Override
     public void setTime(long ticks) {
-        long margin = (ticks - this.world.getTimeOfDay()) % 24000;
-        if (margin < 0) margin += 24000;
-        this.world.method_29199(this.world.getTimeOfDay() + margin);
-
-        // Forces the client to update to the new time immediately
-        for (Player p : getPlayers()) {
-            PlayerImpl cp = (PlayerImpl) p;
-            if (cp.getMinecraftEntity().networkHandler == null) continue;
-
-            // TODO replace second arg w/ player time
-            cp.getMinecraftEntity().networkHandler.sendPacket(new WorldTimeUpdateS2CPacket(cp.getMinecraftEntity().world.getTime(), cp.getMinecraftEntity().world.getTimeOfDay(), cp.getMinecraftEntity().world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE)));
+        long difference = (ticks - getAbsoluteTime()) % 24000;
+        if (difference < 0) {
+            difference += 24000;
         }
+        setAbsoluteTime(getAbsoluteTime() + difference);
+    }
+
+    @Override
+    public boolean isDay() {
+        return world.isDay();
+    }
+
+    @Override
+    public boolean isNight() {
+        return world.isNight();
+    }
+
+    @Override
+    public long getAbsoluteTime() {
+        return world.getTimeOfDay();
+    }
+
+    @Override
+    public void setAbsoluteTime(long ticks) {
+        LoomEventDispatcher.onTimeChanged(this, ticks - getAbsoluteTime(), TimeChangedEvent.Cause.TRIGGERED).thenAccept(event -> {
+            if (!event.isCancelled()) {
+                world.method_29199(getAbsoluteTime() + event.getChange());
+
+                getPlayers().stream()
+                        .filter(Player::isConnected)
+                        .map(player -> (PlayerImpl) player)
+                        .forEach(player -> {
+                            ServerWorld world = ((WorldImpl) player.getWorld()).getMinecraftWorld();
+                            player.getMinecraftEntity().networkHandler.sendPacket(new WorldTimeUpdateS2CPacket(
+                                    world.getTime(),
+                                    player.getTime(),
+                                    world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE)
+                            ));
+                        });
+            }
+        });
     }
 }

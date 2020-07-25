@@ -1,6 +1,21 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -212,10 +212,18 @@
+@@ -146,12 +146,13 @@
+ import org.apache.commons.lang3.Validate;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
++import org.loomdev.loom.entity.player.PlayerImpl;
+ 
+ public abstract class MinecraftServer extends ReentrantThreadExecutor<ServerTask> implements SnooperListener, CommandOutput, AutoCloseable {
+ 
+     private static final Logger LOGGER = LogManager.getLogger();
+     public static final File USER_CACHE_FILE = new File("usercache.json");
+-    public static final LevelInfo DEMO_LEVEL_INFO = new LevelInfo("Demo World", GameMode.SURVIVAL, false, Difficulty.NORMAL, false, new GameRules(), DataPackSettings.SAFE_MODE);
++    public static final LevelInfo DEMO_LEVEL_INFO = new LevelInfo("Demo World", GameMode.SURVIVAL, false, Difficulty.NORMAL, false, new GameRules(), DataPackSettings.SAFE_MODE, java.util.UUID.randomUUID()); // Loom :: implement per-world uuids
+     protected final LevelStorage.Session session;
+     protected final WorldSaveHandler field_24371;
+     private final Snooper snooper = new Snooper("server", this, Util.getMeasuringTimeMs());
+@@ -212,10 +213,18 @@
      private final Executor workerExecutor;
      @Nullable
      private String serverId;
@@ -20,7 +35,7 @@
      public static <S extends MinecraftServer> S startServer(Function<Thread, S> function) {
          AtomicReference<S> atomicreference = new AtomicReference();
          Thread thread = new Thread(() -> {
-@@ -225,14 +233,14 @@
+@@ -225,14 +234,14 @@
          thread.setUncaughtExceptionHandler((thread1, throwable) -> {
              MinecraftServer.LOGGER.error((Object) throwable);
          });
@@ -37,7 +52,7 @@
          super("Server");
          this.tickTimeTracker = new TickTimeTracker(Util.nanoTimeSupplier, this::getTicks);
          this.profiler = DummyProfiler.INSTANCE;
-@@ -265,6 +273,10 @@
+@@ -265,6 +274,10 @@
          this.structureManager = new StructureManager(serverresourcemanager.getResourceManager(), levelstorage_session, datafixer);
          this.serverThread = thread;
          this.workerExecutor = Util.getServerWorkerExecutor();
@@ -48,7 +63,7 @@
      }
  
      private void initScoreboard(PersistentStateManager persistentstatemanager) {
-@@ -656,10 +668,13 @@
+@@ -656,10 +669,13 @@
                  this.metadata.setVersion(new ServerMetadata.Version(SharedConstants.getGameVersion().getName(), SharedConstants.getGameVersion().getProtocolVersion()));
                  this.setFavicon(this.metadata);
  
@@ -64,7 +79,7 @@
                          long j = i / 50L;
  
                          MinecraftServer.LOGGER.warn("Can't keep up! Is the server overloaded? Running {}ms or {} ticks behind", (Object) i, (Object) j);
-@@ -667,6 +682,14 @@
+@@ -667,6 +683,14 @@
                          this.lastTimeReference = this.timeReference;
                      }
  
@@ -79,7 +94,7 @@
                      this.timeReference += 50L;
                      TickDurationMonitor tickdurationmonitor = TickDurationMonitor.create("Server");
  
-@@ -850,27 +873,37 @@
+@@ -850,27 +874,37 @@
          this.tickTime = this.tickTime * 0.8F + (float) l / 1000000.0F * 0.19999999F;
          long i1 = Util.getMeasuringTimeNano();
  
@@ -99,7 +114,7 @@
 +        if (this.ticks % 20 == 0) {
 +            for (int i = 0; i < this.getPlayerManager().getPlayerList().size(); ++i) {
 +                ServerPlayerEntity entityplayer = (ServerPlayerEntity) this.getPlayerManager().getPlayerList().get(i);
-+                entityplayer.networkHandler.sendPacket(new WorldTimeUpdateS2CPacket(entityplayer.world.getTime(), entityplayer.world.getTimeOfDay(), entityplayer.world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE))); // Add support for per player time TODO replace second time with player time
++                entityplayer.networkHandler.sendPacket(new WorldTimeUpdateS2CPacket(entityplayer.world.getTime(), ((PlayerImpl) entityplayer.getLoomEntity()).getTime(), entityplayer.world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE))); // Add support for per player time TODO replace second time with player time
 +            }
 +        }
 +
@@ -119,7 +134,7 @@
  
              this.profiler.push("tick");
  
-@@ -954,7 +987,7 @@
+@@ -954,7 +988,7 @@
      }
  
      public String getServerModName() {
@@ -128,7 +143,7 @@
      }
  
      public CrashReport populateCrashReport(CrashReport crashreport) {
-@@ -1299,11 +1332,11 @@
+@@ -1299,11 +1333,11 @@
  
      public CompletableFuture<Void> reloadResources(Collection<String> collection) {
          CompletableFuture<Void> completablefuture = CompletableFuture.supplyAsync(() -> {
@@ -142,7 +157,7 @@
          }, this).thenCompose((immutablelist) -> {
              return ServerResourceManager.reload(immutablelist, this.isDedicated() ? CommandManager.RegistrationEnvironment.DEDICATED : CommandManager.RegistrationEnvironment.INTEGRATED, this.getFunctionPermissionLevel(), this.workerExecutor, this);
          }).thenAcceptAsync((serverresourcemanager) -> {
-@@ -1719,15 +1752,5 @@
+@@ -1719,15 +1753,5 @@
          return this.saveProperties;
      }
  

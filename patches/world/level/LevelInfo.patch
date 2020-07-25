@@ -1,0 +1,60 @@
+--- a/net/minecraft/world/level/LevelInfo.java
++++ b/net/minecraft/world/level/LevelInfo.java
+@@ -15,8 +15,9 @@
+     private final boolean hardcore;
+     private final GameRules gameRules;
+     private final DataPackSettings field_25403;
++    private final java.util.UUID uuid; // Loom :: implement per-world uuids
+ 
+-    public LevelInfo(String s, GameMode gamemode, boolean flag, Difficulty difficulty, boolean flag1, GameRules gamerules, DataPackSettings datapacksettings) {
++    public LevelInfo(String s, GameMode gamemode, boolean flag, Difficulty difficulty, boolean flag1, GameRules gamerules, DataPackSettings datapacksettings, java.util.UUID uuid) { // Loom :: implement per-world uuids
+         this.name = s;
+         this.gameMode = gamemode;
+         this.structures = flag;
+@@ -24,6 +25,7 @@
+         this.hardcore = flag1;
+         this.gameRules = gamerules;
+         this.field_25403 = datapacksettings;
++        this.uuid = uuid; // Loom :: implement per-world uuids
+     }
+ 
+     public static LevelInfo method_28383(Dynamic<?> dynamic, DataPackSettings datapacksettings) {
+@@ -31,7 +33,7 @@
+ 
+         return new LevelInfo(dynamic.get("LevelName").asString(""), gamemode, dynamic.get("hardcore").asBoolean(false), (Difficulty) dynamic.get("Difficulty").asNumber().map((number) -> {
+             return Difficulty.byOrdinal(number.byteValue());
+-        }).result().orElse(Difficulty.NORMAL), dynamic.get("allowCommands").asBoolean(gamemode == GameMode.CREATIVE), new GameRules(dynamic.get("GameRules")), datapacksettings);
++        }).result().orElse(Difficulty.NORMAL), dynamic.get("allowCommands").asBoolean(gamemode == GameMode.CREATIVE), new GameRules(dynamic.get("GameRules")), datapacksettings, java.util.UUID.fromString(dynamic.get("UUID").asString(java.util.UUID.randomUUID().toString()))); // Loom :: implement world uuids
+     }
+ 
+     public String getLevelName() {
+@@ -62,19 +64,25 @@
+         return this.field_25403;
+     }
+ 
++    // Loom start :: implement per-world uuids
++    public java.util.UUID getUUID() {
++        return this.uuid;
++    }
++
+     public LevelInfo method_28382(GameMode gamemode) {
+-        return new LevelInfo(this.name, gamemode, this.structures, this.difficulty, this.hardcore, this.gameRules, this.field_25403);
++        return new LevelInfo(this.name, gamemode, this.structures, this.difficulty, this.hardcore, this.gameRules, this.field_25403, this.uuid);
+     }
+ 
+     public LevelInfo method_28381(Difficulty difficulty) {
+-        return new LevelInfo(this.name, this.gameMode, this.structures, difficulty, this.hardcore, this.gameRules, this.field_25403);
++        return new LevelInfo(this.name, this.gameMode, this.structures, difficulty, this.hardcore, this.gameRules, this.field_25403, this.uuid);
+     }
+ 
+     public LevelInfo method_29557(DataPackSettings datapacksettings) {
+-        return new LevelInfo(this.name, this.gameMode, this.structures, this.difficulty, this.hardcore, this.gameRules, datapacksettings);
++        return new LevelInfo(this.name, this.gameMode, this.structures, this.difficulty, this.hardcore, this.gameRules, datapacksettings, this.uuid);
+     }
+ 
+     public LevelInfo method_28385() {
+-        return new LevelInfo(this.name, this.gameMode, this.structures, this.difficulty, this.hardcore, this.gameRules.copy(), this.field_25403);
++        return new LevelInfo(this.name, this.gameMode, this.structures, this.difficulty, this.hardcore, this.gameRules.copy(), this.field_25403, this.uuid);
+     }
++    // Loom end
+ }
