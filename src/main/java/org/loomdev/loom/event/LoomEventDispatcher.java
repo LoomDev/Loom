@@ -9,13 +9,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.ServerMetadata;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.IntProperty;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.explosion.Explosion;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.block.enums.Note;
 import org.loomdev.api.entity.misc.Lightning;
@@ -35,6 +34,8 @@ import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
 import org.loomdev.api.event.player.connection.PlayerJoinedEvent;;
 import org.loomdev.api.event.player.movement.PlayerEnteredFlightEvent;
 import org.loomdev.api.event.server.ServerPingedEvent;
+import org.loomdev.api.event.world.TimeChangedEvent;
+import org.loomdev.api.world.World;
 import org.loomdev.loom.block.BlockImpl;
 import org.loomdev.loom.entity.decoration.ArmorStandImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
@@ -50,15 +51,15 @@ public final class LoomEventDispatcher {
         throw new UnsupportedOperationException("LoomEventDispatcher should not be instantiated.");
     }
 
-    private static <E extends Event> E fire(E event) {
+    private static <E extends Event> E fire(@NotNull E event) {
         return Loom.getServer().getEventManager().fire(event);
     }
 
-    private static <E extends Event> CompletableFuture<E> fireAsync(E event) {
+    private static <E extends Event> CompletableFuture<E> fireAsync(@NotNull E event) {
         return Loom.getServer().getEventManager().fireAsync(event);
     }
 
-    public static CompletableFuture<ArmorStandPlacedEvent> onArmorStandPlaced(ArmorStandEntity armorStand, PlayerEntity player) { // TODO also make async in nms
+    public static CompletableFuture<ArmorStandPlacedEvent> onArmorStandPlaced(@NotNull ArmorStandEntity armorStand, @NotNull PlayerEntity player) { // TODO also make async in nms
         ArmorStandPlacedEvent event = new ArmorStandPlacedEvent((ArmorStandImpl) armorStand.getLoomEntity(), (PlayerImpl) player.getLoomEntity());
         return fireAsync(event);
     }
@@ -66,61 +67,61 @@ public final class LoomEventDispatcher {
     // TODO dispenser armor stand place event
 
     public static CompletableFuture<BlockBrokenEvent> onBlockBroken(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fireAsync(new BlockBrokenEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
+        return fireAsync(new BlockBrokenEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static BlockPlacedEvent onBlockPlaced(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fire(new BlockPlacedEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
+        return fire(new BlockPlacedEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static CompletableFuture<BlockDroppedExperienceEvent> onBlockDroppedExperience(WorldAccess world, BlockPos pos, int experience) {
-        return fireAsync(new BlockDroppedExperienceEvent(BlockImpl.of(world, pos), experience));
+        return fireAsync(new BlockDroppedExperienceEvent(BlockImpl.at(world, pos), experience));
     }
 
     public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, BlockPos ignitingpos, BlockIgnitedEvent.Cause cause) {
-        return fireAsync(new BlockIgnitedEvent(BlockImpl.of(world, pos), BlockImpl.of(world, ignitingpos), cause));
+        return fireAsync(new BlockIgnitedEvent(BlockImpl.at(world, pos), BlockImpl.at(world, ignitingpos), cause));
     }
 
     public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, Entity igniter, BlockIgnitedEvent.Cause cause) { // TODO add Fireball nms implementations for this
-        return fireAsync(new BlockIgnitedEvent(BlockImpl.of(world, pos), igniter.getLoomEntity(), cause));
+        return fireAsync(new BlockIgnitedEvent(BlockImpl.at(world, pos), igniter.getLoomEntity(), cause));
     }
 
     public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, Explosion explosion) {
         org.loomdev.api.entity.Entity igniter = explosion.getCausingEntity() == null ? null : explosion.getCausingEntity().getLoomEntity();
-        return fireAsync(new BlockIgnitedEvent(BlockImpl.of(world, pos), igniter, BlockIgnitedEvent.Cause.EXPLOSION));
+        return fireAsync(new BlockIgnitedEvent(BlockImpl.at(world, pos), igniter, BlockIgnitedEvent.Cause.EXPLOSION));
     }
 
     public static CompletableFuture<BlockBurnedEvent> onBlockBurned(WorldAccess world, BlockPos pos, BlockPos ignitingpos) {
-        return fireAsync(new BlockBurnedEvent(BlockImpl.of(world, pos), BlockImpl.of(world, ignitingpos)));
+        return fireAsync(new BlockBurnedEvent(BlockImpl.at(world, pos), BlockImpl.at(world, ignitingpos)));
     }
 
     public static CompletableFuture<BlockEvaporatedEvent> onBlockEvaporated(WorldAccess world, BlockPos pos) {
-        return fireAsync(new BlockEvaporatedEvent(BlockImpl.of(world, pos), null));
+        return fireAsync(new BlockEvaporatedEvent(BlockImpl.at(world, pos), null));
     }
 
     public static CompletableFuture<BlockEvaporatedEvent> onBlockEvaporated(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fireAsync(new BlockEvaporatedEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
+        return fireAsync(new BlockEvaporatedEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static CompletableFuture<BlockBouncedEvent> onBlockBounced(WorldAccess world, BlockPos pos, Entity entity, double multiplier) {
-        return fireAsync(new BlockBouncedEvent(BlockImpl.of(world, pos), entity.getLoomEntity(), multiplier));
+        return fireAsync(new BlockBouncedEvent(BlockImpl.at(world, pos), entity.getLoomEntity(), multiplier));
     }
 
     public static CompletableFuture<NoteBlockPlayedEvent> onNoteBlockPlayed(WorldAccess world, BlockPos pos, Instrument instrument, int note, float pitch) {
-        NoteBlockPlayedEvent event = new NoteBlockPlayedEvent(BlockImpl.of(world, pos), org.loomdev.api.block.enums.Instrument.getByName(instrument.asString()), Note.getByUses(note), pitch);
+        NoteBlockPlayedEvent event = new NoteBlockPlayedEvent(BlockImpl.at(world, pos), org.loomdev.api.block.enums.Instrument.getByName(instrument.asString()), Note.getByUses(note), pitch);
         System.out.println(instrument.asString());
-        event.setInstrument(org.loomdev.api.block.enums.Instrument.COW_BELL);
-        event.setPitch(1f);
-        event.cancel(true);
+        event.setInstrument(org.loomdev.api.block.enums.Instrument.IRON_XYLOPHONE);
+        event.setPitch(100f);
+        event.cancel(false);
         return fireAsync(event);
     }
 
     public static CompletableFuture<PlantDiedEvent> onPlantDied(WorldAccess world, BlockPos pos) {
-        return fireAsync(new PlantDiedEvent(BlockImpl.of(world, pos)));
+        return fireAsync(new PlantDiedEvent(BlockImpl.at(world, pos)));
     }
 
     public static CompletableFuture<PlantDecayedEvent> onPlantDecayed(WorldAccess world, BlockPos pos) {
-        return fireAsync(new PlantDecayedEvent(BlockImpl.of(world, pos)));
+        return fireAsync(new PlantDecayedEvent(BlockImpl.at(world, pos)));
     }
 
     public static PlantGrewEvent onPlantGrew(WorldAccess world, BlockPos pos) {
@@ -131,19 +132,19 @@ public final class LoomEventDispatcher {
     }
 
     public static PlantFertilizedEvent onPlantFertilized(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fire(new PlantFertilizedEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
+        return fire(new PlantFertilizedEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static PlantHarvestedEvent onPlantHarvested(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fire(new PlantHarvestedEvent(BlockImpl.of(world, pos), (PlayerImpl) player.getLoomEntity()));
+        return fire(new PlantHarvestedEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static CompletableFuture<FluidLevelChangedEvent> onFluidLevelChanged(WorldAccess world, BlockPos pos) {
-        return fireAsync(new FluidLevelChangedEvent(BlockImpl.of(world, pos), null)); // TODO implement blockstate
+        return fireAsync(new FluidLevelChangedEvent(BlockImpl.at(world, pos), null)); // TODO implement blockstate
     }
 
     public static CompletableFuture<SpongeAbsorbedEvent> onSpongeAbsorbed(WorldAccess world, BlockPos pos) {
-        return fireAsync(new SpongeAbsorbedEvent(BlockImpl.of(world, pos), new HashSet<>())); // TODO add absorbedBlocks set + implement async in the nms sponge class
+        return fireAsync(new SpongeAbsorbedEvent(BlockImpl.at(world, pos), new HashSet<>())); // TODO add absorbedBlocks set + implement async in the nms sponge class
     }
 
     /*public static PlayerLoggedInEvent onPlayerLoggedIn(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
@@ -181,6 +182,20 @@ public final class LoomEventDispatcher {
     public static CompletableFuture<EntityToggledSwimmingEvent> onEntityToggledSwimming(Entity entity) {
         EntityToggledSwimmingEvent event = new EntityToggledSwimmingEvent(entity.getLoomEntity());
         event.cancel(true);
+        return fireAsync(event);
+    }
+
+    public static CompletableFuture<TimeChangedEvent> onTimeChanged(@NotNull World world, long change, @NotNull TimeChangedEvent.Cause cause) {
+        TimeChangedEvent event = new TimeChangedEvent(world, change, cause);
+        return fireAsync(event);
+    }
+
+    public static CompletableFuture<TimeChangedEvent> onTimeChanged(@NotNull ServerWorld world, long change, @NotNull TimeChangedEvent.Cause cause) {
+        TimeChangedEvent event = new TimeChangedEvent(
+                Loom.getServer().getWorld(world.field_24456.getLevelName()).orElse(null), // TODO maybe don't fire on invalid world? also fetch world by uuid since it'll be O(1)
+                change,
+                cause
+        );
         return fireAsync(event);
     }
 
