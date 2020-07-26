@@ -14,13 +14,12 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.damage.DamageSource;
 import org.loomdev.api.entity.player.Player;
+import org.loomdev.api.math.MathHelper;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.Weather;
 import org.loomdev.loom.entity.LivingEntityImpl;
-import org.loomdev.loom.math.MathHelp;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.net.InetSocketAddress;
@@ -83,7 +82,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void setWalkSpeed(float speed) {
-        getMinecraftEntity().abilities.walkSpeed = MathHelp.clamp(speed, -1f, 1f);
+        getMinecraftEntity().abilities.walkSpeed = MathHelper.clamp(speed, -1f, 1f);
         getMinecraftEntity().sendAbilitiesUpdate();
     }
 
@@ -94,7 +93,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void setFlySpeed(float speed) {
-        getMinecraftEntity().abilities.flySpeed = MathHelp.clamp(speed, -1f, 1f);
+        getMinecraftEntity().abilities.flySpeed = MathHelper.clamp(speed, -1f, 1f);
         getMinecraftEntity().sendAbilitiesUpdate();
     }
 
@@ -178,8 +177,8 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public @NonNull Optional<TextComponent> getTabListName() {
-        return Optional.of(this.tabListName.orElse(this.getDisplayName()));
+    public @NotNull TextComponent getTabListName() { // TODO ffs, tech
+        return this.tabListName.orElse(this.getDisplayName());
     }
 
     @Override
@@ -236,6 +235,31 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void setSpectatorTarget(@NonNull Entity entity) {
+
+    }
+
+    @Override
+    public long getTime() { // TODO ffs, tech
+        return 0;
+    }
+
+    @Override
+    public void setTime(long l, boolean b) { // TODO ffs, tech
+
+    }
+
+    @Override
+    public long getTimeOffset() { // TODO ffs, tech
+        return 0;
+    }
+
+    @Override
+    public boolean isTimeRelative() { // TODO ffs, tech
+        return false;
+    }
+
+    @Override
+    public void syncTime() { // TODO ffs, tech
 
     }
 

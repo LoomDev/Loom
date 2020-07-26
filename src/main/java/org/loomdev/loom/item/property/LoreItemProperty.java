@@ -5,6 +5,7 @@ import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.property.ItemProperty;
 import org.loomdev.api.item.property.data.LoreData;
@@ -15,8 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoreItemProperty implements ItemProperty<LoreData> {
+
     @Override
-    public LoreData get(ItemStack itemStack) {
+    public LoreData get(@NotNull ItemStack itemStack) {
         net.minecraft.item.ItemStack mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
 
         CompoundTag compoundtag = mcStack.getSubTag("display");
@@ -41,7 +43,7 @@ public class LoreItemProperty implements ItemProperty<LoreData> {
     }
 
     @Override
-    public void apply(ItemStack itemStack, LoreData loreData) {
+    public void apply(@NotNull ItemStack itemStack, @NotNull LoreData loreData) {
         net.minecraft.item.ItemStack mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
 
         CompoundTag compoundTag = mcStack.getOrCreateSubTag("display");
@@ -56,4 +58,5 @@ public class LoreItemProperty implements ItemProperty<LoreData> {
             compoundTag.put("Lore", listTag);
         }
     }
+
 }

@@ -13,13 +13,18 @@ import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.ItemTypes;
 import org.loomdev.api.item.property.ItemProperties;
 import org.loomdev.api.item.property.ItemProperty;
+import org.loomdev.api.item.property.data.EnchantmentData;
+import org.loomdev.api.item.property.data.ItemPropertyData;
+import org.loomdev.api.item.property.data.LoreData;
 import org.loomdev.loom.item.property.data.LoreDataImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class ItemStackImpl implements ItemStack {
 
@@ -55,52 +60,35 @@ public class ItemStackImpl implements ItemStack {
     }
 
     @Override
-    public @NotNull Component getName() {
-        return TextTransformer.toLoom(this.mcStack.getName());
+    public void increment(int amount) {
+        this.mcStack.increment(amount);
     }
 
     @Override
-    public void setName(@NotNull Component component) {
-        this.mcStack.setCustomName(TextTransformer.toMinecraft(component));
+    public void decrement(int amount) {
+        this.mcStack.decrement(amount);
     }
 
     @Override
-    public void removeCustomName() {
-        this.mcStack.removeCustomName();
+    public @NotNull ItemStack split(int newStackAmount) {
+        return new ItemStackImpl(this.mcStack.split(newStackAmount));
     }
 
     @Override
-    public @NotNull List<Component> getLore() {
-        return getProperty(ItemProperties.Lore).getLore();
-    }
-
-    @Override
-    public void setLore(@NotNull String... lore) {
-        List<Component> components = new ArrayList<>();
-        for (String loreLine : lore) {
-            components.add(TextComponent.of(loreLine));
-        }
-        setProperty(ItemProperties.Lore, new LoreDataImpl(components));
-    }
-
-    @Override
-    public void setLore(@NotNull List<Component> lore) {
-        setProperty(ItemProperties.Lore, new LoreDataImpl(lore));
-    }
-
-    @Override
-    public <T> T getProperty(ItemProperty<T> itemProperty) {
+    public <T extends ItemPropertyData> T getProperty(ItemProperty<T> itemProperty) {
         return itemProperty.get(this);
     }
 
     @Override
-    public <T> void setProperty(ItemProperty<T> itemProperty, T data) {
+    public <T extends ItemPropertyData> void setProperty(@NotNull ItemProperty<T> itemProperty, @NotNull T data) {
         itemProperty.apply(this, data);
     }
 
     @Override
-    public Component getHoverText() {
-        return TextTransformer.toLoom(this.mcStack.toHoverableText());
+    public <T extends ItemPropertyData> void changeProperty(@NotNull ItemProperty<T> itemProperty, @NotNull Consumer<T> consumer) {
+        T data = this.getProperty(itemProperty);
+        consumer.accept(data);
+        this.setProperty(itemProperty, data);
     }
 
     @Override
@@ -113,20 +101,89 @@ public class ItemStackImpl implements ItemStack {
         return this.mcStack.isStackable();
     }
 
+    // region ItemProperties
+
     @Override
-    public void increment(int amount) {
-        this.mcStack.increment(amount);
+    public @NotNull Map<Enchantment, Integer> getEnchantments() {
+        return this.getProperty(ItemProperties.Enchantments).getEnchantments();
     }
 
     @Override
-    public void decrement(int amount) {
-        this.mcStack.decrement(amount);
+    public void setEnchantments(@NotNull Map<Enchantment, Integer> map) {
+        this.changeProperty(ItemProperties.Enchantments, data -> data.setEnchantments(map));
     }
 
     @Override
-    public ItemStack spit(int newStackAmount) {
-        return new ItemStackImpl(this.mcStack.split(newStackAmount));
+    public int getEnchantmentLevel(Enchantment enchantment) {
+        return this.getProperty(ItemProperties.Enchantments).getEnchantmentLevel(enchantment);
     }
+
+    @Override
+    public void addEnchantment(@NotNull Enchantment enchantment, Integer level) {
+        this.changeProperty(ItemProperties.Enchantments, data -> data.addEnchantment(enchantment, level));
+    }
+
+    @Override
+    public void removeEnchantment(@NotNull Enchantment enchantment) {
+        this.changeProperty(ItemProperties.Enchantments, data -> data.removeEnchantment(enchantment));
+    }
+
+    @Override
+    public void clearEnchantments() {
+        this.changeProperty(ItemProperties.Enchantments, data -> data.clearEnchantments());
+    }
+
+    @Override
+    public boolean hasEnchantment(@NotNull Enchantment enchantment) {
+        return this.getProperty(ItemProperties.Enchantments).hasEnchantment(enchantment);
+    }
+
+    @Override
+    public @NotNull List<Component> getLore() {
+        return this.getProperty(ItemProperties.Lore).getLore();
+    }
+
+    @Override
+    public void setLore(@NotNull List<Component> list) {
+        this.changeProperty(ItemProperties.Lore, data -> data.setLore(list));
+    }
+
+    @Override
+    public void appendLore(Component... components) {
+        this.changeProperty(ItemProperties.Lore, data -> data.appendLore(components));
+    }
+
+    @Override
+    public void removeLoreLine(int index) {
+        this.changeProperty(ItemProperties.Lore, data -> data.removeLoreLine(index));
+    }
+
+    @Override
+    public @NotNull Component getName() {
+        return this.getProperty(ItemProperties.Name).getName();
+    }
+
+    @Override
+    public void setName(@NotNull Component component) {
+        this.changeProperty(ItemProperties.Name, data -> data.setName(component));
+    }
+
+    @Override
+    public void removeCustomName() {
+        this.changeProperty(ItemProperties.Name, data -> data.removeCustomName());
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return this.getProperty(ItemProperties.Name).hasCustomName();
+    }
+
+    @Override
+    public @NotNull Component getHoverText() {
+        return this.getProperty(ItemProperties.Name).getHoverText();
+    }
+
+    // endregion ItemProperties
 
     public static class BuilderImpl implements ItemStack.Builder {
         ItemStack itemStack;
@@ -167,25 +224,22 @@ public class ItemStackImpl implements ItemStack {
 
         @Override
         public ItemStack.Builder appendLore(@NotNull String... lore) {
-            this.itemStack.setLore(lore);
+            List<Component> components = Arrays.stream(lore)
+                    .map(TextComponent::of)
+                    .collect(Collectors.toList());
+            this.itemStack.setLore(components);
             return this;
         }
 
         @Override
         public ItemStack.Builder appendLore(@NotNull TextComponent... textComponents) {
-            List<Component> lore = this.itemStack.getLore();
-            lore.addAll(Arrays.asList(textComponents));
-            this.itemStack.setLore(lore);
+            this.itemStack.appendLore(textComponents);
             return this;
         }
 
         @Override
         public ItemStack.Builder removeLoreLine(int index) {
-            List<Component> lore = this.itemStack.getLore();
-            if (index >= 0 && index < lore.size()) {
-                lore.remove(index);
-                this.itemStack.setLore(lore);
-            }
+            this.itemStack.removeLoreLine(index);
             return this;
         }
 
@@ -195,10 +249,8 @@ public class ItemStackImpl implements ItemStack {
         }
 
         @Override
-        public <T> ItemStack.Builder property(ItemProperty<T> itemProperty, Consumer<T> consumer) {
-            T data = this.itemStack.getProperty(itemProperty);
-            consumer.accept(data);
-            this.itemStack.setProperty(itemProperty, data);
+        public <T extends ItemPropertyData> ItemStack.Builder property(ItemProperty<T> itemProperty, Consumer<T> consumer) {
+            this.itemStack.changeProperty(itemProperty, consumer);
             return this;
         }
 

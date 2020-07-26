@@ -29,7 +29,7 @@ public class BlockImpl implements Block {
         return this.mcBlock;
     }
 
-    @Override
+    // @Override TODO ffs, tech
     public @NotNull BlockState getBlockState() {
         return null;
     }
