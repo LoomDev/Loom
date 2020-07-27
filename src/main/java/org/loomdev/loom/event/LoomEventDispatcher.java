@@ -16,6 +16,7 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
+import org.loomdev.api.block.Block;
 import org.loomdev.api.block.enums.Note;
 import org.loomdev.api.entity.misc.Lightning;
 import org.loomdev.api.entity.mob.Creeper;
@@ -43,6 +44,7 @@ import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.net.InetSocketAddress;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public final class LoomEventDispatcher {
@@ -143,8 +145,8 @@ public final class LoomEventDispatcher {
         return fireAsync(new FluidLevelChangedEvent(BlockImpl.at(world, pos), null)); // TODO implement blockstate
     }
 
-    public static CompletableFuture<SpongeAbsorbedEvent> onSpongeAbsorbed(WorldAccess world, BlockPos pos) {
-        return fireAsync(new SpongeAbsorbedEvent(BlockImpl.at(world, pos), new HashSet<>())); // TODO add absorbedBlocks set + implement async in the nms sponge class
+    public static CompletableFuture<SpongeAbsorbedEvent> onSpongeAbsorbed(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull Set<Block> absorbedBlocks) {
+        return fireAsync(new SpongeAbsorbedEvent(BlockImpl.at(world, pos), absorbedBlocks));
     }
 
     /*public static PlayerLoggedInEvent onPlayerLoggedIn(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
