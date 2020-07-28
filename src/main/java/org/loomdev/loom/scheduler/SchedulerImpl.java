@@ -6,7 +6,10 @@ import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.scheduler.Scheduler;
 import org.loomdev.api.scheduler.Task;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 

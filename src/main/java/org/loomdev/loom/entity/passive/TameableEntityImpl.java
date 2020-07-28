@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity.passive;
 
-import net.minecraft.entity.passive.AnimalEntity;
 import org.loomdev.api.entity.passive.TameableEntity;
 
 import java.util.Optional;

@@ -1,8 +1,6 @@
 package org.loomdev.loom.entity.mob;
 
 import net.minecraft.entity.mob.EndermanEntity;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.loomdev.api.entity.EntityType;

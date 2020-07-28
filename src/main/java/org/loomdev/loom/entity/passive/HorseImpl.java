@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity.passive;
 
-import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.passive.HorseColor;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.passive.HorseMarking;

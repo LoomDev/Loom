@@ -6,7 +6,6 @@ import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
-import org.loomdev.api.util.EquipmentSlot;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
 public final class EnchantmentImpl implements Enchantment {

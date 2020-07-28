@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity.passive;
 
-import net.minecraft.entity.passive.FishEntity;
 import net.minecraft.entity.passive.SchoolingFishEntity;
 import org.loomdev.api.entity.passive.SchoolingFish;
 

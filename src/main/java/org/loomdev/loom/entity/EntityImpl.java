@@ -2,7 +2,6 @@ package org.loomdev.loom.entity;
 
 import com.google.common.base.Preconditions;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.FluidTags;

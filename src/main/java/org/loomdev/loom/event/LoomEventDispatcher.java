@@ -32,7 +32,7 @@ import org.loomdev.api.event.entity.decoration.ArmorStandPlacedEvent;
 import org.loomdev.api.event.entity.movement.EntityToggledSwimmingEvent;
 import org.loomdev.api.event.player.PlayerMessagedEvent;
 import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
-import org.loomdev.api.event.player.connection.PlayerJoinedEvent;;
+import org.loomdev.api.event.player.connection.PlayerJoinedEvent;
 import org.loomdev.api.event.player.movement.PlayerEnteredFlightEvent;
 import org.loomdev.api.event.server.ServerPingedEvent;
 import org.loomdev.api.event.world.TimeChangedEvent;
@@ -46,6 +46,8 @@ import java.net.InetSocketAddress;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+
+;
 
 public final class LoomEventDispatcher {
 

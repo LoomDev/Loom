@@ -5,8 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.item.property.data.NameData;
 
-import java.util.Optional;
-
 public class NameDataImpl implements NameData {
 
     private final Component itemName;

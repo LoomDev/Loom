@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity.passive;
 
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.FoxEntity;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.entity.EntityType;

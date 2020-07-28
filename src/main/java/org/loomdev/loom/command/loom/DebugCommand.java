@@ -1,9 +1,6 @@
 package org.loomdev.loom.command.loom;
 
-import com.google.inject.internal.cglib.core.$ProcessArrayCallback;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.minecraft.util.Hand;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.Loom;
@@ -17,14 +14,10 @@ import org.loomdev.api.item.ItemTypes;
 import org.loomdev.api.item.property.ItemProperties;
 import org.loomdev.api.scheduler.TaskRunnable;
 import org.loomdev.api.util.ChatColor;
-import org.loomdev.api.world.Location;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.item.ItemStackImpl;
-import org.loomdev.loom.world.WorldImpl;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DebugCommand extends Command {
 

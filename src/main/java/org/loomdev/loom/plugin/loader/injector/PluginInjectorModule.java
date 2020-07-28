@@ -1,17 +1,12 @@
 package org.loomdev.loom.plugin.loader.injector;
 
-import com.google.inject.*;
+import com.google.inject.Binder;
 import com.google.inject.Module;
-import com.google.inject.internal.asm.$ByteVector;
-import com.google.inject.matcher.Matchers;
-import com.google.inject.spi.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.config.Configuration;
-import org.loomdev.api.config.file.TomlConfiguration;
 import org.loomdev.api.event.EventManager;
-import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.plugin.PluginMetadata;
 import org.loomdev.api.plugin.annotation.Config;
@@ -21,12 +16,7 @@ import org.loomdev.api.server.Server;
 import org.loomdev.loom.plugin.data.LoomPluginMetadata;
 import org.loomdev.loom.plugin.loader.injector.providers.ConfigProvider;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Parameter;
 import java.nio.file.Path;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.regex.Matcher;
 
 public class PluginInjectorModule implements Module {
 

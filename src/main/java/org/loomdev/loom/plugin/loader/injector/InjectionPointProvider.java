@@ -6,20 +6,16 @@ import com.google.inject.Binding;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.matcher.AbstractMatcher;
-import com.google.inject.matcher.Matcher;
 import com.google.inject.spi.Dependency;
 import com.google.inject.spi.DependencyAndSource;
 import com.google.inject.spi.ProviderInstanceBinding;
 import com.google.inject.spi.ProvisionListener;
-import org.loomdev.api.server.Server;
-import org.loomdev.loom.plugin.data.LoomPluginMetadata;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Type;
-import java.nio.file.Path;
 import java.util.List;
 
 /**

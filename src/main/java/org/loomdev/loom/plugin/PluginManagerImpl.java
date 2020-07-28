@@ -2,14 +2,14 @@ package org.loomdev.loom.plugin;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.graph.GraphBuilder;
-import com.google.common.graph.MutableGraph;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.plugin.*;
-import org.loomdev.api.plugin.annotation.Dependency;
+import org.loomdev.api.plugin.Plugin;
+import org.loomdev.api.plugin.PluginContainer;
+import org.loomdev.api.plugin.PluginManager;
+import org.loomdev.api.plugin.PluginMetadata;
 import org.loomdev.loom.plugin.data.LoomPluginMetadata;
 import org.loomdev.loom.plugin.loader.PluginClassLoader;
 import org.loomdev.loom.plugin.loader.PluginLoaderImpl;

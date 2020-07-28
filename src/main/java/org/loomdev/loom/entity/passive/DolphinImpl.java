@@ -1,7 +1,5 @@
 package org.loomdev.loom.entity.passive;
 
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.DolphinEntity;
 import net.minecraft.util.math.BlockPos;
 import org.checkerframework.checker.nullness.qual.NonNull;

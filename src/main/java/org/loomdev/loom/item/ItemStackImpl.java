@@ -2,24 +2,17 @@ package org.loomdev.loom.item;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
-import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.ItemTypes;
 import org.loomdev.api.item.property.ItemProperties;
 import org.loomdev.api.item.property.ItemProperty;
-import org.loomdev.api.item.property.data.EnchantmentData;
 import org.loomdev.api.item.property.data.ItemPropertyData;
-import org.loomdev.api.item.property.data.LoreData;
-import org.loomdev.loom.item.property.data.LoreDataImpl;
-import org.loomdev.loom.util.transformer.TextTransformer;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;

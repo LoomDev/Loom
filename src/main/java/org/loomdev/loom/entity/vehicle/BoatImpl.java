@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity.vehicle;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.loomdev.api.entity.EntityType;

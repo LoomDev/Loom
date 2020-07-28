@@ -1,11 +1,8 @@
 package org.loomdev.loom.command.loom;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
-import org.loomdev.api.item.ItemTypes;
-import org.loomdev.api.plugin.PluginManager;
 
 public class ReloadCommand extends Command {
 

@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;

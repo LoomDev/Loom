@@ -7,7 +7,6 @@ import org.loomdev.api.config.ConfigurationException;
 import org.loomdev.api.config.file.TomlConfiguration;
 import org.loomdev.api.config.file.YamlConfiguration;
 import org.loomdev.api.plugin.Plugin;
-import org.loomdev.api.plugin.PluginMetadata;
 import org.loomdev.api.plugin.annotation.Config;
 import org.loomdev.api.plugin.annotation.PluginDirectory;
 import org.loomdev.loom.plugin.loader.injector.InjectionException;

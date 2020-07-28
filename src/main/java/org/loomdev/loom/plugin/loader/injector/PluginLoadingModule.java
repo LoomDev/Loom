@@ -1,7 +1,9 @@
 package org.loomdev.loom.plugin.loader.injector;
 
-import com.google.inject.*;
+import com.google.inject.Binder;
 import com.google.inject.Module;
+import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
 import org.loomdev.api.plugin.Plugin;
 
 public class PluginLoadingModule implements Module, Provider<Class<? extends Plugin>> {
