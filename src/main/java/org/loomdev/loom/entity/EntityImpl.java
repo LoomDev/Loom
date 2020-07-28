@@ -61,20 +61,20 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public @NonNull TextComponent getDisplayName() {
-        return (TextComponent) TextTransformer.toLoom(this.mcEntity.getDisplayName()); // TODO check
+    public @NonNull Component getDisplayName() {
+        return TextTransformer.toLoom(this.mcEntity.getDisplayName()); // TODO check
     }
 
     @Override
-    public @NonNull Optional<TextComponent> getCustomName() {
+    public @NonNull Optional<Component> getCustomName() {
         if (!this.hasCustomName()) {
             return Optional.empty();
         }
-        return Optional.of((TextComponent) TextTransformer.toLoom(this.mcEntity.getCustomName())); // TODO check
+        return Optional.of(TextTransformer.toLoom(this.mcEntity.getCustomName())); // TODO check
     }
 
     @Override
-    public void setCustomName(@NonNull TextComponent component) {
+    public void setCustomName(@NonNull Component component) {
         this.mcEntity.setCustomName(TextTransformer.toMinecraft(component)); // TODO check
     }
 

@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity.decoration;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.util.math.BlockPos;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -45,7 +44,7 @@ public class EndCrystalImpl extends EntityImpl implements EndCrystal {
     }
 
     @Override
-    public void setBottomShown(boolean b) {
-        getMinecraftEntity().setShowBottom(b);
+    public void setBottomShown(boolean flag) {
+        getMinecraftEntity().setShowBottom(flag);
     }
 }
