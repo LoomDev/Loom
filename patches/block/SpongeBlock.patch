@@ -56,24 +56,24 @@
 +                return;
 +            }
 +
-+            event.getAbsorbedBlocks().stream()
-+                    .map(block -> (org.loomdev.loom.block.BlockImpl) block)
-+                    .forEach(block -> {
-+                        BlockState state = block.getMinecraftBlock();
-+                        BlockPos pos = block.getMinecraftPos();
-+                        World world1 = (World) block.getMinecraftWorld();
-+                        Material material1 = state.getMaterial();
++            for (org.loomdev.api.block.Block block : event.getAbsorbedBlocks()) {
++                org.loomdev.loom.block.BlockImpl blockImpl = (org.loomdev.loom.block.BlockImpl) block;
 +
-+                        if (state.getBlock() instanceof FluidDrainable && ((FluidDrainable) block.getMinecraftBlock().getBlock()).tryDrainFluid(world1, pos, state) != Fluids.EMPTY) {
-+                            // empty
-+                        } else if (state.getBlock() instanceof FluidBlock) {
-+                            world1.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
-+                        } else if (material1 == Material.UNDERWATER_PLANT || material1 == Material.REPLACEABLE_UNDERWATER_PLANT) {
-+                            BlockEntity blockentity = state.getBlock().hasBlockEntity() ? world1.getBlockEntity(pos) : null;
-+                            dropStacks(state, world1, pos, blockentity);
-+                            world1.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
-+                        }
-+                    });
++                BlockState state = blockImpl.getMinecraftBlock();
++                BlockPos pos = blockImpl.getMinecraftPos();
++                World world1 = (World) blockImpl.getMinecraftWorld();
++                Material material1 = state.getMaterial();
++
++                if (state.getBlock() instanceof FluidDrainable && ((FluidDrainable) blockImpl.getMinecraftBlock().getBlock()).tryDrainFluid(world1, pos, state) != Fluids.EMPTY) {
++                    // empty
++                } else if (state.getBlock() instanceof FluidBlock) {
++                    world1.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
++                } else if (material1 == Material.UNDERWATER_PLANT || material1 == Material.REPLACEABLE_UNDERWATER_PLANT) {
++                    BlockEntity blockentity = state.getBlock().hasBlockEntity() ? world1.getBlockEntity(pos) : null;
++                    dropStacks(state, world1, pos, blockentity);
++                    world1.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
++                }
++            }
 +
 +            if (finali > 0) {
 +                world.setBlockState(blockpos, Blocks.WET_SPONGE.getDefaultState(), 2);
