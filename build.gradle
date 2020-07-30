@@ -56,7 +56,7 @@ task makePatches(type: Exec) {
     commandLine 'sh', './tools/scripts/makePatches.sh', './decompiled'
 }
 
-task cleanLoom {
-    delete "${rootDir}/src/main/java/net/minecraft/"
-    println "Deleted minecraft code from ./src"
-}
+//task cleanLoom {
+//    delete "${rootDir}/src/main/java/net/minecraft/"
+//    println "Deleted minecraft code from ./src"
+//}

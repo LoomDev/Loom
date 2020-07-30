@@ -30,9 +30,9 @@ import java.util.UUID;
 
 public class PlayerImpl extends LivingEntityImpl implements Player {
 
-    private Optional<TextComponent> tabListName = Optional.empty();
-    private TextComponent tabListHeader = TextComponent.empty();
-    private TextComponent tabListFooter = TextComponent.empty();
+    private Optional<Component> tabListName = Optional.empty();
+    private Component tabListHeader = TextComponent.empty();
+    private Component tabListFooter = TextComponent.empty();
 
     private final Set<UUID> hiddenPlayers = new HashSet<>();
 
@@ -173,37 +173,37 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public int getProtocolVersion() {
-        return Loom.getServer().getProtocolVersion(); // TODO
+        return Loom.getServer().getProtocolVersion();
     }
 
     @Override
-    public @NotNull TextComponent getTabListName() { // TODO ffs, tech
+    public @NotNull Component getTabListName() {
         return this.tabListName.orElse(this.getDisplayName());
     }
 
     @Override
-    public void setTabListName(@NonNull TextComponent name) {
+    public void setTabListName(@NonNull Component name) {
         this.tabListName = Optional.of(name);
     }
 
     @Override
-    public @NonNull Optional<TextComponent> getTabListHeader() {
+    public @NonNull Optional<Component> getTabListHeader() {
         return Optional.of(this.tabListHeader);
     }
 
     @Override
-    public void setTabListHeader(@NonNull TextComponent header) {
+    public void setTabListHeader(@NonNull Component header) {
         this.tabListHeader = header;
         updatePlayerList();
     }
 
     @Override
-    public @NonNull Optional<TextComponent> getTabListFooter() {
+    public @NonNull Optional<Component> getTabListFooter() {
         return Optional.empty();
     }
 
     @Override
-    public void setTabListFooter(@NonNull TextComponent footer) {
+    public void setTabListFooter(@NonNull Component footer) {
         this.tabListFooter = footer;
         updatePlayerList();
     }
