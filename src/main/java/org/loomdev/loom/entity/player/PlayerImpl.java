@@ -17,6 +17,7 @@ import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.math.MathHelper;
 import org.loomdev.api.sound.Sound;
+import org.loomdev.api.util.GameMode;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.Weather;
 import org.loomdev.loom.entity.LivingEntityImpl;
@@ -279,17 +280,15 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public void kick(@NonNull String message) {
+    public void kick(@NonNull Component message) {
         if (isConnected()) {
-            getMinecraftEntity().networkHandler.disconnect(new LiteralText(message));
+            getMinecraftEntity().networkHandler.disconnect(TextTransformer.toMinecraft(message));
         }
     }
 
     @Override
-    public void kick(@NonNull TextComponent message) {
-        if (isConnected()) {
-            getMinecraftEntity().networkHandler.disconnect(TextTransformer.toMinecraft(message));
-        }
+    public void ban(@NotNull Component component) {
+
     }
 
     @Override
@@ -315,5 +314,15 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
         packet.header = TextTransformer.toMinecraft(this.tabListHeader);
         packet.footer = TextTransformer.toMinecraft(this.tabListFooter);
         getMinecraftEntity().networkHandler.sendPacket(packet);
+    }
+
+    @Override
+    public @NotNull GameMode getGameMode() {
+        return GameMode.values()[getMinecraftEntity().interactionManager.getGameMode().getId()];
+    }
+
+    @Override
+    public void setGameMode(@NotNull GameMode gameMode) {
+        getMinecraftEntity().setGameMode(net.minecraft.world.GameMode.byId(gameMode.ordinal()));
     }
 }

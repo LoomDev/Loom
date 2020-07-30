@@ -12,6 +12,7 @@ import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.plugin.PluginMetadata;
 import org.loomdev.api.util.ChatColor;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
@@ -26,7 +27,7 @@ public class PluginsCommand extends Command {
     }
 
     @Override
-    public void execute(@NonNull CommandSource source, String[] args) {
+    public void execute(@NonNull CommandSource source, String alias, String[] args) {
         if (args.length == 0) {
             sendList(source);
             return;
@@ -39,10 +40,14 @@ public class PluginsCommand extends Command {
         }
 
         if (args.length == 1) {
-            if(args[0].equalsIgnoreCase("reload")) {
+            if (args[0].equalsIgnoreCase("reload")) {
                 source.sendMessage(TextComponent.of("Reloading all plugins..."));
                 Loom.getPluginManager().reloadAll();
                 source.sendMessage(TextComponent.of("Successfully reloaded all plugins!").color(ChatColor.GREEN));
+            } else if(args[0].equalsIgnoreCase("scan")) {
+                source.sendMessage(TextComponent.of("Scanning for new plugins..."));
+                List<PluginMetadata> newPlugins = Loom.getPluginManager().scanPluginDirectory();
+                source.sendMessage(TextComponent.of("Found " + newPlugins.size() + " new plugins!").color(ChatColor.GREEN));
             }
         } else if (args.length == 2) {
             String pluginId = args[1];

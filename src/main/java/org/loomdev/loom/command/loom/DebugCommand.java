@@ -45,8 +45,7 @@ public class DebugCommand extends Command {
     }
 
     @Override
-    public void execute(@NonNull CommandSource source, String[] args) {
-
+    public void execute(@NonNull CommandSource source, String alias, String[] args) {
         Player player = ((Player) source);
 
         source.sendMessage("This world's UUID is " + player.getWorld().getUUID().toString());

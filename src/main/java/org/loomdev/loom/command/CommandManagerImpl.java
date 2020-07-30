@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import net.minecraft.server.MinecraftServer;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.command.CommandSource;
@@ -112,13 +113,14 @@ public class CommandManagerImpl implements CommandManager {
         }
 
         String name = args[0].toLowerCase(Locale.ENGLISH);
-        Command command = commands.get(name.startsWith("/") ? name.substring(1) : name);
+        name = name.startsWith("/") ? name.substring(1) : name;
+        Command command = commands.get(name);
 
         if (command == null) {
             return 0;
         }
 
-        command.execute(source, Arrays.copyOfRange(args, 1, args.length));
+        command.execute(source, name, Arrays.copyOfRange(args, 1, args.length));
         return 1;
     }
 }

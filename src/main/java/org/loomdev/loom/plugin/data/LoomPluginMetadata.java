@@ -81,11 +81,6 @@ public class LoomPluginMetadata implements PluginMetadata {
     }
 
     @Override
-    public @NotNull String getNameOrId() {
-        return getId(); // TODO remove this overload this is only for testing.
-    }
-
-    @Override
     public State getState() {
         return this.state;
     }

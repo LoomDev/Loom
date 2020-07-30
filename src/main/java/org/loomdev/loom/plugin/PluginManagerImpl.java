@@ -109,10 +109,11 @@ public class PluginManagerImpl implements PluginManager {
         List<PluginMetadata> metadataList = new ArrayList<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(this.pluginDirectory, path -> path.toFile().isFile() && path.toString().endsWith(".jar"))) {
             for(Path path : stream) {
-                metadataList.add(this.loadMetaFromFile(path));
+                PluginMetadata metadata = this.loadMetaFromFile(path);
+                if (metadata == null) continue; // already loaded
+                metadataList.add(metadata);
             }
 
-            this.plugins.clear();
             this.plugins.putAll(metadataList.stream().collect(Collectors.toMap(PluginMetadata::getId, m -> m)));
             return metadataList;
         } catch (IOException e) {
@@ -192,7 +193,7 @@ public class PluginManagerImpl implements PluginManager {
 
     @Override
     public boolean enablePlugin(@NotNull String id) {
-        asyncExecutor.execute(() -> internalEnablePlugin(id));
+        asyncExecutor.execute(() -> internalEnablePlugin(id)); // todo return completableFuture
         return false; 
     }
 
@@ -228,7 +229,7 @@ public class PluginManagerImpl implements PluginManager {
 
     @Override
     public boolean disablePlugin(@NotNull String id) {
-        asyncExecutor.execute(() -> internalDisablePlugin(id));
+        asyncExecutor.execute(() -> internalDisablePlugin(id));  // todo return completableFuture
         return false;
     }
 
@@ -268,7 +269,7 @@ public class PluginManagerImpl implements PluginManager {
     }
 
     @Override
-    public boolean reloadPlugin(@NotNull String id) {
+    public boolean reloadPlugin(@NotNull String id) {  // todo return completableFuture
         asyncExecutor.execute(() -> {
             internalDisablePlugin(id);
             internalEnablePlugin(id);
@@ -278,7 +279,7 @@ public class PluginManagerImpl implements PluginManager {
 
     @Override
     public boolean reloadAll() {
-        asyncExecutor.execute(() -> {
+        asyncExecutor.execute(() -> {  // todo return completableFuture
             for(PluginContainer plugin : this.enabledPlugins.values()) {
                 String id = plugin.getMetadata().getId();
                 internalDisablePlugin(id);

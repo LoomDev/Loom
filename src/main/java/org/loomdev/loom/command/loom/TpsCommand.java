@@ -30,7 +30,7 @@ public class TpsCommand extends Command {
     }
 
     @Override
-    public void execute(@NonNull CommandSource source, String[] args) {
+    public void execute(@NonNull CommandSource source, String alias, String[] args) {
         Tps tps = server.getTps();
         TickTimes tickTimes = server.getTickTimes();
 
