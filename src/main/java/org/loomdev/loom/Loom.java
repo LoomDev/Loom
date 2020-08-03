@@ -44,7 +44,7 @@ public class Loom {
         }
     };
 
-    public static void main(String[] args) {
+    public static void main(@NotNull String[] args) {
         OptionParser parser = new OptionParser() {
             {
                 acceptsAll(asList("nogui"), "Console only");
@@ -101,7 +101,7 @@ public class Loom {
         Main.main(options);
     }
 
-    private static List<String> asList(String... params) {
+    private static List<String> asList(@NotNull String... params) {
         return Arrays.asList(params);
     }
 }

@@ -74,9 +74,8 @@
                  } else {
                      ServerPropertiesHandler serverpropertieshandler = serverpropertiesloader.getPropertiesHandler();
  
--                    levelinfo = new LevelInfo(serverpropertieshandler.levelName, serverpropertieshandler.gameMode, serverpropertieshandler.hardcore, serverpropertieshandler.difficulty, false, new GameRules(), datapacksettings1);
+                     levelinfo = new LevelInfo(serverpropertieshandler.levelName, serverpropertieshandler.gameMode, serverpropertieshandler.hardcore, serverpropertieshandler.difficulty, false, new GameRules(), datapacksettings1);
 -                    generatoroptions = optionset.has((OptionSpec) optionspec3) ? serverpropertieshandler.field_24623.withBonusChest() : serverpropertieshandler.field_24623;
-+                    levelinfo = new LevelInfo(serverpropertieshandler.levelName, serverpropertieshandler.gameMode, serverpropertieshandler.hardcore, serverpropertieshandler.difficulty, false, new GameRules(), datapacksettings1, java.util.UUID.randomUUID()); // Loom :: implement per-world uuids
 +                    generatoroptions =  serverpropertieshandler.field_24623; // Loom :: removed bonusChest option for multi-world support.
                  }
  

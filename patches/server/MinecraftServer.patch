@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -146,12 +146,13 @@
+@@ -146,6 +146,7 @@
  import org.apache.commons.lang3.Validate;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
@@ -8,13 +8,6 @@
  
  public abstract class MinecraftServer extends ReentrantThreadExecutor<ServerTask> implements SnooperListener, CommandOutput, AutoCloseable {
  
-     private static final Logger LOGGER = LogManager.getLogger();
-     public static final File USER_CACHE_FILE = new File("usercache.json");
--    public static final LevelInfo DEMO_LEVEL_INFO = new LevelInfo("Demo World", GameMode.SURVIVAL, false, Difficulty.NORMAL, false, new GameRules(), DataPackSettings.SAFE_MODE);
-+    public static final LevelInfo DEMO_LEVEL_INFO = new LevelInfo("Demo World", GameMode.SURVIVAL, false, Difficulty.NORMAL, false, new GameRules(), DataPackSettings.SAFE_MODE, java.util.UUID.randomUUID()); // Loom :: implement per-world uuids
-     protected final LevelStorage.Session session;
-     protected final WorldSaveHandler field_24371;
-     private final Snooper snooper = new Snooper("server", this, Util.getMeasuringTimeMs());
 @@ -212,10 +213,18 @@
      private final Executor workerExecutor;
      @Nullable

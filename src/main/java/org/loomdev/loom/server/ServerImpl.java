@@ -6,6 +6,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.SharedConstants;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.world.ServerWorld;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -32,7 +33,8 @@ import org.loomdev.loom.monitoring.LoomTickTimes;
 import org.loomdev.loom.monitoring.LoomTps;
 import org.loomdev.loom.plugin.PluginManagerImpl;
 import org.loomdev.loom.scheduler.SchedulerImpl;
-import org.loomdev.loom.util.registry.RegistryImp;
+import org.loomdev.loom.util.registry.RegistryImpl;
+import org.loomdev.loom.world.WorldImpl;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -41,7 +43,7 @@ import java.util.stream.Collectors;
 
 public class ServerImpl implements Server {
 
-    private static final Logger LOGGER = LogManager.getLogger(ServerImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger("Server");
     public static final Gson GSON = GsonComponentSerializer.gson().serializer();
 
     private final MinecraftServer minecraftServer;
@@ -53,7 +55,7 @@ public class ServerImpl implements Server {
     private final CommandSource consoleSource;
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
-    private final RegistryImp registry;
+    private final RegistryImpl registry;
 
     private final Map<UUID, World> worlds = new HashMap<>();
 
@@ -69,7 +71,7 @@ public class ServerImpl implements Server {
         this.scheduler.start();
         this.tps = new LoomTps();
         this.tickTimes = new LoomTickTimes();
-        this.registry = new RegistryImp();
+        this.registry = new RegistryImpl();
 
         init(); // TODO move to the appropriate place in nms.
     }
@@ -163,11 +165,12 @@ public class ServerImpl implements Server {
         return this.tickTimes;
     }
 
-    public void registerWorld(@NotNull World world) {
+    public void registerWorld(@NotNull ServerWorld minecraftWorld) {
         /*if (this.worlds.containsKey(world.getUUID())) {
             throw new IllegalStateException(String.format("World '%s' is a duplicate of an already loaded world.", world.getName()));
         }*/
 
+        World world = new WorldImpl(minecraftWorld);
         worlds.put(world.getUUID(), world);
     }
 
@@ -199,28 +202,7 @@ public class ServerImpl implements Server {
     }
 
     @Override
-    public @NotNull BossBar createBossBar(@NotNull String text) {
-        return this.createBossBar(TextComponent.of(text));
-    }
-
-    @Override
-    public @NotNull BossBar createBossBar(@NotNull Component text) {
-        return new BossBarImpl(text);
-    }
-
-    @Override
-    public @NotNull BossBar createBossBar(@NotNull String text, BossBar.@NotNull Color color, BossBar.@NotNull Style style) {
-        return this.createBossBar(TextComponent.of(text), color, style);
-    }
-
-    @Override
-    public @NotNull BossBar createBossBar(@NotNull Component text, BossBar.@NotNull Color color, BossBar.@NotNull Style style) {
-        return new BossBarImpl(text, color, style);
-    }
-
-    @Override
     public @NotNull Registry getRegistry() {
         return this.registry;
     }
-
 }

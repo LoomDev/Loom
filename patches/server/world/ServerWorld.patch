@@ -25,7 +25,7 @@
              this.enderDragonFight = null;
          }
  
-+        ((org.loomdev.loom.server.ServerImpl) org.loomdev.api.Loom.getServer()).registerWorld(new org.loomdev.loom.world.WorldImpl(this));
++        ((org.loomdev.loom.server.ServerImpl) org.loomdev.api.Loom.getServer()).registerWorld(this);
      }
  
      public void method_27910(int i, int j, boolean flag, boolean flag1) {
