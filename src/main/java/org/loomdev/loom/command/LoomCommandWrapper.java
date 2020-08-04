@@ -11,18 +11,23 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.server.command.ServerCommandSource;
+import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.command.CommandSource;
 import org.loomdev.loom.server.ServerImpl;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 
 public class LoomCommandWrapper implements com.mojang.brigadier.Command<ServerCommandSource>, Predicate<ServerCommandSource>, SuggestionProvider<ServerCommandSource> {
 
     private final ServerImpl server;
+    private final CommandManagerImpl commandManager;
     private final CommandDispatcher<ServerCommandSource> dispatcher;
 
-    public LoomCommandWrapper(ServerImpl server, CommandDispatcher<ServerCommandSource> dispatcher) {
+    public LoomCommandWrapper(@NotNull ServerImpl server, @NotNull CommandManagerImpl commandManager, @NotNull CommandDispatcher<ServerCommandSource> dispatcher) {
         this.server = server;
+        this.commandManager = commandManager;
         this.dispatcher = dispatcher;
     }
 
@@ -35,11 +40,7 @@ public class LoomCommandWrapper implements com.mojang.brigadier.Command<ServerCo
 
     @Override
     public int run(CommandContext<ServerCommandSource> context) {
-        if (context.getSource().getEntity() != null) {
-            return server.getCommandManager().handle(context.getSource().getEntity().getLoomEntity(), context.getInput());
-        }
-
-        return server.getCommandManager().handle(this.server.getConsoleSource(), context.getInput());
+        return commandManager.handle(getSource(context), context.getInput());
     }
 
     @Override
@@ -48,7 +49,18 @@ public class LoomCommandWrapper implements com.mojang.brigadier.Command<ServerCo
     }
 
     @Override
-    public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> commandContext, SuggestionsBuilder suggestionsBuilder) throws CommandSyntaxException {
-        return suggestionsBuilder.buildFuture(); // TODO hook into command tab complete
+    public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) throws CommandSyntaxException {
+        List<String> suggestions = commandManager.suggest(getSource(context), builder.getInput()); // TODO async suggestions
+        builder = builder.createOffset(builder.getInput().lastIndexOf(' ') + 1);
+        suggestions.forEach(builder::suggest);
+        return builder.buildFuture();
+    }
+
+    private @NotNull CommandSource getSource(@NotNull CommandContext<ServerCommandSource> context) {
+        if (context.getSource().getEntity() != null) {
+            return context.getSource().getEntity().getLoomEntity();
+        }
+
+        return server.getConsoleSource();
     }
 }

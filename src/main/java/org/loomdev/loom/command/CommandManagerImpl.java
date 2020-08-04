@@ -1,6 +1,7 @@
 package org.loomdev.loom.command;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import net.minecraft.server.MinecraftServer;
 import org.apache.commons.lang3.StringUtils;
@@ -19,8 +20,7 @@ import org.loomdev.loom.command.loom.VersionCommand;
 import org.loomdev.loom.server.ServerImpl;
 
 import java.util.*;
-
-;
+import java.util.concurrent.CompletableFuture;
 
 public class CommandManagerImpl implements CommandManager {
 
@@ -34,7 +34,7 @@ public class CommandManagerImpl implements CommandManager {
     public CommandManagerImpl(ServerImpl server, MinecraftServer minecraftServer) {
         this.server = server;
         this.minecraftServer = minecraftServer;
-        this.wrapper = new LoomCommandWrapper(server, minecraftServer.serverResourceManager.commandManager.getDispatcher());
+        this.wrapper = new LoomCommandWrapper(server, this, minecraftServer.serverResourceManager.commandManager.getDispatcher());
 
         register(new DebugCommand());
         register(new PluginsCommand());
@@ -104,7 +104,6 @@ public class CommandManagerImpl implements CommandManager {
         });
     }
 
-    @Override
     public int handle(@NonNull CommandSource source, @NonNull String input) {
         String[] args = input.split("\\s+");
 
@@ -120,7 +119,25 @@ public class CommandManagerImpl implements CommandManager {
             return 0;
         }
 
-        command.execute(source, name, Arrays.copyOfRange(args, 1, args.length));
+        command.execute(source, Arrays.copyOfRange(args, 1, args.length));
         return 1;
+    }
+
+    public List<String> suggest(@NotNull CommandSource source, @NotNull String input) {
+        String[] args = input.split("\\s+");
+
+        if (args.length == 0) {
+            return ImmutableList.of();
+        }
+
+        String name = args[0].toLowerCase(Locale.ENGLISH);
+        name = name.startsWith("/") ? name.substring(1) : name;
+        Command command = commands.get(name);
+
+        if (command == null) {
+            return ImmutableList.of();
+        }
+
+        return command.suggest(source, Arrays.copyOfRange(args, 1, args.length));
     }
 }

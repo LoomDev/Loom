@@ -14,7 +14,7 @@ public class ReloadCommand extends Command {
     }
 
     @Override
-    public void execute(@NonNull CommandSource source, String alias, String[] args) {
+    public void execute(@NonNull CommandSource source, String[] args) {
         // TODO minecraft reload and config stuff.
     }
 }

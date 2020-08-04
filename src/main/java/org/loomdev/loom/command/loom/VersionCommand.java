@@ -19,7 +19,7 @@ public class VersionCommand extends Command {
     }
 
     @Override
-    public void execute(@NonNull CommandSource commandSource, String alias, String[] strings) {
+    public void execute(@NonNull CommandSource commandSource, String[] strings) {
         commandSource.sendMessage(TextComponent.of(String.format(
                 "This server is running %s %s (MC: %s).",
                 server.getName(), server.getVersion(), server.getMinecraftVersion()

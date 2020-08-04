@@ -27,7 +27,7 @@ public class PluginsCommand extends Command {
     }
 
     @Override
-    public void execute(@NonNull CommandSource source, String alias, String[] args) {
+    public void execute(@NonNull CommandSource source, String[] args) {
         if (args.length == 0) {
             sendList(source);
             return;
