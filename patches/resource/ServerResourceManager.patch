@@ -9,3 +9,15 @@
      private final RecipeManager recipeManager;
      private final RegistryTagManager registryTagManager;
      private final LootConditionManager lootConditionManager;
+@@ -39,6 +39,11 @@
+         this.resourceManager.registerListener(this.lootManager);
+         this.resourceManager.registerListener(this.functionLoader);
+         this.resourceManager.registerListener(this.serverAdvancementLoader);
++        // Loom start :: register plugin commands
++        if (org.loomdev.api.Loom.getServer() != null) {
++            ((org.loomdev.loom.command.CommandManagerImpl) org.loomdev.api.Loom.getCommandManager()).internalReload();
++        }
++        // Loom end
+     }
+ 
+     public FunctionLoader getFunctionLoader() {

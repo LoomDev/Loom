@@ -3,9 +3,18 @@ package org.loomdev.loom.command;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.SuggestionProvider;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.command.ServerCommandSource;
 import org.apache.commons.lang3.StringUtils;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandManager;
@@ -21,90 +30,94 @@ import org.loomdev.loom.server.ServerImpl;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 
 public class CommandManagerImpl implements CommandManager {
 
     private final ServerImpl server;
-    private final MinecraftServer minecraftServer;
-    private final LoomCommandWrapper wrapper;
+    private final Map<String, Command> commands;
+    private final Multimap<String, String> pluginCommands;
 
-    private final Map<String, Command> commands = new HashMap<>();
-    private final Multimap<String, String> commandsByPlugin = ArrayListMultimap.create();
-
-    public CommandManagerImpl(ServerImpl server, MinecraftServer minecraftServer) {
+    public CommandManagerImpl(ServerImpl server) {
         this.server = server;
-        this.minecraftServer = minecraftServer;
-        this.wrapper = new LoomCommandWrapper(server, this, minecraftServer.serverResourceManager.commandManager.getDispatcher());
+        this.commands = new HashMap<>();
+        this.pluginCommands = ArrayListMultimap.create();
 
-        register(new DebugCommand());
-        register(new PluginsCommand());
-        register(new TpsCommand(server));
-        register(new VersionCommand(server));
+        register(Loom.LOOM_PLUGIN, new DebugCommand());
+        register(Loom.LOOM_PLUGIN, new PluginsCommand());
+        register(Loom.LOOM_PLUGIN, new TpsCommand(server));
+        register(Loom.LOOM_PLUGIN, new VersionCommand(server));
+        internalReload();
     }
 
     @Override
-    public void register(@NonNull Plugin plugin, @NonNull Command command) {
-        server.getPluginManager().fromInstance(plugin).ifPresent((container) -> {
-            PluginMetadata metadata = container.getMetadata();
-            String name = command.getName().toLowerCase(Locale.ENGLISH).trim();
-
-            register(metadata, command, command.getName());
-
-            // Register non-conflicting aliases
-            for (String alias : command.getAliases()) {
-                if (!commands.containsKey(alias)) {
-                    register(metadata, command, alias);
-                }
-            }
-        });
-    }
-
-    private void register(@NonNull Command command) {
-        String name = command.getName().toLowerCase(Locale.ENGLISH).trim();
-
-        // Register command name if no conflicts exist
-        if (!commands.containsKey(name)) {
-            register(Loom.LOOM_PLUGIN, command, name);
-        }
-
-        // Register non-conflicting aliases
-        for (String alias : command.getAliases()) {
-            if (!commands.containsKey(alias)) {
-                register(Loom.LOOM_PLUGIN, command, alias);
-            }
-        }
-    }
-
-    private void register(@NonNull PluginMetadata metadata, @NonNull Command command, @NonNull String name) {
-        if (StringUtils.isAlphanumeric(name)) {
-
-            // Register namespaced name
-            String namespacedName = String.format("%s:%s", metadata.getId(), name);
-            commands.put(namespacedName, command);
-            commandsByPlugin.put(metadata.getId(), namespacedName);
-            this.wrapper.registerCommand(namespacedName);
-
-            // Register normal command
-            commands.put(name, command);
-            commandsByPlugin.put(metadata.getId(), name);
-            this.wrapper.registerCommand(name);
-        }
+    public void register(@NotNull Plugin plugin, @NotNull Command command) {
+        server.getPluginManager().fromInstance(plugin).ifPresent(container -> register(container.getMetadata(), command));
     }
 
     @Override
-    public void unregister(@NonNull Plugin plugin) {
+    public void register(@NotNull PluginMetadata metadata, @NotNull Command command) {
+        String commandName = command.getName().toLowerCase(Locale.ENGLISH).trim();
+
+        if (!StringUtils.isAlphanumeric(commandName)) {
+            return;
+        }
+
+        String namespacedName = metadata.getId() + ":" + commandName;
+        commands.put(commandName, command);
+        commands.put(namespacedName, command);
+        pluginCommands.put(metadata.getId(), commandName);
+        pluginCommands.put(metadata.getId(), namespacedName);
+
+        Arrays.stream(command.getAliases())
+                .filter(StringUtils::isAlphanumeric)
+                .filter(alias -> !commands.containsKey(alias))
+                .forEach(alias -> {
+                    String namespacedAlias = metadata.getId() + ":" + alias;
+                    commands.put(alias, command);
+                    commands.put(namespacedAlias, command);
+                    pluginCommands.put(metadata.getId(), alias);
+                    pluginCommands.put(metadata.getId(), namespacedAlias);
+                });
+    }
+
+    @Override
+    public void unregister(@NotNull Plugin plugin) {
         server.getPluginManager().fromInstance(plugin).ifPresent((container) -> {
-            Collection<String> commands = commandsByPlugin.get(container.getMetadata().getId());
+            Collection<String> commands = pluginCommands.get(container.getMetadata().getId());
 
             if (commands != null) {
                 commands.forEach(this.commands::remove);
             }
 
-            commandsByPlugin.removeAll(container.getMetadata().getId());
+            pluginCommands.removeAll(container.getMetadata().getId());
         });
     }
 
-    public int handle(@NonNull CommandSource source, @NonNull String input) {
+    @Override
+    public void unregister(@NotNull PluginMetadata metadata) {
+        // TODO
+    }
+
+    public void internalReload() {
+        commands.forEach((name, command) -> this.server.getMinecraftServer().getCommandManager().getDispatcher()
+                .register(LiteralArgumentBuilder.<ServerCommandSource>literal(name)
+                        .requires(source -> true) // TODO test permission
+                        .executes(context -> handle(getSource(context), context.getInput()))
+                        .then(RequiredArgumentBuilder.<ServerCommandSource, String>argument("args",
+                                StringArgumentType.greedyString()).suggests(null).executes(null)) // TODO suggestions
+                ));
+    }
+
+    private @NotNull CommandSource getSource(@NotNull CommandContext<ServerCommandSource> context) {
+        if (context.getSource().getEntity() != null) {
+            return context.getSource().getEntity().getLoomEntity();
+        }
+
+        return server.getConsoleSource();
+    }
+
+    public int handle(@NotNull CommandSource source, @NotNull String input) {
         String[] args = input.split("\\s+");
 
         if (args.length == 0) {

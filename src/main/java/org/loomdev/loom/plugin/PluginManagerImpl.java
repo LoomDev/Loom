@@ -10,6 +10,7 @@ import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginContainer;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.plugin.PluginMetadata;
+import org.loomdev.loom.command.CommandManagerImpl;
 import org.loomdev.loom.plugin.data.LoomPluginMetadata;
 import org.loomdev.loom.plugin.loader.PluginClassLoader;
 import org.loomdev.loom.plugin.loader.PluginLoaderImpl;
@@ -221,6 +222,7 @@ public class PluginManagerImpl implements PluginManager {
 
         this.server.getEventManager().register(plugin, plugin);
         plugin.onPluginEnable();
+        ((CommandManagerImpl) this.server.getCommandManager()).internalReload();
 
         ((LoomPluginMetadata) metadata).setState(PluginMetadata.State.ENABLED);
         LOGGER.info("Enabled {} ({}).", metadata.getNameOrId(), metadata.getVersion().orElse("Unknown version"));
@@ -288,7 +290,6 @@ public class PluginManagerImpl implements PluginManager {
         });
         return false;
     }
-
 
     // region old
 //

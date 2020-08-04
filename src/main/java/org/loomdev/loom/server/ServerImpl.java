@@ -65,7 +65,7 @@ public class ServerImpl implements Server {
         this.pluginDirectory = (File) this.minecraftServer.optionSet.valueOf("plugins");
         this.pluginManager = new PluginManagerImpl(this, this.pluginDirectory);
         this.eventManager = new EventManagerImpl(this.pluginManager);
-        this.commandManager = new CommandManagerImpl(this, minecraftServer);
+        this.commandManager = new CommandManagerImpl(this);
         this.consoleSource = new ConsoleSource(minecraftServer);
         this.scheduler = new SchedulerImpl(pluginManager);
         this.scheduler.start();
@@ -204,5 +204,9 @@ public class ServerImpl implements Server {
     @Override
     public @NotNull Registry getRegistry() {
         return this.registry;
+    }
+
+    public MinecraftServer getMinecraftServer() {
+        return minecraftServer;
     }
 }
