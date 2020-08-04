@@ -34,7 +34,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class LoomEntityFactory {
-    private LoomEntityFactory() { throw new UnsupportedOperationException("LoomEntityFactory should never be instantiated"); }
+
+    private LoomEntityFactory() {
+        throw new UnsupportedOperationException("LoomEntityFactory should never be instantiated");
+    }
 
     private static final Map<Class<? extends Entity>, Class<? extends EntityImpl>> entityClassMappings = new HashMap<>();
 

@@ -1,11 +1,15 @@
 package org.loomdev.loom.event;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.NoteBlock;
 import net.minecraft.block.enums.Instrument;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.ServerMetadata;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -26,6 +30,7 @@ import org.loomdev.api.event.block.fluid.FluidLevelChangedEvent;
 import org.loomdev.api.event.block.note.NoteBlockPlayedEvent;
 import org.loomdev.api.event.block.plant.*;
 import org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent;
+import org.loomdev.api.event.entity.armor.EntityEquippedEquipmentEvent;
 import org.loomdev.api.event.entity.creeper.CreeperChargedEvent;
 import org.loomdev.api.event.entity.creeper.CreeperIgnitedEvent;
 import org.loomdev.api.event.entity.decoration.ArmorStandPlacedEvent;
@@ -34,8 +39,10 @@ import org.loomdev.api.event.player.PlayerMessagedEvent;
 import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
 import org.loomdev.api.event.player.connection.PlayerJoinedEvent;
 import org.loomdev.api.event.player.movement.PlayerEnteredFlightEvent;
+import org.loomdev.api.event.player.movement.PlayerMovedEvent;
 import org.loomdev.api.event.server.ServerPingedEvent;
 import org.loomdev.api.event.world.TimeChangedEvent;
+import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.block.BlockImpl;
 import org.loomdev.loom.entity.decoration.ArmorStandImpl;
@@ -44,8 +51,10 @@ import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.net.InetSocketAddress;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 ;
 
@@ -107,15 +116,36 @@ public final class LoomEventDispatcher {
         return fireAsync(new BlockEvaporatedEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
-    public static CompletableFuture<BlockBouncedEvent> onBlockBounced(WorldAccess world, BlockPos pos, Entity entity, double multiplier) {
-        return fireAsync(new BlockBouncedEvent(BlockImpl.at(world, pos), entity.getLoomEntity(), multiplier));
+    public static CompletableFuture<BlockMeltedEvent> onBlockMelted(WorldAccess world, BlockPos pos) {
+        
+
+       // BlockMeltedEvent event = new BlockMeltedEvent();
+        //event.cancel(true);
+        //return fireAsync(event);
+        return null;
     }
 
-    public static CompletableFuture<NoteBlockPlayedEvent> onNoteBlockPlayed(WorldAccess world, BlockPos pos, Instrument instrument, int note, float pitch) {
-        NoteBlockPlayedEvent event = new NoteBlockPlayedEvent(BlockImpl.at(world, pos), org.loomdev.api.block.enums.Instrument.getByName(instrument.asString()), Note.getByUses(note), pitch);
-        System.out.println(instrument.asString());
-        event.setInstrument(org.loomdev.api.block.enums.Instrument.IRON_XYLOPHONE);
-        event.setPitch(100f);
+    public static CompletableFuture<BlockBouncedEvent> onBlockBounced(WorldAccess world, BlockPos pos, Entity entity, double multiplier) {
+        return fireAsync(new BlockBouncedEvent(BlockImpl.at(world, pos), entity.getLoomEntity(), multiplier));
+    } // TODO impl of this is fucked
+
+    public static CompletableFuture<BlockExplodedEvent> onBlockExploded(@NotNull WorldAccess world, @NotNull BlockPos pos, float power, @NotNull List<BlockPos> explodedBlocks) {
+        Set<Block> blocks = explodedBlocks.stream().map(blockpos -> BlockImpl.at(world, blockpos)).collect(Collectors.toSet());
+        BlockExplodedEvent event = new BlockExplodedEvent(BlockImpl.at(world, pos), power, blocks);
+        event.cancel(true); // TODO figure this out later
+        return fireAsync(event);
+    }
+
+    public static CompletableFuture<NoteBlockPlayedEvent> onNoteBlockPlayed(WorldAccess world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
+        NoteBlockPlayedEvent event = new NoteBlockPlayedEvent(
+                BlockImpl.at(world, pos),
+                org.loomdev.api.block.enums.Instrument.getByName(state.get(NoteBlock.INSTRUMENT).asString()),
+                Note.getByUses(state.get(NoteBlock.NOTE)),
+                (float) Math.pow(2.0D, (double) (state.get(NoteBlock.NOTE) - 12) / 12.0D)
+        );
+        event.setInstrument(org.loomdev.api.block.enums.Instrument.DIDGERIDOO);
+        //event.setPitch(100f);
         event.cancel(false);
         return fireAsync(event);
     }
@@ -171,6 +201,12 @@ public final class LoomEventDispatcher {
         return fireAsync(new PlayerEnteredFlightEvent((PlayerImpl) playerEntity.getLoomEntity()));
     }
 
+    public static CompletableFuture<PlayerMovedEvent> onPlayerMoved(@NotNull PlayerEntity playerEntity, @NotNull Location currentLocation, @NotNull Location newLocation) {
+        PlayerMovedEvent event = new PlayerMovedEvent((PlayerImpl) playerEntity.getLoomEntity(), currentLocation, newLocation);
+        event.cancel(true);
+        return fireAsync(event);
+    }
+
     public static CompletableFuture<CreeperChargedEvent> onCreeperCharged(CreeperEntity creeper) {
         return fireAsync(new CreeperChargedEvent((Creeper) creeper.getLoomEntity()));
     }
@@ -187,6 +223,13 @@ public final class LoomEventDispatcher {
         EntityToggledSwimmingEvent event = new EntityToggledSwimmingEvent(entity.getLoomEntity());
         event.cancel(true);
         return fireAsync(event);
+    }
+
+    public static CompletableFuture<EntityEquippedEquipmentEvent> onEntityEquippedEquipmentEvent(@NotNull Entity entity, @NotNull EquipmentSlot slot, @NotNull ItemStack equipment) {
+        /*EntityEquippedEquipmentEvent event = new EntityEquippedEquipmentEvent(entity.getLoomEntity());
+        event.cancel(true);
+        return fireAsync(event);*/
+        return null;
     }
 
     public static CompletableFuture<TimeChangedEvent> onTimeChanged(@NotNull World world, long change, @NotNull TimeChangedEvent.Cause cause) {

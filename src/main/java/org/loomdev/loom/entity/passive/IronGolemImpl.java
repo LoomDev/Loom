@@ -36,7 +36,7 @@ public class IronGolemImpl extends PathAwareEntityImpl implements IronGolem {
     }
 
     @Override
-    public void setPayerMade(boolean flag) {
+    public void setPlayerMade(boolean flag) {
         getMinecraftEntity().setPlayerCreated(flag);
     }
 

@@ -2,25 +2,29 @@ package org.loomdev.loom.entity.player;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlayerListHeaderS2CPacket;
 import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
+import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
+import org.loomdev.api.inventory.Inventory;
 import org.loomdev.api.math.MathHelper;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.GameMode;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.Weather;
 import org.loomdev.loom.entity.LivingEntityImpl;
+import org.loomdev.loom.inventory.InventoryImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.net.InetSocketAddress;
@@ -31,7 +35,11 @@ import java.util.UUID;
 
 public class PlayerImpl extends LivingEntityImpl implements Player {
 
-    private Optional<Component> tabListName = Optional.empty();
+    private long timeOffset = 0;
+    private boolean relativeTime = true;
+    private Weather weather;
+
+    private Component tabListName;
     private Component tabListHeader = TextComponent.empty();
     private Component tabListFooter = TextComponent.empty();
 
@@ -42,7 +50,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.PLAYER;
     }
 
@@ -109,66 +117,66 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public void sendActionbar(@NonNull String message) {
+    public void sendActionbar(@NotNull String message) {
         sendActionbar(TextComponent.of(message));
     }
 
     @Override
-    public void sendActionbar(@NonNull TextComponent message) {
+    public void sendActionbar(@NotNull TextComponent message) {
         getMinecraftEntity().sendMessage(TextTransformer.toMinecraft(message), true);
     }
 
     @Override
-    public void sendMessage(@NonNull String text) {
+    public void sendMessage(@NotNull String text) {
         this.sendMessage(TextComponent.of(text));
     }
 
     @Override
-    public void sendMessage(@NonNull Component component) {
+    public void sendMessage(@NotNull Component component) {
         getMinecraftEntity().sendMessage(TextTransformer.toMinecraft(component), false);
     }
 
     @Override
-    public void sendTitle(@NonNull String title, @NonNull String subtitle) {
+    public void sendTitle(@NotNull String title, @NotNull String subtitle) {
         sendTitle(title, subtitle, 10, 70, 20);
     }
 
     @Override
-    public void sendTitle(@NonNull TextComponent title, @NonNull TextComponent subtitle) {
+    public void sendTitle(@NotNull TextComponent title, @NotNull TextComponent subtitle) {
         sendTitle(title, subtitle, 10, 70, 20);
     }
 
     @Override
-    public void sendTitle(@NonNull String title, @NonNull String subtitle, int fadeIn, int stay, int fadeOut) {
+    public void sendTitle(@NotNull String title, @NotNull String subtitle, int fadeIn, int stay, int fadeOut) {
         sendTitle(TextComponent.of(title), TextComponent.of(subtitle), fadeIn, stay, fadeOut);
     }
 
     @Override
-    public void sendTitle(@NonNull TextComponent title, @NonNull TextComponent subtitle, int fadeIn, int stay, int fadeOut) {
+    public void sendTitle(@NotNull TextComponent title, @NotNull TextComponent subtitle, int fadeIn, int stay, int fadeOut) {
         getMinecraftEntity().networkHandler.sendPacket(new TitleS2CPacket(TitleS2CPacket.Action.TIMES, null, fadeIn, stay, fadeOut));
         getMinecraftEntity().networkHandler.sendPacket(new TitleS2CPacket(TitleS2CPacket.Action.TITLE, TextTransformer.toMinecraft(title), 0, 0, 0));
         getMinecraftEntity().networkHandler.sendPacket(new TitleS2CPacket(TitleS2CPacket.Action.SUBTITLE, TextTransformer.toMinecraft(subtitle), 0, 0, 0));
     }
 
     @Override
-    public void showPlayer(@NonNull Player player) {
+    public void showPlayer(@NotNull Player player) {
         hiddenPlayers.remove(player.getUniqueId());
         // TODO register in entity tracker
     }
 
     @Override
-    public void hidePlayer(@NonNull Player player) {
+    public void hidePlayer(@NotNull Player player) {
         hiddenPlayers.add(player.getUniqueId());
         // TODO unregister from entity tracker
     }
 
     @Override
-    public boolean canSee(@NonNull Player player) {
+    public boolean canSee(@NotNull Player player) {
         return !hiddenPlayers.contains(player.getUniqueId());
     }
 
     @Override
-    public @NonNull Optional<InetSocketAddress> getAddress() {
+    public @NotNull Optional<InetSocketAddress> getAddress() {
         return Optional.ofNullable((InetSocketAddress) getMinecraftEntity().networkHandler.connection.getAddress());
     }
 
@@ -179,99 +187,108 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public @NotNull Component getTabListName() {
-        return this.tabListName.orElse(this.getDisplayName());
+        return Optional.ofNullable(this.tabListName).orElse(this.getDisplayName());
     }
 
     @Override
-    public void setTabListName(@NonNull Component name) {
-        this.tabListName = Optional.of(name);
+    public void setTabListName(@NotNull Component name) {
+        this.tabListName = name;
     }
 
     @Override
-    public @NonNull Optional<Component> getTabListHeader() {
+    public @NotNull Optional<Component> getTabListHeader() {
         return Optional.of(this.tabListHeader);
     }
 
     @Override
-    public void setTabListHeader(@NonNull Component header) {
+    public void setTabListHeader(@NotNull Component header) {
         this.tabListHeader = header;
         updatePlayerList();
     }
 
     @Override
-    public @NonNull Optional<Component> getTabListFooter() {
+    public @NotNull Optional<Component> getTabListFooter() {
         return Optional.empty();
     }
 
     @Override
-    public void setTabListFooter(@NonNull Component footer) {
+    public void setTabListFooter(@NotNull Component footer) {
         this.tabListFooter = footer;
         updatePlayerList();
     }
 
     @Override
-    public @NonNull Optional<Location> getBedLocation() {
+    public @NotNull Optional<Location> getBedLocation() {
         return Optional.empty();
     }
 
     @Override
-    public void setBedLocation(@NonNull Location location) {
+    public void setBedLocation(@NotNull Location location) {
 
     }
 
     @Override
-    public @NonNull Optional<Location> getCompassTarget() {
+    public @NotNull Optional<Location> getCompassTarget() {
         return Optional.empty();
     }
 
     @Override
-    public void setCompassTarget(@NonNull Location location) {
+    public void setCompassTarget(@NotNull Location location) {
 
     }
 
     @Override
-    public @NonNull Optional<Entity> getSpectatorTarget() {
+    public @NotNull Optional<Entity> getSpectatorTarget() {
         return Optional.empty();
     }
 
     @Override
-    public void setSpectatorTarget(@NonNull Entity entity) {
+    public void setSpectatorTarget(@NotNull Entity entity) {
 
     }
 
     @Override
-    public long getTime() { // TODO ffs, tech
-        return 0;
+    public long getTime() {
+        if (relativeTime) {
+            return getWorld().getAbsoluteTime() + timeOffset;
+        } else {
+            return getWorld().getAbsoluteTime() - (getWorld().getAbsoluteTime() % 24000) + timeOffset;
+        }
     }
 
     @Override
-    public void setTime(long l, boolean b) { // TODO ffs, tech
-
+    public void setTime(long time, boolean relative) {
+        this.timeOffset = time;
+        this.relativeTime = relative;
     }
 
     @Override
-    public long getTimeOffset() { // TODO ffs, tech
-        return 0;
+    public long getTimeOffset() {
+        return timeOffset;
     }
 
     @Override
-    public boolean isTimeRelative() { // TODO ffs, tech
-        return false;
+    public boolean isTimeRelative() {
+        return relativeTime;
     }
 
     @Override
-    public void syncTime() { // TODO ffs, tech
-
+    public void syncTime() {
+        setTime(0, true);
     }
 
     @Override
-    public @NonNull Optional<Weather> getWeather() {
-        return Optional.empty();
+    public @NotNull Optional<Weather> getWeather() {
+        return Optional.ofNullable(weather);
     }
 
     @Override
-    public void setWeather(@NonNull Weather weather) {
-
+    public void setWeather(@NotNull Weather weather) {
+        if (weather == Weather.PRECIPITATION) {
+            getMinecraftEntity().networkHandler.sendPacket(new GameStateChangeS2CPacket(GameStateChangeS2CPacket.RAIN_STOPPED, 0));
+        } else {
+            getMinecraftEntity().networkHandler.sendPacket(new GameStateChangeS2CPacket(GameStateChangeS2CPacket.RAIN_STARTED, 0));
+        }
     }
 
     @Override
@@ -279,8 +296,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     }
 
-    @Override
-    public void kick(@NonNull Component message) {
+    public void kick(@NotNull Component message) {
         if (isConnected()) {
             getMinecraftEntity().networkHandler.disconnect(TextTransformer.toMinecraft(message));
         }
@@ -288,7 +304,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void ban(@NotNull Component component) {
-
+        // TODO
     }
 
     @Override
@@ -309,11 +325,19 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
         );
     }
 
-    private void updatePlayerList() {
-        PlayerListHeaderS2CPacket packet = new PlayerListHeaderS2CPacket();
-        packet.header = TextTransformer.toMinecraft(this.tabListHeader);
-        packet.footer = TextTransformer.toMinecraft(this.tabListFooter);
-        getMinecraftEntity().networkHandler.sendPacket(packet);
+    @Override
+    public void addBossBar(@NotNull BossBar bossBar) {
+        bossBar.addPlayer(this);
+    }
+
+    @Override
+    public void removeBossBar(@NotNull BossBar bossBar) {
+        bossBar.removePlayer(this);
+    }
+
+    @Override
+    public void openInventory(@NotNull Inventory inventory) {
+        // TODO
     }
 
     @Override
@@ -324,5 +348,12 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     public void setGameMode(@NotNull GameMode gameMode) {
         getMinecraftEntity().setGameMode(net.minecraft.world.GameMode.byId(gameMode.ordinal()));
+    }
+
+    private void updatePlayerList() {
+        PlayerListHeaderS2CPacket packet = new PlayerListHeaderS2CPacket();
+        packet.header = TextTransformer.toMinecraft(this.tabListHeader);
+        packet.footer = TextTransformer.toMinecraft(this.tabListFooter);
+        getMinecraftEntity().networkHandler.sendPacket(packet);
     }
 }

@@ -29,6 +29,14 @@ public class BlockImpl implements Block {
         return this.mcBlock;
     }
 
+    public WorldAccess getMinecraftWorld() {
+        return world;
+    }
+
+    public BlockPos getMinecraftPos() {
+        return pos;
+    }
+
     // @Override TODO ffs, tech
     public @NotNull BlockState getBlockState() {
         return null;

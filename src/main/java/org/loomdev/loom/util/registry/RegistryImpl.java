@@ -5,12 +5,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.property.ItemProperty;
 import org.loomdev.api.item.property.data.*;
 import org.loomdev.api.util.builder.BuilderBase;
 import org.loomdev.api.util.registry.Registry;
+import org.loomdev.loom.bossbar.BossBarImpl;
 import org.loomdev.loom.item.EnchantmentImpl;
 import org.loomdev.loom.item.ItemStackImpl;
 import org.loomdev.loom.item.property.DamageItemProperty;
@@ -22,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class RegistryImp implements Registry {
+public class RegistryImpl implements Registry {
 
     private static final Logger LOGGER = LogManager.getLogger("Registry");
 
@@ -30,7 +32,7 @@ public class RegistryImp implements Registry {
     private final Map<Class<?>, Supplier<?>> builders = new HashMap<>();
     private final Map<String, Enchantment> enchantments = new HashMap<>();
 
-    public RegistryImp() {
+    public RegistryImpl() {
         // Item properties
         this.registerItemProperty(NameData.class, new NameItemProperty());
         this.registerItemProperty(LoreData.class, new LoreItemProperty());
@@ -39,6 +41,7 @@ public class RegistryImp implements Registry {
 
         // Builders
         this.registerBuilder(ItemStack.class, ItemStackImpl.BuilderImpl::new);
+        this.registerBuilder(BossBar.class, BossBarImpl.BuilderImpl::new);
 
         // Enchantments
         registerAllFromMC(net.minecraft.util.registry.Registry.ENCHANTMENT, (id, mcEnchantment) ->

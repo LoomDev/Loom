@@ -3,9 +3,11 @@ package org.loomdev.loom.bossbar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.minecraft.entity.boss.ServerBossBar;
+import net.minecraft.text.LiteralText;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.entity.player.Player;
+import org.loomdev.api.math.MathHelper;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
@@ -17,115 +19,107 @@ public class BossBarImpl implements BossBar {
 
     private final ServerBossBar mcBar;
 
-    public BossBarImpl(Component text) {
-        this(text, Color.PURPLE, Style.PROGRESS);
+    public BossBarImpl(@NotNull ServerBossBar mcBar) {
+        this.mcBar = mcBar;
     }
 
-    public BossBarImpl(Component text, Color color, Style style) {
-        this(new ServerBossBar(
-                TextTransformer.toMinecraft(text),
-                net.minecraft.entity.boss.BossBar.Color.valueOf(color.name()),
-                net.minecraft.entity.boss.BossBar.Style.valueOf(style.name())
-        ));
-    }
-
-    public BossBarImpl(ServerBossBar bar) {
-        this.mcBar = bar;
+    public @NotNull ServerBossBar getMinecraftBossBar() {
+        return mcBar;
     }
 
     @Override
     public @NotNull UUID getUUID() {
-        return this.mcBar.getUuid();
+        return mcBar.getUuid();
     }
 
     @Override
     public @NotNull Component getText() {
-        return TextTransformer.toLoom(this.mcBar.getName());
+        return TextTransformer.toLoom(mcBar.getName());
     }
 
     @Override
     public void setText(@NotNull String text) {
-        this.setText(TextComponent.of(text));
+        setText(TextComponent.of(text));
     }
 
     @Override
     public void setText(@NotNull Component text) {
-        this.mcBar.setName(TextTransformer.toMinecraft(text));
+        mcBar.setName(TextTransformer.toMinecraft(text));
     }
 
     @Override
     public float getPercent() {
-        return this.mcBar.getPercent();
+        return mcBar.getPercent();
     }
 
     @Override
     public void setPercent(float percent) {
-        this.mcBar.setPercent(percent);
+        mcBar.setPercent(percent);
     }
 
     @Override
     public @NotNull Color getColor() {
-        return Color.valueOf(this.mcBar.getColor().name());
+        return Color.valueOf(mcBar.getColor().name());
     }
 
     @Override
     public void setColor(@NotNull Color color) {
-        this.mcBar.setColor(net.minecraft.entity.boss.BossBar.Color.valueOf(color.name()));
+        mcBar.setColor(net.minecraft.entity.boss.BossBar.Color.valueOf(color.name()));
     }
 
     @Override
     public @NotNull Style getStyle() {
-        return Style.valueOf(this.mcBar.getOverlay().name());
+        return Style.valueOf(mcBar.getOverlay().name());
     }
 
     @Override
     public void setStyle(@NotNull Style style) {
-        this.mcBar.setOverlay(net.minecraft.entity.boss.BossBar.Style.valueOf(style.name()));
+        mcBar.setOverlay(net.minecraft.entity.boss.BossBar.Style.valueOf(style.name()));
     }
 
     @Override
     public boolean isVisible() {
-        return this.mcBar.isVisible();
+        return mcBar.isVisible();
     }
 
     @Override
     public void setVisible(boolean visible) {
-        this.mcBar.setVisible(visible);
+        mcBar.setVisible(visible);
     }
 
     @Override
     public boolean isDarkenSky() {
-        return this.mcBar.getDarkenSky();
+        return mcBar.getDarkenSky();
     }
 
     @Override
     public void setDarkenSky(boolean darkenSky) {
-        this.mcBar.setDarkenSky(darkenSky);
+        mcBar.setDarkenSky(darkenSky);
     }
 
     @Override
     public boolean isThickenFog() {
-        return this.mcBar.getThickenFog();
+        return mcBar.getThickenFog();
     }
 
     @Override
     public void setThickenFog(boolean thickenFog) {
-        this.mcBar.setThickenFog(thickenFog);
+        mcBar.setThickenFog(thickenFog);
     }
 
     @Override
     public boolean hasDragonMusic() {
-        return this.mcBar.hasDragonMusic();
+        return mcBar.hasDragonMusic();
     }
 
     @Override
     public void setDragonMusic(boolean dragonMusic) {
-        this.mcBar.setDragonMusic(dragonMusic);
+        mcBar.setDragonMusic(dragonMusic);
     }
 
     @Override
     public @NotNull Collection<? extends Player> getPlayers() {
-        return this.mcBar.getPlayers()
+        return mcBar.getPlayers()
                 .stream()
                 .map(e -> (PlayerImpl) e.getLoomEntity())
                 .collect(Collectors.toList());
@@ -133,16 +127,115 @@ public class BossBarImpl implements BossBar {
 
     @Override
     public void addPlayer(@NotNull Player player) {
-        this.mcBar.addPlayer(((PlayerImpl) player).getMinecraftEntity());
+        mcBar.addPlayer(((PlayerImpl) player).getMinecraftEntity());
     }
 
     @Override
     public void removePlayer(@NotNull Player player) {
-        this.mcBar.removePlayer(((PlayerImpl) player).getMinecraftEntity());
+        mcBar.removePlayer(((PlayerImpl) player).getMinecraftEntity());
     }
 
     @Override
     public void removeAll() {
-        this.getPlayers().forEach(this::removePlayer);
+        getPlayers().forEach(this::removePlayer);
+    }
+
+    public static class BuilderImpl implements BossBar.Builder {
+
+        private BossBar bossbar;
+
+        public BuilderImpl() {
+            this.bossbar = new BossBarImpl(new ServerBossBar(
+                    LiteralText.EMPTY,
+                    net.minecraft.entity.boss.BossBar.Color.PURPLE,
+                    net.minecraft.entity.boss.BossBar.Style.PROGRESS
+            ));
+        }
+
+        @Override
+        public BossBar.Builder text(@NotNull String text) {
+            return text(TextComponent.of(text));
+        }
+
+        @Override
+        public BossBar.Builder text(@NotNull Component text) {
+            bossbar.setText(text);
+            return this;
+        }
+
+        @Override
+        public BossBar.Builder percent(float percent) {
+            bossbar.setPercent(MathHelper.clamp(percent, 0f, 1f));
+            return this;
+        }
+
+        @Override
+        public BossBar.Builder color(@NotNull Color color) {
+            bossbar.setColor(color);
+            return this;
+        }
+
+        @Override
+        public BossBar.Builder style(@NotNull Style style) {
+            bossbar.setStyle(style);
+            return this;
+        }
+
+        @Override
+        public BossBar.Builder visible(boolean visible) {
+            bossbar.setVisible(visible);
+            return this;
+        }
+
+        @Override
+        public BossBar.Builder darkenSky(boolean darkenSky) {
+            bossbar.setDarkenSky(darkenSky);
+            return this;
+        }
+
+        @Override
+        public BossBar.Builder thickenFog(boolean thickenFog) {
+            bossbar.setThickenFog(thickenFog);
+            return this;
+        }
+
+        @Override
+        public BossBar.Builder dragonMusic(boolean dragonMusic) {
+            bossbar.setDragonMusic(dragonMusic);
+            return this;
+        }
+
+        @Override
+        public BossBar.Builder addPlayer(@NotNull Player... players) {
+            for (Player player : players) {
+                bossbar.addPlayer(player);
+            }
+            return this;
+        }
+
+        @Override
+        public BossBar.Builder removePlayer(@NotNull Player... players) {
+            for (Player player : players) {
+                bossbar.removePlayer(player);
+            }
+            return this;
+        }
+
+        @Override
+        public BossBar.Builder clearPlayers() {
+            bossbar.removeAll();
+            return this;
+        }
+
+        @Override
+        public BossBar.Builder from(BossBar bossbar) {
+            this.bossbar = bossbar;
+            return this;
+        }
+
+        @Override
+        public BossBar build() {
+            return bossbar;
+        }
     }
 }

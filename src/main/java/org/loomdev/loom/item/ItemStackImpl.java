@@ -27,7 +27,7 @@ public class ItemStackImpl implements ItemStack {
         this.mcStack = mcStack;
     }
 
-    public net.minecraft.item.ItemStack getMinecraftItemStack() {
+    public @NotNull net.minecraft.item.ItemStack getMinecraftItemStack() {
         return this.mcStack;
     }
 
@@ -179,7 +179,8 @@ public class ItemStackImpl implements ItemStack {
     // endregion ItemProperties
 
     public static class BuilderImpl implements ItemStack.Builder {
-        ItemStack itemStack;
+
+        private ItemStack itemStack;
 
         public BuilderImpl() {
             this.itemStack = new ItemStackImpl(new net.minecraft.item.ItemStack(Items.AIR));
