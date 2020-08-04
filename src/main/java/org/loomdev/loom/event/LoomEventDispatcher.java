@@ -40,6 +40,7 @@ import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
 import org.loomdev.api.event.player.connection.PlayerJoinedEvent;
 import org.loomdev.api.event.player.movement.PlayerEnteredFlightEvent;
 import org.loomdev.api.event.player.movement.PlayerMovedEvent;
+import org.loomdev.api.event.player.movement.PlayerRiptideLaunchedEvent;
 import org.loomdev.api.event.server.ServerPingedEvent;
 import org.loomdev.api.event.world.TimeChangedEvent;
 import org.loomdev.api.world.Location;
@@ -199,6 +200,10 @@ public final class LoomEventDispatcher {
 
     public static CompletableFuture<PlayerEnteredFlightEvent> onPlayerEnteredFlight(PlayerEntity playerEntity) {
         return fireAsync(new PlayerEnteredFlightEvent((PlayerImpl) playerEntity.getLoomEntity()));
+    }
+
+    public static CompletableFuture<PlayerRiptideLaunchedEvent> onPlayerRiptideLaunched(@NotNull PlayerEntity playerEntity, int riptideLevel) {
+        return fireAsync(new PlayerRiptideLaunchedEvent((PlayerImpl) playerEntity.getLoomEntity(), riptideLevel));
     }
 
     public static CompletableFuture<PlayerMovedEvent> onPlayerMoved(@NotNull PlayerEntity playerEntity, @NotNull Location currentLocation, @NotNull Location newLocation) {

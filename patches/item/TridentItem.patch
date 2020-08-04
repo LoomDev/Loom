@@ -1,0 +1,44 @@
+--- a/net/minecraft/item/TridentItem.java
++++ b/net/minecraft/item/TridentItem.java
+@@ -81,13 +81,20 @@
+ 
+                     playerentity.incrementStat(Stats.USED.getOrCreateStat(this));
+                     if (k > 0) {
++                        // Loom start :: fire PlayerRiptideLaunchedEvent
++                        org.loomdev.loom.event.LoomEventDispatcher.onPlayerRiptideLaunched(playerentity, k).thenAccept(event -> {
++                            if (event.isCancelled()) {
++                                playerentity.velocityModified = true; // inform the client of the player's actual velocity
++                                return;
++                            }
++
+                         float f = playerentity.yaw;
+                         float f1 = playerentity.pitch;
+                         float f2 = -MathHelper.sin(f * 0.017453292F) * MathHelper.cos(f1 * 0.017453292F);
+                         float f3 = -MathHelper.sin(f1 * 0.017453292F);
+                         float f4 = MathHelper.cos(f * 0.017453292F) * MathHelper.cos(f1 * 0.017453292F);
+                         float f5 = MathHelper.sqrt(f2 * f2 + f3 * f3 + f4 * f4);
+-                        float f6 = 3.0F * ((1.0F + (float) k) / 4.0F);
++                        float f6 = 3.0F * ((1.0F + (float) event.getRiptideLevel()) / 4.0F);
+ 
+                         f2 *= f6 / f5;
+                         f3 *= f6 / f5;
+@@ -102,15 +109,17 @@
+ 
+                         SoundEvent soundevent;
+ 
+-                        if (k >= 3) {
++                        if (event.getRiptideLevel() >= 3) {
+                             soundevent = SoundEvents.ITEM_TRIDENT_RIPTIDE_3;
+-                        } else if (k == 2) {
++                        } else if (event.getRiptideLevel() == 2) {
+                             soundevent = SoundEvents.ITEM_TRIDENT_RIPTIDE_2;
+                         } else {
+                             soundevent = SoundEvents.ITEM_TRIDENT_RIPTIDE_1;
+                         }
+ 
+                         world.playSoundFromEntity((PlayerEntity) null, playerentity, soundevent, SoundCategory.PLAYERS, 1.0F, 1.0F);
++                        });
++                        // Loom end
+                     }
+ 
+                 }
