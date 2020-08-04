@@ -34,7 +34,7 @@ public class EnchantmentsItemProperty implements ItemProperty<EnchantmentData> {
     @Override
     public void apply(ItemStack itemStack, EnchantmentData enchantmentData) {
         net.minecraft.item.ItemStack mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
-        CompoundTag compoundTag = mcStack.getTag();
+        CompoundTag compoundTag = mcStack.getOrCreateTag();
         compoundTag.remove("Enchantments"); // remove all
 
         for (Map.Entry<Enchantment, Integer> enchantments : enchantmentData.getEnchantments().entrySet()) {

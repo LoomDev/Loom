@@ -238,8 +238,9 @@ public class ItemStackImpl implements ItemStack {
         }
 
         @Override
-        public ItemStack.Builder enchant(Enchantment enchantment, int i) {
-            return null;
+        public ItemStack.Builder enchant(@NotNull Enchantment enchantment, int level) {
+            this.itemStack.addEnchantment(enchantment, level);
+            return this;
         }
 
         @Override

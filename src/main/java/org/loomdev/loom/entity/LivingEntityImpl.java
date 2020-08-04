@@ -1,6 +1,7 @@
 package org.loomdev.loom.entity;
 
 import com.google.common.base.Preconditions;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -11,13 +12,16 @@ import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.effect.StatusEffect;
 import org.loomdev.api.item.ItemStack;
+import org.loomdev.api.item.ItemTypes;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.Hand;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.entity.player.PlayerImpl;
+import org.loomdev.loom.item.ItemStackImpl;
 import org.loomdev.loom.util.transformer.StatusEffectTransformer;
 import org.loomdev.loom.util.transformer.StatusEffectTypeTransformer;
+import org.loomdev.loom.world.WorldImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -134,96 +138,6 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public Sound.Type getHurtSound() {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public Sound.Type getHurtSound(org.loomdev.api.entity.damage.@NotNull DamageSource damageSource) {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public void setHurtSound(@NotNull Sound.Type sound) {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public void setHurtSound(org.loomdev.api.entity.damage.@NotNull DamageSource damageSource, @NotNull Sound.Type sound) {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public void playHurtSound() {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public void playHurtSound(org.loomdev.api.entity.damage.@NotNull DamageSource damageSource) {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public Sound.Type getDeathSound() {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public void setDeathSound(@NotNull Sound.Type sound) {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public Sound.Type getFallSound() {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public void setFallSound(@NotNull Sound.Type sound) {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public Sound.Type getDrinkSound() {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public void setDrinkSound(@NotNull Sound.Type sound) {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public Sound.Type getEatSound() {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public void setEatSound(@NotNull Sound.Type sound) {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public float getSoundVolume() {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public void setSoundVolume(float v) {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public float getSoundPitch() {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
-    public void setSoundPitch(float v) {
-        throw new UnsupportedOperationException("This operation is currently not yet supported.");
-    }
-
-    @Override
     public boolean isAlive() {
         return getMinecraftEntity().isAlive();
     }
@@ -249,23 +163,79 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public boolean isHolding(@NotNull Material material) {
-        return false; // TODO transform
+    public boolean isHolding(@NotNull ItemTypes material) {
+        return isHolding(mat -> mat.equals(material));
     }
 
     @Override
-    public boolean isHolding(@NotNull Predicate<Material> predicate) {
-        return false; // TODO transform
+    public boolean isHolding(@NotNull Predicate<ItemTypes> predicate) {
+        Optional<ItemStack> mainHand = getItemInHand(Hand.MAIN_HAND);
+        Optional<ItemStack> offHand = getItemInHand(Hand.OFF_HAND);
+        if (mainHand.isPresent() && predicate.test(mainHand.get().getType())) {
+            return true;
+        }
+
+        return offHand.isPresent() && predicate.test(offHand.get().getType()); // TODO transform
     }
 
     @Override
-    public @NotNull Optional<ItemStack> getStackInHand(@NotNull Hand hand) {
-        return Optional.empty(); // TODO transform
+    public @NotNull Optional<ItemStack> getItemInHand(@NotNull Hand hand) {
+        net.minecraft.item.ItemStack mcStack = getMinecraftEntity().getEquippedStack(hand == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+        if(mcStack == net.minecraft.item.ItemStack.EMPTY)
+            return Optional.empty();
+        return Optional.of(new ItemStackImpl(mcStack));
     }
 
     @Override
-    public void setStackInHand(@NotNull Hand hand, @NotNull ItemStack itemStack) {
-        // TODO transform
+    public void setItemInHand(@NotNull Hand hand, @NotNull ItemStack itemStack) {
+        getMinecraftEntity().equipStack(hand == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND, ((ItemStackImpl) itemStack).getMinecraftItemStack());
+    }
+
+    private Optional<ItemStack> getStack(EquipmentSlot mcEquipmentSlot) {
+        net.minecraft.item.ItemStack mcStack = getMinecraftEntity().getEquippedStack(mcEquipmentSlot);
+        if(mcStack == net.minecraft.item.ItemStack.EMPTY)
+            return Optional.empty();
+        return Optional.of(new ItemStackImpl(mcStack));
+    }
+
+    @Override
+    public @NotNull Optional<ItemStack> getBoots() {
+        return getStack(EquipmentSlot.FEET);
+    }
+
+    @Override
+    public void setBoots(@NotNull ItemStack itemStack) {
+        getMinecraftEntity().equipStack(EquipmentSlot.FEET, ((ItemStackImpl) itemStack).getMinecraftItemStack());
+    }
+
+    @Override
+    public @NotNull Optional<ItemStack> getLeggings() {
+        return getStack(EquipmentSlot.LEGS);
+    }
+
+    @Override
+    public void setLeggings(@NotNull ItemStack itemStack) {
+        getMinecraftEntity().equipStack(EquipmentSlot.LEGS, ((ItemStackImpl) itemStack).getMinecraftItemStack());
+    }
+
+    @Override
+    public @NotNull Optional<ItemStack> getChestplate() {
+        return getStack(EquipmentSlot.CHEST);
+    }
+
+    @Override
+    public void setChestplate(@NotNull ItemStack itemStack) {
+        getMinecraftEntity().equipStack(EquipmentSlot.CHEST, ((ItemStackImpl) itemStack).getMinecraftItemStack());
+    }
+
+    @Override
+    public @NotNull Optional<ItemStack> getHelmet() {
+        return getStack(EquipmentSlot.HEAD);
+    }
+
+    @Override
+    public void setHelmet(@NotNull ItemStack itemStack) {
+        getMinecraftEntity().equipStack(EquipmentSlot.HEAD, ((ItemStackImpl) itemStack).getMinecraftItemStack());
     }
 
     @Override
@@ -357,7 +327,8 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
 
     @Override
     public ItemStack eatFood(World world, ItemStack itemStack) {
-        return (ItemStack) null; // getMinecraftEntity().eatFood(null, null); // TODO transform
+        return new ItemStackImpl(getMinecraftEntity().eatFood(((WorldImpl) world).getMinecraftWorld(),
+                ((ItemStackImpl)itemStack).getMinecraftItemStack()));
     }
 
     @Override

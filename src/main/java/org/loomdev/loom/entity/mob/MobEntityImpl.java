@@ -5,6 +5,7 @@ import org.loomdev.api.entity.player.Player;
 import org.loomdev.loom.entity.LivingEntityImpl;
 
 public class MobEntityImpl extends LivingEntityImpl implements MobEntity {
+
     public MobEntityImpl(net.minecraft.entity.mob.MobEntity entity) {
         super(entity);
     }
