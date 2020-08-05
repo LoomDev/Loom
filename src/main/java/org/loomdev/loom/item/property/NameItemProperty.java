@@ -14,7 +14,7 @@ import org.loomdev.loom.util.transformer.TextTransformer;
 public class NameItemProperty implements ItemProperty<NameData> {
 
     @Override
-    public NameData get(ItemStack itemStack) {
+    public NameData get(@NotNull ItemStack itemStack) {
         net.minecraft.item.ItemStack mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
         Component itemName = TextTransformer.toLoom(mcStack.getItem().getName(mcStack));
         Component customName = null;

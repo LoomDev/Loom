@@ -7,13 +7,11 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Material;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.effect.StatusEffect;
 import org.loomdev.api.item.ItemStack;
-import org.loomdev.api.item.ItemTypes;
-import org.loomdev.api.sound.Sound;
+import org.loomdev.api.item.ItemType;
 import org.loomdev.api.util.Hand;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
@@ -163,19 +161,19 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public boolean isHolding(@NotNull ItemTypes material) {
-        return isHolding(mat -> mat.equals(material));
+    public boolean isHolding(@NotNull ItemType item) {
+        return isHolding(mat -> mat.equals(item));
     }
 
     @Override
-    public boolean isHolding(@NotNull Predicate<ItemTypes> predicate) {
+    public boolean isHolding(@NotNull Predicate<ItemType> predicate) {
         Optional<ItemStack> mainHand = getItemInHand(Hand.MAIN_HAND);
         Optional<ItemStack> offHand = getItemInHand(Hand.OFF_HAND);
         if (mainHand.isPresent() && predicate.test(mainHand.get().getType())) {
             return true;
         }
 
-        return offHand.isPresent() && predicate.test(offHand.get().getType()); // TODO transform
+        return offHand.isPresent() && predicate.test(offHand.get().getType());
     }
 
     @Override

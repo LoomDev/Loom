@@ -1,8 +1,9 @@
 package org.loomdev.loom.entity.passive;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.loomdev.api.block.Material;
 import org.loomdev.api.entity.passive.AnimalEntity;
+import org.loomdev.api.item.ItemStack;
+import org.loomdev.loom.item.ItemStackImpl;
 
 import java.util.UUID;
 
@@ -47,17 +48,7 @@ public class AnimalEntityImpl extends PassiveEntityImpl implements AnimalEntity 
     }
 
     @Override
-    public boolean isBreedingItem(@NonNull Material material) {
-        return getMinecraftEntity().isBreedingItem(null); // TODO transform
-    }
-
-    @Override
-    public Material getBreedingItem() {
-        throw new UnsupportedOperationException("This operation has not been implemented yet"); // TODO
-    }
-
-    @Override
-    public void setBreedingItem(@NonNull Material material) {
-        throw new UnsupportedOperationException("This operation has not been implemented yet"); // TODO
+    public boolean isBreedingItem(@NonNull ItemStack itemStack) {
+        return getMinecraftEntity().isBreedingItem(((ItemStackImpl) itemStack).getMinecraftItemStack());
     }
 }

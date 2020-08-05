@@ -2,10 +2,6 @@ package org.loomdev.loom.block.entity;
 
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.CompoundTag;
-import org.checkerframework.checker.nullness.Opt;
-import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
-import org.loomdev.api.block.Material;
 import org.loomdev.api.block.PersistentState;
 import org.loomdev.loom.block.BlockImpl;
 import org.loomdev.loom.block.BlockStateImpl;
@@ -19,16 +15,6 @@ public class PersistentStateImpl<T extends BlockEntity> extends BlockStateImpl i
     public PersistentStateImpl(T blockEntity) {
         super(BlockImpl.at(blockEntity.getWorld(), blockEntity.getPos()));
         this.blockEntity = blockEntity;
-    }
-
-    @Override
-    public @NotNull Block getBlock() {
-        return null;
-    }
-
-    @Override
-    public @NotNull Material getType() {
-        return null;
     }
 
     private Optional<T> createSnapshot(T blockEntity) {

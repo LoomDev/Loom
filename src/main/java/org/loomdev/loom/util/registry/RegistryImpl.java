@@ -1,20 +1,26 @@
 package org.loomdev.loom.util.registry;
 
+import com.google.common.collect.Maps;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.loomdev.api.block.BlockType;
 import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
+import org.loomdev.api.item.ItemType;
 import org.loomdev.api.item.property.ItemProperty;
 import org.loomdev.api.item.property.data.*;
 import org.loomdev.api.util.builder.BuilderBase;
+import org.loomdev.api.util.registry.Keyed;
 import org.loomdev.api.util.registry.Registry;
+import org.loomdev.loom.block.BlockTypeImpl;
 import org.loomdev.loom.bossbar.BossBarImpl;
 import org.loomdev.loom.item.EnchantmentImpl;
 import org.loomdev.loom.item.ItemStackImpl;
+import org.loomdev.loom.item.ItemTypeImpl;
 import org.loomdev.loom.item.property.DamageItemProperty;
 import org.loomdev.loom.item.property.EnchantmentsItemProperty;
 import org.loomdev.loom.item.property.LoreItemProperty;
@@ -28,69 +34,86 @@ public class RegistryImpl implements Registry {
 
     private static final Logger LOGGER = LogManager.getLogger("Registry");
 
-    private final Map<Class<?>, ItemProperty<?>> itemPropertyTypes = new HashMap<>();
+    private final Map<Class<?>, Supplier<ItemProperty<? extends ItemPropertyData<?>>>> itemPropertySuppliers = Maps.newHashMap();
+
     private final Map<Class<?>, Supplier<?>> builders = new HashMap<>();
-    private final Map<String, Enchantment> enchantments = new HashMap<>();
+
+    private final Map<Class<? extends Keyed>, WrapperSupplier<? extends Keyed>> wrapperSuppliers = Maps.newHashMap();
+    private final Map<Class<? extends Keyed>, Map<String, ? extends Keyed>> wrapperCache = Maps.newHashMap();
 
     public RegistryImpl() {
-        // Item properties
-        this.registerItemProperty(NameData.class, new NameItemProperty());
-        this.registerItemProperty(LoreData.class, new LoreItemProperty());
-        this.registerItemProperty(DamageData.class, new DamageItemProperty());
-        this.registerItemProperty(EnchantmentData.class, new EnchantmentsItemProperty());
+        initItemProperties();
+        initBuilders();
+        initMcRegistries();
+    }
 
-        // Builders
-        this.registerBuilder(ItemStack.class, ItemStackImpl.BuilderImpl::new);
-        this.registerBuilder(BossBar.class, BossBarImpl.BuilderImpl::new);
+    private void initItemProperties() {
+        this.registerItemProperty(NameData.class, NameItemProperty::new);
+        this.registerItemProperty(LoreData.class, LoreItemProperty::new);
+        this.registerItemProperty(DamageData.class, DamageItemProperty::new);
+        this.registerItemProperty(EnchantmentData.class, EnchantmentsItemProperty::new);
+    }
 
-        // Enchantments
-        registerAllFromMC(net.minecraft.util.registry.Registry.ENCHANTMENT, (id, mcEnchantment) ->
-                this.enchantments.put(id.toString(), new EnchantmentImpl(id.toString(), mcEnchantment)));
+    private void initBuilders() {
+        this.builders.put(ItemStack.class, ItemStackImpl.BuilderImpl::new);
+        this.builders.put(BossBar.class, BossBarImpl.BuilderImpl::new);
+    }
+
+    private void initMcRegistries() {
+        // MC Registries
+        wrapperSuppliers.put(ItemType.class, key -> new ItemTypeImpl(net.minecraft.util.registry.Registry.ITEM.get(new Identifier(key)), key));
+        wrapperSuppliers.put(Enchantment.class, key -> new EnchantmentImpl(net.minecraft.util.registry.Registry.ENCHANTMENT.get(new Identifier(key)), key));
+        wrapperSuppliers.put(BlockType.class, key -> new BlockTypeImpl(net.minecraft.util.registry.Registry.BLOCK.get(new Identifier(key)), key));
     }
 
     @Override
-    public <T extends ItemPropertyData> void registerItemProperty(@NotNull Class<T> dataType, @NotNull ItemProperty<T> itemProperty) {
-        this.itemPropertyTypes.put(dataType, itemProperty);
+    public <T extends ItemPropertyData<T>> void registerItemProperty(@NotNull Class<T> type, @NotNull Supplier<ItemProperty<T>> supplier) {
+        ((Map) this.itemPropertySuppliers).put(type, supplier);
     }
 
     @Override
-    public <T extends ItemPropertyData> @Nullable ItemProperty<T>  getItemProperty(@NotNull Class<T> aClass) {
-        if (!this.itemPropertyTypes.containsKey(aClass)) {
-            LOGGER.error("No property registered for data type {}.", aClass.getCanonicalName());
+    public <T extends ItemPropertyData<T>> @Nullable ItemProperty<T>  getItemProperty(@NotNull Class<T> type) {
+        if (!this.itemPropertySuppliers.containsKey(type)) {
+            LOGGER.error("No item property registered for data type {}.", type.getCanonicalName());
             return null;
         }
-        return (ItemProperty<T>) this.itemPropertyTypes.get(aClass);
+        return (ItemProperty<T>) this.itemPropertySuppliers.get(type).get();
     }
 
     @Override
-    public <V, B extends BuilderBase<V, B>> @Nullable B createBuilder(@NotNull Class<V> aClass) {
-        if (!this.builders.containsKey(aClass)) {
-            LOGGER.error("No builder registered for {}.", aClass.getCanonicalName());
+    public <V, B extends BuilderBase<V, B>> @Nullable B createBuilder(@NotNull Class<V> type) {
+        if (!this.builders.containsKey(type)) {
+            LOGGER.error("No builder registered for {}.", type.getCanonicalName());
             return null;
         }
 
         try {
-            return (B) this.builders.get(aClass).get();
+            return (B) this.builders.get(type).get();
         } catch (Exception e) {
-            LOGGER.error("Could not create builder for {}.", aClass.getCanonicalName());
+            LOGGER.error("Could not create builder for {}.", type.getCanonicalName());
             return null;
         }
     }
 
     @Override
-    public @Nullable Enchantment getEnchantment(String id) {
-        return this.enchantments.get(id);
+    public <T extends Keyed> @Nullable T getWrapped(Class<T> type, String key) {
+        Map typeCache = wrapperCache.computeIfAbsent(type, k -> new HashMap<>());
+
+        if (typeCache.containsKey(key)) {
+            return (T) typeCache.get(key);
+        }
+
+        if (!wrapperSuppliers.containsKey(type)) {
+            LOGGER.error("No wrapper registered for data type {}.", type.getCanonicalName());
+            return null;
+        }
+
+        T wrappedObject = (T) wrapperSuppliers.get(type).get(key);
+        typeCache.put(key, wrappedObject);
+        return wrappedObject;
     }
 
     // region helpers
-
-    public <V, B extends BuilderBase<V, B>> void registerBuilder(Class<V> aClass, Supplier<B> supplier) {
-        this.builders.put(aClass, supplier);
-    }
-
-    private <T> void registerAllFromMC(net.minecraft.util.registry.Registry<T> registry, RegisterFunction<T> registerFunction) {
-        registry.getIds().forEach(id -> registerFunction.register(id, registry.get(id)));
-    }
 
     @FunctionalInterface
     private interface RegisterFunction<T> {

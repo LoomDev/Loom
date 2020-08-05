@@ -6,21 +6,17 @@ import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
+import org.loomdev.api.util.NamespacedKey;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
 public final class EnchantmentImpl implements Enchantment {
 
-    private final String id;
     private final net.minecraft.enchantment.Enchantment mcEnchant;
+    private final NamespacedKey namespacedKey;
 
-    public EnchantmentImpl(String id, net.minecraft.enchantment.Enchantment mcEnchant) {
-        this.id = id;
+    public EnchantmentImpl(net.minecraft.enchantment.Enchantment mcEnchant, String id) {
         this.mcEnchant = mcEnchant;
-    }
-
-    @Override
-    public @NotNull String getId() {
-        return this.id;
+        this.namespacedKey = NamespacedKey.of(id);
     }
 
     @Override
@@ -45,7 +41,7 @@ public final class EnchantmentImpl implements Enchantment {
 
     @Override
     public boolean canCombineWith(@NotNull Enchantment enchantment) {
-        return this.mcEnchant.canCombine(Registry.ENCHANTMENT.get(new Identifier(enchantment.getId())));
+        return this.mcEnchant.canCombine(Registry.ENCHANTMENT.get(new Identifier(enchantment.getKey().toString())));
     }
 
     @Override
@@ -56,5 +52,10 @@ public final class EnchantmentImpl implements Enchantment {
     @Override
     public boolean isTraded() {
         return this.mcEnchant.isAvailableForEnchantedBookOffer();
+    }
+
+    @Override
+    public @NotNull NamespacedKey getKey() {
+        return this.namespacedKey;
     }
 }

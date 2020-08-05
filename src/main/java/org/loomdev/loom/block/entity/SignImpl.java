@@ -3,7 +3,7 @@ package org.loomdev.loom.block.entity;
 import net.minecraft.block.entity.SignBlockEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.Block;
-import org.loomdev.api.block.Material;
+import org.loomdev.api.block.BlockType;
 import org.loomdev.api.block.entity.Sign;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class SignImpl implements Sign {
     }
 
     @Override
-    public @NotNull Material getType() {
+    public @NotNull BlockType getType() {
         return null;
     }
 }

@@ -24,7 +24,7 @@ public class EnchantmentsItemProperty implements ItemProperty<EnchantmentData> {
         Map<Enchantment, Integer> enchants = new HashMap<>();
         listTag.forEach(tag -> {
             CompoundTag ct = (CompoundTag) tag;
-            Enchantment enchantment = Loom.getRegistry().getEnchantment(ct.getString("id"));
+            Enchantment enchantment = Loom.getRegistry().getWrapped(Enchantment.class, ct.getString("id"));
             int level = ct.getShort("lvl");
             enchants.put(enchantment, level);
         });
@@ -38,7 +38,7 @@ public class EnchantmentsItemProperty implements ItemProperty<EnchantmentData> {
         compoundTag.remove("Enchantments"); // remove all
 
         for (Map.Entry<Enchantment, Integer> enchantments : enchantmentData.getEnchantments().entrySet()) {
-            net.minecraft.enchantment.Enchantment mcEnchantment = Registry.ENCHANTMENT.get(new Identifier(enchantments.getKey().getId()));
+            net.minecraft.enchantment.Enchantment mcEnchantment = Registry.ENCHANTMENT.get(new Identifier(enchantments.getKey().getKey().getKey()));
             mcStack.addEnchantment(mcEnchantment, enchantments.getValue());
         }
     }

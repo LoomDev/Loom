@@ -3,7 +3,7 @@ package org.loomdev.loom.block;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.Block;
 import org.loomdev.api.block.BlockState;
-import org.loomdev.api.block.Material;
+import org.loomdev.api.block.BlockType;
 
 public class BlockStateImpl implements BlockState {
 
@@ -25,7 +25,7 @@ public class BlockStateImpl implements BlockState {
     }
 
     @Override
-    public @NotNull Material getType() {
+    public @NotNull BlockType getType() {
         return null;
     }
 }

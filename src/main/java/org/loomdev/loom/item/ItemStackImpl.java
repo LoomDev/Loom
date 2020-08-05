@@ -6,10 +6,10 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.Loom;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
-import org.loomdev.api.item.ItemTypes;
-import org.loomdev.api.item.property.ItemProperties;
+import org.loomdev.api.item.ItemType;
 import org.loomdev.api.item.property.ItemProperty;
 import org.loomdev.api.item.property.data.ItemPropertyData;
 
@@ -32,14 +32,14 @@ public class ItemStackImpl implements ItemStack {
     }
 
     @Override
-    public @NotNull ItemTypes getType() {
+    public @NotNull ItemType getType() {
         Identifier identifier = Registry.ITEM.getId(this.mcStack.getItem());
-        return identifier == null ? ItemTypes.AIR : ItemTypes.getById(identifier.toString());
+        return identifier == null ? ItemType.AIR : Loom.getRegistry().getWrapped(ItemType.class, identifier.toString());
     }
 
     @Override
-    public void setType(@NotNull ItemTypes itemTypes) {
-        this.mcStack.item = Registry.ITEM.get(new Identifier(itemTypes.getId()));
+    public void setType(@NotNull ItemType item) {
+        this.mcStack.item = Registry.ITEM.get(new Identifier(item.getKey().toString()));
     }
 
     @Override
@@ -68,17 +68,17 @@ public class ItemStackImpl implements ItemStack {
     }
 
     @Override
-    public <T extends ItemPropertyData> T getProperty(ItemProperty<T> itemProperty) {
+    public <T extends ItemPropertyData<T>> T getProperty(ItemProperty<T> itemProperty) {
         return itemProperty.get(this);
     }
 
     @Override
-    public <T extends ItemPropertyData> void setProperty(@NotNull ItemProperty<T> itemProperty, @NotNull T data) {
+    public <T extends ItemPropertyData<T>> void setProperty(@NotNull ItemProperty<T> itemProperty, @NotNull T data) {
         itemProperty.apply(this, data);
     }
 
     @Override
-    public <T extends ItemPropertyData> void changeProperty(@NotNull ItemProperty<T> itemProperty, @NotNull Consumer<T> consumer) {
+    public <T extends ItemPropertyData<T>> void changeProperty(@NotNull ItemProperty<T> itemProperty, @NotNull Consumer<T> consumer) {
         T data = this.getProperty(itemProperty);
         consumer.accept(data);
         this.setProperty(itemProperty, data);
@@ -98,82 +98,82 @@ public class ItemStackImpl implements ItemStack {
 
     @Override
     public @NotNull Map<Enchantment, Integer> getEnchantments() {
-        return this.getProperty(ItemProperties.Enchantments).getEnchantments();
+        return this.getProperty(ItemProperty.Enchantments).getEnchantments();
     }
 
     @Override
     public void setEnchantments(@NotNull Map<Enchantment, Integer> map) {
-        this.changeProperty(ItemProperties.Enchantments, data -> data.setEnchantments(map));
+        this.changeProperty(ItemProperty.Enchantments, data -> data.setEnchantments(map));
     }
 
     @Override
     public int getEnchantmentLevel(Enchantment enchantment) {
-        return this.getProperty(ItemProperties.Enchantments).getEnchantmentLevel(enchantment);
+        return this.getProperty(ItemProperty.Enchantments).getEnchantmentLevel(enchantment);
     }
 
     @Override
     public void addEnchantment(@NotNull Enchantment enchantment, Integer level) {
-        this.changeProperty(ItemProperties.Enchantments, data -> data.addEnchantment(enchantment, level));
+        this.changeProperty(ItemProperty.Enchantments, data -> data.addEnchantment(enchantment, level));
     }
 
     @Override
     public void removeEnchantment(@NotNull Enchantment enchantment) {
-        this.changeProperty(ItemProperties.Enchantments, data -> data.removeEnchantment(enchantment));
+        this.changeProperty(ItemProperty.Enchantments, data -> data.removeEnchantment(enchantment));
     }
 
     @Override
     public void clearEnchantments() {
-        this.changeProperty(ItemProperties.Enchantments, data -> data.clearEnchantments());
+        this.changeProperty(ItemProperty.Enchantments, data -> data.clearEnchantments());
     }
 
     @Override
     public boolean hasEnchantment(@NotNull Enchantment enchantment) {
-        return this.getProperty(ItemProperties.Enchantments).hasEnchantment(enchantment);
+        return this.getProperty(ItemProperty.Enchantments).hasEnchantment(enchantment);
     }
 
     @Override
     public @NotNull List<Component> getLore() {
-        return this.getProperty(ItemProperties.Lore).getLore();
+        return this.getProperty(ItemProperty.Lore).getLore();
     }
 
     @Override
     public void setLore(@NotNull List<Component> list) {
-        this.changeProperty(ItemProperties.Lore, data -> data.setLore(list));
+        this.changeProperty(ItemProperty.Lore, data -> data.setLore(list));
     }
 
     @Override
     public void appendLore(Component... components) {
-        this.changeProperty(ItemProperties.Lore, data -> data.appendLore(components));
+        this.changeProperty(ItemProperty.Lore, data -> data.appendLore(components));
     }
 
     @Override
     public void removeLoreLine(int index) {
-        this.changeProperty(ItemProperties.Lore, data -> data.removeLoreLine(index));
+        this.changeProperty(ItemProperty.Lore, data -> data.removeLoreLine(index));
     }
 
     @Override
     public @NotNull Component getName() {
-        return this.getProperty(ItemProperties.Name).getName();
+        return this.getProperty(ItemProperty.Name).getName();
     }
 
     @Override
     public void setName(@NotNull Component component) {
-        this.changeProperty(ItemProperties.Name, data -> data.setName(component));
+        this.changeProperty(ItemProperty.Name, data -> data.setName(component));
     }
 
     @Override
     public void removeCustomName() {
-        this.changeProperty(ItemProperties.Name, data -> data.removeCustomName());
+        this.changeProperty(ItemProperty.Name, data -> data.removeCustomName());
     }
 
     @Override
     public boolean hasCustomName() {
-        return this.getProperty(ItemProperties.Name).hasCustomName();
+        return this.getProperty(ItemProperty.Name).hasCustomName();
     }
 
     @Override
     public @NotNull Component getHoverText() {
-        return this.getProperty(ItemProperties.Name).getHoverText();
+        return this.getProperty(ItemProperty.Name).getHoverText();
     }
 
     // endregion ItemProperties
@@ -187,8 +187,8 @@ public class ItemStackImpl implements ItemStack {
         }
 
         @Override
-        public ItemStack.Builder type(@NotNull ItemTypes itemTypes) {
-            this.itemStack.setType(itemTypes);
+        public ItemStack.Builder type(@NotNull ItemType item) {
+            this.itemStack.setType(item);
             return this;
         }
 
@@ -244,7 +244,7 @@ public class ItemStackImpl implements ItemStack {
         }
 
         @Override
-        public <T extends ItemPropertyData> ItemStack.Builder property(ItemProperty<T> itemProperty, Consumer<T> consumer) {
+        public <T extends ItemPropertyData<T>> ItemStack.Builder property(ItemProperty<T> itemProperty, Consumer<T> consumer) {
             this.itemStack.changeProperty(itemProperty, consumer);
             return this;
         }

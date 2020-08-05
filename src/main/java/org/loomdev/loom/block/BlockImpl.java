@@ -5,7 +5,7 @@ import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.Block;
 import org.loomdev.api.block.BlockState;
-import org.loomdev.api.block.Material;
+import org.loomdev.api.block.BlockType;
 import org.loomdev.api.world.Chunk;
 import org.loomdev.api.world.World;
 
@@ -68,12 +68,12 @@ public class BlockImpl implements Block {
     }
 
     @Override
-    public Material getMaterial() {
+    public @NotNull BlockType getType() {
         return null;
     }
 
     @Override
-    public Material setMaterial() {
-        return null;
+    public void setType(@NotNull BlockType blockType) {
+
     }
 }
