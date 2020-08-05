@@ -36,8 +36,8 @@ public class RaiderImpl extends PatrolEntityImpl implements Raider {
     }
 
     @Override
-    public void setWave(int i) {
-        getMinecraftEntity().setWave(i);
+    public void setWave(int wave) {
+        getMinecraftEntity().setWave(wave);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class RaiderImpl extends PatrolEntityImpl implements Raider {
     }
 
     @Override
-    public void setCelebrating(boolean b) {
-        getMinecraftEntity().setCelebrating(b);
+    public void setCelebrating(boolean flag) {
+        getMinecraftEntity().setCelebrating(flag);
     }
 }
