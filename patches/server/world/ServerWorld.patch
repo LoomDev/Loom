@@ -4,8 +4,8 @@
      private final ServerChunkManager serverChunkManager;
      boolean inEntityTick;
      private final MinecraftServer server;
--    private final ServerWorldProperties field_24456;
-+    public final ServerWorldProperties field_24456; // Loom :: public access
+-    private final ServerWorldProperties worldProperties;
++    public final ServerWorldProperties worldProperties; // Loom :: public access
      public boolean savingDisabled;
      private boolean allPlayersSleeping;
      private int idleTimeout;
@@ -28,7 +28,25 @@
 +        ((org.loomdev.loom.server.ServerImpl) org.loomdev.api.Loom.getServer()).registerWorld(this);
      }
  
-     public void method_27910(int i, int j, boolean flag, boolean flag1) {
+     public void setWeather(int i, int j, boolean flag, boolean flag1) {
+@@ -417,7 +421,7 @@
+         if (this.field_25143) {
+             long i = this.properties.getTime() + 1L;
+ 
+-            this.worldProperties.setTime(i);
++            this.worldProperties.method_29034(i);
+             this.worldProperties.getScheduledEvents().processEvents(this.server, i);
+             if (this.properties.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE)) {
+                 this.setTimeOfDay(this.properties.getTimeOfDay() + 1L);
+@@ -427,7 +431,7 @@
+     }
+ 
+     public void setTimeOfDay(long i) {
+-        this.worldProperties.setTimeOfDay(i);
++        this.worldProperties.method_29035(i);
+     }
+ 
+     public void method_29202(boolean flag, boolean flag1) {
 @@ -443,7 +447,7 @@
  
      private void wakeSleepingPlayers() {
