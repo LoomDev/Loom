@@ -9,7 +9,15 @@ Loom uses Fabric's [yarn](https://github.com/fabricmc/yarn) for its mappings, wh
 Loom was created because of the lack of fast version updates from Spigot, CraftBukkit's parent project. Not to mention, Bukkit's ancient, by today's standards, API is in need of rewrites and optimizations. Loom aims to stick as faithful to the original Bukkit API as possible to make it easy for plugin developers to switch over, while also introducing many modern features directly into the API.
 
 ### Building Loom
-Currently, we don't have written instructions for this step, but we are planning to create something very similar to Spigot's build tools for releasing Loom.
+Loom provides all of the scripts necessary to set up a build environment in this repository. To set up a fresh build environment, run the following in a bash shell (WSL is preferable on Windows systems):
+```bash
+git clone https://github.com/LoomDev/Loom
+cd Loom
+./loom setup
+```
+Once your environment is set up, you can open the project in your IDE of choice. If you have made an NMS modification and want to convert your changes to a patch, use `./loom rb` to rebuild patches. To apply all patches to existing NMS, use `./loom p`.
+
+To build a complete Loom JAR, run the setup commands above and then use `mvn package`. The final JAR will be inside the `target/` folder.
 
 We hope to create a stable and modern server software for many generations of Minecraft servers to come. Loom is completely open-source and licensed with the MIT license. Feel free to contribute to the project! ✨
 
