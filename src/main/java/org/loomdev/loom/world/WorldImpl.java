@@ -38,7 +38,7 @@ public class WorldImpl implements World {
     }
 
     public static /*@NotNull*/ World of(ServerWorld world) {
-        return Loom.getServer().getWorld(world.field_24456.getLevelName()).orElse(null); // TODO use uuid
+        return Loom.getServer().getWorld(world.worldProperties.getLevelName()).orElse(null); // TODO use uuid
     }
 
     public ServerWorld getMinecraftWorld() {
@@ -47,7 +47,7 @@ public class WorldImpl implements World {
 
     @Override
     public @NotNull String getName() {
-        return this.world.field_24456.getLevelName();
+        return this.world.worldProperties.getLevelName();
     }
 
     @Override
@@ -183,7 +183,7 @@ public class WorldImpl implements World {
                 return;
             }
 
-            world.method_29199(getAbsoluteTime() + event.getChange());
+            world.setTimeOfDay(getAbsoluteTime() + event.getChange());
 
             for (Player player : getPlayers()) {
                 if (!player.isConnected()) {

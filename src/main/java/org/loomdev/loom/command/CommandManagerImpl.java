@@ -133,7 +133,7 @@ public class CommandManagerImpl implements CommandManager {
         }
 
         try {
-            command.execute(source, name, Arrays.copyOfRange(args, 1, args.length));
+            command.execute(source, Arrays.copyOfRange(args, 1, args.length));
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

@@ -10,6 +10,8 @@ decompdir="$toolsdir/decomp"
 fernflower="https://hub.spigotmc.org/stash/projects/SPIGOT/repos/builddata/raw/bin/fernflower.jar"
 
 function setup {
+    git submodule update --init --recursive
+
     if [ ! -f "$toolsdir/fernflower.jar" ]; then
         echo "Downloading necessary libraries."
         cd "$toolsdir"

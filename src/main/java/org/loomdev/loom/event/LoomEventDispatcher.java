@@ -57,8 +57,6 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-;
-
 public final class LoomEventDispatcher {
 
     private LoomEventDispatcher() {
@@ -244,7 +242,7 @@ public final class LoomEventDispatcher {
 
     public static CompletableFuture<TimeChangedEvent> onTimeChanged(@NotNull ServerWorld world, long change, @NotNull TimeChangedEvent.Cause cause) {
         TimeChangedEvent event = new TimeChangedEvent(
-                Loom.getServer().getWorld(world.field_24456.getLevelName()).orElse(null), // TODO maybe don't fire on invalid world? also fetch world by uuid since it'll be O(1)
+                Loom.getServer().getWorld(world.worldProperties.getLevelName()).orElse(null), // TODO maybe don't fire on invalid world? also fetch world by uuid since it'll be O(1)
                 change,
                 cause
         );

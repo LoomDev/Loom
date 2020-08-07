@@ -56,6 +56,15 @@
      }
  
      private void initScoreboard(PersistentStateManager persistentstatemanager) {
+@@ -468,7 +481,7 @@
+         serverworldproperties.setRaining(false);
+         serverworldproperties.setThundering(false);
+         serverworldproperties.setClearWeatherTime(1000000000);
+-        serverworldproperties.setTimeOfDay(6000L);
++        serverworldproperties.method_29035(6000L); // Loom :: broken mapping - TODO
+         serverworldproperties.setGameMode(GameMode.SPECTATOR);
+     }
+ 
 @@ -656,10 +669,13 @@
                  this.metadata.setVersion(new ServerMetadata.Version(SharedConstants.getGameVersion().getName(), SharedConstants.getGameVersion().getProtocolVersion()));
                  this.setFavicon(this.metadata);
