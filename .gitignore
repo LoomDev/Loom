@@ -216,7 +216,7 @@ gradle-app.setting
 ### LoomDev ###
 /src/main/java/net/minecraft/
 /dev-server/
-
-/decompiled/
+/tools/dev-server/
 /tools/decomp/
-/tools/*.jar
+/tools/fernflower.jar
+

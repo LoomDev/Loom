@@ -23,7 +23,6 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 SOURCE=$([[ "$SOURCE" = /* ]] && echo "$SOURCE" || echo "$PWD/${SOURCE#./}")
 basedir=$(dirname "$SOURCE")
-gitcmd="git -c commit.gpgsign=false"
 
 failed=0
 case "$1" in
@@ -31,21 +30,14 @@ case "$1" in
     (
         set -e
         cd "$basedir"
-        tools/scripts/makePatches.sh "./decompiled" || exit 1
+        tools/scripts/makePatches.sh "./tools/decomp/decompiled" || exit 1
     ) || failed=1
     ;;
     "p" | "patch" | "applyPatches")
     (
         set -e
         cd "$basedir"
-        tools/scripts/applyPatches.sh "./decompiled" || exit 1
-    ) || failed=1
-    ;;
-    "j" | "jar")
-    (
-        set -e
-        cd "$basedir"
-        scripts/build.sh "$basedir" "--jar" || exit 1
+        tools/scripts/applyPatches.sh "./tools/decomp/decompiled" || exit 1
     ) || failed=1
     ;;
     "y" | "yarn")
@@ -60,10 +52,10 @@ case "$1" in
         cd "$basedir"
         tools/scripts/decompile.sh "$basedir" || exit 1
         cd "$basedir"
-        tools/scripts/applyPatches.sh "./decompiled" || exit 1
+        tools/scripts/applyPatches.sh "./tools/decomp/decompiled" || exit 1
     ;;
     *)
-        echo "Loom build tool. This tool provides a variety of commands to manage a Loom development environment."
+        echo "This tool provides a variety of commands to manage a Loom development environment."
         echo ""
         echo " Commands:"
         echo "  * s, setup          | Creates a complete Loom development environment."
@@ -71,17 +63,12 @@ case "$1" in
         echo "                      |"
         echo "  * p, patch          | Applies all Loom patches to NMS without building the project."
         echo "  * rb, rebuild       | Rebuilds and creates patches from your existing project source."
-        echo "  * j, jar            | Apply all patches and build the project, paperclip.jar will be output. Can be run from anywhere." 
     ;;
 esac
 
 unset RCPATH
 unset SOURCE
 unset basedir
-unset -f color
-unset -f colorend
-unset -f paperstash
-unset -f paperunstash
 if [[ "$failed" == "1" ]]; then
 	unset failed
 	false

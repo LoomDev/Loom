@@ -34,10 +34,6 @@ function decomp {
     mkdir -p "$decompdir/decompiled"
     cd "$decompdir/decompiled"
     java -jar "$toolsdir/fernflower.jar" -dgs=1 -hdc=0 -rbr=0 -asc=1 -udv=0 "$decompdir/extracted" "$decompdir/decompiled"
-
-    echo "Copying decompiled sources to root."
-    mkdir -p "$basedir/decompiled"
-    cp -r "$decompdir/decompiled/net/" "$basedir/decompiled/"
 }
 
 setup
