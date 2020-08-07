@@ -218,4 +218,5 @@ gradle-app.setting
 /dev-server/
 
 /decompiled/
-/tools/decompiled/
+/tools/decomp/
+/tools/*.jar

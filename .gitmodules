@@ -1,0 +1,3 @@
+[submodule "tools/yarn"]
+	path = tools/yarn
+	url = https://github.com/FabricMC/yarn
