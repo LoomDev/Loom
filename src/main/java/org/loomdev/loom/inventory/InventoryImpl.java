@@ -55,7 +55,7 @@ public class InventoryImpl implements Inventory {
 
     @Override
     public @NotNull Optional<ItemStack> getItem(int slot) { // TODO probably don't need this as optional
-        return Optional.of(new ItemStackImpl(mcInventory.getStack(slot)));
+        return Optional.of(ItemStackImpl.ofMcStack(mcInventory.getStack(slot)));
     }
 
     @Override

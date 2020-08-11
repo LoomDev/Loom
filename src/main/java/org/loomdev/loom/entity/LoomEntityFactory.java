@@ -8,6 +8,7 @@ import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
+import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.projectile.ArrowEntity;
@@ -19,6 +20,7 @@ import org.loomdev.loom.entity.boss.dragon.EnderDragonImpl;
 import org.loomdev.loom.entity.boss.dragon.EnderDragonPartImpl;
 import org.loomdev.loom.entity.decoration.ArmorStandImpl;
 import org.loomdev.loom.entity.decoration.EndCrystalImpl;
+import org.loomdev.loom.entity.decoration.ItemFrameImpl;
 import org.loomdev.loom.entity.misc.LightningImpl;
 import org.loomdev.loom.entity.mob.*;
 import org.loomdev.loom.entity.passive.*;
@@ -93,6 +95,7 @@ public final class LoomEntityFactory {
         register(IllusionerEntity.class, IllusionerImpl.class);
         register(IronGolemEntity.class, IronGolemImpl.class);
         register(ItemEntity.class, ItemImpl.class);
+        register(ItemFrameEntity.class, ItemFrameImpl.class);
 
         register(GuardianEntity.class, GuardianImpl.class);
 

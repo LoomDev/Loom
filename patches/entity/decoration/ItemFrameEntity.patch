@@ -1,0 +1,22 @@
+--- a/net/minecraft/entity/decoration/ItemFrameEntity.java
++++ b/net/minecraft/entity/decoration/ItemFrameEntity.java
+@@ -39,8 +39,8 @@
+     private static final Logger ITEM_FRAME_LOGGER = LogManager.getLogger();
+     private static final TrackedData<ItemStack> ITEM_STACK = DataTracker.registerData(ItemFrameEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
+     private static final TrackedData<Integer> ROTATION = DataTracker.registerData(ItemFrameEntity.class, TrackedDataHandlerRegistry.INTEGER);
+-    private float itemDropChance = 1.0F;
+-    private boolean fixed;
++    public float itemDropChance = 1.0F; // Loom :: public accessor
++    public boolean fixed; // Loom :: public accessor
+ 
+     public ItemFrameEntity(EntityType<? extends ItemFrameEntity> entitytype, World world) {
+         super(entitytype, world);
+@@ -60,7 +60,7 @@
+         this.getDataTracker().startTracking(ItemFrameEntity.ROTATION, 0);
+     }
+ 
+-    protected void setFacing(Direction direction) {
++    public void setFacing(Direction direction) { // Loom :: public accessor (override of AbstractDecorationEntity)
+         Validate.notNull(direction);
+         this.facing = direction;
+         if (direction.getAxis().isHorizontal()) {

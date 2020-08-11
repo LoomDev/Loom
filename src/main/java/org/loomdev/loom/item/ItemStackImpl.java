@@ -2,6 +2,7 @@ package org.loomdev.loom.item;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.minecraft.block.PumpkinBlock;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -23,7 +24,7 @@ public class ItemStackImpl implements ItemStack {
 
     private final net.minecraft.item.ItemStack mcStack;
 
-    public ItemStackImpl(net.minecraft.item.ItemStack mcStack) {
+    private ItemStackImpl(net.minecraft.item.ItemStack mcStack) {
         this.mcStack = mcStack;
     }
 
@@ -40,6 +41,7 @@ public class ItemStackImpl implements ItemStack {
     @Override
     public void setType(@NotNull ItemType item) {
         this.mcStack.item = Registry.ITEM.get(new Identifier(item.getKey().toString()));
+        this.mcStack.updateEmptyState();
     }
 
     @Override
@@ -64,7 +66,7 @@ public class ItemStackImpl implements ItemStack {
 
     @Override
     public @NotNull ItemStack split(int newStackAmount) {
-        return new ItemStackImpl(this.mcStack.split(newStackAmount));
+        return ItemStackImpl.ofMcStack(this.mcStack.split(newStackAmount));
     }
 
     @Override
@@ -259,5 +261,12 @@ public class ItemStackImpl implements ItemStack {
         public ItemStack build() {
             return this.itemStack;
         }
+    }
+
+    public static ItemStack ofMcStack(net.minecraft.item.ItemStack stack) {
+        if(stack == net.minecraft.item.ItemStack.EMPTY) {
+            return ItemStack.EMPTY;
+        }
+        return new ItemStackImpl(stack);
     }
 }
