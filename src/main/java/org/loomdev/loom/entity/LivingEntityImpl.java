@@ -181,7 +181,7 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
         net.minecraft.item.ItemStack mcStack = getMinecraftEntity().getEquippedStack(hand == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
         if(mcStack == net.minecraft.item.ItemStack.EMPTY)
             return Optional.empty();
-        return Optional.of(new ItemStackImpl(mcStack));
+        return Optional.of(ItemStackImpl.ofMcStack(mcStack));
     }
 
     @Override
@@ -193,7 +193,7 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
         net.minecraft.item.ItemStack mcStack = getMinecraftEntity().getEquippedStack(mcEquipmentSlot);
         if(mcStack == net.minecraft.item.ItemStack.EMPTY)
             return Optional.empty();
-        return Optional.of(new ItemStackImpl(mcStack));
+        return Optional.of(ItemStackImpl.ofMcStack(mcStack));
     }
 
     @Override
@@ -325,7 +325,7 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
 
     @Override
     public ItemStack eatFood(World world, ItemStack itemStack) {
-        return new ItemStackImpl(getMinecraftEntity().eatFood(((WorldImpl) world).getMinecraftWorld(),
+        return ItemStackImpl.ofMcStack(getMinecraftEntity().eatFood(((WorldImpl) world).getMinecraftWorld(),
                 ((ItemStackImpl)itemStack).getMinecraftItemStack()));
     }
 

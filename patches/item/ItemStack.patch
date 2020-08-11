@@ -9,6 +9,15 @@
      private CompoundTag tag;
      private boolean empty;
      private Entity holder;
+@@ -106,7 +106,7 @@
+         this.updateEmptyState();
+     }
+ 
+-    private void updateEmptyState() {
++    public void updateEmptyState() { // Loom :: public accessor
+         this.empty = false;
+         this.empty = this.isEmpty();
+     }
 @@ -157,6 +157,17 @@
          BlockPos blockpos = itemusagecontext.getBlockPos();
          CachedBlockPosition cachedblockposition = new CachedBlockPosition(itemusagecontext.getWorld(), blockpos, false);

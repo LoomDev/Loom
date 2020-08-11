@@ -1,0 +1,20 @@
+--- a/net/minecraft/entity/decoration/AbstractDecorationEntity.java
++++ b/net/minecraft/entity/decoration/AbstractDecorationEntity.java
+@@ -30,7 +30,7 @@
+     };
+     private int obstructionCheckCounter;
+     protected BlockPos attachmentPos;
+-    protected Direction facing;
++    public Direction facing; // Loom :: public accessor
+ 
+     protected AbstractDecorationEntity(EntityType<? extends AbstractDecorationEntity> entitytype, World world) {
+         super(entitytype, world);
+@@ -44,7 +44,7 @@
+ 
+     protected void initDataTracker() {}
+ 
+-    protected void setFacing(Direction direction) {
++    public void setFacing(Direction direction) { // Loom :: public accessor
+         Validate.notNull(direction);
+         Validate.isTrue(direction.getAxis().isHorizontal());
+         this.facing = direction;
