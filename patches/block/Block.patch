@@ -1,6 +1,6 @@
 --- a/net/minecraft/block/Block.java
 +++ b/net/minecraft/block/Block.java
-@@ -58,9 +58,7 @@
+@@ -57,9 +57,7 @@
              return !VoxelShapes.matchesAnywhere(VoxelShapes.fullCube(), voxelshape, BooleanBiFunction.NOT_SAME);
          }
  
@@ -11,7 +11,7 @@
      });
      protected final StateManager<Block, BlockState> stateManager;
      private BlockState defaultState;
-@@ -261,7 +259,13 @@
+@@ -260,7 +258,13 @@
                  int j = ExperienceOrbEntity.roundToOrbSize(i);
  
                  i -= j;

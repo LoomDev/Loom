@@ -25,12 +25,3 @@
                  return true;
              }
          }
-@@ -1615,7 +1623,7 @@
-     }
- 
-     public Iterable<ItemStack> getItemsHand() {
--        return Lists.newArrayList((Object[])(this.getMainHandStack(), this.getOffHandStack()));
-+        return Lists.newArrayList(this.getMainHandStack(), this.getOffHandStack()); // Loom :: decompile error
-     }
- 
-     public Iterable<ItemStack> getArmorItems() {

@@ -11,6 +11,15 @@
      private final Map<PathNodeType, Float> pathfindingPenalties;
      private Identifier lootTable;
      private long lootTableSeed;
+@@ -1099,7 +1099,7 @@
+             if (itemstack.getItem() instanceof SpawnEggItem) {
+                 if (this.world instanceof ServerWorld) {
+                     SpawnEggItem spawneggitem = (SpawnEggItem) itemstack.getItem();
+-                    Optional<MobEntity> optional = spawneggitem.spawnBaby(playerentity, this, this.getType(), (ServerWorld) this.world, this.getPos(), itemstack);
++                    Optional<MobEntity> optional = spawneggitem.spawnBaby(playerentity, this, (EntityType<? extends MobEntity>) this.getType(), (ServerWorld) this.world, this.getPos(), itemstack);  // Loom :: decompile error
+ 
+                     optional.ifPresent((mobentity) -> {
+                         this.onPlayerSpawnedChild(playerentity, mobentity);
 @@ -1150,7 +1150,7 @@
          if (this.removed) {
              return null;

@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/decoration/AbstractDecorationEntity.java
 +++ b/net/minecraft/entity/decoration/AbstractDecorationEntity.java
-@@ -30,7 +30,7 @@
+@@ -31,7 +31,7 @@
      };
      private int obstructionCheckCounter;
      protected BlockPos attachmentPos;
@@ -9,7 +9,7 @@
  
      protected AbstractDecorationEntity(EntityType<? extends AbstractDecorationEntity> entitytype, World world) {
          super(entitytype, world);
-@@ -44,7 +44,7 @@
+@@ -45,7 +45,7 @@
  
      protected void initDataTracker() {}
  

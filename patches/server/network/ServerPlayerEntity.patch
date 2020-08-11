@@ -1,14 +1,6 @@
 --- a/net/minecraft/server/network/ServerPlayerEntity.java
 +++ b/net/minecraft/server/network/ServerPlayerEntity.java
-@@ -47,6 +47,7 @@
- import net.minecraft.item.NetworkSyncedItem;
- import net.minecraft.item.WrittenBookItem;
- import net.minecraft.nbt.CompoundTag;
-+import net.minecraft.nbt.Tag;
- import net.minecraft.network.MessageType;
- import net.minecraft.network.Packet;
- import net.minecraft.network.packet.c2s.play.ClientSettingsC2SPacket;
-@@ -132,6 +133,8 @@
+@@ -132,6 +132,8 @@
  
  public class ServerPlayerEntity extends PlayerEntity implements ScreenHandlerListener {
  
@@ -17,16 +9,16 @@
      private static final Logger LOGGER = LogManager.getLogger();
      public ServerPlayNetworkHandler networkHandler;
      public final MinecraftServer server;
-@@ -313,7 +316,7 @@
+@@ -313,7 +315,7 @@
  
              logger.getClass();
              dataresult.resultOrPartial(logger::error).ifPresent((tag) -> {
 -                compoundtag.put("SpawnDimension", tag);
-+                compoundtag.put("SpawnDimension", (Tag) tag); // Loom :: decompile error
++                compoundtag.put("SpawnDimension", (net.minecraft.nbt.Tag) tag); // Loom :: decompile error
              });
          }
  
-@@ -1250,6 +1253,7 @@
+@@ -1250,6 +1252,7 @@
          this.clientChatColorsEnabled = clientsettingsc2spacket.hasChatColors();
          this.getDataTracker().set(ServerPlayerEntity.PLAYER_MODEL_PARTS, (byte) clientsettingsc2spacket.getPlayerModelBitMask());
          this.getDataTracker().set(ServerPlayerEntity.MAIN_ARM, (byte) (clientsettingsc2spacket.getMainArm() == Arm.LEFT ? 0 : 1));
@@ -34,7 +26,7 @@
      }
  
      public ChatVisibility getClientChatVisibility() {
-@@ -1286,7 +1290,7 @@
+@@ -1286,7 +1289,7 @@
      }
  
      public void onStartedTracking(Entity entity) {

@@ -1,15 +1,14 @@
 --- a/net/minecraft/item/ArmorStandItem.java
 +++ b/net/minecraft/item/ArmorStandItem.java
-@@ -48,7 +48,11 @@
-                     if (armorstandentity == null) {
+@@ -49,6 +49,11 @@
                          return ActionResult.FAIL;
                      }
--
+ 
 +                    // Loom start :: fire ArmorStandPlacedEvent
 +                    if (itemplacementcontext.getPlayer() != null && org.loomdev.loom.event.LoomEventDispatcher.onArmorStandPlaced(armorstandentity, itemplacementcontext.getPlayer()).isCancelled()) {
 +                        return ActionResult.FAIL;
 +                    } // TODO dispenser event
 +                    // Loom end
-                     serverworld.method_30771(armorstandentity);
+                     serverworld.spawnEntityAndPassengers(armorstandentity);
                      float f = (float) MathHelper.floor((MathHelper.wrapDegrees(itemusagecontext.getPlayerYaw() - 180.0F) + 22.5F) / 45.0F) * 45.0F;
  

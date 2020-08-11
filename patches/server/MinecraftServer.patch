@@ -30,7 +30,7 @@
          Thread thread = new Thread(() -> {
 @@ -223,14 +232,14 @@
          thread.setUncaughtExceptionHandler((thread1, throwable) -> {
-             MinecraftServer.LOGGER.error((Object) throwable);
+             MinecraftServer.LOGGER.error(throwable);
          });
 -        S s0 = (MinecraftServer) function.apply(thread);
 +        S s0 = (S) function.apply(thread); // Loom :: decompile error
@@ -40,15 +40,15 @@
          return s0;
      }
  
--    public MinecraftServer(Thread thread, class_5455.class_5457 class_5455_class_5457, LevelStorage.Session levelstorage_session, SaveProperties saveproperties, ResourcePackManager resourcepackmanager, Proxy proxy, DataFixer datafixer, ServerResourceManager serverresourcemanager, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) {
-+    public MinecraftServer(joptsimple.OptionSet optionSet, Thread thread, class_5455.class_5457 class_5455_class_5457, LevelStorage.Session levelstorage_session, SaveProperties saveproperties, ResourcePackManager resourcepackmanager, Proxy proxy, DataFixer datafixer, ServerResourceManager serverresourcemanager, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) { // Loom :: add optionSet
+-    public MinecraftServer(Thread thread, DynamicRegistryManager.Impl dynamicregistrymanager_impl, LevelStorage.Session levelstorage_session, SaveProperties saveproperties, ResourcePackManager resourcepackmanager, Proxy proxy, DataFixer datafixer, ServerResourceManager serverresourcemanager, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) {
++    public MinecraftServer(joptsimple.OptionSet optionSet, Thread thread, DynamicRegistryManager.Impl dynamicregistrymanager_impl, LevelStorage.Session levelstorage_session, SaveProperties saveproperties, ResourcePackManager resourcepackmanager, Proxy proxy, DataFixer datafixer, ServerResourceManager serverresourcemanager, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) { // Loom :: add optionSet
          super("Server");
          this.tickTimeTracker = new TickTimeTracker(Util.nanoTimeSupplier, this::getTicks);
          this.profiler = DummyProfiler.INSTANCE;
 @@ -263,6 +272,10 @@
          this.structureManager = new StructureManager(serverresourcemanager.getResourceManager(), levelstorage_session, datafixer);
          this.serverThread = thread;
-         this.workerExecutor = Util.getServerWorkerExecutor();
+         this.workerExecutor = Util.getMainWorkerExecutor();
 +        // Loom start :: start loom server
 +        this.optionSet = optionSet;
 +        this.loomServer = new org.loomdev.loom.server.ServerImpl(this);
@@ -71,7 +71,7 @@
 +                    if (i > 5000L && this.timeReference - this.lastTimeReference >= 30000L) {
                          long j = i / 50L;
  
-                         MinecraftServer.LOGGER.warn("Can't keep up! Is the server overloaded? Running {}ms or {} ticks behind", (Object) i, (Object) j);
+                         MinecraftServer.LOGGER.warn("Can't keep up! Is the server overloaded? Running {}ms or {} ticks behind", i, j);
 @@ -660,6 +676,14 @@
                          this.lastTimeReference = this.timeReference;
                      }
@@ -151,7 +151,7 @@
              return ServerResourceManager.reload(immutablelist, this.isDedicated() ? CommandManager.RegistrationEnvironment.DEDICATED : CommandManager.RegistrationEnvironment.INTEGRATED, this.getFunctionPermissionLevel(), this.workerExecutor, this);
          }).thenAcceptAsync((serverresourcemanager) -> {
 @@ -1718,15 +1752,5 @@
-         return this.field_25132;
+         return this.registryManager;
      }
  
 -    public void executeTask(Runnable runnable) {

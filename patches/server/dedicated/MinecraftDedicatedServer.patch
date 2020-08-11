@@ -4,16 +4,16 @@
      @Nullable
      private DedicatedServerGui gui;
  
--    public MinecraftDedicatedServer(Thread thread, class_5455.class_5457 class_5455_class_5457, LevelStorage.Session levelstorage_session, ResourcePackManager resourcepackmanager, ServerResourceManager serverresourcemanager, SaveProperties saveproperties, ServerPropertiesLoader serverpropertiesloader, DataFixer datafixer, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) {
--        super(thread, class_5455_class_5457, levelstorage_session, saveproperties, resourcepackmanager, Proxy.NO_PROXY, datafixer, serverresourcemanager, minecraftsessionservice, gameprofilerepository, usercache, worldgenerationprogresslistenerfactory);
-+    public MinecraftDedicatedServer(joptsimple.OptionSet optionSet, Thread thread, class_5455.class_5457 class_5455_class_5457, LevelStorage.Session levelstorage_session, ResourcePackManager resourcepackmanager, ServerResourceManager serverresourcemanager, SaveProperties saveproperties, ServerPropertiesLoader serverpropertiesloader, DataFixer datafixer, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) {
-+        super(thread, class_5455_class_5457, levelstorage_session, saveproperties, resourcepackmanager, Proxy.NO_PROXY, datafixer, serverresourcemanager, minecraftsessionservice, gameprofilerepository, usercache, worldgenerationprogresslistenerfactory); // Loom :: add optionSet
+-    public MinecraftDedicatedServer(Thread thread, DynamicRegistryManager.Impl dynamicregistrymanager_impl, LevelStorage.Session levelstorage_session, ResourcePackManager resourcepackmanager, ServerResourceManager serverresourcemanager, SaveProperties saveproperties, ServerPropertiesLoader serverpropertiesloader, DataFixer datafixer, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) {
+-        super(thread, dynamicregistrymanager_impl, levelstorage_session, saveproperties, resourcepackmanager, Proxy.NO_PROXY, datafixer, serverresourcemanager, minecraftsessionservice, gameprofilerepository, usercache, worldgenerationprogresslistenerfactory);
++    public MinecraftDedicatedServer(joptsimple.OptionSet optionSet, Thread thread, DynamicRegistryManager.Impl dynamicregistrymanager_impl, LevelStorage.Session levelstorage_session, ResourcePackManager resourcepackmanager, ServerResourceManager serverresourcemanager, SaveProperties saveproperties, ServerPropertiesLoader serverpropertiesloader, DataFixer datafixer, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) { // Loom :: add optionSet
++        super(optionSet, thread, dynamicregistrymanager_impl, levelstorage_session, saveproperties, resourcepackmanager, Proxy.NO_PROXY, datafixer, serverresourcemanager, minecraftsessionservice, gameprofilerepository, usercache, worldgenerationprogresslistenerfactory); // Loom :: add optionSet
          this.propertiesLoader = serverpropertiesloader;
          this.rconCommandOutput = new RconCommandOutput(this);
      }
 @@ -165,6 +165,7 @@
              UserCache.setUseRemote(this.isOnlineMode());
-             MinecraftDedicatedServer.LOGGER.info("Preparing level \"{}\"", (Object) this.getLevelName());
+             MinecraftDedicatedServer.LOGGER.info("Preparing level \"{}\"", this.getLevelName());
              this.loadWorld();
 +            ((org.loomdev.loom.plugin.PluginManagerImpl) this.loomServer.getPluginManager()).enableAll(); // Loom :: enable plugins after world load
              long j = Util.getMeasuringTimeNano() - i;

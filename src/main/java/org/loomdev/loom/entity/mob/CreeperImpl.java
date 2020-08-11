@@ -25,7 +25,7 @@ public class CreeperImpl extends HostileEntityImpl implements Creeper {
 
     @Override
     public boolean isCharged() {
-        return getMinecraftEntity().T_();
+        return getMinecraftEntity().S_();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class CreeperImpl extends HostileEntityImpl implements Creeper {
 
     @Override
     public void ignite() {
-        getMinecraftEntity().setIgnited();
+        getMinecraftEntity().ignite();
     }
 
     @Override

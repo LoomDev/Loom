@@ -13,8 +13,8 @@
          return new PassiveEntity.PassiveData(0.0F);
      }
  
--    public PassiveEntity method_5613(ServerWorld serverworld, PassiveEntity passiveentity) {
--        return this.method_5613(serverworld, passiveentity);
+-    public PassiveEntity createChild(ServerWorld serverworld, PassiveEntity passiveentity) {
+-        return this.createChild(serverworld, passiveentity);
 -    }
 +    // Loom :: decompile error
  

@@ -19,11 +19,11 @@
 @@ -66,7 +73,13 @@
                      }
  
-                     if (world.isAir(blockpos2.method_30931()) && this.hasBurnableBlock(world, blockpos2)) {
+                     if (world.isAir(blockpos2.up()) && this.hasBurnableBlock(world, blockpos2)) {
 +                        // Loom start :: fire BlockIgnitedEvent (TODO: blockpos2.method_30931() = up)
-+                        org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos2.method_30931(), blockpos, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LAVA).thenAccept(event -> {
++                        org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos2.up(), blockpos, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LAVA).thenAccept(event -> {
 +                            if (!event.isCancelled()) {
-                         world.setBlockState(blockpos2.method_30931(), AbstractFireBlock.getState(world, blockpos2));
+                         world.setBlockState(blockpos2.up(), AbstractFireBlock.getState(world, blockpos2));
 +                            }
 +                        });
 +                        // Loom end

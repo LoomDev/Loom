@@ -33,6 +33,6 @@
 +        }
 +        // Loom end
 +
-         if (playerentity != null && !playerentity.abilities.allowModifyWorld && !this.method_7944(itemusagecontext.getWorld().method_8514(), cachedblockposition)) {
+         if (playerentity != null && !playerentity.abilities.allowModifyWorld && !this.canPlaceOn(itemusagecontext.getWorld().getTagManager(), cachedblockposition)) {
              return ActionResult.PASS;
          } else {

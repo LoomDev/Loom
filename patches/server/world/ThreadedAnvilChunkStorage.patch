@@ -16,38 +16,29 @@
                  Optional<Chunk> optional = either.left();
  
 @@ -345,7 +348,7 @@
-             ThreadedAnvilChunkStorage.LOGGER.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", (Object) this.saveDir.getName());
+             ThreadedAnvilChunkStorage.LOGGER.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", this.saveDir.getName());
          } else {
-             this.chunkHolders.values().stream().filter(ChunkHolder::isTicking).forEach((chunkholder) -> {
--                Chunk chunk = (Chunk) chunkholder.getFuture().getNow((Object) null);
-+                Chunk chunk = (Chunk) chunkholder.getFuture().getNow(null); // Loom :: decompile error
+             this.chunkHolders.values().stream().filter(ChunkHolder::isAccessible).forEach((chunkholder) -> {
+-                Chunk chunk = (Chunk) chunkholder.getSavingFuture().getNow((Object) null);
++                Chunk chunk = (Chunk) chunkholder.getSavingFuture().getNow(null); // Loom :: decompile error
  
                  if (chunk instanceof ReadOnlyChunk || chunk instanceof WorldChunk) {
                      this.save(chunk);
 @@ -395,7 +398,7 @@
  
      private void tryUnloadChunk(long i, ChunkHolder chunkholder) {
-         CompletableFuture<Chunk> completablefuture = chunkholder.getFuture();
+         CompletableFuture<Chunk> completablefuture = chunkholder.getSavingFuture();
 -        Consumer consumer = (chunk) -> {
 +        Consumer<Chunk> consumer = (chunk) -> { // Loom :: decompile error
-             CompletableFuture<Chunk> completablefuture1 = chunkholder.getFuture();
+             CompletableFuture<Chunk> completablefuture1 = chunkholder.getSavingFuture();
  
              if (completablefuture1 != completablefuture) {
-@@ -620,7 +623,7 @@
- 
-                             if (!(entity instanceof PlayerEntity) && !this.world.loadEntity(entity)) {
-                                 if (list == null) {
--                                    list = Lists.newArrayList((Object[]) (entity));
-+                                    list = Lists.newArrayList(entity); // Loom :: decompile error
-                                 } else {
-                                     list.add(entity);
-                                 }
 @@ -829,7 +832,7 @@
                  return chunk instanceof WorldChunk ? Optional.of((WorldChunk) chunk) : Optional.empty();
              });
  
--            csvwriter.printRow(chunkpos.x, chunkpos.z, chunkholder.getLevel(), optional.isPresent(), optional.map(Chunk::getStatus).orElse((Object) null), optional1.map(WorldChunk::getLevelType).orElse((Object) null), getFutureStatus(chunkholder.getBorderFuture()), getFutureStatus(chunkholder.getTickingFuture()), getFutureStatus(chunkholder.getEntityTickingFuture()), this.ticketManager.getTicket(long2objectmap_entry.getLongKey()), !this.isTooFarFromPlayersToSpawnMobs(chunkpos), optional1.map((worldchunk) -> {
-+            csvwriter.printRow(chunkpos.x, chunkpos.z, chunkholder.getLevel(), optional.isPresent(), optional.map(Chunk::getStatus).orElse(null), optional1.map(WorldChunk::getLevelType).orElse(null), getFutureStatus(chunkholder.getBorderFuture()), getFutureStatus(chunkholder.getTickingFuture()), getFutureStatus(chunkholder.getEntityTickingFuture()), this.ticketManager.getTicket(long2objectmap_entry.getLongKey()), !this.isTooFarFromPlayersToSpawnMobs(chunkpos), optional1.map((worldchunk) -> { // Loom :: decompile error
+-            csvwriter.printRow(chunkpos.x, chunkpos.z, chunkholder.getLevel(), optional.isPresent(), optional.map(Chunk::getStatus).orElse((Object) null), optional1.map(WorldChunk::getLevelType).orElse((Object) null), getFutureStatus(chunkholder.getAccessibleFuture()), getFutureStatus(chunkholder.getTickingFuture()), getFutureStatus(chunkholder.getEntityTickingFuture()), this.ticketManager.getTicket(entry.getLongKey()), !this.isTooFarFromPlayersToSpawnMobs(chunkpos), optional1.map((worldchunk) -> {
++            csvwriter.printRow(chunkpos.x, chunkpos.z, chunkholder.getLevel(), optional.isPresent(), optional.map(Chunk::getStatus).orElse(null), optional1.map(WorldChunk::getLevelType).orElse(null), getFutureStatus(chunkholder.getAccessibleFuture()), getFutureStatus(chunkholder.getTickingFuture()), getFutureStatus(chunkholder.getEntityTickingFuture()), this.ticketManager.getTicket(entry.getLongKey()), !this.isTooFarFromPlayersToSpawnMobs(chunkpos), optional1.map((worldchunk) -> { // Loom :: decompile error
                  return Stream.of(worldchunk.getEntitySectionArray()).mapToInt(TypeFilterableList::size).sum();
              }).orElse(0), optional1.map((worldchunk) -> {
                  return worldchunk.getBlockEntities().size();

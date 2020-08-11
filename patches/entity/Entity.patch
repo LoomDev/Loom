@@ -18,6 +18,24 @@
      protected static final Logger LOGGER = LogManager.getLogger();
      private static final AtomicInteger MAX_ENTITY_ID = new AtomicInteger();
      private static final List<ItemStack> EMPTY_STACK_LIST = Collections.emptyList();
+@@ -159,7 +170,7 @@
+     protected Tag<Fluid> field_25599;
+     public int timeUntilRegen;
+     protected boolean firstUpdate;
+-    protected final DataTracker dataTracker;
++    public final DataTracker dataTracker; // Loom :: public accessor
+     protected static final TrackedData<Byte> FLAGS = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.BYTE);
+     private static final TrackedData<Integer> AIR = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.INTEGER);
+     private static final TrackedData<Optional<Text>> CUSTOM_NAME = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.OPTIONAL_TEXT_COMPONENT);
+@@ -175,7 +186,7 @@
+     private Vec3d field_25750;
+     public boolean ignoreCameraFrustum;
+     public boolean velocityDirty;
+-    private int netherPortalCooldown;
++    public int netherPortalCooldown; // Loom :: public accessor
+     protected boolean inNetherPortal;
+     protected int netherPortalTime;
+     protected BlockPos lastNetherPortalPosition;
 @@ -189,6 +200,7 @@
      private long pistonMovementTick;
      private EntityDimensions dimensions;
@@ -53,6 +71,22 @@
      }
  
      public boolean handleFallDamage(float f, float f1) {
+@@ -912,13 +924,13 @@
+         return this.touchingWater;
+     }
+ 
+-    private boolean isBeingRainedOn() {
++    public boolean isBeingRainedOn() { // Loom :: decompile error
+         BlockPos blockpos = this.getBlockPos();
+ 
+         return this.world.hasRain(blockpos) || this.world.hasRain(new BlockPos((double) blockpos.getX(), this.getBoundingBox().maxY, (double) blockpos.getZ()));
+     }
+ 
+-    private boolean isInsideBubbleColumn() {
++    public boolean isInsideBubbleColumn() { // Loom :: decompile error
+         return this.world.getBlockState(this.getBlockPos()).isOf(Blocks.BUBBLE_COLUMN);
+     }
+ 
 @@ -1836,7 +1848,13 @@
      }
  
@@ -67,6 +101,15 @@
      }
  
      public boolean isGlowing() {
+@@ -2129,7 +2147,7 @@
+                     }
+ 
+                     return AreaHelper.method_30484(serverworld, class_5459_class_5460, direction_axis, vec3d, this.getDimensions(this.getPose()), this.getVelocity(), this.yaw, this.pitch);
+-                }).orElse((Object) null);
++                }).orElse(null); // Loom :: decompile error
+             }
+         } else {
+             BlockPos blockpos1;
 @@ -2310,7 +2328,7 @@
          return this.getHorizontalFacing();
      }

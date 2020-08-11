@@ -1,6 +1,6 @@
 --- a/net/minecraft/item/TridentItem.java
 +++ b/net/minecraft/item/TridentItem.java
-@@ -81,13 +81,20 @@
+@@ -82,13 +82,20 @@
  
                      playerentity.incrementStat(Stats.USED.getOrCreateStat(this));
                      if (k > 0) {
@@ -22,7 +22,7 @@
  
                          f2 *= f6 / f5;
                          f3 *= f6 / f5;
-@@ -102,15 +109,17 @@
+@@ -103,15 +110,17 @@
  
                          SoundEvent soundevent;
  

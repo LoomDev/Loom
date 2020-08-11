@@ -29,24 +29,6 @@
      }
  
      public void setWeather(int i, int j, boolean flag, boolean flag1) {
-@@ -419,7 +422,7 @@
-         if (this.field_25143) {
-             long i = this.properties.getTime() + 1L;
- 
--            this.worldProperties.setTime(i);
-+            this.worldProperties.method_29034(i);
-             this.worldProperties.getScheduledEvents().processEvents(this.server, i);
-             if (this.properties.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE)) {
-                 this.setTimeOfDay(this.properties.getTimeOfDay() + 1L);
-@@ -429,7 +432,7 @@
-     }
- 
-     public void setTimeOfDay(long i) {
--        this.worldProperties.setTimeOfDay(i);
-+        this.worldProperties.method_29035(i);
-     }
- 
-     public void method_29202(boolean flag, boolean flag1) {
 @@ -445,7 +448,7 @@
  
      private void wakeSleepingPlayers() {

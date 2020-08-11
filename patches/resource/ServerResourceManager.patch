@@ -7,7 +7,7 @@
 -    private final CommandManager commandManager;
 +    public final CommandManager commandManager; // Loom :: public access
      private final RecipeManager recipeManager;
-     private final RegistryTagManager registryTagManager;
+     private final TagManagerLoader registryTagManager;
      private final LootConditionManager lootConditionManager;
 @@ -40,6 +40,11 @@
          this.resourceManager.registerListener(this.lootManager);

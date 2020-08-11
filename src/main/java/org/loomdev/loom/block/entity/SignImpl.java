@@ -19,24 +19,18 @@ public class SignImpl implements Sign {
 
     }
 
-
     @Override
-    public @NotNull List<TextComponent> getLines() {
+    public @NotNull List<String> getLines() {
         return null;
     }
 
     @Override
-    public @NotNull Optional<TextComponent> getLine(int index) {
+    public @NotNull Optional<String> getLine(int i) {
         return Optional.empty();
     }
 
     @Override
     public void setLine(int i, @NotNull String s) {
-
-    }
-
-    @Override
-    public void setLine(int i, @NotNull TextComponent textComponent) {
 
     }
 

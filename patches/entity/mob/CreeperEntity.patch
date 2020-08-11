@@ -1,6 +1,16 @@
 --- a/net/minecraft/entity/mob/CreeperEntity.java
 +++ b/net/minecraft/entity/mob/CreeperEntity.java
-@@ -44,9 +44,9 @@
+@@ -40,13 +40,19 @@
+ 
+ public class CreeperEntity extends HostileEntity {
+ 
++    // Loom start :: additions
++    public void setCharged(boolean charged) {
++        this.dataTracker.set(CreeperEntity.CHARGED, charged);
++    }
++    // Loom end :: additions
++
+     private static final TrackedData<Integer> FUSE_SPEED = DataTracker.registerData(CreeperEntity.class, TrackedDataHandlerRegistry.INTEGER);
      private static final TrackedData<Boolean> CHARGED = DataTracker.registerData(CreeperEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
      private static final TrackedData<Boolean> IGNITED = DataTracker.registerData(CreeperEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
      private int lastFuseTime;
@@ -13,7 +23,7 @@
      private int headsDropped;
  
      public CreeperEntity(EntityType<? extends CreeperEntity> entitytype, World world) {
-@@ -209,7 +209,7 @@
+@@ -209,7 +215,7 @@
          }
      }
  
@@ -22,10 +32,10 @@
          if (!this.world.isClient) {
              Explosion.DestructionType explosion_destructiontype = this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE;
              float f = this.S_() ? 2.0F : 1.0F;
-@@ -251,7 +251,13 @@
+@@ -251,7 +257,13 @@
      }
  
-     public void setIgnited() {
+     public void ignite() {
 +        // Loom start :: fire CreeperIgnitedEvent
 +        org.loomdev.loom.event.LoomEventDispatcher.onCreeperIgnited(this).thenAccept(event -> {
 +            if (!event.isCancelled()) {

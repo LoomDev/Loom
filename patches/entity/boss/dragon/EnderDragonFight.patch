@@ -30,7 +30,7 @@
              throw new IllegalStateException("Dragon respawn isn't in progress, can't skip ahead in the animation.");
          } else {
 @@ -418,7 +418,7 @@
-         class_5464.END_GATEWAY_DELAYED.method_12862(this.world, this.world.getChunkManager().getChunkGenerator(), new Random(), blockpos);
+         ConfiguredFeatures.END_GATEWAY_DELAYED.generate(this.world, this.world.getChunkManager().getChunkGenerator(), new Random(), blockpos);
      }
  
 -    private void generateEndPortal(boolean flag) {

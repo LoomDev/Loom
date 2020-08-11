@@ -1,0 +1,29 @@
+--- a/net/minecraft/util/dynamic/RegistryOps.java
++++ b/net/minecraft/util/dynamic/RegistryOps.java
+@@ -64,7 +64,7 @@
+         this.field_26738 = registryops_class_5506;
+         this.registryManager = dynamicregistrymanager_impl;
+         this.valueHolders = identityhashmap;
+-        this.field_26739 = dynamicops == JsonOps.INSTANCE ? this : new RegistryOps<>(JsonOps.INSTANCE, registryops_class_5506, dynamicregistrymanager_impl, identityhashmap);
++        this.field_26739 = dynamicops == JsonOps.INSTANCE ? (RegistryOps<JsonElement>) this : new RegistryOps<>(JsonOps.INSTANCE, registryops_class_5506, dynamicregistrymanager_impl, identityhashmap); // Loom :: decompile error
+     }
+ 
+     protected <E> DataResult<Pair<Supplier<E>, T>> decodeOrId(T t0, RegistryKey<? extends Registry<E>> registrykey, Codec<E> codec, boolean flag) {
+@@ -152,7 +152,7 @@
+                 mutableregistry.method_31062((OptionalInt) pair.getSecond(), registrykey1, pair.getFirst(), dataresult1.lifecycle());
+             }
+ 
+-            DataResult dataresult2;
++            DataResult<Supplier<E>> dataresult2; // Loom :: decompile error
+ 
+             if (!optional.isPresent() && mutableregistry.get(registrykey1) != null) {
+                 dataresult2 = DataResult.success(() -> {
+@@ -177,7 +177,7 @@
+         });
+     }
+ 
+-    protected <E> DataResult<Registry<E>> method_31152(RegistryKey<? extends Registry<E>> registrykey) {
++    public <E> DataResult<Registry<E>> method_31152(RegistryKey<? extends Registry<E>> registrykey) { // Loom :: decompile error? public accessor
+         return (DataResult) this.registryManager.getOptional(registrykey).map((mutableregistry) -> {
+             return DataResult.success(mutableregistry, mutableregistry.method_31138());
+         }).orElseGet(() -> {

@@ -403,11 +403,6 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public void setInLava(boolean flag) {
-        getMinecraftEntity().inLava = flag;
-    }
-
-    @Override
     public boolean isSubmergedInLava() {
         return getMinecraftEntity().isSubmergedIn(FluidTags.LAVA);
     }

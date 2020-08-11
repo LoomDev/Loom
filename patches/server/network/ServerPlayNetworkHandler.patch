@@ -20,7 +20,7 @@
          optional.ifPresent(serverrecipebook::onRecipeDisplayed);
 @@ -1009,7 +1011,11 @@
      public void onDisconnected(Text text) {
-         ServerPlayNetworkHandler.LOGGER.info("{} lost connection: {}", (Object) this.player.getName().getString(), (Object) text.getString());
+         ServerPlayNetworkHandler.LOGGER.info("{} lost connection: {}", this.player.getName().getString(), text.getString());
          this.server.forcePlayerSampleUpdate();
 -        this.server.getPlayerManager().broadcastChatMessage((new TranslatableText("multiplayer.player.left", new Object[]{this.player.getDisplayName()})).formatted(Formatting.YELLOW), MessageType.SYSTEM, Util.NIL_UUID);
 +        // Loom start :: fire PlayerDisconnectedEvent
