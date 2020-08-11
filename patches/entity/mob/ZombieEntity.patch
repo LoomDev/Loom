@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/mob/ZombieEntity.java
 +++ b/net/minecraft/entity/mob/ZombieEntity.java
-@@ -75,7 +75,7 @@
+@@ -78,7 +78,7 @@
      private final BreakDoorGoal breakDoorsGoal;
      private boolean canBreakDoors;
      private int inWaterTime;
@@ -9,7 +9,7 @@
  
      public ZombieEntity(EntityType<? extends ZombieEntity> entitytype, World world) {
          super(entitytype, world);
-@@ -237,9 +237,16 @@
+@@ -240,9 +240,16 @@
          this.getDataTracker().set(ZombieEntity.CONVERTING_IN_WATER, true);
      }
  

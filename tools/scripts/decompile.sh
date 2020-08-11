@@ -23,14 +23,14 @@ function setup {
     mkdir -p "$toolsdir/decomp"
     cd "$yarndir"
     eval "./gradlew mapNamedJar" || exit 1
-    cp "$yarndir/1.16.1-named.jar" "$toolsdir/decomp" || exit 1
+    cp "$yarndir/1.16.2-named.jar" "$toolsdir/decomp" || exit 1
 }
 
 function decomp {
     echo "Extracting mapped Minecraft source."
     mkdir -p "$decompdir/extracted"
     cd "$decompdir/extracted"
-    unzip "$decompdir/1.16.1-named.jar" || exit 1
+    unzip "$decompdir/1.16.2-named.jar" || exit 1
 
     echo "Decompiling mapped Minecraft source."
     mkdir -p "$decompdir/decompiled"

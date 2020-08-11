@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/mob/PatrolEntity.java
 +++ b/net/minecraft/entity/mob/PatrolEntity.java
-@@ -27,7 +27,7 @@
+@@ -28,7 +28,7 @@
  
      private BlockPos patrolTarget;
      private boolean patrolLeader;

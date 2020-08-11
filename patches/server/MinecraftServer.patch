@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -146,6 +146,7 @@
+@@ -144,6 +144,7 @@
  import org.apache.commons.lang3.Validate;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
@@ -8,7 +8,7 @@
  
  public abstract class MinecraftServer extends ReentrantThreadExecutor<ServerTask> implements SnooperListener, CommandOutput, AutoCloseable {
  
-@@ -212,10 +213,18 @@
+@@ -210,10 +211,18 @@
      private final Executor workerExecutor;
      @Nullable
      private String serverId;
@@ -28,7 +28,7 @@
      public static <S extends MinecraftServer> S startServer(Function<Thread, S> function) {
          AtomicReference<S> atomicreference = new AtomicReference();
          Thread thread = new Thread(() -> {
-@@ -225,14 +234,14 @@
+@@ -223,14 +232,14 @@
          thread.setUncaughtExceptionHandler((thread1, throwable) -> {
              MinecraftServer.LOGGER.error((Object) throwable);
          });
@@ -40,12 +40,12 @@
          return s0;
      }
  
--    public MinecraftServer(Thread thread, RegistryTracker.Modifiable registrytracker_modifiable, LevelStorage.Session levelstorage_session, SaveProperties saveproperties, ResourcePackManager<ResourcePackProfile> resourcepackmanager, Proxy proxy, DataFixer datafixer, ServerResourceManager serverresourcemanager, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) {
-+    public MinecraftServer(joptsimple.OptionSet optionSet, Thread thread, RegistryTracker.Modifiable registrytracker_modifiable, LevelStorage.Session levelstorage_session, SaveProperties saveproperties, ResourcePackManager<ResourcePackProfile> resourcepackmanager, Proxy proxy, DataFixer datafixer, ServerResourceManager serverresourcemanager, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) { // Loom :: add optionSet
+-    public MinecraftServer(Thread thread, class_5455.class_5457 class_5455_class_5457, LevelStorage.Session levelstorage_session, SaveProperties saveproperties, ResourcePackManager resourcepackmanager, Proxy proxy, DataFixer datafixer, ServerResourceManager serverresourcemanager, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) {
++    public MinecraftServer(joptsimple.OptionSet optionSet, Thread thread, class_5455.class_5457 class_5455_class_5457, LevelStorage.Session levelstorage_session, SaveProperties saveproperties, ResourcePackManager resourcepackmanager, Proxy proxy, DataFixer datafixer, ServerResourceManager serverresourcemanager, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) { // Loom :: add optionSet
          super("Server");
          this.tickTimeTracker = new TickTimeTracker(Util.nanoTimeSupplier, this::getTicks);
          this.profiler = DummyProfiler.INSTANCE;
-@@ -265,6 +274,10 @@
+@@ -263,6 +272,10 @@
          this.structureManager = new StructureManager(serverresourcemanager.getResourceManager(), levelstorage_session, datafixer);
          this.serverThread = thread;
          this.workerExecutor = Util.getServerWorkerExecutor();
@@ -56,16 +56,7 @@
      }
  
      private void initScoreboard(PersistentStateManager persistentstatemanager) {
-@@ -468,7 +481,7 @@
-         serverworldproperties.setRaining(false);
-         serverworldproperties.setThundering(false);
-         serverworldproperties.setClearWeatherTime(1000000000);
--        serverworldproperties.setTimeOfDay(6000L);
-+        serverworldproperties.method_29035(6000L); // Loom :: broken mapping - TODO
-         serverworldproperties.setGameMode(GameMode.SPECTATOR);
-     }
- 
-@@ -656,10 +669,13 @@
+@@ -649,10 +662,13 @@
                  this.metadata.setVersion(new ServerMetadata.Version(SharedConstants.getGameVersion().getName(), SharedConstants.getGameVersion().getProtocolVersion()));
                  this.setFavicon(this.metadata);
  
@@ -81,7 +72,7 @@
                          long j = i / 50L;
  
                          MinecraftServer.LOGGER.warn("Can't keep up! Is the server overloaded? Running {}ms or {} ticks behind", (Object) i, (Object) j);
-@@ -667,6 +683,14 @@
+@@ -660,6 +676,14 @@
                          this.lastTimeReference = this.timeReference;
                      }
  
@@ -96,7 +87,7 @@
                      this.timeReference += 50L;
                      TickDurationMonitor tickdurationmonitor = TickDurationMonitor.create("Server");
  
-@@ -850,27 +874,37 @@
+@@ -843,27 +867,37 @@
          this.tickTime = this.tickTime * 0.8F + (float) l / 1000000.0F * 0.19999999F;
          long i1 = Util.getMeasuringTimeNano();
  
@@ -136,7 +127,7 @@
  
              this.profiler.push("tick");
  
-@@ -954,7 +988,7 @@
+@@ -947,7 +981,7 @@
      }
  
      public String getServerModName() {
@@ -145,7 +136,7 @@
      }
  
      public CrashReport populateCrashReport(CrashReport crashreport) {
-@@ -1299,11 +1333,11 @@
+@@ -1294,11 +1328,11 @@
  
      public CompletableFuture<Void> reloadResources(Collection<String> collection) {
          CompletableFuture<Void> completablefuture = CompletableFuture.supplyAsync(() -> {
@@ -159,8 +150,8 @@
          }, this).thenCompose((immutablelist) -> {
              return ServerResourceManager.reload(immutablelist, this.isDedicated() ? CommandManager.RegistrationEnvironment.DEDICATED : CommandManager.RegistrationEnvironment.INTEGRATED, this.getFunctionPermissionLevel(), this.workerExecutor, this);
          }).thenAcceptAsync((serverresourcemanager) -> {
-@@ -1719,15 +1753,5 @@
-         return this.saveProperties;
+@@ -1718,15 +1752,5 @@
+         return this.field_25132;
      }
  
 -    public void executeTask(Runnable runnable) {

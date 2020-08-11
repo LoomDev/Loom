@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/LightningEntity.java
 +++ b/net/minecraft/entity/LightningEntity.java
-@@ -24,7 +24,7 @@
+@@ -25,7 +25,7 @@
      private int ambientTick;
      public long seed;
      private int remainingActions;
@@ -9,7 +9,7 @@
      @Nullable
      private ServerPlayerEntity channeler;
  
-@@ -101,7 +101,14 @@
+@@ -102,7 +102,14 @@
              BlockState blockstate = AbstractFireBlock.getState(this.world, blockpos);
  
              if (this.world.getBlockState(blockpos).isAir() && blockstate.canPlaceAt(this.world, blockpos)) {
@@ -25,7 +25,7 @@
              }
  
              for (int j = 0; j < i; ++j) {
-@@ -109,7 +116,14 @@
+@@ -110,7 +117,14 @@
  
                  blockstate = AbstractFireBlock.getState(this.world, blockpos1);
                  if (this.world.getBlockState(blockpos1).isAir() && blockstate.canPlaceAt(this.world, blockpos1)) {

@@ -44,8 +44,8 @@
          return blockpos.isWithinDistance((Vec3i) this.getBlockPos(), (double) i);
      }
  
--    public PassiveEntity createChild(PassiveEntity passiveentity) {
--        return this.createChild(passiveentity);
+-    public PassiveEntity method_5613(ServerWorld serverworld, PassiveEntity passiveentity) {
+-        return this.method_5613(serverworld, passiveentity);
 -    }
 +    // Loom :: decompile error
  

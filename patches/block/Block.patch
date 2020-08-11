@@ -1,6 +1,6 @@
 --- a/net/minecraft/block/Block.java
 +++ b/net/minecraft/block/Block.java
-@@ -56,9 +56,7 @@
+@@ -58,9 +58,7 @@
              return !VoxelShapes.matchesAnywhere(VoxelShapes.fullCube(), voxelshape, BooleanBiFunction.NOT_SAME);
          }
  
@@ -9,17 +9,17 @@
 -        }
 +        // Loom :: decompile error
      });
-     private static final VoxelShape SOLID_MEDIUM_SQUARE_SHAPE = VoxelShapes.combineAndSimplify(VoxelShapes.fullCube(), createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D), BooleanBiFunction.ONLY_FIRST);
-     private static final VoxelShape SOLID_SMALL_SQUARE_SHAPE = createCuboidShape(7.0D, 0.0D, 7.0D, 9.0D, 10.0D, 9.0D);
-@@ -267,7 +265,13 @@
+     protected final StateManager<Block, BlockState> stateManager;
+     private BlockState defaultState;
+@@ -261,7 +259,13 @@
                  int j = ExperienceOrbEntity.roundToOrbSize(i);
  
                  i -= j;
--                world.spawnEntity(new ExperienceOrbEntity(world, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D, j));
+-                serverworld.spawnEntity(new ExperienceOrbEntity(serverworld, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D, j));
 +                // Loom start :: fire BlockDroppedExperienceEvent
-+                org.loomdev.loom.event.LoomEventDispatcher.onBlockDroppedExperience(world, blockpos, j).thenAccept(event -> {
++                org.loomdev.loom.event.LoomEventDispatcher.onBlockDroppedExperience(serverworld, blockpos, j).thenAccept(event -> {
 +                    if (!event.isCancelled()) {
-+                world.spawnEntity(new ExperienceOrbEntity(world, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D, event.getDroppedExperience()));
++                        serverworld.spawnEntity(new ExperienceOrbEntity(serverworld, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D, event.getDroppedExperience()));
 +                    }
 +                });
 +                // Loom end

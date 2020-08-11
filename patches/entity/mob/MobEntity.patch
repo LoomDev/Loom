@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/mob/MobEntity.java
 +++ b/net/minecraft/entity/mob/MobEntity.java
-@@ -94,8 +94,8 @@
+@@ -95,8 +95,8 @@
      protected final float[] handDropChances;
      private final DefaultedList<ItemStack> armorItems;
      protected final float[] armorDropChances;
@@ -11,16 +11,7 @@
      private final Map<PathNodeType, Float> pathfindingPenalties;
      private Identifier lootTable;
      private long lootTableSeed;
-@@ -1089,7 +1089,7 @@
-             if (itemstack.getItem() instanceof SpawnEggItem) {
-                 if (!this.world.isClient) {
-                     SpawnEggItem spawneggitem = (SpawnEggItem) itemstack.getItem();
--                    Optional<MobEntity> optional = spawneggitem.spawnBaby(playerentity, this, this.getType(), this.world, this.getPos(), itemstack);
-+                    Optional<MobEntity> optional = spawneggitem.spawnBaby(playerentity, this, (EntityType<? extends MobEntity>) this.getType(), this.world, this.getPos(), itemstack); // Loom :: decompile error
- 
-                     optional.ifPresent((mobentity) -> {
-                         this.onPlayerSpawnedChild(playerentity, mobentity);
-@@ -1140,7 +1140,7 @@
+@@ -1150,7 +1150,7 @@
          if (this.removed) {
              return null;
          } else {
@@ -28,4 +19,4 @@
 +            T t0 = (T) entitytype.create(this.world); // Loom :: decompile error
  
              t0.copyPositionAndRotation(this);
-             t0.setCanPickUpLoot(this.canPickUpLoot());
+             t0.setBaby(this.isBaby());

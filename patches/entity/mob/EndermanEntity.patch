@@ -9,7 +9,7 @@
      private static final Predicate<LivingEntity> PLAYER_ENDERMITE_PREDICATE = (livingentity) -> {
          return livingentity instanceof EndermiteEntity && ((EndermiteEntity) livingentity).isPlayerSpawned();
      };
-@@ -225,7 +225,7 @@
+@@ -224,7 +224,7 @@
      }
  
      public boolean hurtByWater() {

@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/world/ServerWorld.java
 +++ b/net/minecraft/server/world/ServerWorld.java
-@@ -149,7 +149,7 @@
+@@ -151,7 +151,7 @@
      private final ServerChunkManager serverChunkManager;
      boolean inEntityTick;
      private final MinecraftServer server;
@@ -9,19 +9,19 @@
      public boolean savingDisabled;
      private boolean allPlayersSleeping;
      private int idleTimeout;
-@@ -166,8 +166,11 @@
+@@ -167,9 +167,11 @@
+     private final EnderDragonFight enderDragonFight;
      private final StructureAccessor structureAccessor;
      private final boolean field_25143;
- 
 +    public final LevelStorage.Session levelstorage_session; // Loom :: expose level storage session
-+
-     public ServerWorld(MinecraftServer minecraftserver, Executor executor, LevelStorage.Session levelstorage_session, ServerWorldProperties serverworldproperties, RegistryKey<World> registrykey, RegistryKey<DimensionType> registrykey1, DimensionType dimensiontype, WorldGenerationProgressListener worldgenerationprogresslistener, ChunkGenerator chunkgenerator, boolean flag, long i, List<Spawner> list, boolean flag1) {
-         super(serverworldproperties, registrykey, registrykey1, dimensiontype, minecraftserver::getProfiler, false, flag, i);
-+        this.levelstorage_session = levelstorage_session;
+ 
+     public ServerWorld(MinecraftServer minecraftserver, Executor executor, LevelStorage.Session levelstorage_session, ServerWorldProperties serverworldproperties, RegistryKey<World> registrykey, DimensionType dimensiontype, WorldGenerationProgressListener worldgenerationprogresslistener, ChunkGenerator chunkgenerator, boolean flag, long i, List<Spawner> list, boolean flag1) {
+         super(serverworldproperties, registrykey, dimensiontype, minecraftserver::getProfiler, false, flag, i);
++        this.levelstorage_session = levelstorage_session; // Loom :: expose level storage session
          this.blockTickScheduler = new ServerTickScheduler<>(this, (block) -> {
              return block == null || block.getDefaultState().isAir();
          }, Registry.BLOCK::getId, this::tickBlock);
-@@ -201,6 +204,7 @@
+@@ -203,6 +205,7 @@
              this.enderDragonFight = null;
          }
  
@@ -29,7 +29,7 @@
      }
  
      public void setWeather(int i, int j, boolean flag, boolean flag1) {
-@@ -417,7 +421,7 @@
+@@ -419,7 +422,7 @@
          if (this.field_25143) {
              long i = this.properties.getTime() + 1L;
  
@@ -38,7 +38,7 @@
              this.worldProperties.getScheduledEvents().processEvents(this.server, i);
              if (this.properties.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE)) {
                  this.setTimeOfDay(this.properties.getTimeOfDay() + 1L);
-@@ -427,7 +431,7 @@
+@@ -429,7 +432,7 @@
      }
  
      public void setTimeOfDay(long i) {
@@ -47,7 +47,7 @@
      }
  
      public void method_29202(boolean flag, boolean flag1) {
-@@ -443,7 +447,7 @@
+@@ -445,7 +448,7 @@
  
      private void wakeSleepingPlayers() {
          ((List) this.players.stream().filter(LivingEntity::isSleeping).collect(Collectors.toList())).forEach((serverplayerentity) -> {
@@ -56,7 +56,7 @@
          });
      }
  
-@@ -1528,19 +1532,5 @@
+@@ -1581,19 +1584,5 @@
          });
      }
  

@@ -22,10 +22,10 @@
          } else {
              BlockPos blockpos1 = blockpos.offset(itemusagecontext.getSide());
  
-             if (AbstractFireBlock.method_30032(world, blockpos1)) {
+             if (AbstractFireBlock.method_30032(world, blockpos1, itemusagecontext.getPlayerFacing())) {
 +                // Loom start :: fire BlockIgnitedEvent
 +                org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos1, playerentity, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FLINT_AND_STEEL).thenAccept(event -> {
-+                   if (!event.isCancelled()) {
++                    if (!event.isCancelled()) {
                  world.playSound(playerentity, blockpos1, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, FlintAndSteelItem.RANDOM.nextFloat() * 0.4F + 0.8F);
                  BlockState blockstate1 = AbstractFireBlock.getState(world, blockpos1);
  
@@ -34,7 +34,7 @@
                      });
                  }
 -
-+                   }
++                    }
 +                });
 +                // Loom end
                  return ActionResult.success(world.isClient());

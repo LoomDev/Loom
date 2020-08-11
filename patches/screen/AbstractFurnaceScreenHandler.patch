@@ -1,6 +1,6 @@
 --- a/net/minecraft/screen/AbstractFurnaceScreenHandler.java
 +++ b/net/minecraft/screen/AbstractFurnaceScreenHandler.java
-@@ -68,7 +68,7 @@
+@@ -71,7 +71,7 @@
      }
  
      public void fillInputSlots(boolean flag, Recipe<?> recipe, ServerPlayerEntity serverplayerentity) {
@@ -9,7 +9,7 @@
      }
  
      public boolean matches(Recipe<? super Inventory> recipe) {
-@@ -145,7 +145,7 @@
+@@ -148,7 +148,7 @@
          return this.world.getRecipeManager().getFirstMatch(this.recipeType, new SimpleInventory(new ItemStack[]{itemstack}), this.world).isPresent();
      }
  

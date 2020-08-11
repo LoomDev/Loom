@@ -1,6 +1,6 @@
 --- a/net/minecraft/resource/ServerResourceManager.java
 +++ b/net/minecraft/resource/ServerResourceManager.java
-@@ -16,7 +16,7 @@
+@@ -17,7 +17,7 @@
  
      private static final CompletableFuture<Unit> field_25334 = CompletableFuture.completedFuture(Unit.INSTANCE);
      private final ReloadableResourceManager resourceManager;
@@ -9,7 +9,7 @@
      private final RecipeManager recipeManager;
      private final RegistryTagManager registryTagManager;
      private final LootConditionManager lootConditionManager;
-@@ -39,6 +39,11 @@
+@@ -40,6 +40,11 @@
          this.resourceManager.registerListener(this.lootManager);
          this.resourceManager.registerListener(this.functionLoader);
          this.resourceManager.registerListener(this.serverAdvancementLoader);

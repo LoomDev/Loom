@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/mob/PiglinBrain.java
 +++ b/net/minecraft/entity/mob/PiglinBrain.java
-@@ -160,10 +160,10 @@
+@@ -162,10 +162,10 @@
  
      protected static void tickActivities(PiglinEntity piglinentity) {
          Brain<PiglinEntity> brain = piglinentity.getBrain();
@@ -13,7 +13,7 @@
  
          if (activity != activity1) {
              method_30091(piglinentity).ifPresent(piglinentity::method_30086);
-@@ -241,7 +241,7 @@
+@@ -244,7 +244,7 @@
          return itemstack1;
      }
  
@@ -22,7 +22,7 @@
          ItemStack itemstack = piglinentity.getStackInHand(Hand.OFF_HAND);
  
          piglinentity.setStackInHand(Hand.OFF_HAND, ItemStack.EMPTY);
-@@ -349,7 +349,7 @@
+@@ -352,7 +352,7 @@
          }
      }
  
@@ -31,44 +31,12 @@
          return item.isIn((Tag) ItemTags.PIGLIN_LOVED);
      }
  
-@@ -516,7 +516,7 @@
+@@ -519,7 +519,7 @@
          return !brain.hasMemoryModule(MemoryModuleType.AVOID_TARGET) ? false : ((LivingEntity) brain.getOptionalMemory(MemoryModuleType.AVOID_TARGET).get()).isInRange(piglinentity, 12.0D);
      }
  
 -    protected static boolean haveHuntedHoglinsRecently(PiglinEntity piglinentity) {
 +    public static boolean haveHuntedHoglinsRecently(PiglinEntity piglinentity) { // Loom :: public access
-         return piglinentity.getBrain().hasMemoryModule(MemoryModuleType.HUNTED_RECENTLY) || getNearbyVisiblePiglins(piglinentity).stream().anyMatch((piglinentity1) -> {
-             return piglinentity1.getBrain().hasMemoryModule(MemoryModuleType.HUNTED_RECENTLY);
+         return piglinentity.getBrain().hasMemoryModule(MemoryModuleType.HUNTED_RECENTLY) || getNearbyVisiblePiglins(piglinentity).stream().anyMatch((class_5418) -> {
+             return class_5418.getBrain().hasMemoryModule(MemoryModuleType.HUNTED_RECENTLY);
          });
-@@ -558,7 +558,7 @@
-         return new TimeLimitedTask<>(new MemoryTransferTask<>(PiglinEntity::isBaby, MemoryModuleType.NEAREST_VISIBLE_BABY_HOGLIN, MemoryModuleType.RIDE_TARGET, PiglinBrain.RIDE_TARGET_MEMORY_DURATION), PiglinBrain.MEMORY_TRANSFER_TASK_DURATION);
-     }
- 
--    protected static void angerAtCloserTargets(PiglinEntity piglinentity, LivingEntity livingentity) {
-+    public static void angerAtCloserTargets(PiglinEntity piglinentity, LivingEntity livingentity) { // Loom :: public access
-         getNearbyPiglins(piglinentity).forEach((piglinentity1) -> {
-             if (livingentity.getType() != EntityType.HOGLIN || piglinentity1.canHunt() && ((HoglinEntity) livingentity).canBeHunted()) {
-                 angerAtIfCloser(piglinentity1, livingentity);
-@@ -574,11 +574,11 @@
-         });
-     }
- 
--    protected static void rememberGroupHunting(PiglinEntity piglinentity) {
-+    public static void rememberGroupHunting(PiglinEntity piglinentity) { // Loom :: public access
-         getNearbyVisiblePiglins(piglinentity).forEach(PiglinBrain::rememberHunting);
-     }
- 
--    protected static void becomeAngryWith(PiglinEntity piglinentity, LivingEntity livingentity) {
-+    public static void becomeAngryWith(PiglinEntity piglinentity, LivingEntity livingentity) { // Loom :: public access
-         if (shouldAttack(livingentity)) {
-             piglinentity.getBrain().forget(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
-             piglinentity.getBrain().remember(MemoryModuleType.ANGRY_AT, livingentity.getUuid(), 600L);
-@@ -671,7 +671,7 @@
-         rememberHunting(piglinentity);
-     }
- 
--    protected static void rememberHunting(PiglinEntity piglinentity) {
-+    public static void rememberHunting(PiglinEntity piglinentity) { // Loom :: public access
-         piglinentity.getBrain().remember(MemoryModuleType.HUNTED_RECENTLY, true, (long) PiglinBrain.HUNT_MEMORY_DURATION.choose(piglinentity.world.random));
-     }
- 

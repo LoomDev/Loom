@@ -10,6 +10,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.Loom;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.damage.DamageSource;
@@ -105,7 +106,7 @@ public class EntityImpl implements Entity {
 
     @Override
     public @NonNull World getWorld() {
-        return WorldImpl.of((ServerWorld) this.mcEntity.getEntityWorld()); // TODO change to the set cached world
+        return Loom.getServer().getWorld(((ServerWorld) this.mcEntity.getEntityWorld()).worldProperties.getLevelName()).get(); // TODO use UUID
     }
 
     @Override

@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/passive/AnimalEntity.java
 +++ b/net/minecraft/entity/passive/AnimalEntity.java
-@@ -28,7 +28,7 @@
+@@ -29,7 +29,7 @@
  public abstract class AnimalEntity extends PassiveEntity {
  
      private int loveTicks;

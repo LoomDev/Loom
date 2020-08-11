@@ -1,5 +1,6 @@
 package org.loomdev.loom.block.entity;
 
+import net.kyori.adventure.text.TextComponent;
 import net.minecraft.block.entity.SignBlockEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.Block;
@@ -15,20 +16,27 @@ public class SignImpl implements Sign {
 
     public SignImpl(@NotNull SignBlockEntity mcState) {
         this.mcState = mcState;
+
     }
 
+
     @Override
-    public @NotNull List<String> getLines() {
+    public @NotNull List<TextComponent> getLines() {
         return null;
     }
 
     @Override
-    public @NotNull Optional<String> getLine(int i) {
+    public @NotNull Optional<TextComponent> getLine(int index) {
         return Optional.empty();
     }
 
     @Override
     public void setLine(int i, @NotNull String s) {
+
+    }
+
+    @Override
+    public void setLine(int i, @NotNull TextComponent textComponent) {
 
     }
 

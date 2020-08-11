@@ -38,7 +38,7 @@
                      } else if (material == Material.UNDERWATER_PLANT || material == Material.REPLACEABLE_UNDERWATER_PLANT) {
 -                        BlockEntity blockentity = blockstate.getBlock().hasBlockEntity() ? world.getBlockEntity(blockpos2) : null;
 -
--                        dropStacks(blockstate, world, blockpos2, blockentity);
+-                        method_9610(blockstate, world, blockpos2, blockentity);
 -                        world.setBlockState(blockpos2, Blocks.AIR.getDefaultState(), 3);
 +                        // Loom :: don't drop stacks here so the event can be cancelled properly
 +                        absorbedBlocks.add(org.loomdev.loom.block.BlockImpl.at(world, blockpos2)); // Loom :: track absorbed blocks
@@ -65,12 +65,12 @@
 +                Material material1 = state.getMaterial();
 +
 +                if (state.getBlock() instanceof FluidDrainable && ((FluidDrainable) blockImpl.getMinecraftBlock().getBlock()).tryDrainFluid(world1, pos, state) != Fluids.EMPTY) {
-+                    // empty
++                    // NOOP
 +                } else if (state.getBlock() instanceof FluidBlock) {
 +                    world1.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
 +                } else if (material1 == Material.UNDERWATER_PLANT || material1 == Material.REPLACEABLE_UNDERWATER_PLANT) {
 +                    BlockEntity blockentity = state.getBlock().hasBlockEntity() ? world1.getBlockEntity(pos) : null;
-+                    dropStacks(state, world1, pos, blockentity);
++                    method_9610(state, world1, pos, blockentity);
 +                    world1.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
 +                }
 +            }

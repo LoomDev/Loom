@@ -10,15 +10,15 @@
  import net.minecraft.advancement.Advancement;
  import net.minecraft.advancement.criterion.Criteria;
 @@ -401,7 +403,7 @@
+ 
      public void onRecipeBookData(RecipeBookDataC2SPacket recipebookdatac2spacket) {
          NetworkThreadUtils.forceMainThread(recipebookdatac2spacket, this, this.player.getServerWorld());
-         if (recipebookdatac2spacket.getMode() == RecipeBookDataC2SPacket.Mode.SHOWN) {
--            Optional optional = this.server.getRecipeManager().get(recipebookdatac2spacket.getRecipeId());
-+            Optional<? extends net.minecraft.recipe.Recipe<?>> optional = this.server.getRecipeManager().get(recipebookdatac2spacket.getRecipeId());
-             ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
+-        Optional optional = this.server.getRecipeManager().get(recipebookdatac2spacket.getRecipeId());
++        Optional<? extends net.minecraft.recipe.Recipe<?>> optional = this.server.getRecipeManager().get(recipebookdatac2spacket.getRecipeId()); // Loom :: decompile error
+         ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
  
-             optional.ifPresent(serverrecipebook::onRecipeDisplayed);
-@@ -1015,7 +1017,11 @@
+         optional.ifPresent(serverrecipebook::onRecipeDisplayed);
+@@ -1009,7 +1011,11 @@
      public void onDisconnected(Text text) {
          ServerPlayNetworkHandler.LOGGER.info("{} lost connection: {}", (Object) this.player.getName().getString(), (Object) text.getString());
          this.server.forcePlayerSampleUpdate();
@@ -31,7 +31,7 @@
          this.player.onDisconnect();
          this.server.getPlayerManager().remove(this.player);
          if (this.isHost()) {
-@@ -1071,7 +1077,16 @@
+@@ -1065,7 +1071,16 @@
      }
  
      public void onGameMessage(ChatMessageC2SPacket chatmessagec2spacket) {
@@ -48,7 +48,7 @@
          if (this.player.getClientChatVisibility() == ChatVisibility.HIDDEN) {
              this.sendPacket(new GameMessageS2CPacket((new TranslatableText("chat.cannotSend")).formatted(Formatting.RED), MessageType.SYSTEM, Util.NIL_UUID));
          } else {
-@@ -1088,9 +1103,17 @@
+@@ -1082,9 +1097,17 @@
              if (s.startsWith("/")) {
                  this.executeCommand(s);
              } else {

@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/boss/dragon/EnderDragonFight.java
 +++ b/net/minecraft/entity/boss/dragon/EnderDragonFight.java
-@@ -60,7 +60,7 @@
+@@ -59,7 +59,7 @@
  
      private static final Logger LOGGER = LogManager.getLogger();
      private static final Predicate<Entity> VALID_ENTITY = EntityPredicates.VALID_ENTITY.and(EntityPredicates.maxDistance(0.0D, 128.0D, 0.0D, 192.0D));
@@ -9,7 +9,7 @@
      private final ServerWorld world;
      private final List<Integer> gateways;
      private final BlockPattern endPortalPattern;
-@@ -72,8 +72,8 @@
+@@ -71,8 +71,8 @@
      private boolean previouslyKilled;
      private UUID dragonUuid;
      private boolean doLegacyCheck;
@@ -20,7 +20,7 @@
      private int spawnStateTimer;
      private List<EndCrystalEntity> crystals;
  
-@@ -234,7 +234,7 @@
+@@ -233,7 +233,7 @@
  
      }
  
@@ -29,8 +29,8 @@
          if (this.dragonSpawnState == null) {
              throw new IllegalStateException("Dragon respawn isn't in progress, can't skip ahead in the animation.");
          } else {
-@@ -419,7 +419,7 @@
-         Feature.END_GATEWAY.configure(EndGatewayFeatureConfig.createConfig()).generate(this.world, this.world.getStructureAccessor(), this.world.getChunkManager().getChunkGenerator(), new Random(), blockpos);
+@@ -418,7 +418,7 @@
+         class_5464.END_GATEWAY_DELAYED.method_12862(this.world, this.world.getChunkManager().getChunkGenerator(), new Random(), blockpos);
      }
  
 -    private void generateEndPortal(boolean flag) {

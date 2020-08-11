@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/mob/CreeperEntity.java
 +++ b/net/minecraft/entity/mob/CreeperEntity.java
-@@ -43,9 +43,9 @@
+@@ -44,9 +44,9 @@
      private static final TrackedData<Boolean> CHARGED = DataTracker.registerData(CreeperEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
      private static final TrackedData<Boolean> IGNITED = DataTracker.registerData(CreeperEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
      private int lastFuseTime;
@@ -13,28 +13,7 @@
      private int headsDropped;
  
      public CreeperEntity(EntityType<? extends CreeperEntity> entitytype, World world) {
-@@ -187,8 +187,20 @@
- 
-     public void onStruckByLightning(LightningEntity lightningentity) {
-         super.onStruckByLightning(lightningentity);
-+        // Loom start :: call CreeperChargedEvent
-+        org.loomdev.loom.event.LoomEventDispatcher.onCreeperCharged(this, lightningentity).thenAccept(event -> {
-+            if (!event.isCancelled()) {
-         this.dataTracker.set(CreeperEntity.CHARGED, true);
-+            }
-+        });
-+        // Loom end
-+    }
-+
-+    // Loom start :: set charged method
-+    public void setCharged(boolean charged) {
-+        this.dataTracker.set(CreeperEntity.CHARGED, charged);
-     }
-+    // Loom end
- 
-     protected ActionResult interactMob(PlayerEntity playerentity, Hand hand) {
-         ItemStack itemstack = playerentity.getStackInHand(hand);
-@@ -208,7 +220,7 @@
+@@ -209,7 +209,7 @@
          }
      }
  
@@ -42,8 +21,8 @@
 +    public void explode() { // Loom :: public access
          if (!this.world.isClient) {
              Explosion.DestructionType explosion_destructiontype = this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE;
-             float f = this.T_() ? 2.0F : 1.0F;
-@@ -250,7 +262,13 @@
+             float f = this.S_() ? 2.0F : 1.0F;
+@@ -251,7 +251,13 @@
      }
  
      public void setIgnited() {

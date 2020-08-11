@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/decoration/ArmorStandEntity.java
 +++ b/net/minecraft/entity/decoration/ArmorStandEntity.java
-@@ -64,10 +64,10 @@
+@@ -66,10 +66,10 @@
      private int disabledSlots;
      private EulerAngle headRotation;
      private EulerAngle bodyRotation;
@@ -15,7 +15,7 @@
  
      public ArmorStandEntity(EntityType<? extends ArmorStandEntity> entitytype, World world) {
          super(entitytype, world);
-@@ -631,7 +631,7 @@
+@@ -633,7 +633,7 @@
          return this.isMarker() ? PistonBehavior.IGNORE : super.getPistonBehavior();
      }
  
@@ -24,7 +24,7 @@
          this.dataTracker.set(ArmorStandEntity.ARMOR_STAND_FLAGS, this.setBitField((Byte) this.dataTracker.get(ArmorStandEntity.ARMOR_STAND_FLAGS), 1, flag));
      }
  
-@@ -639,7 +639,7 @@
+@@ -641,7 +641,7 @@
          return ((Byte) this.dataTracker.get(ArmorStandEntity.ARMOR_STAND_FLAGS) & 1) != 0;
      }
  
@@ -33,7 +33,7 @@
          this.dataTracker.set(ArmorStandEntity.ARMOR_STAND_FLAGS, this.setBitField((Byte) this.dataTracker.get(ArmorStandEntity.ARMOR_STAND_FLAGS), 4, flag));
      }
  
-@@ -647,7 +647,7 @@
+@@ -649,7 +649,7 @@
          return ((Byte) this.dataTracker.get(ArmorStandEntity.ARMOR_STAND_FLAGS) & 4) != 0;
      }
  
@@ -42,7 +42,7 @@
          this.dataTracker.set(ArmorStandEntity.ARMOR_STAND_FLAGS, this.setBitField((Byte) this.dataTracker.get(ArmorStandEntity.ARMOR_STAND_FLAGS), 8, flag));
      }
  
-@@ -655,7 +655,7 @@
+@@ -657,7 +657,7 @@
          return ((Byte) this.dataTracker.get(ArmorStandEntity.ARMOR_STAND_FLAGS) & 8) != 0;
      }
  

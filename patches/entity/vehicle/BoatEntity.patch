@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/vehicle/BoatEntity.java
 +++ b/net/minecraft/entity/vehicle/BoatEntity.java
-@@ -373,7 +373,7 @@
+@@ -380,7 +380,7 @@
          this.dataTracker.set(BoatEntity.RIGHT_PADDLE_MOVING, flag1);
      }
  
