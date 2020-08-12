@@ -1,7 +1,9 @@
 package org.loomdev.loom.entity.decoration;
 
 import net.minecraft.entity.decoration.ItemFrameEntity;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.ItemFrame;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.loom.item.ItemStackImpl;
@@ -10,6 +12,11 @@ public class ItemFrameImpl extends DecorationEntityImpl implements ItemFrame {
 
     public ItemFrameImpl(ItemFrameEntity entity) {
         super(entity);
+    }
+
+    @Override
+    public @NonNull EntityType getType() {
+        return EntityType.ITEM_FRAME;
     }
 
     @Override
