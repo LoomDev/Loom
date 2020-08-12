@@ -11,9 +11,7 @@ import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.*;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.entity.projectile.DragonFireballEntity;
-import net.minecraft.entity.projectile.FireworkRocketEntity;
+import net.minecraft.entity.projectile.*;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.loomdev.loom.entity.boss.dragon.EnderDragonImpl;
@@ -25,9 +23,7 @@ import org.loomdev.loom.entity.misc.LightningImpl;
 import org.loomdev.loom.entity.mob.*;
 import org.loomdev.loom.entity.passive.*;
 import org.loomdev.loom.entity.player.PlayerImpl;
-import org.loomdev.loom.entity.projectile.ArrowImpl;
-import org.loomdev.loom.entity.projectile.DragonFireballImpl;
-import org.loomdev.loom.entity.projectile.FireworkRocketImpl;
+import org.loomdev.loom.entity.projectile.*;
 import org.loomdev.loom.entity.vehicle.BoatImpl;
 
 import java.lang.reflect.Constructor;
@@ -45,7 +41,7 @@ public final class LoomEntityFactory {
 
     public static EntityImpl getLoomEntity(Entity entity) {
         if (!entityClassMappings.containsKey(entity.getClass())) {
-            return null; // TODO change back
+            return null; // TODO change back after dev
             // throw new IllegalStateException("No entity class mapping was found for " + entity.getClass());
         }
 
@@ -96,6 +92,7 @@ public final class LoomEntityFactory {
         register(IronGolemEntity.class, IronGolemImpl.class);
         register(ItemEntity.class, ItemImpl.class);
         register(ItemFrameEntity.class, ItemFrameImpl.class);
+        register(FireballEntity.class, LargeFireballImpl.class);
 
         register(GuardianEntity.class, GuardianImpl.class);
 
@@ -104,6 +101,7 @@ public final class LoomEntityFactory {
         // FIXME temp so i can start the world;
 
         register(ServerPlayerEntity.class, PlayerImpl.class);
+        register(SmallFireballEntity.class, SmallFireballImpl.class);
         register(SpiderEntity.class, SpiderImpl.class);
         register(ZombieEntity.class, ZombieImpl.class);
     }

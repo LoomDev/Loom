@@ -1,0 +1,11 @@
+--- a/net/minecraft/entity/projectile/AbstractFireballEntity.java
++++ b/net/minecraft/entity/projectile/AbstractFireballEntity.java
+@@ -13,7 +13,7 @@
+ 
+ public abstract class AbstractFireballEntity extends ExplosiveProjectileEntity {
+ 
+-    private static final TrackedData<ItemStack> ITEM = DataTracker.registerData(AbstractFireballEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
++    public static final TrackedData<ItemStack> ITEM = DataTracker.registerData(AbstractFireballEntity.class, TrackedDataHandlerRegistry.ITEM_STACK); // Loom :: public access
+ 
+     public AbstractFireballEntity(EntityType<? extends AbstractFireballEntity> entitytype, World world) {
+         super(entitytype, world);
