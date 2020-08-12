@@ -134,7 +134,7 @@ public class TaskImpl extends FutureTask<Void> implements Task {
 
         @Override
         public Builder delay(long l, TimeUnit timeUnit) {
-            this.delayTicks = timeUnit.convert(l, TimeUnit.SECONDS) / 20;
+            this.delayTicks = timeUnit.convert(l, TimeUnit.SECONDS) * 20;
             return this;
         }
 
@@ -146,7 +146,7 @@ public class TaskImpl extends FutureTask<Void> implements Task {
 
         @Override
         public Builder interval(long l, TimeUnit timeUnit) {
-            this.intervalTicks = timeUnit.convert(l, TimeUnit.SECONDS) / 20;
+            this.intervalTicks = timeUnit.convert(l, TimeUnit.SECONDS) * 20;
             return this;
         }
 
