@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.projectile;
 
 import net.minecraft.entity.projectile.FireworkRocketEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.FireworkRocket;
 
@@ -12,7 +12,7 @@ public class FireworkRocketImpl extends ProjectileImpl implements FireworkRocket
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.FIREWORK_ROCKET;
     }
 

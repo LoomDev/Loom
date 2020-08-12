@@ -1,18 +1,12 @@
 package org.loomdev.loom.entity.decoration;
 
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.ArmorStand;
-import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.math.EulerAngle;
-import org.loomdev.api.util.Hand;
 import org.loomdev.loom.entity.LivingEntityImpl;
-import org.loomdev.loom.item.ItemStackImpl;
 import org.loomdev.loom.util.transformer.EulerAngleTransformer;
-
-import java.util.Optional;
 
 public class ArmorStandImpl extends LivingEntityImpl implements ArmorStand {
 

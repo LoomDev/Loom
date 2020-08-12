@@ -30,8 +30,6 @@ import java.util.stream.Collectors;
 
 public class PluginManagerImpl implements PluginManager {
 
-    // TODO add states for dependency missing, error when loading, circle dependencies, ... (make plugin text gray)
-
     private static final Logger LOGGER = LogManager.getLogger("Plugin Manager");
 
     private final ServerImpl server;
@@ -290,59 +288,5 @@ public class PluginManagerImpl implements PluginManager {
         });
         return false;
     }
-
-    // region old
-//
-//    @Override
-//    public @NonNull Result unloadPlugin(@NonNull String id) {
-//        PluginContainer plugin = this.plugins.get(id);
-//
-//        if (plugin == null) {
-//            return Result.ALREADY_IN_STATE;
-//        }
-//
-//        try {
-//            PluginMetadata metadata = plugin.getMetadata();
-//            this.disablePlugin(metadata.getId());
-//            this.plugins.remove(metadata.getId());
-//
-//            ((PluginClassLoader) plugin.getClassLoader()).close();
-//            System.gc();
-//
-//            LOGGER.info("Unloaded {} ({}).", metadata.getName().orElse(metadata.getId()), metadata.getVersion().orElse("Unknown version"));
-//            return Result.SUCCESS;
-//        } catch (Exception e) {
-//            LOGGER.error("Failed to unload {}.", plugin.getMetadata().getId(), e);
-//            return Result.FAILED;
-//        }
-//    }
-//
-//
-//    @Override
-//    public @NonNull Result disablePlugin(String id) {
-//        LoomPluginContainer container = (LoomPluginContainer) this.plugins.get(id);
-//        if (container == null) {
-//            return Result.NOT_FOUND;
-//        }
-//
-//        if (container.isDisabled()) {
-//            return Result.ALREADY_IN_STATE;
-//        }
-//
-//        PluginMetadata metadata = container.getMetadata();
-//        Plugin plugin = container.getInstance().get();
-//
-//        asyncExecutor.execute(plugin::onPluginDisable);
-//        this.server.getEventManager().unregister(plugin);
-//        this.server.getCommandManager().unregister(plugin);
-//        this.server.getScheduler().unregisterSchedulers(plugin);
-//        pluginsByInstance.remove(plugin);
-//        container.setInstance(null);
-//        System.gc();
-//
-//        LOGGER.info("Disabled {} ({}).", metadata.getName().orElse(id), metadata.getVersion().orElse("Unknown version"));
-//        return Result.SUCCESS;
-//    }
-    // endregion old
 
 }

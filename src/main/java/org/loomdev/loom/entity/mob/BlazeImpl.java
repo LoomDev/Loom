@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.mob;
 
 import net.minecraft.entity.mob.BlazeEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.mob.Blaze;
 
@@ -12,7 +12,7 @@ public class BlazeImpl extends HostileEntityImpl implements Blaze {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.BLAZE;
     }
 

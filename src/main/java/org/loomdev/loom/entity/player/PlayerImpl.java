@@ -5,10 +5,8 @@ import net.kyori.adventure.text.TextComponent;
 import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlayerListHeaderS2CPacket;
 import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +22,6 @@ import org.loomdev.api.util.GameMode;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.Weather;
 import org.loomdev.loom.entity.LivingEntityImpl;
-import org.loomdev.loom.inventory.InventoryImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.net.InetSocketAddress;

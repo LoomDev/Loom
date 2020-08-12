@@ -1,8 +1,8 @@
 package org.loomdev.loom.entity.mob;
 
 import net.minecraft.entity.mob.GuardianEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.mob.Guardian;
@@ -17,7 +17,7 @@ public class GuardianImpl extends HostileEntityImpl implements Guardian {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.GUARDIAN;
     }
 
@@ -37,7 +37,7 @@ public class GuardianImpl extends HostileEntityImpl implements Guardian {
     }
 
     @Override
-    public @NonNull Optional<LivingEntity> getBeamTarget() {
+    public @NotNull Optional<LivingEntity> getBeamTarget() {
         return Optional.ofNullable(getMinecraftEntity().getBeamTarget()).map(entity -> (LivingEntityImpl) entity.getLoomEntity());
     }
 

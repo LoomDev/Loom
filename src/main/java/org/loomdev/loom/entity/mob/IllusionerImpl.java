@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.mob;
 
 import net.minecraft.entity.mob.IllusionerEntity;
 import net.minecraft.entity.mob.SpellcastingIllagerEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.mob.Illusioner;
 
@@ -12,7 +12,7 @@ public class IllusionerImpl extends SpellcastingIllagerImpl implements Illusione
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.ILLUSIONER;
     }
 

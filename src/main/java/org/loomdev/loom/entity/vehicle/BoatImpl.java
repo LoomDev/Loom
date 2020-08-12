@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.vehicle;
 
 import net.minecraft.entity.vehicle.BoatEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.vehicle.Boat;
 import org.loomdev.loom.entity.EntityImpl;
@@ -13,7 +13,7 @@ public class BoatImpl extends EntityImpl implements Boat {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.BOAT;
     }
 

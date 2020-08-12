@@ -1,8 +1,8 @@
 package org.loomdev.loom.entity;
 
 import net.minecraft.entity.ItemEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.Item;
 import org.loomdev.api.item.ItemStack;
@@ -17,7 +17,7 @@ public class ItemImpl extends EntityImpl implements Item {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.ITEM;
     }
 
@@ -27,7 +27,7 @@ public class ItemImpl extends EntityImpl implements Item {
     }
 
     @Override
-    public @NonNull Optional<UUID> getOwner() {
+    public @NotNull Optional<UUID> getOwner() {
         return Optional.ofNullable(getMinecraftEntity().getOwner());
     }
 
@@ -37,7 +37,7 @@ public class ItemImpl extends EntityImpl implements Item {
     }
 
     @Override
-    public @NonNull Optional<UUID> getThrower() {
+    public @NotNull Optional<UUID> getThrower() {
         return Optional.ofNullable(getMinecraftEntity().getThrower());
     }
 
@@ -47,12 +47,12 @@ public class ItemImpl extends EntityImpl implements Item {
     }
 
     @Override
-    public @NonNull ItemStack getItemStack() {
+    public @NotNull ItemStack getItemStack() {
         return null; // TODO transform
     }
 
     @Override
-    public void setItemStack(@NonNull ItemStack itemStack) {
+    public void setItemStack(@NotNull ItemStack itemStack) {
         // TODO transform
     }
 

@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.passive;
 
 import net.minecraft.entity.passive.FoxEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.Fox;
 
@@ -14,7 +14,7 @@ public class FoxImpl extends AnimalEntityImpl implements Fox {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.FOX;
     }
 
@@ -24,12 +24,12 @@ public class FoxImpl extends AnimalEntityImpl implements Fox {
     }
 
     @Override
-    public @NonNull Type getFoxType() {
+    public @NotNull Type getFoxType() {
         return Type.getById(getMinecraftEntity().getFoxType().getId());
     }
 
     @Override
-    public void setFoxType(@NonNull Type type) {
+    public void setFoxType(@NotNull Type type) {
         getMinecraftEntity().setType(FoxEntity.Type.fromId(type.getId()));
     }
 

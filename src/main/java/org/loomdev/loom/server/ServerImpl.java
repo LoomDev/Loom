@@ -9,11 +9,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.ApiVersion;
 import org.loomdev.api.Loom;
-import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.player.Player;
@@ -24,7 +22,6 @@ import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.server.Server;
 import org.loomdev.api.util.registry.Registry;
 import org.loomdev.api.world.World;
-import org.loomdev.loom.bossbar.BossBarImpl;
 import org.loomdev.loom.command.CommandManagerImpl;
 import org.loomdev.loom.command.ConsoleSource;
 import org.loomdev.loom.entity.player.PlayerImpl;
@@ -81,58 +78,58 @@ public class ServerImpl implements Server {
     }
 
     @Override
-    public @NonNull String getName() {
+    public @NotNull String getName() {
         return "Loom";
     }
 
     @Override
-    public @NonNull String getVersion() {
+    public @NotNull String getVersion() {
         return ServerImpl.class.getPackage().getImplementationVersion();
     }
 
     @Override
-    public @NonNull String getMinecraftVersion() {
+    public @NotNull String getMinecraftVersion() {
         return minecraftServer.getVersion();
     }
 
     @Override
-    public @NonNull ApiVersion getApiVersion() {
+    public @NotNull ApiVersion getApiVersion() {
         return ApiVersion.LATEST;
     }
 
     @Override
-    public @NonNull Path getRootDirectory() {
+    public @NotNull Path getRootDirectory() {
         return minecraftServer.getRunDirectory().toPath();
     }
 
     @Override
-    public @NonNull Path getPluginDirectory() {
+    public @NotNull Path getPluginDirectory() {
         return this.pluginDirectory.toPath();
     }
 
     @Override
-    public @NonNull PluginManager getPluginManager() {
+    public @NotNull PluginManager getPluginManager() {
         return this.pluginManager;
     }
 
     @Override
-    public @NonNull EventManager getEventManager() {
+    public @NotNull EventManager getEventManager() {
         return this.eventManager;
     }
 
     @Override
-    public @NonNull CommandManager getCommandManager() {
+    public @NotNull CommandManager getCommandManager() {
         return this.commandManager;
     }
 
-    @NonNull
+    @NotNull
     @Override
     public SchedulerImpl getScheduler() {
         return scheduler;
     }
 
     @Override
-    public @NonNull Collection<? extends Player> getOnlinePlayers() {
+    public @NotNull Collection<? extends Player> getOnlinePlayers() {
         return this.minecraftServer.getPlayerManager()
                 .getPlayerList()
                 .stream()
@@ -141,27 +138,27 @@ public class ServerImpl implements Server {
     }
 
     @Override
-    public void broadcastMessage(@NonNull String message) {
+    public void broadcastMessage(@NotNull String message) {
         this.broadcastMessage(TextComponent.of(message));
     }
 
     @Override
-    public void broadcastMessage(@NonNull Component component) {
+    public void broadcastMessage(@NotNull Component component) {
         this.getOnlinePlayers().forEach(player -> player.sendMessage(component));
     }
 
     @Override
-    public @NonNull CommandSource getConsoleSource() {
+    public @NotNull CommandSource getConsoleSource() {
         return this.consoleSource;
     }
 
     @Override
-    public @NonNull Tps getTps() {
+    public @NotNull Tps getTps() {
         return this.tps;
     }
 
     @Override
-    public @NonNull TickTimes getTickTimes() {
+    public @NotNull TickTimes getTickTimes() {
         return this.tickTimes;
     }
 
@@ -180,14 +177,14 @@ public class ServerImpl implements Server {
     }
 
     @Override
-    public @NonNull Optional<World> getWorld(@NonNull String name) {
+    public @NotNull Optional<World> getWorld(@NotNull String name) {
         return this.worlds.values().stream()
                 .filter(world -> world.getName().equals(name))
                 .findFirst();
     }
 
     @Override
-    public @NonNull Optional<World> getWorld(@NonNull UUID uuid) {
+    public @NotNull Optional<World> getWorld(@NotNull UUID uuid) {
         return Optional.ofNullable(this.worlds.get(uuid));
     }
 

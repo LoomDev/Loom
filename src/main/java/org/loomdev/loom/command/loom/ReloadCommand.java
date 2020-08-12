@@ -1,6 +1,6 @@
 package org.loomdev.loom.command.loom;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
 
@@ -14,7 +14,7 @@ public class ReloadCommand extends Command {
     }
 
     @Override
-    public void execute(@NonNull CommandSource source, String[] args) {
+    public void execute(@NotNull CommandSource source, String[] args) {
         // TODO minecraft reload and config stuff.
     }
 }

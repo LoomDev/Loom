@@ -1,8 +1,8 @@
 package org.loomdev.loom.entity.mob;
 
 import net.minecraft.util.math.BlockPos;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.mob.PatrolEntity;
 import org.loomdev.api.world.Location;
 
@@ -40,7 +40,7 @@ public class PatrolEntityImpl extends HostileEntityImpl implements PatrolEntity 
     }
 
     @Override
-    public @NonNull Optional<Location> getPatrolTarget() {
+    public @NotNull Optional<Location> getPatrolTarget() {
         return Optional.ofNullable(getMinecraftEntity().getPatrolTarget())
                 .map(bp -> new Location(null, bp.getX(), bp.getY(), bp.getZ())); // TODO world
     }

@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.mob;
 
 import net.minecraft.entity.mob.ElderGuardianEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.mob.ElderGuardian;
 
@@ -12,7 +12,7 @@ public class ElderGuardianImpl extends GuardianImpl implements ElderGuardian {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.ELDER_GUARDIAN;
     }
 

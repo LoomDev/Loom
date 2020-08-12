@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.boss.dragon;
 
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.phase.PhaseType;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.ComplexEntityPart;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.boss.dragon.DragonFight;
@@ -27,7 +27,7 @@ public class EnderDragonImpl extends MobEntityImpl implements EnderDragon {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.ENDER_DRAGON;
     }
 
@@ -55,12 +55,12 @@ public class EnderDragonImpl extends MobEntityImpl implements EnderDragon {
     }
 
     @Override
-    public @NonNull Phase getPhase() {
+    public @NotNull Phase getPhase() {
         return Phase.getByName(getMinecraftEntity().getPhaseManager().getCurrent().getType().name);
     }
 
     @Override
-    public void setPhase(@NonNull Phase phase) {
+    public void setPhase(@NotNull Phase phase) {
         PhaseType<? extends net.minecraft.entity.boss.dragon.phase.Phase> mcPhase = null;
         switch (phase) {
             case HOLDING_PATTERN:
@@ -101,7 +101,7 @@ public class EnderDragonImpl extends MobEntityImpl implements EnderDragon {
     }
 
     @Override
-    public @NonNull Set<ComplexEntityPart> getParts() {
+    public @NotNull Set<ComplexEntityPart> getParts() {
         return Arrays.stream(getMinecraftEntity().getBodyParts())
                 .map(part -> (EnderDragonPartImpl) part.getLoomEntity())
                 .collect(Collectors.toSet());

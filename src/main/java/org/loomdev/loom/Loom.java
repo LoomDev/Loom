@@ -3,7 +3,6 @@ package org.loomdev.loom;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import net.minecraft.server.Main;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.ApiVersion;
 import org.loomdev.api.plugin.PluginMetadata;
@@ -19,7 +18,7 @@ public class Loom {
 
     public static final PluginMetadata LOOM_PLUGIN = new PluginMetadata() {
         @Override
-        public @NonNull String getId() {
+        public @NotNull String getId() {
             return "loom";
         }
 

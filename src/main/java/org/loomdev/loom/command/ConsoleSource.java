@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Util;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
@@ -17,12 +17,12 @@ public class ConsoleSource implements CommandSource {
     }
 
     @Override
-    public void sendMessage(@NonNull String message) {
+    public void sendMessage(@NotNull String message) {
         minecraftServer.sendSystemMessage(TextTransformer.toMinecraft(TextComponent.of(message)), Util.NIL_UUID);
     }
 
     @Override
-    public void sendMessage(@NonNull Component message) {
+    public void sendMessage(@NotNull Component message) {
         minecraftServer.sendSystemMessage(TextTransformer.toMinecraft(message), Util.NIL_UUID);
     }
 }

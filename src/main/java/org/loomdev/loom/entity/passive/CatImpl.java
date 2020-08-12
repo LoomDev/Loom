@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.passive;
 
 import net.minecraft.entity.passive.CatEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.Cat;
 import org.loomdev.api.util.DyeColor;
@@ -13,7 +13,7 @@ public class CatImpl extends TameableEntityImpl implements Cat {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.CAT;
     }
 

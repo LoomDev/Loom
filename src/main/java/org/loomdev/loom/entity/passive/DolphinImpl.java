@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.passive;
 
 import net.minecraft.entity.passive.DolphinEntity;
 import net.minecraft.util.math.BlockPos;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.Dolphin;
 import org.loomdev.api.world.Location;
@@ -14,7 +14,7 @@ public class DolphinImpl extends PathAwareEntityImpl implements Dolphin {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.DOLPHIN;
     }
 

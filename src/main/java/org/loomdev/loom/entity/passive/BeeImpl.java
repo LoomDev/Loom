@@ -3,8 +3,8 @@ package org.loomdev.loom.entity.passive;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.util.math.BlockPos;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.passive.Bee;
@@ -22,7 +22,7 @@ public class BeeImpl extends AnimalEntityImpl implements Bee {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.BEE;
     }
 
@@ -139,12 +139,12 @@ public class BeeImpl extends AnimalEntityImpl implements Bee {
     }
 
     @Override
-    public void setTarget(@NonNull LivingEntity livingEntity) {
+    public void setTarget(@NotNull LivingEntity livingEntity) {
         getMinecraftEntity().setTarget(((LivingEntityImpl) livingEntity).getMinecraftEntity());
     }
 
     @Override
-    public void forgive(@NonNull Player player) {
+    public void forgive(@NotNull Player player) {
         getMinecraftEntity().forgive(((PlayerImpl) player).getMinecraftEntity());
     }
 }

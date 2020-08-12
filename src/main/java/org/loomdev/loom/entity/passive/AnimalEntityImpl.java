@@ -1,6 +1,6 @@
 package org.loomdev.loom.entity.passive;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.passive.AnimalEntity;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.loom.item.ItemStackImpl;
@@ -43,12 +43,12 @@ public class AnimalEntityImpl extends PassiveEntityImpl implements AnimalEntity 
     }
 
     @Override
-    public void setBreedCause(@NonNull UUID uuid) {
+    public void setBreedCause(@NotNull UUID uuid) {
         getMinecraftEntity().lovingPlayer = uuid;
     }
 
     @Override
-    public boolean isBreedingItem(@NonNull ItemStack itemStack) {
+    public boolean isBreedingItem(@NotNull ItemStack itemStack) {
         return getMinecraftEntity().isBreedingItem(((ItemStackImpl) itemStack).getMinecraftItemStack());
     }
 }

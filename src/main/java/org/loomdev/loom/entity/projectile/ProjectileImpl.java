@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.projectile;
 
 import net.minecraft.entity.projectile.ProjectileEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.projectile.Projectile;
 import org.loomdev.loom.entity.EntityImpl;
@@ -19,13 +19,13 @@ public class ProjectileImpl extends EntityImpl implements Projectile {
     }
 
     @Override
-    public @NonNull Optional<Entity> getOwner() {
+    public @NotNull Optional<Entity> getOwner() {
         return Optional.ofNullable(getMinecraftEntity().getOwner())
                 .map(net.minecraft.entity.Entity::getLoomEntity);
     }
 
     @Override
-    public void setOwner(@NonNull Entity entity) {
+    public void setOwner(@NotNull Entity entity) {
         getMinecraftEntity().setOwner(((EntityImpl) entity).getMinecraftEntity());
     }
 

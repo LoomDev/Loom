@@ -3,7 +3,7 @@ package org.loomdev.loom.entity.boss.dragon;
 import net.minecraft.entity.boss.dragon.EnderDragonFight;
 import net.minecraft.entity.boss.dragon.EnderDragonSpawnState;
 import net.minecraft.util.math.BlockPos;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.boss.dragon.DragonFight;
 import org.loomdev.api.entity.boss.dragon.EnderDragon;
 import org.loomdev.api.world.Location;
@@ -22,12 +22,12 @@ public class DragonFightImpl implements DragonFight {
     }
 
     @Override
-    public @NonNull BossBarImpl getBossBar() {
+    public @NotNull BossBarImpl getBossBar() {
         return bossBar;
     }
 
     @Override
-    public @NonNull EnderDragon getDragon() {
+    public @NotNull EnderDragon getDragon() {
         return this.enderDragon;
     }
 
@@ -58,12 +58,12 @@ public class DragonFightImpl implements DragonFight {
     }
 
     @Override
-    public @NonNull SpawnState getSpawnState() {
+    public @NotNull SpawnState getSpawnState() {
         return this.fight.dragonSpawnState == null ? SpawnState.NONE : SpawnState.valueOf(this.fight.dragonSpawnState.name());
     }
 
     @Override
-    public void setSpawnState(@NonNull SpawnState spawnState) {
+    public void setSpawnState(@NotNull SpawnState spawnState) {
         this.fight.setSpawnState(spawnState == SpawnState.NONE ? null : EnderDragonSpawnState.valueOf(spawnState.name()));
     }
 }

@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.projectile;
 
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.util.registry.Registry;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.projectile.PersistentProjectile;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.sound.Sound;
@@ -44,12 +44,12 @@ public class PersistentProjectileImpl extends ProjectileImpl implements Persiste
     }
 
     @Override
-    public @NonNull PickupPermission getPickupPermission() {
+    public @NotNull PickupPermission getPickupPermission() {
         return PickupPermission.fromOrdinal(getMinecraftEntity().pickupType.ordinal());
     }
 
     @Override
-    public void setPickupPermission(@NonNull PickupPermission pickupPermission) {
+    public void setPickupPermission(@NotNull PickupPermission pickupPermission) {
         getMinecraftEntity().pickupType = PersistentProjectileEntity.PickupPermission.fromOrdinal(pickupPermission.ordinal());
     }
 

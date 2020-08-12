@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.passive;
 
 import net.minecraft.entity.passive.CowEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.Cow;
 
@@ -12,7 +12,7 @@ public class CowImpl extends AnimalEntityImpl implements Cow {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.COW;
     }
 

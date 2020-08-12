@@ -2,8 +2,8 @@ package org.loomdev.loom.entity.decoration;
 
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.util.math.BlockPos;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.EndCrystal;
 import org.loomdev.api.world.Location;
@@ -18,7 +18,7 @@ public class EndCrystalImpl extends EntityImpl implements EndCrystal {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.END_CRYSTAL;
     }
 
@@ -28,7 +28,7 @@ public class EndCrystalImpl extends EntityImpl implements EndCrystal {
     }
 
     @Override
-    public @NonNull Optional<Location> getBeamTarget() {
+    public @NotNull Optional<Location> getBeamTarget() {
         return Optional.ofNullable(getMinecraftEntity().getBeamTarget())
                 .map(p -> new Location(null, p.getX(), p.getY(), p.getZ())); // TODO world
     }

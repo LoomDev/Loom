@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.mob;
 
 import net.minecraft.entity.mob.SpellcastingIllagerEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.mob.SpellcastingIllager;
 
 public class SpellcastingIllagerImpl extends IllagerImpl implements SpellcastingIllager {
@@ -16,12 +16,12 @@ public class SpellcastingIllagerImpl extends IllagerImpl implements Spellcasting
     }
 
     @Override
-    public @NonNull Spell getSpell() {
+    public @NotNull Spell getSpell() {
         return Spell.getById(getMinecraftEntity().spell.id);
     }
 
     @Override
-    public void setSpell(@NonNull Spell spell) {
+    public void setSpell(@NotNull Spell spell) {
         getMinecraftEntity().setSpell(SpellcastingIllagerEntity.Spell.byId(spell.getId()));
     }
 }

@@ -2,8 +2,8 @@ package org.loomdev.loom.entity.passive;
 
 import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.sound.SoundCategory;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.passive.HorseBase;
 import org.loomdev.api.sound.SoundCategories;
 
@@ -98,7 +98,7 @@ public class HorseBaseImpl extends AnimalEntityImpl implements HorseBase {
     }
 
     @Override
-    public void setOwner(@NonNull UUID uuid) {
+    public void setOwner(@NotNull UUID uuid) {
         getMinecraftEntity().setOwnerUuid(uuid);
     }
 

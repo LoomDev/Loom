@@ -1,6 +1,6 @@
 package org.loomdev.loom.entity.boss.dragon;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.boss.dragon.EnderDragon;
 import org.loomdev.api.entity.boss.dragon.EnderDragonPart;
@@ -13,7 +13,7 @@ public class EnderDragonPartImpl extends EntityImpl implements EnderDragonPart {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.UNKNOWN;
     }
 
@@ -23,7 +23,7 @@ public class EnderDragonPartImpl extends EntityImpl implements EnderDragonPart {
     }
 
     @Override
-    public @NonNull EnderDragon getParent() {
+    public @NotNull EnderDragon getParent() {
         return (EnderDragonImpl) getMinecraftEntity().owner.getLoomEntity();
     }
 }

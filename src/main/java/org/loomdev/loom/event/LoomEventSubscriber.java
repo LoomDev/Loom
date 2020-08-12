@@ -1,7 +1,7 @@
 package org.loomdev.loom.event;
 
 import net.kyori.event.EventSubscriber;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.event.Event;
 import org.loomdev.api.event.EventHandler;
 import org.loomdev.api.event.EventOrder;
@@ -17,7 +17,7 @@ public class LoomEventSubscriber<E extends Event> implements EventSubscriber<E> 
     }
 
     @Override
-    public void invoke(@NonNull E event) {
+    public void invoke(@NotNull E event) {
         this.handler.execute(event);
     }
 

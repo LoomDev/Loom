@@ -4,7 +4,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
@@ -27,7 +27,7 @@ public class PluginsCommand extends Command {
     }
 
     @Override
-    public void execute(@NonNull CommandSource source, String[] args) {
+    public void execute(@NotNull CommandSource source, String[] args) {
         if (args.length == 0) {
             sendList(source);
             return;

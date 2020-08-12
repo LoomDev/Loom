@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.mob;
 
 import net.minecraft.entity.mob.HoglinEntity;
 import net.minecraft.sound.SoundEvents;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.mob.Hoglin;
 import org.loomdev.loom.entity.passive.AnimalEntityImpl;
@@ -14,7 +14,7 @@ public class HoglinImpl extends AnimalEntityImpl implements Hoglin {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.HOGLIN;
     }
 

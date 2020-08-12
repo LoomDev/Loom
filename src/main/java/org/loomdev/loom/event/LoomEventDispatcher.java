@@ -2,7 +2,6 @@ package org.loomdev.loom.event;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.NoteBlock;
-import net.minecraft.block.enums.Instrument;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LightningEntity;

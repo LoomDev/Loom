@@ -1,8 +1,8 @@
 package org.loomdev.loom.entity.passive;
 
 import net.minecraft.entity.passive.IronGolemEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.passive.IronGolem;
@@ -21,7 +21,7 @@ public class IronGolemImpl extends PathAwareEntityImpl implements IronGolem {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.IRON_GOLEM;
     }
 
@@ -76,12 +76,12 @@ public class IronGolemImpl extends PathAwareEntityImpl implements IronGolem {
     }
 
     @Override
-    public void setTarget(@NonNull LivingEntity livingEntity) {
+    public void setTarget(@NotNull LivingEntity livingEntity) {
         getMinecraftEntity().setTarget(((LivingEntityImpl) livingEntity).getMinecraftEntity());
     }
 
     @Override
-    public void forgive(@NonNull Player player) {
+    public void forgive(@NotNull Player player) {
         getMinecraftEntity().forgive(((PlayerImpl) player).getMinecraftEntity());
     }
 }

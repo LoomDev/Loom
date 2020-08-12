@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.misc;
 
 import net.minecraft.entity.LightningEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.misc.Lightning;
 import org.loomdev.loom.entity.EntityImpl;
@@ -13,7 +13,7 @@ public class LightningImpl extends EntityImpl implements Lightning {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.LIGHTNING_BOLT;
     }
 

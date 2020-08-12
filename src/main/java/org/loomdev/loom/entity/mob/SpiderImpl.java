@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.mob;
 
 import net.minecraft.entity.mob.SpiderEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.mob.Spider;
 
@@ -12,7 +12,7 @@ public class SpiderImpl extends HostileEntityImpl implements Spider {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.SPIDER;
     }
 

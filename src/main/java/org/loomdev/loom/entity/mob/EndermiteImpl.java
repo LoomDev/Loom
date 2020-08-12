@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.mob;
 
 import net.minecraft.entity.mob.EndermiteEntity;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.mob.Endermite;
 
@@ -14,7 +14,7 @@ public class EndermiteImpl extends HostileEntityImpl implements Endermite {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.ENDERMITE;
     }
 

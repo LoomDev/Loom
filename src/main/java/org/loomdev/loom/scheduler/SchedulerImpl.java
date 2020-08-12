@@ -1,6 +1,6 @@
 package org.loomdev.loom.scheduler;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.scheduler.Scheduler;
@@ -29,7 +29,7 @@ public class SchedulerImpl implements Scheduler {
     }
 
     @Override
-    public Task.@NonNull Builder createTask() {
+    public Task.@NotNull Builder createTask() {
         return new TaskImpl.BuilderImpl(this);
     }
 
@@ -67,17 +67,17 @@ public class SchedulerImpl implements Scheduler {
     }
 
     @Override
-    public @NonNull Optional<Task> getTaskById(int id) {
+    public @NotNull Optional<Task> getTaskById(int id) {
         return Optional.ofNullable(tasks.get(id));
     }
 
     @Override
-    public @NonNull Set<Task> getScheduledTasks() {
+    public @NotNull Set<Task> getScheduledTasks() {
         return new HashSet<>(tasks.values());
     }
 
     @Override
-    public @NonNull Set<Task> getScheduledTasks(Plugin plugin) {
+    public @NotNull Set<Task> getScheduledTasks(Plugin plugin) {
         return tasks.values().stream()
                 .filter(t -> t.getPlugin() == plugin)
                 .collect(Collectors.toSet());

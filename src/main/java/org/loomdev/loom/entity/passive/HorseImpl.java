@@ -3,7 +3,7 @@ package org.loomdev.loom.entity.passive;
 import net.minecraft.entity.passive.HorseColor;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.passive.HorseMarking;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.Horse;
 
@@ -14,7 +14,7 @@ public class HorseImpl extends HorseBaseImpl implements Horse {
     }
 
     @Override
-    public @NonNull EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.HORSE;
     }
 
@@ -24,22 +24,22 @@ public class HorseImpl extends HorseBaseImpl implements Horse {
     }
 
     @Override
-    public @NonNull Color getColor() {
+    public @NotNull Color getColor() {
         return Color.getByIndex(getMinecraftEntity().getColor().getIndex());
     }
 
     @Override
-    public void setColor(@NonNull Color color) {
+    public void setColor(@NotNull Color color) {
         getMinecraftEntity().setVariant(HorseColor.byIndex(color.getIndex()), getMinecraftEntity().getMarking());
     }
 
     @Override
-    public @NonNull Markings getMarkings() {
+    public @NotNull Markings getMarkings() {
         return Markings.getByIndex(getMinecraftEntity().getMarking().getIndex());
     }
 
     @Override
-    public void setMarkings(@NonNull Markings markings) {
+    public void setMarkings(@NotNull Markings markings) {
         getMinecraftEntity().setVariant(getMinecraftEntity().getColor(), HorseMarking.byIndex(markings.getIndex()));
     }
 }

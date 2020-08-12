@@ -1,7 +1,6 @@
 package org.loomdev.loom.util.transformer;
 
 import net.minecraft.entity.effect.StatusEffectInstance;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.effect.StatusEffect;
 
@@ -11,7 +10,7 @@ public final class StatusEffectTransformer {
         throw new UnsupportedOperationException("StatusEffectTransformer shouldn't be initialized.");
     }
 
-    public static @NonNull StatusEffectInstance toMinecraft(@NonNull StatusEffect effect) {
+    public static @NotNull StatusEffectInstance toMinecraft(@NotNull StatusEffect effect) {
         return new StatusEffectInstance(
                 StatusEffectTypeTransformer.toMinecraft(effect.getType()),
                 effect.getDuration(),
