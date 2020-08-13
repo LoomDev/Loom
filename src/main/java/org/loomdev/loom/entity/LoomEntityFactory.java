@@ -9,6 +9,7 @@ import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
+import net.minecraft.entity.decoration.LeashKnotEntity;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.projectile.*;
@@ -19,6 +20,7 @@ import org.loomdev.loom.entity.boss.dragon.EnderDragonPartImpl;
 import org.loomdev.loom.entity.decoration.ArmorStandImpl;
 import org.loomdev.loom.entity.decoration.EndCrystalImpl;
 import org.loomdev.loom.entity.decoration.ItemFrameImpl;
+import org.loomdev.loom.entity.decoration.LeashKnotImpl;
 import org.loomdev.loom.entity.misc.LightningImpl;
 import org.loomdev.loom.entity.mob.*;
 import org.loomdev.loom.entity.passive.*;
@@ -85,6 +87,7 @@ public final class LoomEntityFactory {
         register(FoxEntity.class, FoxImpl.class);
         register(GhastEntity.class, GhastImpl.class);
         register(GiantEntity.class, GiantImpl.class);
+        register(GuardianEntity.class, GuardianImpl.class);
         register(HoglinEntity.class, HoglinImpl.class);
         register(HorseEntity.class, HorseImpl.class);
         register(HuskEntity.class, HuskImpl.class);
@@ -93,12 +96,11 @@ public final class LoomEntityFactory {
         register(ItemEntity.class, ItemImpl.class);
         register(ItemFrameEntity.class, ItemFrameImpl.class);
         register(FireballEntity.class, LargeFireballImpl.class);
-
-        register(GuardianEntity.class, GuardianImpl.class);
-
+        register(LeashKnotEntity.class, LeashKnotImpl.class);
         register(LightningEntity.class, LightningImpl.class);
-
-        // FIXME temp so i can start the world;
+        register(LlamaEntity.class, LlamaImpl.class);
+        register(LlamaSpitEntity.class, LlamaSpitImpl.class);
+        
 
         register(ServerPlayerEntity.class, PlayerImpl.class);
         register(SmallFireballEntity.class, SmallFireballImpl.class);
