@@ -100,11 +100,18 @@ public final class LoomEntityFactory {
         register(LightningEntity.class, LightningImpl.class);
         register(LlamaEntity.class, LlamaImpl.class);
         register(LlamaSpitEntity.class, LlamaSpitImpl.class);
-        
+        register(MagmaCubeEntity.class, MagmaCubeImpl.class);
+
+
+
 
         register(ServerPlayerEntity.class, PlayerImpl.class);
+
+        register(SlimeEntity.class, SlimeImpl.class);
         register(SmallFireballEntity.class, SmallFireballImpl.class);
+
         register(SpiderEntity.class, SpiderImpl.class);
+
         register(ZombieEntity.class, ZombieImpl.class);
     }
 

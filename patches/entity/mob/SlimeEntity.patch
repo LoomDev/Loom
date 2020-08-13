@@ -1,0 +1,22 @@
+--- a/net/minecraft/entity/mob/SlimeEntity.java
++++ b/net/minecraft/entity/mob/SlimeEntity.java
+@@ -46,7 +46,7 @@
+ 
+ public class SlimeEntity extends MobEntity implements Monster {
+ 
+-    private static final TrackedData<Integer> SLIME_SIZE = DataTracker.registerData(SlimeEntity.class, TrackedDataHandlerRegistry.INTEGER);
++    public static final TrackedData<Integer> SLIME_SIZE = DataTracker.registerData(SlimeEntity.class, TrackedDataHandlerRegistry.INTEGER); // Loom :: public accessor
+     public float targetStretch;
+     public float stretch;
+     public float lastStretch;
+@@ -177,9 +177,7 @@
+         super.onTrackedDataSet(trackeddata);
+     }
+ 
+-    public EntityType<? extends SlimeEntity> getType() {
+-        return super.getType();
+-    }
++    // Loom :: decompile error
+ 
+     public void remove() {
+         int i = this.getSize();

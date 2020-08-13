@@ -1,5 +1,17 @@
 --- a/net/minecraft/entity/passive/LlamaEntity.java
 +++ b/net/minecraft/entity/passive/LlamaEntity.java
+@@ -53,9 +53,9 @@
+ public class LlamaEntity extends AbstractDonkeyEntity implements RangedAttackMob {
+ 
+     private static final Ingredient field_25375 = Ingredient.ofItems(Items.WHEAT, Blocks.HAY_BLOCK.asItem());
+-    private static final TrackedData<Integer> ATTR_STRENGTH = DataTracker.registerData(LlamaEntity.class, TrackedDataHandlerRegistry.INTEGER);
++    public static final TrackedData<Integer> ATTR_STRENGTH = DataTracker.registerData(LlamaEntity.class, TrackedDataHandlerRegistry.INTEGER); // Loom :: public accessor
+     private static final TrackedData<Integer> CARPET_COLOR = DataTracker.registerData(LlamaEntity.class, TrackedDataHandlerRegistry.INTEGER);
+-    private static final TrackedData<Integer> ATTR_VARIANT = DataTracker.registerData(LlamaEntity.class, TrackedDataHandlerRegistry.INTEGER);
++    public static final TrackedData<Integer> ATTR_VARIANT = DataTracker.registerData(LlamaEntity.class, TrackedDataHandlerRegistry.INTEGER); // Loom :: public accessor
+     private boolean spit;
+     @Nullable
+     private LlamaEntity following;
 @@ -332,7 +332,7 @@
      }
  
