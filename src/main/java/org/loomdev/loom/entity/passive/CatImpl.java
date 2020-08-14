@@ -23,13 +23,13 @@ public class CatImpl extends TameableEntityImpl implements Cat {
     }
 
     @Override
-    public Type getCatType() {
-        return Type.getById(getMinecraftEntity().getCatType());
+    public Variant getVariant() {
+        return Variant.values()[getMinecraftEntity().getCatType()];
     }
 
     @Override
-    public void setCatType(Type type) {
-        getMinecraftEntity().setCatType(type.getId());
+    public void setVariant(Variant type) {
+        getMinecraftEntity().setCatType(type.ordinal());
     }
 
     @Override

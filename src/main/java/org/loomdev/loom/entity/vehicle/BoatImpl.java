@@ -23,12 +23,12 @@ public class BoatImpl extends EntityImpl implements Boat {
     }
 
     @Override
-    public Type getBoatType() {
-        return Type.valueOf(getMinecraftEntity().getBoatType().name());
+    public Variant getVariant() {
+        return Variant.valueOf(getMinecraftEntity().getBoatType().name());
     }
 
     @Override
-    public void setBoatType(Type type) {
+    public void setVariant(Variant type) {
         getMinecraftEntity().setBoatType(BoatEntity.Type.valueOf(type.name()));
     }
 

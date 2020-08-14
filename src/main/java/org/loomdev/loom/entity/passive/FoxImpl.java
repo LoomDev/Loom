@@ -24,13 +24,13 @@ public class FoxImpl extends AnimalEntityImpl implements Fox {
     }
 
     @Override
-    public @NotNull Type getFoxType() {
-        return Type.getById(getMinecraftEntity().getFoxType().getId());
+    public @NotNull Variant getVariant() {
+        return Variant.values()[getMinecraftEntity().getFoxType().getId()];
     }
 
     @Override
-    public void setFoxType(@NotNull Type type) {
-        getMinecraftEntity().setType(FoxEntity.Type.fromId(type.getId()));
+    public void setVariant(@NotNull Variant type) {
+        getMinecraftEntity().setType(FoxEntity.Type.fromId(type.ordinal()));
     }
 
     @Override

@@ -101,8 +101,9 @@ public final class LoomEntityFactory {
         register(LlamaEntity.class, LlamaImpl.class);
         register(LlamaSpitEntity.class, LlamaSpitImpl.class);
         register(MagmaCubeEntity.class, MagmaCubeImpl.class);
-
-
+        // TODO minecarts
+        register(MuleEntity.class, MuleImpl.class);
+        register(MooshroomEntity.class, MooshroomImpl.class);
 
 
         register(ServerPlayerEntity.class, PlayerImpl.class);
