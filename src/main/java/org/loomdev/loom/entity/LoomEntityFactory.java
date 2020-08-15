@@ -10,6 +10,7 @@ import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.decoration.LeashKnotEntity;
+import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.projectile.*;
@@ -17,10 +18,7 @@ import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.loomdev.loom.entity.boss.dragon.EnderDragonImpl;
 import org.loomdev.loom.entity.boss.dragon.EnderDragonPartImpl;
-import org.loomdev.loom.entity.decoration.ArmorStandImpl;
-import org.loomdev.loom.entity.decoration.EndCrystalImpl;
-import org.loomdev.loom.entity.decoration.ItemFrameImpl;
-import org.loomdev.loom.entity.decoration.LeashKnotImpl;
+import org.loomdev.loom.entity.decoration.*;
 import org.loomdev.loom.entity.misc.LightningImpl;
 import org.loomdev.loom.entity.mob.*;
 import org.loomdev.loom.entity.passive.*;
@@ -104,6 +102,8 @@ public final class LoomEntityFactory {
         // TODO minecarts
         register(MuleEntity.class, MuleImpl.class);
         register(MooshroomEntity.class, MooshroomImpl.class);
+        register(OcelotEntity.class, OcelotImpl.class);
+        register(PaintingEntity.class, PaintingImpl.class);
 
 
         register(ServerPlayerEntity.class, PlayerImpl.class);
