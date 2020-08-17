@@ -6,4 +6,9 @@ public class HostileEntityImpl extends PathAwareEntityImpl implements HostileEnt
     public HostileEntityImpl(net.minecraft.entity.mob.HostileEntity entity) {
         super(entity);
     }
+
+    @Override
+    public net.minecraft.entity.mob.HostileEntity getMinecraftEntity() {
+        return (net.minecraft.entity.mob.HostileEntity) super.getMinecraftEntity();
+    }
 }

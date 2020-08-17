@@ -104,6 +104,14 @@ public final class LoomEntityFactory {
         register(MooshroomEntity.class, MooshroomImpl.class);
         register(OcelotEntity.class, OcelotImpl.class);
         register(PaintingEntity.class, PaintingImpl.class);
+        register(PandaEntity.class, PandaImpl.class);
+        register(ParrotEntity.class, ParrotImpl.class);
+        register(PhantomEntity.class, PhantomImpl.class);
+        register(PigEntity.class, PigImpl.class);
+        register(PiglinEntity.class, PiglinImpl.class);
+        register(PiglinBruteEntity.class, PiglinBruteImpl.class);
+        register(PillagerEntity.class, PillagerImpl.class);
+        register(PolarBearEntity.class, PolarBearImpl.class);
 
 
         register(ServerPlayerEntity.class, PlayerImpl.class);

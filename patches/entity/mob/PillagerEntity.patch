@@ -1,0 +1,11 @@
+--- a/net/minecraft/entity/mob/PillagerEntity.java
++++ b/net/minecraft/entity/mob/PillagerEntity.java
+@@ -54,7 +54,7 @@
+ 
+ public class PillagerEntity extends IllagerEntity implements CrossbowUser {
+ 
+-    private static final TrackedData<Boolean> CHARGING = DataTracker.registerData(PillagerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
++    public static final TrackedData<Boolean> CHARGING = DataTracker.registerData(PillagerEntity.class, TrackedDataHandlerRegistry.BOOLEAN); // Loom :: public accessor
+     private final SimpleInventory inventory = new SimpleInventory(5);
+ 
+     public PillagerEntity(EntityType<? extends PillagerEntity> entitytype, World world) {

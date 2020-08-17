@@ -7,4 +7,9 @@ public class PassiveEntityImpl extends PathAwareEntityImpl implements PassiveEnt
     public PassiveEntityImpl(net.minecraft.entity.passive.PassiveEntity entity) {
         super(entity);
     }
+
+    @Override
+    public net.minecraft.entity.passive.PassiveEntity getMinecraftEntity() {
+        return (net.minecraft.entity.passive.PassiveEntity) super.getMinecraftEntity();
+    }
 }
