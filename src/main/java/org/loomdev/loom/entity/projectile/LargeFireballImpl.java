@@ -1,5 +1,6 @@
 package org.loomdev.loom.entity.projectile;
 
+import com.google.common.base.Preconditions;
 import net.minecraft.entity.projectile.FireballEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
@@ -22,13 +23,17 @@ public class LargeFireballImpl extends SizedFireballImpl implements LargeFirebal
     }
 
     @Override
-    public int getExplosionPower() {
-        return getMinecraftEntity().explosionPower;
+    public float getExplosionPower() {
+        if (getMinecraftEntity().loomExplosionPower == -1F) {
+            return getMinecraftEntity().explosionPower;
+        }
+        return getMinecraftEntity().loomExplosionPower;
     }
 
     @Override
-    public void setExplosionPower(int power) {
-        getMinecraftEntity().explosionPower = power;
+    public void setExplosionPower(float power) {
+        Preconditions.checkArgument(power >= 0, "Explosion power can't be less than zero.");
+        getMinecraftEntity().loomExplosionPower = power;
     }
 
 }

@@ -1,0 +1,19 @@
+--- a/net/minecraft/entity/projectile/FireballEntity.java
++++ b/net/minecraft/entity/projectile/FireballEntity.java
+@@ -14,6 +14,7 @@
+ public class FireballEntity extends AbstractFireballEntity {
+ 
+     public int explosionPower = 1;
++    public float loomExplosionPower = -1F;
+ 
+     public FireballEntity(EntityType<? extends FireballEntity> entitytype, World world) {
+         super(entitytype, world);
+@@ -28,7 +29,7 @@
+         if (!this.world.isClient) {
+             boolean flag = this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING);
+ 
+-            this.world.createExplosion((Entity) null, this.getX(), this.getY(), this.getZ(), (float) this.explosionPower, flag, flag ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE);
++            this.world.createExplosion((Entity) null, this.getX(), this.getY(), this.getZ(), this.loomExplosionPower != -1F ? this.loomExplosionPower : (float) this.explosionPower, flag, flag ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE);
+             this.remove();
+         }
+ 

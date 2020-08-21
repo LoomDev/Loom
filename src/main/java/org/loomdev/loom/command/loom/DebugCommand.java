@@ -1,5 +1,6 @@
 package org.loomdev.loom.command.loom;
 
+import com.google.common.collect.ImmutableList;
 import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -7,8 +8,10 @@ import org.loomdev.api.Loom;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.EntityType;
+import org.loomdev.api.entity.Tnt;
 import org.loomdev.api.entity.decoration.ArmorStand;
 import org.loomdev.api.entity.player.Player;
+import org.loomdev.api.entity.projectile.LargeFireball;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.ItemType;
 
@@ -26,22 +29,15 @@ public class DebugCommand extends Command {
     public void execute(@NotNull CommandSource source, String[] args) {
         Player player = ((Player) source);
 
-        player.getWorld().setAbsoluteTime(13000);
-
-        player.getWorld().spawnEntity(EntityType.ARMOR_STAND, player.getLocation()).ifPresent(entity -> {
-            entity.setCustomName(TextComponent.of("Just an Armor Stand"));
-            entity.setCustomNameVisible(true);
-            ((ArmorStand) entity).setHelmet(ItemStack.builder().type(ItemType.DIAMOND_HELMET).build());
-            ((ArmorStand) entity).setArmsVisible(true);
-            ((ArmorStand) entity).setItemInHand(org.loomdev.api.util.Hand.MAIN_HAND, ItemStack.builder().type(ItemType.SOUL_CAMPFIRE).build());
+        player.getWorld().spawnEntity(EntityType.TNT, player.getLocation()).ifPresent(entity -> {
+            ((Tnt) entity).setExplosionPower(15);
             player.sendMessage("Spawned entity.");
-            Loom.getServer().broadcastMessage(entity.getLocation().toString());
         });
     }
 
     @Override
     public @NotNull List<String> suggest(@NotNull CommandSource source, @Nullable String[] args) {
-        return Arrays.asList("uwu", "owo", "ewe", "qwq");
+        return ImmutableList.of();
     }
 
     private static final SecureRandom random = new SecureRandom();

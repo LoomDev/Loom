@@ -1,9 +1,6 @@
 package org.loomdev.loom.entity;
 
-import net.minecraft.entity.AreaEffectCloudEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.decoration.ArmorStandEntity;
@@ -112,6 +109,7 @@ public final class LoomEntityFactory {
         register(PiglinBruteEntity.class, PiglinBruteImpl.class);
         register(PillagerEntity.class, PillagerImpl.class);
         register(PolarBearEntity.class, PolarBearImpl.class);
+        register(TntEntity.class, TntImpl.class);
 
 
         register(ServerPlayerEntity.class, PlayerImpl.class);

@@ -54,14 +54,14 @@ public class CreeperImpl extends HostileEntityImpl implements Creeper {
     }
 
     @Override
-    public int getExplosionRadius() {
-        return getMinecraftEntity().explosionRadius;
+    public float getExplosionPower() {
+        return getMinecraftEntity().explosionPower;
     }
 
     @Override
-    public void setExplosionRadius(int radius) {
-        Preconditions.checkArgument(radius >= 0, "Explosion radius is less than zero blocks.");
-        getMinecraftEntity().explosionRadius = radius;
+    public void setExplosionPower(float power) {
+        Preconditions.checkArgument(power >= 0, "Explosion power can't be less than zero.");
+        getMinecraftEntity().explosionPower = power;
     }
 
     @Override

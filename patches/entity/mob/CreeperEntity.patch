@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/mob/CreeperEntity.java
 +++ b/net/minecraft/entity/mob/CreeperEntity.java
-@@ -40,13 +40,19 @@
+@@ -40,14 +40,21 @@
  
  public class CreeperEntity extends HostileEntity {
  
@@ -16,14 +16,15 @@
      private int lastFuseTime;
 -    private int currentFuseTime;
 -    private int fuseTime = 30;
--    private int explosionRadius = 3;
 +    public int currentFuseTime; // Loom :: public access
 +    public int fuseTime = 30; // Loom :: public access
-+    public int explosionRadius = 3; // Loom :: public access
+     private int explosionRadius = 3;
      private int headsDropped;
++    public float explosionPower = -1F; // Loom :: overridable explosion radius
  
      public CreeperEntity(EntityType<? extends CreeperEntity> entitytype, World world) {
-@@ -209,7 +215,7 @@
+         super(entitytype, world);
+@@ -209,13 +216,13 @@
          }
      }
  
@@ -32,7 +33,14 @@
          if (!this.world.isClient) {
              Explosion.DestructionType explosion_destructiontype = this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE;
              float f = this.S_() ? 2.0F : 1.0F;
-@@ -251,7 +257,13 @@
+ 
+             this.dead = true;
+-            this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), (float) this.explosionRadius * f, explosion_destructiontype);
++            this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), this.explosionPower != -1F ? this.explosionPower : (float) this.explosionRadius * f, explosion_destructiontype); // Loom :: overridable explosion radius
+             this.remove();
+             this.spawnEffectsCloud();
+         }
+@@ -251,7 +258,13 @@
      }
  
      public void ignite() {
