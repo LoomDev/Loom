@@ -183,7 +183,7 @@ public class PluginLoaderImpl implements PluginLoader {
 
             }
         } catch (IOException e) {
-            LOGGER.error("And error occurred attempting to read '{}'.", source.getFileName());
+            LOGGER.error("An error occurred attempting to read '{}'.", source.getFileName());
         }
         return Optional.empty();
     }
