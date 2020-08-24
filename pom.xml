@@ -8,7 +8,7 @@
     <version>1.16.2-SNAPSHOT</version>
 
     <name>Loom</name>
-    <url>http://loomdev.org</url>
+    <url>https://loomdev.org/</url>
 
     <issueManagement>
         <url>https://github.com/LoomDev/Loom/issues</url>
@@ -144,14 +144,14 @@
                         </goals>
                         <configuration>
                             <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>                            <!-- Paper -->
-                            <createSourcesJar>${shadeSourcesJar}</createSourcesJar>
+                            <createSourcesJar>true</createSourcesJar>
                             <filters>
                                 <filter>
                                     <artifact>org.loomdev:minecraft-server</artifact>
                                     <excludes>
-                                        <!--<exclude>com/google/common/**</exclude>-->
+                                        <exclude>com/google/common/**</exclude>
                                         <exclude>com/google/thirdparty/**</exclude>
-                                        <!--<exclude>io/netty/**</exclude>-->
+                                        <exclude>io/netty/**</exclude>
                                         <exclude>META-INF/native/libnetty*</exclude>
                                         <exclude>com/brigadier/**</exclude>
                                         <exclude>META-INF/MANIFEST.MF</exclude>

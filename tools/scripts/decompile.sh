@@ -34,7 +34,7 @@ function decomp {
     echo "Extracting mapped Minecraft source."
     mkdir -p "$decompdir/extracted"
     cd "$decompdir/extracted"
-    unzip "$decompdir/$mcVersion-named.jar" "net/minecraft/*" || exit 1
+    unzip -o "$decompdir/$mcVersion-named.jar" "net/minecraft/**/*" || exit 1
 
     echo "Decompiling mapped Minecraft source."
     mkdir -p "$decompdir/decompiled"
