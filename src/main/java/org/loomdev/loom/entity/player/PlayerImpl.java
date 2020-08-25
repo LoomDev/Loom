@@ -52,7 +52,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public ServerPlayerEntity getMinecraftEntity() {
+    public @NotNull ServerPlayerEntity getMinecraftEntity() {
         return (ServerPlayerEntity) super.getMinecraftEntity();
     }
 

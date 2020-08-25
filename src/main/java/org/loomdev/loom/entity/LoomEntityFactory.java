@@ -11,6 +11,7 @@ import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.projectile.*;
+import net.minecraft.entity.projectile.thrown.*;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.loomdev.loom.entity.boss.dragon.EnderDragonImpl;
@@ -21,6 +22,7 @@ import org.loomdev.loom.entity.mob.*;
 import org.loomdev.loom.entity.passive.*;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.entity.projectile.*;
+import org.loomdev.loom.entity.projectile.thrown.*;
 import org.loomdev.loom.entity.vehicle.BoatImpl;
 
 import java.lang.reflect.Constructor;
@@ -96,7 +98,7 @@ public final class LoomEntityFactory {
         register(LlamaEntity.class, LlamaImpl.class);
         register(LlamaSpitEntity.class, LlamaSpitImpl.class);
         register(MagmaCubeEntity.class, MagmaCubeImpl.class);
-        // TODO minecarts
+        // Minecarts
         register(MuleEntity.class, MuleImpl.class);
         register(MooshroomEntity.class, MooshroomImpl.class);
         register(OcelotEntity.class, OcelotImpl.class);
@@ -110,16 +112,49 @@ public final class LoomEntityFactory {
         register(PillagerEntity.class, PillagerImpl.class);
         register(PolarBearEntity.class, PolarBearImpl.class);
         register(TntEntity.class, TntImpl.class);
-
-
-        register(ServerPlayerEntity.class, PlayerImpl.class);
-
+        register(PufferfishEntity.class, PufferfishImpl.class);
+        register(RabbitEntity.class, RabbitImpl.class);
+        register(RavagerEntity.class, RavagerImpl.class);
+        register(SalmonEntity.class, SalmonImpl.class);
+        register(SheepEntity.class, SheepImpl.class);
+        register(ShulkerEntity.class, ShulkerImpl.class);
+        register(ShulkerBulletEntity.class, ShulkerBulletImpl.class);
+        register(SilverfishEntity.class, SilverfishImpl.class);
+        register(SkeletonEntity.class, SkeletonImpl.class);
+        register(SkeletonHorseEntity.class, SkeletonHorseImpl.class);
         register(SlimeEntity.class, SlimeImpl.class);
         register(SmallFireballEntity.class, SmallFireballImpl.class);
-
+        register(SnowGolemEntity.class, SnowGolemImpl.class);
+        register(SnowballEntity.class, SnowballImpl.class);
+        register(SpectralArrowEntity.class, SpectralArrowImpl.class);
         register(SpiderEntity.class, SpiderImpl.class);
-
+        register(SquidEntity.class, SquidImpl.class);
+        register(StrayEntity.class, StrayImpl.class);
+        register(StriderEntity.class, StriderImpl.class);
+        register(EggEntity.class, EggImpl.class);
+        register(EnderPearlEntity.class, EnderPearlImpl.class);
+        register(ExperienceBottleEntity.class, ExperienceBottleImpl.class);
+        register(PotionEntity.class, PotionImpl.class);
+        register(TurtleEntity.class, TurtleImpl.class);
+        register(TridentEntity.class, TridentImpl.class);
+        register(TraderLlamaEntity.class, TraderLlamaImpl.class);
+        register(TropicalFishEntity.class, TropicalFishImpl.class);
+        register(VexEntity.class, VexImpl.class);
+        // Villager
+        register(VindicatorEntity.class, VindicatorImpl.class);
+        // Wandering trader
+        register(WitchEntity.class, WitchImpl.class);
+        // Wither
+        register(WitherSkeletonEntity.class, WitherSkeletonImpl.class);
+        // Wither skull
+        // Wolf
+        // Zoglin
         register(ZombieEntity.class, ZombieImpl.class);
+        // Zombie horse
+        // Zombie villager
+        // Zombified piglin
+        register(ServerPlayerEntity.class, PlayerImpl.class);
+        // Fishing bobber
     }
 
     private static void register(Class<? extends Entity> mcClass, Class<? extends EntityImpl> loomClass) {

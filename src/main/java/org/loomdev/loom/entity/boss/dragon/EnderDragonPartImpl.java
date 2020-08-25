@@ -18,7 +18,7 @@ public class EnderDragonPartImpl extends EntityImpl implements EnderDragonPart {
     }
 
     @Override
-    public net.minecraft.entity.boss.dragon.EnderDragonPart getMinecraftEntity() {
+    public net.minecraft.entity.boss.dragon.@NotNull EnderDragonPart getMinecraftEntity() {
         return (net.minecraft.entity.boss.dragon.EnderDragonPart) super.getMinecraftEntity();
     }
 

@@ -17,7 +17,7 @@ public class MagmaCubeImpl extends SlimeImpl implements MagmaCube {
     }
 
     @Override
-    public MagmaCubeEntity getMinecraftEntity() {
+    public @NotNull MagmaCubeEntity getMinecraftEntity() {
         return (MagmaCubeEntity) super.getMinecraftEntity();
     }
 }

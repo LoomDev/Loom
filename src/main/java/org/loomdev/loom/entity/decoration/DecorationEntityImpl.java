@@ -13,7 +13,7 @@ public class DecorationEntityImpl extends EntityImpl implements DecorationEntity
     }
 
     @Override
-    public AbstractDecorationEntity getMinecraftEntity() {
+    public @NotNull AbstractDecorationEntity getMinecraftEntity() {
         return (AbstractDecorationEntity) super.getMinecraftEntity();
     }
 

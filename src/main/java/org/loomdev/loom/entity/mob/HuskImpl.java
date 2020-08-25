@@ -17,7 +17,7 @@ public class HuskImpl extends ZombieImpl implements Husk {
     }
 
     @Override
-    public HuskEntity getMinecraftEntity() {
+    public @NotNull HuskEntity getMinecraftEntity() {
         return (HuskEntity) super.getMinecraftEntity();
     }
 }

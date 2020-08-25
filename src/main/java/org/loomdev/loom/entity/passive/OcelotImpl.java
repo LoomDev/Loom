@@ -17,7 +17,7 @@ public class OcelotImpl extends AnimalEntityImpl implements Ocelot {
     }
 
     @Override
-    public OcelotEntity getMinecraftEntity() {
+    public @NotNull OcelotEntity getMinecraftEntity() {
         return (OcelotEntity) super.getMinecraftEntity();
     }
 }

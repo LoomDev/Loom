@@ -17,7 +17,7 @@ public class ElderGuardianImpl extends GuardianImpl implements ElderGuardian {
     }
 
     @Override
-    public ElderGuardianEntity getMinecraftEntity() {
+    public @NotNull ElderGuardianEntity getMinecraftEntity() {
         return (ElderGuardianEntity) super.getMinecraftEntity();
     }
 }

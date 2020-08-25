@@ -13,7 +13,7 @@ public class AnimalEntityImpl extends PassiveEntityImpl implements AnimalEntity 
     }
 
     @Override
-    public net.minecraft.entity.passive.AnimalEntity getMinecraftEntity() {
+    public @NotNull net.minecraft.entity.passive.AnimalEntity getMinecraftEntity() {
         return (net.minecraft.entity.passive.AnimalEntity) super.getMinecraftEntity();
     }
 

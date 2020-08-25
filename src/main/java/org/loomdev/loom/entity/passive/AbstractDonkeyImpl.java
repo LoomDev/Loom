@@ -1,6 +1,7 @@
 package org.loomdev.loom.entity.passive;
 
 import net.minecraft.entity.passive.AbstractDonkeyEntity;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.passive.AbstractDonkey;
 
 public class AbstractDonkeyImpl extends HorseBaseImpl implements AbstractDonkey {
@@ -10,7 +11,7 @@ public class AbstractDonkeyImpl extends HorseBaseImpl implements AbstractDonkey 
     }
 
     @Override
-    public AbstractDonkeyEntity getMinecraftEntity() {
+    public @NotNull AbstractDonkeyEntity getMinecraftEntity() {
         return (AbstractDonkeyEntity) super.getMinecraftEntity();
     }
 

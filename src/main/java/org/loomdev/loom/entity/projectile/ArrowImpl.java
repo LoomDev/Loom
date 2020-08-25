@@ -25,7 +25,7 @@ public class ArrowImpl extends PersistentProjectileImpl implements Arrow {
     }
 
     @Override
-    public ArrowEntity getMinecraftEntity() {
+    public @NotNull ArrowEntity getMinecraftEntity() {
         return (ArrowEntity) super.getMinecraftEntity();
     }
 

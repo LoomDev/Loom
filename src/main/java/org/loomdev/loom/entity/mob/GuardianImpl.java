@@ -22,7 +22,7 @@ public class GuardianImpl extends HostileEntityImpl implements Guardian {
     }
 
     @Override
-    public GuardianEntity getMinecraftEntity() {
+    public @NotNull GuardianEntity getMinecraftEntity() {
         return (GuardianEntity) super.getMinecraftEntity();
     }
 

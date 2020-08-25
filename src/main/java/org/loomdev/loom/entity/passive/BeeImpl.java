@@ -27,7 +27,7 @@ public class BeeImpl extends AnimalEntityImpl implements Bee {
     }
 
     @Override
-    public BeeEntity getMinecraftEntity() {
+    public @NotNull BeeEntity getMinecraftEntity() {
         return (BeeEntity) super.getMinecraftEntity();
     }
 

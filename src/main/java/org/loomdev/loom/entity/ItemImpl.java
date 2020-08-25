@@ -22,7 +22,7 @@ public class ItemImpl extends EntityImpl implements Item {
     }
 
     @Override
-    public ItemEntity getMinecraftEntity() {
+    public @NotNull ItemEntity getMinecraftEntity() {
         return (ItemEntity) super.getMinecraftEntity();
     }
 

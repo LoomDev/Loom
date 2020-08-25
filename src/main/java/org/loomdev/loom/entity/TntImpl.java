@@ -22,7 +22,7 @@ public class TntImpl extends EntityImpl implements Tnt {
     }
 
     @Override
-    public TntEntity getMinecraftEntity() {
+    public @NotNull TntEntity getMinecraftEntity() {
         return (TntEntity) super.getMinecraftEntity();
     }
 

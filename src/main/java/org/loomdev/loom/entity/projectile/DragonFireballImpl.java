@@ -17,7 +17,7 @@ public class DragonFireballImpl extends ProjectileImpl implements DragonFireball
     }
 
     @Override
-    public DragonFireballEntity getMinecraftEntity() {
+    public @NotNull DragonFireballEntity getMinecraftEntity() {
         return (DragonFireballEntity) super.getMinecraftEntity();
     }
 }

@@ -23,7 +23,7 @@ public class EndCrystalImpl extends EntityImpl implements EndCrystal {
     }
 
     @Override
-    public EndCrystalEntity getMinecraftEntity() {
+    public @NotNull EndCrystalEntity getMinecraftEntity() {
         return (EndCrystalEntity) super.getMinecraftEntity();
     }
 

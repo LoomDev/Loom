@@ -7,14 +7,14 @@ import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.passive.IronGolem;
 import org.loomdev.api.entity.player.Player;
+import org.loomdev.loom.GolemImpl;
 import org.loomdev.loom.entity.LivingEntityImpl;
-import org.loomdev.loom.entity.mob.PathAwareEntityImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public class IronGolemImpl extends PathAwareEntityImpl implements IronGolem {
+public class IronGolemImpl extends GolemImpl implements IronGolem {
 
     public IronGolemImpl(IronGolemEntity entity) {
         super(entity);
@@ -26,7 +26,7 @@ public class IronGolemImpl extends PathAwareEntityImpl implements IronGolem {
     }
 
     @Override
-    public IronGolemEntity getMinecraftEntity() {
+    public @NotNull IronGolemEntity getMinecraftEntity() {
         return (IronGolemEntity) super.getMinecraftEntity();
     }
 

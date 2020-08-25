@@ -17,7 +17,7 @@ public class ChickenImpl extends AnimalEntityImpl implements Chicken {
     }
 
     @Override
-    public ChickenEntity getMinecraftEntity() {
+    public @NotNull ChickenEntity getMinecraftEntity() {
         return (ChickenEntity) super.getMinecraftEntity();
     }
 

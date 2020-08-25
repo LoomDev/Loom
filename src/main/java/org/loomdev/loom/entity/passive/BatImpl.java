@@ -18,7 +18,7 @@ public class BatImpl extends AmbientEntityImpl implements Bat {
     }
 
     @Override
-    public BatEntity getMinecraftEntity() {
+    public @NotNull BatEntity getMinecraftEntity() {
         return (BatEntity) super.getMinecraftEntity();
     }
 

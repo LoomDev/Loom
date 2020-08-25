@@ -25,7 +25,7 @@ public class EndermanImpl extends HostileEntityImpl implements Enderman {
     }
 
     @Override
-    public EndermanEntity getMinecraftEntity() {
+    public @NotNull EndermanEntity getMinecraftEntity() {
         return (EndermanEntity) super.getMinecraftEntity();
     }
 

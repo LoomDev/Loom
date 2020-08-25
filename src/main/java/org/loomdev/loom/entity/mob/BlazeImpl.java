@@ -17,7 +17,7 @@ public class BlazeImpl extends HostileEntityImpl implements Blaze {
     }
 
     @Override
-    public BlazeEntity getMinecraftEntity() {
+    public @NotNull BlazeEntity getMinecraftEntity() {
         return (BlazeEntity) super.getMinecraftEntity();
     }
 

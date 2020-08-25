@@ -19,7 +19,7 @@ public class HoglinImpl extends AnimalEntityImpl implements Hoglin {
     }
 
     @Override
-    public HoglinEntity getMinecraftEntity() {
+    public @NotNull HoglinEntity getMinecraftEntity() {
         return (HoglinEntity) super.getMinecraftEntity();
     }
 

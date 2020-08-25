@@ -1,5 +1,6 @@
 package org.loomdev.loom.entity.mob;
 
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.mob.AmbientEntity;
 
 public class AmbientEntityImpl extends MobEntityImpl implements AmbientEntity {
@@ -9,7 +10,7 @@ public class AmbientEntityImpl extends MobEntityImpl implements AmbientEntity {
     }
 
     @Override
-    public net.minecraft.entity.mob.AmbientEntity getMinecraftEntity() {
+    public net.minecraft.entity.mob.@NotNull AmbientEntity getMinecraftEntity() {
         return (net.minecraft.entity.mob.AmbientEntity) super.getMinecraftEntity();
     }
 }

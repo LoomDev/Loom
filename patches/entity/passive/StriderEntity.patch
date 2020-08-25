@@ -5,7 +5,7 @@
  
      public boolean hurtByWater() {
 -        return true;
-+        return hurtByWaterOverride.orElse(true); // hurt by water override
++        return hurtByWaterOverride.orElse(true); // Loom :: hurt by water override
      }
  
      public boolean isOnFire() {

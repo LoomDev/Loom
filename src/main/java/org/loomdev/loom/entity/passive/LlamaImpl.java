@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity.passive;
 
-import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import net.minecraft.entity.passive.LlamaEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
@@ -19,7 +18,7 @@ public class LlamaImpl extends AbstractDonkeyImpl implements Llama {
     }
 
     @Override
-    public LlamaEntity getMinecraftEntity() {
+    public @NotNull LlamaEntity getMinecraftEntity() {
         return (LlamaEntity) super.getMinecraftEntity();
     }
 

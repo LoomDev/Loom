@@ -18,7 +18,7 @@ public class BoatImpl extends EntityImpl implements Boat {
     }
 
     @Override
-    public BoatEntity getMinecraftEntity() {
+    public @NotNull BoatEntity getMinecraftEntity() {
         return (BoatEntity) super.getMinecraftEntity();
     }
 

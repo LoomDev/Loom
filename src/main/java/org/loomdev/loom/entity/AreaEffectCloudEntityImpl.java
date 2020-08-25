@@ -22,7 +22,7 @@ public class AreaEffectCloudEntityImpl extends EntityImpl implements AreaEffectC
     }
 
     @Override
-    public net.minecraft.entity.AreaEffectCloudEntity getMinecraftEntity() {
+    public net.minecraft.entity.@NotNull AreaEffectCloudEntity getMinecraftEntity() {
         return (net.minecraft.entity.AreaEffectCloudEntity) super.getMinecraftEntity();
     }
 

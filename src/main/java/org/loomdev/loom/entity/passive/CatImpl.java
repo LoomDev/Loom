@@ -18,7 +18,7 @@ public class CatImpl extends TameableEntityImpl implements Cat {
     }
 
     @Override
-    public CatEntity getMinecraftEntity() {
+    public @NotNull CatEntity getMinecraftEntity() {
         return (CatEntity) super.getMinecraftEntity();
     }
 

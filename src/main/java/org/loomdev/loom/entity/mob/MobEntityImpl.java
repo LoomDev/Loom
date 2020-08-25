@@ -1,5 +1,6 @@
 package org.loomdev.loom.entity.mob;
 
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.mob.MobEntity;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.loom.entity.LivingEntityImpl;
@@ -11,7 +12,7 @@ public class MobEntityImpl extends LivingEntityImpl implements MobEntity {
     }
 
     @Override
-    public net.minecraft.entity.mob.MobEntity getMinecraftEntity() {
+    public net.minecraft.entity.mob.@NotNull MobEntity getMinecraftEntity() {
         return (net.minecraft.entity.mob.MobEntity) super.getMinecraftEntity();
     }
 

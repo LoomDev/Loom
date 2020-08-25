@@ -1,6 +1,7 @@
 package org.loomdev.loom.entity.mob;
 
 import net.minecraft.entity.mob.IllagerEntity;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.mob.Illager;
 import org.loomdev.loom.entity.raid.RaiderImpl;
 
@@ -11,7 +12,7 @@ public class IllagerImpl extends RaiderImpl implements Illager {
     }
 
     @Override
-    public IllagerEntity getMinecraftEntity() {
+    public @NotNull IllagerEntity getMinecraftEntity() {
         return (IllagerEntity) super.getMinecraftEntity();
     }
 }

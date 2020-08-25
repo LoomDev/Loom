@@ -17,7 +17,7 @@ public class IllusionerImpl extends SpellcastingIllagerImpl implements Illusione
     }
 
     @Override
-    public SpellcastingIllagerEntity getMinecraftEntity() {
+    public @NotNull SpellcastingIllagerEntity getMinecraftEntity() {
         return (IllusionerEntity) super.getMinecraftEntity();
     }
 }

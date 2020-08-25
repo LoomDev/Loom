@@ -17,7 +17,7 @@ public class LeashKnotImpl extends DecorationEntityImpl implements LeashKnot {
     }
 
     @Override
-    public LeashKnotEntity getMinecraftEntity() {
+    public @NotNull LeashKnotEntity getMinecraftEntity() {
         return (LeashKnotEntity) super.getMinecraftEntity();
     }
 }

@@ -1,0 +1,20 @@
+--- a/net/minecraft/entity/projectile/ShulkerBulletEntity.java
++++ b/net/minecraft/entity/projectile/ShulkerBulletEntity.java
+@@ -31,7 +31,7 @@
+ 
+ public class ShulkerBulletEntity extends ProjectileEntity {
+ 
+-    private Entity target;
++    public Entity target; // Loom :: public accessor
+     @Nullable
+     private Direction direction;
+     private int stepCount;
+@@ -39,7 +39,7 @@
+     private double targetY;
+     private double targetZ;
+     @Nullable
+-    private UUID targetUuid;
++    public UUID targetUuid; // Loom :: public accessor
+ 
+     public ShulkerBulletEntity(EntityType<? extends ShulkerBulletEntity> entitytype, World world) {
+         super(entitytype, world);

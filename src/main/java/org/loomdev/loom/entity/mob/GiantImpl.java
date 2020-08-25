@@ -17,7 +17,7 @@ public class GiantImpl extends HostileEntityImpl implements Giant {
     }
 
     @Override
-    public GiantEntity getMinecraftEntity() {
+    public @NotNull GiantEntity getMinecraftEntity() {
         return (GiantEntity) super.getMinecraftEntity();
     }
 }

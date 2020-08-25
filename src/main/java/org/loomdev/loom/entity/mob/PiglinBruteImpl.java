@@ -17,7 +17,7 @@ public class PiglinBruteImpl extends AbstractPiglinImpl implements PiglinBrute {
     }
 
     @Override
-    public PiglinBruteEntity getMinecraftEntity() {
+    public @NotNull PiglinBruteEntity getMinecraftEntity() {
         return (PiglinBruteEntity) super.getMinecraftEntity();
     }
 }

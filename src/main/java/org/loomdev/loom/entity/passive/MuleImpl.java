@@ -16,7 +16,7 @@ public class MuleImpl extends AbstractDonkeyImpl implements Mule {
     }
 
     @Override
-    public MuleEntity getMinecraftEntity() {
+    public @NotNull MuleEntity getMinecraftEntity() {
         return (MuleEntity) super.getMinecraftEntity();
     }
 }

@@ -17,7 +17,7 @@ public class EvokerImpl extends SpellcastingIllagerImpl implements Evoker {
     }
 
     @Override
-    public EvokerEntity getMinecraftEntity() {
+    public @NotNull EvokerEntity getMinecraftEntity() {
         return (EvokerEntity) super.getMinecraftEntity();
     }
 }

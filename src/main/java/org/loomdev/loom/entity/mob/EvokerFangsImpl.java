@@ -23,7 +23,7 @@ public class EvokerFangsImpl extends EntityImpl implements EvokerFangs {
     }
 
     @Override
-    public EvokerFangsEntity getMinecraftEntity() {
+    public @NotNull EvokerFangsEntity getMinecraftEntity() {
         return (EvokerFangsEntity) super.getMinecraftEntity();
     }
 

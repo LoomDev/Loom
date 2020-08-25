@@ -17,7 +17,7 @@ public class DrownedImpl extends ZombieImpl implements Drowned {
     }
 
     @Override
-    public DrownedEntity getMinecraftEntity() {
+    public @NotNull DrownedEntity getMinecraftEntity() {
         return (DrownedEntity) super.getMinecraftEntity();
     }
 }

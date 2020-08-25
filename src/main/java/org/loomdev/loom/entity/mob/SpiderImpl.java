@@ -17,7 +17,7 @@ public class SpiderImpl extends HostileEntityImpl implements Spider {
     }
 
     @Override
-    public SpiderEntity getMinecraftEntity() {
+    public @NotNull SpiderEntity getMinecraftEntity() {
         return (SpiderEntity) super.getMinecraftEntity();
     }
 

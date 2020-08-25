@@ -1,18 +1,18 @@
 package org.loomdev.loom.entity.passive;
 
 import net.minecraft.entity.passive.FishEntity;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.passive.Fish;
 import org.loomdev.api.item.ItemStack;
-import org.loomdev.loom.entity.mob.PathAwareEntityImpl;
 
-public class FishImpl extends PathAwareEntityImpl implements Fish {
+public class FishImpl extends WaterCreatureImpl implements Fish {
 
     public FishImpl(FishEntity entity) {
         super(entity);
     }
 
     @Override
-    public FishEntity getMinecraftEntity() {
+    public @NotNull FishEntity getMinecraftEntity() {
         return (FishEntity) super.getMinecraftEntity();
     }
 

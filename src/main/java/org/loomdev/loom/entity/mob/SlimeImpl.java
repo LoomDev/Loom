@@ -17,7 +17,7 @@ public class SlimeImpl extends MobEntityImpl implements Slime {
     }
 
     @Override
-    public SlimeEntity getMinecraftEntity() {
+    public @NotNull SlimeEntity getMinecraftEntity() {
         return (SlimeEntity) super.getMinecraftEntity();
     }
 

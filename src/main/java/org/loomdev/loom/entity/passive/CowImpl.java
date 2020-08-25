@@ -17,7 +17,7 @@ public class CowImpl extends AnimalEntityImpl implements Cow {
     }
 
     @Override
-    public CowEntity getMinecraftEntity() {
+    public @NotNull CowEntity getMinecraftEntity() {
         return (CowEntity) super.getMinecraftEntity();
     }
 }

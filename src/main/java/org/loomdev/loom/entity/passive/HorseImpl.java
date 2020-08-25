@@ -19,7 +19,7 @@ public class HorseImpl extends HorseBaseImpl implements Horse {
     }
 
     @Override
-    public HorseEntity getMinecraftEntity() {
+    public @NotNull HorseEntity getMinecraftEntity() {
         return (HorseEntity) super.getMinecraftEntity();
     }
 

@@ -1,22 +1,15 @@
 package org.loomdev.loom.command.loom;
 
 import com.google.common.collect.ImmutableList;
-import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.Loom;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.Tnt;
-import org.loomdev.api.entity.decoration.ArmorStand;
 import org.loomdev.api.entity.player.Player;
-import org.loomdev.api.entity.projectile.LargeFireball;
-import org.loomdev.api.item.ItemStack;
-import org.loomdev.api.item.ItemType;
 
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.List;
 
 public class DebugCommand extends Command {

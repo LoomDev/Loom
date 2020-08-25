@@ -17,7 +17,7 @@ public class DonkeyImpl extends AbstractDonkeyImpl implements Donkey {
     }
 
     @Override
-    public DonkeyEntity getMinecraftEntity() {
+    public @NotNull DonkeyEntity getMinecraftEntity() {
         return (DonkeyEntity) super.getMinecraftEntity();
     }
 }

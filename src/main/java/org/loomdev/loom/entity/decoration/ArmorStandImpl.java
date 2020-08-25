@@ -20,7 +20,7 @@ public class ArmorStandImpl extends LivingEntityImpl implements ArmorStand {
     }
 
     @Override
-    public ArmorStandEntity getMinecraftEntity() {
+    public @NotNull ArmorStandEntity getMinecraftEntity() {
         return (ArmorStandEntity) super.getMinecraftEntity();
     }
 

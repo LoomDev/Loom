@@ -18,7 +18,7 @@ public class LightningImpl extends EntityImpl implements Lightning {
     }
 
     @Override
-    public LightningEntity getMinecraftEntity() {
+    public @NotNull LightningEntity getMinecraftEntity() {
         return (LightningEntity) super.getMinecraftEntity();
     }
 

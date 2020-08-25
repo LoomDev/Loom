@@ -1,6 +1,7 @@
 package org.loomdev.loom.entity.mob;
 
 import net.minecraft.entity.mob.AbstractPiglinEntity;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.mob.AbstractPiglin;
 
 public class AbstractPiglinImpl extends HostileEntityImpl implements AbstractPiglin {
@@ -10,7 +11,7 @@ public class AbstractPiglinImpl extends HostileEntityImpl implements AbstractPig
     }
 
     @Override
-    public AbstractPiglinEntity getMinecraftEntity() {
+    public @NotNull AbstractPiglinEntity getMinecraftEntity() {
         return (AbstractPiglinEntity) super.getMinecraftEntity();
     }
 

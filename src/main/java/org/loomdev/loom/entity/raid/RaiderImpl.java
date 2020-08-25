@@ -1,6 +1,7 @@
 package org.loomdev.loom.entity.raid;
 
 import net.minecraft.entity.raid.RaiderEntity;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.raid.Raider;
 import org.loomdev.loom.entity.mob.PatrolEntityImpl;
 
@@ -11,7 +12,7 @@ public class RaiderImpl extends PatrolEntityImpl implements Raider {
     }
 
     @Override
-    public RaiderEntity getMinecraftEntity() {
+    public @NotNull RaiderEntity getMinecraftEntity() {
         return (RaiderEntity) super.getMinecraftEntity();
     }
 

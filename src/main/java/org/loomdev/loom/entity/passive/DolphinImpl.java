@@ -6,9 +6,8 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.Dolphin;
 import org.loomdev.api.world.Location;
-import org.loomdev.loom.entity.mob.PathAwareEntityImpl;
 
-public class DolphinImpl extends PathAwareEntityImpl implements Dolphin {
+public class DolphinImpl extends WaterCreatureImpl implements Dolphin {
     public DolphinImpl(DolphinEntity entity) {
         super(entity);
     }
@@ -19,7 +18,7 @@ public class DolphinImpl extends PathAwareEntityImpl implements Dolphin {
     }
 
     @Override
-    public DolphinEntity getMinecraftEntity() {
+    public @NotNull DolphinEntity getMinecraftEntity() {
         return (DolphinEntity) super.getMinecraftEntity();
     }
 

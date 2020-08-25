@@ -19,7 +19,7 @@ public class CreeperImpl extends HostileEntityImpl implements Creeper {
     }
 
     @Override
-    public CreeperEntity getMinecraftEntity() {
+    public @NotNull CreeperEntity getMinecraftEntity() {
         return (CreeperEntity) super.getMinecraftEntity();
     }
 

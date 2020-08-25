@@ -22,7 +22,7 @@ public class PaintingImpl extends DecorationEntityImpl implements Painting {
     }
 
     @Override
-    public PaintingEntity getMinecraftEntity() {
+    public @NotNull PaintingEntity getMinecraftEntity() {
         return (PaintingEntity) super.getMinecraftEntity();
     }
 

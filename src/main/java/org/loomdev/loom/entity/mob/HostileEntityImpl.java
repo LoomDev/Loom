@@ -1,5 +1,6 @@
 package org.loomdev.loom.entity.mob;
 
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.mob.HostileEntity;
 
 public class HostileEntityImpl extends PathAwareEntityImpl implements HostileEntity {
@@ -8,7 +9,7 @@ public class HostileEntityImpl extends PathAwareEntityImpl implements HostileEnt
     }
 
     @Override
-    public net.minecraft.entity.mob.HostileEntity getMinecraftEntity() {
+    public net.minecraft.entity.mob.@NotNull HostileEntity getMinecraftEntity() {
         return (net.minecraft.entity.mob.HostileEntity) super.getMinecraftEntity();
     }
 }

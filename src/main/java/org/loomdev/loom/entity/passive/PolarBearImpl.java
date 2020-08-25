@@ -25,7 +25,7 @@ public class PolarBearImpl extends AnimalEntityImpl implements PolarBear {
     }
 
     @Override
-    public PolarBearEntity getMinecraftEntity() {
+    public @NotNull PolarBearEntity getMinecraftEntity() {
         return (PolarBearEntity) super.getMinecraftEntity();
     }
 

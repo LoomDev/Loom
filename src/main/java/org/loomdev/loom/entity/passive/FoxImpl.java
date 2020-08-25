@@ -19,7 +19,7 @@ public class FoxImpl extends AnimalEntityImpl implements Fox {
     }
 
     @Override
-    public FoxEntity getMinecraftEntity() {
+    public @NotNull FoxEntity getMinecraftEntity() {
         return (FoxEntity) super.getMinecraftEntity();
     }
 

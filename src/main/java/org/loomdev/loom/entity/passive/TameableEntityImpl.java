@@ -1,5 +1,6 @@
 package org.loomdev.loom.entity.passive;
 
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.passive.TameableEntity;
 
 import java.util.Optional;
@@ -12,7 +13,7 @@ public class TameableEntityImpl extends AnimalEntityImpl implements TameableEnti
     }
 
     @Override
-    public net.minecraft.entity.passive.TameableEntity getMinecraftEntity() {
+    public net.minecraft.entity.passive.@NotNull TameableEntity getMinecraftEntity() {
         return (net.minecraft.entity.passive.TameableEntity) super.getMinecraftEntity();
     }
 

@@ -17,7 +17,7 @@ public class PillagerImpl extends IllagerImpl implements Pillager {
     }
 
     @Override
-    public PillagerEntity getMinecraftEntity() {
+    public @NotNull PillagerEntity getMinecraftEntity() {
         return (PillagerEntity) super.getMinecraftEntity();
     }
 

@@ -17,7 +17,7 @@ public class ParrotImpl extends TameableEntityImpl implements Parrot {
     }
 
     @Override
-    public ParrotEntity getMinecraftEntity() {
+    public @NotNull ParrotEntity getMinecraftEntity() {
         return (ParrotEntity) super.getMinecraftEntity();
     }
 

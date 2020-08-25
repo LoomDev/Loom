@@ -19,7 +19,7 @@ public class EndermiteImpl extends HostileEntityImpl implements Endermite {
     }
 
     @Override
-    public EndermiteEntity getMinecraftEntity() {
+    public @NotNull EndermiteEntity getMinecraftEntity() {
         return (EndermiteEntity) super.getMinecraftEntity();
     }
 

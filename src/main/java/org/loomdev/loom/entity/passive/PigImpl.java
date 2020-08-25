@@ -20,7 +20,7 @@ public class PigImpl extends AnimalEntityImpl implements Pig {
     }
 
     @Override
-    public PigEntity getMinecraftEntity() {
+    public @NotNull PigEntity getMinecraftEntity() {
         return (PigEntity) super.getMinecraftEntity();
     }
 

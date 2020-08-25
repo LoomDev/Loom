@@ -16,7 +16,7 @@ public class SmallFireballImpl extends SizedFireballImpl implements SmallFirebal
     }
 
     @Override
-    public SmallFireballEntity getMinecraftEntity() {
+    public @NotNull SmallFireballEntity getMinecraftEntity() {
         return (SmallFireballEntity) super.getMinecraftEntity();
     }
 }

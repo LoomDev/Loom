@@ -33,7 +33,7 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     }
 
     @Override
-    public net.minecraft.entity.LivingEntity getMinecraftEntity() {
+    public net.minecraft.entity.@NotNull LivingEntity getMinecraftEntity() {
         return (net.minecraft.entity.LivingEntity) super.getMinecraftEntity();
     }
 

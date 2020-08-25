@@ -17,7 +17,7 @@ public class CaveSpiderImpl extends SpiderImpl implements CaveSpider {
     }
 
     @Override
-    public CaveSpiderEntity getMinecraftEntity() {
+    public @NotNull CaveSpiderEntity getMinecraftEntity() {
         return (CaveSpiderEntity) super.getMinecraftEntity();
     }
 }

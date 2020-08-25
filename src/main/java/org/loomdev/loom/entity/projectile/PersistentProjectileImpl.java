@@ -14,7 +14,7 @@ public class PersistentProjectileImpl extends ProjectileImpl implements Persiste
     }
 
     @Override
-    public PersistentProjectileEntity getMinecraftEntity() {
+    public @NotNull PersistentProjectileEntity getMinecraftEntity() {
         return (PersistentProjectileEntity) super.getMinecraftEntity();
     }
 

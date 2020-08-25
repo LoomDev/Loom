@@ -15,7 +15,7 @@ public class PatrolEntityImpl extends HostileEntityImpl implements PatrolEntity 
     }
 
     @Override
-    public net.minecraft.entity.mob.PatrolEntity getMinecraftEntity() {
+    public net.minecraft.entity.mob.@NotNull PatrolEntity getMinecraftEntity() {
         return (net.minecraft.entity.mob.PatrolEntity) super.getMinecraftEntity();
     }
 

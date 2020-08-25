@@ -13,7 +13,7 @@ public class SizedFireballImpl extends ProjectileImpl implements SizedFireball {
     }
 
     @Override
-    public AbstractFireballEntity getMinecraftEntity() {
+    public @NotNull AbstractFireballEntity getMinecraftEntity() {
         return (AbstractFireballEntity) super.getMinecraftEntity();
     }
 

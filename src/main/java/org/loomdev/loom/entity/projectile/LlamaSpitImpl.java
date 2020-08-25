@@ -17,7 +17,7 @@ public class LlamaSpitImpl extends ProjectileImpl implements LlamaSpit {
     }
 
     @Override
-    public LlamaSpitEntity getMinecraftEntity() {
+    public @NotNull LlamaSpitEntity getMinecraftEntity() {
         return (LlamaSpitEntity) super.getMinecraftEntity();
     }
 }

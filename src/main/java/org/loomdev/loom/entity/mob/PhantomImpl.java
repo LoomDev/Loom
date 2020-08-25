@@ -16,7 +16,7 @@ public class PhantomImpl extends MobEntityImpl implements Phantom {
     }
 
     @Override
-    public PhantomEntity getMinecraftEntity() {
+    public @NotNull PhantomEntity getMinecraftEntity() {
         return (PhantomEntity) super.getMinecraftEntity();
     }
 

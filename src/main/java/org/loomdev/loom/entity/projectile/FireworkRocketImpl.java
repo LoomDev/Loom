@@ -17,7 +17,7 @@ public class FireworkRocketImpl extends ProjectileImpl implements FireworkRocket
     }
 
     @Override
-    public FireworkRocketEntity getMinecraftEntity() {
+    public @NotNull FireworkRocketEntity getMinecraftEntity() {
         return (FireworkRocketEntity) super.getMinecraftEntity();
     }
 

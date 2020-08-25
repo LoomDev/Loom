@@ -34,7 +34,7 @@ public class EntityImpl implements Entity {
         mcEntity = entity;
     }
 
-    public net.minecraft.entity.Entity getMinecraftEntity() {
+    public @NotNull net.minecraft.entity.Entity getMinecraftEntity() {
         return this.mcEntity;
     }
 

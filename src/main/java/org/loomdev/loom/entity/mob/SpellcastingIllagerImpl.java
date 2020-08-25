@@ -11,7 +11,7 @@ public class SpellcastingIllagerImpl extends IllagerImpl implements Spellcasting
     }
 
     @Override
-    public SpellcastingIllagerEntity getMinecraftEntity() {
+    public @NotNull SpellcastingIllagerEntity getMinecraftEntity() {
         return (SpellcastingIllagerEntity) super.getMinecraftEntity();
     }
 

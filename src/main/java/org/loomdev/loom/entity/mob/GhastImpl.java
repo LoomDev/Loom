@@ -17,7 +17,7 @@ public class GhastImpl extends MobEntityImpl implements Ghast {
     }
 
     @Override
-    public GhastEntity getMinecraftEntity() {
+    public @NotNull GhastEntity getMinecraftEntity() {
         return (GhastEntity) super.getMinecraftEntity();
     }
 

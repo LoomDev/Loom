@@ -1,6 +1,7 @@
 package org.loomdev.loom.entity.passive;
 
 import net.minecraft.entity.passive.SchoolingFishEntity;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.passive.SchoolingFish;
 
 import java.util.OptionalInt;
@@ -12,7 +13,7 @@ public class SchoolingFishImpl extends FishImpl implements SchoolingFish {
     }
 
     @Override
-    public SchoolingFishEntity getMinecraftEntity() {
+    public @NotNull SchoolingFishEntity getMinecraftEntity() {
         return (SchoolingFishEntity) super.getMinecraftEntity();
     }
 

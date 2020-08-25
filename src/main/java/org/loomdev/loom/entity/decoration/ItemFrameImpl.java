@@ -19,7 +19,7 @@ public class ItemFrameImpl extends DecorationEntityImpl implements ItemFrame {
     }
 
     @Override
-    public ItemFrameEntity getMinecraftEntity() {
+    public @NotNull ItemFrameEntity getMinecraftEntity() {
         return (ItemFrameEntity) super.getMinecraftEntity();
     }
 

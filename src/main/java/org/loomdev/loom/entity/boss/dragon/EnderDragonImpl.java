@@ -32,7 +32,7 @@ public class EnderDragonImpl extends MobEntityImpl implements EnderDragon {
     }
 
     @Override
-    public EnderDragonEntity getMinecraftEntity() {
+    public @NotNull EnderDragonEntity getMinecraftEntity() {
         return (EnderDragonEntity) super.getMinecraftEntity();
     }
 

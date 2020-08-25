@@ -18,7 +18,7 @@ public class LargeFireballImpl extends SizedFireballImpl implements LargeFirebal
     }
 
     @Override
-    public FireballEntity getMinecraftEntity() {
+    public @NotNull FireballEntity getMinecraftEntity() {
         return (FireballEntity) super.getMinecraftEntity();
     }
 

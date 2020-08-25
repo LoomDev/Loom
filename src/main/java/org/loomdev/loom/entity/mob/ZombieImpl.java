@@ -16,7 +16,7 @@ public class ZombieImpl extends HostileEntityImpl implements Zombie {
     }
 
     @Override
-    public ZombieEntity getMinecraftEntity() {
+    public @NotNull ZombieEntity getMinecraftEntity() {
         return (ZombieEntity) super.getMinecraftEntity();
     }
 

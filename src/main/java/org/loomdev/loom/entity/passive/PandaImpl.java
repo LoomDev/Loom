@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity.passive;
 
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PandaEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
@@ -18,7 +17,7 @@ public class PandaImpl extends AnimalEntityImpl implements Panda {
     }
 
     @Override
-    public PandaEntity getMinecraftEntity() {
+    public @NotNull PandaEntity getMinecraftEntity() {
         return (PandaEntity) super.getMinecraftEntity();
     }
 

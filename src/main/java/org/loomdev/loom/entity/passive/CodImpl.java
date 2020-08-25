@@ -17,7 +17,7 @@ public class CodImpl extends SchoolingFishImpl implements Cod {
     }
 
     @Override
-    public CodEntity getMinecraftEntity() {
+    public @NotNull CodEntity getMinecraftEntity() {
         return (CodEntity) super.getMinecraftEntity();
     }
 }

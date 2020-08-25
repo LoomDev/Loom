@@ -14,7 +14,7 @@ public class ProjectileImpl extends EntityImpl implements Projectile {
     }
 
     @Override
-    public ProjectileEntity getMinecraftEntity() {
+    public @NotNull ProjectileEntity getMinecraftEntity() {
         return (ProjectileEntity) super.getMinecraftEntity();
     }
 
