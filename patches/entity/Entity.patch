@@ -28,7 +28,7 @@
      private static final TrackedData<Integer> AIR = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.INTEGER);
      private static final TrackedData<Optional<Text>> CUSTOM_NAME = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.OPTIONAL_TEXT_COMPONENT);
 @@ -176,7 +187,7 @@
-     private Vec3d field_25750;
+     private Vec3d trackedPosition;
      public boolean ignoreCameraFrustum;
      public boolean velocityDirty;
 -    private int netherPortalCooldown;

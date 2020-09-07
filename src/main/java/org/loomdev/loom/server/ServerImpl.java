@@ -84,7 +84,8 @@ public class ServerImpl implements Server {
 
     @Override
     public @NotNull String getVersion() {
-        return ServerImpl.class.getPackage().getImplementationVersion();
+        String version = ServerImpl.class.getPackage().getImplementationVersion();
+        return version == null ? "DEVELOPMENT" : version;
     }
 
     @Override

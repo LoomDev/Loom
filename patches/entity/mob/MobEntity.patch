@@ -11,7 +11,7 @@
      private final Map<PathNodeType, Float> pathfindingPenalties;
      private Identifier lootTable;
      private long lootTableSeed;
-@@ -1099,7 +1099,7 @@
+@@ -1100,7 +1100,7 @@
              if (itemstack.getItem() instanceof SpawnEggItem) {
                  if (this.world instanceof ServerWorld) {
                      SpawnEggItem spawneggitem = (SpawnEggItem) itemstack.getItem();
@@ -20,7 +20,7 @@
  
                      optional.ifPresent((mobentity) -> {
                          this.onPlayerSpawnedChild(playerentity, mobentity);
-@@ -1150,7 +1150,7 @@
+@@ -1151,7 +1151,7 @@
          if (this.removed) {
              return null;
          } else {

@@ -29,11 +29,11 @@ public class LlamaImpl extends AbstractDonkeyImpl implements Llama {
 
     @Override
     public void setStrength(int strength) {
-        getMinecraftEntity().dataTracker.set(LlamaEntity.ATTR_STRENGTH, MathHelper.clamp(strength, 1, 5));
+        getMinecraftEntity().dataTracker.set(LlamaEntity.STRENGTH, MathHelper.clamp(strength, 1, 5));
     }
 
     @Override
-    public Variant getVariant() {
+    public @NotNull Variant getVariant() {
         return Variant.values()[getMinecraftEntity().getVariant()];
     }
 

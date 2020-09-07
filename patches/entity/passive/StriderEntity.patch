@@ -18,5 +18,5 @@
 -    }
 +    // Loom :: decompile error
  
-     static class class_5494 extends MoveToTargetPosGoal {
+     static class GoBackToLavaGoal extends MoveToTargetPosGoal {
  

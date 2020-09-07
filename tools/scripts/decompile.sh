@@ -8,7 +8,7 @@ toolsdir="$basedir/tools"
 yarndir="$toolsdir/yarn"
 decompdir="$toolsdir/decomp"
 fernflower="https://hub.spigotmc.org/stash/projects/SPIGOT/repos/builddata/raw/bin/fernflower.jar"
-mcVersion="1.16.2"
+mcVersion="1.16.3-rc1"
 
 function setup {
     git submodule update --init --recursive
@@ -21,11 +21,13 @@ function setup {
 
     echo "Mapping vanilla server jar."
     cp "$toolsdir/build-patched.gradle" "$yarndir/build.gradle" || exit 1
+	sed -i "s/%version%/$mcVersion/" "$yarndir/build.gradle"
     rm -rf "$toolsdir/decomp"
     mkdir -p "$toolsdir/decomp"
     cd "$yarndir"
     eval "./gradlew mapNamedJar" || exit 1
     cp "$yarndir/$mcVersion-named.jar" "$toolsdir/decomp" || exit 1
+	git reset --hard
 
     mvn install:install-file -Dfile="$toolsdir/decomp/$mcVersion-named.jar" -DgroupId="org.loomdev" -DartifactId="minecraft-server" -Dversion="$mcVersion-SNAPSHOT" -Dpackaging="jar"
 }

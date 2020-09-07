@@ -5,7 +5,7 @@
     <groupId>org.loomdev</groupId>
     <artifactId>loom</artifactId>
     <packaging>jar</packaging>
-    <version>1.16.2-SNAPSHOT</version>
+    <version>1.16.3-rc1</version>
 
     <name>Loom</name>
     <url>https://loomdev.org/</url>
@@ -27,8 +27,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <minecraft.version>1.16.2</minecraft.version>
-        <api.version>1.16.2-SNAPSHOT</api.version>
+        <minecraft.version>1.16.3-rc1</minecraft.version>
+        <api.version>1.16.3-rc1</api.version>
     </properties>
 
     <dependencies>
