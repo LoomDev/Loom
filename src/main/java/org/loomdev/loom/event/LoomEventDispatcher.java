@@ -77,8 +77,9 @@ public final class LoomEventDispatcher {
 
     // TODO dispenser armor stand place event
 
-    public static CompletableFuture<BlockBrokenEvent> onBlockBroken(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fireAsync(new BlockBrokenEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity()));
+    @NotNull
+    public static BlockBrokenEvent onBlockBroken(@NotNull WorldAccess world, @NotNull BlockPos blockPos, @NotNull PlayerEntity player) {
+        return fire(new BlockBrokenEvent(BlockImpl.at(world, blockPos), (PlayerImpl) player.getLoomEntity()));
     }
 
     public static BlockPlacedEvent onBlockPlaced(WorldAccess world, BlockPos pos, PlayerEntity player) {
