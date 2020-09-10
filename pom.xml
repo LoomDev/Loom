@@ -5,7 +5,7 @@
     <groupId>org.loomdev</groupId>
     <artifactId>loom</artifactId>
     <packaging>jar</packaging>
-    <version>1.16.3-rc1</version>
+    <version>1.16.3</version>
 
     <name>Loom</name>
     <url>https://loomdev.org/</url>
@@ -27,8 +27,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <minecraft.version>1.16.3-rc1</minecraft.version>
-        <api.version>1.16.3-rc1</api.version>
+        <minecraft.version>1.16.3</minecraft.version>
+        <api.version>1.16.3</api.version>
     </properties>
 
     <dependencies>
@@ -151,7 +151,6 @@
                                     <excludes>
                                         <exclude>com/google/common/**</exclude>
                                         <exclude>com/google/thirdparty/**</exclude>
-                                        <exclude>io/netty/**</exclude>
                                         <exclude>META-INF/native/libnetty*</exclude>
                                         <exclude>com/brigadier/**</exclude>
                                         <exclude>META-INF/MANIFEST.MF</exclude>

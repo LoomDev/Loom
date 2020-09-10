@@ -8,7 +8,7 @@ toolsdir="$basedir/tools"
 yarndir="$toolsdir/yarn"
 decompdir="$toolsdir/decomp"
 fernflower="https://hub.spigotmc.org/stash/projects/SPIGOT/repos/builddata/raw/bin/fernflower.jar"
-mcVersion="1.16.3-rc1"
+mcVersion="1.16.3"
 
 function setup {
     git submodule update --init --recursive
