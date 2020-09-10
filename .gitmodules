@@ -1,4 +1,3 @@
 [submodule "tools/yarn"]
 	path = tools/yarn
 	url = https://github.com/FabricMC/yarn.git
-	branch = 1.16.2
