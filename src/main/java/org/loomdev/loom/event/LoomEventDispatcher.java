@@ -210,16 +210,24 @@ public final class LoomEventDispatcher {
         return fireAsync(event);
     }
 
-    public static CompletableFuture<CreeperChargedEvent> onCreeperCharged(CreeperEntity creeper) {
-        return fireAsync(new CreeperChargedEvent((Creeper) creeper.getLoomEntity()));
+    @NotNull
+    public static CreeperChargedEvent onCreeperCharged(@NotNull CreeperEntity creeper) {
+        return fire(new CreeperChargedEvent((Creeper) creeper.getLoomEntity()));
     }
 
-    public static CompletableFuture<CreeperChargedEvent> onCreeperCharged(CreeperEntity creeper, LightningEntity lightning) {
-        return fireAsync(new CreeperChargedEvent((Creeper) creeper.getLoomEntity(), (Lightning) lightning.getLoomEntity()));
+    @NotNull
+    public static CreeperChargedEvent onCreeperCharged(@NotNull CreeperEntity creeper, @NotNull LightningEntity lightning) {
+        return fire(new CreeperChargedEvent((Creeper) creeper.getLoomEntity(), (Lightning) lightning.getLoomEntity()));
     }
 
-    public static CompletableFuture<CreeperIgnitedEvent> onCreeperIgnited(CreeperEntity creeper) {
-        return fireAsync(new CreeperIgnitedEvent((Creeper) creeper.getLoomEntity()));
+    @NotNull
+    public static CreeperIgnitedEvent onCreeperIgnited(@NotNull CreeperEntity creeper) {
+        return fire(new CreeperIgnitedEvent((Creeper) creeper.getLoomEntity()));
+    }
+
+    @NotNull
+    public static EntityBouncedEvent onEntityBounced(@NotNull Entity entity, double multiplier) {
+        return fire(new EntityBouncedEvent(entity.getLoomEntity(), BlockImpl.at(entity.world, entity.getBlockPos()), multiplier));
     }
 
     public static CompletableFuture<EntityToggledSwimmingEvent> onEntityToggledSwimming(Entity entity) {

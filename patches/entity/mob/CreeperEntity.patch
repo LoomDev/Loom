@@ -24,7 +24,19 @@
  
      public CreeperEntity(EntityType<? extends CreeperEntity> entitytype, World world) {
          super(entitytype, world);
-@@ -209,13 +216,13 @@
+@@ -188,6 +195,11 @@
+ 
+     public void onStruckByLightning(ServerWorld serverworld, LightningEntity lightningentity) {
+         super.onStruckByLightning(serverworld, lightningentity);
++        // Loom start :: fire CreeperChargedEvent
++        if (org.loomdev.loom.event.LoomEventDispatcher.onCreeperCharged(this, lightningentity).isCancelled()) {
++            return;
++        }
++        // Loom end
+         this.dataTracker.set(CreeperEntity.CHARGED, true);
+     }
+ 
+@@ -209,13 +221,13 @@
          }
      }
  
@@ -40,17 +52,15 @@
              this.remove();
              this.spawnEffectsCloud();
          }
-@@ -251,7 +258,13 @@
+@@ -251,6 +263,11 @@
      }
  
      public void ignite() {
 +        // Loom start :: fire CreeperIgnitedEvent
-+        org.loomdev.loom.event.LoomEventDispatcher.onCreeperIgnited(this).thenAccept(event -> {
-+            if (!event.isCancelled()) {
-         this.dataTracker.set(CreeperEntity.IGNITED, true);
-+            }
-+        });
++        if (org.loomdev.loom.event.LoomEventDispatcher.onCreeperIgnited(this).isCancelled()) {
++            return;
++        }
 +        // Loom end
+         this.dataTracker.set(CreeperEntity.IGNITED, true);
      }
  
-     public boolean shouldDropHead() {
