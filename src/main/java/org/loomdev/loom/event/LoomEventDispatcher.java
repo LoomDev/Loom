@@ -70,9 +70,9 @@ public final class LoomEventDispatcher {
         return Loom.getServer().getEventManager().fireAsync(event);
     }
 
-    public static CompletableFuture<ArmorStandPlacedEvent> onArmorStandPlaced(@NotNull ArmorStandEntity armorStand, @NotNull PlayerEntity player) { // TODO also make async in nms
-        ArmorStandPlacedEvent event = new ArmorStandPlacedEvent((ArmorStandImpl) armorStand.getLoomEntity(), (PlayerImpl) player.getLoomEntity());
-        return fireAsync(event);
+    @NotNull
+    public static ArmorStandPlacedEvent onArmorStandPlaced(@NotNull ArmorStandEntity armorStand, @NotNull PlayerEntity player) {
+        return fire(new ArmorStandPlacedEvent((ArmorStandImpl) armorStand.getLoomEntity(), (PlayerImpl) player.getLoomEntity()));
     }
 
     // TODO dispenser armor stand place event
