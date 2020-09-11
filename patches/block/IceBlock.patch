@@ -1,37 +1,35 @@
 --- a/net/minecraft/block/IceBlock.java
 +++ b/net/minecraft/block/IceBlock.java
-@@ -23,7 +23,16 @@
+@@ -23,6 +23,12 @@
          super.afterBreak(world, playerentity, blockpos, blockstate, blockentity, itemstack);
          if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, itemstack) == 0) {
              if (world.getDimension().isUltrawarm()) {
 +                // Loom start :: fire BlockEvaporatedEvent
-+                org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporated(world, blockpos, playerentity).thenAccept(event -> {
-+                   if (!event.isCancelled()) {
-                 world.removeBlock(blockpos, false);
-+                   } else {
-+                       // Place the water anyway if this even is cancelled
-+                       world.setBlockState(blockpos, Blocks.WATER.getDefaultState());
-+                   }
-+                });
++                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporated(world, blockpos, playerentity).isCancelled()) {
++                    world.setBlockState(blockpos, Blocks.WATER.getDefaultState()); // place water where the block was broken
++                    return;
++                }
 +                // Loom end
+                 world.removeBlock(blockpos, false);
                  return;
              }
- 
-@@ -45,7 +54,17 @@
+@@ -44,7 +50,19 @@
+     }
  
      protected void melt(BlockState blockstate, World world, BlockPos blockpos) {
++        // Loom start :: fire BlockMeltedEvent
++        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockMelted(world, blockpos).isCancelled()) {
++            return;
++        }
++        // Loom end
          if (world.getDimension().isUltrawarm()) {
 +            // Loom start :: fire BlockEvaporateEvent
-+            org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporated(world, blockpos).thenAccept(event -> {
-+                if (!event.isCancelled()) {
-             world.removeBlock(blockpos, false);
-+                } else {
-+                    // Place the water anyway if this even is cancelled
-+                    world.setBlockState(blockpos, Blocks.WATER.getDefaultState());
-+                    world.updateNeighbor(blockpos, Blocks.WATER, blockpos);
-+                }
-+            });
++            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporated(world, blockpos).isCancelled()) {
++                world.setBlockState(blockpos, Blocks.WATER.getDefaultState()); // place water where the ice melted
++                world.updateNeighbor(blockpos, Blocks.WATER, blockpos);
++                return;
++            }
 +            // Loom end
+             world.removeBlock(blockpos, false);
          } else {
              world.setBlockState(blockpos, Blocks.WATER.getDefaultState());
-             world.updateNeighbor(blockpos, Blocks.WATER, blockpos);

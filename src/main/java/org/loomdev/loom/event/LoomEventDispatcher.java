@@ -2,6 +2,7 @@ package org.loomdev.loom.event;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.NoteBlock;
+import net.minecraft.block.enums.Instrument;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LightningEntity;
@@ -13,6 +14,7 @@ import net.minecraft.network.ClientConnection;
 import net.minecraft.server.ServerMetadata;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.property.Property;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldAccess;
@@ -33,6 +35,7 @@ import org.loomdev.api.event.entity.armor.EntityEquippedEquipmentEvent;
 import org.loomdev.api.event.entity.creeper.CreeperChargedEvent;
 import org.loomdev.api.event.entity.creeper.CreeperIgnitedEvent;
 import org.loomdev.api.event.entity.decoration.ArmorStandPlacedEvent;
+import org.loomdev.api.event.entity.movement.EntityBouncedEvent;
 import org.loomdev.api.event.entity.movement.EntityToggledSwimmingEvent;
 import org.loomdev.api.event.player.PlayerMessagedEvent;
 import org.loomdev.api.event.player.connection.PlayerDisconnectedEvent;
@@ -82,81 +85,83 @@ public final class LoomEventDispatcher {
         return fire(new BlockBrokenEvent(BlockImpl.at(world, blockPos), (PlayerImpl) player.getLoomEntity()));
     }
 
-    public static BlockPlacedEvent onBlockPlaced(WorldAccess world, BlockPos pos, PlayerEntity player) {
+    @NotNull
+    public static BlockPlacedEvent onBlockPlaced(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull PlayerEntity player) {
         return fire(new BlockPlacedEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
-    public static CompletableFuture<BlockDroppedExperienceEvent> onBlockDroppedExperience(WorldAccess world, BlockPos pos, int experience) {
-        return fireAsync(new BlockDroppedExperienceEvent(BlockImpl.at(world, pos), experience));
+    @NotNull
+    public static BlockDroppedExperienceEvent onBlockDroppedExperience(@NotNull WorldAccess world, @NotNull BlockPos pos, int experience) {
+        return fire(new BlockDroppedExperienceEvent(BlockImpl.at(world, pos), experience));
     }
 
-    public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, BlockPos ignitingpos, BlockIgnitedEvent.Cause cause) {
-        return fireAsync(new BlockIgnitedEvent(BlockImpl.at(world, pos), BlockImpl.at(world, ignitingpos), cause));
+    @NotNull
+    public static BlockIgnitedEvent onBlockIgnited(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull BlockPos ignitingpos, @NotNull BlockIgnitedEvent.Cause cause) {
+        return fire(new BlockIgnitedEvent(BlockImpl.at(world, pos), BlockImpl.at(world, ignitingpos), cause));
     }
 
-    public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, Entity igniter, BlockIgnitedEvent.Cause cause) { // TODO add Fireball nms implementations for this
-        return fireAsync(new BlockIgnitedEvent(BlockImpl.at(world, pos), igniter.getLoomEntity(), cause));
+    @NotNull
+    public static BlockIgnitedEvent onBlockIgnited(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull Entity igniter, @NotNull BlockIgnitedEvent.Cause cause) { // TODO add Fireball nms implementations for this
+        return fire(new BlockIgnitedEvent(BlockImpl.at(world, pos), igniter.getLoomEntity(), cause));
     }
 
-    public static CompletableFuture<BlockIgnitedEvent> onBlockIgnited(WorldAccess world, BlockPos pos, Explosion explosion) {
+    @NotNull
+    public static BlockIgnitedEvent onBlockIgnited(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull Explosion explosion) {
         org.loomdev.api.entity.Entity igniter = explosion.getCausingEntity() == null ? null : explosion.getCausingEntity().getLoomEntity();
-        return fireAsync(new BlockIgnitedEvent(BlockImpl.at(world, pos), igniter, BlockIgnitedEvent.Cause.EXPLOSION));
+        return fire(new BlockIgnitedEvent(BlockImpl.at(world, pos), igniter, BlockIgnitedEvent.Cause.EXPLOSION));
     }
 
-    public static CompletableFuture<BlockBurnedEvent> onBlockBurned(WorldAccess world, BlockPos pos, BlockPos ignitingpos) {
-        return fireAsync(new BlockBurnedEvent(BlockImpl.at(world, pos), BlockImpl.at(world, ignitingpos)));
+    @NotNull
+    public static BlockBurnedEvent onBlockBurned(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull BlockPos source) {
+        return fire(new BlockBurnedEvent(BlockImpl.at(world, pos), BlockImpl.at(world, source)));
     }
 
-    public static CompletableFuture<BlockEvaporatedEvent> onBlockEvaporated(WorldAccess world, BlockPos pos) {
-        return fireAsync(new BlockEvaporatedEvent(BlockImpl.at(world, pos), null));
+    @NotNull
+    public static BlockEvaporatedEvent onBlockEvaporated(@NotNull WorldAccess world, @NotNull BlockPos pos) {
+        return fire(new BlockEvaporatedEvent(BlockImpl.at(world, pos), null)); // TODO player variable?
     }
 
-    public static CompletableFuture<BlockEvaporatedEvent> onBlockEvaporated(WorldAccess world, BlockPos pos, PlayerEntity player) {
-        return fireAsync(new BlockEvaporatedEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity()));
+    @NotNull
+    public static BlockEvaporatedEvent onBlockEvaporated(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull PlayerEntity player) {
+        return fire(new BlockEvaporatedEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
-    public static CompletableFuture<BlockMeltedEvent> onBlockMelted(WorldAccess world, BlockPos pos) {
-        
-
-       // BlockMeltedEvent event = new BlockMeltedEvent();
-        //event.cancel(true);
-        //return fireAsync(event);
-        return null;
+    @NotNull
+    public static BlockMeltedEvent onBlockMelted(@NotNull WorldAccess world, @NotNull BlockPos pos) {
+        return fire(new BlockMeltedEvent(BlockImpl.at(world, pos), null)); // TODO figure out causes
     }
 
-    public static CompletableFuture<BlockBouncedEvent> onBlockBounced(WorldAccess world, BlockPos pos, Entity entity, double multiplier) {
-        return fireAsync(new BlockBouncedEvent(BlockImpl.at(world, pos), entity.getLoomEntity(), multiplier));
-    } // TODO impl of this is fucked
-
-    public static CompletableFuture<BlockExplodedEvent> onBlockExploded(@NotNull WorldAccess world, @NotNull BlockPos pos, float power, @NotNull List<BlockPos> explodedBlocks) {
+    @NotNull
+    public static BlockExplodedEvent onBlockExploded(@NotNull WorldAccess world, @NotNull BlockPos pos, float power, @NotNull List<BlockPos> explodedBlocks) {
         Set<Block> blocks = explodedBlocks.stream().map(blockpos -> BlockImpl.at(world, blockpos)).collect(Collectors.toSet());
         BlockExplodedEvent event = new BlockExplodedEvent(BlockImpl.at(world, pos), power, blocks);
         event.cancel(true); // TODO figure this out later
-        return fireAsync(event);
+        return fire(event);
     }
 
-    public static CompletableFuture<NoteBlockPlayedEvent> onNoteBlockPlayed(WorldAccess world, BlockPos pos) {
-        BlockState state = world.getBlockState(pos);
+    @NotNull
+    public static NoteBlockPlayedEvent onNoteBlockPlayed(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull Instrument instrument, int note, float pitch) {
         NoteBlockPlayedEvent event = new NoteBlockPlayedEvent(
                 BlockImpl.at(world, pos),
-                org.loomdev.api.block.enums.Instrument.getByName(state.get(NoteBlock.INSTRUMENT).asString()),
-                Note.getByUses(state.get(NoteBlock.NOTE)),
-                (float) Math.pow(2.0D, (double) (state.get(NoteBlock.NOTE) - 12) / 12.0D)
+                org.loomdev.api.block.enums.Instrument.getByName(instrument.asString()),
+                Note.getByUses(note),
+                pitch
         );
-        event.setInstrument(org.loomdev.api.block.enums.Instrument.DIDGERIDOO);
-        //event.setPitch(100f);
-        event.cancel(false);
-        return fireAsync(event);
+
+        return fire(event);
     }
 
-    public static CompletableFuture<PlantDiedEvent> onPlantDied(WorldAccess world, BlockPos pos) {
-        return fireAsync(new PlantDiedEvent(BlockImpl.at(world, pos)));
+    @NotNull
+    public static PlantDiedEvent onPlantDied(@NotNull WorldAccess world, @NotNull BlockPos pos) {
+        return fire(new PlantDiedEvent(BlockImpl.at(world, pos)));
     }
 
-    public static CompletableFuture<PlantDecayedEvent> onPlantDecayed(WorldAccess world, BlockPos pos) {
-        return fireAsync(new PlantDecayedEvent(BlockImpl.at(world, pos)));
+    @NotNull
+    public static PlantDecayedEvent onPlantDecayed(@NotNull WorldAccess world, @NotNull BlockPos pos) {
+        return fire(new PlantDecayedEvent(BlockImpl.at(world, pos)));
     }
 
+    @NotNull
     public static PlantGrewEvent onPlantGrew(WorldAccess world, BlockPos pos) {
         /*PlantGrewEvent event = new PlantGrewEvent(BlockImpl.of(world, pos)); // TODO remove variable
         event.setCancelled(true);
@@ -164,46 +169,56 @@ public final class LoomEventDispatcher {
         return null;
     }
 
-    public static PlantFertilizedEvent onPlantFertilized(WorldAccess world, BlockPos pos, PlayerEntity player) {
+    @NotNull
+    public static PlantFertilizedEvent onPlantFertilized(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull PlayerEntity player) {
         return fire(new PlantFertilizedEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
-    public static PlantHarvestedEvent onPlantHarvested(WorldAccess world, BlockPos pos, PlayerEntity player) {
+    @NotNull
+    public static PlantHarvestedEvent onPlantHarvested(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull PlayerEntity player) {
         return fire(new PlantHarvestedEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity()));
     }
 
-    public static CompletableFuture<FluidLevelChangedEvent> onFluidLevelChanged(WorldAccess world, BlockPos pos) {
-        return fireAsync(new FluidLevelChangedEvent(BlockImpl.at(world, pos), null)); // TODO implement blockstate
+    @NotNull
+    public static FluidLevelChangedEvent onFluidLevelChanged(@NotNull WorldAccess world, @NotNull BlockPos pos) {
+        return fire(new FluidLevelChangedEvent(BlockImpl.at(world, pos), null)); // TODO implement blockstate
     }
 
-    public static CompletableFuture<SpongeAbsorbedEvent> onSpongeAbsorbed(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull Set<Block> absorbedBlocks) {
-        return fireAsync(new SpongeAbsorbedEvent(BlockImpl.at(world, pos), absorbedBlocks));
+    @NotNull
+    public static SpongeAbsorbedEvent onSpongeAbsorbed(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull Set<Block> absorbedBlocks) {
+        return fire(new SpongeAbsorbedEvent(BlockImpl.at(world, pos), absorbedBlocks));
     }
 
     /*public static PlayerLoggedInEvent onPlayerLoggedIn(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
         return fire(new PlayerLoggedInEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
     }*/
 
-    public static CompletableFuture<PlayerJoinedEvent> onPlayerJoined(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
+    @NotNull
+    public static CompletableFuture<PlayerJoinedEvent> onPlayerJoined(@NotNull ServerPlayerEntity serverPlayerEntity, @NotNull Text joinMessage) {
         return fireAsync(new PlayerJoinedEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
     }
 
-    public static CompletableFuture<PlayerDisconnectedEvent> onPlayerDisconnected(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
+    @NotNull // TODO sync?
+    public static CompletableFuture<PlayerDisconnectedEvent> onPlayerDisconnected(@NotNull ServerPlayerEntity serverPlayerEntity, @NotNull Text joinMessage) {
         return fireAsync(new PlayerDisconnectedEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
     }
 
-    public static CompletableFuture<PlayerMessagedEvent> onPlayerMessageSent(ServerPlayerEntity serverPlayerEntity, String message) {
-        return fireAsync(new PlayerMessagedEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), message, new HashSet<>(Loom.getServer().getOnlinePlayers())));
+    @NotNull
+    public static CompletableFuture<PlayerMessagedEvent> onPlayerMessageSent(@NotNull ServerPlayerEntity serverPlayerEntity, @NotNull String message) {
+        return fireAsync(new PlayerMessagedEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), message, Loom.getServer().getOnlinePlayers()));
     }
 
-    public static CompletableFuture<PlayerEnteredFlightEvent> onPlayerEnteredFlight(PlayerEntity playerEntity) {
-        return fireAsync(new PlayerEnteredFlightEvent((PlayerImpl) playerEntity.getLoomEntity()));
+    @NotNull
+    public static PlayerEnteredFlightEvent onPlayerEnteredFlight(@NotNull PlayerEntity playerEntity) {
+        return fire(new PlayerEnteredFlightEvent((PlayerImpl) playerEntity.getLoomEntity()));
     }
 
-    public static CompletableFuture<PlayerRiptideLaunchedEvent> onPlayerRiptideLaunched(@NotNull PlayerEntity playerEntity, int riptideLevel) {
-        return fireAsync(new PlayerRiptideLaunchedEvent((PlayerImpl) playerEntity.getLoomEntity(), riptideLevel));
+    @NotNull
+    public static PlayerRiptideLaunchedEvent onPlayerRiptideLaunched(@NotNull PlayerEntity playerEntity, int riptideLevel) {
+        return fire(new PlayerRiptideLaunchedEvent((PlayerImpl) playerEntity.getLoomEntity(), riptideLevel));
     }
 
+    @NotNull
     public static CompletableFuture<PlayerMovedEvent> onPlayerMoved(@NotNull PlayerEntity playerEntity, @NotNull Location currentLocation, @NotNull Location newLocation) {
         PlayerMovedEvent event = new PlayerMovedEvent((PlayerImpl) playerEntity.getLoomEntity(), currentLocation, newLocation);
         event.cancel(true);
@@ -230,33 +245,37 @@ public final class LoomEventDispatcher {
         return fire(new EntityBouncedEvent(entity.getLoomEntity(), BlockImpl.at(entity.world, entity.getBlockPos()), multiplier));
     }
 
-    public static CompletableFuture<EntityToggledSwimmingEvent> onEntityToggledSwimming(Entity entity) {
+    @NotNull
+    public static EntityToggledSwimmingEvent onEntityToggledSwimming(Entity entity) {
         EntityToggledSwimmingEvent event = new EntityToggledSwimmingEvent(entity.getLoomEntity());
         event.cancel(true);
-        return fireAsync(event);
+        return fire(event);
     }
 
-    public static CompletableFuture<EntityEquippedEquipmentEvent> onEntityEquippedEquipmentEvent(@NotNull Entity entity, @NotNull EquipmentSlot slot, @NotNull ItemStack equipment) {
+    @NotNull
+    public static EntityEquippedEquipmentEvent onEntityEquippedEquipmentEvent(@NotNull Entity entity, @NotNull EquipmentSlot slot, @NotNull ItemStack equipment) {
         /*EntityEquippedEquipmentEvent event = new EntityEquippedEquipmentEvent(entity.getLoomEntity());
         event.cancel(true);
         return fireAsync(event);*/
         return null;
     }
 
-    public static CompletableFuture<TimeChangedEvent> onTimeChanged(@NotNull World world, long change, @NotNull TimeChangedEvent.Cause cause) {
-        TimeChangedEvent event = new TimeChangedEvent(world, change, cause);
-        return fireAsync(event);
+    @NotNull
+    public static TimeChangedEvent onTimeChanged(@NotNull World world, long change, @NotNull TimeChangedEvent.Cause cause) {
+        return fire(new TimeChangedEvent(world, change, cause));
     }
 
-    public static CompletableFuture<TimeChangedEvent> onTimeChanged(@NotNull ServerWorld world, long change, @NotNull TimeChangedEvent.Cause cause) {
+    @NotNull
+    public static TimeChangedEvent onTimeChanged(@NotNull ServerWorld world, long change, @NotNull TimeChangedEvent.Cause cause) {
         TimeChangedEvent event = new TimeChangedEvent(
                 Loom.getServer().getWorld(world.worldProperties.getLevelName()).orElse(null), // TODO maybe don't fire on invalid world? also fetch world by uuid since it'll be O(1)
                 change,
                 cause
         );
-        return fireAsync(event);
+        return fire(event);
     }
 
+    @NotNull
     public static CompletableFuture<ServerPingedEvent> onServerPinged(ClientConnection connection, ServerMetadata metadata) {
         return fireAsync(new ServerPingedEvent(
                 ((InetSocketAddress) connection.getAddress()).getAddress(),

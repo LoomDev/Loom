@@ -1,26 +1,22 @@
 --- a/net/minecraft/item/BucketItem.java
 +++ b/net/minecraft/item/BucketItem.java
-@@ -118,14 +118,24 @@
+@@ -118,6 +118,13 @@
                  int j = blockpos.getY();
                  int k = blockpos.getZ();
  
 +                // Loom start :: fire BlockEvaporatedEvent
-+                org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporated(world, blockpos, playerentity).thenAccept(event -> {
-+                    if (event.isCancelled()) {
-+                        // Place the water anyway if this even is cancelled
-+                        world.setBlockState(blockpos, this.fluid.getDefaultState().getBlockState(), 11);
-+                        this.playEmptyingSound(playerentity, world, blockpos);
-+                        return;
-+                    }
-+
++                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporated(world, blockpos, playerentity).isCancelled()) {
++                    world.setBlockState(blockpos, this.fluid.getDefaultState().getBlockState(), 11);
++                    this.playEmptyingSound(playerentity, world, blockpos);
++                    return true;
++                }
++                // Loom end
                  world.playSound(playerentity, blockpos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.random.nextFloat() - world.random.nextFloat()) * 0.8F);
  
                  for (int l = 0; l < 8; ++l) {
-                     world.addParticle(ParticleTypes.LARGE_SMOKE, (double) i + Math.random(), (double) j + Math.random(), (double) k + Math.random(), 0.0D, 0.0D, 0.0D);
+@@ -125,7 +132,7 @@
                  }
--
-+                });
-+                // Loom end
+ 
                  return true;
 -            } else if (block instanceof FluidFillable && this.fluid == Fluids.WATER) {
 +            } else if (block instanceof FluidFillable && this.fluid == Fluids.WATER) { // TODO waterlog event

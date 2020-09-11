@@ -1,16 +1,14 @@
 --- a/net/minecraft/world/explosion/Explosion.java
 +++ b/net/minecraft/world/explosion/Explosion.java
-@@ -278,7 +278,13 @@
+@@ -278,6 +278,11 @@
                  BlockPos blockpos2 = (BlockPos) iterator1.next();
  
                  if (this.random.nextInt(3) == 0 && this.world.getBlockState(blockpos2).isAir() && this.world.getBlockState(blockpos2.down()).isOpaqueFullCube(this.world, blockpos2.down())) {
 +                    // Loom start :: fire BlockIgnitedEvent
-+                    org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(this.world, blockpos2, this).thenAccept(event -> {
-+                       if (!event.isCancelled()) {
-                     this.world.setBlockState(blockpos2, AbstractFireBlock.getState(this.world, blockpos2));
-+                       }
-+                    });
++                    if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(this.world, blockpos2, this).isCancelled()) {
++                        return;
++                    }
 +                    // Loom end
+                     this.world.setBlockState(blockpos2, AbstractFireBlock.getState(this.world, blockpos2));
                  }
              }
-         }

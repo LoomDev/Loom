@@ -1,32 +1,26 @@
 --- a/net/minecraft/fluid/LavaFluid.java
 +++ b/net/minecraft/fluid/LavaFluid.java
-@@ -50,7 +50,14 @@
+@@ -50,6 +50,11 @@
  
                      if (blockstate.isAir()) {
                          if (this.canLightFire(world, blockpos1)) {
--                            world.setBlockState(blockpos1, AbstractFireBlock.getState(world, blockpos1));
 +                            // Loom start :: fire BlockIgnitedEvent
-+                            final BlockPos block1 = blockpos1;
-+                            org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos1, blockpos, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LAVA).thenAccept(event -> {
-+                                if (!event.isCancelled()) {
-+                            world.setBlockState(block1, AbstractFireBlock.getState(world, block1));
-+                                }
-+                            });
++                            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos1, blockpos, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LAVA).isCancelled()) {
++                                return;
++                            }
 +                            // Loom end
+                             world.setBlockState(blockpos1, AbstractFireBlock.getState(world, blockpos1));
                              return;
                          }
-                     } else if (blockstate.getMaterial().blocksMovement()) {
-@@ -66,7 +73,13 @@
+@@ -66,6 +71,11 @@
                      }
  
                      if (world.isAir(blockpos2.up()) && this.hasBurnableBlock(world, blockpos2)) {
-+                        // Loom start :: fire BlockIgnitedEvent (TODO: blockpos2.method_30931() = up)
-+                        org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos2.up(), blockpos, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LAVA).thenAccept(event -> {
-+                            if (!event.isCancelled()) {
-                         world.setBlockState(blockpos2.up(), AbstractFireBlock.getState(world, blockpos2));
-+                            }
-+                        });
++                        // Loom start :: fire BlockIgnitedEvent
++                        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos2.up(), blockpos, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LAVA).isCancelled()) {
++                            return;
++                        }
 +                        // Loom end
+                         world.setBlockState(blockpos2.up(), AbstractFireBlock.getState(world, blockpos2));
                      }
                  }
-             }

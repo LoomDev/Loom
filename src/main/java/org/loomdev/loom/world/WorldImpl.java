@@ -178,26 +178,26 @@ public class WorldImpl implements World {
 
     @Override
     public void setAbsoluteTime(long ticks) {
-        LoomEventDispatcher.onTimeChanged(this, ticks - getAbsoluteTime(), TimeChangedEvent.Cause.TRIGGERED).thenAccept(event -> {
-            if (event.isCancelled()) {
+        TimeChangedEvent event = LoomEventDispatcher.onTimeChanged(this, ticks - getAbsoluteTime(), TimeChangedEvent.Cause.TRIGGERED);
+
+        if (event.isCancelled()) {
+            return;
+        }
+
+        world.setTimeOfDay(getAbsoluteTime() + event.getChange());
+
+        for (Player player : getPlayers()) {
+            if (!player.isConnected()) {
                 return;
             }
 
-            world.setTimeOfDay(getAbsoluteTime() + event.getChange());
-
-            for (Player player : getPlayers()) {
-                if (!player.isConnected()) {
-                    return;
-                }
-
-                PlayerImpl playerImpl = (PlayerImpl) player;
-                ServerWorld world = ((WorldImpl) playerImpl.getWorld()).getMinecraftWorld();
-                playerImpl.getMinecraftEntity().networkHandler.sendPacket(new WorldTimeUpdateS2CPacket(
-                        world.getTime(),
-                        player.getTime(),
-                        world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE)
-                ));
-            }
-        });
+            PlayerImpl playerImpl = (PlayerImpl) player;
+            ServerWorld world = ((WorldImpl) playerImpl.getWorld()).getMinecraftWorld();
+            playerImpl.getMinecraftEntity().networkHandler.sendPacket(new WorldTimeUpdateS2CPacket(
+                    world.getTime(),
+                    player.getTime(),
+                    world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE)
+            ));
+        }
     }
 }

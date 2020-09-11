@@ -1,18 +1,19 @@
 --- a/net/minecraft/block/NoteBlock.java
 +++ b/net/minecraft/block/NoteBlock.java
-@@ -81,8 +81,14 @@
+@@ -81,8 +81,16 @@
          int k = (Integer) blockstate.get(NoteBlock.NOTE);
          float f = (float) Math.pow(2.0D, (double) (k - 12) / 12.0D);
  
 -        world.playSound((PlayerEntity) null, blockpos, ((Instrument) blockstate.get(NoteBlock.INSTRUMENT)).getSound(), SoundCategory.RECORDS, 3.0F, f);
--        world.addParticle(ParticleTypes.NOTE, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 1.2D, (double) blockpos.getZ() + 0.5D, (double) k / 24.0D, 0.0D, 0.0D);
 +        // Loom start :: fire NoteBlockPlayedEvent
-+        /*org.loomdev.loom.event.LoomEventDispatcher.onNoteBlockPlayed(world, blockpos, blockstate.get(INSTRUMENT), k, f).thenAccept(event -> {
-+            if (!event.isCancelled()) {
-+                world.playSound((PlayerEntity) null, blockpos, Instrument.valueOf(event.getInstrument().name()).getSound(), SoundCategory.RECORDS, 3.0F, event.getPitch());
-+                world.addParticle(ParticleTypes.HEART, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 1.2D, (double) blockpos.getZ() + 0.5D, (double) event.getNote().getIndex() / 24.0D, 0.0D, 0.0D);
-+            }
-+        });*/ // TODO
++        org.loomdev.api.event.block.note.NoteBlockPlayedEvent event = org.loomdev.loom.event.LoomEventDispatcher.onNoteBlockPlayed(world, blockpos, blockstate.get(INSTRUMENT), k, f);
++
++        if (event.isCancelled()) {
++            return false;
++        }
++
++        world.playSound((PlayerEntity) null, blockpos, Instrument.valueOf(event.getInstrument().name()).getSound(), SoundCategory.RECORDS, 3.0F, event.getPitch());
+         world.addParticle(ParticleTypes.NOTE, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 1.2D, (double) blockpos.getZ() + 0.5D, (double) k / 24.0D, 0.0D, 0.0D);
 +        // Loom end
          return true;
      }

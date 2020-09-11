@@ -5,11 +5,11 @@
  
              if (((ServerWorld) this.world).getEnderDragonFight() != null && this.world.getBlockState(blockpos).isAir()) {
 +                // Loom start :: fire BlockIgnitedEvent
-+                org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(this.world, blockpos, this, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.END_CRYSTAL).thenAccept(event -> {
-+                   if (!event.isCancelled()) {
++                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(this.world, blockpos, this, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.END_CRYSTAL).isCancelled()) {
++                    return;
++                }
++
                  this.world.setBlockState(blockpos, AbstractFireBlock.getState(this.world, blockpos));
-+                   }
-+                });
 +                // Loom end
              }
          }

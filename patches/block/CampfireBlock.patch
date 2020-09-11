@@ -4,13 +4,12 @@
  
              if (flag && !(Boolean) blockstate.get(CampfireBlock.LIT) && !(Boolean) blockstate.get(CampfireBlock.WATERLOGGED)) {
                  BlockPos blockpos = blockhitresult.getBlockPos();
--
 +                // Loom start :: fire BlockIgnitedEvent
-+                org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, projectileentity, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FLAME_ARROW).thenAccept(event -> {
-+                   if (!event.isCancelled()) {
++                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, projectileentity, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FLAME_ARROW).isCancelled()) {{
++                    return;
++                }}
+ 
                  world.setBlockState(blockpos, (BlockState) blockstate.with(Properties.LIT, true), 11);
-+                   }
-+                });
 +                // Loom end
              }
          }

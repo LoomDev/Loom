@@ -1,16 +1,14 @@
 --- a/net/minecraft/block/CoralBlock.java
 +++ b/net/minecraft/block/CoralBlock.java
-@@ -26,7 +26,13 @@
+@@ -26,6 +26,11 @@
  
      public void scheduledTick(BlockState blockstate, ServerWorld serverworld, BlockPos blockpos, Random random) {
          if (!isInWater(blockstate, serverworld, blockpos)) {
-+            // Loom start :: fire CoralDiedEvent
-+            org.loomdev.loom.event.LoomEventDispatcher.onPlantDied(serverworld, blockpos).thenAccept(event -> {
-+                if (!event.isCancelled()) {
-             serverworld.setBlockState(blockpos, (BlockState) this.deadCoralBlock.getDefaultState().with(CoralBlock.WATERLOGGED, false), 2);
-+                }
-+            });
++            // Loom start :: fire PlantDiedEvent
++            if (org.loomdev.loom.event.LoomEventDispatcher.onPlantDied(serverworld, blockpos).isCancelled()) {
++                return;
++            }
 +            // Loom end
+             serverworld.setBlockState(blockpos, (BlockState) this.deadCoralBlock.getDefaultState().with(CoralBlock.WATERLOGGED, false), 2);
          }
  
-     }

@@ -17,11 +17,11 @@
                  i -= j;
 -                serverworld.spawnEntity(new ExperienceOrbEntity(serverworld, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D, j));
 +                // Loom start :: fire BlockDroppedExperienceEvent
-+                org.loomdev.loom.event.LoomEventDispatcher.onBlockDroppedExperience(serverworld, blockpos, j).thenAccept(event -> {
-+                    if (!event.isCancelled()) {
-+                        serverworld.spawnEntity(new ExperienceOrbEntity(serverworld, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D, event.getDroppedExperience()));
-+                    }
-+                });
++                org.loomdev.api.event.block.BlockDroppedExperienceEvent event = org.loomdev.loom.event.LoomEventDispatcher.onBlockDroppedExperience(serverworld, blockpos, j);
++
++                if (!event.isCancelled()) {
++                serverworld.spawnEntity(new ExperienceOrbEntity(serverworld, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D, event.getDroppedExperience()));
++                }
 +                // Loom end
              }
          }

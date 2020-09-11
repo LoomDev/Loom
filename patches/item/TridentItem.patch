@@ -1,15 +1,16 @@
 --- a/net/minecraft/item/TridentItem.java
 +++ b/net/minecraft/item/TridentItem.java
-@@ -82,13 +82,20 @@
+@@ -82,13 +82,21 @@
  
                      playerentity.incrementStat(Stats.USED.getOrCreateStat(this));
                      if (k > 0) {
 +                        // Loom start :: fire PlayerRiptideLaunchedEvent
-+                        org.loomdev.loom.event.LoomEventDispatcher.onPlayerRiptideLaunched(playerentity, k).thenAccept(event -> {
-+                            if (event.isCancelled()) {
-+                                playerentity.velocityModified = true; // inform the client of the player's actual velocity
-+                                return;
-+                            }
++                        org.loomdev.api.event.player.movement.PlayerRiptideLaunchedEvent event = org.loomdev.loom.event.LoomEventDispatcher.onPlayerRiptideLaunched(playerentity, k);
++
++                        if (event.isCancelled()) {
++                            playerentity.velocityModified = true; // inform the client of the player's actual velocity
++                            return;
++                        }
 +
                          float f = playerentity.yaw;
                          float f1 = playerentity.pitch;
@@ -22,7 +23,7 @@
  
                          f2 *= f6 / f5;
                          f3 *= f6 / f5;
-@@ -103,15 +110,17 @@
+@@ -103,13 +111,14 @@
  
                          SoundEvent soundevent;
  
@@ -35,10 +36,7 @@
                          } else {
                              soundevent = SoundEvents.ITEM_TRIDENT_RIPTIDE_1;
                          }
++                        // Loom end
  
                          world.playSoundFromEntity((PlayerEntity) null, playerentity, soundevent, SoundCategory.PLAYERS, 1.0F, 1.0F);
-+                        });
-+                        // Loom end
                      }
- 
-                 }

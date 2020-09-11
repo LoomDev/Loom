@@ -1,22 +1,21 @@
 --- a/net/minecraft/block/BedBlock.java
 +++ b/net/minecraft/block/BedBlock.java
-@@ -135,7 +135,18 @@
+@@ -135,7 +135,17 @@
          if (vec3d.y < 0.0D) {
              double d0 = entity instanceof LivingEntity ? 1.0D : 0.8D;
  
 -            entity.setVelocity(vec3d.x, -vec3d.y * 0.6600000262260437D * d0, vec3d.z);
-+            // Loom :: fire BlockBouncedEvent
-+            org.loomdev.loom.event.LoomEventDispatcher.onBlockBounced(entity.world, entity.getBlockPos(), entity, d0).thenAccept(event -> {
-+               if (!event.isCancelled()) {
-+                   entity.setVelocity(vec3d.x, -vec3d.y * 0.6600000262260437D * event.getBounceMultiplier(), vec3d.z);
-+               } else {
-+                   // If cancelled, make sure the player doesn't bounce
-+                   entity.setVelocity(0, 0, 0);
-+               }
++            // Loom :: fire EntityBouncedEvent
++            org.loomdev.api.event.entity.movement.EntityBouncedEvent event = org.loomdev.loom.event.LoomEventDispatcher.onEntityBounced(entity, d0);
 +
-+               entity.velocityModified = true;
-+            });
-+            // Loom end;
++            if (event.isCancelled()) {
++                entity.setVelocity(vec3d.x, 0, vec3d.z);
++            } else {
++                entity.setVelocity(vec3d.x, -vec3d.y * 0.6600000262260437D * event.getBounceMultiplier(), vec3d.z);
++            }
++
++            entity.velocityModified = true;
++            // Loom end
          }
  
      }

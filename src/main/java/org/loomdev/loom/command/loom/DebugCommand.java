@@ -7,6 +7,7 @@ import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.Tnt;
+import org.loomdev.api.entity.mob.Creeper;
 import org.loomdev.api.entity.player.Player;
 
 import java.security.SecureRandom;
@@ -22,8 +23,9 @@ public class DebugCommand extends Command {
     public void execute(@NotNull CommandSource source, String[] args) {
         Player player = ((Player) source);
 
-        player.getWorld().spawnEntity(EntityType.TNT, player.getLocation()).ifPresent(entity -> {
-            ((Tnt) entity).setExplosionPower(15);
+        player.getWorld().spawnEntity(EntityType.CREEPER, player.getLocation()).ifPresent(entity -> {
+            ((Creeper) entity).setExplosionPower(15);
+            ((Creeper) entity).setCharged(true);
             player.sendMessage("Spawned entity.");
         });
     }

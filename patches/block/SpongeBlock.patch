@@ -45,17 +45,15 @@
                          ++i;
                          if (j < 6) {
                              queue.add(new Pair<>(blockpos2, j + 1));
-@@ -86,6 +85,39 @@
+@@ -86,6 +85,37 @@
              }
          }
  
 +        // Loom start :: fire SpongeAbsorbedEvent
 +        final int finali = i;
-+        org.loomdev.loom.event.LoomEventDispatcher.onSpongeAbsorbed(world, blockpos, absorbedBlocks).thenAccept(event -> {
-+            if (event.isCancelled()) {
-+                return;
-+            }
++        org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent event = org.loomdev.loom.event.LoomEventDispatcher.onSpongeAbsorbed(world, blockpos, absorbedBlocks);
 +
++        if (!event.isCancelled()) {
 +            for (org.loomdev.api.block.Block block : event.getAbsorbedBlocks()) {
 +                org.loomdev.loom.block.BlockImpl blockImpl = (org.loomdev.loom.block.BlockImpl) block;
 +
@@ -79,7 +77,7 @@
 +                world.setBlockState(blockpos, Blocks.WET_SPONGE.getDefaultState(), 2);
 +                world.syncWorldEvent(2001, blockpos, Block.getRawIdFromState(Blocks.WATER.getDefaultState()));
 +            }
-+        });
++        }
 +        // Loom end
 +
          return i > 0;

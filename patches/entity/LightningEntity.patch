@@ -9,34 +9,30 @@
      @Nullable
      private ServerPlayerEntity channeler;
  
-@@ -102,7 +102,14 @@
+@@ -102,7 +102,13 @@
              BlockState blockstate = AbstractFireBlock.getState(this.world, blockpos);
  
              if (this.world.getBlockState(blockpos).isAir() && blockstate.canPlaceAt(this.world, blockpos)) {
--                this.world.setBlockState(blockpos, blockstate);
 +                // Loom start :: fire BlockIgnitedEvent
-+                final BlockState finalState = blockstate;
-+                org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(this.world, blockpos, this, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LIGHTNING).thenAccept(event -> {
-+                    if (!event.isCancelled()) {
-+                this.world.setBlockState(blockpos, finalState);
-+                    }
-+                });
++                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(this.world, blockpos, this, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LIGHTNING).isCancelled()) {
++                    return;
++                }
++
+                 this.world.setBlockState(blockpos, blockstate);
 +                // Loom end
              }
  
              for (int j = 0; j < i; ++j) {
-@@ -110,7 +117,14 @@
+@@ -110,7 +116,13 @@
  
                  blockstate = AbstractFireBlock.getState(this.world, blockpos1);
                  if (this.world.getBlockState(blockpos1).isAir() && blockstate.canPlaceAt(this.world, blockpos1)) {
--                    this.world.setBlockState(blockpos1, blockstate);
 +                    // Loom start :: fire BlockIgnitedEvent
-+                    final BlockState finalState = blockstate;
-+                    org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(this.world, blockpos1, this, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LIGHTNING).thenAccept(event -> {
-+                        if (!event.isCancelled()) {
-+                    this.world.setBlockState(blockpos1, finalState);
-+                        }
-+                    });
++                    if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(this.world, blockpos1, this, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LIGHTNING).isCancelled()) {
++                        return;
++                    }
++
+                     this.world.setBlockState(blockpos1, blockstate);
 +                    // Loom end
                  }
              }
