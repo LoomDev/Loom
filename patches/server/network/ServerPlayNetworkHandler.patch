@@ -69,3 +69,17 @@
              }
  
              this.messageCooldown += 20;
+@@ -1369,9 +1392,13 @@
+ 
+             String[] astring = updatesignc2spacket.getText();
+ 
++            // Loom start :: fire SignWrittenEvent
++            if (!org.loomdev.loom.event.LoomEventDispatcher.onSignWritten(serverworld, blockpos, this.player, astring).isCancelled()) {
+             for (int i = 0; i < astring.length; ++i) {
+                 signblockentity.setTextOnRow(i, new LiteralText(Formatting.strip(astring[i])));
+             }
++            }
++            // Loom end
+ 
+             signblockentity.markDirty();
+             serverworld.updateListeners(blockpos, blockstate, blockstate, 3);

@@ -30,6 +30,7 @@ import org.loomdev.api.event.block.*;
 import org.loomdev.api.event.block.fluid.FluidLevelChangedEvent;
 import org.loomdev.api.event.block.note.NoteBlockPlayedEvent;
 import org.loomdev.api.event.block.plant.*;
+import org.loomdev.api.event.block.sign.SignWrittenEvent;
 import org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent;
 import org.loomdev.api.event.entity.armor.EntityEquippedEquipmentEvent;
 import org.loomdev.api.event.entity.creeper.CreeperChargedEvent;
@@ -53,6 +54,7 @@ import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.net.InetSocketAddress;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -135,7 +137,7 @@ public final class LoomEventDispatcher {
     public static BlockExplodedEvent onBlockExploded(@NotNull WorldAccess world, @NotNull BlockPos pos, float power, @NotNull List<BlockPos> explodedBlocks) {
         Set<Block> blocks = explodedBlocks.stream().map(blockpos -> BlockImpl.at(world, blockpos)).collect(Collectors.toSet());
         BlockExplodedEvent event = new BlockExplodedEvent(BlockImpl.at(world, pos), power, blocks);
-        event.cancel(true); // TODO figure this out later
+        event.setCancelled(true); // TODO figure this out later
         return fire(event);
     }
 
@@ -185,6 +187,11 @@ public final class LoomEventDispatcher {
     }
 
     @NotNull
+    public static SignWrittenEvent onSignWritten(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull PlayerEntity player, @NotNull String[] text) {
+        return fire(new SignWrittenEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity(), text));
+    }
+
+    @NotNull
     public static SpongeAbsorbedEvent onSpongeAbsorbed(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull Set<Block> absorbedBlocks) {
         return fire(new SpongeAbsorbedEvent(BlockImpl.at(world, pos), absorbedBlocks));
     }
@@ -221,7 +228,7 @@ public final class LoomEventDispatcher {
     @NotNull
     public static CompletableFuture<PlayerMovedEvent> onPlayerMoved(@NotNull PlayerEntity playerEntity, @NotNull Location currentLocation, @NotNull Location newLocation) {
         PlayerMovedEvent event = new PlayerMovedEvent((PlayerImpl) playerEntity.getLoomEntity(), currentLocation, newLocation);
-        event.cancel(true);
+        event.setCancelled(true);
         return fireAsync(event);
     }
 
@@ -248,7 +255,7 @@ public final class LoomEventDispatcher {
     @NotNull
     public static EntityToggledSwimmingEvent onEntityToggledSwimming(Entity entity) {
         EntityToggledSwimmingEvent event = new EntityToggledSwimmingEvent(entity.getLoomEntity());
-        event.cancel(true);
+        event.setCancelled(true);
         return fire(event);
     }
 
