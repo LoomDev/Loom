@@ -1,16 +1,16 @@
 --- a/net/minecraft/block/CampfireBlock.java
 +++ b/net/minecraft/block/CampfireBlock.java
-@@ -173,8 +173,13 @@
+@@ -173,7 +173,12 @@
  
              if (flag && !(Boolean) blockstate.get(CampfireBlock.LIT) && !(Boolean) blockstate.get(CampfireBlock.WATERLOGGED)) {
                  BlockPos blockpos = blockhitresult.getBlockPos();
+-
 +                // Loom start :: fire BlockIgnitedEvent
-+                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, projectileentity, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FLAME_ARROW).isCancelled()) {{
++                org.loomdev.api.event.block.BlockIgnitedEvent.Cause cause = projectileentity instanceof net.minecraft.entity.projectile.AbstractFireballEntity ? org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FIREBALL : org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FLAME_ARROW;
++                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, projectileentity, cause).isCancelled()) {
 +                    return;
-+                }}
- 
-                 world.setBlockState(blockpos, (BlockState) blockstate.with(Properties.LIT, true), 11);
++                }
 +                // Loom end
+                 world.setBlockState(blockpos, (BlockState) blockstate.with(Properties.LIT, true), 11);
              }
          }
- 

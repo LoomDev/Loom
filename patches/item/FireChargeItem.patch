@@ -1,0 +1,25 @@
+--- a/net/minecraft/item/FireChargeItem.java
++++ b/net/minecraft/item/FireChargeItem.java
+@@ -23,12 +23,22 @@
+         boolean flag = false;
+ 
+         if (CampfireBlock.method_30035(blockstate)) {
++            // Loom start :: fire BlockIgnitedEvent
++            if (itemusagecontext.getPlayer() != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, itemusagecontext.getPlayer(), org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FIRE_CHARGE).isCancelled()) {
++                return ActionResult.FAIL;
++            }
++            // Loom end
+             this.playUseSound(world, blockpos);
+             world.setBlockState(blockpos, (BlockState) blockstate.with(CampfireBlock.LIT, true));
+             flag = true;
+         } else {
+             blockpos = blockpos.offset(itemusagecontext.getSide());
+             if (AbstractFireBlock.method_30032(world, blockpos, itemusagecontext.getPlayerFacing())) {
++                // Loom start :: fire BlockIgnitedEvent
++                if (itemusagecontext.getPlayer() != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, itemusagecontext.getPlayer(), org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FIRE_CHARGE).isCancelled()) {
++                    return ActionResult.FAIL;
++                }
++                // Loom end
+                 this.playUseSound(world, blockpos);
+                 world.setBlockState(blockpos, AbstractFireBlock.getState(world, blockpos));
+                 flag = true;
