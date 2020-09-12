@@ -134,11 +134,12 @@ public final class LoomEventDispatcher {
     }
 
     @NotNull
-    public static BlockExplodedEvent onBlockExploded(@NotNull WorldAccess world, @NotNull BlockPos pos, float power, @NotNull List<BlockPos> explodedBlocks) {
-        Set<Block> blocks = explodedBlocks.stream().map(blockpos -> BlockImpl.at(world, blockpos)).collect(Collectors.toSet());
-        BlockExplodedEvent event = new BlockExplodedEvent(BlockImpl.at(world, pos), power, blocks);
-        event.setCancelled(true); // TODO figure this out later
-        return fire(event);
+    public static BlockExplodedEvent onBlockExploded(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull List<BlockPos> explodedBlocks) {
+        Set<Block> blocks = explodedBlocks.stream()
+                .map(blockpos -> BlockImpl.at(world, blockpos))
+                .collect(Collectors.toSet());
+
+        return fire(new BlockExplodedEvent(BlockImpl.at(world, pos), blocks));
     }
 
     @NotNull

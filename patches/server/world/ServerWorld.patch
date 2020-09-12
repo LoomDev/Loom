@@ -38,6 +38,15 @@
          });
      }
  
+@@ -1087,7 +1090,7 @@
+ 
+         explosion.collectBlocksAndDamageEntities();
+         explosion.affectWorld(false);
+-        if (explosion_destructiontype == Explosion.DestructionType.NONE) {
++        if (explosion.destructionType == Explosion.DestructionType.NONE) { // Loom :: cancellable explosions
+             explosion.clearAffectedBlocks();
+         }
+ 
 @@ -1581,19 +1584,5 @@
          });
      }

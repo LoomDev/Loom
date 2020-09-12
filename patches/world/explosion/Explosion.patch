@@ -1,6 +1,44 @@
 --- a/net/minecraft/world/explosion/Explosion.java
 +++ b/net/minecraft/world/explosion/Explosion.java
-@@ -278,6 +278,11 @@
+@@ -47,7 +47,7 @@
+ 
+     private static final ExplosionBehavior field_25818 = new ExplosionBehavior();
+     private final boolean createFire;
+-    private final Explosion.DestructionType destructionType;
++    public Explosion.DestructionType destructionType; // Loom :: public access, non-final
+     private final Random random = new Random();
+     private final World world;
+     private final double x;
+@@ -58,7 +58,7 @@
+     private final float power;
+     private final DamageSource damageSource;
+     private final ExplosionBehavior behavior;
+-    private final List<BlockPos> affectedBlocks = Lists.newArrayList();
++    private List<BlockPos> affectedBlocks = Lists.newArrayList(); // Loom :: non-final
+     private final Map<PlayerEntity, Vec3d> affectedPlayers = Maps.newHashMap();
+ 
+     public Explosion(World world, @Nullable Entity entity, @Nullable DamageSource damagesource, @Nullable ExplosionBehavior explosionbehavior, double d0, double d1, double d2, float f, boolean flag, Explosion.DestructionType explosion_destructiontype) {
+@@ -232,7 +232,18 @@
+             ObjectArrayList<Pair<ItemStack, BlockPos>> objectarraylist = new ObjectArrayList();
+ 
+             Collections.shuffle(this.affectedBlocks, this.world.random);
+-            Iterator iterator = this.affectedBlocks.iterator();
++            // Loom start :: fire BlockExplodedEvent
++            org.loomdev.api.event.block.BlockExplodedEvent event = org.loomdev.loom.event.LoomEventDispatcher.onBlockExploded(world, new BlockPos(this.x, this.y, this.z), this.affectedBlocks);
++
++            if (event.isCancelled()) {
++                this.destructionType = DestructionType.NONE;
++                return;
++            }
++
++            Iterator iterator = event.getExplodedBlocks().stream()
++                    .map(block -> new BlockPos(block.getX(), block.getY(), block.getZ()))
++                    .iterator();
++            // Loom end
+ 
+             while (iterator.hasNext()) {
+                 BlockPos blockpos = (BlockPos) iterator.next();
+@@ -278,6 +289,11 @@
                  BlockPos blockpos2 = (BlockPos) iterator1.next();
  
                  if (this.random.nextInt(3) == 0 && this.world.getBlockState(blockpos2).isAir() && this.world.getBlockState(blockpos2.down()).isOpaqueFullCube(this.world, blockpos2.down())) {
