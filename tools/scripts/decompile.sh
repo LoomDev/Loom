@@ -13,12 +13,6 @@ mcVersion="1.16.3"
 function setup {
     git submodule update --init --recursive
 
-    if [ ! -f "$toolsdir/fernflower.jar" ]; then
-        echo "Downloading necessary libraries."
-        cd "$toolsdir"
-        wget "$fernflower"
-    fi
-
     echo "Mapping vanilla server jar."
     cp "$toolsdir/build-patched.gradle" "$yarndir/build.gradle" || exit 1
 	sed -i "s/%version%/$mcVersion/" "$yarndir/build.gradle"

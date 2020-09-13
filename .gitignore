@@ -168,7 +168,6 @@ modules.xml
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -218,5 +217,4 @@ gradle-app.setting
 /dev-server/
 /tools/dev-server/
 /tools/decomp/
-/tools/fernflower.jar
 
