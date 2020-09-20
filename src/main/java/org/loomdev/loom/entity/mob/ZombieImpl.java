@@ -11,7 +11,7 @@ public class ZombieImpl extends HostileEntityImpl implements Zombie {
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    public @NotNull EntityType<Zombie> getType() {
         return EntityType.ZOMBIE;
     }
 
@@ -56,7 +56,7 @@ public class ZombieImpl extends HostileEntityImpl implements Zombie {
     }
 
     @Override
-    public void convert(boolean sound) {
-        getMinecraftEntity().convertInWater(!sound);
+    public void convert() {
+        getMinecraftEntity().convertInWater(false);
     }
 }

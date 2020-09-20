@@ -4,7 +4,7 @@ import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.passive.AbstractDonkey;
 
-public class AbstractDonkeyImpl extends HorseBaseImpl implements AbstractDonkey {
+public abstract class AbstractDonkeyImpl extends HorseBaseImpl implements AbstractDonkey {
 
     public AbstractDonkeyImpl(AbstractDonkeyEntity entity) {
         super(entity);

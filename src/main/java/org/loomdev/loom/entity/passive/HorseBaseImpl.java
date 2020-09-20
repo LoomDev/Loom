@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.UUID;
 
-public class HorseBaseImpl extends AnimalEntityImpl implements HorseBase {
+public abstract class HorseBaseImpl extends AnimalEntityImpl implements HorseBase {
 
     public HorseBaseImpl(HorseBaseEntity entity) {
         super(entity);

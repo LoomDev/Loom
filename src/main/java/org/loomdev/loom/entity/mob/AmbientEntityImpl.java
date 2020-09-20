@@ -3,7 +3,7 @@ package org.loomdev.loom.entity.mob;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.mob.AmbientEntity;
 
-public class AmbientEntityImpl extends MobEntityImpl implements AmbientEntity {
+public abstract class AmbientEntityImpl extends MobEntityImpl implements AmbientEntity {
 
     public AmbientEntityImpl(net.minecraft.entity.mob.AmbientEntity entity) {
         super(entity);

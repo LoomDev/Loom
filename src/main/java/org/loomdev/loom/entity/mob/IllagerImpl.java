@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.mob.Illager;
 import org.loomdev.loom.entity.raid.RaiderImpl;
 
-public class IllagerImpl extends RaiderImpl implements Illager {
+public abstract class IllagerImpl extends RaiderImpl implements Illager {
 
     public IllagerImpl(IllagerEntity entity) {
         super(entity);

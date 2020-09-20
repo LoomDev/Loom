@@ -9,6 +9,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.Loom;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
@@ -26,7 +27,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class EntityImpl implements Entity {
+public abstract class EntityImpl implements Entity {
 
     private final net.minecraft.entity.Entity mcEntity;
 
@@ -36,11 +37,6 @@ public class EntityImpl implements Entity {
 
     public @NotNull net.minecraft.entity.Entity getMinecraftEntity() {
         return this.mcEntity;
-    }
-
-    @Override
-    public @NotNull EntityType getType() {
-        return EntityType.UNKNOWN;
     }
 
     @Override
@@ -63,17 +59,15 @@ public class EntityImpl implements Entity {
         return TextTransformer.toLoom(this.mcEntity.getDisplayName()); // TODO check
     }
 
+    @Nullable
     @Override
-    public @NotNull Optional<Component> getCustomName() {
-        if (!this.hasCustomName()) {
-            return Optional.empty();
-        }
-        return Optional.of(TextTransformer.toLoom(this.mcEntity.getCustomName())); // TODO check
+    public Component getCustomName() {
+        return this.mcEntity.getCustomName() == null ? null : TextTransformer.toLoom(this.mcEntity.getCustomName());
     }
 
     @Override
-    public void setCustomName(@NotNull Component component) {
-        this.mcEntity.setCustomName(TextTransformer.toMinecraft(component)); // TODO check
+    public void setCustomName(@Nullable Component component) {
+        this.mcEntity.setCustomName(component == null ? null : TextTransformer.toMinecraft(component));
     }
 
     @Override

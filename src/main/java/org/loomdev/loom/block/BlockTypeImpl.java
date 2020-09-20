@@ -14,8 +14,8 @@ public class BlockTypeImpl implements BlockType {
     private final Block mcBlock;
     private final NamespacedKey namespacedKey;
 
-    public BlockTypeImpl(Block mcBlock, String key) {
-        this.mcBlock = mcBlock;
+    public BlockTypeImpl(String key) {
+        this.mcBlock = Registry.BLOCK.get(new Identifier(key));
         this.namespacedKey = NamespacedKey.of(key);
     }
 

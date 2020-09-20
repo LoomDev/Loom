@@ -1,0 +1,27 @@
+--- a/net/minecraft/entity/EyeOfEnderEntity.java
++++ b/net/minecraft/entity/EyeOfEnderEntity.java
+@@ -20,11 +20,11 @@
+ public class EyeOfEnderEntity extends Entity {
+ 
+     private static final TrackedData<ItemStack> ITEM = DataTracker.registerData(EyeOfEnderEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
+-    private double targetX;
+-    private double targetY;
+-    private double targetZ;
++    public double targetX; // Loom :: public accessor
++    public double targetY; // Loom :: public accessor
++    public double targetZ; // Loom :: public accessor
+     private int lifespan;
+-    private boolean dropsItem;
++    public boolean dropsItem; // Loom :: public accessor
+ 
+     public EyeOfEnderEntity(EntityType<? extends EyeOfEnderEntity> entitytype, World world) {
+         super(entitytype, world);
+@@ -45,7 +45,7 @@
+ 
+     }
+ 
+-    private ItemStack getTrackedItem() {
++    public ItemStack getTrackedItem() { // Loom :: public accessor
+         return (ItemStack) this.getDataTracker().get(EyeOfEnderEntity.ITEM);
+     }
+ 

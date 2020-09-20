@@ -6,7 +6,7 @@ import org.loomdev.api.entity.projectile.SizedFireball;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.loom.item.ItemStackImpl;
 
-public class SizedFireballImpl extends ProjectileImpl implements SizedFireball {
+public abstract class SizedFireballImpl extends ProjectileImpl implements SizedFireball {
 
     public SizedFireballImpl(AbstractFireballEntity entity) {
         super(entity);

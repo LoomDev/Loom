@@ -38,12 +38,12 @@ public class PaintingImpl extends DecorationEntityImpl implements Painting {
 
     public static class MotiveImpl implements Motive {
 
-        private PaintingMotive mcMotive;
-        private NamespacedKey key;
+        private final PaintingMotive mcMotive;
+        private final NamespacedKey namespacedKey;
 
-        public MotiveImpl(PaintingMotive mcMotive, String key) {
-            this.mcMotive = mcMotive;
-            this.key = NamespacedKey.of(key);
+        public MotiveImpl(String key) {
+            this.mcMotive = Registry.PAINTING_MOTIVE.get(new Identifier(key));
+            this.namespacedKey = NamespacedKey.of(key);
         }
 
         @Override
@@ -58,7 +58,7 @@ public class PaintingImpl extends DecorationEntityImpl implements Painting {
 
         @Override
         public @NotNull NamespacedKey getKey() {
-            return this.key;
+            return this.namespacedKey;
         }
     }
 }

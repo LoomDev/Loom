@@ -14,7 +14,7 @@ public class EnderDragonPartImpl extends EntityImpl implements EnderDragonPart {
 
     @Override
     public @NotNull EntityType getType() {
-        return EntityType.UNKNOWN;
+        return EntityType.ENDER_DRAGON;
     }
 
     @Override

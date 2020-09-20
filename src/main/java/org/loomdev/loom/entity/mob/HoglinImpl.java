@@ -1,13 +1,14 @@
 package org.loomdev.loom.entity.mob;
 
 import net.minecraft.entity.mob.HoglinEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.mob.Hoglin;
 import org.loomdev.loom.entity.passive.AnimalEntityImpl;
 
-public class HoglinImpl extends AnimalEntityImpl implements Hoglin {
+public abstract class HoglinImpl extends AnimalEntityImpl implements Hoglin {
 
     public HoglinImpl(HoglinEntity entity) {
         super(entity);
@@ -59,10 +60,7 @@ public class HoglinImpl extends AnimalEntityImpl implements Hoglin {
     }
 
     @Override
-    public void convert(boolean sound) {
-        if (sound) {
-            getMinecraftEntity().method_30081(SoundEvents.ENTITY_HOGLIN_CONVERTED_TO_ZOMBIFIED);
-        }
-        getMinecraftEntity().zombify(null);
+    public void convert() {
+        getMinecraftEntity().zombify((ServerWorld) getMinecraftEntity().world);
     }
 }

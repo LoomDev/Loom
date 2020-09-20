@@ -7,7 +7,6 @@ import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.passive.IronGolem;
 import org.loomdev.api.entity.player.Player;
-import org.loomdev.loom.GolemImpl;
 import org.loomdev.loom.entity.LivingEntityImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
 

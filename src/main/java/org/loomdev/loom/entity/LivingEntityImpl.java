@@ -26,7 +26,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class LivingEntityImpl extends EntityImpl implements LivingEntity {
+public abstract class LivingEntityImpl extends EntityImpl implements LivingEntity {
 
     public LivingEntityImpl(net.minecraft.entity.LivingEntity entity) {
         super(entity);
@@ -321,6 +321,11 @@ public class LivingEntityImpl extends EntityImpl implements LivingEntity {
     @Override
     public void clearSleepingPosition() {
         getMinecraftEntity().clearSleepingPosition();
+    }
+
+    @Override
+    public void wakeUp() {
+        getMinecraftEntity().wakeUp();
     }
 
     @Override

@@ -1,0 +1,54 @@
+--- a/net/minecraft/entity/passive/VillagerEntity.java
++++ b/net/minecraft/entity/passive/VillagerEntity.java
+@@ -132,7 +132,7 @@
+     }
+ 
+     public Brain<VillagerEntity> getBrain() {
+-        return super.getBrain();
++        return (Brain<VillagerEntity>) super.getBrain(); // Loom :: decompile error
+     }
+ 
+     protected Brain.Profile<VillagerEntity> createBrainProfile() {
+@@ -444,7 +444,7 @@
+ 
+     public void writeCustomDataToTag(CompoundTag compoundtag) {
+         super.writeCustomDataToTag(compoundtag);
+-        DataResult dataresult = VillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getVillagerData());
++        DataResult<Tag> dataresult = VillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getVillagerData()); // Loom :: decompile error
+         Logger logger = VillagerEntity.LOGGER;
+ 
+         logger.getClass();
+@@ -690,7 +690,7 @@
+         this.fillRecipes();
+     }
+ 
+-    protected Text getDefaultName() {
++    public Text getDefaultName() { // Loom :: public accessor
+         return new TranslatableText(this.getType().getTranslationKey() + '.' + Registry.VILLAGER_PROFESSION.getId(this.getVillagerData().getProfession()).getPath());
+     }
+ 
+@@ -947,14 +947,14 @@
+ 
+     public void sleep(BlockPos blockpos) {
+         super.sleep(blockpos);
+-        this.brain.remember(MemoryModuleType.LAST_SLEPT, (Object) this.world.getTime());
++        this.brain.remember(MemoryModuleType.LAST_SLEPT, this.world.getTime()); // Loom :: decompile error
+         this.brain.forget(MemoryModuleType.WALK_TARGET);
+         this.brain.forget(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
+     }
+ 
+     public void wakeUp() {
+         super.wakeUp();
+-        this.brain.remember(MemoryModuleType.LAST_WOKEN, (Object) this.world.getTime());
++        this.brain.remember(MemoryModuleType.LAST_WOKEN, this.world.getTime()); // Loom :: decompile error
+     }
+ 
+     private boolean hasRecentlyWorkedAndSlept(long i) {
+@@ -963,7 +963,4 @@
+         return optional.isPresent() ? i - (Long) optional.get() < 24000L : false;
+     }
+ 
+-    public PassiveEntity createChild(ServerWorld serverworld, PassiveEntity passiveentity) {
+-        return this.createChild(serverworld, passiveentity);
+-    }
+ }

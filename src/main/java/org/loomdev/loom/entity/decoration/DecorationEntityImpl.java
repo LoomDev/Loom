@@ -6,7 +6,7 @@ import org.loomdev.api.entity.decoration.DecorationEntity;
 import org.loomdev.api.util.Direction;
 import org.loomdev.loom.entity.EntityImpl;
 
-public class DecorationEntityImpl extends EntityImpl implements DecorationEntity {
+public abstract class DecorationEntityImpl extends EntityImpl implements DecorationEntity {
 
     public DecorationEntityImpl(AbstractDecorationEntity entity) {
         super(entity);

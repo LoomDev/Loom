@@ -1,0 +1,24 @@
+--- a/net/minecraft/entity/mob/ZombieVillagerEntity.java
++++ b/net/minecraft/entity/mob/ZombieVillagerEntity.java
+@@ -50,10 +50,10 @@
+     private static final TrackedData<Boolean> CONVERTING = DataTracker.registerData(ZombieVillagerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+     private static final TrackedData<VillagerData> VILLAGER_DATA = DataTracker.registerData(ZombieVillagerEntity.class, TrackedDataHandlerRegistry.VILLAGER_DATA);
+     private int conversionTimer;
+-    private UUID converter;
++    public UUID converter; // Loom :: public accessor
+     private Tag gossipData;
+     private CompoundTag offerData;
+-    private int xp;
++    public int xp; // Loom :: public accessor
+ 
+     public ZombieVillagerEntity(EntityType<? extends ZombieVillagerEntity> entitytype, World world) {
+         super(entitytype, world);
+@@ -68,7 +68,7 @@
+ 
+     public void writeCustomDataToTag(CompoundTag compoundtag) {
+         super.writeCustomDataToTag(compoundtag);
+-        DataResult dataresult = VillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getVillagerData());
++        DataResult<Tag> dataresult = VillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getVillagerData()); // Loom :: decompile error
+         Logger logger = ZombieVillagerEntity.LOGGER;
+ 
+         logger.getClass();

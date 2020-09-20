@@ -93,17 +93,17 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public @NotNull Optional<Entity> spawnEntity(@NotNull EntityType type, @NotNull Location location) {
+    public @NotNull <T extends Entity> Optional<T> spawnEntity(@NotNull EntityType<T> type, @NotNull Location location) {
         return location.getWorld().map(world -> {
             ServerWorld mcWorld = ((WorldImpl) world).getMinecraftWorld();
-            net.minecraft.entity.Entity mcEntity = Registry.ENTITY_TYPE.get(Identifier.tryParse(type.getId())).create(mcWorld);
+            net.minecraft.entity.Entity mcEntity = Registry.ENTITY_TYPE.get(new Identifier(type.getKey().toString())).create(mcWorld);
 
             if (mcEntity != null) {
                 mcEntity.updatePosition(location.getX(), location.getY(), location.getZ());
                 mcWorld.spawnEntity(mcEntity);
             }
 
-            return mcEntity.getLoomEntity();
+            return (T) mcEntity.getLoomEntity();
         });
     }
 

@@ -13,7 +13,7 @@ public class PersistentStateImpl<T extends BlockEntity> extends BlockStateImpl i
     private final T blockEntity;
 
     public PersistentStateImpl(T blockEntity) {
-        super(BlockImpl.at(blockEntity.getWorld(), blockEntity.getPos()));
+        super(BlockImpl.at(blockEntity.getWorld(), blockEntity.getPos()).getMinecraftBlockState());
         this.blockEntity = blockEntity;
     }
 

@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.raid.Raider;
 import org.loomdev.loom.entity.mob.PatrolEntityImpl;
 
-public class RaiderImpl extends PatrolEntityImpl implements Raider {
+public abstract class RaiderImpl extends PatrolEntityImpl implements Raider {
 
     public RaiderImpl(RaiderEntity entity) {
         super(entity);

@@ -8,7 +8,7 @@ import org.loomdev.loom.entity.EntityImpl;
 
 import java.util.Optional;
 
-public class ProjectileImpl extends EntityImpl implements Projectile {
+public abstract class ProjectileImpl extends EntityImpl implements Projectile {
     public ProjectileImpl(ProjectileEntity entity) {
         super(entity);
     }

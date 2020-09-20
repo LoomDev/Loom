@@ -1,0 +1,21 @@
+--- a/net/minecraft/entity/vehicle/TntMinecartEntity.java
++++ b/net/minecraft/entity/vehicle/TntMinecartEntity.java
+@@ -21,7 +21,8 @@
+ 
+ public class TntMinecartEntity extends AbstractMinecartEntity {
+ 
+-    private int fuseTicks = -1;
++    public int fuseTicks = -1;
++    public float loomExplosionPower = -1F; // Loom :: overridable explosion radius
+ 
+     public TntMinecartEntity(EntityType<? extends TntMinecartEntity> entitytype, World world) {
+         super(entitytype, world);
+@@ -98,7 +99,7 @@
+                 d1 = 5.0D;
+             }
+ 
+-            this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), (float) (4.0D + this.random.nextDouble() * 1.5D * d1), Explosion.DestructionType.BREAK);
++            this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), loomExplosionPower != -1F ? loomExplosionPower : (float) (4.0D + this.random.nextDouble() * 1.5D * d1), Explosion.DestructionType.BREAK);
+             this.remove();
+         }
+ 

@@ -14,9 +14,9 @@ public final class EnchantmentImpl implements Enchantment {
     private final net.minecraft.enchantment.Enchantment mcEnchant;
     private final NamespacedKey namespacedKey;
 
-    public EnchantmentImpl(net.minecraft.enchantment.Enchantment mcEnchant, String id) {
-        this.mcEnchant = mcEnchant;
-        this.namespacedKey = NamespacedKey.of(id);
+    public EnchantmentImpl(String key) {
+        this.mcEnchant = Registry.ENCHANTMENT.get(new Identifier(key));
+        this.namespacedKey = NamespacedKey.of(key);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class BlockImpl implements Block {
         return new BlockImpl(world, pos);
     }
 
-    public net.minecraft.block.BlockState getMinecraftBlock() {
+    public net.minecraft.block.BlockState getMinecraftBlockState() {
         return this.mcBlock;
     }
 

@@ -7,7 +7,7 @@ import org.loomdev.loom.item.ItemStackImpl;
 
 import java.util.UUID;
 
-public class AnimalEntityImpl extends PassiveEntityImpl implements AnimalEntity {
+public abstract class AnimalEntityImpl extends PassiveEntityImpl implements AnimalEntity {
     public AnimalEntityImpl(net.minecraft.entity.passive.AnimalEntity entity) {
         super(entity);
     }

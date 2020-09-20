@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.mob.WaterCreature;
 import org.loomdev.loom.entity.mob.PathAwareEntityImpl;
 
-public class WaterCreatureImpl extends PathAwareEntityImpl implements WaterCreature {
+public abstract class WaterCreatureImpl extends PathAwareEntityImpl implements WaterCreature {
 
     public WaterCreatureImpl(WaterCreatureEntity entity) {
         super(entity);

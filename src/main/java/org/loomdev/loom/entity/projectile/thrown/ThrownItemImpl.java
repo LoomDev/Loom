@@ -7,7 +7,7 @@ import org.loomdev.api.item.ItemStack;
 import org.loomdev.loom.entity.projectile.ProjectileImpl;
 import org.loomdev.loom.item.ItemStackImpl;
 
-public class ThrownItemImpl extends ProjectileImpl implements ThrownItem {
+public abstract class ThrownItemImpl extends ProjectileImpl implements ThrownItem {
 
     public ThrownItemImpl(ThrownItemEntity entity) {
         super(entity);

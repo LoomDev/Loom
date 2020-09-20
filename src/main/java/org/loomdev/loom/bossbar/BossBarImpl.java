@@ -140,6 +140,10 @@ public class BossBarImpl implements BossBar {
         getPlayers().forEach(this::removePlayer);
     }
 
+    public static BossBar ofMc(ServerBossBar mcBossBar) {
+        return new BossBarImpl(mcBossBar);
+    }
+
     public static class BuilderImpl implements BossBar.Builder {
 
         private BossBar bossbar;

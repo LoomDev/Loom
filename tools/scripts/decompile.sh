@@ -15,13 +15,13 @@ function setup {
 
     echo "Mapping vanilla server jar."
     cp "$toolsdir/build-patched.gradle" "$yarndir/build.gradle" || exit 1
-	sed -i "s/%version%/$mcVersion/" "$yarndir/build.gradle"
+	  sed -i "s/%version%/$mcVersion/" "$yarndir/build.gradle"
     rm -rf "$toolsdir/decomp"
     mkdir -p "$toolsdir/decomp"
     cd "$yarndir"
     eval "./gradlew mapNamedJar" || exit 1
     cp "$yarndir/$mcVersion-named.jar" "$toolsdir/decomp" || exit 1
-	git reset --hard
+	  git reset --hard
 
     mvn install:install-file -Dfile="$toolsdir/decomp/$mcVersion-named.jar" -DgroupId="org.loomdev" -DartifactId="minecraft-server" -Dversion="$mcVersion-SNAPSHOT" -Dpackaging="jar"
 }

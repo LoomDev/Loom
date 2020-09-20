@@ -1,31 +1,28 @@
 package org.loomdev.loom.block;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
 import org.loomdev.api.block.BlockState;
 import org.loomdev.api.block.BlockType;
 
 public class BlockStateImpl implements BlockState {
 
-    private final Block mcBlock;
-    private final net.minecraft.block.BlockState mcState;
+    private final net.minecraft.block.BlockState mcBlockState;
 
-    protected BlockStateImpl(@NotNull Block block) {
-        this.mcBlock = block;
-        this.mcState = ((BlockImpl) block).getMinecraftBlock().getBlock().getDefaultState();
-    }
-
-    public static BlockStateImpl of(@NotNull Block block) {
-        return new BlockStateImpl(block);
-    }
-
-    @Override
-    public @NotNull Block getBlock() {
-        return mcBlock;
+    protected BlockStateImpl(@NotNull net.minecraft.block.BlockState mcBlockState) {
+        this.mcBlockState = mcBlockState;
     }
 
     @Override
     public @NotNull BlockType getType() {
         return null;
+    }
+
+    @NotNull
+    public net.minecraft.block.BlockState getMinecraftBlockState() {
+        return mcBlockState;
+    }
+
+    public static BlockStateImpl of(@NotNull net.minecraft.block.BlockState mcBlockState) {
+        return new BlockStateImpl(mcBlockState);
     }
 }

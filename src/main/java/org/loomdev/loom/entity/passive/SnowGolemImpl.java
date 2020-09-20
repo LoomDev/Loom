@@ -5,7 +5,6 @@ import net.minecraft.sound.SoundCategory;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.SnowGolem;
-import org.loomdev.loom.GolemImpl;
 
 public class SnowGolemImpl extends GolemImpl implements SnowGolem {
 

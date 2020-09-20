@@ -6,7 +6,7 @@ import org.loomdev.api.entity.passive.SchoolingFish;
 
 import java.util.OptionalInt;
 
-public class SchoolingFishImpl extends FishImpl implements SchoolingFish {
+public abstract class SchoolingFishImpl extends FishImpl implements SchoolingFish {
 
     public SchoolingFishImpl(SchoolingFishEntity entity) {
         super(entity);

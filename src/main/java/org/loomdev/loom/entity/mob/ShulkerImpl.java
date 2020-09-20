@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.mob.Shulker;
 import org.loomdev.api.util.DyeColor;
-import org.loomdev.loom.GolemImpl;
+import org.loomdev.loom.entity.passive.GolemImpl;
 
 public class ShulkerImpl extends GolemImpl implements Shulker {
 

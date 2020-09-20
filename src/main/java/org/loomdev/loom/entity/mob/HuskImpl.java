@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.mob.Husk;
 
-public class HuskImpl extends ZombieImpl implements Husk {
+public abstract class HuskImpl extends ZombieImpl implements Husk {
 
     public HuskImpl(HuskEntity entity) {
         super(entity);

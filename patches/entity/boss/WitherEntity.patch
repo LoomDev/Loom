@@ -1,0 +1,11 @@
+--- a/net/minecraft/entity/boss/WitherEntity.java
++++ b/net/minecraft/entity/boss/WitherEntity.java
+@@ -63,7 +63,7 @@
+     private final int[] field_7091 = new int[2];
+     private final int[] field_7092 = new int[2];
+     private int field_7082;
+-    private final ServerBossBar bossBar;
++    public final ServerBossBar bossBar; // Loom :: public accessor
+     private static final Predicate<LivingEntity> CAN_ATTACK_PREDICATE = (livingentity) -> {
+         return livingentity.getGroup() != EntityGroup.UNDEAD && livingentity.isMobOrPlayer();
+     };

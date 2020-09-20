@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.mob.Drowned;
 
-public class DrownedImpl extends ZombieImpl implements Drowned {
+public abstract class DrownedImpl extends ZombieImpl implements Drowned {
 
     public DrownedImpl(DrownedEntity entity) {
         super(entity);

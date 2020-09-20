@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.passive.Fish;
 import org.loomdev.api.item.ItemStack;
 
-public class FishImpl extends WaterCreatureImpl implements Fish {
+public abstract class FishImpl extends WaterCreatureImpl implements Fish {
 
     public FishImpl(FishEntity entity) {
         super(entity);

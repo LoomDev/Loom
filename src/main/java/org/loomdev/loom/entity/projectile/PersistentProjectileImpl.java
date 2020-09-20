@@ -7,7 +7,7 @@ import org.loomdev.api.entity.projectile.PersistentProjectile;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.sound.Sound;
 
-public class PersistentProjectileImpl extends ProjectileImpl implements PersistentProjectile {
+public abstract class PersistentProjectileImpl extends ProjectileImpl implements PersistentProjectile {
 
     public PersistentProjectileImpl(PersistentProjectileEntity entity) {
         super(entity);

@@ -8,7 +8,7 @@ import org.loomdev.api.world.Location;
 
 import java.util.Optional;
 
-public class PatrolEntityImpl extends HostileEntityImpl implements PatrolEntity {
+public abstract class PatrolEntityImpl extends HostileEntityImpl implements PatrolEntity {
 
     public PatrolEntityImpl(net.minecraft.entity.mob.PatrolEntity entity) {
         super(entity);

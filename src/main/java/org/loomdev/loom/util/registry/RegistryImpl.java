@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.bossbar.BossBar;
+import org.loomdev.api.entity.EntityType;
+import org.loomdev.api.entity.SpawnGroup;
 import org.loomdev.api.entity.decoration.Painting;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
@@ -17,8 +19,14 @@ import org.loomdev.api.item.property.data.*;
 import org.loomdev.api.util.builder.BuilderBase;
 import org.loomdev.api.util.registry.Keyed;
 import org.loomdev.api.util.registry.Registry;
+import org.loomdev.api.village.VillagerProfession;
+import org.loomdev.api.village.VillagerVariant;
+import org.loomdev.api.world.biome.BiomeType;
+import org.loomdev.api.world.poi.PointOfInterestType;
 import org.loomdev.loom.block.BlockTypeImpl;
 import org.loomdev.loom.bossbar.BossBarImpl;
+import org.loomdev.loom.entity.EntityTypeImpl;
+import org.loomdev.loom.entity.SpawnGroupImpl;
 import org.loomdev.loom.entity.decoration.PaintingImpl;
 import org.loomdev.loom.item.EnchantmentImpl;
 import org.loomdev.loom.item.ItemStackImpl;
@@ -27,6 +35,10 @@ import org.loomdev.loom.item.property.DamageItemProperty;
 import org.loomdev.loom.item.property.EnchantmentsItemProperty;
 import org.loomdev.loom.item.property.LoreItemProperty;
 import org.loomdev.loom.item.property.NameItemProperty;
+import org.loomdev.loom.village.VillagerProfessionImpl;
+import org.loomdev.loom.village.VillagerVariantImpl;
+import org.loomdev.loom.world.biome.BiomeTypeImpl;
+import org.loomdev.loom.world.poi.PointOfInterestTypeImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,10 +75,18 @@ public class RegistryImpl implements Registry {
 
     private void initMcRegistries() {
         // MC Registries
-        wrapperSuppliers.put(ItemType.class, key -> new ItemTypeImpl(net.minecraft.util.registry.Registry.ITEM.get(new Identifier(key)), key));
-        wrapperSuppliers.put(Enchantment.class, key -> new EnchantmentImpl(net.minecraft.util.registry.Registry.ENCHANTMENT.get(new Identifier(key)), key));
-        wrapperSuppliers.put(BlockType.class, key -> new BlockTypeImpl(net.minecraft.util.registry.Registry.BLOCK.get(new Identifier(key)), key));
-        wrapperSuppliers.put(Painting.Motive.class, key -> new PaintingImpl.MotiveImpl(net.minecraft.util.registry.Registry.PAINTING_MOTIVE.get(new Identifier(key)), key));
+        wrapperSuppliers.put(ItemType.class, ItemTypeImpl::new);
+        wrapperSuppliers.put(Enchantment.class,EnchantmentImpl::new);
+        wrapperSuppliers.put(BlockType.class, BlockTypeImpl::new);
+        wrapperSuppliers.put(Painting.Motive.class, PaintingImpl.MotiveImpl::new);
+        wrapperSuppliers.put(EntityType.class, EntityTypeImpl::new);
+        wrapperSuppliers.put(BiomeType.class, BiomeTypeImpl::new);
+        wrapperSuppliers.put(VillagerVariant.class, VillagerVariantImpl::new);
+        wrapperSuppliers.put(VillagerProfession.class, VillagerProfessionImpl::new);
+        wrapperSuppliers.put(PointOfInterestType.class, PointOfInterestTypeImpl::new);
+
+        // MC Enums
+        wrapperSuppliers.put(SpawnGroup.class, SpawnGroupImpl::new);
     }
 
     @Override

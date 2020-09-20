@@ -3,6 +3,7 @@ package org.loomdev.loom.entity.boss.dragon;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.phase.PhaseType;
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.entity.ComplexEntityPart;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.boss.dragon.DragonFight;
@@ -105,5 +106,10 @@ public class EnderDragonImpl extends MobEntityImpl implements EnderDragon {
         return Arrays.stream(getMinecraftEntity().getBodyParts())
                 .map(part -> (EnderDragonPartImpl) part.getLoomEntity())
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public @NotNull BossBar getBossBar() {
+        return this.dragonFight.getBossBar();
     }
 }

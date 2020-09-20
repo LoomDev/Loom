@@ -15,8 +15,8 @@ public class ItemTypeImpl implements ItemType {
     private final net.minecraft.item.Item mcItem;
     private final NamespacedKey namespacedKey;
 
-    public ItemTypeImpl(net.minecraft.item.Item mcItem, String key) {
-        this.mcItem = mcItem;
+    public ItemTypeImpl(String key) {
+        this.mcItem = Registry.ITEM.get(new Identifier(key));
         this.namespacedKey = NamespacedKey.of(key);
     }
 

@@ -34,11 +34,6 @@ public class SignImpl implements Sign {
     }
 
     @Override
-    public @NotNull Block getBlock() {
-        return null;
-    }
-
-    @Override
     public @NotNull BlockType getType() {
         return null;
     }

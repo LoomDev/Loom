@@ -6,7 +6,7 @@ import org.loomdev.api.entity.passive.TameableEntity;
 import java.util.Optional;
 import java.util.UUID;
 
-public class TameableEntityImpl extends AnimalEntityImpl implements TameableEntity {
+public abstract class TameableEntityImpl extends AnimalEntityImpl implements TameableEntity {
 
     public TameableEntityImpl(net.minecraft.entity.passive.TameableEntity entity) {
         super(entity);

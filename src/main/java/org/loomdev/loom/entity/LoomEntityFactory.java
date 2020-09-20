@@ -1,6 +1,7 @@
 package org.loomdev.loom.entity;
 
 import net.minecraft.entity.*;
+import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.decoration.ArmorStandEntity;
@@ -12,8 +13,9 @@ import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.entity.projectile.thrown.*;
-import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.entity.vehicle.*;
 import net.minecraft.server.network.ServerPlayerEntity;
+import org.loomdev.loom.entity.boss.WitherImpl;
 import org.loomdev.loom.entity.boss.dragon.EnderDragonImpl;
 import org.loomdev.loom.entity.boss.dragon.EnderDragonPartImpl;
 import org.loomdev.loom.entity.decoration.*;
@@ -23,7 +25,7 @@ import org.loomdev.loom.entity.passive.*;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.entity.projectile.*;
 import org.loomdev.loom.entity.projectile.thrown.*;
-import org.loomdev.loom.entity.vehicle.BoatImpl;
+import org.loomdev.loom.entity.vehicle.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -64,23 +66,32 @@ public final class LoomEntityFactory {
         register(BoatEntity.class, BoatImpl.class);
         register(CatEntity.class, CatImpl.class);
         register(CaveSpiderEntity.class, CaveSpiderImpl.class);
+        register(ChestMinecartEntity.class, ChestMinecartImpl.class);
         register(ChickenEntity.class, ChickenImpl.class);
         register(CodEntity.class, CodImpl.class);
+        register(CommandBlockMinecartEntity.class, CommandBlockMinecartImpl.class);
         register(CowEntity.class, CowImpl.class);
         register(CreeperEntity.class, CreeperImpl.class);
         register(DolphinEntity.class, DolphinImpl.class);
         register(DonkeyEntity.class, DonkeyImpl.class);
         register(DragonFireballEntity.class, DragonFireballImpl.class);
         register(DrownedEntity.class, DrownedImpl.class);
+        register(EggEntity.class, EggImpl.class);
         register(ElderGuardianEntity.class, ElderGuardianImpl.class);
         register(EndCrystalEntity.class, EndCrystalImpl.class);
         register(EnderDragonEntity.class, EnderDragonImpl.class);
+        register(EnderPearlEntity.class, EnderPearlImpl.class);
         register(EnderDragonPart.class, EnderDragonPartImpl.class);
         register(EndermanEntity.class, EndermanImpl.class);
         register(EndermiteEntity.class, EndermiteImpl.class);
         register(EvokerEntity.class, EvokerImpl.class);
         register(EvokerFangsEntity.class, EvokerImpl.class);
+        register(ExperienceBottleEntity.class, ExperienceBottleImpl.class);
+        register(ExperienceOrbEntity.class, ExperienceOrbImpl.class);
+        register(EyeOfEnderEntity.class, EyeOfEnderImpl.class);
         register(FireworkRocketEntity.class, FireworkRocketImpl.class);
+        register(FallingBlockEntity.class, FallingBlockImpl.class);
+        register(FishingBobberEntity.class, FishingBobberImpl.class);
         register(FoxEntity.class, FoxImpl.class);
         register(GhastEntity.class, GhastImpl.class);
         register(GiantEntity.class, GiantImpl.class);
@@ -98,7 +109,11 @@ public final class LoomEntityFactory {
         register(LlamaEntity.class, LlamaImpl.class);
         register(LlamaSpitEntity.class, LlamaSpitImpl.class);
         register(MagmaCubeEntity.class, MagmaCubeImpl.class);
-        // Minecarts
+        register(FurnaceMinecartEntity.class, FurnaceMinecartImpl.class);
+        register(HopperMinecartEntity.class, HopperMinecartImpl.class);
+        register(MinecartEntity.class, RideableMinecartImpl.class);
+        register(SpawnerMinecartEntity.class, SpawnerMinecartImpl.class);
+        register(TntMinecartEntity.class, TntMinecartImpl.class);
         register(MuleEntity.class, MuleImpl.class);
         register(MooshroomEntity.class, MooshroomImpl.class);
         register(OcelotEntity.class, OcelotImpl.class);
@@ -131,30 +146,26 @@ public final class LoomEntityFactory {
         register(SquidEntity.class, SquidImpl.class);
         register(StrayEntity.class, StrayImpl.class);
         register(StriderEntity.class, StriderImpl.class);
-        register(EggEntity.class, EggImpl.class);
-        register(EnderPearlEntity.class, EnderPearlImpl.class);
-        register(ExperienceBottleEntity.class, ExperienceBottleImpl.class);
         register(PotionEntity.class, PotionImpl.class);
         register(TurtleEntity.class, TurtleImpl.class);
         register(TridentEntity.class, TridentImpl.class);
         register(TraderLlamaEntity.class, TraderLlamaImpl.class);
         register(TropicalFishEntity.class, TropicalFishImpl.class);
         register(VexEntity.class, VexImpl.class);
-        // Villager
+        register(VillagerEntity.class, VillagerImpl.class);
         register(VindicatorEntity.class, VindicatorImpl.class);
-        // Wandering trader
+        register(WanderingTraderEntity.class, WanderingTraderImpl.class);
         register(WitchEntity.class, WitchImpl.class);
-        // Wither
+        register(WitherEntity.class, WitherImpl.class);
         register(WitherSkeletonEntity.class, WitherSkeletonImpl.class);
-        // Wither skull
-        // Wolf
-        // Zoglin
+        register(WitherSkullEntity.class, WitherSkullImpl.class);
+        register(WolfEntity.class, WolfImpl.class);
+        register(ZoglinEntity.class, ZoglinImpl.class);
         register(ZombieEntity.class, ZombieImpl.class);
-        // Zombie horse
-        // Zombie villager
-        // Zombified piglin
+        register(ZombieHorseEntity.class, ZombieHorseImpl.class);
+        register(ZombieVillagerEntity.class, ZombieVillagerImpl.class);
+        register(ZombifiedPiglinEntity.class, ZombifiedPiglinImpl.class);
         register(ServerPlayerEntity.class, PlayerImpl.class);
-        // Fishing bobber
     }
 
     private static void register(Class<? extends Entity> mcClass, Class<? extends EntityImpl> loomClass) {
