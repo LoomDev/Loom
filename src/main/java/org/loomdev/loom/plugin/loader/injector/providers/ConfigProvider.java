@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.loomdev.api.config.Configuration;
 import org.loomdev.api.config.ConfigurationException;
-import org.loomdev.api.config.file.TomlConfiguration;
 import org.loomdev.api.config.file.YamlConfiguration;
 import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.annotation.Config;
@@ -18,6 +17,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+// TODO needs some work
 public class ConfigProvider implements Provider<Configuration> {
 
     @Inject
@@ -52,13 +52,7 @@ public class ConfigProvider implements Provider<Configuration> {
         }
 
         Configuration configuration = null;
-        if (config.path().toLowerCase().endsWith(".toml")) {
-            try {
-                configuration = TomlConfiguration.fromFile(configFile);
-            } catch (IOException e) {
-                throw new ConfigurationException(e);
-            }
-        } else if (config.path().toLowerCase().endsWith(".yml") || config.path().toLowerCase().endsWith(".yaml")) {
+        if (config.path().toLowerCase().endsWith(".yml") || config.path().toLowerCase().endsWith(".yaml")) {
             try {
                 configuration = YamlConfiguration.fromFile(configFile);
             } catch (IOException e) {

@@ -42,8 +42,7 @@ public final class LoomEntityFactory {
 
     public static EntityImpl getLoomEntity(Entity entity) {
         if (!entityClassMappings.containsKey(entity.getClass())) {
-            return null; // TODO change back after dev
-            // throw new IllegalStateException("No entity class mapping was found for " + entity.getClass());
+            throw new IllegalStateException("No entity class mapping was found for " + entity.getClass());
         }
 
         try {
