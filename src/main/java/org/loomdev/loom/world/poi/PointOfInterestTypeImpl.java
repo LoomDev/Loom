@@ -1,7 +1,6 @@
 package org.loomdev.loom.world.poi;
 
 import com.google.common.collect.ImmutableSet;
-import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;

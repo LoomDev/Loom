@@ -6,7 +6,6 @@ import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.Tnt;
 import org.loomdev.api.entity.mob.Creeper;
 import org.loomdev.api.entity.player.Player;
 

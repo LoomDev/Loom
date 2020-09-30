@@ -6,7 +6,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerData;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.Villager;
 import org.loomdev.api.village.VillagerProfession;

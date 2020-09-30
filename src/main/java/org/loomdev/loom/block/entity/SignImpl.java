@@ -2,7 +2,6 @@ package org.loomdev.loom.block.entity;
 
 import net.minecraft.block.entity.SignBlockEntity;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.block.entity.Sign;
 

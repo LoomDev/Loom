@@ -5,7 +5,6 @@ import net.minecraft.entity.mob.CreeperEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.mob.Creeper;
-import org.loomdev.loom.Loom;
 import org.loomdev.loom.event.LoomEventDispatcher;
 
 public class CreeperImpl extends HostileEntityImpl implements Creeper {

@@ -1,7 +1,6 @@
 package org.loomdev.loom.util.registry;
 
 import com.google.common.collect.Maps;
-import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -31,10 +30,7 @@ import org.loomdev.loom.entity.decoration.PaintingImpl;
 import org.loomdev.loom.item.EnchantmentImpl;
 import org.loomdev.loom.item.ItemStackImpl;
 import org.loomdev.loom.item.ItemTypeImpl;
-import org.loomdev.loom.item.property.DamageItemProperty;
-import org.loomdev.loom.item.property.EnchantmentsItemProperty;
-import org.loomdev.loom.item.property.LoreItemProperty;
-import org.loomdev.loom.item.property.NameItemProperty;
+import org.loomdev.loom.item.property.*;
 import org.loomdev.loom.village.VillagerProfessionImpl;
 import org.loomdev.loom.village.VillagerVariantImpl;
 import org.loomdev.loom.world.biome.BiomeTypeImpl;
@@ -66,6 +62,7 @@ public class RegistryImpl implements Registry {
         this.registerItemProperty(LoreData.class, LoreItemProperty::new);
         this.registerItemProperty(DamageData.class, DamageItemProperty::new);
         this.registerItemProperty(EnchantmentData.class, EnchantmentsItemProperty::new);
+        this.registerItemProperty(RepairableData.class, RepairableItemProperty::new);
     }
 
     private void initBuilders() {
@@ -135,13 +132,4 @@ public class RegistryImpl implements Registry {
         typeCache.put(key, wrappedObject);
         return wrappedObject;
     }
-
-    // region helpers
-
-    @FunctionalInterface
-    private interface RegisterFunction<T> {
-        void register(Identifier id, T value);
-    }
-
-    // endregion helpers
 }

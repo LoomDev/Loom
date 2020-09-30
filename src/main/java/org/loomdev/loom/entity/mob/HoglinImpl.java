@@ -2,7 +2,6 @@ package org.loomdev.loom.entity.mob;
 
 import net.minecraft.entity.mob.HoglinEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.mob.Hoglin;
