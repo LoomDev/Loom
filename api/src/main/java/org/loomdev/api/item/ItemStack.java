@@ -138,7 +138,7 @@ public interface ItemStack {
      * @param name The new name.
      */
     default void setName(@NotNull String name) {
-        setName(TextComponent.of(name));
+        setName(Component.text(name));
     }
 
     /**
@@ -187,7 +187,7 @@ public interface ItemStack {
      * @param lore The lore to add.
      */
     default void appendLore(String... lore) {
-        Arrays.stream(lore).forEach(l -> appendLore(TextComponent.of(l)));
+        Arrays.stream(lore).forEach(l -> appendLore(Component.text(l)));
     }
 
     /**
@@ -270,7 +270,7 @@ public interface ItemStack {
         Builder name(@NotNull Component name);
 
         default Builder lore(@NotNull String... lore) {
-            return lore((TextComponent[]) Arrays.stream(lore).map(TextComponent::of).toArray());
+            return lore((TextComponent[]) Arrays.stream(lore).map(Component::text).toArray());
         }
 
         Builder lore(@NotNull TextComponent... lore);
