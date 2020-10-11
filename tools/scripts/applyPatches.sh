@@ -18,7 +18,7 @@ else
   }
 fi
 
-src="src/main/java/net/minecraft/"
+src="server/src/main/java/net/minecraft/"
 minecraftSource="${1%/}/net/minecraft/"
 fullSource=false
 
@@ -41,9 +41,9 @@ then
     cp -a "$minecraftSource." "$src"
 fi
 
-for patchFile in $(find "patches" -name '*.patch')
+for patchFile in $(find "server/patches" -name '*.patch')
 do
-  patchFileClean=${patchFile#"patches/"}
+  patchFileClean=${patchFile#"server/patches/"}
   file="$(echo $patchFileClean | cut -d. -f1).java"
 
   if [ -f "$minecraftSource$file" ]
@@ -52,7 +52,7 @@ do
     strip_cr "$minecraftSource$file"
     mkdir -p "$(dirname "$src$file")"
     cp "$minecraftSource$file" "$src$file"
-    patch -d "src/main/java/" "net/minecraft/$file" < "$patchFile"
+    patch -d "server/src/main/java/" "net/minecraft/$file" < "$patchFile"
   #else
     # TEMP --- echo "Unable to apply $patchFileClean: $file not found"
   fi
