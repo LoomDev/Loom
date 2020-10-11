@@ -1,7 +1,7 @@
 # 🧵 Loom
 ### The next generation Minecraft server software.
 
-Loom is an implementation of the [Loom API](https://github.com/LoomDev/Loom-API) on vanilla Minecraft. Loom was inspired heavily by CraftBukkit, but with the goal to make minimal NMS modifications in order to implement its API and completely open-sourced development.
+Loom is an implementation of the [Loom API](/api) on vanilla Minecraft. Loom was inspired heavily by CraftBukkit, but with the goal to make minimal NMS modifications in order to implement its API and completely open-sourced development.
 
 Loom uses Fabric's [yarn](https://github.com/fabricmc/yarn) for its mappings, which allows it to be quickly updated to new and snapshot releases of Minecraft. These mappings are completely open-source and free for any project with it's permissive license, which makes it the best choice for Loom.
 
