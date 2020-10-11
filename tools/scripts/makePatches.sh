@@ -18,7 +18,7 @@ else
   }
 fi
 
-src="src/main/java/net/minecraft/"
+src="server/src/main/java/net/minecraft/"
 nms="${1%/}/net/minecraft/"
 show_diff_msg=true
 
@@ -46,7 +46,7 @@ do
 
     strip_cr "$nms$pathRelativeToSrc" > /dev/null
     strip_cr "$src$pathRelativeToSrc" > /dev/null
-    outName=$(echo patches/"$(echo $pathRelativeToSrc | cut -d. -f1)".patch)
+    outName=$(echo server/patches/"$(echo $pathRelativeToSrc | cut -d. -f1)".patch)
 
     patchNew=$(diff -u --label a/net/minecraft/$pathRelativeToSrc "$nms$pathRelativeToSrc" --label b/net/minecraft/$pathRelativeToSrc "$src$pathRelativeToSrc")
 
@@ -80,3 +80,4 @@ echo ""
 echo "Unchanged patches: $unchangedPatches"
 echo "Updated patches: $updatedPatches"
 echo "New patches: $newPatches"
+echo ""
