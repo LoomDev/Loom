@@ -214,5 +214,9 @@ gradle-app.setting
 
 ### LoomDev ###
 /dev-server/
-/tools/dev-server/
+
+/server/src/main/java/net/minecraft
+/server/dev-server/
+
 /tools/decomp/
+/tools/dev-server/
