@@ -1,5 +1,6 @@
 package org.loomdev.api.event.player;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.player.Player;
@@ -21,12 +22,12 @@ public class PlayerMessagedEvent extends PlayerEvent implements Cancellable {
 
     public PlayerMessagedEvent(@NotNull Player player, @NotNull String message, @NotNull Collection<? extends Player> recipients) {
         super(player);
-        this.prefix = TextComponent.builder()
-                .append("<")
+        this.prefix = Component.text()
+                .append(Component.text("<"))
                 .append(player.getDisplayName())
-                .append("> ")
+                .append(Component.text("> "))
                 .build();
-        this.message = TextComponent.of(message);
+        this.message = Component.text(message);
         this.recipients = recipients;
     }
 

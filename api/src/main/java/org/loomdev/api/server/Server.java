@@ -105,7 +105,7 @@ public interface Server {
      * @param message The message to send.
      */
     default void broadcastMessage(@NotNull String message) {
-        broadcastMessage(TextComponent.of(message));
+        broadcastMessage(Component.text(message));
     }
 
     /**

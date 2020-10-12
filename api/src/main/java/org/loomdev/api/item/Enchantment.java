@@ -12,196 +12,196 @@ public interface Enchantment extends Keyed {
     /**
      * Increases underwater mining speed.
      */
-    Enchantment AQUA_AFFINITY = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:aqua_affinity");
+    Enchantment AQUA_AFFINITY = getById("minecraft:aqua_affinity");
 
     /**
      * Increases damage and applies Slowness IV to arthropod mobs (spiders, cave spiders, silverfish, endermites and bees).
      */
-    Enchantment BANE_OF_ARTHROPODS = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:bane_of_arthropods");
+    Enchantment BANE_OF_ARTHROPODS = getById("minecraft:bane_of_arthropods");
 
     /**
      * Reduces explosion damage and knockback.
      */
-    Enchantment BLAST_PROTECTION = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:blast_protection");
+    Enchantment BLAST_PROTECTION = getById("minecraft:blast_protection");
 
     /**
      * Trident "channels" a bolt of lightning toward a hit entity.
      * Functions only during thunderstorms and if target is unobstructed with opaque blocks.
      */
-    Enchantment CHANNELING = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:channeling");
+    Enchantment CHANNELING = getById("minecraft:channeling");
 
     /**
      * Except when in creative mode, items cannot be removed from armor slots except due to death or breaking.
      */
-    Enchantment CURSE_OF_BINDING = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:binding_curse");
+    Enchantment BINDING_CURSE = getById("minecraft:binding_curse");
 
     /**
      * Item destroyed on death.
      */
-    Enchantment CURSE_OF_VANISHING = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:vanishing_curse");
+    Enchantment VANISHING_CURSE = getById("minecraft:vanishing_curse");
 
     /**
      * Increases underwater movement speed.
      */
-    Enchantment DEPTH_STRIDER = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:depth_strider");
+    Enchantment DEPTH_STRIDER = getById("minecraft:depth_strider");
 
     /**
      * Increases mining speed.
      * When applied to an axe it increases the chance that the axe may stun a shield,
      * with the base chance being 25% and a 5% increase for each level of efficiency.
      */
-    Enchantment EFFICIENCY = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:efficiency");
+    Enchantment EFFICIENCY = getById("minecraft:efficiency");
 
     /**
      * Reduces fall damage.
      */
-    Enchantment FEATHER_FALLING = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:feather_falling");
+    Enchantment FEATHER_FALLING = getById("minecraft:feather_falling");
 
     /**
      * Sets target on fire.
      */
-    Enchantment FIRE_ASPECT = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:fire_aspect");
+    Enchantment FIRE_ASPECT = getById("minecraft:fire_aspect");
 
     /**
      * Reduces fire damage and burn time.
      */
-    Enchantment FIRE_PROTECTION = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:fire_protection");
+    Enchantment FIRE_PROTECTION = getById("minecraft:fire_protection");
 
     /**
      * Arrows set target on fire.
      */
-    Enchantment FLAME = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:flame");
+    Enchantment FLAME = getById("minecraft:flame");
 
     /**
      * Increases certain block drops.
      */
-    Enchantment FORTUNE = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:fortune");
+    Enchantment FORTUNE = getById("minecraft:fortune");
 
     /**
      * Turns water beneath the player into frosted ice and prevents
      * the damage the player would take from standing on magma blocks.
      */
-    Enchantment FROST_WALKER = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:frost_walker");
+    Enchantment FROST_WALKER = getById("minecraft:frost_walker");
 
     /**
      * Trident deals additional damage to mobs that spawn naturally in the ocean.
      */
-    Enchantment IMPALING = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:impaling");
+    Enchantment IMPALING = getById("minecraft:impaling");
 
     /**
      * Shooting consumes no regular arrows.
      */
-    Enchantment INFINITY = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:infinity");
+    Enchantment INFINITY = getById("minecraft:infinity");
 
     /**
      * Increases knockback.
      */
-    Enchantment KNOCKBACK = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:knockback");
+    Enchantment KNOCKBACK = getById("minecraft:knockback");
 
     /**
      * Increases mob loot.
      */
-    Enchantment LOOTING = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:looting");
+    Enchantment LOOTING = getById("minecraft:looting");
 
     /**
      * Trident returns after being thrown. Higher levels reduce return time.
      */
-    Enchantment LOYALTY = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:loyalty");
+    Enchantment LOYALTY = getById("minecraft:loyalty");
 
     /**
      * Increases rate of good loot (enchanting books, etc.)
      */
-    Enchantment LUCK_OF_THE_SEA = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:luck_of_the_sea");
+    Enchantment LUCK_OF_THE_SEA = getById("minecraft:luck_of_the_sea");
 
     /**
      * Decreases wait time until fish/junk/loot "bites".
      */
-    Enchantment LURE = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:lure");
+    Enchantment LURE = getById("minecraft:lure");
 
     /**
      * Repair the item while gaining XP orbs.
      */
-    Enchantment MENDING = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:mending");
+    Enchantment MENDING = getById("minecraft:mending");
 
     /**
      * Shoot 3 arrows at the cost of one; only one arrow can be recovered.
      */
-    Enchantment MULTISHOT = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:multishot");
+    Enchantment MULTISHOT = getById("minecraft:multishot");
 
     /**
      * Arrows pass through multiple entities.
      */
-    Enchantment PIERCING = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:piercing");
+    Enchantment PIERCING = getById("minecraft:piercing");
 
     /**
      * Increases arrow damage.
      */
-    Enchantment POWER = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:power");
+    Enchantment POWER = getById("minecraft:power");
 
     /**
      * Reduces projectile damage.
      */
-    Enchantment PROJECTILE_PROTECTION = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:projectile_protection");
+    Enchantment PROJECTILE_PROTECTION = getById("minecraft:projectile_protection");
 
     /**
      * Reduces most types of damage by 4% for each level.
      */
-    Enchantment PROTECTION = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:protection");
+    Enchantment PROTECTION = getById("minecraft:protection");
 
     /**
      * Increases arrow knockback.
      */
-    Enchantment PUNCH = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:punch");
+    Enchantment PUNCH = getById("minecraft:punch");
 
     /**
      * Decreases crossbow charging time.
      */
-    Enchantment QUICK_CHARGE = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:quick_charge");
+    Enchantment QUICK_CHARGE = getById("minecraft:quick_charge");
 
     /**
      * Extends underwater breathing time.
      */
-    Enchantment RESPIRATION = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:respiration");
+    Enchantment RESPIRATION = getById("minecraft:respiration");
 
     /**
      * Trident launches player with itself when thrown. Functions only in water or rain.
      */
-    Enchantment RIPTIDE = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:riptide");
+    Enchantment RIPTIDE = getById("minecraft:riptide");
 
     /**
      * Increases damage.
      */
-    Enchantment SHARPNESS = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:sharpness");
+    Enchantment SHARPNESS = getById("minecraft:sharpness");
 
     /**
      * Mined blocks drop themselves.
      */
-    Enchantment SILK_TOUCH = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:silk_touch");
+    Enchantment SILK_TOUCH = getById("minecraft:silk_touch");
 
     /**
      * Increases damage to undead mobs.
      */
-    Enchantment SMITE = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:smite");
+    Enchantment SMITE = getById("minecraft:smite");
 
     /**
      * Increases walking speed on soul sand and soul soil.
      */
-    Enchantment SOUL_SPEED = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:soul_speed");
+    Enchantment SOUL_SPEED = getById("minecraft:soul_speed");
 
     /**
      * Increases sweeping attack damage.
      */
-    Enchantment SWEEPING_EDGE = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:sweeping");
+    Enchantment SWEEPING = getById("minecraft:sweeping");
 
     /**
      * Reflects some of the damage taken when hit, at the cost of reducing durability with each proc.
      */
-    Enchantment THORNS = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:thorns");
+    Enchantment THORNS = getById("minecraft:thorns");
 
     /**
      * Increases item durability.
      */
-    Enchantment UNBREAKING = Loom.getRegistry().getWrapped(Enchantment.class,"minecraft:unbreaking");
+    Enchantment UNBREAKING = getById("minecraft:unbreaking");
 
     // endregion Enchantments
 
@@ -268,7 +268,7 @@ public interface Enchantment extends Keyed {
      * Checks if this {@link Enchantment} is a curse.
      *
      * <p>
-     *     Example of a curse enchantment is {@link Enchantment#CURSE_OF_BINDING}
+     *     Example of a curse enchantment is {@link Enchantment#BINDING_CURSE}
      * </p>
      *
      * @return True if the enchantment is a curse, otherwise false.

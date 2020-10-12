@@ -653,6 +653,7 @@ public interface ItemType extends Keyed {
     ItemType PHANTOM_SPAWN_EGG = getById("minecraft:phantom_spawn_egg");
     ItemType PIG_SPAWN_EGG = getById("minecraft:pig_spawn_egg");
     ItemType PIGLIN_BANNER_PATTERN = getById("minecraft:piglin_banner_pattern");
+    ItemType PIGLIN_BRUTE_SPAWN_EGG = getById("minecraft:piglin_brute_spawn_egg");
     ItemType PIGLIN_SPAWN_EGG = getById("minecraft:piglin_spawn_egg");
     ItemType PILLAGER_SPAWN_EGG = getById("minecraft:pillager_spawn_egg");
     ItemType PINK_BANNER = getById("minecraft:pink_banner");
@@ -989,7 +990,7 @@ public interface ItemType extends Keyed {
 
     /**
      * Get an item based on the id.
-     * @param id The if of the item to get.
+     * @param id The id of the item to get.
      * @return The item if found, otherwise null.
      */
     static ItemType getById(String id) {

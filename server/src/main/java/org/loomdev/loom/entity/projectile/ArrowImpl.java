@@ -4,6 +4,7 @@ import net.minecraft.entity.projectile.ArrowEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.effect.StatusEffect;
+import org.loomdev.api.entity.effect.StatusEffectType;
 import org.loomdev.api.entity.projectile.Arrow;
 import org.loomdev.api.util.Color;
 import org.loomdev.loom.util.transformer.StatusEffectTransformer;
@@ -37,7 +38,7 @@ public class ArrowImpl extends PersistentProjectileImpl implements Arrow {
     }
 
     @Override
-    public @NotNull Optional<StatusEffect> getStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
+    public @NotNull Optional<StatusEffect> getStatusEffect(@NotNull StatusEffectType statusEffectType) {
         return getMinecraftEntity().effects.stream()
                 .filter(effect -> effect.getEffectType().equals(StatusEffectTypeTransformer.toMinecraft(statusEffectType)))
                 .findFirst()
@@ -50,7 +51,7 @@ public class ArrowImpl extends PersistentProjectileImpl implements Arrow {
     }
 
     @Override
-    public void removeStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
+    public void removeStatusEffect(@NotNull StatusEffectType statusEffectType) {
         getMinecraftEntity().effects.stream()
                 .filter(effect -> effect.getEffectType().equals(StatusEffectTypeTransformer.toMinecraft(statusEffectType)))
                 .findFirst()
@@ -63,7 +64,7 @@ public class ArrowImpl extends PersistentProjectileImpl implements Arrow {
     }
 
     @Override
-    public boolean hasStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
+    public boolean hasStatusEffect(@NotNull StatusEffectType statusEffectType) {
         return getMinecraftEntity().effects.stream()
                 .anyMatch(effect -> effect.getEffectType().equals(StatusEffectTypeTransformer.toMinecraft(statusEffectType)));
     }

@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.LivingEntity;
-import org.loomdev.api.inventory.Inventory;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.GameMode;
 import org.loomdev.api.world.Location;
@@ -108,13 +107,13 @@ public interface Player extends LivingEntity {
     void resetWeather();
 
     default void kick(@NotNull String message) {
-        kick(TextComponent.of(message));
+        kick(Component.text(message));
     }
 
     void kick(@NotNull Component message);
 
     default void ban(@NotNull String message) {
-        ban(TextComponent.of(message));
+        ban(Component.text(message));
     }
 
     void ban(@NotNull Component message);
@@ -140,6 +139,4 @@ public interface Player extends LivingEntity {
     void addBossBar(@NotNull BossBar bar);
 
     void removeBossBar(@NotNull BossBar bar);
-
-    void openInventory(@NotNull Inventory inventory);
 }

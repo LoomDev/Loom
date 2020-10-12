@@ -8,20 +8,15 @@ import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.api.util.NamespacedKey;
+import org.loomdev.loom.util.registry.GenericWrapped;
 
-public class BlockTypeImpl implements BlockType {
+public class BlockTypeImpl extends GenericWrapped implements BlockType {
 
     private final Block mcBlock;
-    private final NamespacedKey namespacedKey;
 
     public BlockTypeImpl(String key) {
+        super(key);
         this.mcBlock = Registry.BLOCK.get(new Identifier(key));
-        this.namespacedKey = NamespacedKey.of(key);
-    }
-
-    @Override
-    public @NotNull NamespacedKey getKey() {
-        return namespacedKey;
     }
 
     @Override

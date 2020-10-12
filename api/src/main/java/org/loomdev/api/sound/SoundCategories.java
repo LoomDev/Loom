@@ -18,7 +18,7 @@ public enum SoundCategories {
     AMBIENT("ambient"),
     VOICE("voice");
 
-    private static final Map<String, SoundCategories> mapByName = Arrays.stream(values()).collect(Collectors.toMap(SoundCategories::getName, Function.identity()));
+    private static final Map<String, SoundCategories> mapByName = Arrays.stream(values()).collect(Collectors.toMap(SoundCategories::getName, cat -> cat));
     private final String name;
 
     SoundCategories(String s) {
@@ -30,6 +30,6 @@ public enum SoundCategories {
     }
 
     public static SoundCategories getByName(String name) {
-        return mapByName.get(name);
+        return mapByName.get(name.toLowerCase());
     }
 }

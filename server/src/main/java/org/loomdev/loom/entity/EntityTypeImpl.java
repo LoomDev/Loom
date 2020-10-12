@@ -11,17 +11,16 @@ import org.loomdev.api.block.BlockType;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.SpawnGroup;
-import org.loomdev.api.util.NamespacedKey;
+import org.loomdev.loom.util.registry.GenericWrapped;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
-public class EntityTypeImpl implements EntityType<Entity> {
+public class EntityTypeImpl extends GenericWrapped implements EntityType<Entity> {
 
     private final net.minecraft.entity.EntityType<?> mcEntity;
-    private final NamespacedKey namespacedKey;
 
     public EntityTypeImpl(String key) {
+        super(key);
         this.mcEntity = Registry.ENTITY_TYPE.get(new Identifier(key));
-        this.namespacedKey = NamespacedKey.of(key);
     }
 
     @Override
@@ -57,10 +56,5 @@ public class EntityTypeImpl implements EntityType<Entity> {
     @Override
     public @Nullable Component getName() {
         return TextTransformer.toLoom(this.mcEntity.getName());
-    }
-
-    @Override
-    public @NotNull NamespacedKey getKey() {
-        return this.namespacedKey;
     }
 }

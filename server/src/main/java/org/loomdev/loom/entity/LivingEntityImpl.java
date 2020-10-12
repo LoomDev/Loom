@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.effect.StatusEffect;
+import org.loomdev.api.entity.effect.StatusEffectType;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.api.util.Hand;
@@ -50,13 +51,13 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
     }
 
     @Override
-    public @NotNull Optional<StatusEffect> getStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
+    public @NotNull Optional<StatusEffect> getStatusEffect(@NotNull StatusEffectType statusEffectType) {
         StatusEffectInstance statusEffectInstance = getMinecraftEntity().getStatusEffect(StatusEffectTypeTransformer.toMinecraft(statusEffectType));
         return Optional.ofNullable(statusEffectInstance).map(StatusEffectTransformer::toLoom);
     }
 
     @Override
-    public void removeStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
+    public void removeStatusEffect(@NotNull StatusEffectType statusEffectType) {
         getMinecraftEntity().removeStatusEffect(StatusEffectTypeTransformer.toMinecraft(statusEffectType));
     }
 
@@ -66,7 +67,7 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
     }
 
     @Override
-    public boolean hasStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
+    public boolean hasStatusEffect(@NotNull StatusEffectType statusEffectType) {
         return getMinecraftEntity().hasStatusEffect(StatusEffectTypeTransformer.toMinecraft(statusEffectType));
     }
 

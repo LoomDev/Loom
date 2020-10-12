@@ -77,14 +77,14 @@ public class SchedulerImpl implements Scheduler {
     }
 
     @Override
-    public @NotNull Set<Task> getScheduledTasks(Plugin plugin) {
+    public @NotNull Set<Task> getScheduledTasks(@NotNull Plugin plugin) {
         return tasks.values().stream()
                 .filter(t -> t.getPlugin() == plugin)
                 .collect(Collectors.toSet());
     }
 
     @Override
-    public void unregisterSchedulers(Plugin plugin) {
+    public void unregisterSchedulers(@NotNull Plugin plugin) {
         getScheduledTasks(plugin).forEach(task -> disableTask(task.getTaskId(), true));
     }
 

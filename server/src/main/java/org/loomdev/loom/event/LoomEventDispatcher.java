@@ -46,6 +46,7 @@ import org.loomdev.api.event.world.TimeChangedEvent;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.block.BlockImpl;
+import org.loomdev.loom.block.BlockStateImpl;
 import org.loomdev.loom.entity.decoration.ArmorStandImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
@@ -179,7 +180,7 @@ public final class LoomEventDispatcher {
 
     @NotNull
     public static FluidLevelChangedEvent onFluidLevelChanged(@NotNull WorldAccess world, @NotNull BlockPos pos) {
-        return fire(new FluidLevelChangedEvent(BlockImpl.at(world, pos), null)); // TODO implement blockstate
+        return fire(new FluidLevelChangedEvent(BlockImpl.at(world, pos), BlockStateImpl.of(world.getBlockState(pos))));
     }
 
     @NotNull

@@ -128,7 +128,7 @@ public class WorldImpl implements World {
         this.world.playSound(
                 null,
                 pos,
-                Registry.SOUND_EVENT.get(sound.getType().rawId()),
+                Registry.SOUND_EVENT.get(new Identifier(sound.getType().getKey().toString())),
                 SoundCategory.valueOf(sound.getCategory().name()),
                 sound.getVolume(),
                 sound.getPitch()

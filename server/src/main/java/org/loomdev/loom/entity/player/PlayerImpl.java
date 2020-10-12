@@ -7,6 +7,7 @@ import net.minecraft.network.packet.s2c.play.PlayerListHeaderS2CPacket;
 import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +16,6 @@ import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
-import org.loomdev.api.inventory.Inventory;
 import org.loomdev.api.math.MathHelper;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.GameMode;
@@ -315,7 +315,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
         getMinecraftEntity().getServerWorld().playSound(
                 getMinecraftEntity(),
                 pos,
-                Registry.SOUND_EVENT.get(sound.getType().rawId()),
+                Registry.SOUND_EVENT.get(new Identifier(sound.getType().getKey().toString())),
                 SoundCategory.valueOf(sound.getCategory().name()),
                 sound.getVolume(),
                 sound.getPitch()
@@ -330,11 +330,6 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     public void removeBossBar(@NotNull BossBar bossBar) {
         bossBar.removePlayer(this);
-    }
-
-    @Override
-    public void openInventory(@NotNull Inventory inventory) {
-        // TODO
     }
 
     @Override

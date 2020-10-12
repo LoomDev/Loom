@@ -7,6 +7,7 @@ import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.api.sound.Sound;
+import org.loomdev.api.sound.SoundEvent;
 import org.loomdev.api.util.registry.Keyed;
 import org.loomdev.api.world.poi.PointOfInterestType;
 
@@ -47,6 +48,6 @@ public interface VillagerProfession extends Keyed {
     ImmutableSet<BlockType> getSecondaryJobSites();
 
     @Nullable
-    Sound.Type getWorkSound();
+    SoundEvent getWorkSound();
 
 }

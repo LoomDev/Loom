@@ -7,16 +7,16 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.util.NamespacedKey;
+import org.loomdev.loom.util.registry.GenericWrapped;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
-public final class EnchantmentImpl implements Enchantment {
+public final class EnchantmentImpl extends GenericWrapped implements Enchantment {
 
     private final net.minecraft.enchantment.Enchantment mcEnchant;
-    private final NamespacedKey namespacedKey;
 
     public EnchantmentImpl(String key) {
+        super(key);
         this.mcEnchant = Registry.ENCHANTMENT.get(new Identifier(key));
-        this.namespacedKey = NamespacedKey.of(key);
     }
 
     @Override
@@ -52,10 +52,5 @@ public final class EnchantmentImpl implements Enchantment {
     @Override
     public boolean isTraded() {
         return this.mcEnchant.isAvailableForEnchantedBookOffer();
-    }
-
-    @Override
-    public @NotNull NamespacedKey getKey() {
-        return this.namespacedKey;
     }
 }

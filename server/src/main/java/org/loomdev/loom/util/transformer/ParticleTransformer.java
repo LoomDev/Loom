@@ -18,24 +18,20 @@ public class ParticleTransformer {
     }
 
     public static @NotNull ParticleEffect toMinecraft(@NotNull Particle particle) {
-        ParticleType<?> mcType = Registry.PARTICLE_TYPE.get(new Identifier(particle.getType().getId()));
+        ParticleType<?> mcType = Registry.PARTICLE_TYPE.get(new Identifier(particle.getType().getKey().toString()));
 
-        switch (particle.getType()) {
-            case DUST:
-                DustData data = (DustData) particle.getData().orElse(new DustData(Color.RED, 1));
-                return new DustParticleEffect(
-                        data.getColor().getRed() / 255f,
-                        data.getColor().getGreen() / 255f,
-                        data.getColor().getBlue() / 255f,
-                        data.getSize()
-                );
-            // case FALLING_DUST:
-            // TODO case BLOCK_CRACK
-            // TODO case BLOCK_CRACK
-            // TODO case ITEM_CRACK
-            default:
-                return (DefaultParticleType) mcType;
+        if (particle.getType() == org.loomdev.api.particle.ParticleType.DUST) {
+            DustData data = (DustData) particle.getData().orElse(new DustData(Color.RED, 1));
+
+            return new DustParticleEffect(
+                    data.getColor().getRed() / 255f,
+                    data.getColor().getGreen() / 255f,
+                    data.getColor().getBlue() / 255f,
+                    data.getSize()
+            );
         }
+
+        return (DefaultParticleType) mcType;
     }
 
     // TODO to loom
