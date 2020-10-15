@@ -7,6 +7,7 @@ import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.effect.AreaEffectCloudEntity;
 import org.loomdev.api.entity.effect.StatusEffect;
+import org.loomdev.api.entity.effect.StatusEffectType;
 import org.loomdev.loom.util.transformer.StatusEffectTransformer;
 import org.loomdev.loom.util.transformer.StatusEffectTypeTransformer;
 
@@ -42,7 +43,7 @@ public class AreaEffectCloudEntityImpl extends EntityImpl implements AreaEffectC
     }
 
     @Override
-    public @NotNull Optional<StatusEffect> getStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
+    public @NotNull Optional<StatusEffect> getStatusEffect(@NotNull StatusEffectType statusEffectType) {
         for (net.minecraft.entity.effect.StatusEffectInstance effect : getMinecraftEntity().effects) {
             if (effect.getEffectType().equals(StatusEffectTypeTransformer.toMinecraft(statusEffectType))) {
                 return Optional.of(StatusEffectTransformer.toLoom(effect));
@@ -52,7 +53,7 @@ public class AreaEffectCloudEntityImpl extends EntityImpl implements AreaEffectC
     }
 
     @Override
-    public void removeStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
+    public void removeStatusEffect(@NotNull StatusEffectType statusEffectType) {
         List<StatusEffectInstance> effectsToRemove = getMinecraftEntity().effects.stream()
                 .filter(effect -> effect.getEffectType().equals(StatusEffectTypeTransformer.toMinecraft(statusEffectType)))
                 .collect(Collectors.toList());
@@ -66,7 +67,7 @@ public class AreaEffectCloudEntityImpl extends EntityImpl implements AreaEffectC
     }
 
     @Override
-    public boolean hasStatusEffect(@NotNull StatusEffect.Type statusEffectType) {
+    public boolean hasStatusEffect(@NotNull StatusEffectType statusEffectType) {
         return getStatusEffect(statusEffectType).isPresent();
     }
 

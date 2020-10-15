@@ -9,6 +9,7 @@ import org.loomdev.api.Loom;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.Painting;
 import org.loomdev.api.util.NamespacedKey;
+import org.loomdev.loom.util.registry.GenericWrapped;
 
 public class PaintingImpl extends DecorationEntityImpl implements Painting {
 
@@ -36,14 +37,13 @@ public class PaintingImpl extends DecorationEntityImpl implements Painting {
         getMinecraftEntity().motive = Registry.PAINTING_MOTIVE.get(new Identifier(motive.getKey().toString()));
     }
 
-    public static class MotiveImpl implements Motive {
+    public static class MotiveImpl extends GenericWrapped implements Motive {
 
         private final PaintingMotive mcMotive;
-        private final NamespacedKey namespacedKey;
 
         public MotiveImpl(String key) {
+            super(key);
             this.mcMotive = Registry.PAINTING_MOTIVE.get(new Identifier(key));
-            this.namespacedKey = NamespacedKey.of(key);
         }
 
         @Override
@@ -56,9 +56,5 @@ public class PaintingImpl extends DecorationEntityImpl implements Painting {
             return this.mcMotive.getHeight();
         }
 
-        @Override
-        public @NotNull NamespacedKey getKey() {
-            return this.namespacedKey;
-        }
     }
 }

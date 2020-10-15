@@ -108,13 +108,4 @@ public abstract class PersistentProjectileImpl extends ProjectileImpl implements
         return null; // TODO
     }
 
-    @Override
-    public Sound.Type getSound() {
-        return Sound.Type.getByRawId(Registry.SOUND_EVENT.getRawId(getMinecraftEntity().sound)).orElse(null);
-    }
-
-    @Override
-    public void setSound(Sound.Type sound) {
-        getMinecraftEntity().sound = Registry.SOUND_EVENT.get(sound.rawId());
-    }
 }

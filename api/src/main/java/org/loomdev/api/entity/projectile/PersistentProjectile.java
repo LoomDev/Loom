@@ -3,6 +3,7 @@ package org.loomdev.api.entity.projectile;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.sound.Sound;
+import org.loomdev.api.sound.SoundEvent;
 
 public interface PersistentProjectile extends Projectile {
 
@@ -41,10 +42,6 @@ public interface PersistentProjectile extends Projectile {
     void setPunch(int punch);
 
     ItemStack asItemStack();
-
-    Sound.Type getSound();
-
-    void setSound(Sound.Type sound);
 
     enum PickupPermission {
         DISALLOWED, ALLOWED, CREATIVE_ONLY;

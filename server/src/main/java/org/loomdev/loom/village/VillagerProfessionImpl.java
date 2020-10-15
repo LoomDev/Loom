@@ -8,21 +8,20 @@ import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.item.ItemType;
-import org.loomdev.api.sound.Sound;
-import org.loomdev.api.util.NamespacedKey;
+import org.loomdev.api.sound.SoundEvent;
 import org.loomdev.api.village.VillagerProfession;
 import org.loomdev.api.world.poi.PointOfInterestType;
+import org.loomdev.loom.util.registry.GenericWrapped;
 
 import java.util.stream.Collectors;
 
-public class VillagerProfessionImpl implements VillagerProfession {
+public class VillagerProfessionImpl extends GenericWrapped implements VillagerProfession {
 
-    private net.minecraft.village.VillagerProfession mcVillagerProfession;
-    private final NamespacedKey namespacedKey;
+    private final net.minecraft.village.VillagerProfession mcVillagerProfession;
 
     public VillagerProfessionImpl(String key) {
+        super(key);
         this.mcVillagerProfession = Registry.VILLAGER_PROFESSION.get(new Identifier(key));
-        this.namespacedKey = NamespacedKey.of(key);
     }
 
     @Override
@@ -50,13 +49,8 @@ public class VillagerProfessionImpl implements VillagerProfession {
 
     @Override
     @Nullable
-    public Sound.Type getWorkSound() {
-        return Sound.Type.getByRawId(Registry.SOUND_EVENT.getRawId(this.mcVillagerProfession.getWorkSound())).get();
-    }
-
-    @Override
-    public @NotNull NamespacedKey getKey() {
-        return this.namespacedKey;
+    public SoundEvent getWorkSound() {
+        return SoundEvent.getById(Registry.SOUND_EVENT.getId(this.mcVillagerProfession.getWorkSound()).toString());
     }
 
 }

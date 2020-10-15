@@ -19,7 +19,7 @@ public class DamageItemProperty implements ItemProperty<DamageData> {
     }
 
     @Override
-    public void apply(@NotNull ItemStack itemStack, DamageData damageData) {
+    public void apply(@NotNull ItemStack itemStack, @NotNull DamageData damageData) {
         net.minecraft.item.ItemStack mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
         CompoundTag compoundTag = mcStack.getOrCreateTag();
 

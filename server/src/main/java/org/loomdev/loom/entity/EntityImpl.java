@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
@@ -17,6 +18,7 @@ import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.math.BoundingBox;
 import org.loomdev.api.math.Vector3d;
 import org.loomdev.api.sound.Sound;
+import org.loomdev.api.sound.SoundEvent;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.util.transformer.TextTransformer;
@@ -349,8 +351,8 @@ public abstract class EntityImpl implements Entity {
     }
 
     @Override
-    public void emitSound(@NotNull Sound.Type sound, float volume, float pitch) {
-        getMinecraftEntity().playSound(Registry.SOUND_EVENT.get(sound.rawId()), volume, pitch);
+    public void emitSound(@NotNull SoundEvent sound, float volume, float pitch) {
+        getMinecraftEntity().playSound(Registry.SOUND_EVENT.get(new Identifier(sound.getKey().toString())), volume, pitch);
     }
 
     @Override

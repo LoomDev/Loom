@@ -10,14 +10,14 @@ import java.util.Objects;
 
 public class StatusEffect {
 
-    private final Type type;
+    private final StatusEffectType type;
     private final int duration;
     private final int amplifier;
     private final boolean ambient;
     private final boolean showParticles;
     private final boolean showIcon;
 
-    private StatusEffect(@NotNull Type type, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon) {
+    private StatusEffect(@NotNull StatusEffectType type, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon) {
         this.type = type;
         this.duration = duration;
         this.amplifier = amplifier;
@@ -37,7 +37,7 @@ public class StatusEffect {
         );
     }
 
-    public @NotNull Type getType() {
+    public @NotNull StatusEffectType getType() {
         return type;
     }
 
@@ -65,20 +65,20 @@ public class StatusEffect {
         entity.addStatusEffect(this);
     }
 
-    public static Builder builder(@NotNull Type type) {
+    public static Builder builder(@NotNull StatusEffectType type) {
         return new Builder(type);
     }
 
     public static final class Builder {
 
-        private final @NotNull Type type;
+        private final @NotNull StatusEffectType type;
         private int duration = 30;
         private int amplifier = 1;
         private boolean ambient = false;
         private boolean showParticles = true;
         private boolean showIcon = true;
 
-        public Builder(@NotNull Type type) {
+        public Builder(@NotNull StatusEffectType type) {
             this.type = type;
         }
 
@@ -122,65 +122,6 @@ public class StatusEffect {
             StatusEffect statusEffect = build();
             entity.addStatusEffect(statusEffect);
             return statusEffect;
-        }
-    }
-
-    /**
-     * Status effect types that can be used in a status effect.
-     */
-    public enum Type {
-        SPEED(1),
-        SLOWNESS(2),
-        HASTE(3),
-        MINING_FATIGUE(4),
-        STRENGTH(5),
-        INSTANT_HEALTH(6),
-        INSTANT_DAMAGE(7),
-        JUMP_BOOST(8),
-        NAUSEA(9),
-        REGENERATION(10),
-        RESISTANCE(11),
-        FIRE_RESISTANCE(12),
-        WATER_BREATHING(13),
-        INVISIBILITY(14),
-        BLINDNESS(15),
-        NIGHT_VISION(16),
-        HUNGER(17),
-        WEAKNESS(18),
-        POISON(19),
-        WITHER(20),
-        HEALTH_BOOST(21),
-        ABSORPTION(22),
-        SATURATION(23),
-        GLOWING(24),
-        LEVITATION(25),
-        LUCK(26),
-        UNLUCK(27),
-        SLOW_FALLING(28),
-        CONDUIT_POWER(29),
-        DOLPHINS_GRACE(30),
-        BAD_OMEN(31),
-        HERO_OF_THE_VILLAGE(32);
-
-        static Map<Integer, Type> lookupByRawId = new HashMap<>();
-        private final int rawId;
-
-        Type(int rawId) {
-            this.rawId = rawId;
-        }
-
-        public int rawId() {
-            return rawId;
-        }
-
-        public static @Nullable Type getByRawId(int rawId) {
-            return lookupByRawId.get(rawId);
-        }
-
-        static {
-            for (Type type : values()) {
-                Type.lookupByRawId.put(type.rawId, type);
-            }
         }
     }
 

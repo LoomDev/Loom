@@ -10,11 +10,14 @@ import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.SpawnGroup;
 import org.loomdev.api.entity.decoration.Painting;
+import org.loomdev.api.entity.effect.StatusEffectType;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.api.item.property.ItemProperty;
 import org.loomdev.api.item.property.data.*;
+import org.loomdev.api.particle.ParticleType;
+import org.loomdev.api.sound.SoundEvent;
 import org.loomdev.api.util.builder.BuilderBase;
 import org.loomdev.api.util.registry.Keyed;
 import org.loomdev.api.util.registry.Registry;
@@ -27,10 +30,13 @@ import org.loomdev.loom.bossbar.BossBarImpl;
 import org.loomdev.loom.entity.EntityTypeImpl;
 import org.loomdev.loom.entity.SpawnGroupImpl;
 import org.loomdev.loom.entity.decoration.PaintingImpl;
+import org.loomdev.loom.entity.effect.StatusEffectTypeImpl;
 import org.loomdev.loom.item.EnchantmentImpl;
 import org.loomdev.loom.item.ItemStackImpl;
 import org.loomdev.loom.item.ItemTypeImpl;
 import org.loomdev.loom.item.property.*;
+import org.loomdev.loom.particle.ParticleTypeImpl;
+import org.loomdev.loom.sound.SoundEventImpl;
 import org.loomdev.loom.village.VillagerProfessionImpl;
 import org.loomdev.loom.village.VillagerVariantImpl;
 import org.loomdev.loom.world.biome.BiomeTypeImpl;
@@ -81,6 +87,9 @@ public class RegistryImpl implements Registry {
         wrapperSuppliers.put(VillagerVariant.class, VillagerVariantImpl::new);
         wrapperSuppliers.put(VillagerProfession.class, VillagerProfessionImpl::new);
         wrapperSuppliers.put(PointOfInterestType.class, PointOfInterestTypeImpl::new);
+        wrapperSuppliers.put(StatusEffectType.class, StatusEffectTypeImpl::new);
+        wrapperSuppliers.put(ParticleType.class, ParticleTypeImpl::new);
+        wrapperSuppliers.put(SoundEvent.class, SoundEventImpl::new);
 
         // MC Enums
         wrapperSuppliers.put(SpawnGroup.class, SpawnGroupImpl::new);

@@ -7,17 +7,16 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.ItemType;
-import org.loomdev.api.util.NamespacedKey;
+import org.loomdev.loom.util.registry.GenericWrapped;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
-public class ItemTypeImpl implements ItemType {
+public class ItemTypeImpl extends GenericWrapped implements ItemType {
 
     private final net.minecraft.item.Item mcItem;
-    private final NamespacedKey namespacedKey;
 
     public ItemTypeImpl(String key) {
+        super(key);
         this.mcItem = Registry.ITEM.get(new Identifier(key));
-        this.namespacedKey = NamespacedKey.of(key);
     }
 
     @Override
@@ -74,10 +73,5 @@ public class ItemTypeImpl implements ItemType {
     @Override
     public boolean isFireproof() {
         return this.mcItem.isFireproof();
-    }
-
-    @Override
-    public @NotNull NamespacedKey getKey() {
-        return this.namespacedKey;
     }
 }

@@ -3,6 +3,7 @@ package org.loomdev.loom.scheduler;
 import com.google.common.base.Preconditions;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.scheduler.Task;
 import org.loomdev.api.scheduler.TaskRunnable;
@@ -95,7 +96,7 @@ public class TaskImpl extends FutureTask<Void> implements Task {
         return taskId;
     }
 
-    public Plugin getPlugin() {
+    public @NotNull Plugin getPlugin() {
         return plugin;
     }
 
@@ -121,43 +122,43 @@ public class TaskImpl extends FutureTask<Void> implements Task {
         }
 
         @Override
-        public Builder async() {
+        public @NotNull Builder async() {
             this.async = true;
             return this;
         }
 
         @Override
-        public Builder execute(Runnable runnable) {
+        public @NotNull Builder execute(@NotNull Runnable runnable) {
             this.runnable = runnable;
             return this;
         }
 
         @Override
-        public Builder delay(long l, TimeUnit timeUnit) {
+        public @NotNull Builder delay(long l, TimeUnit timeUnit) {
             this.delayTicks = timeUnit.convert(l, TimeUnit.SECONDS) * 20;
             return this;
         }
 
         @Override
-        public Builder delayTicks(long l) {
+        public @NotNull Builder delayTicks(long l) {
             this.delayTicks = l;
             return this;
         }
 
         @Override
-        public Builder interval(long l, TimeUnit timeUnit) {
+        public @NotNull Builder interval(long l, TimeUnit timeUnit) {
             this.intervalTicks = timeUnit.convert(l, TimeUnit.SECONDS) * 20;
             return this;
         }
 
         @Override
-        public Builder intervalTicks(long l) {
+        public @NotNull Builder intervalTicks(long l) {
             this.intervalTicks = l;
             return this;
         }
 
         @Override
-        public Task complete(Plugin plugin) {
+        public @NotNull Task complete(@NotNull Plugin plugin) {
             TaskImpl task = new TaskImpl(plugin, this.runnable, !this.async, delayTicks, intervalTicks < 1 ? -1 : intervalTicks);
             if (runnable instanceof TaskRunnable) {
                 ((TaskRunnable) runnable).setTask(task);

@@ -2,6 +2,7 @@ package org.loomdev.api.entity.projectile;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.effect.StatusEffect;
+import org.loomdev.api.entity.effect.StatusEffectType;
 import org.loomdev.api.util.Color;
 
 import java.util.List;
@@ -11,15 +12,15 @@ public interface Arrow extends PersistentProjectile {
 
     @NotNull List<StatusEffect> getStatusEffects();
 
-    @NotNull Optional<StatusEffect> getStatusEffect(@NotNull StatusEffect.Type type);
+    @NotNull Optional<StatusEffect> getStatusEffect(@NotNull StatusEffectType type);
 
     void addStatusEffect(@NotNull StatusEffect effect);
 
-    void removeStatusEffect(@NotNull StatusEffect.Type type);
+    void removeStatusEffect(@NotNull StatusEffectType type);
 
     void clearStatusEffects();
 
-    boolean hasStatusEffect(@NotNull StatusEffect.Type type);
+    boolean hasStatusEffect(@NotNull StatusEffectType type);
 
     Color getColor();
 
