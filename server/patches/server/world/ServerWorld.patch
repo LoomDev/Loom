@@ -1,6 +1,24 @@
 --- a/net/minecraft/server/world/ServerWorld.java
 +++ b/net/minecraft/server/world/ServerWorld.java
-@@ -151,7 +151,7 @@
+@@ -19,16 +19,7 @@
+ import java.io.Writer;
+ import java.nio.file.Files;
+ import java.nio.file.Path;
+-import java.util.Collection;
+-import java.util.Comparator;
+-import java.util.Iterator;
+-import java.util.List;
+-import java.util.Map;
+-import java.util.Objects;
+-import java.util.Optional;
+-import java.util.Queue;
+-import java.util.Set;
+-import java.util.UUID;
++import java.util.*;
+ import java.util.concurrent.Executor;
+ import java.util.function.BooleanSupplier;
+ import java.util.function.Function;
+@@ -156,7 +147,7 @@
      private final ServerChunkManager serverChunkManager;
      boolean inEntityTick;
      private final MinecraftServer server;
@@ -9,27 +27,15 @@
      public boolean savingDisabled;
      private boolean allPlayersSleeping;
      private int idleTimeout;
-@@ -167,9 +167,11 @@
-     private final EnderDragonFight enderDragonFight;
-     private final StructureAccessor structureAccessor;
-     private final boolean field_25143;
-+    public final LevelStorage.Session levelstorage_session; // Loom :: expose level storage session
- 
-     public ServerWorld(MinecraftServer minecraftserver, Executor executor, LevelStorage.Session levelstorage_session, ServerWorldProperties serverworldproperties, RegistryKey<World> registrykey, DimensionType dimensiontype, WorldGenerationProgressListener worldgenerationprogresslistener, ChunkGenerator chunkgenerator, boolean flag, long i, List<Spawner> list, boolean flag1) {
-         super(serverworldproperties, registrykey, dimensiontype, minecraftserver::getProfiler, false, flag, i);
-+        this.levelstorage_session = levelstorage_session; // Loom :: expose level storage session
-         this.blockTickScheduler = new ServerTickScheduler<>(this, (block) -> {
-             return block == null || block.getDefaultState().isAir();
-         }, Registry.BLOCK::getId, this::tickBlock);
-@@ -203,6 +205,7 @@
+@@ -208,6 +199,7 @@
              this.enderDragonFight = null;
          }
  
-+        ((org.loomdev.loom.server.ServerImpl) org.loomdev.api.Loom.getServer()).registerWorld(this);
++        ((org.loomdev.loom.server.ServerImpl) org.loomdev.api.Loom.getServer()).registerWorld(this); // Loom
      }
  
      public void setWeather(int i, int j, boolean flag, boolean flag1) {
-@@ -445,7 +448,7 @@
+@@ -450,7 +442,7 @@
  
      private void wakeSleepingPlayers() {
          ((List) this.players.stream().filter(LivingEntity::isSleeping).collect(Collectors.toList())).forEach((serverplayerentity) -> {
@@ -38,16 +44,36 @@
          });
      }
  
-@@ -1087,7 +1090,7 @@
+@@ -1092,7 +1084,7 @@
  
          explosion.collectBlocksAndDamageEntities();
          explosion.affectWorld(false);
 -        if (explosion_destructiontype == Explosion.DestructionType.NONE) {
-+        if (explosion.destructionType == Explosion.DestructionType.NONE) { // Loom :: cancellable explosions
++        if (explosion.destructionType == Explosion.DestructionType.NONE) {
              explosion.clearAffectedBlocks();
          }
  
-@@ -1581,19 +1584,5 @@
+@@ -1583,8 +1575,8 @@
+ 
+     private static <T> String method_31270(Collection<T> collection, Function<T, Identifier> function) {
+         try {
+-            Object2IntOpenHashMap<Identifier> object2intopenhashmap = new Object2IntOpenHashMap();
+-            Iterator iterator = collection.iterator();
++            Object2IntOpenHashMap<Identifier> object2intopenhashmap = new Object2IntOpenHashMap<>();
++            Iterator<T> iterator = collection.iterator(); // Loom :: decompile error
+ 
+             while (iterator.hasNext()) {
+                 T t0 = iterator.next();
+@@ -1593,7 +1585,7 @@
+                 object2intopenhashmap.addTo(identifier, 1);
+             }
+ 
+-            return (String) object2intopenhashmap.object2IntEntrySet().stream().sorted(Comparator.comparing(it.unimi.dsi.fastutil.objects.Object2IntMap.Entry::getIntValue).reversed()).limit(5L).map((it_unimi_dsi_fastutil_objects_object2intmap_entry) -> {
++            return (String) object2intopenhashmap.object2IntEntrySet().stream().sorted(Comparator.comparing(it.unimi.dsi.fastutil.objects.Object2IntMap.Entry::getIntValue)).sorted(Collections.reverseOrder()).limit(5L).map((it_unimi_dsi_fastutil_objects_object2intmap_entry) -> {
+                 return it_unimi_dsi_fastutil_objects_object2intmap_entry.getKey() + ":" + it_unimi_dsi_fastutil_objects_object2intmap_entry.getIntValue();
+             }).collect(Collectors.joining(","));
+         } catch (Exception exception) {
+@@ -1615,19 +1607,5 @@
          });
      }
  

@@ -51,7 +51,7 @@
              LevelStorage.Session levelstorage_session = levelstorage.createSession(s);
  
              MinecraftServer.convertLevel(levelstorage_session);
-             DataPackSettings datapacksettings = levelstorage_session.method_29585();
+             DataPackSettings datapacksettings = levelstorage_session.getDatapackSettings();
 -            boolean flag = optionset.has(optionspec6);
 +            boolean flag = optionSet.has("safeMode"); // Loom ::  change to optionSet
  
@@ -84,7 +84,7 @@
                  }, ((SaveProperties) object).getGeneratorOptions().getWorlds());
              }
  
-             levelstorage_session.method_27425(dynamicregistrymanager_impl, (SaveProperties) object);
+             levelstorage_session.backupLevelDataFile(dynamicregistrymanager_impl, (SaveProperties) object);
 +            final SaveProperties finalObject = (SaveProperties) object; // Loom :: decompile error
              final MinecraftDedicatedServer minecraftdedicatedserver = (MinecraftDedicatedServer) MinecraftServer.startServer((thread) -> {
 -                MinecraftDedicatedServer minecraftdedicatedserver1 = new MinecraftDedicatedServer(thread, dynamicregistrymanager_impl, levelstorage_session, resourcepackmanager, serverresourcemanager, object, serverpropertiesloader, Schemas.getFixer(), minecraftsessionservice, gameprofilerepository, usercache, WorldGenerationProgressLogger::new);

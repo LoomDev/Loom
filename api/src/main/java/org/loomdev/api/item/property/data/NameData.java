@@ -22,7 +22,7 @@ public interface NameData extends ItemPropertyData<NameData> {
      * @param name The new name.
      */
     default void setName(@NotNull String name) {
-        setName(TextComponent.of(name));
+        setName(Component.text(name));
     }
 
     /**

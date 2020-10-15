@@ -1,5 +1,6 @@
 package org.loomdev.api.util;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
 
 /**
@@ -45,6 +46,6 @@ public enum GameMode {
     SPECTATOR;
 
     public TranslatableComponent getTranslatableName() {
-        return TranslatableComponent.of("gameMode." + name().toLowerCase());
+        return Component.translatable("gameMode." + name().toLowerCase());
     }
 }

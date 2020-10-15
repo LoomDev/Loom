@@ -1,7 +1,7 @@
 --- a/net/minecraft/entity/passive/WanderingTraderEntity.java
 +++ b/net/minecraft/entity/passive/WanderingTraderEntity.java
 @@ -49,8 +49,8 @@
- public class WanderingTraderEntity extends AbstractTraderEntity {
+ public class WanderingTraderEntity extends MerchantEntity {
  
      @Nullable
 -    private BlockPos wanderTarget;

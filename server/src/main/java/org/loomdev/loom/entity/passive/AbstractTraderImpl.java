@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.passive;
 
-import net.minecraft.entity.passive.AbstractTraderEntity;
-import net.minecraft.village.TraderOfferList;
+import net.minecraft.entity.passive.MerchantEntity;
+import net.minecraft.village.TradeOfferList;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.passive.AbstractTrader;
 import org.loomdev.api.village.TradeOffer;
@@ -12,14 +12,14 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractTraderImpl extends PassiveEntityImpl implements AbstractTrader {
 
-    public AbstractTraderImpl(AbstractTraderEntity entity) {
+    public AbstractTraderImpl(MerchantEntity entity) {
         super(entity);
     }
 
     @NotNull
     @Override
-    public AbstractTraderEntity getMinecraftEntity() {
-        return (AbstractTraderEntity) super.getMinecraftEntity();
+    public MerchantEntity getMinecraftEntity() {
+        return (MerchantEntity) super.getMinecraftEntity();
     }
 
     @Override
@@ -31,7 +31,7 @@ public abstract class AbstractTraderImpl extends PassiveEntityImpl implements Ab
 
     @Override
     public void setTradeOffers(@NotNull List<TradeOffer> list) {
-        TraderOfferList traderOfferList = new TraderOfferList();
+        TradeOfferList traderOfferList = new TradeOfferList();
         list.stream()
                 .map(to -> ((TradeOfferImpl) to).getMinecraftTradeOffer())
                 .collect(Collectors.toCollection(() -> traderOfferList));
@@ -55,6 +55,6 @@ public abstract class AbstractTraderImpl extends PassiveEntityImpl implements Ab
 
     @Override
     public boolean isLeveled() {
-        return getMinecraftEntity().isLeveledTrader();
+        return getMinecraftEntity().isLeveledMerchant();
     }
 }

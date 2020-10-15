@@ -119,12 +119,12 @@ public class TradeOfferImpl implements TradeOffer {
 
     @Override
     public int getExperienceAwardedToVillager() {
-        return this.mcTradeOffer.getTraderExperience();
+        return this.mcTradeOffer.getMerchantExperience();
     }
 
     @Override
     public void setExperienceAwardedToVillager(int experience) {
-        this.mcTradeOffer.traderExperience = experience;
+        this.mcTradeOffer.merchantExperience = experience;
     }
 
     public net.minecraft.village.TradeOffer getMinecraftTradeOffer() {

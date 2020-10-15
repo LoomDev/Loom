@@ -1,11 +1,11 @@
 --- a/net/minecraft/util/dynamic/RegistryOps.java
 +++ b/net/minecraft/util/dynamic/RegistryOps.java
 @@ -64,7 +64,7 @@
-         this.field_26738 = registryops_class_5506;
+         this.entryLoader = registryops_entryloader;
          this.registryManager = dynamicregistrymanager_impl;
          this.valueHolders = identityhashmap;
--        this.field_26739 = dynamicops == JsonOps.INSTANCE ? this : new RegistryOps<>(JsonOps.INSTANCE, registryops_class_5506, dynamicregistrymanager_impl, identityhashmap);
-+        this.field_26739 = dynamicops == JsonOps.INSTANCE ? (RegistryOps<JsonElement>) this : new RegistryOps<>(JsonOps.INSTANCE, registryops_class_5506, dynamicregistrymanager_impl, identityhashmap); // Loom :: decompile error
+-        this.entryOps = dynamicops == JsonOps.INSTANCE ? this : new RegistryOps<>(JsonOps.INSTANCE, registryops_entryloader, dynamicregistrymanager_impl, identityhashmap);
++        this.entryOps = dynamicops == JsonOps.INSTANCE ? (RegistryOps<JsonElement>) this : new RegistryOps<>(JsonOps.INSTANCE, registryops_entryloader, dynamicregistrymanager_impl, identityhashmap);
      }
  
      protected <E> DataResult<Pair<Supplier<E>, T>> decodeOrId(T t0, RegistryKey<? extends Registry<E>> registrykey, Codec<E> codec, boolean flag) {

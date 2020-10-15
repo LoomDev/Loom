@@ -13,7 +13,7 @@
 -    private int specialPrice;
 -    private int demandBonus;
 -    private float priceMultiplier;
--    private int traderExperience;
+-    private int merchantExperience;
 +    public ItemStack firstBuyItem; // Loom :: public accessor, non-final
 +    public ItemStack secondBuyItem; // Loom :: public accessor, non-final
 +    public ItemStack sellItem; // Loom :: public accessor, non-final
@@ -23,7 +23,7 @@
 +    public int specialPrice; // Loom :: public accessor
 +    public int demandBonus; // Loom :: public accessor
 +    public float priceMultiplier; // Loom :: public accessor
-+    public int traderExperience; // Loom :: public accessor
++    public int merchantExperience; // Loom :: public accessor
  
      public TradeOffer(CompoundTag compoundtag) {
          this.rewardingPlayerExperience = true;

@@ -1,7 +1,7 @@
 --- a/net/minecraft/server/network/ServerPlayNetworkHandler.java
 +++ b/net/minecraft/server/network/ServerPlayNetworkHandler.java
-@@ -14,6 +14,8 @@
- import java.util.Set;
+@@ -20,6 +20,8 @@
+ import java.util.stream.Collectors;
  import java.util.stream.Stream;
  import javax.annotation.Nullable;
 +
@@ -9,7 +9,16 @@
  import net.minecraft.SharedConstants;
  import net.minecraft.advancement.Advancement;
  import net.minecraft.advancement.criterion.Criteria;
-@@ -401,7 +403,7 @@
+@@ -320,7 +322,7 @@
+         class_5513 class_5513 = this.player.method_31273();
+ 
+         if (class_5513 != null) {
+-            ((CompletableFuture) bifunction.apply(class_5513, t0)).thenAcceptAsync((optional) -> {
++            (bifunction.apply(class_5513, t0)).thenAcceptAsync((optional) -> {
+                 optional.ifPresent(consumer1);
+             }, threadexecutor);
+         } else {
+@@ -446,7 +448,7 @@
  
      public void onRecipeBookData(RecipeBookDataC2SPacket recipebookdatac2spacket) {
          NetworkThreadUtils.forceMainThread(recipebookdatac2spacket, this, this.player.getServerWorld());
@@ -18,7 +27,21 @@
          ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
  
          optional.ifPresent(serverrecipebook::onRecipeDisplayed);
-@@ -1009,7 +1011,11 @@
+@@ -731,10 +733,11 @@
+ 
+                 i = bookupdatec2spacket.method_12235();
+                 if (PlayerInventory.isValidHotbarIndex(i) || i == 40) {
++                    int finalI = i;
+                     this.method_31279(list, flag ? (list1) -> {
+-                        this.method_31276((String) list1.get(0), list1.subList(1, list1.size()), i);
++                        this.method_31276((String) list1.get(0), list1.subList(1, list1.size()), finalI);
+                     } : (list1) -> {
+-                        this.method_31278(list1, i);
++                        this.method_31278(list1, finalI);
+                     });
+                 }
+             }
+@@ -1088,7 +1091,11 @@
      public void onDisconnected(Text text) {
          ServerPlayNetworkHandler.LOGGER.info("{} lost connection: {}", this.player.getName().getString(), text.getString());
          this.server.forcePlayerSampleUpdate();
@@ -30,25 +53,8 @@
 +        // Loom end
          this.player.onDisconnect();
          this.server.getPlayerManager().remove(this.player);
-         if (this.isHost()) {
-@@ -1065,7 +1071,16 @@
-     }
- 
-     public void onGameMessage(ChatMessageC2SPacket chatmessagec2spacket) {
-+        // Loom start :: make sure all chat is async
-+        if (this.server.isStopped()) {
-+            return;
-+        }
-+
-+        if (chatmessagec2spacket.getChatMessage().startsWith("/")) {
-         NetworkThreadUtils.forceMainThread(chatmessagec2spacket, this, this.player.getServerWorld());
-+        }
-+        // Loom end
-+
-         if (this.player.getClientChatVisibility() == ChatVisibility.HIDDEN) {
-             this.sendPacket(new GameMessageS2CPacket((new TranslatableText("chat.cannotSend")).formatted(Formatting.RED), MessageType.SYSTEM, Util.NIL_UUID));
-         } else {
-@@ -1082,9 +1097,17 @@
+         class_5513 class_5513 = this.player.method_31273();
+@@ -1177,9 +1184,17 @@
              if (s.startsWith("/")) {
                  this.executeCommand(s);
              } else {
@@ -69,14 +75,14 @@
              }
  
              this.messageCooldown += 20;
-@@ -1369,9 +1392,13 @@
- 
-             String[] astring = updatesignc2spacket.getText();
+@@ -1469,9 +1484,13 @@
+                 return;
+             }
  
 +            // Loom start :: fire SignWrittenEvent
-+            if (!org.loomdev.loom.event.LoomEventDispatcher.onSignWritten(serverworld, blockpos, this.player, astring).isCancelled()) {
-             for (int i = 0; i < astring.length; ++i) {
-                 signblockentity.setTextOnRow(i, new LiteralText(Formatting.strip(astring[i])));
++            if (!org.loomdev.loom.event.LoomEventDispatcher.onSignWritten(serverworld, blockpos, this.player, list).isCancelled()) {
+             for (int i = 0; i < list.size(); ++i) {
+                 signblockentity.setTextOnRow(i, new LiteralText((String) list.get(i)));
              }
 +            }
 +            // Loom end

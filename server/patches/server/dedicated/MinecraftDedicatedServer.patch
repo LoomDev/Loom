@@ -1,8 +1,8 @@
 --- a/net/minecraft/server/dedicated/MinecraftDedicatedServer.java
 +++ b/net/minecraft/server/dedicated/MinecraftDedicatedServer.java
-@@ -67,8 +67,8 @@
+@@ -72,8 +72,8 @@
      @Nullable
-     private DedicatedServerGui gui;
+     private final class_5514 field_26898;
  
 -    public MinecraftDedicatedServer(Thread thread, DynamicRegistryManager.Impl dynamicregistrymanager_impl, LevelStorage.Session levelstorage_session, ResourcePackManager resourcepackmanager, ServerResourceManager serverresourcemanager, SaveProperties saveproperties, ServerPropertiesLoader serverpropertiesloader, DataFixer datafixer, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) {
 -        super(thread, dynamicregistrymanager_impl, levelstorage_session, saveproperties, resourcepackmanager, Proxy.NO_PROXY, datafixer, serverresourcemanager, minecraftsessionservice, gameprofilerepository, usercache, worldgenerationprogresslistenerfactory);
@@ -10,8 +10,8 @@
 +        super(optionSet, thread, dynamicregistrymanager_impl, levelstorage_session, saveproperties, resourcepackmanager, Proxy.NO_PROXY, datafixer, serverresourcemanager, minecraftsessionservice, gameprofilerepository, usercache, worldgenerationprogresslistenerfactory); // Loom :: add optionSet
          this.propertiesLoader = serverpropertiesloader;
          this.rconCommandOutput = new RconCommandOutput(this);
-     }
-@@ -165,6 +165,7 @@
+         this.field_26898 = class_5514.method_31302(serverpropertiesloader.getPropertiesHandler().field_26899);
+@@ -171,6 +171,7 @@
              UserCache.setUseRemote(this.isOnlineMode());
              MinecraftDedicatedServer.LOGGER.info("Preparing level \"{}\"", this.getLevelName());
              this.loadWorld();
@@ -19,8 +19,8 @@
              long j = Util.getMeasuringTimeNano() - i;
              String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
  
-@@ -533,7 +534,5 @@
-         return this.propertiesLoader.getPropertiesHandler().syncChunkWrites;
+@@ -548,7 +549,5 @@
+         return this.field_26898 != null ? this.field_26898.method_31297(serverplayerentity.getGameProfile()) : null;
      }
  
 -    public PlayerManager getPlayerManager() {

@@ -1,6 +1,7 @@
 package org.loomdev.api.util;
 
 import com.google.common.base.Preconditions;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 
 public class Color {
@@ -64,7 +65,7 @@ public class Color {
     }
 
     public TextColor asTextColor() {
-        return TextColor.of(getRed(), getGreen(), getBlue());
+        return TextColor.color(getRed(), getGreen(), getBlue());
     }
 
     @Override

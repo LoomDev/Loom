@@ -184,8 +184,8 @@ public final class LoomEventDispatcher {
     }
 
     @NotNull
-    public static SignWrittenEvent onSignWritten(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull PlayerEntity player, @NotNull String[] text) {
-        return fire(new SignWrittenEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity(), text));
+    public static SignWrittenEvent onSignWritten(@NotNull WorldAccess world, @NotNull BlockPos pos, @NotNull PlayerEntity player, @NotNull List<String> text) {
+        return fire(new SignWrittenEvent(BlockImpl.at(world, pos), (PlayerImpl) player.getLoomEntity(), text.toArray(new String[4])));
     }
 
     @NotNull

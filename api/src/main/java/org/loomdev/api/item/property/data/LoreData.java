@@ -32,7 +32,7 @@ public interface LoreData extends ItemPropertyData<LoreData> {
      * @param lore The lore to add.
      */
     default void appendLore(String... lore) {
-        Arrays.stream(lore).forEach(l -> appendLore(TextComponent.of(l)));
+        Arrays.stream(lore).forEach(l -> appendLore(Component.text(l)));
     }
 
     /**
