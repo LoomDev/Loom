@@ -9,7 +9,7 @@
      private int life;
      private int lifeTime;
      private LivingEntity shooter;
-@@ -146,7 +146,7 @@
+@@ -148,7 +148,7 @@
  
      }
  

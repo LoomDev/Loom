@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -145,6 +145,7 @@
+@@ -147,6 +147,7 @@
  import org.apache.commons.lang3.Validate;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
@@ -8,7 +8,7 @@
  
  public abstract class MinecraftServer extends ReentrantThreadExecutor<ServerTask> implements SnooperListener, CommandOutput, AutoCloseable {
  
-@@ -211,10 +212,18 @@
+@@ -213,10 +214,18 @@
      private final Executor workerExecutor;
      @Nullable
      private String serverId;
@@ -28,7 +28,7 @@
      public static <S extends MinecraftServer> S startServer(Function<Thread, S> function) {
          AtomicReference<S> atomicreference = new AtomicReference();
          Thread thread = new Thread(() -> {
-@@ -224,14 +233,14 @@
+@@ -226,14 +235,14 @@
          thread.setUncaughtExceptionHandler((thread1, throwable) -> {
              MinecraftServer.LOGGER.error(throwable);
          });
@@ -45,7 +45,7 @@
          super("Server");
          this.tickTimeTracker = new TickTimeTracker(Util.nanoTimeSupplier, this::getTicks);
          this.profiler = DummyProfiler.INSTANCE;
-@@ -264,6 +273,10 @@
+@@ -266,6 +275,10 @@
          this.structureManager = new StructureManager(serverresourcemanager.getResourceManager(), levelstorage_session, datafixer);
          this.serverThread = thread;
          this.workerExecutor = Util.getMainWorkerExecutor();
@@ -56,7 +56,7 @@
      }
  
      private void initScoreboard(PersistentStateManager persistentstatemanager) {
-@@ -650,10 +663,13 @@
+@@ -652,10 +665,13 @@
                  this.metadata.setVersion(new ServerMetadata.Version(SharedConstants.getGameVersion().getName(), SharedConstants.getGameVersion().getProtocolVersion()));
                  this.setFavicon(this.metadata);
  
@@ -72,7 +72,7 @@
                          long j = i / 50L;
  
                          MinecraftServer.LOGGER.warn("Can't keep up! Is the server overloaded? Running {}ms or {} ticks behind", i, j);
-@@ -661,6 +677,14 @@
+@@ -663,6 +679,14 @@
                          this.lastTimeReference = this.timeReference;
                      }
  
@@ -87,7 +87,7 @@
                      this.timeReference += 50L;
                      TickDurationMonitor tickdurationmonitor = TickDurationMonitor.create("Server");
  
-@@ -844,27 +868,37 @@
+@@ -846,27 +870,37 @@
          this.tickTime = this.tickTime * 0.8F + (float) l / 1000000.0F * 0.19999999F;
          long i1 = Util.getMeasuringTimeNano();
  
@@ -127,7 +127,7 @@
  
              this.profiler.push("tick");
  
-@@ -948,7 +982,7 @@
+@@ -950,7 +984,7 @@
      }
  
      public String getServerModName() {
@@ -136,7 +136,7 @@
      }
  
      public CrashReport populateCrashReport(CrashReport crashreport) {
-@@ -1295,11 +1329,11 @@
+@@ -1303,11 +1337,11 @@
  
      public CompletableFuture<Void> reloadResources(Collection<String> collection) {
          CompletableFuture<Void> completablefuture = CompletableFuture.supplyAsync(() -> {
@@ -150,7 +150,7 @@
          }, this).thenCompose((immutablelist) -> {
              return ServerResourceManager.reload(immutablelist, this.isDedicated() ? CommandManager.RegistrationEnvironment.DEDICATED : CommandManager.RegistrationEnvironment.INTEGRATED, this.getFunctionPermissionLevel(), this.workerExecutor, this);
          }).thenAcceptAsync((serverresourcemanager) -> {
-@@ -1724,15 +1758,5 @@
+@@ -1732,15 +1766,5 @@
          return null;
      }
  

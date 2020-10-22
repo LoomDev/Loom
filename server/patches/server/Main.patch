@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/Main.java
 +++ b/net/minecraft/server/Main.java
-@@ -62,7 +62,8 @@
+@@ -61,7 +61,8 @@
  
      public Main() {}
  
@@ -10,7 +10,7 @@
          OptionParser optionparser = new OptionParser();
          OptionSpec<Void> optionspec = optionparser.accepts("nogui");
          OptionSpec<Void> optionspec1 = optionparser.accepts("initSettings", "Initializes 'server.properties' and 'eula.txt', then quits");
-@@ -86,20 +87,21 @@
+@@ -85,20 +86,21 @@
                  optionparser.printHelpOn(System.err);
                  return;
              }
@@ -35,13 +35,13 @@
                  Main.LOGGER.info("Initialized '{}' and '{}'", path.toAbsolutePath(), path1.toAbsolutePath());
                  return;
              }
-@@ -109,18 +111,18 @@
+@@ -108,18 +110,18 @@
                  return;
              }
  
 -            File file = new File((String) optionset.valueOf(optionspec9));
 +            File file = (File) optionSet.valueOf("universe"); // Loom :: change hardcoded location to use optionSet.
-             YggdrasilAuthenticationService yggdrasilauthenticationservice = new YggdrasilAuthenticationService(Proxy.NO_PROXY, UUID.randomUUID().toString());
+             YggdrasilAuthenticationService yggdrasilauthenticationservice = new YggdrasilAuthenticationService(Proxy.NO_PROXY);
              MinecraftSessionService minecraftsessionservice = yggdrasilauthenticationservice.createMinecraftSessionService();
              GameProfileRepository gameprofilerepository = yggdrasilauthenticationservice.createProfileRepository();
              UserCache usercache = new UserCache(gameprofilerepository, new File(file, MinecraftServer.USER_CACHE_FILE.getName()));
@@ -51,13 +51,13 @@
              LevelStorage.Session levelstorage_session = levelstorage.createSession(s);
  
              MinecraftServer.convertLevel(levelstorage_session);
-             DataPackSettings datapacksettings = levelstorage_session.getDatapackSettings();
+             DataPackSettings datapacksettings = levelstorage_session.getDataPackSettings();
 -            boolean flag = optionset.has(optionspec6);
-+            boolean flag = optionSet.has("safeMode"); // Loom ::  change to optionSet
++            boolean flag = optionSet.has("safeMode"); // Loom :: change to optionSet
  
              if (flag) {
                  Main.LOGGER.warn("Safe mode active, only vanilla datapack will be loaded");
-@@ -148,34 +150,31 @@
+@@ -147,34 +149,31 @@
                  LevelInfo levelinfo;
                  GeneratorOptions generatoroptions;
  

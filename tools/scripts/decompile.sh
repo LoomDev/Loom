@@ -8,7 +8,7 @@ toolsdir="$basedir/tools"
 yarndir="$toolsdir/yarn"
 decompdir="$toolsdir/decomp"
 
-mcVersion="1.16.4-pre1"
+mcVersion="1.16.4-pre2"
 
 function setup {
     git submodule update --init --recursive
