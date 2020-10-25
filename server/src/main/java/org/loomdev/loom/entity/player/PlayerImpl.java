@@ -3,6 +3,7 @@ package org.loomdev.loom.entity.player;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlaySoundFromEntityS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlayerListHeaderS2CPacket;
 import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -310,16 +311,14 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public void playSound(@NotNull Sound sound, @NotNull Location location) {
-        BlockPos pos = new BlockPos(location.getX(), location.getY(), location.getZ());
-        getMinecraftEntity().getServerWorld().playSound(
+    public void playSound(@NotNull Sound sound) {
+        getMinecraftEntity().networkHandler.sendPacket(new PlaySoundFromEntityS2CPacket(
+                Registry.SOUND_EVENT.get(new Identifier(sound.getSoundEffect().getKey().toString())),
+                SoundCategory.getByName(sound.getSoundCategory().getName()),
                 getMinecraftEntity(),
-                pos,
-                Registry.SOUND_EVENT.get(new Identifier(sound.getType().getKey().toString())),
-                SoundCategory.valueOf(sound.getCategory().name()),
                 sound.getVolume(),
                 sound.getPitch()
-        );
+        ));
     }
 
     @Override

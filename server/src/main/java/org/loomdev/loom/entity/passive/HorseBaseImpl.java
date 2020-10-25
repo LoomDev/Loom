@@ -1,12 +1,12 @@
 package org.loomdev.loom.entity.passive;
 
 import net.minecraft.entity.passive.HorseBaseEntity;
-import net.minecraft.sound.SoundCategory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.passive.HorseBase;
-import org.loomdev.api.sound.SoundCategories;
+import org.loomdev.api.sound.SoundCategory;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.UUID;
@@ -123,8 +123,12 @@ public abstract class HorseBaseImpl extends AnimalEntityImpl implements HorseBas
     }
 
     @Override
-    public void saddle(@Nullable SoundCategories soundCategories) {
-        getMinecraftEntity().saddle(SoundCategory.valueOf(soundCategories.name()));
+    public void saddle(@Nullable SoundCategory soundCategory) {
+        getMinecraftEntity().saddle(
+            Optional.ofNullable(soundCategory)
+                    .map(sc -> net.minecraft.sound.SoundCategory.getByName(sc.getName()))
+                    .orElse(null)
+        );
     }
 
     @Override

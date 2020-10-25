@@ -1,12 +1,13 @@
 package org.loomdev.loom.entity.passive;
 
 import net.minecraft.entity.passive.PigEntity;
-import net.minecraft.sound.SoundCategory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.Pig;
-import org.loomdev.api.sound.SoundCategories;
+import org.loomdev.api.sound.SoundCategory;
+
+import java.util.Optional;
 
 public class PigImpl extends AnimalEntityImpl implements Pig {
 
@@ -30,8 +31,12 @@ public class PigImpl extends AnimalEntityImpl implements Pig {
     }
 
     @Override
-    public void saddle(@Nullable SoundCategories soundCategories) {
-        getMinecraftEntity().saddle(soundCategories == null ? null : SoundCategory.values()[soundCategories.ordinal()]);
+    public void saddle(@Nullable SoundCategory soundCategory) {
+        getMinecraftEntity().saddle(
+                Optional.ofNullable(soundCategory)
+                        .map(sc -> net.minecraft.sound.SoundCategory.getByName(sc.getName()))
+                        .orElse(null)
+        );
     }
 
     @Override

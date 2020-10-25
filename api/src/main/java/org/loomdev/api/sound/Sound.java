@@ -2,29 +2,24 @@ package org.loomdev.api.sound;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 public class Sound {
 
-    private final @NotNull SoundEvent type;
-    private final @NotNull Category category;
+    private final @NotNull SoundEvent effect;
+    private final @NotNull SoundCategory category;
     private final float volume, pitch;
 
-    private Sound(@NotNull SoundEvent type, @NotNull Category category, float volume, float pitch) {
-        this.type = type;
+    private Sound(@NotNull SoundEvent effect, @NotNull SoundCategory category, float volume, float pitch) {
+        this.effect = effect;
         this.category = category;
         this.volume = volume;
         this.pitch = pitch;
     }
 
-    public @NotNull SoundEvent getType() {
-        return type;
+    public @NotNull SoundEvent getSoundEffect() {
+        return effect;
     }
 
-    public @NotNull Category getCategory() {
+    public SoundCategory getSoundCategory() {
         return category;
     }
 
@@ -42,7 +37,7 @@ public class Sound {
 
     public static final class Builder {
         private final @NotNull SoundEvent type;
-        private @NotNull Category category = Category.MASTER;
+        private @NotNull SoundCategory category = SoundCategory.MASTER;
         private float volume = 1.0f;
         private float pitch = 1.0f;
 
@@ -50,7 +45,7 @@ public class Sound {
             this.type = type;
         }
 
-        public Builder category(@NotNull Category category) {
+        public Builder category(@NotNull SoundCategory category) {
             this.category = category;
             return this;
         }
@@ -72,35 +67,6 @@ public class Sound {
                     volume,
                     pitch
             );
-        }
-    }
-
-    public enum Category {
-
-        MASTER("master"),
-        MUSIC("music"),
-        RECORDS("record"),
-        WEATHER("weather"),
-        BLOCKS("block"),
-        HOSTILE("hostile"),
-        NEUTRAL("neutral"),
-        PLAYERS("player"),
-        AMBIENT("ambient"),
-        VOICE("voice");
-
-        private static final Map<String, Category> mapByName = Arrays.stream(values()).collect(Collectors.toMap(Category::getName, Function.identity()));
-        private final String name;
-
-        Category(String s) {
-            this.name = s;
-        }
-
-        public String getName() {
-            return this.name;
-        }
-
-        public static Category getByName(String name) {
-            return mapByName.get(name);
         }
     }
 }

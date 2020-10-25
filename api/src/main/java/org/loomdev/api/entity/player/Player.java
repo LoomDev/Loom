@@ -120,7 +120,7 @@ public interface Player extends LivingEntity {
 
     boolean isOp();
 
-    void playSound(@NotNull Sound sound, @NotNull Location location);
+    void playSound(@NotNull Sound sound);
 
     /**
      * Get the current {@link GameMode} of the player.
