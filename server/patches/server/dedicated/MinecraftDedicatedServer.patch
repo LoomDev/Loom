@@ -10,7 +10,7 @@
 +        super(optionSet, thread, dynamicregistrymanager_impl, levelstorage_session, saveproperties, resourcepackmanager, Proxy.NO_PROXY, datafixer, serverresourcemanager, minecraftsessionservice, gameprofilerepository, usercache, worldgenerationprogresslistenerfactory); // Loom :: add optionSet
          this.propertiesLoader = serverpropertiesloader;
          this.rconCommandOutput = new RconCommandOutput(this);
-         this.field_26898 = class_5514.method_31302(serverpropertiesloader.getPropertiesHandler().field_26899);
+         this.field_26898 = null;
 @@ -169,6 +169,7 @@
              UserCache.setUseRemote(this.isOnlineMode());
              MinecraftDedicatedServer.LOGGER.info("Preparing level \"{}\"", this.getLevelName());

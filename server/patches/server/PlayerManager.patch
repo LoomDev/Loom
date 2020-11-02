@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/PlayerManager.java
 +++ b/net/minecraft/server/PlayerManager.java
-@@ -196,7 +196,13 @@
+@@ -195,7 +195,13 @@
              translatabletext = new TranslatableText("multiplayer.player.joined.renamed", new Object[]{serverplayerentity.getDisplayName(), s});
          }
  
@@ -15,7 +15,7 @@
          serverplaynetworkhandler.requestTeleport(serverplayerentity.getX(), serverplayerentity.getY(), serverplayerentity.getZ(), serverplayerentity.yaw, serverplayerentity.pitch);
          this.players.add(serverplayerentity);
          this.playerMap.put(serverplayerentity.getUuid(), serverplayerentity);
-@@ -267,6 +273,8 @@
+@@ -266,6 +272,8 @@
          }
  
          serverplayerentity.onSpawn();
@@ -24,7 +24,7 @@
      }
  
      protected void sendScoreboard(ServerScoreboard serverscoreboard, ServerPlayerEntity serverplayerentity) {
-@@ -404,6 +412,10 @@
+@@ -403,6 +411,10 @@
      public Text checkCanJoin(SocketAddress socketaddress, GameProfile gameprofile) {
          TranslatableText translatabletext;
  
@@ -35,7 +35,7 @@
          if (this.bannedProfiles.contains(gameprofile)) {
              BannedPlayerEntry bannedplayerentry = (BannedPlayerEntry) this.bannedProfiles.get(gameprofile);
  
-@@ -652,7 +664,7 @@
+@@ -651,7 +663,7 @@
      }
  
      public void removeFromOperators(GameProfile gameprofile) {

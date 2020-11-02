@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/network/ServerPlayerInteractionManager.java
 +++ b/net/minecraft/server/network/ServerPlayerInteractionManager.java
-@@ -102,7 +102,11 @@
+@@ -101,7 +101,11 @@
  
                  if (f >= 1.0F) {
                      this.failedToMine = false;
@@ -12,7 +12,7 @@
                  }
              }
          } else if (this.mining) {
-@@ -230,7 +234,6 @@
+@@ -229,7 +233,6 @@
          } else {
              this.player.networkHandler.sendPacket(new PlayerActionResponseS2CPacket(blockpos, this.world.getBlockState(blockpos), playeractionc2spacket_action, false, s));
          }
@@ -20,7 +20,7 @@
      }
  
      public boolean tryBreakBlock(BlockPos blockpos) {
-@@ -241,7 +244,11 @@
+@@ -240,7 +243,11 @@
          } else {
              BlockEntity blockentity = this.world.getBlockEntity(blockpos);
              Block block = blockstate.getBlock();

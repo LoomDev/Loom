@@ -111,7 +111,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void updateInventory() {
-        getMinecraftEntity().openHandledScreen(getMinecraftEntity().currentScreenHandler);
+        getMinecraftEntity().refreshScreenHandler(getMinecraftEntity().currentScreenHandler);
     }
 
     @Override

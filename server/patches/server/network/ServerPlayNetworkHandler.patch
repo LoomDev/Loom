@@ -29,7 +29,7 @@
          optional.ifPresent(serverrecipebook::onRecipeDisplayed);
 @@ -731,10 +733,11 @@
  
-                 i = bookupdatec2spacket.method_12235();
+                 i = bookupdatec2spacket.getSlot();
                  if (PlayerInventory.isValidHotbarIndex(i) || i == 40) {
 +                    int finalI = i;
                      this.method_31279(list, flag ? (list1) -> {
