@@ -1,8 +1,8 @@
 --- a/net/minecraft/entity/Entity.java
 +++ b/net/minecraft/entity/Entity.java
-@@ -107,6 +107,17 @@
+@@ -110,6 +110,17 @@
  
- public abstract class Entity implements Nameable, CommandOutput {
+ public abstract class Entity implements Nameable, class_5568, CommandOutput {
  
 +    // Loom start :: loom entity getter
 +    private org.loomdev.loom.entity.EntityImpl entityImpl;
@@ -18,7 +18,16 @@
      protected static final Logger LOGGER = LogManager.getLogger();
      private static final AtomicInteger MAX_ENTITY_ID = new AtomicInteger();
      private static final List<ItemStack> EMPTY_STACK_LIST = Collections.emptyList();
-@@ -160,7 +171,7 @@
+@@ -141,7 +152,7 @@
+     public boolean velocityModified;
+     protected Vec3d movementMultiplier;
+     @Nullable
+-    private Entity.class_5529 field_26995;
++    public Entity.class_5529 field_26995; // Loom :: public accessor
+     public float prevHorizontalSpeed;
+     public float horizontalSpeed;
+     public float distanceTraveled;
+@@ -164,7 +175,7 @@
      protected Tag<Fluid> field_25599;
      public int timeUntilRegen;
      protected boolean firstUpdate;
@@ -36,24 +45,24 @@
      protected boolean inNetherPortal;
      protected int netherPortalTime;
      protected BlockPos lastNetherPortalPosition;
-@@ -190,6 +201,7 @@
-     private long pistonMovementTick;
-     private EntityDimensions dimensions;
+@@ -191,6 +202,7 @@
      private float standingEyeHeight;
-+    public Optional<Boolean> fireResistantOverride = Optional.empty();
+     private float field_26997;
+     private int field_26994;
++    public Optional<Boolean> fireResistantOverride = Optional.empty(); // Loom :: override fire resistance
  
      public Entity(EntityType<?> entitytype, World world) {
          this.entityId = Entity.MAX_ENTITY_ID.incrementAndGet();
-@@ -439,7 +451,7 @@
+@@ -449,7 +461,7 @@
          this.setFireTicks(0);
      }
  
 -    protected void destroy() {
-+    public void destroy() {
-         this.remove();
++    public void destroy() { // Loom :: public accessor
+         this.method_31472();
      }
  
-@@ -847,7 +859,7 @@
+@@ -866,7 +878,7 @@
          return 0.0F;
      }
  
@@ -62,7 +71,7 @@
          return false;
      }
  
-@@ -892,7 +904,7 @@
+@@ -911,7 +923,7 @@
      }
  
      public boolean isFireImmune() {
@@ -71,7 +80,7 @@
      }
  
      public boolean handleFallDamage(float f, float f1) {
-@@ -913,13 +925,13 @@
+@@ -932,13 +944,13 @@
          return this.touchingWater;
      }
  
@@ -87,7 +96,7 @@
          return this.world.getBlockState(this.getBlockPos()).isOf(Blocks.BUBBLE_COLUMN);
      }
  
-@@ -1837,7 +1849,13 @@
+@@ -1875,7 +1887,13 @@
      }
  
      public void setSwimming(boolean flag) {
@@ -101,16 +110,16 @@
      }
  
      public boolean isGlowing() {
-@@ -2130,7 +2148,7 @@
+@@ -2168,7 +2186,7 @@
                      }
  
-                     return AreaHelper.method_30484(serverworld, class_5460, direction_axis, vec3d, this.getDimensions(this.getPose()), this.getVelocity(), this.yaw, this.pitch);
+                     return AreaHelper.method_30484(serverworld, class_5459_class_5460, direction_axis, vec3d, this.getDimensions(this.getPose()), this.getVelocity(), this.yaw, this.pitch);
 -                }).orElse((Object) null);
 +                }).orElse(null); // Loom :: decompile error
              }
          } else {
              BlockPos blockpos1;
-@@ -2311,7 +2329,7 @@
+@@ -2347,7 +2365,7 @@
          return this.getHorizontalFacing();
      }
  

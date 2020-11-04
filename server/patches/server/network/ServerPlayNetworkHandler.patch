@@ -9,11 +9,11 @@
  import net.minecraft.advancement.Advancement;
  import net.minecraft.advancement.criterion.Criteria;
 @@ -320,7 +321,7 @@
-         class_5513 class_5513 = this.player.method_31273();
+         TextStream textstream = this.player.getTextStream();
  
-         if (class_5513 != null) {
--            ((CompletableFuture) bifunction.apply(class_5513, t0)).thenAcceptAsync((optional) -> {
-+            (bifunction.apply(class_5513, t0)).thenAcceptAsync((optional) -> {
+         if (textstream != null) {
+-            ((CompletableFuture) bifunction.apply(textstream, t0)).thenAcceptAsync((optional) -> {
++            (bifunction.apply(textstream, t0)).thenAcceptAsync((optional) -> { // Loom :: decompile error
                  optional.ifPresent(consumer1);
              }, threadexecutor);
          } else {
@@ -26,21 +26,21 @@
          ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
  
          optional.ifPresent(serverrecipebook::onRecipeDisplayed);
-@@ -731,10 +732,11 @@
+@@ -735,10 +736,11 @@
  
                  i = bookupdatec2spacket.getSlot();
                  if (PlayerInventory.isValidHotbarIndex(i) || i == 40) {
-+                    int finalI = i;
-                     this.method_31279(list, flag ? (list1) -> {
++                    int finalI = i; // Loom :: decompile error
+                     this.filterTexts(list, flag ? (list1) -> {
 -                        this.method_31276((String) list1.get(0), list1.subList(1, list1.size()), i);
-+                        this.method_31276((String) list1.get(0), list1.subList(1, list1.size()), finalI);
++                        this.method_31276((String) list1.get(0), list1.subList(1, list1.size()), finalI); // Loom :: decompile error
                      } : (list1) -> {
 -                        this.method_31278(list1, i);
-+                        this.method_31278(list1, finalI);
++                        this.method_31278(list1, finalI); // Loom :: decompile error
                      });
                  }
              }
-@@ -1088,7 +1090,11 @@
+@@ -1099,7 +1101,11 @@
      public void onDisconnected(Text text) {
          ServerPlayNetworkHandler.LOGGER.info("{} lost connection: {}", this.player.getName().getString(), text.getString());
          this.server.forcePlayerSampleUpdate();
@@ -52,8 +52,8 @@
 +        // Loom end
          this.player.onDisconnect();
          this.server.getPlayerManager().remove(this.player);
-         class_5513 class_5513 = this.player.method_31273();
-@@ -1177,9 +1183,16 @@
+         TextStream textstream = this.player.getTextStream();
+@@ -1188,9 +1194,16 @@
              if (s.startsWith("/")) {
                  this.executeCommand(s);
              } else {
@@ -73,7 +73,7 @@
              }
  
              this.messageCooldown += 20;
-@@ -1469,9 +1482,13 @@
+@@ -1480,9 +1493,13 @@
                  return;
              }
  

@@ -24,7 +24,7 @@
      }
  
      protected void sendScoreboard(ServerScoreboard serverscoreboard, ServerPlayerEntity serverplayerentity) {
-@@ -403,6 +411,10 @@
+@@ -395,6 +403,10 @@
      public Text checkCanJoin(SocketAddress socketaddress, GameProfile gameprofile) {
          TranslatableText translatabletext;
  
@@ -35,7 +35,7 @@
          if (this.bannedProfiles.contains(gameprofile)) {
              BannedPlayerEntry bannedplayerentry = (BannedPlayerEntry) this.bannedProfiles.get(gameprofile);
  
-@@ -651,7 +663,7 @@
+@@ -643,7 +655,7 @@
      }
  
      public void removeFromOperators(GameProfile gameprofile) {

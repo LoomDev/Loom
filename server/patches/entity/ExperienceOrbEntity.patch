@@ -1,15 +1,19 @@
 --- a/net/minecraft/entity/ExperienceOrbEntity.java
 +++ b/net/minecraft/entity/ExperienceOrbEntity.java
-@@ -20,9 +20,9 @@
-     public int renderTicks;
-     public int orbAge;
-     public int pickupDelay;
+@@ -23,11 +23,11 @@
+ 
+ public class ExperienceOrbEntity extends Entity {
+ 
+-    private int orbAge;
 -    private int health;
 -    private int amount;
+-    private int field_27009;
 -    private PlayerEntity target;
++    public int orbAge; // Loom :: public accessor
 +    public int health; // Loom :: public accessor
 +    public int amount; // Loom :: public accessor
++    public int field_27009; // Loom :: public accessor
 +    public PlayerEntity target; // Loom :: public accessor
-     private int lastTargetUpdateTick;
  
      public ExperienceOrbEntity(World world, double d0, double d1, double d2, int i) {
+         this(EntityType.EXPERIENCE_ORB, world);

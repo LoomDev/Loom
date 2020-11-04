@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/FallingBlockEntity.java
 +++ b/net/minecraft/entity/FallingBlockEntity.java
-@@ -39,7 +39,7 @@
+@@ -38,7 +38,7 @@
  
  public class FallingBlockEntity extends Entity {
  

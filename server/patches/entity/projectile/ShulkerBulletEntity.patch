@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/projectile/ShulkerBulletEntity.java
 +++ b/net/minecraft/entity/projectile/ShulkerBulletEntity.java
-@@ -31,7 +31,7 @@
+@@ -29,7 +29,7 @@
  
  public class ShulkerBulletEntity extends ProjectileEntity {
  
@@ -9,7 +9,7 @@
      @Nullable
      private Direction direction;
      private int stepCount;
-@@ -39,7 +39,7 @@
+@@ -37,7 +37,7 @@
      private double targetY;
      private double targetZ;
      @Nullable

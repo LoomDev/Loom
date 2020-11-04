@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/mob/PiglinBrain.java
 +++ b/net/minecraft/entity/mob/PiglinBrain.java
-@@ -161,10 +161,10 @@
+@@ -158,10 +158,10 @@
  
      protected static void tickActivities(PiglinEntity piglinentity) {
          Brain<PiglinEntity> brain = piglinentity.getBrain();
@@ -13,7 +13,7 @@
  
          if (activity != activity1) {
              method_30091(piglinentity).ifPresent(piglinentity::playSound);
-@@ -243,7 +243,7 @@
+@@ -238,7 +238,7 @@
          return itemstack1;
      }
  
@@ -22,16 +22,7 @@
          ItemStack itemstack = piglinentity.getStackInHand(Hand.OFF_HAND);
  
          piglinentity.setStackInHand(Hand.OFF_HAND, ItemStack.EMPTY);
-@@ -351,7 +351,7 @@
-         }
-     }
- 
--    protected static boolean isGoldenItem(Item item) {
-+    public static boolean isGoldenItem(Item item) { // Loom :: public access
-         return item.isIn((Tag) ItemTags.PIGLIN_LOVED);
-     }
- 
-@@ -518,7 +518,7 @@
+@@ -513,7 +513,7 @@
          return !brain.hasMemoryModule(MemoryModuleType.AVOID_TARGET) ? false : ((LivingEntity) brain.getOptionalMemory(MemoryModuleType.AVOID_TARGET).get()).isInRange(piglinentity, 12.0D);
      }
  

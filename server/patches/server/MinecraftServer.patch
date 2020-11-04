@@ -150,8 +150,8 @@
          }, this).thenCompose((immutablelist) -> {
              return ServerResourceManager.reload(immutablelist, this.isDedicated() ? CommandManager.RegistrationEnvironment.DEDICATED : CommandManager.RegistrationEnvironment.INTEGRATED, this.getFunctionPermissionLevel(), this.workerExecutor, this);
          }).thenAcceptAsync((serverresourcemanager) -> {
-@@ -1732,15 +1766,5 @@
-         return null;
+@@ -1736,15 +1770,5 @@
+         return false;
      }
  
 -    public void executeTask(Runnable runnable) {

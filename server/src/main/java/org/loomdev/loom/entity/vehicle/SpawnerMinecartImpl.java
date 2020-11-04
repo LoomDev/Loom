@@ -26,7 +26,7 @@ public class SpawnerMinecartImpl extends MinecartImpl implements SpawnerMinecart
 
     @Override
     public @Nullable EntityType<?> getEntityType() {
-        Identifier id = getMinecraftEntity().logic.getEntityId();
+        Identifier id = getMinecraftEntity().logic.getEntityId(null, getMinecraftEntity().getBlockPos());
         return id == null ? null : EntityType.getById(id.toString());
     }
 

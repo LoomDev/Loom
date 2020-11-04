@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/projectile/PersistentProjectileEntity.java
 +++ b/net/minecraft/entity/projectile/PersistentProjectileEntity.java
-@@ -50,16 +50,17 @@
+@@ -48,16 +48,17 @@
      private static final TrackedData<Byte> PIERCE_LEVEL = DataTracker.registerData(PersistentProjectileEntity.class, TrackedDataHandlerRegistry.BYTE);
      @Nullable
      private BlockState inBlockState;
@@ -21,7 +21,7 @@
  
      protected PersistentProjectileEntity(EntityType<? extends PersistentProjectileEntity> entitytype, World world) {
          super(entitytype, world);
-@@ -578,7 +579,7 @@
+@@ -576,7 +577,7 @@
      }
  
      protected float getDragInWater() {

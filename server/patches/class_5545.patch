@@ -1,0 +1,11 @@
+--- a/net/minecraft/class_5545.java
++++ b/net/minecraft/class_5545.java
+@@ -38,7 +38,7 @@
+     private static final Map<Block, class_5545> field_27187 = Maps.newHashMap();
+     private static final Iterable<Vec3d> field_27188 = ImmutableList.of(new Vec3d(0.5D, 1.0D, 0.5D));
+ 
+-    protected class_5545(Block block, AbstractBlock.Settings abstractblock_settings) {
++    public class_5545(Block block, AbstractBlock.Settings abstractblock_settings) { // Loom :: public accessor (Usage in net.minecraft.block.Blocks)
+         super(abstractblock_settings);
+         this.setDefaultState((BlockState) ((BlockState) this.stateManager.getDefaultState()).with(class_5545.field_27183, false));
+         class_5545.field_27187.put(block, this);

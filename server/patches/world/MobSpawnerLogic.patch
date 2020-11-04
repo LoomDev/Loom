@@ -1,11 +1,11 @@
 --- a/net/minecraft/world/MobSpawnerLogic.java
 +++ b/net/minecraft/world/MobSpawnerLogic.java
-@@ -45,7 +45,7 @@
+@@ -47,7 +47,7 @@
      public MobSpawnerLogic() {}
  
      @Nullable
--    private Identifier getEntityId() {
-+    public Identifier getEntityId() { // Loom :: public accessor
+-    private Identifier getEntityId(@Nullable World world, BlockPos blockpos) {
++    public Identifier getEntityId(@Nullable World world, BlockPos blockpos) { // Loom :: public accessor
          String s = this.spawnEntry.getEntityTag().getString("id");
  
          try {

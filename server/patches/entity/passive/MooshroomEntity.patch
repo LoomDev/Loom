@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/passive/MooshroomEntity.java
 +++ b/net/minecraft/entity/passive/MooshroomEntity.java
-@@ -42,9 +42,9 @@
+@@ -41,9 +41,9 @@
  
  public class MooshroomEntity extends CowEntity implements Shearable {
  
@@ -13,7 +13,7 @@
      private UUID lightningId;
  
      public MooshroomEntity(EntityType<? extends MooshroomEntity> entitytype, World world) {
-@@ -248,19 +248,13 @@
+@@ -247,19 +247,13 @@
          return mooshroomentity_type2;
      }
  

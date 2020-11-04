@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/LightningEntity.java
 +++ b/net/minecraft/entity/LightningEntity.java
-@@ -19,13 +19,14 @@
+@@ -21,13 +21,14 @@
  import net.minecraft.world.Difficulty;
  import net.minecraft.world.GameRules;
  import net.minecraft.world.World;
@@ -16,7 +16,7 @@
      @Nullable
      private ServerPlayerEntity channeler;
  
-@@ -102,7 +103,13 @@
+@@ -115,7 +116,13 @@
              BlockState blockstate = AbstractFireBlock.getState(this.world, blockpos);
  
              if (this.world.getBlockState(blockpos).isAir() && blockstate.canPlaceAt(this.world, blockpos)) {
@@ -30,7 +30,7 @@
              }
  
              for (int j = 0; j < i; ++j) {
-@@ -110,7 +117,13 @@
+@@ -123,7 +130,13 @@
  
                  blockstate = AbstractFireBlock.getState(this.world, blockpos1);
                  if (this.world.getBlockState(blockpos1).isAir() && blockstate.canPlaceAt(this.world, blockpos1)) {

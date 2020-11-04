@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/passive/WanderingTraderEntity.java
 +++ b/net/minecraft/entity/passive/WanderingTraderEntity.java
-@@ -49,8 +49,8 @@
+@@ -48,8 +48,8 @@
  public class WanderingTraderEntity extends MerchantEntity {
  
      @Nullable

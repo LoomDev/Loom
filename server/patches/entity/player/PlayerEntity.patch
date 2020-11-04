@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/player/PlayerEntity.java
 +++ b/net/minecraft/entity/player/PlayerEntity.java
-@@ -109,7 +109,7 @@
+@@ -110,7 +110,7 @@
  public abstract class PlayerEntity extends LivingEntity {
  
      public static final EntityDimensions STANDING_DIMENSIONS = EntityDimensions.changing(0.6F, 1.8F);
@@ -9,10 +9,19 @@
      private static final TrackedData<Float> ABSORPTION_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
      private static final TrackedData<Integer> SCORE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
      protected static final TrackedData<Byte> PLAYER_MODEL_PARTS = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BYTE);
-@@ -1425,6 +1425,11 @@
+@@ -135,7 +135,7 @@
+     public double capeZ;
+     private int sleepTimer;
+     protected boolean isSubmergedInWater;
+-    private final PlayerAbilities abilities = new PlayerAbilities();
++    public final PlayerAbilities abilities = new PlayerAbilities(); // Loom :: public accessor
+     public int experienceLevel;
+     public int totalExperience;
+     public float experienceProgress;
+@@ -1441,6 +1441,11 @@
              ItemStack itemstack = this.getEquippedStack(EquipmentSlot.CHEST);
  
-             if (itemstack.getItem() == Items.ELYTRA && ElytraItem.isUsable(itemstack)) {
+             if (itemstack.method_31574(Items.ELYTRA) && ElytraItem.isUsable(itemstack)) {
 +                // Loom start :: fire PlayerEnteredFlightEvent
 +                if (org.loomdev.loom.event.LoomEventDispatcher.onPlayerEnteredFlight(this).isCancelled()) {
 +                    return false;

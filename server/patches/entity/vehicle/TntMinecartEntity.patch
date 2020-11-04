@@ -15,7 +15,7 @@
              }
  
 -            this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), (float) (4.0D + this.random.nextDouble() * 1.5D * d1), Explosion.DestructionType.BREAK);
-+            this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), loomExplosionPower != -1F ? loomExplosionPower : (float) (4.0D + this.random.nextDouble() * 1.5D * d1), Explosion.DestructionType.BREAK);
-             this.remove();
++            this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), loomExplosionPower != -1F ? loomExplosionPower : (float) (4.0D + this.random.nextDouble() * 1.5D * d1), Explosion.DestructionType.BREAK); // Loom :: override explosion power
+             this.method_31472();
          }
  

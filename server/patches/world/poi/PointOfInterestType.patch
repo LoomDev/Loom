@@ -1,7 +1,7 @@
 --- a/net/minecraft/world/poi/PointOfInterestType.java
 +++ b/net/minecraft/world/poi/PointOfInterestType.java
-@@ -61,7 +61,7 @@
-     public static final PointOfInterestType LODESTONE = register("lodestone", getAllStatesOf(Blocks.LODESTONE), 0, 1);
+@@ -62,7 +62,7 @@
+     public static final PointOfInterestType LIGHTNING_ROD = register("lightning_rod", getAllStatesOf(Blocks.LIGHTNING_ROD), 0, 1);
      protected static final Set<BlockState> REGISTERED_STATES = new ObjectOpenHashSet(PointOfInterestType.BLOCK_STATE_TO_POINT_OF_INTEREST_TYPE.keySet());
      private final String id;
 -    private final Set<BlockState> blockStates;

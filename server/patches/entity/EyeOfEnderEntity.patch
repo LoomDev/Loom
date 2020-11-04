@@ -16,7 +16,7 @@
  
      public EyeOfEnderEntity(EntityType<? extends EyeOfEnderEntity> entitytype, World world) {
          super(entitytype, world);
-@@ -45,7 +45,7 @@
+@@ -44,7 +44,7 @@
  
      }
  

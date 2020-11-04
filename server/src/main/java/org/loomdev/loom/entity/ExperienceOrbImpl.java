@@ -46,12 +46,12 @@ public class ExperienceOrbImpl extends EntityImpl implements ExperienceOrb {
 
     @Override
     public int getPickupDelay() {
-        return getMinecraftEntity().pickupDelay;
+        return getMinecraftEntity().field_27009;
     }
 
     @Override
     public void setPickupDelay(int pickupDelay) {
-        getMinecraftEntity().pickupDelay = pickupDelay;
+        getMinecraftEntity().field_27009 = pickupDelay;
     }
 
     @Override

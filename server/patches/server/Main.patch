@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/Main.java
 +++ b/net/minecraft/server/Main.java
-@@ -61,7 +61,8 @@
+@@ -62,7 +62,8 @@
  
      public Main() {}
  
@@ -10,7 +10,7 @@
          OptionParser optionparser = new OptionParser();
          OptionSpec<Void> optionspec = optionparser.accepts("nogui");
          OptionSpec<Void> optionspec1 = optionparser.accepts("initSettings", "Initializes 'server.properties' and 'eula.txt', then quits");
-@@ -85,20 +86,21 @@
+@@ -86,20 +87,21 @@
                  optionparser.printHelpOn(System.err);
                  return;
              }
@@ -35,7 +35,7 @@
                  Main.LOGGER.info("Initialized '{}' and '{}'", path.toAbsolutePath(), path1.toAbsolutePath());
                  return;
              }
-@@ -108,18 +110,18 @@
+@@ -109,18 +111,18 @@
                  return;
              }
  
@@ -57,7 +57,7 @@
  
              if (flag) {
                  Main.LOGGER.warn("Safe mode active, only vanilla datapack will be loaded");
-@@ -147,34 +149,31 @@
+@@ -148,34 +150,31 @@
                  LevelInfo levelinfo;
                  GeneratorOptions generatoroptions;
  

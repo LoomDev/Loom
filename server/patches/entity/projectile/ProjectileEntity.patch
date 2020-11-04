@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/projectile/ProjectileEntity.java
 +++ b/net/minecraft/entity/projectile/ProjectileEntity.java
-@@ -21,7 +21,7 @@
+@@ -23,7 +23,7 @@
      private int ownerEntityId;
      private boolean leftOwner;
  
@@ -9,7 +9,7 @@
          super(entitytype, world);
      }
  
-@@ -145,7 +145,7 @@
+@@ -147,7 +147,7 @@
          this.yaw = updateRotation(this.prevYaw, (float) (MathHelper.atan2(vec3d.x, vec3d.z) * 57.2957763671875D));
      }
  

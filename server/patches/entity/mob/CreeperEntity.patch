@@ -41,15 +41,15 @@
      }
  
 -    private void explode() {
-+    public void explode() { // Loom :: public access
++    public void explode() { // Loom :: public accessor
          if (!this.world.isClient) {
              Explosion.DestructionType explosion_destructiontype = this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE;
-             float f = this.S_() ? 2.0F : 1.0F;
+             float f = this.U_() ? 2.0F : 1.0F;
  
              this.dead = true;
 -            this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), (float) this.explosionRadius * f, explosion_destructiontype);
 +            this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), this.explosionPower != -1F ? this.explosionPower : (float) this.explosionRadius * f, explosion_destructiontype); // Loom :: overridable explosion radius
-             this.remove();
+             this.method_31472();
              this.spawnEffectsCloud();
          }
 @@ -251,6 +263,11 @@

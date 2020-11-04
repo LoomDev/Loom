@@ -1,19 +1,19 @@
 --- a/net/minecraft/entity/passive/BeeEntity.java
 +++ b/net/minecraft/entity/passive/BeeEntity.java
-@@ -96,10 +96,10 @@
+@@ -98,10 +98,10 @@
      private float lastPitch;
      private int ticksSinceSting;
      private int ticksSincePollination;
 -    private int cannotEnterHiveTicks;
 +    public int cannotEnterHiveTicks; // Loom :: public accessor
      private int cropsGrownSincePollination;
-     private int ticksLeftToFindHive = 0;
--    private int ticksUntilCanPollinate = 0;
-+    public int ticksUntilCanPollinate = 0; // Loom :: public accessor
+     private int ticksLeftToFindHive;
+-    private int ticksUntilCanPollinate;
++    public int ticksUntilCanPollinate; // Loom :: public accessor
      @Nullable
-     private BlockPos flowerPos = null;
+     private BlockPos flowerPos;
      @Nullable
-@@ -437,7 +437,7 @@
+@@ -440,7 +440,7 @@
          return this.getBeeFlag(8);
      }
  
@@ -22,7 +22,7 @@
          if (flag) {
              this.resetPollinationTicks();
          }
-@@ -449,7 +449,7 @@
+@@ -452,7 +452,7 @@
          return this.getBeeFlag(4);
      }
  
@@ -31,7 +31,7 @@
          this.setBeeFlag(4, flag);
      }
  
-@@ -541,7 +541,7 @@
+@@ -544,7 +544,7 @@
  
      protected void fall(double d0, boolean flag, BlockState blockstate, BlockPos blockpos) {}
  
@@ -40,7 +40,7 @@
          return true;
      }
  
-@@ -576,9 +576,7 @@
+@@ -579,9 +579,7 @@
          return blockpos.isWithinDistance((Vec3i) this.getBlockPos(), (double) i);
      }
  

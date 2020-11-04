@@ -1,14 +1,6 @@
 --- a/net/minecraft/block/Block.java
 +++ b/net/minecraft/block/Block.java
-@@ -47,6 +47,7 @@
- import net.minecraft.world.explosion.Explosion;
- import org.apache.logging.log4j.LogManager;
- import org.apache.logging.log4j.Logger;
-+import org.loomdev.api.event.block.BlockDropExperienceEvent;
- 
- public class Block extends AbstractBlock implements ItemConvertible {
- 
-@@ -57,9 +58,7 @@
+@@ -57,9 +57,7 @@
              return !VoxelShapes.matchesAnywhere(VoxelShapes.fullCube(), voxelshape, BooleanBiFunction.NOT_SAME);
          }
  
@@ -19,18 +11,14 @@
      });
      protected final StateManager<Block, BlockState> stateManager;
      private BlockState defaultState;
-@@ -260,7 +259,13 @@
-                 int j = ExperienceOrbEntity.roundToOrbSize(i);
+@@ -256,6 +254,10 @@
  
-                 i -= j;
--                serverworld.spawnEntity(new ExperienceOrbEntity(serverworld, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D, j));
-+                // Loom start :: fire BlockDroppedExperienceEvent
-+                BlockDropExperienceEvent event = org.loomdev.loom.event.LoomEventDispatcher.onBlockDropExperience(serverworld, blockpos, j);
-+
-+                if (!event.isCancelled()) {
-+                serverworld.spawnEntity(new ExperienceOrbEntity(serverworld, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D, event.getDroppedExperience()));
-+                }
-+                // Loom end
-             }
+     protected void dropExperience(ServerWorld serverworld, BlockPos blockpos, int i) {
+         if (serverworld.getGameRules().getBoolean(GameRules.DO_TILE_DROPS)) {
++            // Loom start :: fire BlockDroppedExperienceEvent
++            org.loomdev.api.event.block.BlockDropExperienceEvent event = org.loomdev.loom.event.LoomEventDispatcher.onBlockDropExperience(serverworld, blockpos, i);
++            if (event.isCancelled()) return;
++            // Loom end
+             ExperienceOrbEntity.method_31493(serverworld, Vec3d.ofCenter(blockpos), i);
          }
  

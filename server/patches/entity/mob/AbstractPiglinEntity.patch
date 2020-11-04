@@ -5,10 +5,10 @@
  public abstract class AbstractPiglinEntity extends HostileEntity {
  
 -    protected static final TrackedData<Boolean> IMMUNE_TO_ZOMBIFICATION = DataTracker.registerData(AbstractPiglinEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
--    protected int timeInOverworld = 0;
-+    public static final int CONVERSION_TIME = 300;
+-    protected int timeInOverworld;
++    public static final int CONVERSION_TIME = 300; // Loom :: extracted hardcoded value that is referenced in Loom code.
 +    public static final TrackedData<Boolean> IMMUNE_TO_ZOMBIFICATION = DataTracker.registerData(AbstractPiglinEntity.class, TrackedDataHandlerRegistry.BOOLEAN); // Loom :: public accessor
-+    public int timeInOverworld = 0; // Loom :: public accessor
++    public int timeInOverworld; // Loom :: public accessor
  
      public AbstractPiglinEntity(EntityType<? extends AbstractPiglinEntity> entitytype, World world) {
          super(entitytype, world);

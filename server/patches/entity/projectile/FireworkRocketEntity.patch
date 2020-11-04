@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/projectile/FireworkRocketEntity.java
 +++ b/net/minecraft/entity/projectile/FireworkRocketEntity.java
-@@ -33,7 +33,7 @@
+@@ -31,7 +31,7 @@
  
      private static final TrackedData<ItemStack> ITEM = DataTracker.registerData(FireworkRocketEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
      private static final TrackedData<OptionalInt> SHOOTER_ENTITY_ID = DataTracker.registerData(FireworkRocketEntity.class, TrackedDataHandlerRegistry.FIREWORK_DATA);
@@ -9,7 +9,7 @@
      private int life;
      private int lifeTime;
      private LivingEntity shooter;
-@@ -148,7 +148,7 @@
+@@ -146,7 +146,7 @@
  
      }
  
@@ -17,4 +17,4 @@
 +    public void explodeAndRemove() { // Loom :: public accessor
          this.world.sendEntityStatus(this, (byte) 17);
          this.explode();
-         this.remove();
+         this.method_31472();

@@ -33,16 +33,16 @@
              CompletableFuture<Chunk> completablefuture1 = chunkholder.getSavingFuture();
  
              if (completablefuture1 != completablefuture) {
-@@ -829,7 +832,7 @@
+@@ -806,7 +809,7 @@
                  return chunk instanceof WorldChunk ? Optional.of((WorldChunk) chunk) : Optional.empty();
              });
  
 -            csvwriter.printRow(chunkpos.x, chunkpos.z, chunkholder.getLevel(), optional.isPresent(), optional.map(Chunk::getStatus).orElse((Object) null), optional1.map(WorldChunk::getLevelType).orElse((Object) null), getFutureStatus(chunkholder.getAccessibleFuture()), getFutureStatus(chunkholder.getTickingFuture()), getFutureStatus(chunkholder.getEntityTickingFuture()), this.ticketManager.getTicket(entry.getLongKey()), !this.isTooFarFromPlayersToSpawnMobs(chunkpos), optional1.map((worldchunk) -> {
 +            csvwriter.printRow(chunkpos.x, chunkpos.z, chunkholder.getLevel(), optional.isPresent(), optional.map(Chunk::getStatus).orElse(null), optional1.map(WorldChunk::getLevelType).orElse(null), getFutureStatus(chunkholder.getAccessibleFuture()), getFutureStatus(chunkholder.getTickingFuture()), getFutureStatus(chunkholder.getEntityTickingFuture()), this.ticketManager.getTicket(entry.getLongKey()), !this.isTooFarFromPlayersToSpawnMobs(chunkpos), optional1.map((worldchunk) -> { // Loom :: decompile error
-                 return Stream.of(worldchunk.getEntitySectionArray()).mapToInt(TypeFilterableList::size).sum();
-             }).orElse(0), optional1.map((worldchunk) -> {
                  return worldchunk.getBlockEntities().size();
-@@ -840,7 +843,7 @@
+             }).orElse(0));
+         }
+@@ -815,7 +818,7 @@
  
      private static String getFutureStatus(CompletableFuture<Either<WorldChunk, ChunkHolder.Unloaded>> completablefuture) {
          try {
@@ -51,7 +51,7 @@
  
              return either != null ? (String) either.map((worldchunk) -> {
                  return "done";
-@@ -1258,6 +1261,14 @@
+@@ -1237,6 +1240,14 @@
                          }
                      }
  

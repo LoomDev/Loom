@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/storage/StorageIoWorker.java
++++ b/net/minecraft/world/storage/StorageIoWorker.java
+@@ -30,7 +30,7 @@
+     private final RegionBasedStorage storage;
+     private final Map<ChunkPos, StorageIoWorker.Result> results = Maps.newLinkedHashMap();
+ 
+-    protected StorageIoWorker(File file, boolean flag, String s) {
++    public StorageIoWorker(File file, boolean flag, String s) { // Loom :: public accessor (net.minecraft.class_5565 access method)
+         this.storage = new RegionBasedStorage(file, flag);
+         this.field_24468 = new TaskExecutor<>(new TaskQueue.Prioritized(StorageIoWorker.Priority.values().length), Util.getIoWorkerExecutor(), "IOWorker-" + s);
+     }
+@@ -61,7 +61,7 @@
+         }
+     }
+ 
+-    protected CompletableFuture<CompoundTag> method_31738(ChunkPos chunkpos) {
++    public CompletableFuture<CompoundTag> method_31738(ChunkPos chunkpos) { // Loom :: public accessor (net.minecraft.class_5565)
+         return this.run(() -> {
+             StorageIoWorker.Result storageioworker_result = (StorageIoWorker.Result) this.results.get(chunkpos);
+ 
+@@ -93,7 +93,7 @@
+             return this.run(() -> {
+                 try {
+                     this.storage.method_26982();
+-                    return Either.left((Object) null);
++                    return Either.left(null); // Loom : decompile error
+                 } catch (Exception exception) {
+                     StorageIoWorker.LOGGER.warn("Failed to synchronized chunks", exception);
+                     return Either.right(exception);
+@@ -133,7 +133,7 @@
+     private void write(ChunkPos chunkpos, StorageIoWorker.Result storageioworker_result) {
+         try {
+             this.storage.write(chunkpos, storageioworker_result.nbt);
+-            storageioworker_result.future.complete((Object) null);
++            storageioworker_result.future.complete(null); // Loom : decompile error
+         } catch (Exception exception) {
+             StorageIoWorker.LOGGER.error("Failed to store chunk {}", chunkpos, exception);
+             storageioworker_result.future.completeExceptionally(exception);

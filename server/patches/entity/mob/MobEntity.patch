@@ -21,7 +21,7 @@
                      optional.ifPresent((mobentity) -> {
                          this.onPlayerSpawnedChild(playerentity, mobentity);
 @@ -1151,7 +1151,7 @@
-         if (this.removed) {
+         if (this.method_31481()) {
              return null;
          } else {
 -            T t0 = (MobEntity) entitytype.create(this.world);

@@ -1,0 +1,11 @@
+--- a/net/minecraft/block/CakeBlock.java
++++ b/net/minecraft/block/CakeBlock.java
+@@ -66,7 +66,7 @@
+         return tryEat(world, blockpos, blockstate, playerentity);
+     }
+ 
+-    protected static ActionResult tryEat(WorldAccess worldaccess, BlockPos blockpos, BlockState blockstate, PlayerEntity playerentity) {
++    public static ActionResult tryEat(WorldAccess worldaccess, BlockPos blockpos, BlockState blockstate, PlayerEntity playerentity) { // Loom :: public accessor (usage in class_5545)
+         if (!playerentity.canConsume(false)) {
+             return ActionResult.PASS;
+         } else {

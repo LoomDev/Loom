@@ -1,6 +1,6 @@
 --- a/net/minecraft/block/dispenser/DispenserBehavior.java
 +++ b/net/minecraft/block/dispenser/DispenserBehavior.java
-@@ -69,6 +69,7 @@
+@@ -71,6 +71,7 @@
  import net.minecraft.util.math.Direction;
  import net.minecraft.util.math.Position;
  import net.minecraft.world.World;
@@ -8,15 +8,3 @@
  
  public interface DispenserBehavior {
  
-@@ -405,7 +406,11 @@
-                 BlockState blockstate = serverworld.getBlockState(blockpos);
- 
-                 if (AbstractFireBlock.method_30032(serverworld, blockpos, direction)) {
-+                    // Loom start :: fire BlockIgnitedEvent
-+                    if (!org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(serverworld, blockpos, blockpointer.getBlockPos(), BlockIgniteEvent.Cause.DISPENSER).isCancelled()) {
-                     serverworld.setBlockState(blockpos, AbstractFireBlock.getState(serverworld, blockpos));
-+                    }
-+                    // Loom end
-                 } else if (CampfireBlock.method_30035(blockstate)) {
-                     serverworld.setBlockState(blockpos, (BlockState) blockstate.with(Properties.LIT, true));
-                 } else if (blockstate.getBlock() instanceof TntBlock) {

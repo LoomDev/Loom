@@ -1,33 +1,15 @@
 --- a/net/minecraft/server/world/ServerWorld.java
 +++ b/net/minecraft/server/world/ServerWorld.java
-@@ -19,16 +19,7 @@
- import java.io.Writer;
- import java.nio.file.Files;
- import java.nio.file.Path;
--import java.util.Collection;
--import java.util.Comparator;
--import java.util.Iterator;
--import java.util.List;
--import java.util.Map;
--import java.util.Objects;
--import java.util.Optional;
--import java.util.Queue;
--import java.util.Set;
--import java.util.UUID;
-+import java.util.*;
- import java.util.concurrent.Executor;
- import java.util.function.BooleanSupplier;
- import java.util.function.Function;
-@@ -156,7 +147,7 @@
+@@ -150,7 +150,7 @@
+     private final List<ServerPlayerEntity> players = Lists.newArrayList();
      private final ServerChunkManager serverChunkManager;
-     boolean inEntityTick;
      private final MinecraftServer server;
 -    private final ServerWorldProperties worldProperties;
 +    public final ServerWorldProperties worldProperties; // Loom :: public access
+     private final class_5574 field_26934 = new class_5574();
+     private final class_5579<Entity> field_26935;
      public boolean savingDisabled;
-     private boolean allPlayersSleeping;
-     private int idleTimeout;
-@@ -208,6 +199,7 @@
+@@ -216,6 +216,7 @@
              this.enderDragonFight = null;
          }
  
@@ -35,7 +17,7 @@
      }
  
      public void setWeather(int i, int j, boolean flag, boolean flag1) {
-@@ -450,7 +442,7 @@
+@@ -438,7 +439,7 @@
  
      private void wakeSleepingPlayers() {
          ((List) this.players.stream().filter(LivingEntity::isSleeping).collect(Collectors.toList())).forEach((serverplayerentity) -> {
@@ -44,7 +26,16 @@
          });
      }
  
-@@ -1092,7 +1084,7 @@
+@@ -817,7 +818,7 @@
+     }
+ 
+     public boolean shouldCreateNewEntityWithPassenger(Entity entity) {
+-        Stream stream = entity.streamPassengersRecursively().map(Entity::getUuid);
++        Stream<UUID> stream = entity.streamPassengersRecursively().map(Entity::getUuid); // Loom :: decompile error
+         class_5579 class_5579 = this.field_26935;
+ 
+         this.field_26935.getClass();
+@@ -905,7 +906,7 @@
  
          explosion.collectBlocksAndDamageEntities();
          explosion.affectWorld(false);
@@ -53,28 +44,28 @@
              explosion.clearAffectedBlocks();
          }
  
-@@ -1583,8 +1575,8 @@
+@@ -1426,8 +1427,8 @@
  
-     private static <T> String method_31270(Collection<T> collection, Function<T, Identifier> function) {
+     private static <T> String method_31270(Iterable<T> iterable, Function<T, String> function) {
          try {
--            Object2IntOpenHashMap<Identifier> object2intopenhashmap = new Object2IntOpenHashMap();
--            Iterator iterator = collection.iterator();
-+            Object2IntOpenHashMap<Identifier> object2intopenhashmap = new Object2IntOpenHashMap<>();
-+            Iterator<T> iterator = collection.iterator(); // Loom :: decompile error
+-            Object2IntOpenHashMap<String> object2intopenhashmap = new Object2IntOpenHashMap();
+-            Iterator iterator = iterable.iterator();
++            Object2IntOpenHashMap<String> object2intopenhashmap = new Object2IntOpenHashMap<>();
++            Iterator<T> iterator = iterable.iterator(); // Loom :: decompile error
  
              while (iterator.hasNext()) {
                  T t0 = iterator.next();
-@@ -1593,7 +1585,7 @@
-                 object2intopenhashmap.addTo(identifier, 1);
+@@ -1436,7 +1437,7 @@
+                 object2intopenhashmap.addTo(s, 1);
              }
  
--            return (String) object2intopenhashmap.object2IntEntrySet().stream().sorted(Comparator.comparing(it.unimi.dsi.fastutil.objects.Object2IntMap.Entry::getIntValue).reversed()).limit(5L).map((it_unimi_dsi_fastutil_objects_object2intmap_entry) -> {
-+            return (String) object2intopenhashmap.object2IntEntrySet().stream().sorted(Comparator.comparing(it.unimi.dsi.fastutil.objects.Object2IntMap.Entry::getIntValue)).sorted(Collections.reverseOrder()).limit(5L).map((it_unimi_dsi_fastutil_objects_object2intmap_entry) -> {
-                 return it_unimi_dsi_fastutil_objects_object2intmap_entry.getKey() + ":" + it_unimi_dsi_fastutil_objects_object2intmap_entry.getIntValue();
+-            return (String) object2intopenhashmap.object2IntEntrySet().stream().sorted(Comparator.comparing(Entry::getIntValue).reversed()).limit(5L).map((entry) -> {
++            return (String) object2intopenhashmap.object2IntEntrySet().stream().sorted(Comparator.comparing(it.unimi.dsi.fastutil.objects.Object2IntMap.Entry::getIntValue)).sorted(java.util.Collections.reverseOrder()).limit(5L).map((entry) -> { // Loom :: decompile error
+                 return (String) entry.getKey() + ":" + entry.getIntValue();
              }).collect(Collectors.joining(","));
          } catch (Exception exception) {
-@@ -1615,19 +1607,5 @@
-         });
+@@ -1479,21 +1480,7 @@
+         return "Chunks[S] W: " + this.serverChunkManager.getDebugString() + " E: " + this.field_26935.method_31845();
      }
  
 -    public Scoreboard getScoreboard() {
@@ -93,4 +84,40 @@
 -        return this.getBlockTickScheduler();
 -    }
 +    // Loom :: decompile error
+ 
+     final class class_5526 implements class_5576<Entity> {
+ 
+@@ -1563,32 +1550,6 @@
+ 
+         }
+ 
+-        public void method_31797(Object object) {
+-            this.method_31797((Entity) object);
+-        }
+-
+-        public void method_31798(Object object) {
+-            this.method_31798((Entity) object);
+-        }
+-
+-        public void method_31799(Object object) {
+-            this.method_31799((Entity) object);
+-        }
+-
+-        public void method_31800(Object object) {
+-            this.method_31800((Entity) object);
+-        }
+-
+-        public void method_31801(Object object) {
+-            this.method_31801((Entity) object);
+-        }
+-
+-        public void method_31802(Object object) {
+-            this.method_31802((Entity) object);
+-        }
+-
+-        class_5526(Object object) {
+-            this();
+-        }
++        // Loom :: decompile error
+     }
  }

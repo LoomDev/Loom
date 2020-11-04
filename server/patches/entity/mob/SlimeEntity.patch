@@ -18,5 +18,5 @@
 -    }
 +    // Loom :: decompile error
  
-     public void remove() {
+     public void remove(Entity.class_5529 entity_class_5529) {
          int i = this.getSize();

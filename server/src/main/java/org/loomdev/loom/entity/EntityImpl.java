@@ -111,7 +111,7 @@ public abstract class EntityImpl implements Entity {
     public boolean teleport(@NotNull Location location) {
         Preconditions.checkNotNull(location);
 
-        if (this.mcEntity.hasPassengers() || this.mcEntity.removed) {
+        if (this.mcEntity.hasPassengers() || this.mcEntity.field_26995 != null) {
             return false;
         }
 
@@ -130,7 +130,7 @@ public abstract class EntityImpl implements Entity {
 
     @Override
     public void remove() {
-        this.mcEntity.remove();
+        this.mcEntity.method_31472();
     }
 
     @Override

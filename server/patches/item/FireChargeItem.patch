@@ -1,6 +1,6 @@
 --- a/net/minecraft/item/FireChargeItem.java
 +++ b/net/minecraft/item/FireChargeItem.java
-@@ -9,6 +9,7 @@
+@@ -13,6 +13,7 @@
  import net.minecraft.util.ActionResult;
  import net.minecraft.util.math.BlockPos;
  import net.minecraft.world.World;
@@ -8,19 +8,8 @@
  
  public class FireChargeItem extends Item {
  
-@@ -23,12 +24,22 @@
-         boolean flag = false;
- 
-         if (CampfireBlock.method_30035(blockstate)) {
-+            // Loom start :: fire BlockIgnitedEvent
-+            if (itemusagecontext.getPlayer() != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(world, blockpos, itemusagecontext.getPlayer(), BlockIgniteEvent.Cause.FIRE_CHARGE).isCancelled()) {
-+                return ActionResult.FAIL;
-+            }
-+            // Loom end
-             this.playUseSound(world, blockpos);
-             world.setBlockState(blockpos, (BlockState) blockstate.with(CampfireBlock.LIT, true));
-             flag = true;
-         } else {
+@@ -29,11 +30,21 @@
+         if (!CampfireBlock.method_30035(blockstate) && !class_5544.method_31630(blockstate) && !class_5545.method_31635(blockstate)) {
              blockpos = blockpos.offset(itemusagecontext.getSide());
              if (AbstractFireBlock.method_30032(world, blockpos, itemusagecontext.getPlayerFacing())) {
 +                // Loom start :: fire BlockIgnitedEvent
@@ -31,3 +20,13 @@
                  this.playUseSound(world, blockpos);
                  world.setBlockState(blockpos, AbstractFireBlock.getState(world, blockpos));
                  flag = true;
+             }
+         } else {
++            // Loom start :: fire BlockIgnitedEvent
++            if (itemusagecontext.getPlayer() != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(world, blockpos, itemusagecontext.getPlayer(), BlockIgniteEvent.Cause.FIRE_CHARGE).isCancelled()) {
++                return ActionResult.FAIL;
++            }
++            // Loom end
+             this.playUseSound(world, blockpos);
+             world.setBlockState(blockpos, (BlockState) blockstate.with(Properties.LIT, true));
+             flag = true;

@@ -1,0 +1,11 @@
+--- a/net/minecraft/class_5548.java
++++ b/net/minecraft/class_5548.java
+@@ -12,7 +12,7 @@
+ 
+     private final Block field_27189;
+ 
+-    protected class_5548(AbstractBlock.Settings abstractblock_settings, Block block) {
++    public class_5548(AbstractBlock.Settings abstractblock_settings, Block block) { // Loom :: public accessor (Usage in net.minecraft.block.Blocks)
+         super(abstractblock_settings);
+         this.field_27189 = block;
+     }

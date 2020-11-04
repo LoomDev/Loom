@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/LivingEntity.java
 +++ b/net/minecraft/entity/LivingEntity.java
-@@ -110,6 +110,17 @@
+@@ -108,6 +108,17 @@
  
  public abstract class LivingEntity extends Entity {
  
@@ -18,7 +18,7 @@
      private static final UUID SPRINTING_SPEED_BOOST_ID = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
      private static final UUID SOUL_SPEED_BOOST_ID = UUID.fromString("87f46a96-686f-4796-b035-22e16ee9e038");
      private static final EntityAttributeModifier SPRINTING_SPEED_BOOST = new EntityAttributeModifier(LivingEntity.SPRINTING_SPEED_BOOST_ID, "Sprinting speed boost", 0.30000001192092896D, EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
-@@ -193,6 +204,7 @@
+@@ -191,6 +202,7 @@
      private float leaningPitch;
      private float lastLeaningPitch;
      protected Brain<?> brain;
@@ -26,7 +26,7 @@
  
      protected LivingEntity(EntityType<? extends LivingEntity> entitytype, World world) {
          super(entitytype, world);
-@@ -1577,7 +1589,7 @@
+@@ -1559,7 +1571,7 @@
  
      }
  
@@ -35,7 +35,7 @@
          this.damage(DamageSource.OUT_OF_WORLD, 4.0F);
      }
  
-@@ -2366,7 +2378,7 @@
+@@ -2348,7 +2360,7 @@
      }
  
      public boolean hurtByWater() {
@@ -44,7 +44,7 @@
      }
  
      private void initAi() {
-@@ -2904,7 +2916,7 @@
+@@ -2886,7 +2898,7 @@
      }
  
      public void wakeUp() {

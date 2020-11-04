@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/network/ServerPlayerInteractionManager.java
 +++ b/net/minecraft/server/network/ServerPlayerInteractionManager.java
-@@ -101,7 +101,11 @@
+@@ -99,7 +99,11 @@
  
                  if (f >= 1.0F) {
                      this.failedToMine = false;
@@ -12,7 +12,7 @@
                  }
              }
          } else if (this.mining) {
-@@ -229,7 +233,6 @@
+@@ -227,7 +231,6 @@
          } else {
              this.player.networkHandler.sendPacket(new PlayerActionResponseS2CPacket(blockpos, this.world.getBlockState(blockpos), playeractionc2spacket_action, false, s));
          }
@@ -20,16 +20,15 @@
      }
  
      public boolean tryBreakBlock(BlockPos blockpos) {
-@@ -240,7 +243,11 @@
-         } else {
+@@ -239,6 +242,11 @@
              BlockEntity blockentity = this.world.getBlockEntity(blockpos);
              Block block = blockstate.getBlock();
--
+ 
 +            // Loom start :: fire BlockBrokenEvent
 +            if (org.loomdev.loom.event.LoomEventDispatcher.onEntityBlockBreak(world, blockpos, player).isCancelled()) {
 +                return false;
 +            }
 +            // Loom end
-             if ((block instanceof CommandBlock || block instanceof StructureBlock || block instanceof JigsawBlock) && !this.player.isCreativeLevelTwoOp()) {
+             if (block instanceof class_5552 && !this.player.isCreativeLevelTwoOp()) {
                  this.world.updateListeners(blockpos, blockstate, blockstate, 3);
                  return false;

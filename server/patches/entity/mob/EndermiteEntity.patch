@@ -20,6 +20,6 @@
  
 -            if (this.lifeTime >= 2400) {
 +            if (this.lifeTime >= overrideMaxLifeTime.orElse(defaultMaxLifeTime)) { // Loom :: Max life time override
-                 this.remove();
+                 this.method_31472();
              }
          }

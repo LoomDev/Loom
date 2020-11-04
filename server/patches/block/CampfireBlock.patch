@@ -1,6 +1,6 @@
 --- a/net/minecraft/block/CampfireBlock.java
 +++ b/net/minecraft/block/CampfireBlock.java
-@@ -42,6 +42,7 @@
+@@ -44,6 +44,7 @@
  import net.minecraft.world.GameRules;
  import net.minecraft.world.World;
  import net.minecraft.world.WorldAccess;
@@ -8,7 +8,7 @@
  
  public class CampfireBlock extends BlockWithEntity implements Waterloggable {
  
-@@ -173,7 +174,12 @@
+@@ -175,7 +176,12 @@
  
              if (flag && !(Boolean) blockstate.get(CampfireBlock.LIT) && !(Boolean) blockstate.get(CampfireBlock.WATERLOGGED)) {
                  BlockPos blockpos = blockhitresult.getBlockPos();

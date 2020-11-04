@@ -1,6 +1,6 @@
 --- a/net/minecraft/entity/passive/LlamaEntity.java
 +++ b/net/minecraft/entity/passive/LlamaEntity.java
-@@ -53,9 +53,9 @@
+@@ -52,9 +52,9 @@
  public class LlamaEntity extends AbstractDonkeyEntity implements RangedAttackMob {
  
      private static final Ingredient TAMING_INGREDIENT = Ingredient.ofItems(Items.WHEAT, Blocks.HAY_BLOCK.asItem());
@@ -12,7 +12,7 @@
      private boolean spit;
      @Nullable
      private LlamaEntity following;
-@@ -332,7 +332,7 @@
+@@ -328,7 +328,7 @@
      }
  
      public int getMaxTemper() {
@@ -21,7 +21,7 @@
      }
  
      public boolean canBreedWith(AnimalEntity animalentity) {
-@@ -448,9 +448,7 @@
+@@ -444,9 +444,7 @@
          this.spitAt(livingentity);
      }
  

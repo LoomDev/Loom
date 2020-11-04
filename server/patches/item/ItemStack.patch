@@ -1,6 +1,6 @@
 --- a/net/minecraft/item/ItemStack.java
 +++ b/net/minecraft/item/ItemStack.java
-@@ -78,7 +78,7 @@
+@@ -80,7 +80,7 @@
      private int count;
      private int cooldown;
      @Deprecated
@@ -9,7 +9,15 @@
      private CompoundTag tag;
      private boolean empty;
      private Entity holder;
-@@ -106,7 +106,7 @@
+@@ -89,6 +89,7 @@
+     private CachedBlockPosition lastPlaceOnPos;
+     private boolean lastPlaceOnResult;
+ 
++
+     public ItemStack(ItemConvertible itemconvertible) {
+         this(itemconvertible, 1);
+     }
+@@ -108,7 +109,7 @@
          this.updateEmptyState();
      }
  
@@ -18,10 +26,10 @@
          this.empty = false;
          this.empty = this.isEmpty();
      }
-@@ -157,6 +157,17 @@
+@@ -166,6 +167,16 @@
+         PlayerEntity playerentity = itemusagecontext.getPlayer();
          BlockPos blockpos = itemusagecontext.getBlockPos();
          CachedBlockPosition cachedblockposition = new CachedBlockPosition(itemusagecontext.getWorld(), blockpos, false);
- 
 +        // Loom start :: fire BlockPlacedEvent and PlantFertilizedEvent
 +        if (playerentity != null) {
 +            if (item != Items.BONE_MEAL && org.loomdev.loom.event.LoomEventDispatcher.onEntityBlockPlace(itemusagecontext.getWorld(), blockpos, playerentity).isCancelled()) {
@@ -32,7 +40,6 @@
 +            }
 +        }
 +        // Loom end
-+
-         if (playerentity != null && !playerentity.abilities.allowModifyWorld && !this.canPlaceOn(itemusagecontext.getWorld().getTagManager(), cachedblockposition)) {
+ 
+         if (playerentity != null && !playerentity.method_31549().allowModifyWorld && !this.canPlaceOn(itemusagecontext.getWorld().getTagManager(), cachedblockposition)) {
              return ActionResult.PASS;
-         } else {

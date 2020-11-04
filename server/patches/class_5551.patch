@@ -1,0 +1,11 @@
+--- a/net/minecraft/class_5551.java
++++ b/net/minecraft/class_5551.java
+@@ -11,7 +11,7 @@
+ 
+ public class class_5551 extends EndRodBlock {
+ 
+-    protected class_5551(AbstractBlock.Settings abstractblock_settings) {
++    public class_5551(AbstractBlock.Settings abstractblock_settings) { // Loom :: public accessor (Usage in net.minecraft.block.Blocks)
+         super(abstractblock_settings);
+         this.setDefaultState((BlockState) ((BlockState) this.stateManager.getDefaultState()).with(class_5551.FACING, Direction.UP));
+     }

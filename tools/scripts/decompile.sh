@@ -8,7 +8,7 @@ toolsdir="$basedir/tools"
 yarndir="$toolsdir/yarn"
 decompdir="$toolsdir/decomp"
 
-mcVersion="1.16.4"
+mcVersion="20w45a"
 
 function setup {
     git submodule update --init --recursive
@@ -30,7 +30,7 @@ function decomp {
     echo "Extracting mapped Minecraft source."
     mkdir -p "$decompdir/extracted"
     cd "$decompdir/extracted"
-    unzip -o "$decompdir/$mcVersion-named.jar" "net/minecraft/**/*" || exit 1
+    unzip -o "$decompdir/$mcVersion-named.jar" "net/**/*" || exit 1
 
     echo "Decompiling mapped Minecraft source."
     mkdir -p "$decompdir/decompiled"
