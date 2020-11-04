@@ -790,6 +790,6 @@ public interface BlockType extends Keyed {
 
     float getJumpVelocityMultiplier();
 
-    @NotNull ItemType asItem();
-
+    @NotNull
+    ItemType asItem();
 }

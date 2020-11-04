@@ -1,6 +1,13 @@
 --- a/net/minecraft/entity/LightningEntity.java
 +++ b/net/minecraft/entity/LightningEntity.java
-@@ -25,7 +25,7 @@
+@@ -19,13 +19,14 @@
+ import net.minecraft.world.Difficulty;
+ import net.minecraft.world.GameRules;
+ import net.minecraft.world.World;
++import org.loomdev.api.event.block.BlockIgniteEvent;
+ 
+ public class LightningEntity extends Entity {
+ 
      private int ambientTick;
      public long seed;
      private int remainingActions;
@@ -9,12 +16,12 @@
      @Nullable
      private ServerPlayerEntity channeler;
  
-@@ -102,7 +102,13 @@
+@@ -102,7 +103,13 @@
              BlockState blockstate = AbstractFireBlock.getState(this.world, blockpos);
  
              if (this.world.getBlockState(blockpos).isAir() && blockstate.canPlaceAt(this.world, blockpos)) {
 +                // Loom start :: fire BlockIgnitedEvent
-+                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(this.world, blockpos, this, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LIGHTNING).isCancelled()) {
++                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(this.world, blockpos, this, BlockIgniteEvent.Cause.LIGHTNING).isCancelled()) {
 +                    return;
 +                }
 +
@@ -23,12 +30,12 @@
              }
  
              for (int j = 0; j < i; ++j) {
-@@ -110,7 +116,13 @@
+@@ -110,7 +117,13 @@
  
                  blockstate = AbstractFireBlock.getState(this.world, blockpos1);
                  if (this.world.getBlockState(blockpos1).isAir() && blockstate.canPlaceAt(this.world, blockpos1)) {
 +                    // Loom start :: fire BlockIgnitedEvent
-+                    if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(this.world, blockpos1, this, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LIGHTNING).isCancelled()) {
++                    if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(this.world, blockpos1, this, BlockIgniteEvent.Cause.LIGHTNING).isCancelled()) {
 +                        return;
 +                    }
 +

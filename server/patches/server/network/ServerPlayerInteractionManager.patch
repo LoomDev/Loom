@@ -5,7 +5,7 @@
                  if (f >= 1.0F) {
                      this.failedToMine = false;
 +                    // Loom start :: fire BlockBrokenEvent
-+                    if (!org.loomdev.loom.event.LoomEventDispatcher.onBlockBroken(this.world, this.failedMiningPos, this.player).isCancelled()) {
++                    if (!org.loomdev.loom.event.LoomEventDispatcher.onEntityBlockBreak(this.world, this.failedMiningPos, this.player).isCancelled()) {
                      this.tryBreakBlock(this.failedMiningPos);
 +                    }
 +                    // Loom end
@@ -26,7 +26,7 @@
              Block block = blockstate.getBlock();
 -
 +            // Loom start :: fire BlockBrokenEvent
-+            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBroken(world, blockpos, player).isCancelled()) {
++            if (org.loomdev.loom.event.LoomEventDispatcher.onEntityBlockBreak(world, blockpos, player).isCancelled()) {
 +                return false;
 +            }
 +            // Loom end

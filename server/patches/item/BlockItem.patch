@@ -6,7 +6,7 @@
                          block.onPlaced(world, blockpos, blockstate1, playerentity, itemstack);
 +
 +                        // Loom start :: fire BlockPlacedEvent
-+                        if (playerentity != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockPlaced(world, blockpos, playerentity).isCancelled()) {
++                        if (playerentity != null && org.loomdev.loom.event.LoomEventDispatcher.onEntityBlockPlace(world, blockpos, playerentity).isCancelled()) {
 +                            return ActionResult.FAIL;
 +                        }
 +                        // Loom end

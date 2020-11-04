@@ -2,6 +2,7 @@ package org.loomdev.api.world;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockType;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
@@ -21,6 +22,10 @@ public interface World {
     @NotNull Block getBlock(int x, int y, int z);
 
     @NotNull Block getBlock(@NotNull Location location);
+
+    void setBlock(Location location, BlockType type);
+
+    void setBlock(int x, int y, int z, BlockType type);
 
     @NotNull Chunk getChunk(int x, int z);
 

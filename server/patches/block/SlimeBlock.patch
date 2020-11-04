@@ -1,12 +1,20 @@
 --- a/net/minecraft/block/SlimeBlock.java
 +++ b/net/minecraft/block/SlimeBlock.java
-@@ -37,7 +37,17 @@
+@@ -6,6 +6,7 @@
+ import net.minecraft.util.math.Vec3d;
+ import net.minecraft.world.BlockView;
+ import net.minecraft.world.World;
++import org.loomdev.api.event.entity.movement.EntityBounceEvent;
+ 
+ public class SlimeBlock extends TransparentBlock {
+ 
+@@ -37,7 +38,17 @@
          if (vec3d.y < 0.0D) {
              double d0 = entity instanceof LivingEntity ? 1.0D : 0.8D;
  
 -            entity.setVelocity(vec3d.x, -vec3d.y * d0, vec3d.z);
 +            // Loom start :: fire EntityBouncedEvent
-+            org.loomdev.api.event.entity.movement.EntityBouncedEvent event = org.loomdev.loom.event.LoomEventDispatcher.onEntityBounced(entity, d0);
++            EntityBounceEvent event = org.loomdev.loom.event.LoomEventDispatcher.onEntityBounce(entity, d0);
 +
 +            if (event.isCancelled()) {
 +                entity.setVelocity(vec3d.x, 0, vec3d.z);

@@ -1,12 +1,20 @@
 --- a/net/minecraft/block/NoteBlock.java
 +++ b/net/minecraft/block/NoteBlock.java
-@@ -81,8 +81,16 @@
+@@ -18,6 +18,7 @@
+ import net.minecraft.util.math.Direction;
+ import net.minecraft.world.World;
+ import net.minecraft.world.WorldAccess;
++import org.loomdev.api.event.block.note.NoteBlockPlayEvent;
+ 
+ public class NoteBlock extends Block {
+ 
+@@ -81,8 +82,16 @@
          int k = (Integer) blockstate.get(NoteBlock.NOTE);
          float f = (float) Math.pow(2.0D, (double) (k - 12) / 12.0D);
  
 -        world.playSound((PlayerEntity) null, blockpos, ((Instrument) blockstate.get(NoteBlock.INSTRUMENT)).getSound(), SoundCategory.RECORDS, 3.0F, f);
 +        // Loom start :: fire NoteBlockPlayedEvent
-+        org.loomdev.api.event.block.note.NoteBlockPlayedEvent event = org.loomdev.loom.event.LoomEventDispatcher.onNoteBlockPlayed(world, blockpos, blockstate.get(INSTRUMENT), k, f);
++        NoteBlockPlayEvent event = org.loomdev.loom.event.LoomEventDispatcher.onNoteBlockPlay(world, blockpos, blockstate.get(INSTRUMENT), k, f);
 +
 +        if (event.isCancelled()) {
 +            return false;

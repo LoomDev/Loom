@@ -1,6 +1,14 @@
 --- a/net/minecraft/block/SpongeBlock.java
 +++ b/net/minecraft/block/SpongeBlock.java
-@@ -30,14 +30,14 @@
+@@ -10,6 +10,7 @@
+ import net.minecraft.util.math.BlockPos;
+ import net.minecraft.util.math.Direction;
+ import net.minecraft.world.World;
++import org.loomdev.api.event.block.BlockAbsorbEvent;
+ 
+ public class SpongeBlock extends Block {
+ 
+@@ -30,14 +31,14 @@
  
      protected void update(World world, BlockPos blockpos) {
          if (this.absorbWater(world, blockpos)) {
@@ -17,7 +25,7 @@
  
          queue.add(new Pair<>(blockpos, 0));
          int i = 0;
-@@ -57,22 +57,21 @@
+@@ -57,22 +58,21 @@
                  Material material = blockstate.getMaterial();
  
                  if (fluidstate.isIn(FluidTags.WATER)) {
@@ -45,13 +53,13 @@
                          ++i;
                          if (j < 6) {
                              queue.add(new Pair<>(blockpos2, j + 1));
-@@ -86,6 +85,37 @@
+@@ -86,6 +86,37 @@
              }
          }
  
 +        // Loom start :: fire SpongeAbsorbedEvent
 +        final int finali = i;
-+        org.loomdev.api.event.block.sponge.SpongeAbsorbedEvent event = org.loomdev.loom.event.LoomEventDispatcher.onSpongeAbsorbed(world, blockpos, absorbedBlocks);
++        BlockAbsorbEvent event = org.loomdev.loom.event.LoomEventDispatcher.onBlockAbsorb(world, blockpos, absorbedBlocks);
 +
 +        if (!event.isCancelled()) {
 +            for (org.loomdev.api.block.Block block : event.getAbsorbedBlocks()) {

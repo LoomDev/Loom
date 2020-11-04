@@ -1,11 +1,19 @@
 --- a/net/minecraft/item/FireChargeItem.java
 +++ b/net/minecraft/item/FireChargeItem.java
-@@ -23,12 +23,22 @@
+@@ -9,6 +9,7 @@
+ import net.minecraft.util.ActionResult;
+ import net.minecraft.util.math.BlockPos;
+ import net.minecraft.world.World;
++import org.loomdev.api.event.block.BlockIgniteEvent;
+ 
+ public class FireChargeItem extends Item {
+ 
+@@ -23,12 +24,22 @@
          boolean flag = false;
  
          if (CampfireBlock.method_30035(blockstate)) {
 +            // Loom start :: fire BlockIgnitedEvent
-+            if (itemusagecontext.getPlayer() != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, itemusagecontext.getPlayer(), org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FIRE_CHARGE).isCancelled()) {
++            if (itemusagecontext.getPlayer() != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(world, blockpos, itemusagecontext.getPlayer(), BlockIgniteEvent.Cause.FIRE_CHARGE).isCancelled()) {
 +                return ActionResult.FAIL;
 +            }
 +            // Loom end
@@ -16,7 +24,7 @@
              blockpos = blockpos.offset(itemusagecontext.getSide());
              if (AbstractFireBlock.method_30032(world, blockpos, itemusagecontext.getPlayerFacing())) {
 +                // Loom start :: fire BlockIgnitedEvent
-+                if (itemusagecontext.getPlayer() != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, itemusagecontext.getPlayer(), org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FIRE_CHARGE).isCancelled()) {
++                if (itemusagecontext.getPlayer() != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(world, blockpos, itemusagecontext.getPlayer(), BlockIgniteEvent.Cause.FIRE_CHARGE).isCancelled()) {
 +                    return ActionResult.FAIL;
 +                }
 +                // Loom end

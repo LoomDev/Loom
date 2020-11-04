@@ -92,13 +92,18 @@ public class CommandManagerImpl implements CommandManager {
     }
 
     public void internalReload() {
-        commands.forEach((name, command) -> this.server.getMinecraftServer().getCommandManager().getDispatcher()
+        commands.forEach((name, command) -> {
+            var wrapper = new LoomCommandWrapper(server, this, server.getMinecraftServer().getCommandManager().getDispatcher())
+                    .registerCommand(name);
+        });
+
+        /*commands.forEach((name, command) -> this.server.getMinecraftServer().getCommandManager().getDispatcher()
                 .register(LiteralArgumentBuilder.<ServerCommandSource>literal(name)
                         .requires(source -> true) // TODO test permission
                         .executes(context -> handle(getSource(context), context.getInput()))
                         .then(RequiredArgumentBuilder.<ServerCommandSource, String>argument("args",
-                                StringArgumentType.greedyString()).suggests(null).executes(null)) // TODO suggestions
-                ));
+                                StringArgumentType.greedyString()).suggests(provider -> command.suggest(provider)).executes(null)) // TODO suggestions
+                ));*/
     }
 
     private @NotNull CommandSource getSource(@NotNull CommandContext<ServerCommandSource> context) {

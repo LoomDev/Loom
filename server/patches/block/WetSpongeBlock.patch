@@ -5,7 +5,7 @@
      public void onBlockAdded(BlockState blockstate, World world, BlockPos blockpos, BlockState blockstate1, boolean flag) {
          if (world.getDimension().isUltrawarm()) {
 +            // Loom start :: fire BlockEvaporatedEvent
-+            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporated(world, blockpos).isCancelled()) {
++            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporate(world, blockpos).isCancelled()) {
 +                return;
 +            }
 +            // Loom end

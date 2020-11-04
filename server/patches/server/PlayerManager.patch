@@ -6,12 +6,12 @@
  
 -        this.broadcastChatMessage(translatabletext.formatted(Formatting.YELLOW), MessageType.SYSTEM, Util.NIL_UUID);
 +        // Loom start :: fire PlayerJoinedEvent
-+        org.loomdev.loom.event.LoomEventDispatcher.onPlayerJoined(serverplayerentity, translatabletext.formatted(Formatting.YELLOW)).thenAccept(event -> {
-+            if (!event.getPlayer().isConnected()) {
++        org.loomdev.loom.event.LoomEventDispatcher.onPlayerJoin(serverplayerentity, translatabletext.formatted(Formatting.YELLOW)).thenAccept(event -> {
++            if (!event.getPlayer().isConnected() || event.getMessage() == null) {
 +                return;
 +            }
 +
-+            event.getMessage().ifPresent(message -> this.broadcastChatMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(message), MessageType.SYSTEM, Util.NIL_UUID));
++            this.broadcastChatMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMessage()), MessageType.SYSTEM, Util.NIL_UUID); // TODO check w/ new blocking system
          serverplaynetworkhandler.requestTeleport(serverplayerentity.getX(), serverplayerentity.getY(), serverplayerentity.getZ(), serverplayerentity.yaw, serverplayerentity.pitch);
          this.players.add(serverplayerentity);
          this.playerMap.put(serverplayerentity.getUuid(), serverplayerentity);

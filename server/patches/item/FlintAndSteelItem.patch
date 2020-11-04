@@ -1,23 +1,31 @@
 --- a/net/minecraft/item/FlintAndSteelItem.java
 +++ b/net/minecraft/item/FlintAndSteelItem.java
-@@ -27,6 +27,11 @@
+@@ -13,6 +13,7 @@
+ import net.minecraft.util.ActionResult;
+ import net.minecraft.util.math.BlockPos;
+ import net.minecraft.world.World;
++import org.loomdev.api.event.block.BlockIgniteEvent;
+ 
+ public class FlintAndSteelItem extends Item {
+ 
+@@ -27,6 +28,11 @@
          BlockState blockstate = world.getBlockState(blockpos);
  
          if (CampfireBlock.method_30035(blockstate)) {
 +            // Loom start :: fire BlockIgnitedEvent
-+            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, playerentity, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FLINT_AND_STEEL).isCancelled()) {
++            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(world, blockpos, playerentity, BlockIgniteEvent.Cause.FLINT_AND_STEEL).isCancelled()) {
 +                return ActionResult.FAIL;
 +            }
 +            // Loom end
              world.playSound(playerentity, blockpos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, FlintAndSteelItem.RANDOM.nextFloat() * 0.4F + 0.8F);
              world.setBlockState(blockpos, (BlockState) blockstate.with(Properties.LIT, true), 11);
              if (playerentity != null) {
-@@ -40,6 +45,11 @@
+@@ -40,6 +46,11 @@
              BlockPos blockpos1 = blockpos.offset(itemusagecontext.getSide());
  
              if (AbstractFireBlock.method_30032(world, blockpos1, itemusagecontext.getPlayerFacing())) {
 +                // Loom start :: fire BlockIgnitedEvent
-+                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos1, playerentity, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FLINT_AND_STEEL).isCancelled()) {
++                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(world, blockpos1, playerentity, BlockIgniteEvent.Cause.FLINT_AND_STEEL).isCancelled()) {
 +                    return ActionResult.FAIL;
 +                }
 +                // Loom end

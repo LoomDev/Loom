@@ -17,7 +17,8 @@ public interface Block {
      *
      * @return The current state of the block.
      */
-    @NotNull BlockState getBlockState();
+    @NotNull
+    BlockState getBlockState();
 
     int getX();
 
@@ -25,11 +26,14 @@ public interface Block {
 
     int getZ();
 
-    @NotNull Chunk getChunk();
+    @NotNull
+    Chunk getChunk();
 
-    @NotNull World getWorld();
+    @NotNull
+    World getWorld();
 
-    @NotNull BlockType getType();
+    @NotNull
+    BlockType getType();
 
     void setType(@NotNull BlockType type);
 }

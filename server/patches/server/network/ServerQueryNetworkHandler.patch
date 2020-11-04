@@ -5,7 +5,7 @@
          } else {
              this.responseSent = true;
 +            // Loom start :: fire ServerPingedEvent
-+            org.loomdev.loom.event.LoomEventDispatcher.onServerPinged(this.connection, this.server.getServerMetadata()).thenAccept(event -> {
++            org.loomdev.loom.event.LoomEventDispatcher.onServerPing(this.connection, this.server.getServerMetadata()).thenAccept(event -> {
 +                if (event.isCancelled()) {
 +                    return;
 +                }
@@ -13,7 +13,7 @@
 +                net.minecraft.server.ServerMetadata metadata = this.server.getServerMetadata();
 +                metadata.setDescription(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMotd()));
 +                metadata.setPlayers(new net.minecraft.server.ServerMetadata.Players(event.getSlots(), event.getOnlinePlayers()));
-+                event.getFavicon().ifPresent(metadata::setFavicon);
++                metadata.setFavicon(event.getFavicon());
              this.connection.send(new QueryResponseS2CPacket(this.server.getServerMetadata()));
 +            });
 +            // Loom end

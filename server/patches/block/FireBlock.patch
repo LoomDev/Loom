@@ -1,6 +1,14 @@
 --- a/net/minecraft/block/FireBlock.java
 +++ b/net/minecraft/block/FireBlock.java
-@@ -162,12 +162,14 @@
+@@ -24,6 +24,7 @@
+ import net.minecraft.world.World;
+ import net.minecraft.world.WorldAccess;
+ import net.minecraft.world.WorldView;
++import org.loomdev.api.event.block.BlockIgniteEvent;
+ 
+ public class FireBlock extends AbstractFireBlock {
+ 
+@@ -162,12 +163,14 @@
                  boolean flag1 = serverworld.hasHighHumidity(blockpos);
                  int k = flag1 ? -50 : 0;
  
@@ -21,19 +29,19 @@
                  BlockPos.Mutable blockpos_mutable = new BlockPos.Mutable();
  
                  for (int l = -1; l <= 1; ++l) {
-@@ -193,6 +195,11 @@
+@@ -193,6 +196,11 @@
                                      if (i2 > 0 && random.nextInt(k1) <= i2 && (!serverworld.isRaining() || !this.isRainingAround(serverworld, blockpos_mutable))) {
                                          int j2 = Math.min(15, i + random.nextInt(5) / 4);
  
 +                                        // Loom start :: fire BlockIgnitedEvent
-+                                        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(serverworld, blockpos_mutable, blockpos, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FIRE_SPREAD).isCancelled()) {
++                                        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(serverworld, blockpos_mutable, blockpos, BlockIgniteEvent.Cause.FIRE_SPREAD).isCancelled()) {
 +                                            return;
 +                                        }
 +                                        // Loom end
                                          serverworld.setBlockState(blockpos_mutable, this.method_24855(serverworld, blockpos_mutable, j2), 3);
                                      }
                                  }
-@@ -217,12 +224,17 @@
+@@ -217,12 +225,17 @@
          return blockstate.contains(Properties.WATERLOGGED) && (Boolean) blockstate.get(Properties.WATERLOGGED) ? 0 : this.burnChances.getInt(blockstate.getBlock());
      }
  
@@ -45,7 +53,7 @@
              BlockState blockstate = world.getBlockState(blockpos);
  
 +            // Loom start :: fire BlockBurnedEvent
-+            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBurned(world, blockpos, sourcepos).isCancelled()) {
++            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBurn(world, blockpos, sourcepos).isCancelled()) {
 +                return;
 +            }
 +            // Loom end

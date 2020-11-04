@@ -1,23 +1,31 @@
 --- a/net/minecraft/fluid/LavaFluid.java
 +++ b/net/minecraft/fluid/LavaFluid.java
-@@ -50,6 +50,11 @@
+@@ -16,6 +16,7 @@
+ import net.minecraft.world.World;
+ import net.minecraft.world.WorldAccess;
+ import net.minecraft.world.WorldView;
++import org.loomdev.api.event.block.BlockIgniteEvent;
+ 
+ public abstract class LavaFluid extends FlowableFluid {
+ 
+@@ -50,6 +51,11 @@
  
                      if (blockstate.isAir()) {
                          if (this.canLightFire(world, blockpos1)) {
 +                            // Loom start :: fire BlockIgnitedEvent
-+                            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos1, blockpos, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LAVA).isCancelled()) {
++                            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(world, blockpos1, blockpos, BlockIgniteEvent.Cause.LAVA).isCancelled()) {
 +                                return;
 +                            }
 +                            // Loom end
                              world.setBlockState(blockpos1, AbstractFireBlock.getState(world, blockpos1));
                              return;
                          }
-@@ -66,6 +71,11 @@
+@@ -66,6 +72,11 @@
                      }
  
                      if (world.isAir(blockpos2.up()) && this.hasBurnableBlock(world, blockpos2)) {
 +                        // Loom start :: fire BlockIgnitedEvent
-+                        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos2.up(), blockpos, org.loomdev.api.event.block.BlockIgnitedEvent.Cause.LAVA).isCancelled()) {
++                        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(world, blockpos2.up(), blockpos, BlockIgniteEvent.Cause.LAVA).isCancelled()) {
 +                            return;
 +                        }
 +                        // Loom end

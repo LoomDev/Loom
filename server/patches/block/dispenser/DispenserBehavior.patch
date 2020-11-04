@@ -1,11 +1,19 @@
 --- a/net/minecraft/block/dispenser/DispenserBehavior.java
 +++ b/net/minecraft/block/dispenser/DispenserBehavior.java
-@@ -405,7 +405,11 @@
+@@ -69,6 +69,7 @@
+ import net.minecraft.util.math.Direction;
+ import net.minecraft.util.math.Position;
+ import net.minecraft.world.World;
++import org.loomdev.api.event.block.BlockIgniteEvent;
+ 
+ public interface DispenserBehavior {
+ 
+@@ -405,7 +406,11 @@
                  BlockState blockstate = serverworld.getBlockState(blockpos);
  
                  if (AbstractFireBlock.method_30032(serverworld, blockpos, direction)) {
 +                    // Loom start :: fire BlockIgnitedEvent
-+                    if (!org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(serverworld, blockpos, blockpointer.getBlockPos(), org.loomdev.api.event.block.BlockIgnitedEvent.Cause.DISPENSER).isCancelled()) {
++                    if (!org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(serverworld, blockpos, blockpointer.getBlockPos(), BlockIgniteEvent.Cause.DISPENSER).isCancelled()) {
                      serverworld.setBlockState(blockpos, AbstractFireBlock.getState(serverworld, blockpos));
 +                    }
 +                    // Loom end

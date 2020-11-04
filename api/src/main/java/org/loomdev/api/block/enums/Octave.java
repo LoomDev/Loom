@@ -1,6 +1,7 @@
 package org.loomdev.api.block.enums;
 
 public enum Octave {
+
     OCTAVE_1(1),
     OCTAVE_2(2);
 

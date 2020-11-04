@@ -1,13 +1,21 @@
 --- a/net/minecraft/block/CampfireBlock.java
 +++ b/net/minecraft/block/CampfireBlock.java
-@@ -173,7 +173,12 @@
+@@ -42,6 +42,7 @@
+ import net.minecraft.world.GameRules;
+ import net.minecraft.world.World;
+ import net.minecraft.world.WorldAccess;
++import org.loomdev.api.event.block.BlockIgniteEvent;
+ 
+ public class CampfireBlock extends BlockWithEntity implements Waterloggable {
+ 
+@@ -173,7 +174,12 @@
  
              if (flag && !(Boolean) blockstate.get(CampfireBlock.LIT) && !(Boolean) blockstate.get(CampfireBlock.WATERLOGGED)) {
                  BlockPos blockpos = blockhitresult.getBlockPos();
 -
 +                // Loom start :: fire BlockIgnitedEvent
-+                org.loomdev.api.event.block.BlockIgnitedEvent.Cause cause = projectileentity instanceof net.minecraft.entity.projectile.AbstractFireballEntity ? org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FIREBALL : org.loomdev.api.event.block.BlockIgnitedEvent.Cause.FLAME_ARROW;
-+                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnited(world, blockpos, projectileentity, cause).isCancelled()) {
++                BlockIgniteEvent.Cause cause = projectileentity instanceof net.minecraft.entity.projectile.AbstractFireballEntity ? BlockIgniteEvent.Cause.FIREBALL : BlockIgniteEvent.Cause.FLAME_ARROW;
++                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(world, blockpos, projectileentity, cause).isCancelled()) {
 +                    return;
 +                }
 +                // Loom end

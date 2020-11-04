@@ -1,11 +1,19 @@
 --- a/net/minecraft/item/TridentItem.java
 +++ b/net/minecraft/item/TridentItem.java
-@@ -82,13 +82,21 @@
+@@ -25,6 +25,7 @@
+ import net.minecraft.util.math.MathHelper;
+ import net.minecraft.util.math.Vec3d;
+ import net.minecraft.world.World;
++import org.loomdev.api.event.player.movement.PlayerRiptideEvent;
+ 
+ public class TridentItem extends Item implements Vanishable {
+ 
+@@ -82,13 +83,21 @@
  
                      playerentity.incrementStat(Stats.USED.getOrCreateStat(this));
                      if (k > 0) {
 +                        // Loom start :: fire PlayerRiptideLaunchedEvent
-+                        org.loomdev.api.event.player.movement.PlayerRiptideLaunchedEvent event = org.loomdev.loom.event.LoomEventDispatcher.onPlayerRiptideLaunched(playerentity, k);
++                        PlayerRiptideEvent event = org.loomdev.loom.event.LoomEventDispatcher.onPlayerRiptideLaunched(playerentity, k);
 +
 +                        if (event.isCancelled()) {
 +                            playerentity.velocityModified = true; // inform the client of the player's actual velocity
@@ -23,7 +31,7 @@
  
                          f2 *= f6 / f5;
                          f3 *= f6 / f5;
-@@ -103,13 +111,14 @@
+@@ -103,13 +112,14 @@
  
                          SoundEvent soundevent;
  

@@ -10,10 +10,11 @@ import net.minecraft.world.GameRules;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockType;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
-import org.loomdev.api.event.world.TimeChangedEvent;
+import org.loomdev.api.event.world.WorldTimeChangeEvent;
 import org.loomdev.api.particle.Particle;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.world.Chunk;
@@ -67,6 +68,22 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public void setBlock(Location location, BlockType type) {
+        setBlock(location.getBlockX(), location.getBlockY(), location.getBlockZ(), type);
+    }
+
+    @Override
+    public void setBlock(int x, int y, int z, BlockType type) {
+        var key = new Identifier(type.getKey().toString());
+        System.out.println(key.toString());
+        var block = Registry.BLOCK.get(key).getDefaultState();
+        System.out.println(block.toString());
+        var pos = new BlockPos(x, y, z);
+        System.out.println(world.getWorldChunk(pos));
+        world.setBlockState(pos, block);
+    }
+
+    @Override
     public @NotNull Chunk getChunk(int x, int z) {
         // return ChunkImpl.from(this.world.getChunk(x, z));
         return null;
@@ -93,7 +110,8 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public @NotNull <T extends Entity> Optional<T> spawnEntity(@NotNull EntityType<T> type, @NotNull Location location) {
+    @NotNull
+    public <T extends Entity> Optional<T> spawnEntity(@NotNull EntityType<T> type, @NotNull Location location) {
         return location.getWorld().map(world -> {
             ServerWorld mcWorld = ((WorldImpl) world).getMinecraftWorld();
             net.minecraft.entity.Entity mcEntity = Registry.ENTITY_TYPE.get(new Identifier(type.getKey().toString())).create(mcWorld);
@@ -178,7 +196,7 @@ public class WorldImpl implements World {
 
     @Override
     public void setAbsoluteTime(long ticks) {
-        TimeChangedEvent event = LoomEventDispatcher.onTimeChanged(this, ticks - getAbsoluteTime(), TimeChangedEvent.Cause.TRIGGERED);
+        WorldTimeChangeEvent event = LoomEventDispatcher.onWorldTimeChanged(this, ticks - getAbsoluteTime(), WorldTimeChangeEvent.Cause.TRIGGERED);
 
         if (event.isCancelled()) {
             return;

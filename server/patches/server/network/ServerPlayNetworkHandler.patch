@@ -1,15 +1,14 @@
 --- a/net/minecraft/server/network/ServerPlayNetworkHandler.java
 +++ b/net/minecraft/server/network/ServerPlayNetworkHandler.java
-@@ -20,6 +20,8 @@
+@@ -20,6 +20,7 @@
  import java.util.stream.Collectors;
  import java.util.stream.Stream;
  import javax.annotation.Nullable;
 +
-+import net.kyori.adventure.text.TextComponent;
  import net.minecraft.SharedConstants;
  import net.minecraft.advancement.Advancement;
  import net.minecraft.advancement.criterion.Criteria;
-@@ -320,7 +322,7 @@
+@@ -320,7 +321,7 @@
          class_5513 class_5513 = this.player.method_31273();
  
          if (class_5513 != null) {
@@ -18,7 +17,7 @@
                  optional.ifPresent(consumer1);
              }, threadexecutor);
          } else {
-@@ -446,7 +448,7 @@
+@@ -446,7 +447,7 @@
  
      public void onRecipeBookData(RecipeBookDataC2SPacket recipebookdatac2spacket) {
          NetworkThreadUtils.forceMainThread(recipebookdatac2spacket, this, this.player.getServerWorld());
@@ -27,7 +26,7 @@
          ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
  
          optional.ifPresent(serverrecipebook::onRecipeDisplayed);
-@@ -731,10 +733,11 @@
+@@ -731,10 +732,11 @@
  
                  i = bookupdatec2spacket.getSlot();
                  if (PlayerInventory.isValidHotbarIndex(i) || i == 40) {
@@ -41,20 +40,20 @@
                      });
                  }
              }
-@@ -1088,7 +1091,11 @@
+@@ -1088,7 +1090,11 @@
      public void onDisconnected(Text text) {
          ServerPlayNetworkHandler.LOGGER.info("{} lost connection: {}", this.player.getName().getString(), text.getString());
          this.server.forcePlayerSampleUpdate();
 -        this.server.getPlayerManager().broadcastChatMessage((new TranslatableText("multiplayer.player.left", new Object[]{this.player.getDisplayName()})).formatted(Formatting.YELLOW), MessageType.SYSTEM, Util.NIL_UUID);
 +        // Loom start :: fire PlayerDisconnectedEvent
-+        org.loomdev.loom.event.LoomEventDispatcher.onPlayerDisconnected(player, (new TranslatableText("multiplayer.player.left", new Object[]{this.player.getDisplayName()})).formatted(Formatting.YELLOW)).thenAccept(event -> {
-+            this.server.getPlayerManager().broadcastChatMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMessage().orElse(net.kyori.adventure.text.TextComponent.empty())), MessageType.SYSTEM, Util.NIL_UUID);
++        org.loomdev.loom.event.LoomEventDispatcher.onPlayerDisconnect(player, (new TranslatableText("multiplayer.player.left", new Object[]{this.player.getDisplayName()})).formatted(Formatting.YELLOW)).thenAccept(event -> { // TODO check with the new blocking system
++            this.server.getPlayerManager().broadcastChatMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMessage() == null ? net.kyori.adventure.text.Component.empty() : event.getMessage()), MessageType.SYSTEM, Util.NIL_UUID);
 +        });
 +        // Loom end
          this.player.onDisconnect();
          this.server.getPlayerManager().remove(this.player);
          class_5513 class_5513 = this.player.method_31273();
-@@ -1177,9 +1184,17 @@
+@@ -1177,9 +1183,16 @@
              if (s.startsWith("/")) {
                  this.executeCommand(s);
              } else {
@@ -62,25 +61,24 @@
 -
 -                this.server.getPlayerManager().broadcastChatMessage(translatabletext, MessageType.CHAT, this.player.getUuid());
 +                // Loom start :: fire PlayerMessageSentEvent and apply formatting
-+                org.loomdev.loom.event.LoomEventDispatcher.onPlayerMessageSent(this.player, s).thenAccept(event -> {
-+                    net.kyori.adventure.text.TextComponent message = net.kyori.adventure.text.TextComponent.builder()
-+                            .append(event.getPrefix().orElse(net.kyori.adventure.text.TextComponent.empty()))
-+                            .append(event.getMessage().orElse(TextComponent.empty()))
-+                            .append(event.getSuffix().orElse(net.kyori.adventure.text.TextComponent.empty()))
-+                            .build();
++                org.loomdev.loom.event.LoomEventDispatcher.onPlayerChat(this.player, s).thenAccept(event -> {
++                    var message = net.kyori.adventure.text.Component.empty()
++                            .append(event.getPrefix() == null ? net.kyori.adventure.text.Component.empty() : event.getPrefix())
++                            .append(event.getMessage() == null ? net.kyori.adventure.text.Component.empty() : event.getMessage())
++                            .append(event.getSuffix() == null ? net.kyori.adventure.text.Component.empty() : event.getSuffix());
 +
-+                    if (event.getMessage().isPresent()) event.getRecipients().forEach(recipient -> recipient.sendMessage(message));
++                    if (message.content().length() != 0) event.getRecipients().forEach(recipient -> recipient.sendMessage(message));
 +                });
 +                // Loom end
              }
  
              this.messageCooldown += 20;
-@@ -1469,9 +1484,13 @@
+@@ -1469,9 +1482,13 @@
                  return;
              }
  
 +            // Loom start :: fire SignWrittenEvent
-+            if (!org.loomdev.loom.event.LoomEventDispatcher.onSignWritten(serverworld, blockpos, this.player, list).isCancelled()) {
++            if (!org.loomdev.loom.event.LoomEventDispatcher.onSignWrite(serverworld, blockpos, this.player, list).isCancelled()) {
              for (int i = 0; i < list.size(); ++i) {
                  signblockentity.setTextOnRow(i, new LiteralText((String) list.get(i)));
              }

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.loomdev.api.block.BlockType;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.EntityType;
@@ -26,7 +27,7 @@ public class DebugCommand extends Command {
     public void execute(@NotNull CommandSource source, String[] args) {
         Player player = ((Player) source);
 
-        player.playSound(Sound.builder(SoundEvent.ENTITY_WITCH_THROW).category(SoundCategory.HOSTILE).build());
+        player.getWorld().setBlock(player.getLocation(), BlockType.YELLOW_WOOL);
     }
 
     @Override
