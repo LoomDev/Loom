@@ -30,6 +30,7 @@ public interface PointOfInterestType extends Keyed {
     PointOfInterestType BEE_NEST = getById("minecraft:bee_nest");
     PointOfInterestType NETHER_PORTAL = getById("minecraft:nether_portal");
     PointOfInterestType LODESTONE = getById("minecraft:lodestone");
+    PointOfInterestType LIGHTNING_ROD = getById("minecraft:lightning_rod");
 
     // endregion :: PointOfInterestTypes
 

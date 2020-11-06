@@ -79,6 +79,7 @@ public interface ParticleType extends Keyed {
     ParticleType WARPED_SPORE = getById("minecraft:warped_spore");
     ParticleType WHITE_ASH = getById("minecraft:white_ash");
     ParticleType WITCH = getById("minecraft:witch");
+    ParticleType SMALL_FLAME = getById("minecraft:small_flame");
 
     // endregion ParticleTypes
 
