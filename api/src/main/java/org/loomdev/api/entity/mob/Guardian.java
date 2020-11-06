@@ -6,13 +6,14 @@ import org.loomdev.api.entity.LivingEntity;
 
 import java.util.Optional;
 
-public interface Guardian extends HostileEntity {
+public interface Guardian extends Monster {
 
-    boolean areSpikesRetracted();
+    boolean isSpikesRetracted();
 
     void setSpikesRetracted(boolean flag);
 
-    @NotNull Optional<LivingEntity> getBeamTarget();
+    @Nullable
+    LivingEntity getBeamTarget();
 
     void setBeamTarget(@Nullable LivingEntity entity);
 

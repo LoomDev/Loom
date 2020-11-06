@@ -1,0 +1,26 @@
+--- a/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
++++ b/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
+@@ -32,8 +32,22 @@
+         if (this.hasRequestedStatus) {
+             this.connection.disconnect(ServerStatusPacketListenerImpl.DISCONNECT_REASON);
+         } else {
++            // Loom start :: fire ServerPingEvent
++            org.loomdev.loom.event.LoomEventDispatcher.onServerPing(connection, server.getStatus()).thenAccept(event -> {  // TODO hover gameprofile sample - once gameprofile api?
++                if (event.isCancelled()) return;
++                net.minecraft.network.protocol.status.ServerStatus status;
++                try {
++                    status = (net.minecraft.network.protocol.status.ServerStatus) server.getStatus().clone();
++                    status.setDescription(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMotd()));
++                    status.setPlayers(new net.minecraft.network.protocol.status.ServerStatus.Players(event.getMaxPlayers(), event.getOnlinePlayers()));
++                    status.setFavicon(event.getFavicon());
++                } catch (CloneNotSupportedException e) {
++                    status = server.getStatus();
++                }
++                this.connection.send(new ClientboundStatusResponsePacket(status));
++            });
++            // Loom end
+             this.hasRequestedStatus = true;
+-            this.connection.send(new ClientboundStatusResponsePacket(this.server.getStatus()));
+         }
+     }
+ 

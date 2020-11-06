@@ -17,6 +17,5 @@ public interface Explosive {
      *
      * @param power The new power of the explosion.
      */
-    void setExplosionPower(float power);
-
+    void setExplosionPower(int power);
 }

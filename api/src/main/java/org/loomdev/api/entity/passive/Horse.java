@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public interface Horse extends HorseBase {
+public interface Horse extends AbstractHorse {
 
     @NotNull Color getColor();
 

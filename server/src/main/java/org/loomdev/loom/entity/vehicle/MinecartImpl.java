@@ -1,44 +1,25 @@
 package org.loomdev.loom.entity.vehicle;
 
-import net.minecraft.entity.vehicle.AbstractMinecartEntity;
+import net.minecraft.world.entity.vehicle.Minecart;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.block.BlockState;
-import org.loomdev.api.entity.vehicle.Minecart;
-import org.loomdev.loom.block.BlockStateImpl;
-import org.loomdev.loom.entity.EntityImpl;
+import org.loomdev.api.entity.EntityType;
+import org.loomdev.api.entity.vehicle.RideableMinecart;
 
-public abstract class MinecartImpl extends EntityImpl implements Minecart {
+public class MinecartImpl extends AbstractMinecartImpl implements RideableMinecart {
 
-    public MinecartImpl(AbstractMinecartEntity entity) {
+    public MinecartImpl(Minecart entity) {
         super(entity);
     }
 
+    @Override
     @NotNull
-    @Override
-    public AbstractMinecartEntity getMinecraftEntity() {
-        return (AbstractMinecartEntity) super.getMinecraftEntity();
-    }
-
-    @Nullable
-    @Override
-    public BlockState getDisplayedBlock() {
-        return BlockStateImpl.of(getMinecraftEntity().getContainedBlock());
+    public EntityType<RideableMinecart> getType() {
+        return EntityType.MINECART;
     }
 
     @Override
-    public void setDisplayedBlock(@Nullable BlockState blockState) {
-        getMinecraftEntity().setCustomBlock(blockState == null ? null : ((BlockStateImpl) blockState).getMinecraftBlockState());
+    @NotNull
+    public Minecart getMinecraftEntity() {
+        return (Minecart) super.getMinecraftEntity();
     }
-
-    @Override
-    public int getDisplayedBlockOffset() {
-        return getMinecraftEntity().getBlockOffset();
-    }
-
-    @Override
-    public void setDisplayedBlockOffset(int offset) {
-        getMinecraftEntity().setCustomBlockOffset(offset);
-    }
-
 }

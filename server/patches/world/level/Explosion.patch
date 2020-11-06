@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/level/Explosion.java
++++ b/net/minecraft/world/level/Explosion.java
+@@ -45,7 +45,7 @@
+ 
+     private static final ExplosionDamageCalculator EXPLOSION_DAMAGE_CALCULATOR = new ExplosionDamageCalculator();
+     private final boolean fire;
+-    private final Explosion.BlockInteraction blockInteraction;
++    public Explosion.BlockInteraction blockInteraction; // Loom :: private -> public, non-final
+     private final Random random = new Random();
+     private final Level level;
+     private final double x;
+@@ -230,7 +230,17 @@
+             ObjectArrayList<Pair<ItemStack, BlockPos>> objectarraylist = new ObjectArrayList();
+ 
+             Collections.shuffle(this.toBlow, this.level.random);
+-            Iterator iterator = this.toBlow.iterator();
++            // Loom start :: fire BlockExplodeEvent
++            var event = org.loomdev.loom.event.LoomEventDispatcher.onBlockExplode(level, new BlockPos(x, y, z), toBlow);
++            if (event.isCancelled()) {
++                this.blockInteraction = BlockInteraction.NONE;
++                return;
++            }
++
++            Iterator iterator = event.getAffectedBlocks().stream()
++                    .map(block -> new BlockPos(block.getX(), block.getY(), block.getZ()))
++                    .iterator();
++            // Loom end
+ 
+             while (iterator.hasNext()) {
+                 BlockPos blockpos = (BlockPos) iterator.next();
+@@ -276,6 +286,7 @@
+                 BlockPos blockpos2 = (BlockPos) iterator1.next();
+ 
+                 if (this.random.nextInt(3) == 0 && this.level.getBlockState(blockpos2).isAir() && this.level.getBlockState(blockpos2.below()).isSolidRender(this.level, blockpos2.below())) {
++                    if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(level, blockpos2, this).isCancelled()) continue; // Loom :: fire BlockIgniteEvent
+                     this.level.setBlockAndUpdate(blockpos2, BaseFireBlock.getState(this.level, blockpos2));
+                 }
+             }

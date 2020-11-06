@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/monster/Zombie.java
++++ b/net/minecraft/world/entity/monster/Zombie.java
+@@ -79,7 +79,7 @@
+     private final BreakDoorGoal breakDoorGoal;
+     private boolean canBreakDoors;
+     private int inWaterTime;
+-    private int conversionTime;
++    public int conversionTime; // Loom :: private -> public (ZombieImpl)
+ 
+     public Zombie(EntityType<? extends Zombie> entitytype, Level level) {
+         super(entitytype, level);
+@@ -241,7 +241,7 @@
+         this.getEntityData().set(Zombie.DATA_DROWNED_CONVERSION_ID, true);
+     }
+ 
+-    protected void doUnderWaterConversion() {
++    public void doUnderWaterConversion() { // Loom :: protected -> public (ZombieImpl)
+         this.convertToZombieType(EntityType.DROWNED);
+         if (!this.isSilent()) {
+             this.level.levelEvent((Player) null, 1040, this.blockPosition(), 0);

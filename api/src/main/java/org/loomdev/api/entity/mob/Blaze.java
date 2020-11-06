@@ -1,6 +1,6 @@
 package org.loomdev.api.entity.mob;
 
-public interface Blaze extends HostileEntity {
+public interface Blaze extends Monster {
 
     boolean isFireActive();
 

@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/entity/npc/WanderingTrader.java
++++ b/net/minecraft/world/entity/npc/WanderingTrader.java
+@@ -48,8 +48,8 @@
+ public class WanderingTrader extends AbstractVillager {
+ 
+     @Nullable
+-    private BlockPos wanderTarget;
+-    private int despawnDelay;
++    public BlockPos wanderTarget; // Loom :: private -> public
++    public int despawnDelay; // Loom :: private -> public
+ 
+     public WanderingTrader(EntityType<? extends WanderingTrader> entitytype, Level level) {
+         super(entitytype, level);

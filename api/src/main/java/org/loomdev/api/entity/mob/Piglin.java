@@ -26,13 +26,13 @@ public interface Piglin extends AbstractPiglin, Ageable {
      *
      * @return True if the Piglin is charging, otherwise False.
      */
-    boolean isCharging();
+    boolean isChargingCrossbow();
 
     /**
      * Set whether the Piglin is charging.
      *
      * @param flag True to make the Piglin charge, otherwise False.
      */
-    void setCharging(boolean flag);
+    void setChargingCrossbow(boolean flag);
 
 }

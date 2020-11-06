@@ -5,7 +5,7 @@ import org.loomdev.api.entity.ComplexEntity;
 import org.loomdev.api.entity.ComplexEntityPart;
 import org.loomdev.api.entity.boss.Boss;
 import org.loomdev.api.entity.mob.MobEntity;
-import org.loomdev.api.entity.mob.Monster;
+import org.loomdev.api.entity.mob.Enemy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public interface EnderDragon extends MobEntity, Monster, ComplexEntity, Boss {
+public interface EnderDragon extends MobEntity, Enemy, ComplexEntity, Boss {
 
     int getTicksSinceDeath();
 

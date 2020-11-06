@@ -1,12 +1,12 @@
 package org.loomdev.loom.world;
 
-import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.GameRules;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.network.protocol.game.ClientboundSetTimePacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.GameRules;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.block.Block;
@@ -32,38 +32,40 @@ import java.util.stream.Collectors;
 
 public class WorldImpl implements World {
 
-    private final ServerWorld world;
+    private final ServerLevel world;
 
-    public WorldImpl(ServerWorld world) {
+    public WorldImpl(ServerLevel world) {
         this.world = world;
     }
 
-    public static /*@NotNull*/ World of(ServerWorld world) {
-        return Loom.getServer().getWorld(world.worldProperties.getLevelName()).orElse(null); // TODO use uuid
+    public static World of(ServerLevel world) {
+        return Loom.getServer().getWorld(world.serverLevelData.getLevelName()); // TODO use uuid once it works
     }
 
-    public ServerWorld getMinecraftWorld() {
-        return this.world;
+    public ServerLevel getMinecraftWorld() {
+        return world;
     }
 
     @Override
-    public @NotNull String getName() {
-        return this.world.worldProperties.getLevelName();
+    @NotNull
+    public String getName() {
+        return world.serverLevelData.getLevelName();
     }
 
     @Override
     public @NotNull UUID getUUID() {
         return UUID.randomUUID(); // TODO
-        // return world.field_24456.getUUID();
     }
 
     @Override
-    public @NotNull Block getBlock(int x, int y, int z) {
+    @NotNull
+    public Block getBlock(int x, int y, int z) {
         return BlockImpl.at(this.world, new BlockPos(x, y, z));
     }
 
     @Override
-    public @NotNull Block getBlock(@NotNull Location location) {
+    @NotNull
+    public Block getBlock(@NotNull Location location) {
         return getBlock(location.getBlockX(), location.getBlockY(), location.getBlockZ());
     }
 
@@ -74,17 +76,15 @@ public class WorldImpl implements World {
 
     @Override
     public void setBlock(int x, int y, int z, BlockType type) {
-        var key = new Identifier(type.getKey().toString());
-        System.out.println(key.toString());
-        var block = Registry.BLOCK.get(key).getDefaultState();
-        System.out.println(block.toString());
+        var key = new ResourceLocation(type.getKey().toString());
+        var block = Registry.BLOCK.get(key).defaultBlockState();
         var pos = new BlockPos(x, y, z);
-        System.out.println(world.getWorldChunk(pos));
-        world.setBlockState(pos, block);
+        world.setBlockAndUpdate(pos, block);
     }
 
     @Override
-    public @NotNull Chunk getChunk(int x, int z) {
+    @NotNull
+    public Chunk getChunk(int x, int z) {
         // return ChunkImpl.from(this.world.getChunk(x, z));
         return null;
     }
@@ -113,12 +113,12 @@ public class WorldImpl implements World {
     @NotNull
     public <T extends Entity> Optional<T> spawnEntity(@NotNull EntityType<T> type, @NotNull Location location) {
         return location.getWorld().map(world -> {
-            ServerWorld mcWorld = ((WorldImpl) world).getMinecraftWorld();
-            net.minecraft.entity.Entity mcEntity = Registry.ENTITY_TYPE.get(new Identifier(type.getKey().toString())).create(mcWorld);
+            var mcWorld = ((WorldImpl) world).getMinecraftWorld();
+            var mcEntity = Registry.ENTITY_TYPE.get(new ResourceLocation(type.getKey().toString())).create(mcWorld);
 
             if (mcEntity != null) {
-                mcEntity.updatePosition(location.getX(), location.getY(), location.getZ());
-                mcWorld.spawnEntity(mcEntity);
+                mcEntity.setPos(location.getX(), location.getY(), location.getZ());
+                mcWorld.addFreshEntity(mcEntity);
             }
 
             return (T) mcEntity.getLoomEntity();
@@ -127,7 +127,7 @@ public class WorldImpl implements World {
 
     @Override
     public void spawnParticle(@NotNull Particle particle, @NotNull Location location) {
-        this.world.spawnParticles(
+        this.world.sendParticles(
                 ParticleTransformer.toMinecraft(particle),
                 location.getX(),
                 location.getY(),
@@ -142,20 +142,21 @@ public class WorldImpl implements World {
 
     @Override
     public void playSound(@NotNull Sound sound, @NotNull Location location) {
-        BlockPos pos = new BlockPos(location.getX(), location.getY(), location.getZ());
-        this.world.playSound(
+        var pos = new BlockPos(location.getX(), location.getY(), location.getZ());
+        world.playSound(
                 null,
                 pos,
-                Registry.SOUND_EVENT.get(new Identifier(sound.getSoundEffect().getKey().toString())),
-                SoundCategory.getByName(sound.getSoundCategory().getName()),
+                Registry.SOUND_EVENT.get(new ResourceLocation(sound.getSoundEffect().getKey().toString())),
+                SoundSource.getByName(sound.getSoundCategory().getName()),
                 sound.getVolume(),
                 sound.getPitch()
         );
     }
 
     @Override
-    public @NotNull Collection<? extends Player> getPlayers() {
-        return this.world.getPlayers()
+    @NotNull
+    public Collection<? extends Player> getPlayers() {
+        return this.world.players()
                 .stream()
                 .map(e -> (PlayerImpl) e.getLoomEntity())
                 .collect(Collectors.toList());
@@ -176,6 +177,7 @@ public class WorldImpl implements World {
         if (difference < 0) {
             difference += 24000;
         }
+
         setAbsoluteTime(getAbsoluteTime() + difference);
     }
 
@@ -191,18 +193,18 @@ public class WorldImpl implements World {
 
     @Override
     public long getAbsoluteTime() {
-        return world.getTimeOfDay();
+        return world.getGameTime();
     }
 
     @Override
     public void setAbsoluteTime(long ticks) {
-        WorldTimeChangeEvent event = LoomEventDispatcher.onWorldTimeChanged(this, ticks - getAbsoluteTime(), WorldTimeChangeEvent.Cause.TRIGGERED);
+        var event = LoomEventDispatcher.onWorldTimeChanged(this, ticks - getAbsoluteTime(), WorldTimeChangeEvent.Cause.TRIGGERED);
 
         if (event.isCancelled()) {
             return;
         }
 
-        world.setTimeOfDay(getAbsoluteTime() + event.getChange());
+        world.setDayTime(getAbsoluteTime() + event.getChange());
 
         for (Player player : getPlayers()) {
             if (!player.isConnected()) {
@@ -210,11 +212,11 @@ public class WorldImpl implements World {
             }
 
             PlayerImpl playerImpl = (PlayerImpl) player;
-            ServerWorld world = ((WorldImpl) playerImpl.getWorld()).getMinecraftWorld();
-            playerImpl.getMinecraftEntity().networkHandler.sendPacket(new WorldTimeUpdateS2CPacket(
-                    world.getTime(),
+            ServerLevel world = ((WorldImpl) playerImpl.getWorld()).getMinecraftWorld();
+            playerImpl.getMinecraftEntity().connection.send(new ClientboundSetTimePacket(
+                    world.getGameTime(),
                     player.getTime(),
-                    world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE)
+                    world.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)
             ));
         }
     }

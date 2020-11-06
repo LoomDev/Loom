@@ -1,39 +1,40 @@
 package org.loomdev.loom.entity.projectile;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.entity.projectile.FireballEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
+import org.loomdev.api.entity.projectile.Fireball;
 import org.loomdev.api.entity.projectile.LargeFireball;
 
-public class LargeFireballImpl extends SizedFireballImpl implements LargeFireball {
+public class LargeFireballImpl extends FireballImpl implements LargeFireball {
 
-    public LargeFireballImpl(FireballEntity entity) {
+    public LargeFireballImpl(net.minecraft.world.entity.projectile.LargeFireball entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    @NotNull
+    public EntityType<Fireball> getType() {
         return EntityType.FIREBALL;
     }
 
     @Override
-    public @NotNull FireballEntity getMinecraftEntity() {
-        return (FireballEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.projectile.LargeFireball getMinecraftEntity() {
+        return (net.minecraft.world.entity.projectile.LargeFireball) super.getMinecraftEntity();
     }
 
     @Override
     public float getExplosionPower() {
-        if (getMinecraftEntity().loomExplosionPower == -1F) {
+        if (getMinecraftEntity().explosionPower == -1F) {
             return getMinecraftEntity().explosionPower;
         }
-        return getMinecraftEntity().loomExplosionPower;
+        return getMinecraftEntity().explosionPower;
     }
 
     @Override
-    public void setExplosionPower(float power) {
+    public void setExplosionPower(int power) {
         Preconditions.checkArgument(power >= 0, "Explosion power can't be less than zero.");
-        getMinecraftEntity().loomExplosionPower = power;
+        getMinecraftEntity().explosionPower = power;
     }
-
 }

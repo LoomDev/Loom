@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/entity/item/ItemEntity.java
++++ b/net/minecraft/world/entity/item/ItemEntity.java
+@@ -33,9 +33,9 @@
+ 
+ public class ItemEntity extends Entity {
+ 
+-    private static final EntityDataAccessor<ItemStack> DATA_ITEM = SynchedEntityData.defineId(ItemEntity.class, EntityDataSerializers.ITEM_STACK);
++    public static final EntityDataAccessor<ItemStack> DATA_ITEM = SynchedEntityData.defineId(ItemEntity.class, EntityDataSerializers.ITEM_STACK); // Loom :: private -> public (ItemEntityImpl)
+     private int age;
+-    private int pickupDelay;
++    public int pickupDelay; // Loom :: private -> public (ItemEntityImpl)
+     private int health;
+     private UUID thrower;
+     private UUID owner;

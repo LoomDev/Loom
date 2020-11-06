@@ -1,13 +1,13 @@
 package org.loomdev.loom.entity.vehicle;
 
-import net.minecraft.entity.vehicle.ChestMinecartEntity;
+import net.minecraft.world.entity.vehicle.MinecartChest;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.vehicle.ChestMinecart;
 
-public class ChestMinecartImpl extends StorageMinecartImpl implements ChestMinecart {
+public class ChestMinecartImpl extends AbstractStorageMinecartImpl implements ChestMinecart {
 
-    public ChestMinecartImpl(ChestMinecartEntity entity) {
+    public ChestMinecartImpl(MinecartChest entity) {
         super(entity);
     }
 
@@ -17,7 +17,8 @@ public class ChestMinecartImpl extends StorageMinecartImpl implements ChestMinec
     }
 
     @Override
-    public @NotNull ChestMinecartEntity getMinecraftEntity() {
-        return (ChestMinecartEntity) super.getMinecraftEntity();
+    @NotNull
+    public MinecartChest getMinecraftEntity() {
+        return (MinecartChest) super.getMinecraftEntity();
     }
 }

@@ -5,8 +5,7 @@ import org.loomdev.api.entity.mob.Angerable;
 
 public interface IronGolem extends Golem, Angerable {
 
-    boolean isPlayerMade();
+    boolean isPlayerCreated();
 
-    void setPlayerMade(boolean flag);
-
+    void setPlayerCreated(boolean flag);
 }

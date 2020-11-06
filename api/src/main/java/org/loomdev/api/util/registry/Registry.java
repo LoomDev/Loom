@@ -12,9 +12,12 @@ public interface Registry {
 
     <T extends ItemPropertyData<T>> void registerItemProperty(@NotNull Class<T> dataType, @NotNull Supplier<ItemProperty<T>> supplier);
 
-    <T extends ItemPropertyData<T>> @Nullable ItemProperty<T> getItemProperty(@NotNull Class<T> dataType);
+    @Nullable
+    <T extends ItemPropertyData<T>> ItemProperty<T> getItemProperty(@NotNull Class<T> dataType);
 
-    <V, B extends BuilderBase<V, B>> @Nullable B createBuilder(@NotNull Class<V> type);
+    @Nullable
+    <V, B extends BuilderBase<V, B>> B createBuilder(@NotNull Class<V> type);
 
-    <T extends Keyed> @Nullable T getWrapped(Class<T> type, String key);
+    @Nullable
+    <T extends Keyed> T getWrapped(Class<T> type, String key);
 }

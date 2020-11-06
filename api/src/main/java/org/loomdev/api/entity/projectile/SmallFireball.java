@@ -1,4 +1,4 @@
 package org.loomdev.api.entity.projectile;
 
-public interface SmallFireball extends SizedFireball {
+public interface SmallFireball extends Fireball {
 }

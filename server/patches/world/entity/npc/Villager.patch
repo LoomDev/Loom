@@ -1,0 +1,56 @@
+--- a/net/minecraft/world/entity/npc/Villager.java
++++ b/net/minecraft/world/entity/npc/Villager.java
+@@ -129,7 +129,7 @@
+     }
+ 
+     public Brain<Villager> getBrain() {
+-        return super.getBrain();
++        return (Brain<Villager>) super.getBrain(); // Loom :: decompile error
+     }
+ 
+     protected Brain.Provider<Villager> brainProvider() {
+@@ -441,7 +441,7 @@
+ 
+     public void addAdditionalSaveData(CompoundTag compoundtag) {
+         super.addAdditionalSaveData(compoundtag);
+-        DataResult dataresult = VillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getVillagerData());
++        DataResult<Tag> dataresult = VillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getVillagerData()); // Loom :: decompile error
+         Logger logger = Villager.LOGGER;
+ 
+         logger.getClass();
+@@ -687,7 +687,7 @@
+         this.updateTrades();
+     }
+ 
+-    protected Component getTypeName() {
++    public Component getTypeName() { // Loom :: protected -> public
+         return new TranslatableComponent(this.getType().getDescriptionId() + '.' + Registry.VILLAGER_PROFESSION.getKey(this.getVillagerData().getProfession()).getPath());
+     }
+ 
+@@ -944,14 +944,14 @@
+ 
+     public void startSleeping(BlockPos blockpos) {
+         super.startSleeping(blockpos);
+-        this.brain.setMemory(MemoryModuleType.LAST_SLEPT, (Object) this.level.getGameTime());
++        this.brain.setMemory(MemoryModuleType.LAST_SLEPT, this.level.getGameTime()); // Loom :: decompile error
+         this.brain.eraseMemory(MemoryModuleType.WALK_TARGET);
+         this.brain.eraseMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
+     }
+ 
+     public void stopSleeping() {
+         super.stopSleeping();
+-        this.brain.setMemory(MemoryModuleType.LAST_WOKEN, (Object) this.level.getGameTime());
++        this.brain.setMemory(MemoryModuleType.LAST_WOKEN, this.level.getGameTime()); // Loom :: decompile error
+     }
+ 
+     private boolean golemSpawnConditionsMet(long i) {
+@@ -960,7 +960,9 @@
+         return optional.isPresent() ? i - (Long) optional.get() < 24000L : false;
+     }
+ 
++    /* // Loom start :: decompile error
+     public AgeableMob getBreedOffspring(ServerLevel serverlevel, AgeableMob ageablemob) {
+         return this.getBreedOffspring(serverlevel, ageablemob);
+     }
++     */ // Loom end
+ }

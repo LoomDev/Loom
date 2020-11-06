@@ -1,28 +1,29 @@
 package org.loomdev.loom.util.transformer;
 
-
+import net.minecraft.core.Rotations;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.math.EulerAngle;
 
 public final class EulerAngleTransformer {
 
     private EulerAngleTransformer() {
-        throw new UnsupportedOperationException("EulerAngleTransformer shouldn't be initialized.");
     }
 
-    public static net.minecraft.util.math.EulerAngle toMinecraft(@NotNull EulerAngle loomEulerAngle) {
-        return new net.minecraft.util.math.EulerAngle(
+    @NotNull
+    public static Rotations toMinecraft(@NotNull EulerAngle loomEulerAngle) {
+        return new Rotations(
                 loomEulerAngle.getPitch(),
                 loomEulerAngle.getYaw(),
                 loomEulerAngle.getRoll()
         );
     }
 
-    public static org.loomdev.api.math.EulerAngle toLoom(@NotNull net.minecraft.util.math.EulerAngle mcEulerAngle) {
+    @NotNull
+    public static org.loomdev.api.math.EulerAngle toLoom(@NotNull Rotations mcEulerAngle) {
         return EulerAngle.of(
-                mcEulerAngle.getPitch(),
-                mcEulerAngle.getYaw(),
-                mcEulerAngle.getRoll()
+                mcEulerAngle.getX(),
+                mcEulerAngle.getY(),
+                mcEulerAngle.getZ()
         );
     }
 }

@@ -8,29 +8,28 @@ toolsdir="$basedir/tools"
 yarndir="$toolsdir/yarn"
 decompdir="$toolsdir/decomp"
 
-mcVersion="1.16.4"
+mcVersion="20w45a"
+mcServerJar="https://launcher.mojang.com/v1/objects/043ec38297d0ec58abd6f636bc92f5664a8ccecb/server.jar"
+mcServerMappings="https://launcher.mojang.com/v1/objects/e13520140ed6bdbe2ca05f59ce12700e9081a8cf/server.txt"
 
 function setup {
     git submodule update --init --recursive
 
-    echo "Mapping vanilla server jar."
-    cp "$toolsdir/build-patched.gradle" "$yarndir/build.gradle" || exit 1
-	  sed -i "s/%version%/$mcVersion/" "$yarndir/build.gradle"
-    rm -rf "$toolsdir/decomp"
-    mkdir -p "$toolsdir/decomp"
-    cd "$yarndir"
-    eval "./gradlew mapNamedJar" || exit 1
-    cp "$yarndir/$mcVersion-named.jar" "$toolsdir/decomp" || exit 1
-	  git reset --hard
+    echo "Downloading vanilla server jar and Mojang mappings."
+    cd "$toolsdir/decomp"
+    wget $mcServerJar
+    wget $mcServerMappings
 
-    mvn install:install-file -Dfile="$toolsdir/decomp/$mcVersion-named.jar" -DgroupId="org.loomdev" -DartifactId="minecraft-server" -Dversion="$mcVersion-SNAPSHOT" -Dpackaging="jar"
+    echo "Mapping vanilla server jar with Mojang mappings."
+    java -jar $toolsdir/reconstruct-cli-1.3.2.jar -jar server.jar -mapping server.txt -output server-deobf.jar -exclude "com.google.,com.mojang.,io.netty.,it.unimi.dsi.fastutil.,javax.,joptsimple.,org.apache."
+    mvn install:install-file -Dfile="server-deobf.jar" -DgroupId="org.loomdev" -DartifactId="minecraft-server" -Dversion="$mcVersion-SNAPSHOT" -Dpackaging="jar"
 }
 
 function decomp {
     echo "Extracting mapped Minecraft source."
     mkdir -p "$decompdir/extracted"
     cd "$decompdir/extracted"
-    unzip -o "$decompdir/$mcVersion-named.jar" "net/minecraft/**/*" || exit 1
+    unzip -o "$decompdir/server-deobf.jar" "net/**/*" || exit 1
 
     echo "Decompiling mapped Minecraft source."
     mkdir -p "$decompdir/decompiled"

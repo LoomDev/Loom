@@ -1,16 +1,15 @@
 package org.loomdev.loom.entity.passive;
 
-import net.minecraft.entity.passive.WanderingTraderEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.WanderingTrader;
 import org.loomdev.api.world.Location;
 
-public class WanderingTraderImpl extends AbstractTraderImpl implements WanderingTrader {
+public class WanderingTraderImpl extends AbstractVillagerImpl implements WanderingTrader {
 
-    public WanderingTraderImpl(WanderingTraderEntity entity) {
+    public WanderingTraderImpl(net.minecraft.world.entity.npc.WanderingTrader entity) {
         super(entity);
     }
 
@@ -20,13 +19,14 @@ public class WanderingTraderImpl extends AbstractTraderImpl implements Wandering
     }
 
     @Override
-    public @NotNull WanderingTraderEntity getMinecraftEntity() {
-        return (WanderingTraderEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.npc.WanderingTrader getMinecraftEntity() {
+        return (net.minecraft.world.entity.npc.WanderingTrader) super.getMinecraftEntity();
     }
 
     @Override
     public @Nullable Location getWanderingTarget() {
-        BlockPos pos = getMinecraftEntity().wanderTarget;
+        var pos = getMinecraftEntity().wanderTarget;
         return pos == null ? null : new Location(null, pos.getX(), pos.getY(), pos.getZ()); // TODO replace with location without world
     }
 

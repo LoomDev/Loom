@@ -1,0 +1,34 @@
+--- a/net/minecraft/world/level/block/Block.java
++++ b/net/minecraft/world/level/block/Block.java
+@@ -49,6 +49,7 @@
+ import net.minecraft.world.phys.shapes.VoxelShape;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
++import org.loomdev.api.event.block.BlockDropExperienceEvent;
+ 
+ public class Block extends BlockBehaviour implements ItemLike {
+ 
+@@ -59,9 +60,7 @@
+             return !Shapes.joinIsNotEmpty(Shapes.block(), voxelshape, BooleanOp.NOT_SAME);
+         }
+ 
+-        public Object load(Object object) throws Exception {
+-            return this.load((VoxelShape) object);
+-        }
++        // Loom :: decompile error
+     });
+     protected final StateDefinition<Block, BlockState> stateDefinition;
+     private BlockState defaultBlockState;
+@@ -258,7 +257,11 @@
+ 
+     protected void popExperience(ServerLevel serverlevel, BlockPos blockpos, int i) {
+         if (serverlevel.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
+-            ExperienceOrb.award(serverlevel, Vec3.atCenterOf(blockpos), i);
++            // Loom start :: fire BlockDropExperience
++            var event = org.loomdev.loom.event.LoomEventDispatcher.onBlockDropExperience(serverlevel, blockpos, i);
++            if (event.isCancelled()) return;
++            ExperienceOrb.award(serverlevel, Vec3.atCenterOf(blockpos), event.getDroppedExperience());
++            // Loom end
+         }
+ 
+     }

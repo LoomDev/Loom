@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/Main.java
 +++ b/net/minecraft/server/Main.java
-@@ -61,7 +61,8 @@
+@@ -60,7 +60,8 @@
  
      public Main() {}
  
@@ -10,92 +10,99 @@
          OptionParser optionparser = new OptionParser();
          OptionSpec<Void> optionspec = optionparser.accepts("nogui");
          OptionSpec<Void> optionspec1 = optionparser.accepts("initSettings", "Initializes 'server.properties' and 'eula.txt', then quits");
-@@ -85,20 +86,21 @@
+@@ -77,27 +78,28 @@
+         OptionSpec<String> optionspec12 = optionparser.accepts("serverId").withRequiredArg();
+         NonOptionArgumentSpec nonoptionargumentspec = optionparser.nonOptions();
+ 
+-        try {
+             OptionSet optionset = optionparser.parse(astring);
+ 
+             if (optionset.has(optionspec7)) {
                  optionparser.printHelpOn(System.err);
                  return;
              }
--
-+            */ // Loom end :: replace all
-+        try {
-             CrashReport.initCrashReport();
-             Bootstrap.initialize();
-             Bootstrap.logMissing();
-             Util.startTimerHack();
-             DynamicRegistryManager.Impl dynamicregistrymanager_impl = DynamicRegistryManager.create();
--            Path path = Paths.get("server.properties");
-+            Path path = ((File) optionSet.valueOf("config")).toPath(); // Loom :: change hardcoded location to use optionSet.
-             ServerPropertiesLoader serverpropertiesloader = new ServerPropertiesLoader(dynamicregistrymanager_impl, path);
++        */ // Loom end
  
-             serverpropertiesloader.store();
++        try {
+             CrashReport.preload();
+             Bootstrap.bootStrap();
+             Bootstrap.validate();
+             Util.startTimerHackThread();
+             RegistryAccess.RegistryHolder registryaccess_registryholder = RegistryAccess.builtin();
+-            Path path = Paths.get("server.properties");
++            Path path = ((File) optionSet.valueOf("config")).toPath(); // Loom
+             DedicatedServerSettings dedicatedserversettings = new DedicatedServerSettings(registryaccess_registryholder, path);
+ 
+             dedicatedserversettings.forceSave();
              Path path1 = Paths.get("eula.txt");
-             EulaReader eulareader = new EulaReader(path1);
+             Eula eula = new Eula(path1);
  
 -            if (optionset.has(optionspec1)) {
-+            if (optionSet.has("initSettings")) { // Loom ::  change to optionSet
++            if (optionSet.has("initSettings")) { // Loom
                  Main.LOGGER.info("Initialized '{}' and '{}'", path.toAbsolutePath(), path1.toAbsolutePath());
                  return;
              }
-@@ -108,18 +110,18 @@
+@@ -107,18 +109,18 @@
                  return;
              }
  
 -            File file = new File((String) optionset.valueOf(optionspec9));
-+            File file = (File) optionSet.valueOf("universe"); // Loom :: change hardcoded location to use optionSet.
++            File file = (File) optionSet.valueOf("universe"); // Loom
              YggdrasilAuthenticationService yggdrasilauthenticationservice = new YggdrasilAuthenticationService(Proxy.NO_PROXY);
              MinecraftSessionService minecraftsessionservice = yggdrasilauthenticationservice.createMinecraftSessionService();
              GameProfileRepository gameprofilerepository = yggdrasilauthenticationservice.createProfileRepository();
-             UserCache usercache = new UserCache(gameprofilerepository, new File(file, MinecraftServer.USER_CACHE_FILE.getName()));
--            String s = (String) Optional.ofNullable(optionset.valueOf(optionspec10)).orElse(serverpropertiesloader.getPropertiesHandler().levelName);
-+            String s = (String) Optional.ofNullable(optionSet.valueOf("world")).orElse(serverpropertiesloader.getPropertiesHandler().levelName); // Loom :: change hardcoded location to use optionSet
-             LevelStorage levelstorage = LevelStorage.create(file.toPath());
-             LevelStorage.Session levelstorage_session = levelstorage.createSession(s);
+             GameProfileCache gameprofilecache = new GameProfileCache(gameprofilerepository, new File(file, MinecraftServer.USERID_CACHE_FILE.getName()));
+-            String s = (String) Optional.ofNullable(optionset.valueOf(optionspec10)).orElse(dedicatedserversettings.getProperties().levelName);
++            String s = (String) Optional.ofNullable(optionSet.valueOf("world")).orElse(dedicatedserversettings.getProperties().levelName); // Loom
+             LevelStorageSource levelstoragesource = LevelStorageSource.createDefault(file.toPath());
+             LevelStorageSource.LevelStorageAccess levelstoragesource_levelstorageaccess = levelstoragesource.createAccess(s);
  
-             MinecraftServer.convertLevel(levelstorage_session);
-             DataPackSettings datapacksettings = levelstorage_session.getDataPackSettings();
+             MinecraftServer.convertFromRegionFormatIfNeeded(levelstoragesource_levelstorageaccess);
+             DataPackConfig datapackconfig = levelstoragesource_levelstorageaccess.getDataPacks();
 -            boolean flag = optionset.has(optionspec6);
-+            boolean flag = optionSet.has("safeMode"); // Loom :: change to optionSet
++            boolean flag = optionSet.has("safeMode"); // Loom
  
              if (flag) {
                  Main.LOGGER.warn("Safe mode active, only vanilla datapack will be loaded");
-@@ -147,34 +149,31 @@
-                 LevelInfo levelinfo;
-                 GeneratorOptions generatoroptions;
+@@ -146,34 +148,31 @@
+                 LevelSettings levelsettings;
+                 WorldGenSettings worldgensettings;
  
 -                if (optionset.has(optionspec2)) {
-+                if (optionSet.has("demo")) { // Loom :: change to optionSet
-                     levelinfo = MinecraftServer.DEMO_LEVEL_INFO;
-                     generatoroptions = GeneratorOptions.method_31112(dynamicregistrymanager_impl);
++                if (optionSet.has("demo")) { // Loom
+                     levelsettings = MinecraftServer.DEMO_SETTINGS;
+                     worldgensettings = WorldGenSettings.demoSettings(registryaccess_registryholder);
                  } else {
-                     ServerPropertiesHandler serverpropertieshandler = serverpropertiesloader.getPropertiesHandler();
+                     DedicatedServerProperties dedicatedserverproperties = dedicatedserversettings.getProperties();
  
-                     levelinfo = new LevelInfo(serverpropertieshandler.levelName, serverpropertieshandler.gameMode, serverpropertieshandler.hardcore, serverpropertieshandler.difficulty, false, new GameRules(), datapacksettings1);
--                    generatoroptions = optionset.has(optionspec3) ? serverpropertieshandler.generatorOptions.withBonusChest() : serverpropertieshandler.generatorOptions;
-+                    generatoroptions =  serverpropertieshandler.generatorOptions; // Loom :: removed bonusChest option for multi-world support.
+                     levelsettings = new LevelSettings(dedicatedserverproperties.levelName, dedicatedserverproperties.gamemode, dedicatedserverproperties.hardcore, dedicatedserverproperties.difficulty, false, new GameRules(), datapackconfig1);
+-                    worldgensettings = optionset.has(optionspec3) ? dedicatedserverproperties.worldGenSettings.withBonusChest() : dedicatedserverproperties.worldGenSettings;
++                    worldgensettings =  dedicatedserverproperties.worldGenSettings; // Loom
                  }
  
-                 object = new LevelProperties(levelinfo, generatoroptions, Lifecycle.stable());
+                 object = new PrimaryLevelData(levelsettings, worldgensettings, Lifecycle.stable());
              }
  
 -            if (optionset.has(optionspec4)) {
--                forceUpgradeWorld(levelstorage_session, Schemas.getFixer(), optionset.has(optionspec5), () -> {
-+            if (optionSet.has("forceUpgrade")) { // Loom :: change to optionSet
-+                forceUpgradeWorld(levelstorage_session, Schemas.getFixer(), optionSet.has("eraseCache"), () -> { // Loom :: change to optionSet
+-                forceUpgrade(levelstoragesource_levelstorageaccess, DataFixers.getDataFixer(), optionset.has(optionspec5), () -> {
++            if (optionSet.has("forceUpgrade")) { // Loom
++                forceUpgrade(levelstoragesource_levelstorageaccess, DataFixers.getDataFixer(), optionSet.has("eraseCache"), () -> {
                      return true;
-                 }, ((SaveProperties) object).getGeneratorOptions().getWorlds());
+                 }, ((WorldData) object).worldGenSettings().levels());
              }
  
-             levelstorage_session.backupLevelDataFile(dynamicregistrymanager_impl, (SaveProperties) object);
-+            final SaveProperties finalObject = (SaveProperties) object; // Loom :: decompile error
-             final MinecraftDedicatedServer minecraftdedicatedserver = (MinecraftDedicatedServer) MinecraftServer.startServer((thread) -> {
--                MinecraftDedicatedServer minecraftdedicatedserver1 = new MinecraftDedicatedServer(thread, dynamicregistrymanager_impl, levelstorage_session, resourcepackmanager, serverresourcemanager, object, serverpropertiesloader, Schemas.getFixer(), minecraftsessionservice, gameprofilerepository, usercache, WorldGenerationProgressLogger::new);
-+                MinecraftDedicatedServer minecraftdedicatedserver1 = new MinecraftDedicatedServer(optionSet, thread, dynamicregistrymanager_impl, levelstorage_session, resourcepackmanager, serverresourcemanager, finalObject, serverpropertiesloader, Schemas.getFixer(), minecraftsessionservice, gameprofilerepository, usercache, WorldGenerationProgressLogger::new); // Loom :: add optionSet and fix decompile error
+             levelstoragesource_levelstorageaccess.saveDataTag(registryaccess_registryholder, (WorldData) object);
++            final WorldData finalWorldData = (WorldData) object; // Loom :: decompile error
+             final DedicatedServer dedicatedserver = (DedicatedServer) MinecraftServer.spin((thread) -> {
+-                DedicatedServer dedicatedserver1 = new DedicatedServer(thread, registryaccess_registryholder, levelstoragesource_levelstorageaccess, packrepository, serverresources, object, dedicatedserversettings, DataFixers.getDataFixer(), minecraftsessionservice, gameprofilerepository, gameprofilecache, LoggerChunkProgressListener::new);
++                DedicatedServer dedicatedserver1 = new DedicatedServer(optionSet, thread, registryaccess_registryholder, levelstoragesource_levelstorageaccess, packrepository, serverresources, finalWorldData, dedicatedserversettings, DataFixers.getDataFixer(), minecraftsessionservice, gameprofilerepository, gameprofilecache, LoggerChunkProgressListener::new); // Loom
  
--                minecraftdedicatedserver1.setServerName((String) optionset.valueOf(optionspec8));
--                minecraftdedicatedserver1.setServerPort((Integer) optionset.valueOf(optionspec11));
--                minecraftdedicatedserver1.setDemo(optionset.has(optionspec2));
--                minecraftdedicatedserver1.setServerId((String) optionset.valueOf(optionspec12));
+-                dedicatedserver1.setSingleplayerName((String) optionset.valueOf(optionspec8));
+-                dedicatedserver1.setPort((Integer) optionset.valueOf(optionspec11));
+-                dedicatedserver1.setDemo(optionset.has(optionspec2));
+-                dedicatedserver1.setId((String) optionset.valueOf(optionspec12));
 -                boolean flag1 = !optionset.has(optionspec) && !optionset.valuesOf(nonoptionargumentspec).contains("nogui");
-+                boolean flag1 = !optionSet.has("nogui") && !optionSet.nonOptionArguments().contains("nogui"); // Loom :: change to optionSet
++                boolean flag1 = !optionSet.has("nogui") && !optionSet.nonOptionArguments().contains("nogui"); // Loom
  
                  if (flag1 && !GraphicsEnvironment.isHeadless()) {
-                     minecraftdedicatedserver1.createGui();
+                     dedicatedserver1.showGui();

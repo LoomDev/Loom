@@ -1,0 +1,26 @@
+--- a/net/minecraft/server/level/ServerPlayerGameMode.java
++++ b/net/minecraft/server/level/ServerPlayerGameMode.java
+@@ -97,6 +97,7 @@
+                 float f = this.incrementDestroyProgress(blockstate, this.delayedDestroyPos, this.delayedTickStart);
+ 
+                 if (f >= 1.0F) {
++                    if (org.loomdev.loom.event.LoomEventDispatcher.onEntityBlockBreak(level, delayedDestroyPos, player).isCancelled()) return; // Loom :: fire EntityBlockBreakEvent
+                     this.hasDelayedDestroy = false;
+                     this.destroyBlock(this.delayedDestroyPos);
+                 }
+@@ -226,7 +227,6 @@
+         } else {
+             this.player.connection.send(new ClientboundBlockBreakAckPacket(blockpos, this.level.getBlockState(blockpos), serverboundplayeractionpacket_action, false, s));
+         }
+-
+     }
+ 
+     public boolean destroyBlock(BlockPos blockpos) {
+@@ -238,6 +238,7 @@
+             BlockEntity blockentity = this.level.getBlockEntity(blockpos);
+             Block block = blockstate.getBlock();
+ 
++            if (org.loomdev.loom.event.LoomEventDispatcher.onEntityBlockBreak(level, blockpos, player).isCancelled()) return false; // Loom :: fire EntityBlockBreakEvent
+             if (block instanceof GameMasterBlock && !this.player.canUseGameMasterBlocks()) {
+                 this.level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
+                 return false;

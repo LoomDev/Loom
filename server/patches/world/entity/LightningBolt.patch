@@ -1,0 +1,27 @@
+--- a/net/minecraft/world/entity/LightningBolt.java
++++ b/net/minecraft/world/entity/LightningBolt.java
+@@ -28,7 +28,7 @@
+     private int life;
+     public long seed;
+     private int flashes;
+-    private boolean visualOnly;
++    public boolean visualOnly; // Loom :: private -> public (LightningBoltEntity)
+     @Nullable
+     private ServerPlayer cause;
+ 
+@@ -116,6 +116,7 @@
+             BlockState blockstate = BaseFireBlock.getState(this.level, blockpos);
+ 
+             if (this.level.getBlockState(blockpos).isAir() && blockstate.canSurvive(this.level, blockpos)) {
++                if (!org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(level, blockpos, this, org.loomdev.api.event.block.BlockIgniteEvent.Cause.LIGHTNING).isCancelled()) // Loom :: fire BlockIgniteEvent
+                 this.level.setBlockAndUpdate(blockpos, blockstate);
+             }
+ 
+@@ -124,6 +125,7 @@
+ 
+                 blockstate = BaseFireBlock.getState(this.level, blockpos1);
+                 if (this.level.getBlockState(blockpos1).isAir() && blockstate.canSurvive(this.level, blockpos1)) {
++                    if (!org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(level, blockpos1, this, org.loomdev.api.event.block.BlockIgniteEvent.Cause.LIGHTNING).isCancelled()) // Loom :: fire BlockIgniteEvent
+                     this.level.setBlockAndUpdate(blockpos1, blockstate);
+                 }
+             }

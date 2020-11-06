@@ -1,0 +1,31 @@
+--- a/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -74,8 +74,8 @@
+     @Nullable
+     private final TextFilterClient textFilterClient;
+ 
+-    public DedicatedServer(Thread thread, RegistryAccess.RegistryHolder registryaccess_registryholder, LevelStorageSource.LevelStorageAccess levelstoragesource_levelstorageaccess, PackRepository packrepository, ServerResources serverresources, WorldData worlddata, DedicatedServerSettings dedicatedserversettings, DataFixer datafixer, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, GameProfileCache gameprofilecache, ChunkProgressListenerFactory chunkprogresslistenerfactory) {
+-        super(thread, registryaccess_registryholder, levelstoragesource_levelstorageaccess, worlddata, packrepository, Proxy.NO_PROXY, datafixer, serverresources, minecraftsessionservice, gameprofilerepository, gameprofilecache, chunkprogresslistenerfactory);
++    public DedicatedServer(joptsimple.OptionSet optionSet, Thread thread, RegistryAccess.RegistryHolder registryaccess_registryholder, LevelStorageSource.LevelStorageAccess levelstoragesource_levelstorageaccess, PackRepository packrepository, ServerResources serverresources, WorldData worlddata, DedicatedServerSettings dedicatedserversettings, DataFixer datafixer, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, GameProfileCache gameprofilecache, ChunkProgressListenerFactory chunkprogresslistenerfactory) { // Loom
++        super(optionSet, thread, registryaccess_registryholder, levelstoragesource_levelstorageaccess, worlddata, packrepository, Proxy.NO_PROXY, datafixer, serverresources, minecraftsessionservice, gameprofilerepository, gameprofilecache, chunkprogresslistenerfactory); // Loom
+         this.settings = dedicatedserversettings;
+         this.rconConsoleSource = new RconConsoleSource(this);
+         this.textFilterClient = null;
+@@ -172,6 +172,7 @@
+             GameProfileCache.setUsesAuthentication(this.usesAuthentication());
+             DedicatedServer.LOGGER.info("Preparing level \"{}\"", this.getLevelIdName());
+             this.loadLevel();
++            ((org.loomdev.loom.plugin.PluginManagerImpl) this.loomServer.getPluginManager()).enableAll(); // Loom :: enable plugins after world load
+             long j = Util.getNanos() - i;
+             String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
+ 
+@@ -553,7 +554,9 @@
+         return this.settings.getProperties().requireResourcePack;
+     }
+ 
++    /* // Loom start :: decompile error
+     public PlayerList getPlayerList() {
+         return this.getPlayerList();
+     }
++     */ // Loom end
+ }

@@ -7,7 +7,8 @@ import org.loomdev.api.entity.effect.StatusEffect;
 
 public interface Mooshroom extends Cow, Shearable {
 
-    @Nullable StatusEffect getStewEffect();
+    @Nullable
+    StatusEffect getStewEffect();
 
     void setStewEffect(@Nullable StatusEffect effect);
 
@@ -16,7 +17,8 @@ public interface Mooshroom extends Cow, Shearable {
      *
      * @return The {@link Variant} of the Mooshroom.
      */
-    @NotNull Variant getVariant();
+    @NotNull
+    Variant getVariant();
 
     /**
      * Set the {@link Variant} of the Mooshroom.
@@ -26,8 +28,8 @@ public interface Mooshroom extends Cow, Shearable {
     void setVariant(@NotNull Variant variant);
 
     enum Variant {
+
         RED,
         BROWN
     }
-
 }

@@ -1,9 +1,7 @@
 package org.loomdev.api.helpers;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
 import org.junit.jupiter.api.Assertions;
 
 import java.lang.reflect.Field;
@@ -29,7 +27,7 @@ public final class LoomAssert {
 
         Map<String, String> missingTypes = Maps.newHashMap();
 
-        for (Identifier id : registry.getIds()) {
+        for (var id : registry.keySet()) {
             String typeName = id.getPath().toUpperCase().replace(".", "_");
             if (!loomTypes.contains(typeName)) {
                 missingTypes.put(typeName, id.toString());

@@ -1,0 +1,23 @@
+--- a/net/minecraft/world/entity/monster/Strider.java
++++ b/net/minecraft/world/entity/monster/Strider.java
+@@ -346,7 +346,7 @@
+     }
+ 
+     public boolean isSensitiveToWater() {
+-        return true;
++        return sensitiveToWaterOverride.orElse(true); // Loom
+     }
+ 
+     public boolean isOnFire() {
+@@ -436,9 +436,11 @@
+         return new AgeableMob.AgeableMobGroupData(0.0F);
+     }
+ 
++    /* // Loom start :: decompile error
+     public AgeableMob getBreedOffspring(ServerLevel serverlevel, AgeableMob ageablemob) {
+         return this.getBreedOffspring(serverlevel, ageablemob);
+     }
++     */ // Loom end
+ 
+     static class StriderGoToLavaGoal extends MoveToBlockGoal {
+ 

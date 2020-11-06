@@ -5,10 +5,10 @@ import org.jetbrains.annotations.NotNull;
 public class Sound {
 
     private final @NotNull SoundEvent effect;
-    private final @NotNull SoundCategory category;
+    private final @NotNull SoundSource category;
     private final float volume, pitch;
 
-    private Sound(@NotNull SoundEvent effect, @NotNull SoundCategory category, float volume, float pitch) {
+    private Sound(@NotNull SoundEvent effect, @NotNull SoundSource category, float volume, float pitch) {
         this.effect = effect;
         this.category = category;
         this.volume = volume;
@@ -19,7 +19,7 @@ public class Sound {
         return effect;
     }
 
-    public SoundCategory getSoundCategory() {
+    public SoundSource getSoundCategory() {
         return category;
     }
 
@@ -37,7 +37,7 @@ public class Sound {
 
     public static final class Builder {
         private final @NotNull SoundEvent type;
-        private @NotNull SoundCategory category = SoundCategory.MASTER;
+        private @NotNull SoundSource category = SoundSource.MASTER;
         private float volume = 1.0f;
         private float pitch = 1.0f;
 
@@ -45,7 +45,7 @@ public class Sound {
             this.type = type;
         }
 
-        public Builder category(@NotNull SoundCategory category) {
+        public Builder category(@NotNull SoundSource category) {
             this.category = category;
             return this;
         }

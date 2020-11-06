@@ -5,7 +5,7 @@ import org.loomdev.api.entity.Saddleable;
 /**
  * Represents a Strider entity.
  */
-public interface Strider extends AnimalEntity, Saddleable {
+public interface Strider extends Animal, Saddleable {
     // TODO possible add things todo with the stick steering item
 
     /**
@@ -13,13 +13,13 @@ public interface Strider extends AnimalEntity, Saddleable {
      *
      * @return True is the Strider is cold, otherwise False.
      */
-    boolean isCold();
+    boolean isShivering();
 
     /**
      * Set whether the Strider is cold.
      *
-     * @param flag True is cold, otherwise False.
+     * @param shivering True is cold, otherwise False.
      */
-    void setCold(boolean flag);
+    void setShivering(boolean shivering);
 
 }

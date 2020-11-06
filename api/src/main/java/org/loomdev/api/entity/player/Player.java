@@ -3,6 +3,7 @@ package org.loomdev.api.entity.player;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.LivingEntity;
@@ -18,9 +19,9 @@ public interface Player extends LivingEntity {
 
     boolean isConnected();
 
-    boolean isSneaking();
+    boolean isCrouching();
 
-    void setSneaking(boolean sneaking);
+    void setCrouching(boolean crouching);
 
     boolean isSprinting();
 
@@ -40,15 +41,15 @@ public interface Player extends LivingEntity {
 
     void sendActionbar(@NotNull String message);
 
-    void sendActionbar(@NotNull TextComponent message);
+    void sendActionbar(@NotNull Component message);
 
     void sendTitle(@NotNull String top, @NotNull String bottom);
 
-    void sendTitle(@NotNull TextComponent top, @NotNull TextComponent bottom);
+    void sendTitle(@NotNull Component top, @NotNull Component bottom);
 
     void sendTitle(@NotNull String top, @NotNull String bottom, int fadeIn, int stay, int fadeOut);
 
-    void sendTitle(@NotNull TextComponent top, @NotNull TextComponent bottom, int fadeIn, int stay, int fadeOut);
+    void sendTitle(@NotNull Component top, @NotNull Component bottom, int fadeIn, int stay, int fadeOut);
 
     void showPlayer(@NotNull Player player);
 
@@ -56,23 +57,28 @@ public interface Player extends LivingEntity {
 
     boolean canSee(@NotNull Player player);
 
-    @NotNull Optional<InetSocketAddress> getAddress();
+    @Nullable
+    InetSocketAddress getRemoteAddress();
 
     int getProtocolVersion();
 
-    @NotNull Component getTabListName();
+    @Nullable
+    Component getTabListName();
 
     void setTabListName(@NotNull Component text);
 
-    @NotNull Optional<Component> getTabListHeader();
+    @Nullable
+    Component getTabListHeader();
 
     void setTabListHeader(@NotNull Component text);
 
-    @NotNull Optional<Component> getTabListFooter();
+    @Nullable
+    Component getTabListFooter();
 
     void setTabListFooter(@NotNull Component text);
 
-    @NotNull Optional<Location> getBedLocation();
+    @Nullable
+    Location getBedLocation();
 
     void setBedLocation(@NotNull Location bed);
 

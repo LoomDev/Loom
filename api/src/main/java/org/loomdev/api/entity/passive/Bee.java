@@ -6,7 +6,7 @@ import org.loomdev.api.world.Location;
 
 import java.util.Optional;
 
-public interface Bee extends AnimalEntity, Angerable {
+public interface Bee extends Animal, Angerable {
 
     Optional<Location> getFlowerLocation();
 

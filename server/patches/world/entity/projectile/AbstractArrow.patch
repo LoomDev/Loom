@@ -1,0 +1,40 @@
+--- a/net/minecraft/world/entity/projectile/AbstractArrow.java
++++ b/net/minecraft/world/entity/projectile/AbstractArrow.java
+@@ -49,16 +49,17 @@
+     private static final EntityDataAccessor<Byte> PIERCE_LEVEL = SynchedEntityData.defineId(AbstractArrow.class, EntityDataSerializers.BYTE);
+     @Nullable
+     private BlockState lastState;
+-    protected boolean inGround;
++    public boolean inGround; // Loom :: protected -> public (AbstractArrowImpl)
+     protected int inGroundTime;
+     public AbstractArrow.Pickup pickup;
+     public int shakeTime;
+     private int life;
+     private double baseDamage;
+-    private int knockback;
++    public int knockback; // Loom :: private -> public (AbstractArrowImpl)
+     private SoundEvent soundEvent;
+     private IntOpenHashSet piercingIgnoreEntityIds;
+     private List<Entity> piercedAndKilledEntities;
++    public float waterInertia = 0.6F; // Loom :: (AbstractArrowImpl)
+ 
+     protected AbstractArrow(EntityType<? extends AbstractArrow> entitytype, Level level) {
+         super(entitytype, level);
+@@ -496,7 +497,7 @@
+         }
+     }
+ 
+-    protected abstract ItemStack getPickupItem();
++    public abstract ItemStack getPickupItem(); // Loom :: protected -> public (AbstractArrowImpl)
+ 
+     protected boolean isMovementNoisy() {
+         return false;
+@@ -577,7 +578,7 @@
+     }
+ 
+     protected float getWaterInertia() {
+-        return 0.6F;
++        return waterInertia; // Loom :: (AbstractArrowImpl)
+     }
+ 
+     public void setNoPhysics(boolean flag) {

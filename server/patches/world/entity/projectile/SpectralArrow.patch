@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/projectile/SpectralArrow.java
++++ b/net/minecraft/world/entity/projectile/SpectralArrow.java
+@@ -12,7 +12,7 @@
+ 
+ public class SpectralArrow extends AbstractArrow {
+ 
+-    private int duration = 200;
++    public int duration = 200; // Loom :: private -> public (SpectralArrowImpl)
+ 
+     public SpectralArrow(EntityType<? extends SpectralArrow> entitytype, Level level) {
+         super(entitytype, level);
+@@ -34,7 +34,7 @@
+ 
+     }
+ 
+-    protected ItemStack getPickupItem() {
++    public ItemStack getPickupItem() { // Loom :: protected -> public (AbstractArrowImpl)
+         return new ItemStack(Items.SPECTRAL_ARROW);
+     }
+ 

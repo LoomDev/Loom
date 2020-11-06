@@ -2,8 +2,8 @@ package org.loomdev.loom.entity;
 
 import com.google.common.collect.ImmutableSet;
 import net.kyori.adventure.text.Component;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.Loom;
@@ -16,45 +16,48 @@ import org.loomdev.loom.util.transformer.TextTransformer;
 
 public class EntityTypeImpl extends GenericWrapped implements EntityType<Entity> {
 
-    private final net.minecraft.entity.EntityType<?> mcEntity;
+    private final net.minecraft.world.entity.EntityType<?> mcEntity;
 
     public EntityTypeImpl(String key) {
         super(key);
-        this.mcEntity = Registry.ENTITY_TYPE.get(new Identifier(key));
+        this.mcEntity = Registry.ENTITY_TYPE.get(new ResourceLocation(key));
     }
 
     @Override
-    public @NotNull SpawnGroup getSpawnGroup() {
-        return Loom.getRegistry().getWrapped(SpawnGroup.class, this.mcEntity.getSpawnGroup().getName());
+    @NotNull
+    public SpawnGroup getSpawnGroup() {
+        return Loom.getRegistry().getWrapped(SpawnGroup.class, mcEntity.getCategory().getName());
     }
 
     @Override
-    public @NotNull ImmutableSet<BlockType> getCanSpawnInside() {
+    @NotNull
+    public ImmutableSet<BlockType> getCanSpawnInside() {
         throw new UnsupportedOperationException("This feature is not yet available."); // TODO implement (needs a fix for mc EntityType class)
     }
 
     @Override
     public boolean isSummonable() {
-        return this.mcEntity.isSummonable();
+        return mcEntity.canSummon();
     }
 
     @Override
     public boolean isFireImmune() {
-        return this.mcEntity.isFireImmune();
+        return mcEntity.fireImmune();
     }
 
     @Override
     public boolean canSpawnFarFromPlayer() {
-        return this.mcEntity.isSpawnableFarFromPlayer();
+        return mcEntity.canSpawnFarFromPlayer();
     }
 
     @Override
     public int maxTrackDistance() {
-        return this.mcEntity.getMaxTrackDistance();
+        return mcEntity.clientTrackingRange();
     }
 
     @Override
-    public @Nullable Component getName() {
-        return TextTransformer.toLoom(this.mcEntity.getName());
+    @Nullable
+    public Component getName() {
+        return TextTransformer.toLoom(mcEntity.getDescription());
     }
 }

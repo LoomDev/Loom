@@ -1,13 +1,13 @@
 package org.loomdev.loom.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.item.ItemType;
-import org.loomdev.api.util.NamespacedKey;
+
 import org.loomdev.loom.util.registry.GenericWrapped;
 
 public class BlockTypeImpl extends GenericWrapped implements BlockType {
@@ -16,27 +16,28 @@ public class BlockTypeImpl extends GenericWrapped implements BlockType {
 
     public BlockTypeImpl(String key) {
         super(key);
-        this.mcBlock = Registry.BLOCK.get(new Identifier(key));
+        this.mcBlock = Registry.BLOCK.get(new ResourceLocation(key));
     }
 
     @Override
     public float getSlipperiness() {
-        return this.mcBlock.getSlipperiness();
+        return mcBlock.getFriction();
     }
 
     @Override
     public float getVelocityMultiplier() {
-        return this.mcBlock.getVelocityMultiplier();
+        return mcBlock.getSpeedFactor();
     }
 
     @Override
     public float getJumpVelocityMultiplier() {
-        return this.mcBlock.getJumpVelocityMultiplier();
+        return mcBlock.getJumpFactor();
     }
 
     @Override
-    public @NotNull ItemType asItem() {
-        Identifier identifier = Registry.ITEM.getId(this.mcBlock.asItem());
-        return Loom.getRegistry().getWrapped(ItemType.class, identifier.toString());
+    @NotNull
+    public ItemType asItem() {
+        var resourceLocation = Registry.ITEM.getKey(mcBlock.asItem());
+        return Loom.getRegistry().getWrapped(ItemType.class, resourceLocation.toString());
     }
 }

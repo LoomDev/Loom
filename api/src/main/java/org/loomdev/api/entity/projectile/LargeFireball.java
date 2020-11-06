@@ -5,5 +5,5 @@ import org.loomdev.api.entity.Explosive;
 /**
  * Represents a large Fireball entity.
  */
-public interface LargeFireball extends SizedFireball, Explosive {
+public interface LargeFireball extends Fireball, Explosive {
 }

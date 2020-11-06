@@ -1,0 +1,59 @@
+--- a/net/minecraft/world/entity/animal/Fox.java
++++ b/net/minecraft/world/entity/animal/Fox.java
+@@ -316,19 +316,19 @@
+         return Fox.Type.byId((Integer) this.entityData.get(Fox.DATA_TYPE_ID));
+     }
+ 
+-    private void setFoxType(Fox.Type fox_type) {
++    public void setFoxType(Fox.Type fox_type) { // Loom :: private -> public (FoxImpl)
+         this.entityData.set(Fox.DATA_TYPE_ID, fox_type.getId());
+     }
+ 
+-    private List<UUID> getTrustedUUIDs() {
++    public List<UUID> getTrustedUUIDs() { // Loom :: private -> public (FoxImpl)
+         List<UUID> list = Lists.newArrayList();
+ 
+-        list.add(((Optional) this.entityData.get(Fox.DATA_TRUSTED_ID_0)).orElse((Object) null));
+-        list.add(((Optional) this.entityData.get(Fox.DATA_TRUSTED_ID_1)).orElse((Object) null));
++        list.add((this.entityData.get(Fox.DATA_TRUSTED_ID_0)).orElse(null)); // Loom :: decompile error
++        list.add((this.entityData.get(Fox.DATA_TRUSTED_ID_1)).orElse(null)); // Loom :: decompile error
+         return list;
+     }
+ 
+-    private void addTrustedUUID(@Nullable UUID uuid) {
++    public void addTrustedUUID(@Nullable UUID uuid) { // Loom :: private -> public (FoxImpl)
+         if (((Optional) this.entityData.get(Fox.DATA_TRUSTED_ID_0)).isPresent()) {
+             this.entityData.set(Fox.DATA_TRUSTED_ID_1, Optional.ofNullable(uuid));
+         } else {
+@@ -404,7 +404,7 @@
+         return this.getFlag(32);
+     }
+ 
+-    private void setSleeping(boolean flag) {
++    public void setSleeping(boolean flag) { // Loom :: private -> public
+         this.setFlag(32, flag);
+     }
+ 
+@@ -650,9 +650,11 @@
+         return true;
+     }
+ 
++    /* // Loom start :: decompile error
+     public AgeableMob getBreedOffspring(ServerLevel serverlevel, AgeableMob ageablemob) {
+         return this.getBreedOffspring(serverlevel, ageablemob);
+     }
++     */ // Loom end
+ 
+     class FoxLookAtPlayerGoal extends LookAtPlayerGoal {
+ 
+@@ -1095,9 +1097,7 @@
+             return livingentity instanceof Fox ? false : (!(livingentity instanceof Chicken) && !(livingentity instanceof Rabbit) && !(livingentity instanceof Monster) ? (livingentity instanceof TamableAnimal ? !((TamableAnimal) livingentity).isTame() : (livingentity instanceof Player && (livingentity.isSpectator() || ((Player) livingentity).isCreative()) ? false : (Fox.this.trusts(livingentity.getUUID()) ? false : !livingentity.isSleeping() && !livingentity.isDiscrete()))) : true);
+         }
+ 
+-        public boolean test(Object object) {
+-            return this.test((LivingEntity) object);
+-        }
++        // Loom :: decompile error
+     }
+ 
+     class SeekShelterGoal extends FleeSunGoal {

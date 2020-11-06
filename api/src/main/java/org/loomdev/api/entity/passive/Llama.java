@@ -2,7 +2,7 @@ package org.loomdev.api.entity.passive;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface Llama extends AbstractDonkey {
+public interface Llama extends ChestedHorse {
 
     int getStrength();
 

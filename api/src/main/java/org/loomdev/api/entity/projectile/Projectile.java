@@ -1,16 +1,17 @@
 package org.loomdev.api.entity.projectile;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.Entity;
 
 import java.util.Optional;
 
 public interface Projectile extends Entity {
 
-    @NotNull Optional<Entity> getOwner();
+    @Nullable
+    Entity getOwner();
 
-    void setOwner(@NotNull Entity entity);
+    void setOwner(@Nullable Entity entity);
 
-    void setVelocity(double d0, double d1, double d2, float f, float f1);
-
+    void shoot(double d0, double d1, double d2, float f, float f1);
 }

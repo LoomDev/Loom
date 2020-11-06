@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/vehicle/Boat.java
++++ b/net/minecraft/world/entity/vehicle/Boat.java
+@@ -381,7 +381,7 @@
+         this.entityData.set(Boat.DATA_ID_PADDLE_RIGHT, flag1);
+     }
+ 
+-    private Boat.Status getStatus() {
++    public Boat.Status getStatus() { // Loom :: private -> public (BoatImpl)
+         Boat.Status boat_status = this.isUnderwater();
+ 
+         if (boat_status != null) {

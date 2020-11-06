@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/entity/monster/ZombieVillager.java
++++ b/net/minecraft/world/entity/monster/ZombieVillager.java
+@@ -50,10 +50,10 @@
+     private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombieVillager.class, EntityDataSerializers.BOOLEAN);
+     private static final EntityDataAccessor<VillagerData> DATA_VILLAGER_DATA = SynchedEntityData.defineId(ZombieVillager.class, EntityDataSerializers.VILLAGER_DATA);
+     private int villagerConversionTime;
+-    private UUID conversionStarter;
++    public UUID conversionStarter; // Loom :: private -> public (ZombieVillagerImpl)
+     private Tag gossips;
+     private CompoundTag tradeOffers;
+-    private int villagerXp;
++    public int villagerXp; // Loom :: private -> public (ZombieVillagerImpl)
+ 
+     public ZombieVillager(EntityType<? extends ZombieVillager> entitytype, Level level) {
+         super(entitytype, level);
+@@ -68,7 +68,7 @@
+ 
+     public void addAdditionalSaveData(CompoundTag compoundtag) {
+         super.addAdditionalSaveData(compoundtag);
+-        DataResult dataresult = VillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getVillagerData());
++        DataResult<Tag> dataresult = VillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getVillagerData()); // Loom :: decompile error
+         Logger logger = ZombieVillager.LOGGER;
+ 
+         logger.getClass();

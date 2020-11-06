@@ -1,9 +1,9 @@
 package org.loomdev.loom.item.property;
 
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.item.Enchantment;
@@ -20,8 +20,8 @@ public class EnchantmentsItemProperty implements ItemProperty<EnchantmentData> {
 
     @Override
     public EnchantmentData get(@NotNull ItemStack itemStack) {
-        net.minecraft.item.ItemStack mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
-        ListTag listTag = mcStack.getEnchantments();
+        var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
+        ListTag listTag = mcStack.getEnchantmentTags();
         Map<Enchantment, Integer> enchants = new HashMap<>();
         listTag.forEach(tag -> {
             CompoundTag ct = (CompoundTag) tag;
@@ -34,13 +34,13 @@ public class EnchantmentsItemProperty implements ItemProperty<EnchantmentData> {
 
     @Override
     public void apply(@NotNull ItemStack itemStack, @NotNull EnchantmentData enchantmentData) {
-        net.minecraft.item.ItemStack mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
+        var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
         CompoundTag compoundTag = mcStack.getOrCreateTag();
         compoundTag.remove("Enchantments"); // remove all
 
         for (Map.Entry<Enchantment, Integer> enchantments : enchantmentData.getEnchantments().entrySet()) {
-            net.minecraft.enchantment.Enchantment mcEnchantment = Registry.ENCHANTMENT.get(new Identifier(enchantments.getKey().getKey().getKey()));
-            mcStack.addEnchantment(mcEnchantment, enchantments.getValue());
+            var mcEnchantment = Registry.ENCHANTMENT.get(new ResourceLocation(enchantments.getKey().getKey().getKey()));
+            mcStack.enchant(mcEnchantment, enchantments.getValue());
         }
     }
 

@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/animal/AbstractFish.java
++++ b/net/minecraft/world/entity/animal/AbstractFish.java
+@@ -78,7 +78,7 @@
+         this.entityData.define(AbstractFish.FROM_BUCKET, false);
+     }
+ 
+-    private boolean fromBucket() {
++    public boolean fromBucket() { // Loom :: private -> public
+         return (Boolean) this.entityData.get(AbstractFish.FROM_BUCKET);
+     }
+ 
+@@ -103,7 +103,7 @@
+         Predicate predicate = EntitySelector.NO_SPECTATORS;
+ 
+         predicate.getClass();
+-        goalselector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, predicate::test));
++        goalselector.addGoal(2, new AvoidEntityGoal<Player>(this, Player.class, 8.0F, 1.6D, 1.4D, predicate::test)); // Loom :: decompile error
+         this.goalSelector.addGoal(4, new AbstractFish.FishSwimGoal(this));
+     }
+ 

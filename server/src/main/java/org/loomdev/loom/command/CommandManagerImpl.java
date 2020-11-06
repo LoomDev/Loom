@@ -3,11 +3,8 @@ package org.loomdev.loom.command;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
-import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.commands.CommandSourceStack;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.Command;
@@ -93,7 +90,7 @@ public class CommandManagerImpl implements CommandManager {
 
     public void internalReload() {
         commands.forEach((name, command) -> {
-            var wrapper = new LoomCommandWrapper(server, this, server.getMinecraftServer().getCommandManager().getDispatcher())
+            var wrapper = new LoomCommandWrapper(server, this, server.getMinecraftServer().getCommands().getDispatcher())
                     .registerCommand(name);
         });
 
@@ -106,7 +103,7 @@ public class CommandManagerImpl implements CommandManager {
                 ));*/
     }
 
-    private @NotNull CommandSource getSource(@NotNull CommandContext<ServerCommandSource> context) {
+    private @NotNull CommandSource getSource(@NotNull CommandContext<CommandSourceStack> context) {
         if (context.getSource().getEntity() != null) {
             return context.getSource().getEntity().getLoomEntity();
         }

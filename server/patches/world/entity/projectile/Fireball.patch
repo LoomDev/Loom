@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/projectile/Fireball.java
++++ b/net/minecraft/world/entity/projectile/Fireball.java
+@@ -13,7 +13,7 @@
+ 
+ public abstract class Fireball extends AbstractHurtingProjectile {
+ 
+-    private static final EntityDataAccessor<ItemStack> DATA_ITEM_STACK = SynchedEntityData.defineId(Fireball.class, EntityDataSerializers.ITEM_STACK);
++    public static final EntityDataAccessor<ItemStack> DATA_ITEM_STACK = SynchedEntityData.defineId(Fireball.class, EntityDataSerializers.ITEM_STACK); // Loom :: private -> public (FireballImpl)
+ 
+     public Fireball(EntityType<? extends Fireball> entitytype, Level level) {
+         super(entitytype, level);

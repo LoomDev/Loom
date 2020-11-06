@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/vehicle/MinecartSpawner.java
++++ b/net/minecraft/world/entity/vehicle/MinecartSpawner.java
+@@ -11,7 +11,7 @@
+ 
+ public class MinecartSpawner extends AbstractMinecart {
+ 
+-    private final BaseSpawner spawner = new BaseSpawner() {
++    public final BaseSpawner spawner = new BaseSpawner() { // Loom :: private -> public (SpawnerMinecartImpl)
+         public void broadcastEvent(Level level, BlockPos blockpos, int i) {
+             level.broadcastEntityEvent(MinecartSpawner.this, (byte) i);
+         }

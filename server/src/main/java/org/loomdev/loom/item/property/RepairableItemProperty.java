@@ -16,19 +16,19 @@ public class RepairableItemProperty implements ItemProperty<RepairableData> {
 
     @Override
     public @Nullable RepairableData get(@NotNull ItemStack itemStack) {
-        net.minecraft.item.ItemStack mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
+        var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
 
         CompoundTag tag = mcStack.getTag();
         if (tag == null || !tag.contains(REPAIR_COST, NbtType.INT)) {
             return new RepairableDataImpl(0);
         }
 
-        return new RepairableDataImpl(mcStack.getRepairCost());
+        return new RepairableDataImpl(mcStack.getBaseRepairCost());
     }
 
     @Override
     public void apply(@NotNull ItemStack itemStack, @NotNull RepairableData repairableData) {
-        net.minecraft.item.ItemStack mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
+        var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
 
         if (repairableData.hasRepairCost()) {
             mcStack.setRepairCost(repairableData.getRepairCost());

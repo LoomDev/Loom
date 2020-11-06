@@ -1,0 +1,18 @@
+--- a/net/minecraft/world/level/material/LavaFluid.java
++++ b/net/minecraft/world/level/material/LavaFluid.java
+@@ -50,6 +50,7 @@
+ 
+                     if (blockstate.isAir()) {
+                         if (this.hasFlammableNeighbours(level, blockpos1)) {
++                            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(level, blockpos1, blockpos, org.loomdev.api.event.block.BlockIgniteEvent.Cause.LAVA).isCancelled()) continue; // Loom :: fire BlockIgniteEvent
+                             level.setBlockAndUpdate(blockpos1, BaseFireBlock.getState(level, blockpos1));
+                             return;
+                         }
+@@ -66,6 +67,7 @@
+                     }
+ 
+                     if (level.isEmptyBlock(blockpos2.above()) && this.isFlammable(level, blockpos2)) {
++                        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(level, blockpos2.above(), blockpos, org.loomdev.api.event.block.BlockIgniteEvent.Cause.LAVA).isCancelled()) continue; // Loom :: fire BlockIgniteEvent
+                         level.setBlockAndUpdate(blockpos2.above(), BaseFireBlock.getState(level, blockpos2));
+                     }
+                 }

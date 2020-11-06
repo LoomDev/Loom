@@ -8,7 +8,7 @@ import org.loomdev.api.village.VillagerVariant;
 /**
  * Represent a Villager entity.
  */
-public interface Villager extends AbstractTrader {
+public interface Villager extends AbstractVillager {
 
     @NotNull
     VillagerVariant getVariant();

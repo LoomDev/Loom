@@ -1,6 +1,7 @@
 package org.loomdev.api.entity;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.effect.StatusEffect;
 import org.loomdev.api.entity.effect.StatusEffectType;
 import org.loomdev.api.item.ItemStack;
@@ -17,7 +18,8 @@ public interface LivingEntity extends Damageable {
 
     @NotNull List<StatusEffect> getStatusEffects();
 
-    @NotNull Optional<StatusEffect> getStatusEffect(@NotNull StatusEffectType type);
+    @Nullable
+    StatusEffect getStatusEffect(@NotNull StatusEffectType type);
 
     void addStatusEffect(@NotNull StatusEffect effect);
 
@@ -27,13 +29,13 @@ public interface LivingEntity extends Damageable {
 
     boolean hasStatusEffect(@NotNull StatusEffectType type);
 
-    int getAir();
+    int getAirSupply();
 
-    void setAir(int ticks);
+    void setAirSupply(int ticks);
 
-    int getMaxAir();
+    int getMaxAirSupply();
 
-    void setMaxAir(int ticks);
+    void setMaxAirSupply(int ticks);
 
     void resetMaxAir();
 
@@ -67,35 +69,40 @@ public interface LivingEntity extends Damageable {
 
     boolean isHolding(@NotNull Predicate<ItemType> predicate);
 
-    @NotNull Optional<ItemStack> getItemInHand(@NotNull Hand hand);
+    @Nullable
+    ItemStack getItemInHand(@NotNull Hand hand);
 
     void setItemInHand(@NotNull Hand hand, @NotNull ItemStack itemStack);
 
-    @NotNull Optional<ItemStack> getBoots();
+    @Nullable
+    ItemStack getBoots();
 
     void setBoots(@NotNull ItemStack itemStack);
 
-    @NotNull Optional<ItemStack> getLeggings();
+    @Nullable
+    ItemStack getLeggings();
 
     void setLeggings(@NotNull ItemStack itemStack);
 
-    @NotNull Optional<ItemStack> getChestplate();
+    @Nullable
+    ItemStack getChestplate();
 
     void setChestplate(@NotNull ItemStack itemStack);
 
-    @NotNull Optional<ItemStack> getHelmet();
+    @Nullable
+    ItemStack getHelmet();
 
-    void  setHelmet(@NotNull ItemStack itemStack);
+    void setHelmet(@NotNull ItemStack itemStack);
 
     float getMovementSpeed();
 
     void setMovementSpeed(float speed);
 
-    boolean isHurtByWater();
+    boolean isSensitiveToWater();
 
-    void setHurtByWater(boolean flag);
+    void setSensitiveToWater(boolean flag);
 
-    void resetHurtByWater();
+    void resetSensitiveToWater();
 
     boolean canSee(@NotNull Entity entity);
 
@@ -109,9 +116,10 @@ public interface LivingEntity extends Damageable {
 
     boolean isUsingItem();
 
-    @NotNull Hand getActiveHand();
+    @NotNull
+    Hand getActiveHand();
 
-    void setCurrentHand(Hand hand);
+    void setActiveHand(@NotNull Hand hand);
 
     boolean isGliding();
 

@@ -1,0 +1,35 @@
+--- a/net/minecraft/world/entity/animal/horse/Llama.java
++++ b/net/minecraft/world/entity/animal/horse/Llama.java
+@@ -56,9 +56,9 @@
+ public class Llama extends AbstractChestedHorse implements RangedAttackMob {
+ 
+     private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.WHEAT, Blocks.HAY_BLOCK.asItem());
+-    private static final EntityDataAccessor<Integer> DATA_STRENGTH_ID = SynchedEntityData.defineId(Llama.class, EntityDataSerializers.INT);
++    public static final EntityDataAccessor<Integer> DATA_STRENGTH_ID = SynchedEntityData.defineId(Llama.class, EntityDataSerializers.INT); // Loom :: private -> public
+     private static final EntityDataAccessor<Integer> DATA_SWAG_ID = SynchedEntityData.defineId(Llama.class, EntityDataSerializers.INT);
+-    private static final EntityDataAccessor<Integer> DATA_VARIANT_ID = SynchedEntityData.defineId(Llama.class, EntityDataSerializers.INT);
++    public static final EntityDataAccessor<Integer> DATA_VARIANT_ID = SynchedEntityData.defineId(Llama.class, EntityDataSerializers.INT); // Loom :: private -> public
+     private boolean didSpit;
+     @Nullable
+     private Llama caravanHead;
+@@ -332,7 +332,7 @@
+     }
+ 
+     public int getMaxTemper() {
+-        return 30;
++        return maxTemperOverride.orElse(30); // Loom :: Max temper override
+     }
+ 
+     public boolean canMate(Animal animal) {
+@@ -448,9 +448,11 @@
+         this.spit(livingentity);
+     }
+ 
++    /* // Loom start :: decompile error
+     public AgeableMob getBreedOffspring(ServerLevel serverlevel, AgeableMob ageablemob) {
+         return this.getBreedOffspring(serverlevel, ageablemob);
+     }
++     */ // Loom end
+ 
+     static class LlamaAttackWolfGoal extends NearestAttackableTargetGoal<Wolf> {
+ 

@@ -1,5 +1,6 @@
 package org.loomdev.loom.entity;
 
+import net.minecraft.world.entity.MobCategory;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.SpawnGroup;
 import org.loomdev.api.util.NamespacedKey;
@@ -7,40 +8,41 @@ import org.loomdev.api.util.NamespacedKey;
 public class SpawnGroupImpl implements SpawnGroup {
 
     private final NamespacedKey namespacedKey;
-    private final net.minecraft.entity.SpawnGroup mcSpawnGroup;
+    private final MobCategory mcSpawnGroup;
 
     public SpawnGroupImpl(String key) {
         this.namespacedKey = NamespacedKey.of(key);
-        this.mcSpawnGroup = net.minecraft.entity.SpawnGroup.byName(this.namespacedKey.getKey());
+        this.mcSpawnGroup = MobCategory.byName(namespacedKey.getKey());
     }
 
     @Override
     public int getCapacity() {
-        return this.mcSpawnGroup.getCapacity();
+        return mcSpawnGroup.getMaxInstancesPerChunk();
     }
 
     @Override
     public boolean isPeaceful() {
-        return this.mcSpawnGroup.isPeaceful();
+        return mcSpawnGroup.isFriendly();
     }
 
     @Override
     public boolean isAnimal() {
-        return this.mcSpawnGroup.isAnimal();
+        return mcSpawnGroup.isPersistent();
     }
 
     @Override
     public int getImmediateDespawnRange() {
-        return this.mcSpawnGroup.getImmediateDespawnRange();
+        return mcSpawnGroup.getDespawnDistance();
     }
 
     @Override
     public int getDespawnStartRange() {
-        return this.mcSpawnGroup.getDespawnStartRange();
+        return mcSpawnGroup.getNoDespawnDistance();
     }
 
     @Override
-    public @NotNull NamespacedKey getKey() {
-        return this.namespacedKey;
+    @NotNull
+    public NamespacedKey getKey() {
+        return namespacedKey;
     }
 }

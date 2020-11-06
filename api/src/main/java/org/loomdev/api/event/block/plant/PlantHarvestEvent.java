@@ -1,15 +1,10 @@
 package org.loomdev.api.event.block.plant;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.block.Block;
 import org.loomdev.api.entity.Entity;
-import org.loomdev.api.entity.passive.AnimalEntity;
-import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.Cancellable;
 import org.loomdev.api.event.block.BlockEvent;
-
-import java.util.Optional;
 
 /**
  * Fired when a plant block is harvested and reverted back to its

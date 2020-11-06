@@ -19,9 +19,8 @@ public class LoreItemProperty implements ItemProperty<LoreData> {
 
     @Override
     public LoreData get(@NotNull ItemStack itemStack) {
-        net.minecraft.item.ItemStack mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
-
-        CompoundTag compoundtag = mcStack.getSubTag("display");
+        var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
+        var compoundtag = mcStack.getTagElement("display");
 
         if (compoundtag != null && compoundtag.contains("Lore")) {
             ListTag listTag = compoundtag.getList("Lore", 8); // 8 == StringTag as type
@@ -44,15 +43,15 @@ public class LoreItemProperty implements ItemProperty<LoreData> {
 
     @Override
     public void apply(@NotNull ItemStack itemStack, @NotNull LoreData loreData) {
-        net.minecraft.item.ItemStack mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
+        var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
+        var compoundTag = mcStack.getOrCreateTagElement("display");
 
-        CompoundTag compoundTag = mcStack.getOrCreateSubTag("display");
         if (loreData.getLore().isEmpty()) {
             compoundTag.remove("Lore");
         } else {
             ListTag listTag = new ListTag();
             for (Component component : loreData.getLore()) {
-                listTag.add(StringTag.of(GsonComponentSerializer.gson().serialize(component)));
+                listTag.add(StringTag.valueOf(GsonComponentSerializer.gson().serialize(component)));
             }
 
             compoundTag.put("Lore", listTag);

@@ -1,24 +1,25 @@
 package org.loomdev.loom.entity.projectile;
 
-import net.minecraft.entity.projectile.SpectralArrowEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.SpectralArrow;
 
-public class SpectralArrowImpl extends PersistentProjectileImpl implements SpectralArrow {
+public class SpectralArrowImpl extends AbstractArrowImpl implements SpectralArrow {
 
-    public SpectralArrowImpl(SpectralArrowEntity entity) {
+    public SpectralArrowImpl(net.minecraft.world.entity.projectile.SpectralArrow entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    @NotNull
+    public EntityType<SpectralArrow> getType() {
         return EntityType.SPECTRAL_ARROW;
     }
 
     @Override
-    public @NotNull SpectralArrowEntity getMinecraftEntity() {
-        return (SpectralArrowEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.projectile.SpectralArrow getMinecraftEntity() {
+        return (net.minecraft.world.entity.projectile.SpectralArrow) super.getMinecraftEntity();
     }
 
     @Override

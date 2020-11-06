@@ -1,0 +1,43 @@
+--- a/net/minecraft/world/entity/animal/Ocelot.java
++++ b/net/minecraft/world/entity/animal/Ocelot.java
+@@ -53,7 +53,7 @@
+ public class Ocelot extends Animal {
+ 
+     private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.COD, Items.SALMON);
+-    private static final EntityDataAccessor<Boolean> DATA_TRUSTING = SynchedEntityData.defineId(Ocelot.class, EntityDataSerializers.BOOLEAN);
++    public static final EntityDataAccessor<Boolean> DATA_TRUSTING = SynchedEntityData.defineId(Ocelot.class, EntityDataSerializers.BOOLEAN); // Loom :: private -> public
+     private Ocelot.OcelotAvoidEntityGoal<Player> ocelotAvoidPlayersGoal;
+     private Ocelot.OcelotTemptGoal temptGoal;
+ 
+@@ -66,7 +66,7 @@
+         return (Boolean) this.entityData.get(Ocelot.DATA_TRUSTING);
+     }
+ 
+-    private void setTrusting(boolean flag) {
++    public void setTrusting(boolean flag) { // Loom :: private -> public
+         this.entityData.set(Ocelot.DATA_TRUSTING, flag);
+         this.reassessTrustingGoals();
+     }
+@@ -251,9 +251,11 @@
+         return super.finalizeSpawn(serverlevelaccessor, difficultyinstance, mobspawntype, (SpawnGroupData) spawngroupdata, compoundtag);
+     }
+ 
++    /* // Loom start :: decompile error
+     public AgeableMob getBreedOffspring(ServerLevel serverlevel, AgeableMob ageablemob) {
+         return this.getBreedOffspring(serverlevel, ageablemob);
+     }
++     */ // Loom end
+ 
+     static class OcelotTemptGoal extends TemptGoal {
+ 
+@@ -274,9 +276,7 @@
+         private final Ocelot ocelot;
+ 
+         public OcelotAvoidEntityGoal(Ocelot ocelot, Class<T> oclass, float f, double d0, double d1) {
+-            Predicate predicate = EntitySelector.NO_CREATIVE_OR_SPECTATOR;
+-
+-            super(ocelot, oclass, f, d0, d1, predicate::test);
++            super(ocelot, oclass, f, d0, d1, EntitySelector.NO_CREATIVE_OR_SPECTATOR::test); // Loom :: decompile error
+             this.ocelot = ocelot;
+         }
+ 

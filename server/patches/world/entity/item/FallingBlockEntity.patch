@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/item/FallingBlockEntity.java
++++ b/net/minecraft/world/entity/item/FallingBlockEntity.java
+@@ -43,7 +43,7 @@
+ 
+ public class FallingBlockEntity extends Entity {
+ 
+-    private BlockState blockState;
++    public BlockState blockState; // Loom :: private -> public
+     public int time;
+     public boolean dropItem;
+     private boolean cancelDrop;

@@ -10,7 +10,7 @@ public interface WitherSkull extends ExplosiveProjectile {
      *
      * @return True if the wither skull is charger, otherwise false.
      */
-    boolean isCharged();
+    boolean isCharged(); // TODO ???? what is charged??
 
     /**
      * Set whether the wither skull is charged.

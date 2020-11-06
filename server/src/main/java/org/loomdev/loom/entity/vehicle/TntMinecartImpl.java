@@ -1,35 +1,37 @@
 package org.loomdev.loom.entity.vehicle;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.entity.vehicle.TntMinecartEntity;
+import net.minecraft.world.entity.vehicle.MinecartTNT;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.vehicle.TntMinecart;
 
-public class TntMinecartImpl extends MinecartImpl implements TntMinecart {
+public class TntMinecartImpl extends AbstractMinecartImpl implements TntMinecart {
 
-    public TntMinecartImpl(TntMinecartEntity entity) {
+    public TntMinecartImpl(MinecartTNT entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    @NotNull
+    public EntityType<TntMinecart> getType() {
         return EntityType.TNT_MINECART;
     }
 
     @Override
-    public @NotNull TntMinecartEntity getMinecraftEntity() {
-        return (TntMinecartEntity) super.getMinecraftEntity();
+    @NotNull
+    public MinecartTNT getMinecraftEntity() {
+        return (MinecartTNT) super.getMinecraftEntity();
     }
 
     @Override
     public int getRemainingFuseTicks() {
-        return getMinecraftEntity().fuseTicks;
+        return getMinecraftEntity().fuse;
     }
 
     @Override
     public void setRemainingFuseTicks(int ticks) {
-        getMinecraftEntity().fuseTicks = ticks;
+        getMinecraftEntity().fuse = ticks;
     }
 
     @Override
@@ -38,9 +40,8 @@ public class TntMinecartImpl extends MinecartImpl implements TntMinecart {
     }
 
     @Override
-    public void setExplosionPower(float power) {
+    public void setExplosionPower(int power) {
         Preconditions.checkArgument(power >= 0, "Explosion power can't be less than zero.");
         getMinecraftEntity().loomExplosionPower = power;
     }
-
 }

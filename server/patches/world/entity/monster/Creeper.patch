@@ -1,0 +1,53 @@
+--- a/net/minecraft/world/entity/monster/Creeper.java
++++ b/net/minecraft/world/entity/monster/Creeper.java
+@@ -40,14 +40,16 @@
+ 
+ public class Creeper extends Monster {
+ 
++    public void setCharged(boolean charged) { this.entityData.set(DATA_IS_POWERED, charged); } // Loom start
+     private static final EntityDataAccessor<Integer> DATA_SWELL_DIR = SynchedEntityData.defineId(Creeper.class, EntityDataSerializers.INT);
+     private static final EntityDataAccessor<Boolean> DATA_IS_POWERED = SynchedEntityData.defineId(Creeper.class, EntityDataSerializers.BOOLEAN);
+     private static final EntityDataAccessor<Boolean> DATA_IS_IGNITED = SynchedEntityData.defineId(Creeper.class, EntityDataSerializers.BOOLEAN);
+     private int oldSwell;
+-    private int swell;
+-    private int maxSwell = 30;
++    public int swell; // Loom :: private -> public
++    public int maxSwell = 30; // Loom :: private -> public
+     private int explosionRadius = 3;
+     private int droppedSkulls;
++    public float explosionPower = -1F; // Loom
+ 
+     public Creeper(EntityType<? extends Creeper> entitytype, Level level) {
+         super(entitytype, level);
+@@ -188,6 +190,7 @@
+ 
+     public void thunderHit(ServerLevel serverlevel, LightningBolt lightningbolt) {
+         super.thunderHit(serverlevel, lightningbolt);
++        if (!org.loomdev.loom.event.LoomEventDispatcher.onCreeperCharge(this, lightningbolt).isCancelled()) // Loom :: fire CreeperChargeEvent
+         this.entityData.set(Creeper.DATA_IS_POWERED, true);
+     }
+ 
+@@ -209,13 +212,13 @@
+         }
+     }
+ 
+-    private void explodeCreeper() {
++    public void explodeCreeper() { // Loom :: private -> public
+         if (!this.level.isClientSide) {
+             Explosion.BlockInteraction explosion_blockinteraction = this.level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
+             float f = this.isPowered() ? 2.0F : 1.0F;
+ 
+             this.dead = true;
+-            this.level.explode(this, this.getX(), this.getY(), this.getZ(), (float) this.explosionRadius * f, explosion_blockinteraction);
++            this.level.explode(this, this.getX(), this.getY(), this.getZ(), this.explosionPower != -1F ? this.explosionPower : (float) this.explosionRadius * f, explosion_blockinteraction); // Loom
+             this.discard();
+             this.spawnLingeringCloud();
+         }
+@@ -251,6 +254,7 @@
+     }
+ 
+     public void ignite() {
++        if (!org.loomdev.loom.event.LoomEventDispatcher.onCreeperIgnite(this).isCancelled()) // Loom :: fire CreeperIgniteEvent
+         this.entityData.set(Creeper.DATA_IS_IGNITED, true);
+     }
+ 

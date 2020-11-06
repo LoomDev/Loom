@@ -3,12 +3,12 @@ package org.loomdev.loom.entity;
 import com.google.common.base.Preconditions;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.tag.FluidTags;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.Loom;
@@ -17,7 +17,6 @@ import org.loomdev.api.entity.damage.DamageSource;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.math.BoundingBox;
 import org.loomdev.api.math.Vector3d;
-import org.loomdev.api.sound.Sound;
 import org.loomdev.api.sound.SoundEvent;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
@@ -30,76 +29,83 @@ import java.util.stream.Collectors;
 
 public abstract class EntityImpl implements Entity {
 
-    private final net.minecraft.entity.Entity mcEntity;
+    private final net.minecraft.world.entity.Entity mcEntity;
 
-    public EntityImpl(net.minecraft.entity.Entity entity) {
+    public EntityImpl(net.minecraft.world.entity.Entity entity) {
         mcEntity = entity;
     }
 
-    public @NotNull net.minecraft.entity.Entity getMinecraftEntity() {
-        return this.mcEntity;
+    @NotNull
+    public net.minecraft.world.entity.Entity getMinecraftEntity() {
+        return mcEntity;
     }
 
     @Override
     public int getEntityId() {
-        return this.mcEntity.getEntityId();
+        return mcEntity.getId();
     }
 
     @Override
-    public @NotNull UUID getUniqueId() {
-        return this.mcEntity.getUuid();
+    @NotNull
+    public UUID getUniqueId() {
+        return mcEntity.getUUID();
     }
 
     @Override
-    public @NotNull String getName() {
-        return this.mcEntity.getName().getString(); // TODO check
+    @NotNull
+    public String getName() {
+        return mcEntity.getName().getString(); // TODO check
     }
 
     @Override
-    public @NotNull Component getDisplayName() {
-        return TextTransformer.toLoom(this.mcEntity.getDisplayName()); // TODO check
+    @NotNull
+    public Component getDisplayName() {
+        return TextTransformer.toLoom(mcEntity.getDisplayName()); // TODO check
     }
 
     @Nullable
     @Override
     public Component getCustomName() {
-        return this.mcEntity.getCustomName() == null ? null : TextTransformer.toLoom(this.mcEntity.getCustomName());
+        return mcEntity.getCustomName() == null ? null : TextTransformer.toLoom(mcEntity.getCustomName());
     }
 
     @Override
     public void setCustomName(@Nullable Component component) {
-        this.mcEntity.setCustomName(component == null ? null : TextTransformer.toMinecraft(component));
+        mcEntity.setCustomName(component == null ? null : TextTransformer.toMinecraft(component));
     }
 
     @Override
     public boolean hasCustomName() {
-        return this.mcEntity.hasCustomName();
+        return mcEntity.hasCustomName();
     }
 
     @Override
     public boolean isCustomNameVisible() {
-        return this.mcEntity.isCustomNameVisible();
+        return mcEntity.isCustomNameVisible();
     }
 
     @Override
     public void setCustomNameVisible(boolean flag) {
-        this.mcEntity.setCustomNameVisible(flag);
+        mcEntity.setCustomNameVisible(flag);
     }
 
     @Override
-    public @NotNull BoundingBox getBoundingBox() {
-        Box mcBox = this.mcEntity.getBoundingBox();
+    @NotNull
+    public BoundingBox getBoundingBox() {
+        AABB mcBox = mcEntity.getBoundingBox();
         return new BoundingBox(mcBox.minX, mcBox.minY, mcBox.minZ, mcBox.maxX, mcBox.maxY, mcBox.maxZ);
     }
 
     @Override
-    public @NotNull Location getLocation() {
-        return new Location(getWorld(), this.mcEntity.getX(), this.mcEntity.getY(), this.mcEntity.getZ(), 0, 0); // TODO yaw and pitch
+    @NotNull
+    public Location getLocation() {
+        return new Location(getWorld(), mcEntity.getX(), mcEntity.getY(), mcEntity.getZ(), 0, 0); // TODO yaw and pitch
     }
 
     @Override
-    public @NotNull World getWorld() {
-        return Loom.getServer().getWorld(((ServerWorld) this.mcEntity.getEntityWorld()).worldProperties.getLevelName()).get(); // TODO use UUID
+    @NotNull
+    public World getWorld() {
+        return Loom.getServer().getWorld(((ServerLevel) mcEntity.level).serverLevelData.getLevelName()); // TODO use UUID, check null
     }
 
     @Override
@@ -111,7 +117,7 @@ public abstract class EntityImpl implements Entity {
     public boolean teleport(@NotNull Location location) {
         Preconditions.checkNotNull(location);
 
-        if (this.mcEntity.hasPassengers() || this.mcEntity.removed) {
+        if (mcEntity.isVehicle() || mcEntity.removalReason != null) {
             return false;
         }
 
@@ -123,29 +129,30 @@ public abstract class EntityImpl implements Entity {
             return true;
         }
 
-        this.mcEntity.updatePositionAndAngles(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
-        this.mcEntity.setHeadYaw(location.getYaw());
+        mcEntity.moveTo(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+        mcEntity.setYHeadRot(location.getYaw());
         return true;
     }
 
     @Override
     public void remove() {
-        this.mcEntity.remove();
+        mcEntity.outOfWorld();
     }
 
     @Override
     public void destroy() {
-        getMinecraftEntity().destroy();
+        getMinecraftEntity().outOfWorld();
     }
 
     @Override
     public boolean isDead() {
-        return !this.mcEntity.isAlive();
+        return !mcEntity.isAlive();
     }
 
     @Override
-    public @NotNull Optional<Entity> getVehicle() {
-        return Optional.ofNullable(this.mcEntity.getVehicle()).map(net.minecraft.entity.Entity::getLoomEntity);
+    @NotNull
+    public Optional<Entity> getVehicle() {
+        return Optional.ofNullable(this.mcEntity.getVehicle()).map(net.minecraft.world.entity.Entity::getLoomEntity);
     }
 
     @Override
@@ -155,12 +162,13 @@ public abstract class EntityImpl implements Entity {
 
     @Override
     public boolean isOnVehicle() {
-        return this.mcEntity.hasVehicle();
+        return mcEntity.isPassenger();
     }
 
     @Override
-    public @NotNull List<Entity> getPassengers() {
-        return this.mcEntity.getPassengerList().stream().map(net.minecraft.entity.Entity::getLoomEntity).collect(Collectors.toList());
+    @NotNull
+    public List<Entity> getPassengers() {
+        return mcEntity.getPassengers().stream().map(net.minecraft.world.entity.Entity::getLoomEntity).collect(Collectors.toList());
     }
 
     @Override
@@ -170,11 +178,12 @@ public abstract class EntityImpl implements Entity {
     }
 
     @Override
-    public @NotNull Optional<Entity> getPassenger() {
+    @NotNull
+    public Optional<Entity> getPassenger() {
         if (!hasPassengers()) {
             return Optional.empty();
         }
-        return Optional.of(this.mcEntity.getPassengerList().get(0).getLoomEntity());
+        return Optional.of(this.mcEntity.getPassengers().get(0).getLoomEntity());
     }
 
     @Override
@@ -194,95 +203,96 @@ public abstract class EntityImpl implements Entity {
 
     @Override
     public boolean hasPassengers() {
-        return this.mcEntity.hasPassengers();
+        return mcEntity.isVehicle();
     }
 
     @Override
     public void ejectPassengers() {
         if (this.hasPassengers()) {
-            this.mcEntity.removeAllPassengers();
+            mcEntity.ejectPassengers();
         }
     }
 
     @Override
-    public @NotNull Vector3d getVelocity() {
-        Vec3d vec = this.mcEntity.getVelocity();
+    @NotNull
+    public Vector3d getVelocity() {
+        var vec = mcEntity.getDeltaMovement();
         return new Vector3d(vec.x, vec.y, vec.z);
     }
 
     @Override
     public void setVelocity(@NotNull Vector3d vec) {
-        this.mcEntity.setVelocity(new Vec3d(vec.getX(), vec.getY(), vec.getZ()));
+        mcEntity.setDeltaMovement(new Vec3(vec.getX(), vec.getY(), vec.getZ()));
     }
 
     @Override
     public void addVelocity(@NotNull Vector3d vec) {
-        getMinecraftEntity().addVelocity(vec.getX(), vec.getY(), vec.getZ());
+        getMinecraftEntity().setDeltaMovement(getMinecraftEntity().getDeltaMovement().add(vec.getX(), vec.getY(), vec.getZ()));
     }
 
     @Override
     public boolean isOnGround() {
-        return this.mcEntity.isOnGround();
+        return mcEntity.isOnGround();
     }
 
     @Override
     public boolean isSilent() {
-        return this.mcEntity.isSilent();
+        return mcEntity.isSilent();
     }
 
     @Override
     public void setSilent(boolean flag) {
-        this.mcEntity.setSilent(flag);
+        mcEntity.setSilent(flag);
     }
 
     @Override
     public boolean isGlowing() {
-        return this.mcEntity.isGlowing();
+        return mcEntity.isGlowing();
     }
 
     @Override
     public void setGlowing(boolean flag) {
-        this.mcEntity.setGlowing(flag);
+        mcEntity.setGlowing(flag);
     }
 
     @Override
     public boolean hasNoGravity() {
-        return this.mcEntity.hasNoGravity();
+        return mcEntity.isNoGravity();
     }
 
     @Override
     public void setNoGravity(boolean flag) {
-        this.mcEntity.setNoGravity(flag);
+        mcEntity.setNoGravity(flag);
     }
 
     @Override
     public int getAge() {
-        return this.mcEntity.age;
+        return this.mcEntity.tickCount;
     }
 
     @Override
     public int getPortalCooldown() {
-        return this.mcEntity.netherPortalCooldown;
+        return mcEntity.portalCooldown;
     }
 
     @Override
     public void setPortalCooldown(int ticks) {
-        this.mcEntity.netherPortalCooldown = ticks;
+        this.mcEntity.portalCooldown = ticks;
     }
 
     @Override
     public int getFireTicks() {
-        return this.mcEntity.getFireTicks();
+        return mcEntity.getRemainingFireTicks();
     }
 
     @Override
     public void setFireTicks(int ticks) {
-        this.mcEntity.setFireTicks(ticks);
+        mcEntity.setRemainingFireTicks(ticks);
     }
 
     @Override
-    public void setOnFireFor(int ticks) {
-        this.mcEntity.setOnFireFor(ticks);
+    public void setOnFireFor(int ticks) { // TOOD prolly doesn't work as intended
+        mcEntity.setSecondsOnFire(ticks);
     }
 
     @Override
@@ -292,47 +302,47 @@ public abstract class EntityImpl implements Entity {
 
     @Override
     public double getFallDistance() {
-        return this.mcEntity.fallDistance;
+        return mcEntity.fallDistance;
     }
 
     @Override
     public void setFallDistance(float distance) {
-        this.mcEntity.fallDistance = distance;
+        mcEntity.fallDistance = distance;
     }
 
     @Override
     public double getEyeY() {
-        return this.mcEntity.getEyeY();
+        return mcEntity.getEyeY();
     }
 
     @Override
     public boolean isSwimming() {
-        return this.mcEntity.isSwimming();
+        return mcEntity.isSwimming();
     }
 
     @Override
     public void setSwimming(boolean flag) {
-        this.mcEntity.setSwimming(flag);
+        mcEntity.setSwimming(flag);
     }
 
     @Override
     public boolean isInvisible() {
-        return this.mcEntity.isInvisible();
+        return mcEntity.isInvisible();
     }
 
     @Override
     public void setInvisible(boolean flag) {
-        this.mcEntity.setInvisible(flag);
+        mcEntity.setInvisible(flag);
     }
 
     @Override
     public boolean isInvulnerable() {
-        return this.mcEntity.isInvulnerable();
+        return mcEntity.isInvulnerable();
     }
 
     @Override
     public void setInvulnerable(boolean flag) {
-        this.mcEntity.setInvulnerable(flag);
+        mcEntity.setInvulnerable(flag);
     }
 
     @Override
@@ -347,17 +357,17 @@ public abstract class EntityImpl implements Entity {
 
     @Override
     public boolean hasWings() {
-        return getMinecraftEntity().hasWings();
+        return getMinecraftEntity().makeFlySound();
     }
 
     @Override
     public void emitSound(@NotNull SoundEvent sound, float volume, float pitch) {
-        getMinecraftEntity().playSound(Registry.SOUND_EVENT.get(new Identifier(sound.getKey().toString())), volume, pitch);
+        getMinecraftEntity().playSound(Registry.SOUND_EVENT.get(new ResourceLocation(sound.getKey().toString())), volume, pitch);
     }
 
     @Override
     public boolean isFireResistant() {
-        return getMinecraftEntity().isFireImmune();
+        return getMinecraftEntity().fireImmune();
     }
 
     @Override
@@ -372,22 +382,22 @@ public abstract class EntityImpl implements Entity {
 
     @Override
     public boolean isTouchingWater() {
-        return getMinecraftEntity().isTouchingWater();
+        return getMinecraftEntity().isInWater();
     }
 
     @Override
     public boolean isBeingRainedOn() {
-        return getMinecraftEntity().isBeingRainedOn();
+        return getMinecraftEntity().isInWaterOrRain();
     }
 
     @Override
     public boolean isInsideBubbleColumn() {
-        return getMinecraftEntity().isInsideBubbleColumn();
+        return getMinecraftEntity().isInWaterOrBubble();
     }
 
     @Override
     public boolean isSubmergedInWater() {
-        return getMinecraftEntity().isSubmergedInWater();
+        return getMinecraftEntity().isUnderWater();
     }
 
     @Override
@@ -397,12 +407,12 @@ public abstract class EntityImpl implements Entity {
 
     @Override
     public boolean isSubmergedInLava() {
-        return getMinecraftEntity().isSubmergedIn(FluidTags.LAVA);
+        return getMinecraftEntity().isEyeInFluid(FluidTags.LAVA);
     }
 
     @Override
     public float getBrightnessAtEyes() {
-        return getMinecraftEntity().getBrightnessAtEyes();
+        return getMinecraftEntity().getBrightness();
     }
 
     @Override
@@ -412,32 +422,32 @@ public abstract class EntityImpl implements Entity {
 
     @Override
     public double squaredDistanceTo(@NotNull Entity entity) {
-        return getMinecraftEntity().squaredDistanceTo(((EntityImpl) entity).getMinecraftEntity());
+        return getMinecraftEntity().distanceToSqr(((EntityImpl) entity).getMinecraftEntity());
     }
 
     @Override
     public void pushAwayFrom(@NotNull Entity entity) {
-        getMinecraftEntity().pushAwayFrom(((EntityImpl) entity).getMinecraftEntity());
+        getMinecraftEntity().push(((EntityImpl) entity).getMinecraftEntity());
     }
 
     @Override
     public void dropStack(@NotNull ItemStack itemStack) {
-        getMinecraftEntity().dropStack(null); // TODO transform
+        // getMinecraftEntity().dropStack(null); // TODO transform
     }
 
     @Override
     public void dropStack(@NotNull ItemStack itemStack, float yOffset) {
-        getMinecraftEntity().dropStack(null, yOffset); // TODO transform
+        // getMinecraftEntity().dropStack(null, yOffset); // TODO transform
     }
 
     @Override
     public boolean isInsideWall() {
-        return getMinecraftEntity().isInsideWall();
+        return getMinecraftEntity().isInWall();
     }
 
     @Override
     public boolean canFly() {
-        return getMinecraftEntity().canFly();
+        return getMinecraftEntity().isPushedByFluid();
     }
 
     @Override
@@ -446,8 +456,10 @@ public abstract class EntityImpl implements Entity {
     }
 
     @Override
-    public void sendMessage(@NotNull String s) { }
+    public void sendMessage(@NotNull String s) {
+    }
 
     @Override
-    public void sendMessage(@NotNull Component component) { }
+    public void sendMessage(@NotNull Component component) {
+    }
 }

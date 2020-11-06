@@ -1,0 +1,16 @@
+--- a/net/minecraft/world/item/BucketItem.java
++++ b/net/minecraft/world/item/BucketItem.java
+@@ -118,6 +118,13 @@
+                 int j = blockpos.getY();
+                 int k = blockpos.getZ();
+ 
++                // Loom start :: fire BlockEvaporateEvent
++                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporate(level, blockpos).isCancelled()) {
++                    level.setBlock(blockpos, this.content.defaultFluidState().createLegacyBlock(), 11);
++                    this.playEmptySound(player, level, blockpos);
++                    return true;
++                }
++                // Loom end
+                 level.playSound(player, blockpos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 2.6F + (level.random.nextFloat() - level.random.nextFloat()) * 0.8F);
+ 
+                 for (int l = 0; l < 8; ++l) {

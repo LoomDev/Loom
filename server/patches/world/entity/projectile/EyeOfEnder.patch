@@ -1,0 +1,27 @@
+--- a/net/minecraft/world/entity/projectile/EyeOfEnder.java
++++ b/net/minecraft/world/entity/projectile/EyeOfEnder.java
+@@ -22,11 +22,11 @@
+ public class EyeOfEnder extends Entity {
+ 
+     private static final EntityDataAccessor<ItemStack> DATA_ITEM_STACK = SynchedEntityData.defineId(EyeOfEnder.class, EntityDataSerializers.ITEM_STACK);
+-    private double tx;
+-    private double ty;
+-    private double tz;
++    public double tx; // Loom :: private -> public (EyeOfEnderImpl)
++    public double ty; // Loom :: private -> public (EyeOfEnderImpl)
++    public double tz; // Loom :: private -> public (EyeOfEnderImpl)
+     private int life;
+-    private boolean surviveAfterDeath;
++    public boolean surviveAfterDeath; // Loom :: private -> public (EyeOfEnderImpl)
+ 
+     public EyeOfEnder(EntityType<? extends EyeOfEnder> entitytype, Level level) {
+         super(entitytype, level);
+@@ -46,7 +46,7 @@
+ 
+     }
+ 
+-    private ItemStack getItemRaw() {
++    public ItemStack getItemRaw() { // Loom :: private -> public (EyeOfEnderImpl)
+         return (ItemStack) this.getEntityData().get(EyeOfEnder.DATA_ITEM_STACK);
+     }
+ 

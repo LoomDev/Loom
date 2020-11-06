@@ -1,4 +1,4 @@
 package org.loomdev.api.entity.mob;
 
-public interface Monster {
+public interface Monster extends PathableMob, Enemy {
 }

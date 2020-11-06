@@ -3,7 +3,7 @@ package org.loomdev.api.entity.passive;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface TameableEntity extends AnimalEntity {
+public interface TameableEntity extends Animal {
 
     Optional<UUID> getOwnerId();
 

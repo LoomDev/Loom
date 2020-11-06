@@ -1,23 +1,25 @@
 package org.loomdev.loom.entity.decoration;
 
-import net.minecraft.entity.decoration.LeashKnotEntity;
+import net.minecraft.world.entity.decoration.LeashFenceKnotEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.LeashKnot;
 
-public class LeashKnotImpl extends DecorationEntityImpl implements LeashKnot {
+public class LeashKnotImpl extends HangingEntityImpl implements LeashKnot {
 
-    public LeashKnotImpl(LeashKnotEntity entity) {
+    public LeashKnotImpl(LeashFenceKnotEntity entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    @NotNull
+    public EntityType<LeashKnot> getType() {
         return EntityType.LEASH_KNOT;
     }
 
     @Override
-    public @NotNull LeashKnotEntity getMinecraftEntity() {
-        return (LeashKnotEntity) super.getMinecraftEntity();
+    @NotNull
+    public LeashFenceKnotEntity getMinecraftEntity() {
+        return (LeashFenceKnotEntity) super.getMinecraftEntity();
     }
 }

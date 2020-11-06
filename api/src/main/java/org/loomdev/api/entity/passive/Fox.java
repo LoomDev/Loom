@@ -5,14 +5,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.UUID;
 
-public interface Fox extends AnimalEntity {
+public interface Fox extends Animal {
 
     /**
      * Get the {@link Variant} of the Fox.
      *
      * @return The {@link Variant} of the Fox.
      */
-    @NotNull Variant getVariant();
+    @NotNull
+    Variant getVariant();
 
     /**
      * Set the {@link Variant} of the Fox.
@@ -27,15 +28,18 @@ public interface Fox extends AnimalEntity {
 
     void setSleeping(boolean flag);
 
-    boolean isChasing();
+    boolean isPouncing();
 
-    void setChasing(boolean flag);
+    void setPouncing(boolean pouncing);
 
     boolean isRollingHead();
 
     void setRollingHead(boolean flag);
 
+    @NotNull
     List<UUID> getTrusted();
+
+    void trust(@NotNull UUID uuid);
 
     enum Variant {
         RED,

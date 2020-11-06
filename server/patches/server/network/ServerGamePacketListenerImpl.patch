@@ -1,0 +1,65 @@
+--- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -321,7 +321,7 @@
+         TextFilter textfilter = this.player.getTextFilter();
+ 
+         if (textfilter != null) {
+-            ((CompletableFuture) bifunction.apply(textfilter, t0)).thenAcceptAsync((optional) -> {
++            (bifunction.apply(textfilter, t0)).thenAcceptAsync((optional) -> { // Loom :: decompile error
+                 optional.ifPresent(consumer1);
+             }, blockableeventloop);
+         } else {
+@@ -447,7 +447,7 @@
+ 
+     public void handleRecipeBookSeenRecipePacket(ServerboundRecipeBookSeenRecipePacket serverboundrecipebookseenrecipepacket) {
+         PacketUtils.ensureRunningOnSameThread(serverboundrecipebookseenrecipepacket, this, this.player.getLevel());
+-        Optional optional = this.server.getRecipeManager().byKey(serverboundrecipebookseenrecipepacket.getRecipe());
++        Optional<? extends net.minecraft.world.item.crafting.Recipe<?>> optional = this.server.getRecipeManager().byKey(serverboundrecipebookseenrecipepacket.getRecipe()); // Loom :: decompile error
+         ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
+ 
+         optional.ifPresent(serverrecipebook::removeHighlight);
+@@ -730,8 +730,8 @@
+ 
+                 int i;
+ 
+-                for (i = 0; i < listtag.size(); ++i) {
+-                    list.add(listtag.getString(i));
++                for (int j = 0; j < listtag.size(); ++j) { // Loom :: decompile error
++                    list.add(listtag.getString(j)); // Loom :: decompile error
+                 }
+ 
+                 i = serverboundeditbookpacket.getSlot();
+@@ -1100,7 +1100,10 @@
+     public void onDisconnect(Component component) {
+         ServerGamePacketListenerImpl.LOGGER.info("{} lost connection: {}", this.player.getName().getString(), component.getString());
+         this.server.invalidateStatus();
+-        this.server.getPlayerList().broadcastMessage((new TranslatableComponent("multiplayer.player.left", new Object[]{this.player.getDisplayName()})).withStyle(ChatFormatting.YELLOW), ChatType.SYSTEM, Util.NIL_UUID);
++        // Loom start :: fire PlayerDisconnectEvent
++        var event = org.loomdev.loom.event.LoomEventDispatcher.onPlayerDisconnect(player, (new TranslatableComponent("multiplayer.player.left", new Object[]{this.player.getDisplayName()})).withStyle(ChatFormatting.YELLOW));
++        if (event.getMessage() != null) this.server.getPlayerList().broadcastMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMessage()), ChatType.SYSTEM, Util.NIL_UUID);
++        // Loom end
+         this.player.disconnect();
+         this.server.getPlayerList().remove(this.player);
+         TextFilter textfilter = this.player.getTextFilter();
+@@ -1191,7 +1194,12 @@
+             } else {
+                 TranslatableComponent translatablecomponent = new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s});
+ 
+-                this.server.getPlayerList().broadcastMessage(translatablecomponent, ChatType.CHAT, this.player.getUUID());
++                // Loom start :: fire PlayerChatEvent
++                org.loomdev.loom.event.LoomEventDispatcher.onPlayerChat(player, translatablecomponent).thenAccept(event -> {
++                    if (event.isCancelled() || event.getMessage() == null) return;
++                    this.server.getPlayerList().broadcastMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMessage()), ChatType.CHAT, this.player.getUUID());
++                });
++                // Loom end
+             }
+ 
+             this.chatSpamTickCount += 20;
+@@ -1481,6 +1489,7 @@
+                 return;
+             }
+ 
++            if (!org.loomdev.loom.event.LoomEventDispatcher.onSignWrite(serverlevel, blockpos, player, list).isCancelled()) // Loom :: fire SignWriteEvent
+             for (int i = 0; i < list.size(); ++i) {
+                 signblockentity.setMessage(i, new TextComponent((String) list.get(i)));
+             }

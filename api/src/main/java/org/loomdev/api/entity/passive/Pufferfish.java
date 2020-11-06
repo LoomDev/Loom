@@ -25,6 +25,7 @@ public interface Pufferfish extends Fish {
      * Represents the puffed up state of a {@link Pufferfish}.
      */
     enum PuffState {
+
         DEFLATED,
         HALF_PUFFED_UP,
         PUFFED_UP

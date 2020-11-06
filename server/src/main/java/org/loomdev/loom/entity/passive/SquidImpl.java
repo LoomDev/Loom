@@ -1,23 +1,24 @@
 package org.loomdev.loom.entity.passive;
 
-import net.minecraft.entity.passive.SquidEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.Squid;
 
-public class SquidImpl extends WaterCreatureImpl implements Squid {
+public class SquidImpl extends WaterAnimalImpl implements Squid {
 
-    public SquidImpl(SquidEntity entity) {
+    public SquidImpl(net.minecraft.world.entity.animal.Squid entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    @NotNull
+    public EntityType<Squid> getType() {
         return EntityType.SQUID;
     }
 
     @Override
-    public @NotNull SquidEntity getMinecraftEntity() {
-        return (SquidEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.animal.Squid getMinecraftEntity() {
+        return (net.minecraft.world.entity.animal.Squid) super.getMinecraftEntity();
     }
 }

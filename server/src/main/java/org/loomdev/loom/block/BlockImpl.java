@@ -1,7 +1,7 @@
 package org.loomdev.loom.block;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.Block;
 import org.loomdev.api.block.BlockState;
@@ -11,26 +11,26 @@ import org.loomdev.api.world.World;
 
 public class BlockImpl implements Block {
 
-    private final net.minecraft.block.BlockState mcBlock;
-    private final WorldAccess world; // TODO maybe convert to loom world
+    private final net.minecraft.world.level.block.state.BlockState mcBlock;
+    private final Level level; // TODO maybe convert to loom world
     private final BlockPos pos;
 
-    private BlockImpl(WorldAccess world, BlockPos pos) {
-        this.world = world;
+    private BlockImpl(Level world, BlockPos pos) {
+        this.level = world;
         this.pos = pos;
         this.mcBlock = world.getBlockState(pos);
     }
 
-    public static BlockImpl at(WorldAccess world, BlockPos pos) {
+    public static BlockImpl at(Level world, BlockPos pos) {
         return new BlockImpl(world, pos);
     }
 
-    public net.minecraft.block.BlockState getMinecraftBlockState() {
+    public net.minecraft.world.level.block.state.BlockState getMinecraftBlockState() {
         return this.mcBlock;
     }
 
-    public WorldAccess getMinecraftWorld() {
-        return world;
+    public Level getMinecraftWorld() {
+        return level;
     }
 
     public BlockPos getMinecraftPos() {

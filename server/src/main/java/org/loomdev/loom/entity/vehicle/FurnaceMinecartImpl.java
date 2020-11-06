@@ -1,23 +1,25 @@
 package org.loomdev.loom.entity.vehicle;
 
-import net.minecraft.entity.vehicle.FurnaceMinecartEntity;
+import net.minecraft.world.entity.vehicle.MinecartFurnace;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.vehicle.FurnaceMinecart;
 
-public class FurnaceMinecartImpl extends MinecartImpl implements FurnaceMinecart {
+public class FurnaceMinecartImpl extends AbstractMinecartImpl implements FurnaceMinecart {
 
-    public FurnaceMinecartImpl(FurnaceMinecartEntity entity) {
+    public FurnaceMinecartImpl(MinecartFurnace entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType<FurnaceMinecart> getType() {
+    @NotNull
+    public EntityType<FurnaceMinecart> getType() {
         return EntityType.FURNACE_MINECART;
     }
 
     @Override
-    public @NotNull FurnaceMinecartEntity getMinecraftEntity() {
-        return (FurnaceMinecartEntity) super.getMinecraftEntity();
+    @NotNull
+    public MinecartFurnace getMinecraftEntity() {
+        return (MinecartFurnace) super.getMinecraftEntity();
     }
 }

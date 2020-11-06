@@ -1,9 +1,9 @@
 package org.loomdev.loom.world;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.chunk.WorldChunk;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.chunk.LevelChunk;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.Block;
 import org.loomdev.api.world.Chunk;
@@ -12,17 +12,17 @@ import org.loomdev.loom.block.BlockImpl;
 
 public class ChunkImpl implements Chunk {
 
-    private WorldChunk chunk;
+    private LevelChunk chunk;
 
-    public ChunkImpl(WorldChunk mcChunk) {
+    public ChunkImpl(LevelChunk mcChunk) {
         this.chunk = mcChunk;
     }
 
-    public static ChunkImpl from(WorldChunk chunk) {
+    public static ChunkImpl of(LevelChunk chunk) {
         return new ChunkImpl(chunk);
     }
 
-    public WorldChunk getMinecraftChunk() {
+    public LevelChunk getMinecraftChunk() {
         return this.chunk;
     }
 
@@ -38,7 +38,7 @@ public class ChunkImpl implements Chunk {
 
     @Override
     public long getKey() {
-        return ChunkPos.toLong(this.getX(), this.getZ());
+        return ChunkPos.asLong(this.getX(), this.getZ());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ChunkImpl implements Chunk {
         Preconditions.checkArgument(0 <= x && x <= 15, "x-coordinate out of range (expected 0-15, got %s).", x);
         Preconditions.checkArgument(0 <= y && y <= 255, "y-coordinate out of range (expected 0-255, got %s).", x);
         Preconditions.checkArgument(0 <= z && z <= 15, "z-coordinate out of range (expected 0-15, got %s).", x);
-        return BlockImpl.at(getMinecraftChunk().getWorld(), new BlockPos((this.getX() << 4) | this.getX(), y, (this.getZ() << 4) | this.getZ()));
+        return BlockImpl.at(getMinecraftChunk().getLevel(), new BlockPos((this.getX() << 4) | this.getX(), y, (this.getZ() << 4) | this.getZ()));
     }
 
     @Override

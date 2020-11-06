@@ -1,6 +1,6 @@
 package org.loomdev.loom.util.transformer;
 
-import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.world.effect.MobEffectInstance;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.effect.StatusEffect;
 
@@ -10,8 +10,9 @@ public final class StatusEffectTransformer {
         throw new UnsupportedOperationException("StatusEffectTransformer shouldn't be initialized.");
     }
 
-    public static @NotNull StatusEffectInstance toMinecraft(@NotNull StatusEffect effect) {
-        return new StatusEffectInstance(
+    @NotNull
+    public static MobEffectInstance toMinecraft(@NotNull StatusEffect effect) {
+        return new MobEffectInstance(
                 StatusEffectTypeTransformer.toMinecraft(effect.getType()),
                 effect.getDuration(),
                 effect.getAmplifier(),
@@ -21,13 +22,14 @@ public final class StatusEffectTransformer {
         );
     }
 
-    public static StatusEffect toLoom(@NotNull StatusEffectInstance effect) {
-        return StatusEffect.builder(StatusEffectTypeTransformer.toLoom(effect.getEffectType()))
+    @NotNull
+    public static StatusEffect toLoom(@NotNull MobEffectInstance effect) {
+        return StatusEffect.builder(StatusEffectTypeTransformer.toLoom(effect.getEffect()))
                 .duration(effect.getDuration())
                 .amplifier(effect.getAmplifier())
                 .ambient(effect.isAmbient())
-                .showParticles(effect.shouldShowParticles())
-                .showIcon(effect.shouldShowIcon())
+                .showParticles(effect.isVisible())
+                .showIcon(effect.showIcon())
                 .build();
     }
 }

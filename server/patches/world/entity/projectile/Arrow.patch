@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/entity/projectile/Arrow.java
++++ b/net/minecraft/world/entity/projectile/Arrow.java
+@@ -25,7 +25,7 @@
+ 
+     private static final EntityDataAccessor<Integer> ID_EFFECT_COLOR = SynchedEntityData.defineId(Arrow.class, EntityDataSerializers.INT);
+     private Potion potion;
+-    private final Set<MobEffectInstance> effects;
++    public final Set<MobEffectInstance> effects; // Loom :: private -> public
+     private boolean fixedColor;
+ 
+     public Arrow(EntityType<? extends Arrow> entitytype, Level level) {
+@@ -140,7 +140,7 @@
+         return (Integer) this.entityData.get(Arrow.ID_EFFECT_COLOR);
+     }
+ 
+-    private void setFixedColor(int i) {
++    public void setFixedColor(int i) { // Loom :: private -> public
+         this.fixedColor = true;
+         this.entityData.set(Arrow.ID_EFFECT_COLOR, i);
+     }
+@@ -214,7 +214,7 @@
+ 
+     }
+ 
+-    protected ItemStack getPickupItem() {
++    public ItemStack getPickupItem() { // Loom :: protected -> public
+         if (this.effects.isEmpty() && this.potion == Potions.EMPTY) {
+             return new ItemStack(Items.ARROW);
+         } else {

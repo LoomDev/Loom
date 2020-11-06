@@ -1,0 +1,46 @@
+--- a/net/minecraft/world/level/block/FireBlock.java
++++ b/net/minecraft/world/level/block/FireBlock.java
+@@ -164,12 +164,14 @@
+                 boolean flag1 = serverlevel.isHumidAt(blockpos);
+                 int k = flag1 ? -50 : 0;
+ 
+-                this.checkBurnOut(serverlevel, blockpos.east(), 300 + k, random, i);
+-                this.checkBurnOut(serverlevel, blockpos.west(), 300 + k, random, i);
+-                this.checkBurnOut(serverlevel, blockpos.below(), 250 + k, random, i);
+-                this.checkBurnOut(serverlevel, blockpos.above(), 250 + k, random, i);
+-                this.checkBurnOut(serverlevel, blockpos.north(), 300 + k, random, i);
+-                this.checkBurnOut(serverlevel, blockpos.south(), 300 + k, random, i);
++                // Loom start
++                this.checkBurnOut(serverlevel, blockpos.east(), 300 + k, random, i, blockpos);
++                this.checkBurnOut(serverlevel, blockpos.west(), 300 + k, random, i, blockpos);
++                this.checkBurnOut(serverlevel, blockpos.below(), 250 + k, random, i, blockpos);
++                this.checkBurnOut(serverlevel, blockpos.above(), 250 + k, random, i, blockpos);
++                this.checkBurnOut(serverlevel, blockpos.north(), 300 + k, random, i, blockpos);
++                this.checkBurnOut(serverlevel, blockpos.south(), 300 + k, random, i, blockpos);
++                // Loom end
+                 BlockPos.MutableBlockPos blockpos_mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+                 for (int l = -1; l <= 1; ++l) {
+@@ -195,6 +197,7 @@
+                                     if (i2 > 0 && random.nextInt(k1) <= i2 && (!serverlevel.isRaining() || !this.isNearRain(serverlevel, blockpos_mutableblockpos))) {
+                                         int j2 = Math.min(15, i + random.nextInt(5) / 4);
+ 
++                                        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(serverlevel, blockpos_mutableblockpos, blockpos, org.loomdev.api.event.block.BlockIgniteEvent.Cause.FIRE_SPREAD).isCancelled()) continue;
+                                         serverlevel.setBlock(blockpos_mutableblockpos, this.getStateWithAge(serverlevel, blockpos_mutableblockpos, j2), 3);
+                                     }
+                                 }
+@@ -219,12 +222,13 @@
+         return blockstate.hasProperty(BlockStateProperties.WATERLOGGED) && (Boolean) blockstate.getValue(BlockStateProperties.WATERLOGGED) ? 0 : this.flameOdds.getInt(blockstate.getBlock());
+     }
+ 
+-    private void checkBurnOut(Level level, BlockPos blockpos, int i, Random random, int j) {
++    private void checkBurnOut(Level level, BlockPos blockpos, int i, Random random, int j, BlockPos sourcepos) { // Loom
+         int k = this.getBurnOdd(level.getBlockState(blockpos));
+ 
+         if (random.nextInt(i) < k) {
+             BlockState blockstate = level.getBlockState(blockpos);
+ 
++            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBurn(level, blockpos, sourcepos).isCancelled()) return; // Loom :: fire BlockBurnEvent
+             if (random.nextInt(j + 10) < 5 && !level.isRainingAt(blockpos)) {
+                 int l = Math.min(j + random.nextInt(5) / 4, 15);
+ 

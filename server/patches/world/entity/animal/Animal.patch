@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/animal/Animal.java
++++ b/net/minecraft/world/entity/animal/Animal.java
+@@ -30,7 +30,7 @@
+ public abstract class Animal extends AgeableMob {
+ 
+     private int inLove;
+-    private UUID loveCause;
++    public UUID loveCause; // Loom :: private -> public
+ 
+     protected Animal(EntityType<? extends Animal> entitytype, Level level) {
+         super(entitytype, level);

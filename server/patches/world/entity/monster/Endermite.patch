@@ -1,0 +1,22 @@
+--- a/net/minecraft/world/entity/monster/Endermite.java
++++ b/net/minecraft/world/entity/monster/Endermite.java
+@@ -28,7 +28,9 @@
+ 
+ public class Endermite extends Monster {
+ 
+-    private int life;
++    public java.util.OptionalInt lifeTimeOverride = java.util.OptionalInt.empty(); // Loom :: (EndermiteImpl)
++    public int vanillaLife = 2400; // Loom :: (EndermiteImpl)
++    public int life; // Loom :: private -> public (EndermiteImpl)
+     private boolean playerSpawned;
+ 
+     public Endermite(EntityType<? extends Endermite> entitytype, Level level) {
+@@ -119,7 +121,7 @@
+                 ++this.life;
+             }
+ 
+-            if (this.life >= 2400) {
++            if (this.life >= lifeTimeOverride.orElse(vanillaLife)) { // Loom :: (EndermiteImpl)
+                 this.discard();
+             }
+         }

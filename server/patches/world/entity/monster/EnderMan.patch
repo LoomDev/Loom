@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/monster/EnderMan.java
++++ b/net/minecraft/world/entity/monster/EnderMan.java
+@@ -65,7 +65,7 @@
+     private static final AttributeModifier SPEED_MODIFIER_ATTACKING = new AttributeModifier(EnderMan.SPEED_MODIFIER_ATTACKING_UUID, "Attacking speed boost", 0.15000000596046448D, AttributeModifier.Operation.ADDITION);
+     private static final EntityDataAccessor<Optional<BlockState>> DATA_CARRY_STATE = SynchedEntityData.defineId(EnderMan.class, EntityDataSerializers.BLOCK_STATE);
+     private static final EntityDataAccessor<Boolean> DATA_CREEPY = SynchedEntityData.defineId(EnderMan.class, EntityDataSerializers.BOOLEAN);
+-    private static final EntityDataAccessor<Boolean> DATA_STARED_AT = SynchedEntityData.defineId(EnderMan.class, EntityDataSerializers.BOOLEAN);
++    public static final EntityDataAccessor<Boolean> DATA_STARED_AT = SynchedEntityData.defineId(EnderMan.class, EntityDataSerializers.BOOLEAN); // Loom :: private -> public (EndermanImpl)
+     private static final Predicate<LivingEntity> ENDERMITE_SELECTOR = (livingentity) -> {
+         return livingentity instanceof Endermite && ((Endermite) livingentity).isPlayerSpawned();
+     };
+@@ -227,7 +227,7 @@
+     }
+ 
+     public boolean isSensitiveToWater() {
+-        return true;
++        return sensitiveToWaterOverride.orElse(true); // Loom
+     }
+ 
+     protected void customServerAiStep() {

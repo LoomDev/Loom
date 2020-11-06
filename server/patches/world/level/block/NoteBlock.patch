@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/level/block/NoteBlock.java
++++ b/net/minecraft/world/level/block/NoteBlock.java
+@@ -83,7 +83,11 @@
+         int k = (Integer) blockstate.getValue(NoteBlock.NOTE);
+         float f = (float) Math.pow(2.0D, (double) (k - 12) / 12.0D);
+ 
+-        level.playSound((Player) null, blockpos, ((NoteBlockInstrument) blockstate.getValue(NoteBlock.INSTRUMENT)).getSoundEvent(), SoundSource.RECORDS, 3.0F, f);
++        // Loom start :: fire NoteBlockPlayEvent
++        var event = org.loomdev.loom.event.LoomEventDispatcher.onNoteBlockPlay(level, blockpos, blockstate.getValue(INSTRUMENT), k, f);
++        if (event.isCancelled()) return false;
++        level.playSound((Player) null, blockpos, NoteBlockInstrument.valueOf(event.getInstrument().name()).getSoundEvent(), SoundSource.RECORDS, 3.0F, event.getPitch());
++        // Loom end
+         level.addParticle(ParticleTypes.NOTE, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 1.2D, (double) blockpos.getZ() + 0.5D, (double) k / 24.0D, 0.0D, 0.0D);
+         return true;
+     }

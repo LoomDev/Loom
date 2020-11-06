@@ -10,5 +10,5 @@ package org.loomdev.api.entity.mob;
  *   <li>TODO WitherSkeleton
  * </ul>
  */
-public interface AbstractSkeleton extends HostileEntity {
+public interface AbstractSkeleton extends Monster {
 }

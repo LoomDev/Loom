@@ -1,46 +1,48 @@
 package org.loomdev.loom.entity.vehicle;
 
 import net.kyori.adventure.text.Component;
-import net.minecraft.entity.vehicle.CommandBlockMinecartEntity;
+import net.minecraft.world.entity.vehicle.MinecartCommandBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.vehicle.CommandBlockMinecart;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
-public class CommandBlockMinecartImpl extends MinecartImpl implements CommandBlockMinecart {
+public class CommandBlockMinecartImpl extends AbstractMinecartImpl implements CommandBlockMinecart {
 
-    public CommandBlockMinecartImpl(CommandBlockMinecartEntity entity) {
+    public CommandBlockMinecartImpl(MinecartCommandBlock entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType<CommandBlockMinecart> getType() {
+    @NotNull
+    public EntityType<CommandBlockMinecart> getType() {
         return EntityType.COMMAND_BLOCK_MINECART;
     }
 
     @Override
-    public @NotNull CommandBlockMinecartEntity getMinecraftEntity() {
-        return (CommandBlockMinecartEntity) super.getMinecraftEntity();
+    @NotNull
+    public MinecartCommandBlock getMinecraftEntity() {
+        return (MinecartCommandBlock) super.getMinecraftEntity();
     }
 
     @Override
     public String getCommand() {
-        return getMinecraftEntity().getCommandExecutor().getCommand();
+        return getMinecraftEntity().getCommandBlock().getCommand();
     }
 
     @Override
     public void setCommand(String command) {
-        getMinecraftEntity().getCommandExecutor().setCommand(command);
+        getMinecraftEntity().getCommandBlock().setCommand(command);
     }
 
     @Override
     public @NotNull Component getCustomName() {
-        return TextTransformer.toLoom(getMinecraftEntity().getCommandExecutor().getCustomName());
+        return TextTransformer.toLoom(getMinecraftEntity().getCommandBlock().getName());
     }
 
     @Override
     public void setCustomName(@Nullable Component component) {
-        getMinecraftEntity().getCommandExecutor().setCustomName(component == null ? null : TextTransformer.toMinecraft(component));
+        getMinecraftEntity().getCommandBlock().setName(component == null ? null : TextTransformer.toMinecraft(component));
     }
 }

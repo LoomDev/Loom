@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/monster/SpellcasterIllager.java
++++ b/net/minecraft/world/entity/monster/SpellcasterIllager.java
+@@ -18,7 +18,7 @@
+ 
+     private static final EntityDataAccessor<Byte> DATA_SPELL_CASTING_ID = SynchedEntityData.defineId(SpellcasterIllager.class, EntityDataSerializers.BYTE);
+     protected int spellCastingTickCount;
+-    private SpellcasterIllager.IllagerSpell currentSpell;
++    public SpellcasterIllager.IllagerSpell currentSpell; // Loom :: private -> public
+ 
+     protected SpellcasterIllager(EntityType<? extends SpellcasterIllager> entitytype, Level level) {
+         super(entitytype, level);
+@@ -88,7 +88,7 @@
+ 
+         NONE(0, 0.0D, 0.0D, 0.0D), SUMMON_VEX(1, 0.7D, 0.7D, 0.8D), FANGS(2, 0.4D, 0.3D, 0.35D), WOLOLO(3, 0.7D, 0.5D, 0.2D), DISAPPEAR(4, 0.3D, 0.3D, 0.8D), BLINDNESS(5, 0.1D, 0.1D, 0.2D);
+ 
+-        private final int id;
++        public final int id; // Loom :: private -> public
+         private final double[] spellColor;
+ 
+         private IllagerSpell(int i, double d0, double d1, double d2) {

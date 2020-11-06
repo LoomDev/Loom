@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity.projectile;
 
-import net.minecraft.entity.projectile.ShulkerBulletEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.Entity;
@@ -10,34 +9,36 @@ import org.loomdev.loom.entity.EntityImpl;
 
 public class ShulkerBulletImpl extends ProjectileImpl implements ShulkerBullet {
 
-    public ShulkerBulletImpl(ShulkerBulletEntity entity) {
+    public ShulkerBulletImpl(net.minecraft.world.entity.projectile.ShulkerBullet entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    @NotNull
+    public EntityType<ShulkerBullet> getType() {
         return EntityType.SHULKER_BULLET;
     }
 
     @Override
-    public @NotNull ShulkerBulletEntity getMinecraftEntity() {
-        return (ShulkerBulletEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.projectile.ShulkerBullet getMinecraftEntity() {
+        return (net.minecraft.world.entity.projectile.ShulkerBullet) super.getMinecraftEntity();
     }
 
     @Nullable
     @Override
     public Entity getTarget() {
-        return getMinecraftEntity().target.getLoomEntity();
+        return getMinecraftEntity().finalTarget.getLoomEntity();
     }
 
     @Override
     public void setTarget(@Nullable Entity entity) {
         if (entity != null) {
-            getMinecraftEntity().target = ((EntityImpl) entity).getMinecraftEntity();
-            getMinecraftEntity().targetUuid = entity.getUniqueId();
+            getMinecraftEntity().finalTarget = ((EntityImpl) entity).getMinecraftEntity();
+            getMinecraftEntity().targetId = entity.getUniqueId();
         } else {
-            getMinecraftEntity().target = null;
-            getMinecraftEntity().targetUuid = null;
+            getMinecraftEntity().finalTarget = null;
+            getMinecraftEntity().targetId = null;
         }
     }
 }

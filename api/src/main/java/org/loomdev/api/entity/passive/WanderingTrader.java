@@ -6,7 +6,7 @@ import org.loomdev.api.world.Location;
 /**
  * Represent a Wandering Trader entity.
  */
-public interface WanderingTrader extends AbstractTrader {
+public interface WanderingTrader extends AbstractVillager {
 
     @Nullable
     Location getWanderingTarget();

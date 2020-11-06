@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity.vehicle;
 
-import net.minecraft.entity.vehicle.BoatEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.vehicle.Boat;
@@ -8,18 +7,20 @@ import org.loomdev.loom.entity.EntityImpl;
 
 public class BoatImpl extends EntityImpl implements Boat {
 
-    public BoatImpl(BoatEntity entity) {
+    public BoatImpl(net.minecraft.world.entity.vehicle.Boat entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    @NotNull
+    public EntityType<Boat> getType() {
         return EntityType.BOAT;
     }
 
     @Override
-    public @NotNull BoatEntity getMinecraftEntity() {
-        return (BoatEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.vehicle.Boat getMinecraftEntity() {
+        return (net.minecraft.world.entity.vehicle.Boat) super.getMinecraftEntity();
     }
 
     @Override
@@ -29,11 +30,11 @@ public class BoatImpl extends EntityImpl implements Boat {
 
     @Override
     public void setVariant(Variant type) {
-        getMinecraftEntity().setBoatType(BoatEntity.Type.valueOf(type.name()));
+        getMinecraftEntity().setType(net.minecraft.world.entity.vehicle.Boat.Type.valueOf(type.name()));
     }
 
     @Override
     public Placement getPlacement() {
-        return Placement.valueOf(getMinecraftEntity().checkLocation().name());
+        return Placement.valueOf(getMinecraftEntity().getStatus().name());
     }
 }

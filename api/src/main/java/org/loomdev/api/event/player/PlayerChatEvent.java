@@ -17,28 +17,14 @@ import java.util.Set;
  */
 public class PlayerChatEvent extends PlayerEvent implements Cancellable {
 
-    private TextComponent prefix, message, suffix;
+    private Component message;
     private Collection<? extends Player> recipients;
     private boolean cancelled;
 
-    public PlayerChatEvent(Player player, String message, Collection<? extends Player> recipients) {
+    public PlayerChatEvent(Player player, Component message, Collection<? extends Player> recipients) {
         super(player);
-        this.prefix = Component.text()
-                .append(Component.text("<"))
-                .append(player.getDisplayName())
-                .append(Component.text("> "))
-                .build();
-        this.message = Component.text(message);
+        this.message = message;
         this.recipients = recipients;
-    }
-
-    @Nullable
-    public Component getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(@NotNull TextComponent prefix) {
-        this.prefix = prefix;
     }
 
     @Nullable
@@ -46,19 +32,11 @@ public class PlayerChatEvent extends PlayerEvent implements Cancellable {
         return message;
     }
 
-    public void setMessage(@NotNull TextComponent message) {
+    public void setMessage(@NotNull Component message) {
         this.message = message;
     }
 
-    @Nullable
-    public Component getSuffix() {
-        return suffix;
-    }
-
-    public void setSuffix(@NotNull TextComponent suffix) {
-        this.suffix = suffix;
-    }
-
+    @NotNull
     public Collection<? extends Player> getRecipients() {
         return this.recipients;
     }

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/BaseSpawner.java
++++ b/net/minecraft/world/level/BaseSpawner.java
+@@ -47,7 +47,7 @@
+     public BaseSpawner() {}
+ 
+     @Nullable
+-    private ResourceLocation getEntityId(@Nullable Level level, BlockPos blockpos) {
++    public ResourceLocation getEntityId(@Nullable Level level, BlockPos blockpos) { // Loom :: private -> public (SpawnerMinecartImpl)
+         String s = this.nextSpawnData.getTag().getString("id");
+ 
+         try {

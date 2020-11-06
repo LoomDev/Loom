@@ -3,7 +3,7 @@ package org.loomdev.api.entity.projectile;
 /**
  * Represents a SpectralArrow entity.
  */
-public interface SpectralArrow extends PersistentProjectile {
+public interface SpectralArrow extends AbstractArrow {
 
     /**
      * Get the amount of ticks the glowing {@link org.loomdev.api.entity.effect.StatusEffect} will be applied for.
@@ -17,5 +17,4 @@ public interface SpectralArrow extends PersistentProjectile {
      * @param ticks The amount of ticks the glowing {@link org.loomdev.api.entity.effect.StatusEffect} will be applied for.
      */
     void setGlowingDuration(int ticks);
-
 }

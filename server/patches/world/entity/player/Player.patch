@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/entity/player/Player.java
++++ b/net/minecraft/world/entity/player/Player.java
+@@ -112,7 +112,7 @@
+ public abstract class Player extends LivingEntity {
+ 
+     public static final EntityDimensions STANDING_DIMENSIONS = EntityDimensions.scalable(0.6F, 1.8F);
+-    private static final Map<Pose, EntityDimensions> POSES = ImmutableMap.builder().put(Pose.STANDING, Player.STANDING_DIMENSIONS).put(Pose.SLEEPING, Player.SLEEPING_DIMENSIONS).put(Pose.FALL_FLYING, EntityDimensions.scalable(0.6F, 0.6F)).put(Pose.SWIMMING, EntityDimensions.scalable(0.6F, 0.6F)).put(Pose.SPIN_ATTACK, EntityDimensions.scalable(0.6F, 0.6F)).put(Pose.CROUCHING, EntityDimensions.scalable(0.6F, 1.5F)).put(Pose.DYING, EntityDimensions.fixed(0.2F, 0.2F)).build();
++    private static final Map<Pose, EntityDimensions> POSES = ImmutableMap.<Pose, EntityDimensions>builder().put(Pose.STANDING, Player.STANDING_DIMENSIONS).put(Pose.SLEEPING, Player.SLEEPING_DIMENSIONS).put(Pose.FALL_FLYING, EntityDimensions.scalable(0.6F, 0.6F)).put(Pose.SWIMMING, EntityDimensions.scalable(0.6F, 0.6F)).put(Pose.SPIN_ATTACK, EntityDimensions.scalable(0.6F, 0.6F)).put(Pose.CROUCHING, EntityDimensions.scalable(0.6F, 1.5F)).put(Pose.DYING, EntityDimensions.fixed(0.2F, 0.2F)).build(); // Loom :: decompile error
+     private static final EntityDataAccessor<Float> DATA_PLAYER_ABSORPTION_ID = SynchedEntityData.defineId(Player.class, EntityDataSerializers.FLOAT);
+     private static final EntityDataAccessor<Integer> DATA_SCORE_ID = SynchedEntityData.defineId(Player.class, EntityDataSerializers.INT);
+     protected static final EntityDataAccessor<Byte> DATA_PLAYER_MODE_CUSTOMISATION = SynchedEntityData.defineId(Player.class, EntityDataSerializers.BYTE);
+@@ -137,7 +137,7 @@
+     public double zCloak;
+     private int sleepCounter;
+     protected boolean wasUnderwater;
+-    private final Abilities abilities = new Abilities();
++    public final Abilities abilities = new Abilities(); // Loom :: private -> public
+     public int experienceLevel;
+     public int totalExperience;
+     public float experienceProgress;
+@@ -1443,6 +1443,7 @@
+             ItemStack itemstack = this.getItemBySlot(EquipmentSlot.CHEST);
+ 
+             if (itemstack.is(Items.ELYTRA) && ElytraItem.isFlyEnabled(itemstack)) {
++                if (org.loomdev.loom.event.LoomEventDispatcher.onPlayerEnteredFlight(this).isCancelled()) return false; // Loom :: fire PlayerEnteredFlightEvent TODO - rename
+                 this.startFallFlying();
+                 return true;
+             }

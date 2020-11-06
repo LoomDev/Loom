@@ -1,9 +1,8 @@
 package org.loomdev.api.entity.mob;
 
-public interface Spider extends HostileEntity {
+public interface Spider extends Monster {
 
-    boolean isClimbingWall();
+    boolean isClimbing();
 
-    void setClimbingWall(boolean flag);
-
+    void setClimbing(boolean climbing);
 }

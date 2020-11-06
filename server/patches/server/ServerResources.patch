@@ -1,0 +1,19 @@
+--- a/net/minecraft/server/ServerResources.java
++++ b/net/minecraft/server/ServerResources.java
+@@ -20,7 +20,7 @@
+ 
+     private static final CompletableFuture<Unit> DATA_RELOAD_INITIAL_TASK = CompletableFuture.completedFuture(Unit.INSTANCE);
+     private final ReloadableResourceManager resources;
+-    private final Commands commands;
++    public final Commands commands; // Loom :: private -> public
+     private final RecipeManager recipes;
+     private final TagManager tagManager;
+     private final PredicateManager predicateManager;
+@@ -43,6 +43,7 @@
+         this.resources.registerReloadListener(this.lootTables);
+         this.resources.registerReloadListener(this.functionLibrary);
+         this.resources.registerReloadListener(this.advancements);
++        if (org.loomdev.api.Loom.getServer() != null) ((org.loomdev.loom.command.CommandManagerImpl) org.loomdev.api.Loom.getCommandManager()).internalReload(); // Loom
+     }
+ 
+     public ServerFunctionLibrary getFunctionLibrary() {

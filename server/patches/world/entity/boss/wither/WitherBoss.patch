@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/boss/wither/WitherBoss.java
++++ b/net/minecraft/world/entity/boss/wither/WitherBoss.java
+@@ -67,7 +67,7 @@
+     private final int[] nextHeadUpdate = new int[2];
+     private final int[] idleHeadUpdates = new int[2];
+     private int destroyBlocksTick;
+-    private final ServerBossEvent bossEvent;
++    public final ServerBossEvent bossEvent; // Loom :: private -> public (WitherImpl)
+     private static final Predicate<LivingEntity> LIVING_ENTITY_SELECTOR = (livingentity) -> {
+         return livingentity.getMobType() != MobType.UNDEAD && livingentity.attackable();
+     };

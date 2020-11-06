@@ -1,7 +1,6 @@
 package org.loomdev.api.item;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.item.property.ItemProperty;
@@ -109,12 +108,14 @@ public interface ItemStack {
 
     <T extends ItemPropertyData<T>> void changeProperty(@NotNull ItemProperty<T> property, @NotNull Consumer<T> data);
 
+    boolean isEmpty();
+
     /**
      * Get whether the itemstack is a food item.
      *
      * @return True if the item can be consumed, otherwise false.
      */
-    boolean isFood();
+    boolean isEdible();
 
     /**
      * Get whether the item is stackable or not.
@@ -270,14 +271,14 @@ public interface ItemStack {
         Builder name(@NotNull Component name);
 
         default Builder lore(@NotNull String... lore) {
-            return lore((TextComponent[]) Arrays.stream(lore).map(Component::text).toArray());
+            return lore((Component[]) Arrays.stream(lore).map(Component::text).toArray());
         }
 
-        Builder lore(@NotNull TextComponent... lore);
+        Builder lore(@NotNull Component... lore);
 
         Builder appendLore(@NotNull String... lore);
 
-        Builder appendLore(@NotNull TextComponent... lore);
+        Builder appendLore(@NotNull Component... lore);
 
         Builder removeLoreLine(int line);
 

@@ -8,7 +8,7 @@ import org.loomdev.api.util.Color;
 import java.util.List;
 import java.util.Optional;
 
-public interface Arrow extends PersistentProjectile {
+public interface Arrow extends AbstractArrow {
 
     @NotNull List<StatusEffect> getStatusEffects();
 

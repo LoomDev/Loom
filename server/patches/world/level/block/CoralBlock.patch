@@ -1,0 +1,10 @@
+--- a/net/minecraft/world/level/block/CoralBlock.java
++++ b/net/minecraft/world/level/block/CoralBlock.java
+@@ -24,6 +24,7 @@
+ 
+     public void tick(BlockState blockstate, ServerLevel serverlevel, BlockPos blockpos, Random random) {
+         if (!this.scanForWater(serverlevel, blockpos)) {
++            if (org.loomdev.loom.event.LoomEventDispatcher.onPlantDie(serverlevel, blockpos).isCancelled()) return; // Loom :: fire PlantDieEvent
+             serverlevel.setBlock(blockpos, this.deadBlock.defaultBlockState(), 2);
+         }
+ 

@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/item/trading/MerchantOffer.java
++++ b/net/minecraft/world/item/trading/MerchantOffer.java
+@@ -7,16 +7,16 @@
+ 
+ public class MerchantOffer {
+ 
+-    private final ItemStack baseCostA;
+-    private final ItemStack costB;
+-    private final ItemStack result;
+-    private int uses;
++    public ItemStack baseCostA; // Loom :: private -> public, non-final (MerchantOfferImpl)
++    public ItemStack costB; // Loom :: private -> public, non-final (MerchantOfferImpl)
++    public ItemStack result; // Loom :: private -> public, non-final (MerchantOfferImpl)
++    public int uses; // Loom :: private -> public, non-final (MerchantOfferImpl)
+     private final int maxUses;
+-    private boolean rewardExp;
+-    private int specialPriceDiff;
+-    private int demand;
+-    private float priceMultiplier;
+-    private int xp;
++    public boolean rewardExp; // Loom :: private -> public, non-final (MerchantOfferImpl)
++    public int specialPriceDiff; // Loom :: private -> public, non-final (MerchantOfferImpl)
++    public int demand; // Loom :: private -> public, non-final (MerchantOfferImpl)
++    public float priceMultiplier; // Loom :: private -> public, non-final (MerchantOfferImpl)
++    public int xp; // Loom :: private -> public, non-final (MerchantOfferImpl)
+ 
+     public MerchantOffer(CompoundTag compoundtag) {
+         this.rewardExp = true;

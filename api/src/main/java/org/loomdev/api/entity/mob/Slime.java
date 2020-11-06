@@ -13,5 +13,4 @@ public interface Slime extends MobEntity {
      * @param size The new size of the slime entity.
      */
     void setSize(int size);
-
 }

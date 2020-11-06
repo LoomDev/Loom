@@ -1,0 +1,10 @@
+--- a/net/minecraft/world/level/block/WetSpongeBlock.java
++++ b/net/minecraft/world/level/block/WetSpongeBlock.java
+@@ -16,6 +16,7 @@
+ 
+     public void onPlace(BlockState blockstate, Level level, BlockPos blockpos, BlockState blockstate1, boolean flag) {
+         if (level.dimensionType().ultraWarm()) {
++            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporate(level, blockpos).isCancelled()) return; // Loom :: fire BlockEvaporateEvent
+             level.setBlock(blockpos, Blocks.SPONGE.defaultBlockState(), 3);
+             level.levelEvent(2009, blockpos, 0);
+             level.playSound((Player) null, blockpos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, (1.0F + level.getRandom().nextFloat() * 0.2F) * 0.7F);

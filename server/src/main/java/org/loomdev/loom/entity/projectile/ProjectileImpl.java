@@ -1,36 +1,43 @@
 package org.loomdev.loom.entity.projectile;
 
-import net.minecraft.entity.projectile.ProjectileEntity;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.projectile.Projectile;
 import org.loomdev.loom.entity.EntityImpl;
 
-import java.util.Optional;
-
 public abstract class ProjectileImpl extends EntityImpl implements Projectile {
-    public ProjectileImpl(ProjectileEntity entity) {
+
+    public ProjectileImpl(net.minecraft.world.entity.projectile.Projectile entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull ProjectileEntity getMinecraftEntity() {
-        return (ProjectileEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.projectile.Projectile getMinecraftEntity() {
+        return (net.minecraft.world.entity.projectile.Projectile) super.getMinecraftEntity();
     }
 
     @Override
-    public @NotNull Optional<Entity> getOwner() {
-        return Optional.ofNullable(getMinecraftEntity().getOwner())
-                .map(net.minecraft.entity.Entity::getLoomEntity);
+    @Nullable
+    public Entity getOwner() {
+        var owner = getMinecraftEntity().getOwner();
+        if (owner == null) return null;
+        return owner.getLoomEntity();
     }
 
     @Override
-    public void setOwner(@NotNull Entity entity) {
+    public void setOwner(@Nullable Entity entity) {
+        if (entity == null) {
+            getMinecraftEntity().setOwner(null);
+            return;
+        }
+
         getMinecraftEntity().setOwner(((EntityImpl) entity).getMinecraftEntity());
     }
 
     @Override
-    public void setVelocity(double v, double v1, double v2, float v3, float v4) {
-        getMinecraftEntity().setVelocity(v, v1, v2, v3, v4);
+    public void shoot(double v, double v1, double v2, float v3, float v4) {
+        getMinecraftEntity().shoot(v, v1, v2, v3, v4);
     }
 }

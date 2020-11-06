@@ -17,7 +17,7 @@ import org.loomdev.api.item.ItemType;
 import org.loomdev.api.item.property.ItemProperty;
 import org.loomdev.api.item.property.data.*;
 import org.loomdev.api.particle.ParticleType;
-import org.loomdev.api.sound.SoundCategory;
+import org.loomdev.api.sound.SoundSource;
 import org.loomdev.api.sound.SoundEvent;
 import org.loomdev.api.util.builder.BuilderBase;
 import org.loomdev.api.util.registry.Keyed;
@@ -37,7 +37,7 @@ import org.loomdev.loom.item.ItemStackImpl;
 import org.loomdev.loom.item.ItemTypeImpl;
 import org.loomdev.loom.item.property.*;
 import org.loomdev.loom.particle.ParticleTypeImpl;
-import org.loomdev.loom.sound.SoundCategoryImpl;
+import org.loomdev.loom.sound.SoundSourceImpl;
 import org.loomdev.loom.sound.SoundEventImpl;
 import org.loomdev.loom.village.VillagerProfessionImpl;
 import org.loomdev.loom.village.VillagerVariantImpl;
@@ -95,7 +95,7 @@ public class RegistryImpl implements Registry {
 
         // MC Enums
         wrapperSuppliers.put(SpawnGroup.class, SpawnGroupImpl::new);
-        wrapperSuppliers.put(SoundCategory.class, SoundCategoryImpl::new);
+        wrapperSuppliers.put(SoundSource.class, SoundSourceImpl::new);
     }
 
     @Override

@@ -5,7 +5,7 @@ import org.loomdev.api.entity.ConvertingEntity;
 /**
  * Base for the {@link Piglin} and {@link PiglinBrute}
  */
-public interface AbstractPiglin extends HostileEntity, ConvertingEntity {
+public interface AbstractPiglin extends Monster, ConvertingEntity {
 
     /**
      * Get whether the Piglin entity is immune to zombification.

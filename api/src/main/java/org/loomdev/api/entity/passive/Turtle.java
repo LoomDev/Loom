@@ -5,5 +5,5 @@ import org.loomdev.api.entity.Ageable;
 /**
  * Represents a Turtle entity.
  */
-public interface Turtle extends AnimalEntity, Ageable {
+public interface Turtle extends Animal, Ageable {
 }

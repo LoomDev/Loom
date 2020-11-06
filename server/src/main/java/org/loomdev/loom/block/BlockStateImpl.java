@@ -6,9 +6,9 @@ import org.loomdev.api.block.BlockType;
 
 public class BlockStateImpl implements BlockState {
 
-    private final net.minecraft.block.BlockState mcBlockState;
+    private final net.minecraft.world.level.block.state.BlockState mcBlockState;
 
-    protected BlockStateImpl(@NotNull net.minecraft.block.BlockState mcBlockState) {
+    protected BlockStateImpl(@NotNull net.minecraft.world.level.block.state.BlockState mcBlockState) {
         this.mcBlockState = mcBlockState;
     }
 
@@ -18,11 +18,11 @@ public class BlockStateImpl implements BlockState {
     }
 
     @NotNull
-    public net.minecraft.block.BlockState getMinecraftBlockState() {
+    public net.minecraft.world.level.block.state.BlockState getMinecraftBlockState() {
         return mcBlockState;
     }
 
-    public static BlockStateImpl of(@NotNull net.minecraft.block.BlockState mcBlockState) {
+    public static BlockStateImpl of(@NotNull net.minecraft.world.level.block.state.BlockState mcBlockState) {
         return new BlockStateImpl(mcBlockState);
     }
 }

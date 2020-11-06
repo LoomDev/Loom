@@ -1,8 +1,8 @@
 package org.loomdev.api.entity.mob;
 
-public interface Enderman extends HostileEntity, Angerable {
+public interface Enderman extends Monster, Angerable {
 
-    boolean isProvoked();
+    boolean isProvoked(); // TODO rename?
 
     void setProvoked(boolean flag);
 

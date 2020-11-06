@@ -1,0 +1,53 @@
+--- a/net/minecraft/world/entity/decoration/ArmorStand.java
++++ b/net/minecraft/world/entity/decoration/ArmorStand.java
+@@ -66,10 +66,10 @@
+     private int disabledSlots;
+     private Rotations headPose;
+     private Rotations bodyPose;
+-    private Rotations leftArmPose;
+-    private Rotations rightArmPose;
+-    private Rotations leftLegPose;
+-    private Rotations rightLegPose;
++    public Rotations leftArmPose; // Loom :: private -> public (ArmorStandImpl)
++    public Rotations rightArmPose; // Loom :: private -> public (ArmorStandImpl)
++    public Rotations leftLegPose; // Loom :: private -> public (ArmorStandImpl)
++    public Rotations rightLegPose; // Loom :: private -> public (ArmorStandImpl)
+ 
+     public ArmorStand(EntityType<? extends ArmorStand> entitytype, Level level) {
+         super(entitytype, level);
+@@ -633,7 +633,7 @@
+         return this.isMarker() ? PushReaction.IGNORE : super.getPistonPushReaction();
+     }
+ 
+-    private void setSmall(boolean flag) {
++    public void setSmall(boolean flag) { // Loom :: private -> public (ArmorStandImpl)
+         this.entityData.set(ArmorStand.DATA_CLIENT_FLAGS, this.setBit((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS), 1, flag));
+     }
+ 
+@@ -641,7 +641,7 @@
+         return ((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS) & 1) != 0;
+     }
+ 
+-    private void setShowArms(boolean flag) {
++    public void setShowArms(boolean flag) { // Loom :: private -> public (ArmorStandImpl)
+         this.entityData.set(ArmorStand.DATA_CLIENT_FLAGS, this.setBit((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS), 4, flag));
+     }
+ 
+@@ -649,7 +649,7 @@
+         return ((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS) & 4) != 0;
+     }
+ 
+-    private void setNoBasePlate(boolean flag) {
++    public void setNoBasePlate(boolean flag) { // Loom :: private -> public (ArmorStandImpl)
+         this.entityData.set(ArmorStand.DATA_CLIENT_FLAGS, this.setBit((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS), 8, flag));
+     }
+ 
+@@ -657,7 +657,7 @@
+         return ((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS) & 8) != 0;
+     }
+ 
+-    private void setMarker(boolean flag) {
++    public void setMarker(boolean flag) { // Loom :: private -> public (ArmorStandImpl)
+         this.entityData.set(ArmorStand.DATA_CLIENT_FLAGS, this.setBit((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS), 16, flag));
+     }
+ 

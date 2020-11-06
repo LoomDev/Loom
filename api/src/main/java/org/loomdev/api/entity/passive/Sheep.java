@@ -8,7 +8,7 @@ import org.loomdev.api.util.DyeColor;
 /**
  * Represents a Sheep entity.
  */
-public interface Sheep extends AnimalEntity, Shearable, Colorable {
+public interface Sheep extends Animal, Shearable, Colorable {
 
     /**
      * Get the {@link DyeColor} of the sheep.

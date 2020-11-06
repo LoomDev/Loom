@@ -1,9 +1,9 @@
 package org.loomdev.api.entity.passive;
 
-import org.loomdev.api.entity.mob.WaterCreature;
+import org.loomdev.api.entity.mob.WaterAnimal;
 import org.loomdev.api.world.Location;
 
-public interface Dolphin extends WaterCreature {
+public interface Dolphin extends WaterAnimal {
 
     Location getTreasureLocation();
 

@@ -1,10 +1,8 @@
 package org.loomdev.loom.entity.passive;
 
 import net.kyori.adventure.text.Component;
-import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.village.VillagerData;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.Villager;
@@ -12,9 +10,9 @@ import org.loomdev.api.village.VillagerProfession;
 import org.loomdev.api.village.VillagerVariant;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
-public class VillagerImpl extends AbstractTraderImpl implements Villager {
+public class VillagerImpl extends AbstractVillagerImpl implements Villager {
 
-    public VillagerImpl(VillagerEntity entity) {
+    public VillagerImpl(net.minecraft.world.entity.npc.Villager entity) {
         super(entity);
     }
 
@@ -24,36 +22,34 @@ public class VillagerImpl extends AbstractTraderImpl implements Villager {
     }
 
     @Override
-    public @NotNull VillagerEntity getMinecraftEntity() {
-        return (VillagerEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.npc.Villager getMinecraftEntity() {
+        return (net.minecraft.world.entity.npc.Villager) super.getMinecraftEntity();
     }
 
     @Override
     public @NotNull VillagerVariant getVariant() {
-        VillagerData data = getMinecraftEntity().getVillagerData();
+        var data = getMinecraftEntity().getVillagerData();
         return VillagerVariant.getById("minecraft:" + data.getType().toString());
     }
 
     @Override
     public void setVariant(@NotNull VillagerVariant villagerVariant) {
-        getMinecraftEntity().setVillagerData(
-                getMinecraftEntity().getVillagerData()
-                        .withType(Registry.VILLAGER_TYPE.get(new Identifier(villagerVariant.getKey().toString())))
-        );
+        var type = Registry.VILLAGER_TYPE.get(new ResourceLocation(villagerVariant.getKey().toString()));
+        getMinecraftEntity().setVillagerData(getMinecraftEntity().getVillagerData().setType(type));
     }
 
     @Override
-    public @NotNull VillagerProfession getProfession() {
-        VillagerData data = getMinecraftEntity().getVillagerData();
+    @NotNull
+    public VillagerProfession getProfession() {
+        var data = getMinecraftEntity().getVillagerData();
         return VillagerProfession.getById("minecraft:" + data.getProfession().toString());
     }
 
     @Override
     public void setProfession(@NotNull VillagerProfession villagerProfession) {
-        getMinecraftEntity().setVillagerData(
-                getMinecraftEntity().getVillagerData()
-                        .withProfession(Registry.VILLAGER_PROFESSION.get(new Identifier(villagerProfession.getKey().toString())))
-        );
+        var profession = Registry.VILLAGER_PROFESSION.get(new ResourceLocation(villagerProfession.getKey().toString()));
+        getMinecraftEntity().setVillagerData(getMinecraftEntity().getVillagerData().setProfession(profession));
     }
 
     @Override
@@ -63,10 +59,7 @@ public class VillagerImpl extends AbstractTraderImpl implements Villager {
 
     @Override
     public void setLevel(int level) {
-        getMinecraftEntity().setVillagerData(
-                getMinecraftEntity().getVillagerData()
-                     .withLevel(level)
-        );
+        getMinecraftEntity().setVillagerData(getMinecraftEntity().getVillagerData().setLevel(level));
     }
 
     @Override
@@ -76,6 +69,6 @@ public class VillagerImpl extends AbstractTraderImpl implements Villager {
 
     @Override
     public Component getDefaultName() {
-        return TextTransformer.toLoom(getMinecraftEntity().getDefaultName());
+        return TextTransformer.toLoom(getMinecraftEntity().getTypeName());
     }
 }

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public interface Rabbit extends AnimalEntity {
+public interface Rabbit extends Animal {
 
     /**
      * Get the {@link Variant} of the Mooshroom.

@@ -1,28 +1,31 @@
 package org.loomdev.loom.entity.passive;
 
-import net.minecraft.entity.passive.PufferfishEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.Pufferfish;
+import org.loomdev.loom.entity.animal.FishImpl;
 
 public class PufferfishImpl extends FishImpl implements Pufferfish {
 
-    public PufferfishImpl(PufferfishEntity entity) {
+    public PufferfishImpl(net.minecraft.world.entity.animal.Pufferfish entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    @NotNull
+    public EntityType<Pufferfish> getType() {
         return EntityType.PUFFERFISH;
     }
 
     @Override
-    public @NotNull PufferfishEntity getMinecraftEntity() {
-        return (PufferfishEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.animal.Pufferfish getMinecraftEntity() {
+        return (net.minecraft.world.entity.animal.Pufferfish) super.getMinecraftEntity();
     }
 
     @Override
-    public @NotNull PuffState getPuffState() {
+    @NotNull
+    public PuffState getPuffState() {
         return PuffState.values()[getMinecraftEntity().getPuffState()];
     }
 

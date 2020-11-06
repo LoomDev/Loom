@@ -1,0 +1,89 @@
+--- a/net/minecraft/world/entity/Entity.java
++++ b/net/minecraft/world/entity/Entity.java
+@@ -111,6 +111,15 @@
+ 
+ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+ 
++    // Loom start
++    private org.loomdev.loom.entity.EntityImpl entityImpl;
++    public org.loomdev.loom.entity.EntityImpl getLoomEntity() {
++        if (entityImpl == null) {
++            entityImpl = org.loomdev.loom.entity.LoomEntityFactory.getLoomEntity(this);
++        }
++        return entityImpl;
++    }
++    // Loom end
+     protected static final Logger LOGGER = LogManager.getLogger();
+     private static final AtomicInteger ENTITY_COUNTER = new AtomicInteger();
+     private static final List<ItemStack> EMPTY_LIST = Collections.emptyList();
+@@ -142,7 +151,7 @@
+     public boolean hurtMarked;
+     protected Vec3 stuckSpeedMultiplier;
+     @Nullable
+-    private Entity.RemovalReason removalReason;
++    public Entity.RemovalReason removalReason; // Loom :: private -> public (EntityImpl)
+     public float walkDistO;
+     public float walkDist;
+     public float moveDist;
+@@ -165,7 +174,7 @@
+     protected Tag<Fluid> fluidOnEyes;
+     public int invulnerableTime;
+     protected boolean firstTick;
+-    protected final SynchedEntityData entityData;
++    public final SynchedEntityData entityData; // Loom :: protected -> public
+     protected static final EntityDataAccessor<Byte> DATA_SHARED_FLAGS_ID = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.BYTE);
+     private static final EntityDataAccessor<Integer> DATA_AIR_SUPPLY_ID = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.INT);
+     private static final EntityDataAccessor<Optional<Component>> DATA_CUSTOM_NAME = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.OPTIONAL_COMPONENT);
+@@ -177,7 +186,7 @@
+     private Vec3 packetCoordinates;
+     public boolean noCulling;
+     public boolean hasImpulse;
+-    private int portalCooldown;
++    public int portalCooldown; // Loom :: private -> public (EntityImpl)
+     protected boolean isInsidePortal;
+     protected int portalTime;
+     protected BlockPos portalEntrancePos;
+@@ -192,6 +201,7 @@
+     private float eyeHeight;
+     private float crystalSoundIntensity;
+     private int lastCrystalSoundPlayTick;
++    public Optional<Boolean> fireResistantOverride = Optional.empty(); // Loom
+ 
+     public Entity(EntityType<?> entitytype, Level level) {
+         this.id = Entity.ENTITY_COUNTER.incrementAndGet();
+@@ -450,7 +460,7 @@
+         this.setRemainingFireTicks(0);
+     }
+ 
+-    protected void outOfWorld() {
++    public void outOfWorld() { // Loom :: protected -> public
+         this.discard();
+     }
+ 
+@@ -867,7 +877,7 @@
+         return 0.0F;
+     }
+ 
+-    protected boolean makeFlySound() {
++    public boolean makeFlySound() { // Loom :: protected -> public (EntityImpl)
+         return false;
+     }
+ 
+@@ -912,7 +922,7 @@
+     }
+ 
+     public boolean fireImmune() {
+-        return this.getType().fireImmune();
++        return fireResistantOverride.orElse(this.getType().fireImmune()); // Loom
+     }
+ 
+     public boolean causeFallDamage(float f, float f1) {
+@@ -2169,7 +2179,7 @@
+                     }
+ 
+                     return PortalShape.createPortalInfo(serverlevel, blockutil_foundrectangle, direction_axis, vec3, this.getDimensions(this.getPose()), this.getDeltaMovement(), this.yRot, this.xRot);
+-                }).orElse((Object) null);
++                }).orElse(null); // Loom :: decompile error
+             }
+         } else {
+             BlockPos blockpos1;

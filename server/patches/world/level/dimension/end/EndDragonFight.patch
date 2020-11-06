@@ -1,0 +1,40 @@
+--- a/net/minecraft/world/level/dimension/end/EndDragonFight.java
++++ b/net/minecraft/world/level/dimension/end/EndDragonFight.java
+@@ -60,7 +60,7 @@
+ 
+     private static final Logger LOGGER = LogManager.getLogger();
+     private static final Predicate<Entity> VALID_PLAYER = EntitySelector.ENTITY_STILL_ALIVE.and(EntitySelector.withinDistance(0.0D, 128.0D, 0.0D, 192.0D));
+-    private final ServerBossEvent dragonEvent;
++    public final ServerBossEvent dragonEvent; // Loom :: private -> public (DragonFightImpl)
+     private final ServerLevel level;
+     private final List<Integer> gateways;
+     private final BlockPattern exitPortalPattern;
+@@ -72,8 +72,8 @@
+     private boolean previouslyKilled;
+     private UUID dragonUUID;
+     private boolean needsStateScanning;
+-    private BlockPos portalLocation;
+-    private DragonRespawnAnimation respawnStage;
++    public BlockPos portalLocation; // Loom :: private -> public (DragonFightImpl)
++    public DragonRespawnAnimation respawnStage; // Loom :: private -> public
+     private int respawnTime;
+     private List<EndCrystal> respawnCrystals;
+ 
+@@ -234,7 +234,7 @@
+ 
+     }
+ 
+-    protected void setRespawnStage(DragonRespawnAnimation dragonrespawnanimation) {
++    public void setRespawnStage(DragonRespawnAnimation dragonrespawnanimation) { // Loom :: protected -> public
+         if (this.respawnStage == null) {
+             throw new IllegalStateException("Dragon respawn isn't in progress, can't skip ahead in the animation.");
+         } else {
+@@ -419,7 +419,7 @@
+         Features.END_GATEWAY_DELAYED.place(this.level, this.level.getChunkSource().getGenerator(), new Random(), blockpos);
+     }
+ 
+-    private void spawnExitPortal(boolean flag) {
++    public void spawnExitPortal(boolean flag) { // Loom :: private -> public
+         EndPodiumFeature endpodiumfeature = new EndPodiumFeature(flag);
+ 
+         if (this.portalLocation == null) {

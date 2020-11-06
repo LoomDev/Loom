@@ -2,13 +2,12 @@ package org.loomdev.api.entity.decoration;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
-import org.loomdev.api.block.BlockType;
 import org.loomdev.api.util.registry.Keyed;
 
 /**
  * Represents a painting entity.
  */
-public interface Painting extends DecorationEntity {
+public interface Painting extends HangingEntity {
 
     /**
      * Get the current {@link Motive} of the painting.
@@ -71,7 +70,7 @@ public interface Painting extends DecorationEntity {
          *
          * @return The width in pixels.
          */
-        int getWith();
+        int getWidth();
 
         /**
          * Get the height in pixels.
@@ -86,8 +85,8 @@ public interface Painting extends DecorationEntity {
          *
          * @return The width in blocks.
          */
-        default int getBlockWith() {
-            return getWith() / 16;
+        default int getBlockWidth() {
+            return getWidth() / 16;
         }
 
         /**

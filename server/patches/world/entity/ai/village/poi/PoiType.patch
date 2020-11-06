@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/village/poi/PoiType.java
++++ b/net/minecraft/world/entity/ai/village/poi/PoiType.java
+@@ -62,7 +62,7 @@
+     public static final PoiType LIGHTNING_ROD = register("lightning_rod", getBlockStates(Blocks.LIGHTNING_ROD), 0, 1);
+     protected static final Set<BlockState> ALL_STATES = new ObjectOpenHashSet(PoiType.TYPE_BY_STATE.keySet());
+     private final String name;
+-    private final Set<BlockState> matchingStates;
++    public final Set<BlockState> matchingStates; // Loom :: private -> public
+     private final int maxTickets;
+     private final Predicate<PoiType> predicate;
+     private final int validRange;

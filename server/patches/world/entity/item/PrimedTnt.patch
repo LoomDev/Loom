@@ -1,0 +1,19 @@
+--- a/net/minecraft/world/entity/item/PrimedTnt.java
++++ b/net/minecraft/world/entity/item/PrimedTnt.java
+@@ -23,6 +23,7 @@
+     @Nullable
+     private LivingEntity owner;
+     private int life;
++    public float explosionPower = 4.0F; // Loom :: (PrimedTntImpl)
+ 
+     public PrimedTnt(EntityType<? extends PrimedTnt> entitytype, Level level) {
+         super(entitytype, level);
+@@ -82,7 +83,7 @@
+     }
+ 
+     private void explode() {
+-        float f = 4.0F;
++        float f = explosionPower; // Loom :: (PrimedTntImpl)
+ 
+         this.level.explode(this, this.getX(), this.getY(0.0625D), this.getZ(), 4.0F, Explosion.BlockInteraction.BREAK);
+     }

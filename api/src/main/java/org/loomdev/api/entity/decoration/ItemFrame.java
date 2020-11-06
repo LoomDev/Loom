@@ -7,11 +7,12 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public interface ItemFrame extends DecorationEntity {
+public interface ItemFrame extends HangingEntity {
 
-    @NotNull ItemStack getHeldItemStack();
+    @NotNull
+    ItemStack getHeldItem();
 
-    void setHeldItemStack(@NotNull ItemStack itemStack);
+    void setHeldItem(@NotNull ItemStack item);
 
     boolean isVisible();
 

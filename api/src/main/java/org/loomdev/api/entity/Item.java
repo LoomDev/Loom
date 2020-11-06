@@ -9,15 +9,18 @@ import java.util.UUID;
 
 public interface Item extends Entity {
 
-    @NotNull Optional<UUID> getOwner();
+    @Nullable
+    UUID getOwner();
 
     void setOwner(@Nullable UUID uuid);
 
-    @NotNull Optional<UUID> getThrower();
+    @Nullable
+    UUID getThrower();
 
     void setThrower(@Nullable UUID uuid);
 
-    @NotNull ItemStack getItemStack();
+    @NotNull
+    ItemStack getItemStack();
 
     void setItemStack(@NotNull ItemStack itemstack);
 

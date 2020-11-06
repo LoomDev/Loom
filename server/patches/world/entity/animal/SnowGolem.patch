@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/animal/SnowGolem.java
++++ b/net/minecraft/world/entity/animal/SnowGolem.java
+@@ -79,7 +79,7 @@
+     }
+ 
+     public boolean isSensitiveToWater() {
+-        return true;
++        return sensitiveToWaterOverride.orElse(true); // Loom
+     }
+ 
+     public void aiStep() {

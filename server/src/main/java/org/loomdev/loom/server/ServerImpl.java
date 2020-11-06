@@ -6,10 +6,11 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.SharedConstants;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.ApiVersion;
 import org.loomdev.api.Loom;
 import org.loomdev.api.command.CommandManager;
@@ -74,53 +75,61 @@ public class ServerImpl implements Server {
     }
 
     private void init() {
-        this.pluginManager.scanPluginDirectory();
+        pluginManager.scanPluginDirectory();
     }
 
     @Override
-    public @NotNull String getName() {
+    @NotNull
+    public String getName() {
         return "Loom";
     }
 
     @Override
     public @NotNull String getVersion() {
-        String version = ServerImpl.class.getPackage().getImplementationVersion();
+        var version = ServerImpl.class.getPackage().getImplementationVersion();
         return version == null ? "DEVELOPMENT" : version;
     }
 
     @Override
-    public @NotNull String getMinecraftVersion() {
-        return minecraftServer.getVersion();
+    @NotNull
+    public String getMinecraftVersion() {
+        return minecraftServer.getServerVersion();
     }
 
     @Override
-    public @NotNull ApiVersion getApiVersion() {
+    @NotNull
+    public ApiVersion getApiVersion() {
         return ApiVersion.LATEST;
     }
 
     @Override
-    public @NotNull Path getRootDirectory() {
-        return minecraftServer.getRunDirectory().toPath();
+    @NotNull
+    public Path getRootDirectory() {
+        return minecraftServer.getServerDirectory().toPath();
     }
 
     @Override
-    public @NotNull Path getPluginDirectory() {
-        return this.pluginDirectory.toPath();
+    @NotNull
+    public Path getPluginDirectory() {
+        return pluginDirectory.toPath();
     }
 
     @Override
-    public @NotNull PluginManager getPluginManager() {
-        return this.pluginManager;
+    @NotNull
+    public PluginManager getPluginManager() {
+        return pluginManager;
     }
 
     @Override
-    public @NotNull EventManager getEventManager() {
-        return this.eventManager;
+    @NotNull
+    public EventManager getEventManager() {
+        return eventManager;
     }
 
     @Override
-    public @NotNull CommandManager getCommandManager() {
-        return this.commandManager;
+    @NotNull
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
 
     @NotNull
@@ -130,9 +139,10 @@ public class ServerImpl implements Server {
     }
 
     @Override
-    public @NotNull Collection<? extends Player> getOnlinePlayers() {
-        return this.minecraftServer.getPlayerManager()
-                .getPlayerList()
+    @NotNull
+    public Collection<? extends Player> getOnlinePlayers() {
+        return minecraftServer.getPlayerList()
+                .getPlayers()
                 .stream()
                 .map(e -> (PlayerImpl) e.getLoomEntity())
                 .collect(Collectors.toList());
@@ -145,25 +155,28 @@ public class ServerImpl implements Server {
 
     @Override
     public void broadcastMessage(@NotNull Component component) {
-        this.getOnlinePlayers().forEach(player -> player.sendMessage(component));
+        getOnlinePlayers().forEach(player -> player.sendMessage(component));
     }
 
     @Override
-    public @NotNull CommandSource getConsoleSource() {
-        return this.consoleSource;
+    @NotNull
+    public CommandSource getConsoleSource() {
+        return consoleSource;
     }
 
     @Override
-    public @NotNull Tps getTps() {
+    @NotNull
+    public Tps getTps() {
         return this.tps;
     }
 
     @Override
-    public @NotNull TickTimes getTickTimes() {
-        return this.tickTimes;
+    @NotNull
+    public TickTimes getTickTimes() {
+        return tickTimes;
     }
 
-    public void registerWorld(@NotNull ServerWorld minecraftWorld) {
+    public void registerWorld(@NotNull ServerLevel minecraftWorld) {
         /*if (this.worlds.containsKey(world.getUUID())) {
             throw new IllegalStateException(String.format("World '%s' is a duplicate of an already loaded world.", world.getName()));
         }*/
@@ -173,35 +186,39 @@ public class ServerImpl implements Server {
     }
 
     @Override
-    public @NotNull Collection<World> getWorlds() {
-        return this.worlds.values();
+    @NotNull
+    public Collection<World> getWorlds() {
+        return worlds.values();
     }
 
     @Override
-    public @NotNull Optional<World> getWorld(@NotNull String name) {
-        return this.worlds.values().stream()
+    @Nullable
+    public World getWorld(@NotNull String name) {
+        return worlds.values().stream()
                 .filter(world -> world.getName().equals(name))
-                .findFirst();
+                .findFirst().orElse(null);
     }
 
     @Override
-    public @NotNull Optional<World> getWorld(@NotNull UUID uuid) {
-        return Optional.ofNullable(this.worlds.get(uuid));
+    @Nullable
+    public World getWorld(@NotNull UUID uuid) {
+        return worlds.get(uuid);
     }
 
     @Override
     public int getProtocolVersion() {
-        return SharedConstants.getGameVersion().getProtocolVersion();
+        return SharedConstants.getCurrentVersion().getProtocolVersion();
     }
 
     @Override
     public int getViewDistance() {
-        return this.minecraftServer.getPlayerManager().getViewDistance();
+        return minecraftServer.getPlayerList().getViewDistance();
     }
 
     @Override
-    public @NotNull Registry getRegistry() {
-        return this.registry;
+    @NotNull
+    public Registry getRegistry() {
+        return registry;
     }
 
     public MinecraftServer getMinecraftServer() {

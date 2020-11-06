@@ -5,6 +5,6 @@ import org.loomdev.api.entity.Ageable;
 /**
  * Represents a Zoglin entity.
  */
-public interface Zoglin extends HostileEntity, Monster, Ageable {
+public interface Zoglin extends Monster, Enemy, Ageable {
 
 }

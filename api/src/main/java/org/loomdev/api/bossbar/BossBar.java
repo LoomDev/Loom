@@ -39,9 +39,9 @@ public interface BossBar {
 
     void setVisible(boolean visible);
 
-    boolean isDarkenSky();
+    boolean isDarkenScreen();
 
-    void setDarkenSky(boolean darkenSky);
+    void setDarkenScreen(boolean darkenScreen);
 
     boolean isThickenFog();
 
@@ -91,7 +91,7 @@ public interface BossBar {
 
         Builder visible(boolean visible);
 
-        Builder darkenSky(boolean darkenSky);
+        Builder darkenScreen(boolean darkenScreen);
 
         Builder thickenFog(boolean thickenFog);
 

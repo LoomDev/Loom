@@ -1,40 +1,41 @@
 package org.loomdev.loom.entity.vehicle;
 
-import net.minecraft.entity.vehicle.SpawnerMinecartEntity;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.vehicle.MinecartSpawner;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.vehicle.SpawnerMinecart;
 
-public class SpawnerMinecartImpl extends MinecartImpl implements SpawnerMinecart {
+public class SpawnerMinecartImpl extends AbstractMinecartImpl implements SpawnerMinecart {
 
-    public SpawnerMinecartImpl(SpawnerMinecartEntity entity) {
+    public SpawnerMinecartImpl(MinecartSpawner entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType<SpawnerMinecart> getType() {
+    @NotNull
+    public EntityType<SpawnerMinecart> getType() {
         return EntityType.SPAWNER_MINECART;
     }
 
     @Override
-    public @NotNull SpawnerMinecartEntity getMinecraftEntity() {
-        return (SpawnerMinecartEntity) super.getMinecraftEntity();
+    @NotNull
+    public MinecartSpawner getMinecraftEntity() {
+        return (MinecartSpawner) super.getMinecraftEntity();
     }
 
     @Override
-    public @Nullable EntityType<?> getEntityType() {
-        Identifier id = getMinecraftEntity().logic.getEntityId();
+    @Nullable
+    public EntityType<?> getEntityType() {
+        ResourceLocation id = getMinecraftEntity().spawner.getEntityId(null, null); // fucking hell, why mojang????
         return id == null ? null : EntityType.getById(id.toString());
     }
 
     @Override
     public void setEntityType(@Nullable EntityType<?> entityType) {
         if (entityType == null) return;
-        getMinecraftEntity().logic.setEntityId(
-            Registry.ENTITY_TYPE.get(new Identifier(entityType.getKey().toString()))
-        );
+        getMinecraftEntity().spawner.setEntityId(Registry.ENTITY_TYPE.get(new ResourceLocation(entityType.getKey().toString())));
     }
 }

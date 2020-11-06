@@ -2,8 +2,8 @@ package org.loomdev.loom.bossbar;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
-import net.minecraft.entity.boss.ServerBossBar;
-import net.minecraft.text.LiteralText;
+import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.world.BossEvent;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.entity.player.Player;
@@ -17,23 +17,26 @@ import java.util.stream.Collectors;
 
 public class BossBarImpl implements BossBar {
 
-    private final ServerBossBar mcBar;
+    private final ServerBossEvent mcBar;
 
-    public BossBarImpl(@NotNull ServerBossBar mcBar) {
+    public BossBarImpl(@NotNull ServerBossEvent mcBar) {
         this.mcBar = mcBar;
     }
 
-    public @NotNull ServerBossBar getMinecraftBossBar() {
+    @NotNull
+    public ServerBossEvent getMinecraftBossBar() {
         return mcBar;
     }
 
     @Override
-    public @NotNull UUID getUUID() {
-        return mcBar.getUuid();
+    @NotNull
+    public UUID getUUID() {
+        return mcBar.getId();
     }
 
     @Override
-    public @NotNull Component getText() {
+    @NotNull
+    public Component getText() {
         return TextTransformer.toLoom(mcBar.getName());
     }
 
@@ -58,23 +61,25 @@ public class BossBarImpl implements BossBar {
     }
 
     @Override
-    public @NotNull Color getColor() {
+    @NotNull
+    public Color getColor() {
         return Color.valueOf(mcBar.getColor().name());
     }
 
     @Override
     public void setColor(@NotNull Color color) {
-        mcBar.setColor(net.minecraft.entity.boss.BossBar.Color.valueOf(color.name()));
+        mcBar.setColor(BossEvent.BossBarColor.valueOf(color.name()));
     }
 
     @Override
-    public @NotNull Style getStyle() {
+    @NotNull
+    public Style getStyle() {
         return Style.valueOf(mcBar.getOverlay().name());
     }
 
     @Override
     public void setStyle(@NotNull Style style) {
-        mcBar.setOverlay(net.minecraft.entity.boss.BossBar.Style.valueOf(style.name()));
+        mcBar.setOverlay(BossEvent.BossBarOverlay.valueOf(style.name()));
     }
 
     @Override
@@ -88,37 +93,38 @@ public class BossBarImpl implements BossBar {
     }
 
     @Override
-    public boolean isDarkenSky() {
-        return mcBar.getDarkenSky();
+    public boolean isDarkenScreen() {
+        return mcBar.shouldDarkenScreen();
     }
 
     @Override
-    public void setDarkenSky(boolean darkenSky) {
-        mcBar.setDarkenSky(darkenSky);
+    public void setDarkenScreen(boolean darkenScreen) {
+        mcBar.setDarkenScreen(darkenScreen);
     }
 
     @Override
     public boolean isThickenFog() {
-        return mcBar.getThickenFog();
+        return mcBar.shouldCreateWorldFog();
     }
 
     @Override
     public void setThickenFog(boolean thickenFog) {
-        mcBar.setThickenFog(thickenFog);
+        mcBar.setCreateWorldFog(thickenFog);
     }
 
     @Override
-    public boolean hasDragonMusic() {
-        return mcBar.hasDragonMusic();
+    public boolean hasDragonMusic() { // TODO rename API method
+        return mcBar.shouldPlayBossMusic();
     }
 
     @Override
     public void setDragonMusic(boolean dragonMusic) {
-        mcBar.setDragonMusic(dragonMusic);
+        mcBar.setPlayBossMusic(dragonMusic);
     }
 
     @Override
-    public @NotNull Collection<? extends Player> getPlayers() {
+    @NotNull
+    public Collection<? extends Player> getPlayers() {
         return mcBar.getPlayers()
                 .stream()
                 .map(e -> (PlayerImpl) e.getLoomEntity())
@@ -140,7 +146,7 @@ public class BossBarImpl implements BossBar {
         getPlayers().forEach(this::removePlayer);
     }
 
-    public static BossBar ofMc(ServerBossBar mcBossBar) {
+    public static BossBar of(ServerBossEvent mcBossBar) {
         return new BossBarImpl(mcBossBar);
     }
 
@@ -149,16 +155,16 @@ public class BossBarImpl implements BossBar {
         private BossBar bossbar;
 
         public BuilderImpl() {
-            this.bossbar = new BossBarImpl(new ServerBossBar(
-                    LiteralText.EMPTY,
-                    net.minecraft.entity.boss.BossBar.Color.PURPLE,
-                    net.minecraft.entity.boss.BossBar.Style.PROGRESS
+            this.bossbar = new BossBarImpl(new ServerBossEvent(
+                    net.minecraft.network.chat.TextComponent.EMPTY,
+                    BossEvent.BossBarColor.PURPLE,
+                    BossEvent.BossBarOverlay.PROGRESS
             ));
         }
 
         @Override
         public BossBar.Builder text(@NotNull String text) {
-            return text(TextComponent.of(text));
+            return text(Component.text(text));
         }
 
         @Override
@@ -192,8 +198,8 @@ public class BossBarImpl implements BossBar {
         }
 
         @Override
-        public BossBar.Builder darkenSky(boolean darkenSky) {
-            bossbar.setDarkenSky(darkenSky);
+        public BossBar.Builder darkenScreen(boolean darkenSky) {
+            bossbar.setDarkenScreen(darkenSky);
             return this;
         }
 

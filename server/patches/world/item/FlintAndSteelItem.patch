@@ -1,0 +1,18 @@
+--- a/net/minecraft/world/item/FlintAndSteelItem.java
++++ b/net/minecraft/world/item/FlintAndSteelItem.java
+@@ -32,6 +32,7 @@
+             BlockPos blockpos1 = blockpos.relative(useoncontext.getClickedFace());
+ 
+             if (BaseFireBlock.canBePlacedAt(level, blockpos1, useoncontext.getHorizontalDirection())) {
++                if (player != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(level, blockpos, player, org.loomdev.api.event.block.BlockIgniteEvent.Cause.FLINT_AND_STEEL).isCancelled()) return InteractionResult.FAIL; // Loom :: fire BlockIgniteEvent
+                 level.playSound(player, blockpos1, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
+                 BlockState blockstate1 = BaseFireBlock.getState(level, blockpos1);
+ 
+@@ -50,6 +51,7 @@
+                 return InteractionResult.FAIL;
+             }
+         } else {
++            if (player != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(level, blockpos, player, org.loomdev.api.event.block.BlockIgniteEvent.Cause.FLINT_AND_STEEL).isCancelled()) return InteractionResult.FAIL; // Loom :: fire BlockIgniteEvent
+             level.playSound(player, blockpos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
+             level.setBlock(blockpos, (BlockState) blockstate.setValue(BlockStateProperties.LIT, true), 11);
+             if (player != null) {

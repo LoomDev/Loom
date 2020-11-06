@@ -1,0 +1,63 @@
+--- a/net/minecraft/world/entity/LivingEntity.java
++++ b/net/minecraft/world/entity/LivingEntity.java
+@@ -108,6 +108,16 @@
+ 
+ public abstract class LivingEntity extends Entity {
+ 
++    // Loom start
++    public java.util.OptionalInt maxAirSupplyOverride = java.util.OptionalInt.empty();
++    public java.util.Optional<Boolean> sensitiveToWaterOverride = java.util.Optional.empty();
++
++    @Override
++    public int getMaxAirSupply() {
++        if (maxAirSupplyOverride == null) return super.getMaxAirSupply();
++        return maxAirSupplyOverride.orElse(super.getMaxAirSupply());
++    }
++    // Loom end
+     private static final UUID SPEED_MODIFIER_SPRINTING_UUID = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
+     private static final UUID SPEED_MODIFIER_SOUL_SPEED_UUID = UUID.fromString("87f46a96-686f-4796-b035-22e16ee9e038");
+     private static final AttributeModifier SPEED_MODIFIER_SPRINTING = new AttributeModifier(LivingEntity.SPEED_MODIFIER_SPRINTING_UUID, "Sprinting speed boost", 0.30000001192092896D, AttributeModifier.Operation.MULTIPLY_TOTAL);
+@@ -191,6 +201,7 @@
+     private float swimAmount;
+     private float swimAmountO;
+     protected Brain<?> brain;
++    public boolean pickUpLoot; // Loom :: moved from MobEntity
+ 
+     protected LivingEntity(EntityType<? extends LivingEntity> entitytype, Level level) {
+         super(entitytype, level);
+@@ -1559,7 +1570,7 @@
+ 
+     }
+ 
+-    protected void outOfWorld() {
++    public void outOfWorld() { // Loom :: protected -> public
+         this.hurt(DamageSource.OUT_OF_WORLD, 4.0F);
+     }
+ 
+@@ -2348,7 +2359,7 @@
+     }
+ 
+     public boolean isSensitiveToWater() {
+-        return false;
++        return sensitiveToWaterOverride.orElse(false); // Loom
+     }
+ 
+     private void updateFallFlying() {
+@@ -2604,7 +2615,7 @@
+ 
+     }
+ 
+-    protected void setLivingEntityFlag(int i, boolean flag) {
++    public void setLivingEntityFlag(int i, boolean flag) { // Loom :: protected -> public
+         byte b0 = (Byte) this.entityData.get(LivingEntity.DATA_LIVING_ENTITY_FLAGS);
+         int j;
+ 
+@@ -2886,7 +2897,7 @@
+     }
+ 
+     public void stopSleeping() {
+-        Optional optional = this.getSleepingPos();
++        Optional<BlockPos> optional = this.getSleepingPos(); // Loom :: decompile error
+         Level level = this.level;
+ 
+         this.level.getClass();

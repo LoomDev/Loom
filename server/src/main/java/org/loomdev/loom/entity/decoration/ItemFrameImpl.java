@@ -1,36 +1,38 @@
 package org.loomdev.loom.entity.decoration;
 
-import net.minecraft.entity.decoration.ItemFrameEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.ItemFrame;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.loom.item.ItemStackImpl;
 
-public class ItemFrameImpl extends DecorationEntityImpl implements ItemFrame {
+public class ItemFrameImpl extends HangingEntityImpl implements ItemFrame {
 
-    public ItemFrameImpl(ItemFrameEntity entity) {
+    public ItemFrameImpl(net.minecraft.world.entity.decoration.ItemFrame entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    @NotNull
+    public EntityType<ItemFrame> getType() {
         return EntityType.ITEM_FRAME;
     }
 
     @Override
-    public @NotNull ItemFrameEntity getMinecraftEntity() {
-        return (ItemFrameEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.decoration.ItemFrame getMinecraftEntity() {
+        return (net.minecraft.world.entity.decoration.ItemFrame) super.getMinecraftEntity();
     }
 
     @Override
-    public @NotNull ItemStack getHeldItemStack() {
-        return ItemStackImpl.ofMcStack(getMinecraftEntity().getHeldItemStack());
+    @NotNull
+    public ItemStack getHeldItem() {
+        return ItemStackImpl.of(getMinecraftEntity().getItem());
     }
 
     @Override
-    public void setHeldItemStack(@NotNull ItemStack itemStack) {
-        getMinecraftEntity().setHeldItemStack(((ItemStackImpl) itemStack).getMinecraftItemStack(), false);
+    public void setHeldItem(@NotNull ItemStack itemStack) {
+        getMinecraftEntity().setItem(((ItemStackImpl) itemStack).getMinecraftItemStack(), false);
     }
 
     @Override
@@ -55,12 +57,12 @@ public class ItemFrameImpl extends DecorationEntityImpl implements ItemFrame {
 
     @Override
     public float getItemDropChance() {
-        return getMinecraftEntity().itemDropChance;
+        return getMinecraftEntity().dropChance;
     }
 
     @Override
     public void setItemDropChance(float chance) {
-        getMinecraftEntity().itemDropChance = chance;
+        getMinecraftEntity().dropChance = chance;
     }
 
     @Override

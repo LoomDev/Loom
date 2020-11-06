@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/npc/AbstractVillager.java
++++ b/net/minecraft/world/entity/npc/AbstractVillager.java
+@@ -38,7 +38,7 @@
+     @Nullable
+     private Player tradingPlayer;
+     @Nullable
+-    protected MerchantOffers offers;
++    public MerchantOffers offers; // Loom :: protected -> public (AbstractVillagerImpl)
+     private final SimpleContainer inventory = new SimpleContainer(8);
+ 
+     public AbstractVillager(EntityType<? extends AbstractVillager> entitytype, Level level) {

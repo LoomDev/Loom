@@ -1,33 +1,34 @@
 package org.loomdev.loom.entity.projectile;
 
-import net.minecraft.entity.projectile.WitherSkullEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.WitherSkull;
 
 public class WitherSkullImpl extends ProjectileImpl implements WitherSkull {
 
-    public WitherSkullImpl(WitherSkullEntity entity) {
+    public WitherSkullImpl(net.minecraft.world.entity.projectile.WitherSkull entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType<WitherSkull> getType() {
+    @NotNull
+    public EntityType<WitherSkull> getType() {
         return EntityType.WITHER_SKULL;
     }
 
     @Override
-    public @NotNull WitherSkullEntity getMinecraftEntity() {
-        return (WitherSkullEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.projectile.WitherSkull getMinecraftEntity() {
+        return (net.minecraft.world.entity.projectile.WitherSkull) super.getMinecraftEntity();
     }
 
     @Override
     public boolean isCharged() {
-        return getMinecraftEntity().isCharged();
+        return getMinecraftEntity().isDangerous();
     }
 
     @Override
     public void setCharged(boolean flag) {
-        getMinecraftEntity().setCharged(flag);
+        getMinecraftEntity().setDangerous(flag);
     }
 }

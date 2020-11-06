@@ -1,6 +1,5 @@
 package org.loomdev.loom.entity;
 
-import net.minecraft.entity.EyeOfEnderEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.EyeOfEnder;
@@ -10,46 +9,49 @@ import org.loomdev.loom.item.ItemStackImpl;
 
 public class EyeOfEnderImpl extends EntityImpl implements EyeOfEnder {
 
-    public EyeOfEnderImpl(EyeOfEnderEntity entity) {
+    public EyeOfEnderImpl(net.minecraft.world.entity.projectile.EyeOfEnder entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType<EyeOfEnder> getType() {
+    @NotNull
+    public EntityType<EyeOfEnder> getType() {
         return EntityType.EYE_OF_ENDER;
     }
 
     @NotNull
     @Override
-    public EyeOfEnderEntity getMinecraftEntity() {
-        return (EyeOfEnderEntity) super.getMinecraftEntity();
+    public net.minecraft.world.entity.projectile.EyeOfEnder getMinecraftEntity() {
+        return (net.minecraft.world.entity.projectile.EyeOfEnder) super.getMinecraftEntity();
     }
 
     @Override
     public boolean getDropsItem() {
-        return getMinecraftEntity().dropsItem;
+        return getMinecraftEntity().surviveAfterDeath;
     }
 
     @Override
     public void setDropsItem(boolean dropsItem) {
-        getMinecraftEntity().dropsItem = dropsItem;
+        getMinecraftEntity().surviveAfterDeath = dropsItem;
     }
 
     @Override
-    public @NotNull Vector3d getTarget() {
-        return new Vector3d(getMinecraftEntity().targetX, getMinecraftEntity().targetY, getMinecraftEntity().targetZ);
+    @NotNull
+    public Vector3d getTarget() {
+        return new Vector3d(getMinecraftEntity().tx, getMinecraftEntity().ty, getMinecraftEntity().tz);
     }
 
     @Override
     public void setTarget(@NotNull Vector3d vector3d) {
-        getMinecraftEntity().targetX = vector3d.getX();
-        getMinecraftEntity().targetY = vector3d.getY();
-        getMinecraftEntity().targetZ = vector3d.getZ();
+        getMinecraftEntity().tx = vector3d.getX();
+        getMinecraftEntity().ty = vector3d.getY();
+        getMinecraftEntity().tz = vector3d.getZ();
     }
 
     @Override
-    public @NotNull ItemStack getItem() {
-        return ItemStackImpl.ofMcStack(getMinecraftEntity().getTrackedItem());
+    @NotNull
+    public ItemStack getItem() {
+        return ItemStackImpl.of(getMinecraftEntity().getItemRaw());
     }
 
     @Override

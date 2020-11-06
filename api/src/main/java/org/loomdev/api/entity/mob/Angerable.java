@@ -18,14 +18,15 @@ public interface Angerable {
 
     void stopAnger();
 
-    Optional<UUID> getAngryAt();
+    @Nullable
+    UUID getAngryAt();
 
     void setAngryAt(@Nullable UUID uuid);
 
-    Optional<LivingEntity> getTarget();
+    @Nullable
+    LivingEntity getTarget();
 
     void setTarget(@NotNull LivingEntity entity);
 
     void forgive(@NotNull Player player); // TODO not server player (npc)
-
 }

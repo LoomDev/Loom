@@ -1,0 +1,49 @@
+--- a/net/minecraft/world/entity/monster/piglin/AbstractPiglin.java
++++ b/net/minecraft/world/entity/monster/piglin/AbstractPiglin.java
+@@ -22,8 +22,9 @@
+ 
+ public abstract class AbstractPiglin extends Monster {
+ 
++    public static int CONVERSION_TIME = 300; // Loom :: (AbstractPiglinImpl)
+     protected static final EntityDataAccessor<Boolean> DATA_IMMUNE_TO_ZOMBIFICATION = SynchedEntityData.defineId(AbstractPiglin.class, EntityDataSerializers.BOOLEAN);
+-    protected int timeInOverworld;
++    public int timeInOverworld; // Loom :: protected -> public (AbstractPiglinImpl)
+ 
+     public AbstractPiglin(EntityType<? extends AbstractPiglin> entitytype, Level level) {
+         super(entitytype, level);
+@@ -46,7 +47,7 @@
+         this.getEntityData().set(AbstractPiglin.DATA_IMMUNE_TO_ZOMBIFICATION, flag);
+     }
+ 
+-    protected boolean isImmuneToZombification() {
++    public boolean isImmuneToZombification() { // Loom :: protected -> public (AbstractPiglinImpl)
+         return (Boolean) this.getEntityData().get(AbstractPiglin.DATA_IMMUNE_TO_ZOMBIFICATION);
+     }
+ 
+@@ -82,7 +83,7 @@
+             this.timeInOverworld = 0;
+         }
+ 
+-        if (this.timeInOverworld > 300) {
++        if (this.timeInOverworld > CONVERSION_TIME) { // Loom :: (AbstractPiglinImpl)
+             this.playConvertedSound();
+             this.finishConversion((ServerLevel) this.level);
+         }
+@@ -93,7 +94,7 @@
+         return !this.level.dimensionType().piglinSafe() && !this.isImmuneToZombification() && !this.isNoAi();
+     }
+ 
+-    protected void finishConversion(ServerLevel serverlevel) {
++    public void finishConversion(ServerLevel serverlevel) { // Loom :: protected -> public (AbstractPiglinImpl)
+         ZombifiedPiglin zombifiedpiglin = (ZombifiedPiglin) this.convertTo(EntityType.ZOMBIFIED_PIGLIN, true);
+ 
+         if (zombifiedpiglin != null) {
+@@ -108,7 +109,7 @@
+ 
+     @Nullable
+     public LivingEntity getTarget() {
+-        return (LivingEntity) this.brain.getMemory(MemoryModuleType.ATTACK_TARGET).orElse((Object) null);
++        return (LivingEntity) this.brain.getMemory(MemoryModuleType.ATTACK_TARGET).orElse(null); // Loom :: decompile error
+     }
+ 
+     protected boolean isHoldingMeleeWeapon() {

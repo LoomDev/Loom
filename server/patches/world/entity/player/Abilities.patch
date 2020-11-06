@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/entity/player/Abilities.java
++++ b/net/minecraft/world/entity/player/Abilities.java
+@@ -9,8 +9,8 @@
+     public boolean mayfly;
+     public boolean instabuild;
+     public boolean mayBuild = true;
+-    private float flyingSpeed = 0.05F;
+-    private float walkingSpeed = 0.1F;
++    public float flyingSpeed = 0.05F; // Loom :: private -> public
++    public float walkingSpeed = 0.1F; // Loom :: private -> public
+ 
+     public Abilities() {}
+ 

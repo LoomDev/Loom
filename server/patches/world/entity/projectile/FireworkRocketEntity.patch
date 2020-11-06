@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
++++ b/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
+@@ -31,7 +31,7 @@
+ 
+     private static final EntityDataAccessor<ItemStack> DATA_ID_FIREWORKS_ITEM = SynchedEntityData.defineId(FireworkRocketEntity.class, EntityDataSerializers.ITEM_STACK);
+     private static final EntityDataAccessor<OptionalInt> DATA_ATTACHED_TO_TARGET = SynchedEntityData.defineId(FireworkRocketEntity.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
+-    private static final EntityDataAccessor<Boolean> DATA_SHOT_AT_ANGLE = SynchedEntityData.defineId(FireworkRocketEntity.class, EntityDataSerializers.BOOLEAN);
++    public static final EntityDataAccessor<Boolean> DATA_SHOT_AT_ANGLE = SynchedEntityData.defineId(FireworkRocketEntity.class, EntityDataSerializers.BOOLEAN); // Loom :: private -> public
+     private int life;
+     private int lifetime;
+     private LivingEntity attachedToEntity;
+@@ -146,7 +146,7 @@
+ 
+     }
+ 
+-    private void explode() {
++    public void explode() { // Loom :: private -> public
+         this.level.broadcastEntityEvent(this, (byte) 17);
+         this.dealExplosionDamage();
+         this.discard();

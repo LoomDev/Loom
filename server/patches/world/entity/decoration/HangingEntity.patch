@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/decoration/HangingEntity.java
++++ b/net/minecraft/world/entity/decoration/HangingEntity.java
+@@ -31,7 +31,7 @@
+     };
+     private int checkInterval;
+     protected BlockPos pos;
+-    protected Direction direction;
++    public Direction direction; // Loom :: protected -> public (HangingEntityImpl)
+ 
+     protected HangingEntity(EntityType<? extends HangingEntity> entitytype, Level level) {
+         super(entitytype, level);
+@@ -45,7 +45,7 @@
+ 
+     protected void defineSynchedData() {}
+ 
+-    protected void setDirection(Direction direction) {
++    public void setDirection(Direction direction) { // Loom :: protected -> public
+         Validate.notNull(direction);
+         Validate.isTrue(direction.getAxis().isHorizontal());
+         this.direction = direction;

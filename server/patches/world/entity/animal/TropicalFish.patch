@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/animal/TropicalFish.java
++++ b/net/minecraft/world/entity/animal/TropicalFish.java
+@@ -152,7 +152,7 @@
+         }
+     }
+ 
+-    static enum Pattern {
++    public enum Pattern { // Loom :: static -> public
+ 
+         KOB(0, 0), SUNSTREAK(0, 1), SNOOPER(0, 2), DASHER(0, 3), BRINELY(0, 4), SPOTTY(0, 5), FLOPPER(1, 0), STRIPEY(1, 1), GLITTER(1, 2), BLOCKFISH(1, 3), BETTY(1, 4), CLAYFISH(1, 5);
+ 

@@ -1,23 +1,24 @@
 package org.loomdev.loom.entity.projectile;
 
-import net.minecraft.entity.projectile.LlamaSpitEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.LlamaSpit;
 
 public class LlamaSpitImpl extends ProjectileImpl implements LlamaSpit {
 
-    public LlamaSpitImpl(LlamaSpitEntity entity) {
+    public LlamaSpitImpl(net.minecraft.world.entity.projectile.LlamaSpit entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    @NotNull
+    public EntityType<LlamaSpit> getType() {
         return EntityType.LLAMA_SPIT;
     }
 
     @Override
-    public @NotNull LlamaSpitEntity getMinecraftEntity() {
-        return (LlamaSpitEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.projectile.LlamaSpit getMinecraftEntity() {
+        return (net.minecraft.world.entity.projectile.LlamaSpit) super.getMinecraftEntity();
     }
 }

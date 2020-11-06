@@ -9,8 +9,8 @@ import org.loomdev.api.block.BlockType;
 import org.loomdev.api.entity.boss.Wither;
 import org.loomdev.api.entity.boss.dragon.EnderDragon;
 import org.loomdev.api.entity.decoration.*;
-import org.loomdev.api.entity.effect.AreaEffectCloudEntity;
-import org.loomdev.api.entity.misc.Lightning;
+import org.loomdev.api.entity.effect.AreaEffectCloud;
+import org.loomdev.api.entity.misc.LightningBolt;
 import org.loomdev.api.entity.mob.*;
 import org.loomdev.api.entity.passive.*;
 import org.loomdev.api.entity.player.Player;
@@ -23,7 +23,7 @@ public interface EntityType<T extends Entity> extends Keyed {
 
     // region :: EntityTypes
 
-    EntityType<AreaEffectCloudEntity> AREA_EFFECT_CLOUD = getById("minecraft:area_effect_cloud");
+    EntityType<AreaEffectCloud> AREA_EFFECT_CLOUD = getById("minecraft:area_effect_cloud");
     EntityType<ArmorStand> ARMOR_STAND = getById("minecraft:armor_stand");
     EntityType<Arrow> ARROW = getById("minecraft:arrow");
     EntityType<Bat> BAT = getById("minecraft:bat");
@@ -42,22 +42,22 @@ public interface EntityType<T extends Entity> extends Keyed {
     EntityType<Donkey> DONKEY = getById("minecraft:donkey");
     EntityType<DragonFireball> DRAGON_FIREBALL = getById("minecraft:dragon_fireball");
     EntityType<Drowned> DROWNED = getById("minecraft:drowned");
-    EntityType<Egg> EGG = getById("minecraft:egg");
+    EntityType<ThrownEgg> EGG = getById("minecraft:egg");
     EntityType<ElderGuardian> ELDER_GUARDIAN = getById("minecraft:elder_guardian");
     EntityType<EndCrystal> END_CRYSTAL = getById("minecraft:end_crystal");
     EntityType<EnderDragon> ENDER_DRAGON = getById("minecraft:ender_dragon");
-    EntityType<EnderPearl> ENDER_PEARL = getById("minecraft:ender_pearl");
+    EntityType<Enderpearl> ENDER_PEARL = getById("minecraft:ender_pearl");
     EntityType<Enderman> ENDERMAN = getById("minecraft:enderman");
     EntityType<Endermite> ENDERMITE = getById("minecraft:endermite");
     EntityType<Evoker> EVOKER = getById("minecraft:evoker");
     EntityType<EvokerFangs> EVOKER_FANGS = getById("minecraft:evoker_fangs");
-    EntityType<ExperienceBottle> EXPERIENCE_BOTTLE = getById("minecraft:experience_bottle");
+    EntityType<ThrownExperienceBottle> EXPERIENCE_BOTTLE = getById("minecraft:experience_bottle");
     EntityType<ExperienceOrb> EXPERIENCE_ORB = getById("minecraft:experience_orb");
     EntityType<EyeOfEnder> EYE_OF_ENDER = getById("minecraft:eye_of_ender");
     EntityType<FallingBlock> FALLING_BLOCK = getById("minecraft:falling_block");
     EntityType<Fireball> FIREBALL = getById("minecraft:fireball");
     EntityType<FireworkRocket> FIREWORK_ROCKET = getById("minecraft:firework_rocket");
-    EntityType<FishingBobber> FISHING_BOBBER = getById("minecraft:fishing_bobber");
+    EntityType<FishingHook> FISHING_BOBBER = getById("minecraft:fishing_bobber");
     EntityType<Fox> FOX = getById("minecraft:fox");
     EntityType<FurnaceMinecart> FURNACE_MINECART = getById("minecraft:furnace_minecart");
     EntityType<Ghast> GHAST = getById("minecraft:ghast");
@@ -72,7 +72,7 @@ public interface EntityType<T extends Entity> extends Keyed {
     EntityType<Item> ITEM = getById("minecraft:item");
     EntityType<ItemFrame> ITEM_FRAME = getById("minecraft:item_frame");
     EntityType<LeashKnot> LEASH_KNOT = getById("minecraft:leash_knot");
-    EntityType<Lightning> LIGHTNING_BOLT = getById("minecraft:lightning_bolt");
+    EntityType<LightningBolt> LIGHTNING_BOLT = getById("minecraft:lightning_bolt");
     EntityType<Llama> LLAMA = getById("minecraft:llama");
     EntityType<LlamaSpit> LLAMA_SPIT = getById("minecraft:llama_spit");
     EntityType<MagmaCube> MAGMA_CUBE = getById("minecraft:magma_cube");
@@ -90,7 +90,7 @@ public interface EntityType<T extends Entity> extends Keyed {
     EntityType<Pillager> PILLAGER = getById("minecraft:pillager");
     EntityType<Player> PLAYER = getById("minecraft:player");
     EntityType<PolarBear> POLAR_BEAR = getById("minecraft:polar_bear");
-    EntityType<Potion> POTION = getById("minecraft:potion");
+    EntityType<ThrownPotion> POTION = getById("minecraft:potion");
     EntityType<Pufferfish> PUFFERFISH = getById("minecraft:pufferfish");
     EntityType<Rabbit> RABBIT = getById("minecraft:rabbit");
     EntityType<Ravager> RAVAGER = getById("minecraft:ravager");
@@ -111,10 +111,10 @@ public interface EntityType<T extends Entity> extends Keyed {
     EntityType<Squid> SQUID = getById("minecraft:squid");
     EntityType<Stray> STRAY = getById("minecraft:stray");
     EntityType<Strider> STRIDER = getById("minecraft:strider");
-    EntityType<Tnt> TNT = getById("minecraft:tnt");
+    EntityType<PrimedTnt> TNT = getById("minecraft:tnt");
     EntityType<TntMinecart> TNT_MINECART = getById("minecraft:tnt_minecart");
     EntityType<TraderLlama> TRADER_LLAMA = getById("minecraft:trader_llama");
-    EntityType<Trident> TRIDENT = getById("minecraft:trident");
+    EntityType<ThrownTrident> TRIDENT = getById("minecraft:trident");
     EntityType<TropicalFish> TROPICAL_FISH = getById("minecraft:tropical_fish");
     EntityType<Turtle> TURTLE = getById("minecraft:turtle");
     EntityType<Vex> VEX = getById("minecraft:vex");

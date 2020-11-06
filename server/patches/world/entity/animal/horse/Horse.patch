@@ -1,0 +1,64 @@
+--- a/net/minecraft/world/entity/animal/horse/Horse.java
++++ b/net/minecraft/world/entity/animal/horse/Horse.java
+@@ -91,8 +91,8 @@
+         return (Integer) this.entityData.get(Horse.DATA_ID_TYPE_VARIANT);
+     }
+ 
+-    private void setVariantAndMarkings(Variant variant, Markings markings) {
+-        this.setTypeVariant(variant1.getId() & 255 | markings.getId() << 8 & '\uff00');
++    public void setVariantAndMarkings(Variant variant, Markings markings) { // Loom :: private -> public
++        this.setTypeVariant(variant.getId() & 255 | markings.getId() << 8 & '\uff00'); // Loom :: decompile error
+     }
+ 
+     public Variant getVariant() {
+@@ -234,11 +234,11 @@
+             Variant variant;
+ 
+             if (i < 4) {
+-                variant1 = this.getVariant();
++                variant = this.getVariant(); // Loom :: decompile error
+             } else if (i < 8) {
+-                variant2 = horse.getVariant();
++                variant = horse.getVariant(); // Loom :: decompile error
+             } else {
+-                variant3 = (Variant) Util.getRandom((Object[]) Variant.values(), this.random);
++                variant = (Variant) Util.getRandom((Object[]) Variant.values(), this.random); // Loom :: decompile error
+             }
+ 
+             int j = this.random.nextInt(5);
+@@ -252,7 +252,7 @@
+                 markings = (Markings) Util.getRandom((Object[]) Markings.values(), this.random);
+             }
+ 
+-            ((Horse) abstracthorse).setVariantAndMarkings(variant4, markings);
++            ((Horse) abstracthorse).setVariantAndMarkings(variant, markings); // Loom :: decompile error
+         }
+ 
+         this.setOffspringAttributes(ageablemob, abstracthorse);
+@@ -272,13 +272,13 @@
+         Variant variant;
+ 
+         if (spawngroupdata instanceof Horse.HorseGroupData) {
+-            variant1 = ((Horse.HorseGroupData) spawngroupdata).variant;
++            variant = ((Horse.HorseGroupData) spawngroupdata).variant; // Loom :: decompile error
+         } else {
+-            variant2 = (Variant) Util.getRandom((Object[]) Variant.values(), this.random);
+-            spawngroupdata = new Horse.HorseGroupData(variant3);
++            variant = (Variant) Util.getRandom((Object[]) Variant.values(), this.random); // Loom :: decompile error
++            spawngroupdata = new Horse.HorseGroupData(variant); // Loom :: decompile error
+         }
+ 
+-        this.setVariantAndMarkings(variant4, (Markings) Util.getRandom((Object[]) Markings.values(), this.random));
++        this.setVariantAndMarkings(variant, (Markings) Util.getRandom((Object[]) Markings.values(), this.random)); // Loom :: decompile error
+         return super.finalizeSpawn(serverlevelaccessor, difficultyinstance, mobspawntype, (SpawnGroupData) spawngroupdata, compoundtag);
+     }
+ 
+@@ -288,7 +288,7 @@
+ 
+         public HorseGroupData(Variant variant) {
+             super(true);
+-            this.variant = variant1;
++            this.variant = variant; // Loom :: decompile error
+         }
+     }
+ }

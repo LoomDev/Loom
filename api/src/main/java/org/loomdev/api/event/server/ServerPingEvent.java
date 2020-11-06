@@ -31,7 +31,7 @@ public class ServerPingEvent implements Event, Cancellable {
     }
 
     @NotNull
-    public InetAddress getAddress() {
+    public InetAddress getRemoteAddress() {
         return this.address;
     }
 
@@ -68,11 +68,11 @@ public class ServerPingEvent implements Event, Cancellable {
         this.onlinePlayers = onlinePlayers;
     }
 
-    public int getSlots() {
+    public int getMaxPlayers() {
         return slots;
     }
 
-    public void setSlots(int slots) {
+    public void setMaxPlayers(int slots) {
         this.slots = slots;
     }
 

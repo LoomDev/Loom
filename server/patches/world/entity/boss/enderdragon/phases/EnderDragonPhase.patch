@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/boss/enderdragon/phases/EnderDragonPhase.java
++++ b/net/minecraft/world/entity/boss/enderdragon/phases/EnderDragonPhase.java
+@@ -20,7 +20,7 @@
+     public static final EnderDragonPhase<DragonHoverPhase> HOVERING = create(DragonHoverPhase.class, "Hover");
+     private final Class<? extends DragonPhaseInstance> instanceClass;
+     private final int id;
+-    private final String name;
++    public final String name; // Loom :: private -> public
+ 
+     private EnderDragonPhase(int i, Class<? extends DragonPhaseInstance> oclass, String s) {
+         this.id = i;

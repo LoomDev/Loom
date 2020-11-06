@@ -1,0 +1,10 @@
+--- a/net/minecraft/world/entity/boss/enderdragon/EndCrystal.java
++++ b/net/minecraft/world/entity/boss/enderdragon/EndCrystal.java
+@@ -51,6 +51,7 @@
+             BlockPos blockpos = this.blockPosition();
+ 
+             if (((ServerLevel) this.level).dragonFight() != null && this.level.getBlockState(blockpos).isAir()) {
++                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(level, blockpos, this, org.loomdev.api.event.block.BlockIgniteEvent.Cause.END_CRYSTAL).isCancelled()) return; // Loom :: fire BlockIgniteEvent
+                 this.level.setBlockAndUpdate(blockpos, BaseFireBlock.getState(this.level, blockpos));
+             }
+         }

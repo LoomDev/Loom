@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/material/FlowingFluid.java
++++ b/net/minecraft/world/level/material/FlowingFluid.java
+@@ -433,6 +433,8 @@
+             FluidState fluidstate1 = this.getNewLiquid(level, blockpos, level.getBlockState(blockpos));
+             int i = this.getSpreadDelay(level, blockpos, fluidstate, fluidstate1);
+ 
++
++            if (org.loomdev.loom.event.LoomEventDispatcher.onFluidLevelChange(level, blockpos).isCancelled()) return; // Loom start :: fire FluidLevelChangeEvent
+             if (fluidstate1.isEmpty()) {
+                 fluidstate = fluidstate1;
+                 level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 3);

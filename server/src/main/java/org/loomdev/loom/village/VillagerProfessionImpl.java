@@ -1,8 +1,8 @@
 package org.loomdev.loom.village;
 
 import com.google.common.collect.ImmutableSet;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.Loom;
@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 
 public class VillagerProfessionImpl extends GenericWrapped implements VillagerProfession {
 
-    private final net.minecraft.village.VillagerProfession mcVillagerProfession;
+    private final net.minecraft.world.entity.npc.VillagerProfession mcVillagerProfession;
 
     public VillagerProfessionImpl(String key) {
         super(key);
-        this.mcVillagerProfession = Registry.VILLAGER_PROFESSION.get(new Identifier(key));
+        this.mcVillagerProfession = Registry.VILLAGER_PROFESSION.get(new ResourceLocation(key));
     }
 
     @Override
@@ -29,28 +29,27 @@ public class VillagerProfessionImpl extends GenericWrapped implements VillagerPr
     public PointOfInterestType getWorkStation() {
         return Loom.getRegistry().getWrapped(
                 PointOfInterestType.class,
-                Registry.POINT_OF_INTEREST_TYPE.getId(this.mcVillagerProfession.getWorkStation()).toString()
+                Registry.POINT_OF_INTEREST_TYPE.getKey(this.mcVillagerProfession.getJobPoiType()).toString()
         );
     }
 
     @Override
     public ImmutableSet<ItemType> getGatherableItems() {
-        return ImmutableSet.copyOf(this.mcVillagerProfession.getGatherableItems().stream()
-                .map(item -> ItemType.getById(Registry.ITEM.getId(item).toString()))
+        return ImmutableSet.copyOf(this.mcVillagerProfession.getRequestedItems().stream()
+                .map(item -> ItemType.getById(Registry.ITEM.getKey(item).toString()))
                 .collect(Collectors.toSet()));
     }
 
     @Override
     public ImmutableSet<BlockType> getSecondaryJobSites() {
-        return ImmutableSet.copyOf(this.mcVillagerProfession.getSecondaryJobSites().stream()
-                .map(block -> BlockType.getById(Registry.BLOCK.getId(block).toString()))
+        return ImmutableSet.copyOf(this.mcVillagerProfession.getSecondaryPoi().stream()
+                .map(block -> BlockType.getById(Registry.BLOCK.getKey(block).toString()))
                 .collect(Collectors.toSet()));
     }
 
     @Override
     @Nullable
     public SoundEvent getWorkSound() {
-        return SoundEvent.getById(Registry.SOUND_EVENT.getId(this.mcVillagerProfession.getWorkSound()).toString());
+        return SoundEvent.getById(Registry.SOUND_EVENT.getKey(this.mcVillagerProfession.getWorkSound()).toString());
     }
-
 }

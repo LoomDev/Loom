@@ -1,22 +1,24 @@
 package org.loomdev.loom.entity.projectile;
 
-import net.minecraft.entity.projectile.SmallFireballEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.SmallFireball;
 
-public class SmallFireballImpl extends SizedFireballImpl implements SmallFireball {
-    public SmallFireballImpl(SmallFireballEntity entity) {
+public class SmallFireballImpl extends FireballImpl implements SmallFireball {
+
+    public SmallFireballImpl(net.minecraft.world.entity.projectile.SmallFireball entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    @NotNull
+    public EntityType<SmallFireball> getType() {
         return EntityType.SMALL_FIREBALL;
     }
 
     @Override
-    public @NotNull SmallFireballEntity getMinecraftEntity() {
-        return (SmallFireballEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.projectile.SmallFireball getMinecraftEntity() {
+        return (net.minecraft.world.entity.projectile.SmallFireball) super.getMinecraftEntity();
     }
 }

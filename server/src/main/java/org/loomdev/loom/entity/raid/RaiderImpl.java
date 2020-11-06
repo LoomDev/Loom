@@ -1,19 +1,19 @@
 package org.loomdev.loom.entity.raid;
 
-import net.minecraft.entity.raid.RaiderEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.raid.Raider;
-import org.loomdev.loom.entity.mob.PatrolEntityImpl;
+import org.loomdev.loom.entity.monster.PatrollingMonsterImpl;
 
-public abstract class RaiderImpl extends PatrolEntityImpl implements Raider {
+public abstract class RaiderImpl extends PatrollingMonsterImpl implements Raider {
 
-    public RaiderImpl(RaiderEntity entity) {
+    public RaiderImpl(net.minecraft.world.entity.raid.Raider entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull RaiderEntity getMinecraftEntity() {
-        return (RaiderEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.raid.Raider getMinecraftEntity() {
+        return (net.minecraft.world.entity.raid.Raider) super.getMinecraftEntity();
     }
 
     @Override
@@ -22,8 +22,8 @@ public abstract class RaiderImpl extends PatrolEntityImpl implements Raider {
     }
 
     @Override
-    public void setCanJoinRaid(boolean b) {
-        getMinecraftEntity().setAbleToJoinRaid(b);
+    public void setCanJoinRaid(boolean canJoin) {
+        getMinecraftEntity().setCanJoinRaid(canJoin);
     }
 
     @Override
@@ -43,7 +43,7 @@ public abstract class RaiderImpl extends PatrolEntityImpl implements Raider {
 
     @Override
     public boolean isCelebrating() {
-        return getMinecraftEntity().dataTracker.get(RaiderEntity.CELEBRATING);
+        return getMinecraftEntity().entityData.get(net.minecraft.world.entity.raid.Raider.IS_CELEBRATING);
     }
 
     @Override

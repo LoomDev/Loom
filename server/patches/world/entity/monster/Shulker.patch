@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/Shulker.java
++++ b/net/minecraft/world/entity/monster/Shulker.java
+@@ -56,7 +56,7 @@
+     protected static final EntityDataAccessor<Direction> DATA_ATTACH_FACE_ID = SynchedEntityData.defineId(Shulker.class, EntityDataSerializers.DIRECTION);
+     protected static final EntityDataAccessor<Optional<BlockPos>> DATA_ATTACH_POS_ID = SynchedEntityData.defineId(Shulker.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
+     protected static final EntityDataAccessor<Byte> DATA_PEEK_ID = SynchedEntityData.defineId(Shulker.class, EntityDataSerializers.BYTE);
+-    protected static final EntityDataAccessor<Byte> DATA_COLOR_ID = SynchedEntityData.defineId(Shulker.class, EntityDataSerializers.BYTE);
++    public static final EntityDataAccessor<Byte> DATA_COLOR_ID = SynchedEntityData.defineId(Shulker.class, EntityDataSerializers.BYTE); // Loom :: protected -> public (ShulkerImpl)
+     private float currentPeekAmountO;
+     private float currentPeekAmount;
+     private BlockPos oldAttachPosition = null;

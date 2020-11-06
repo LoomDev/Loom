@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/entity/Mob.java
++++ b/net/minecraft/world/entity/Mob.java
+@@ -92,7 +92,7 @@
+     private final NonNullList<ItemStack> armorItems;
+     protected final float[] armorDropChances;
+     private boolean canPickUpLoot;
+-    private boolean persistenceRequired;
++    public boolean persistenceRequired; // Loom :: private -> public
+     private final Map<BlockPathTypes, Float> pathfindingMalus;
+     private ResourceLocation lootTable;
+     private long lootTableSeed;
+@@ -1096,7 +1096,7 @@
+             if (itemstack.getItem() instanceof SpawnEggItem) {
+                 if (this.level instanceof ServerLevel) {
+                     SpawnEggItem spawneggitem = (SpawnEggItem) itemstack.getItem();
+-                    Optional<Mob> optional = spawneggitem.spawnOffspringFromSpawnEgg(player, this, this.getType(), (ServerLevel) this.level, this.position(), itemstack);
++                    Optional<Mob> optional = spawneggitem.spawnOffspringFromSpawnEgg(player, this, (EntityType<? extends Mob>) this.getType(), (ServerLevel) this.level, this.position(), itemstack); // Loom :: decompile error
+ 
+                     optional.ifPresent((mob) -> {
+                         this.onOffspringSpawnedFromEgg(player, mob);
+@@ -1147,7 +1147,7 @@
+         if (this.isRemoved()) {
+             return null;
+         } else {
+-            T t0 = (Mob) entitytype.create(this.level);
++            T t0 = (T) entitytype.create(this.level); // Loom :: decompile error
+ 
+             t0.copyPosition(this);
+             t0.setBaby(this.isBaby());

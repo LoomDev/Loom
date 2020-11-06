@@ -1,0 +1,21 @@
+--- a/net/minecraft/network/protocol/game/ServerboundClientInformationPacket.java
++++ b/net/minecraft/network/protocol/game/ServerboundClientInformationPacket.java
+@@ -10,7 +10,7 @@
+ public class ServerboundClientInformationPacket implements Packet<ServerGamePacketListener> {
+ 
+     private String language;
+-    private int viewDistance;
++    public int viewDistance; // Loom :: private -> public
+     private ChatVisiblity chatVisibility;
+     private boolean chatColors;
+     private int modelCustomisation;
+@@ -56,7 +56,9 @@
+         return this.mainHand;
+     }
+ 
++    /* // Loom start :: decompile error
+     public void handle(PacketListener packetlistener) {
+         this.handle((ServerGamePacketListener) packetlistener);
+     }
++     */ // Loom end
+ }

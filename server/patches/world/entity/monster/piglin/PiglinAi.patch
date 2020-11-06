@@ -1,0 +1,42 @@
+--- a/net/minecraft/world/entity/monster/piglin/PiglinAi.java
++++ b/net/minecraft/world/entity/monster/piglin/PiglinAi.java
+@@ -155,10 +155,10 @@
+ 
+     protected static void updateActivity(Piglin piglin) {
+         Brain<Piglin> brain = piglin.getBrain();
+-        Activity activity = (Activity) brain.getActiveNonCoreActivity().orElse((Object) null);
++        Activity activity = (Activity) brain.getActiveNonCoreActivity().orElse(null); // Loom :: decompile error
+ 
+         brain.setActiveActivityToFirstValid(ImmutableList.of(Activity.ADMIRE_ITEM, Activity.FIGHT, Activity.AVOID, Activity.CELEBRATE, Activity.RIDE, Activity.IDLE));
+-        Activity activity1 = (Activity) brain.getActiveNonCoreActivity().orElse((Object) null);
++        Activity activity1 = (Activity) brain.getActiveNonCoreActivity().orElse(null); // Loom :: decompile error
+ 
+         if (activity != activity1) {
+             getSoundForCurrentActivity(piglin).ifPresent(piglin::playSound);
+@@ -235,7 +235,7 @@
+         return itemstack1;
+     }
+ 
+-    protected static void stopHoldingOffHandItem(Piglin piglin, boolean flag) {
++    public static void stopHoldingOffHandItem(Piglin piglin, boolean flag) { // Loom :: protected -> public
+         ItemStack itemstack = piglin.getItemInHand(InteractionHand.OFF_HAND);
+ 
+         piglin.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
+@@ -343,7 +343,7 @@
+         }
+     }
+ 
+-    protected static boolean isLovedItem(ItemStack itemstack) {
++    public static boolean isLovedItem(ItemStack itemstack) { // Loom :: protected -> public
+         return itemstack.is((Tag) ItemTags.PIGLIN_LOVED);
+     }
+ 
+@@ -510,7 +510,7 @@
+         return !brain.hasMemoryValue(MemoryModuleType.AVOID_TARGET) ? false : ((LivingEntity) brain.getMemory(MemoryModuleType.AVOID_TARGET).get()).closerThan(piglin, 12.0D);
+     }
+ 
+-    protected static boolean hasAnyoneNearbyHuntedRecently(Piglin piglin) {
++    public static boolean hasAnyoneNearbyHuntedRecently(Piglin piglin) { // Loom :: protected -> public
+         return piglin.getBrain().hasMemoryValue(MemoryModuleType.HUNTED_RECENTLY) || getVisibleAdultPiglins(piglin).stream().anyMatch((abstractpiglin) -> {
+             return abstractpiglin.getBrain().hasMemoryValue(MemoryModuleType.HUNTED_RECENTLY);
+         });

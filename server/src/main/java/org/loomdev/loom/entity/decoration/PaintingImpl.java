@@ -1,59 +1,59 @@
 package org.loomdev.loom.entity.decoration;
 
-import net.minecraft.entity.decoration.painting.PaintingEntity;
-import net.minecraft.entity.decoration.painting.PaintingMotive;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.Painting;
-import org.loomdev.api.util.NamespacedKey;
 import org.loomdev.loom.util.registry.GenericWrapped;
 
-public class PaintingImpl extends DecorationEntityImpl implements Painting {
+public class PaintingImpl extends HangingEntityImpl implements Painting {
 
-    public PaintingImpl(PaintingEntity entity) {
+    public PaintingImpl(net.minecraft.world.entity.decoration.Painting entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    @NotNull
+    public EntityType<Painting> getType() {
         return EntityType.PAINTING;
     }
 
     @Override
-    public @NotNull PaintingEntity getMinecraftEntity() {
-        return (PaintingEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.decoration.Painting getMinecraftEntity() {
+        return (net.minecraft.world.entity.decoration.Painting) super.getMinecraftEntity();
     }
 
     @Override
-    public @NotNull Motive getMotive() {
-        return Loom.getRegistry().getWrapped(Motive.class, Registry.PAINTING_MOTIVE.getId(getMinecraftEntity().motive).toString());
+    @NotNull
+    public Motive getMotive() {
+        return Loom.getRegistry().getWrapped(Motive.class, Registry.MOTIVE.getKey(getMinecraftEntity().motive).toString());
     }
 
     @Override
     public void setMotive(@NotNull Motive motive) {
-        getMinecraftEntity().motive = Registry.PAINTING_MOTIVE.get(new Identifier(motive.getKey().toString()));
+        getMinecraftEntity().motive = Registry.MOTIVE.get(new ResourceLocation(motive.getKey().toString()));
     }
 
     public static class MotiveImpl extends GenericWrapped implements Motive {
 
-        private final PaintingMotive mcMotive;
+        private final net.minecraft.world.entity.decoration.Motive mcMotive;
 
         public MotiveImpl(String key) {
             super(key);
-            this.mcMotive = Registry.PAINTING_MOTIVE.get(new Identifier(key));
+            this.mcMotive = Registry.MOTIVE.get(new ResourceLocation(key));
         }
 
         @Override
-        public int getWith() {
-            return this.mcMotive.getWidth();
+        public int getWidth() {
+            return mcMotive.getWidth();
         }
 
         @Override
         public int getHeight() {
-            return this.mcMotive.getHeight();
+            return mcMotive.getHeight();
         }
 
     }

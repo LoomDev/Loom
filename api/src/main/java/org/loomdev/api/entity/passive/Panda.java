@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a Panda entity.
  */
-public interface Panda extends AnimalEntity {
+public interface Panda extends Animal {
 
     /**
      * Get the main {@link Gene} of the Panda.

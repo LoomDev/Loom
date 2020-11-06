@@ -1,0 +1,32 @@
+--- a/net/minecraft/world/entity/AreaEffectCloud.java
++++ b/net/minecraft/world/entity/AreaEffectCloud.java
+@@ -41,15 +41,15 @@
+     private static final EntityDataAccessor<Boolean> DATA_WAITING = SynchedEntityData.defineId(AreaEffectCloud.class, EntityDataSerializers.BOOLEAN);
+     private static final EntityDataAccessor<ParticleOptions> DATA_PARTICLE = SynchedEntityData.defineId(AreaEffectCloud.class, EntityDataSerializers.PARTICLE);
+     private Potion potion;
+-    private final List<MobEffectInstance> effects;
+-    private final Map<Entity, Integer> victims;
++    public final List<MobEffectInstance> effects; // Loom :: private -> public (AreaEffectCloudImpl)
++    public final Map<Entity, Integer> victims; // Loom :: private -> public (AreaEffectCloudImpl)
+     private int duration;
+-    private int waitTime;
++    public int waitTime; // Loom :: private -> public (AreaEffectCloudImpl)
+     private int reapplicationDelay;
+     private boolean fixedColor;
+     private int durationOnUse;
+-    private float radiusOnUse;
+-    private float radiusPerTick;
++    public float radiusOnUse; // Loom :: private -> public (AreaEffectCloudImpl)
++    public float radiusPerTick; // Loom :: private -> public (AreaEffectCloudImpl)
+     private LivingEntity owner;
+     private UUID ownerUUID;
+ 
+@@ -139,7 +139,7 @@
+         this.getEntityData().set(AreaEffectCloud.DATA_PARTICLE, particleoptions);
+     }
+ 
+-    protected void setWaiting(boolean flag) {
++    public void setWaiting(boolean flag) { // Loom :: protected -> public
+         this.getEntityData().set(AreaEffectCloud.DATA_WAITING, flag);
+     }
+ 

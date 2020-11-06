@@ -1,34 +1,30 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -147,6 +147,7 @@
+@@ -151,6 +151,7 @@
  import org.apache.commons.lang3.Validate;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
 +import org.loomdev.loom.entity.player.PlayerImpl;
  
- public abstract class MinecraftServer extends ReentrantThreadExecutor<ServerTask> implements SnooperListener, CommandOutput, AutoCloseable {
+ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTask> implements SnooperPopulator, CommandSource, AutoCloseable {
  
-@@ -213,10 +214,18 @@
-     private final Executor workerExecutor;
+@@ -218,8 +219,14 @@
      @Nullable
      private String serverId;
--    private ServerResourceManager serverResourceManager;
-+    public ServerResourceManager serverResourceManager; // Loom :: public accessor
-     private final StructureManager structureManager;
-     protected final SaveProperties saveProperties;
- 
+     private ServerResources resources;
+-    private final StructureManager structureManager;
++    public final StructureManager structureManager; // Loom :: private -> public
+     protected final WorldData worldData;
 +    // Loom start
 +    public joptsimple.OptionSet optionSet;
 +    public org.loomdev.loom.server.ServerImpl loomServer;
-+
 +    public static int currentTick = 0;
 +    private long lastTick = 0;
 +    // Loom end
-+
-     public static <S extends MinecraftServer> S startServer(Function<Thread, S> function) {
+ 
+     public static <S extends MinecraftServer> S spin(Function<Thread, S> function) {
          AtomicReference<S> atomicreference = new AtomicReference();
-         Thread thread = new Thread(() -> {
-@@ -226,14 +235,14 @@
+@@ -230,14 +237,14 @@
          thread.setUncaughtExceptionHandler((thread1, throwable) -> {
              MinecraftServer.LOGGER.error(throwable);
          });
@@ -40,94 +36,95 @@
          return s0;
      }
  
--    public MinecraftServer(Thread thread, DynamicRegistryManager.Impl dynamicregistrymanager_impl, LevelStorage.Session levelstorage_session, SaveProperties saveproperties, ResourcePackManager resourcepackmanager, Proxy proxy, DataFixer datafixer, ServerResourceManager serverresourcemanager, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) {
-+    public MinecraftServer(joptsimple.OptionSet optionSet, Thread thread, DynamicRegistryManager.Impl dynamicregistrymanager_impl, LevelStorage.Session levelstorage_session, SaveProperties saveproperties, ResourcePackManager resourcepackmanager, Proxy proxy, DataFixer datafixer, ServerResourceManager serverresourcemanager, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) { // Loom :: add optionSet
+-    public MinecraftServer(Thread thread, RegistryAccess.RegistryHolder registryaccess_registryholder, LevelStorageSource.LevelStorageAccess levelstoragesource_levelstorageaccess, WorldData worlddata, PackRepository packrepository, Proxy proxy, DataFixer datafixer, ServerResources serverresources, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, GameProfileCache gameprofilecache, ChunkProgressListenerFactory chunkprogresslistenerfactory) {
++    public MinecraftServer(joptsimple.OptionSet optionSet, Thread thread, RegistryAccess.RegistryHolder registryaccess_registryholder, LevelStorageSource.LevelStorageAccess levelstoragesource_levelstorageaccess, WorldData worlddata, PackRepository packrepository, Proxy proxy, DataFixer datafixer, ServerResources serverresources, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, GameProfileCache gameprofilecache, ChunkProgressListenerFactory chunkprogresslistenerfactory) { // Loom
          super("Server");
-         this.tickTimeTracker = new TickTimeTracker(Util.nanoTimeSupplier, this::getTicks);
-         this.profiler = DummyProfiler.INSTANCE;
-@@ -266,6 +275,10 @@
-         this.structureManager = new StructureManager(serverresourcemanager.getResourceManager(), levelstorage_session, datafixer);
+         this.continousProfiler = new ContinuousProfiler(Util.timeSource, this::getTickCount);
+         this.profiler = InactiveProfiler.INSTANCE;
+@@ -270,6 +277,10 @@
+         this.structureManager = new StructureManager(serverresources.getResourceManager(), levelstoragesource_levelstorageaccess, datafixer);
          this.serverThread = thread;
-         this.workerExecutor = Util.getMainWorkerExecutor();
-+        // Loom start :: start loom server
+         this.executor = Util.backgroundExecutor();
++        // Loom start :: start Loom server
 +        this.optionSet = optionSet;
 +        this.loomServer = new org.loomdev.loom.server.ServerImpl(this);
 +        // Loom end
      }
  
-     private void initScoreboard(PersistentStateManager persistentstatemanager) {
-@@ -652,10 +665,13 @@
-                 this.metadata.setVersion(new ServerMetadata.Version(SharedConstants.getGameVersion().getName(), SharedConstants.getGameVersion().getProtocolVersion()));
-                 this.setFavicon(this.metadata);
+     private void readScoreboard(DimensionDataStorage dimensiondatastorage) {
+@@ -656,9 +667,13 @@
+                 this.status.setVersion(new ServerStatus.Version(SharedConstants.getCurrentVersion().getName(), SharedConstants.getCurrentVersion().getProtocolVersion()));
+                 this.updateStatusIcon(this.status);
  
 +                // Loom start :: tick loop improvements
 +                long start = System.nanoTime(), currentTime, tickSection = start;
 +                lastTick = start - org.loomdev.loom.monitoring.LoomTps.TICK_TIME;
                  while (this.running) {
--                    long i = Util.getMeasuringTimeMs() - this.timeReference;
-+                    long i = ((currentTime = System.nanoTime()) / (1000L * 1000L)) - this.timeReference;
+-                    long i = Util.getMillis() - this.nextTickTime;
++                    long i = ((currentTime = System.nanoTime()) / (1000L * 1000L)) - this.nextTickTime;
  
--                    if (i > 2000L && this.timeReference - this.lastTimeReference >= 15000L) {
-+                    if (i > 5000L && this.timeReference - this.lastTimeReference >= 30000L) {
++                    // TODO Check if this is necessasry if (i > 5000L && this.timeReference - this.lastTimeReference >= 30000L) {
+                     if (i > 2000L && this.nextTickTime - this.lastOverloadWarning >= 15000L) {
                          long j = i / 50L;
  
-                         MinecraftServer.LOGGER.warn("Can't keep up! Is the server overloaded? Running {}ms or {} ticks behind", i, j);
-@@ -663,6 +679,14 @@
-                         this.lastTimeReference = this.timeReference;
+@@ -667,6 +682,14 @@
+                         this.lastOverloadWarning = this.nextTickTime;
                      }
  
 +                    if (++MinecraftServer.currentTick % org.loomdev.loom.monitoring.LoomTps.SAMPLE_INTERVAL == 0) {
-+                        final long diff = currentTime - tickSection;
++                        long diff = currentTime - tickSection;
 +                        ((org.loomdev.loom.monitoring.LoomTps) this.loomServer.getTps()).add(diff);
 +                        tickSection = currentTime;
 +                    }
 +
 +                    lastTick = currentTime;
 +                    // Loom end
-                     this.timeReference += 50L;
-                     TickDurationMonitor tickdurationmonitor = TickDurationMonitor.create("Server");
+                     this.nextTickTime += 50L;
+                     SingleTickProfiler singletickprofiler = SingleTickProfiler.createTickProfiler("Server");
  
-@@ -846,27 +870,37 @@
-         this.tickTime = this.tickTime * 0.8F + (float) l / 1000000.0F * 0.19999999F;
-         long i1 = Util.getMeasuringTimeNano();
+@@ -850,27 +873,39 @@
+         this.averageTickTime = this.averageTickTime * 0.8F + (float) l / 1000000.0F * 0.19999999F;
+         long i1 = Util.getNanos();
  
-+        ((org.loomdev.loom.monitoring.LoomTickTimes) this.loomServer.getTickTimes()).addTickTimes(this.ticks, l); // Loom :: monitor tick times
-+
-         this.metricsData.pushSample(i1 - i);
++        ((org.loomdev.loom.monitoring.LoomTickTimes) this.loomServer.getTickTimes()).addTickTimes(this.tickCount, l); // Loom :: monitor tick times
+         this.frameTimer.logFrameDuration(i1 - i);
          this.profiler.pop();
      }
  
-     protected void tickWorlds(BooleanSupplier booleansupplier) {
-+        ((org.loomdev.loom.scheduler.SchedulerImpl) this.loomServer.getScheduler()).pulse(); // Loom :: pulse scheduler
+     protected void tickChildren(BooleanSupplier booleansupplier) {
++        this.loomServer.getScheduler().pulse(); // Loom :: pulse scheduler
          this.profiler.push("commandFunctions");
-         this.getCommandFunctionManager().tick();
-         this.profiler.swap("levels");
-         Iterator iterator = this.getWorlds().iterator();
+         this.getFunctions().tick();
+         this.profiler.popPush("levels");
+         Iterator iterator = this.getAllLevels().iterator();
  
-+        if (this.ticks % 20 == 0) {
-+            for (int i = 0; i < this.getPlayerManager().getPlayerList().size(); ++i) {
-+                ServerPlayerEntity entityplayer = (ServerPlayerEntity) this.getPlayerManager().getPlayerList().get(i);
-+                entityplayer.networkHandler.sendPacket(new WorldTimeUpdateS2CPacket(entityplayer.world.getTime(), ((PlayerImpl) entityplayer.getLoomEntity()).getTime(), entityplayer.world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE))); // Add support for per player time TODO replace second time with player time
++        // Loom start :: better time updates
++        if (this.tickCount % 20 == 0) {
++            var playerList = this.playerList.getPlayers();
++            for (int i = 0; i < playerList.size(); ++i) {
++                var serverplayer = playerList.get(i);
++                serverplayer.connection.send(new ClientboundSetTimePacket(serverplayer.level.getDayTime(), ((PlayerImpl) serverplayer.getLoomEntity()).getTime(), serverplayer.level.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT))); // Add support for per player time TODO replace second time with player time
 +            }
 +        }
 +
          while (iterator.hasNext()) {
-             ServerWorld serverworld = (ServerWorld) iterator.next();
+             ServerLevel serverlevel = (ServerLevel) iterator.next();
  
              this.profiler.push(() -> {
-                 return serverworld + " " + serverworld.getRegistryKey().getValue();
+                 return serverlevel + " " + serverlevel.dimension().location();
              });
--            if (this.ticks % 20 == 0) {
-+            /*if (this.ticks % 20 == 0) {
+-            if (this.tickCount % 20 == 0) {
++            /*if (this.tickCount % 20 == 0) {
                  this.profiler.push("timeSync");
-                 this.playerManager.sendToDimension(new WorldTimeUpdateS2CPacket(serverworld.getTime(), serverworld.getTimeOfDay(), serverworld.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE)), serverworld.getRegistryKey());
+                 this.playerList.broadcastAll(new ClientboundSetTimePacket(serverlevel.getGameTime(), serverlevel.getDayTime(), serverlevel.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)), serverlevel.dimension());
                  this.profiler.pop();
 -            }
 +            }*/
++            // Loom end
  
              this.profiler.push("tick");
  
-@@ -950,7 +984,7 @@
+@@ -954,7 +989,7 @@
      }
  
      public String getServerModName() {
@@ -135,35 +132,32 @@
 +        return loomServer.getName(); // Loom :: display server brand
      }
  
-     public CrashReport populateCrashReport(CrashReport crashreport) {
-@@ -1303,11 +1337,11 @@
+     public CrashReport fillReport(CrashReport crashreport) {
+@@ -1307,11 +1342,11 @@
  
      public CompletableFuture<Void> reloadResources(Collection<String> collection) {
          CompletableFuture<Void> completablefuture = CompletableFuture.supplyAsync(() -> {
 -            Stream stream = collection.stream();
 +            Stream<String> stream = collection.stream(); // Loom :: decompile error
-             ResourcePackManager resourcepackmanager = this.dataPackManager;
+             PackRepository packrepository = this.packRepository;
  
-             this.dataPackManager.getClass();
--            return (ImmutableList) stream.map(resourcepackmanager::getProfile).filter(Objects::nonNull).map(ResourcePackProfile::createResourcePack).collect(ImmutableList.toImmutableList());
-+            return stream.map(resourcepackmanager::getProfile).filter(Objects::nonNull).map(ResourcePackProfile::createResourcePack).collect(ImmutableList.toImmutableList()); // Loom :: decompile error
+             this.packRepository.getClass();
+-            return (ImmutableList) stream.map(packrepository::getPack).filter(Objects::nonNull).map(Pack::open).collect(ImmutableList.toImmutableList());
++            return stream.map(packrepository::getPack).filter(Objects::nonNull).map(Pack::open).collect(ImmutableList.toImmutableList()); // Loom :: decompile error
          }, this).thenCompose((immutablelist) -> {
-             return ServerResourceManager.reload(immutablelist, this.isDedicated() ? CommandManager.RegistrationEnvironment.DEDICATED : CommandManager.RegistrationEnvironment.INTEGRATED, this.getFunctionPermissionLevel(), this.workerExecutor, this);
-         }).thenAcceptAsync((serverresourcemanager) -> {
-@@ -1732,15 +1766,5 @@
-         return null;
+             return ServerResources.loadResources(immutablelist, this.isDedicatedServer() ? Commands.CommandSelection.DEDICATED : Commands.CommandSelection.INTEGRATED, this.getFunctionCompilationLevel(), this.executor, this);
+         }).thenAcceptAsync((serverresources) -> {
+@@ -1740,6 +1775,7 @@
+         return false;
      }
  
--    public void executeTask(Runnable runnable) {
--        this.executeTask((ServerTask) runnable);
--    }
--
--    public boolean canExecute(Runnable runnable) {
--        return this.canExecute((ServerTask) runnable);
--    }
--
--    public Runnable createTask(Runnable runnable) {
--        return this.createTask(runnable);
--    }
-+    // Loom :: decompile errors
++    /* // Loom start :: decompile error
+     public void doRunTask(Runnable runnable) {
+         this.doRunTask((TickTask) runnable);
+     }
+@@ -1751,4 +1787,5 @@
+     public Runnable wrapRunnable(Runnable runnable) {
+         return this.wrapRunnable(runnable);
+     }
++     */ // Loom end
  }

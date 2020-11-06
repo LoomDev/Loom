@@ -1,24 +1,23 @@
 package org.loomdev.loom.entity.projectile.thrown;
 
-import net.minecraft.entity.projectile.thrown.SnowballEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.thrown.Snowball;
 
-public class SnowballImpl extends ThrownItemImpl implements Snowball {
+public class SnowballImpl extends AbstractThrowableItemImpl implements Snowball {
 
-    public SnowballImpl(SnowballEntity entity) {
+    public SnowballImpl(net.minecraft.world.entity.projectile.Snowball entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    public EntityType<Snowball> getType() {
         return EntityType.SNOWBALL;
     }
 
     @Override
-    public @NotNull SnowballEntity getMinecraftEntity() {
-        return (SnowballEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.projectile.Snowball getMinecraftEntity() {
+        return (net.minecraft.world.entity.projectile.Snowball) super.getMinecraftEntity();
     }
-
 }

@@ -3,7 +3,7 @@ package org.loomdev.api.entity.mob;
 /**
  * Represents a Vex entity.
  */
-public interface Vex extends HostileEntity {
+public interface Vex extends Monster {
 
     /**
      * Get the charging state of the Vex.
@@ -14,7 +14,7 @@ public interface Vex extends HostileEntity {
 
     /**
      * Set the charging state of the Vex.
-     * @param flag The new charging state.
+     * @param charging The new charging state.
      */
-    void setCharging(boolean flag);
+    void setCharging(boolean charging);
 }

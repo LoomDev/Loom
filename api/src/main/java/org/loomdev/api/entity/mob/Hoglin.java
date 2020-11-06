@@ -1,9 +1,9 @@
 package org.loomdev.api.entity.mob;
 
 import org.loomdev.api.entity.ConvertingEntity;
-import org.loomdev.api.entity.passive.AnimalEntity;
+import org.loomdev.api.entity.passive.Animal;
 
-public interface Hoglin extends AnimalEntity, Monster, ConvertingEntity {
+public interface Hoglin extends Animal, Enemy, ConvertingEntity {
 
     boolean isImmuneToZombification();
 

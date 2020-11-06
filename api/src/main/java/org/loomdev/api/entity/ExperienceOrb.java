@@ -1,5 +1,6 @@
 package org.loomdev.api.entity;
 
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.player.Player;
 
 /**
@@ -7,6 +8,7 @@ import org.loomdev.api.entity.player.Player;
  */
 public interface ExperienceOrb extends Entity {
 
+    @Nullable
     Player getTarget();
 
     void setTarget(Player player);
@@ -14,10 +16,6 @@ public interface ExperienceOrb extends Entity {
     int getAmount();
 
     void setAmount(int amount);
-
-    int getPickupDelay();
-
-    void setPickupDelay(int ticks);
 
     /**
      * Get the health of the experience orb.
@@ -56,7 +54,4 @@ public interface ExperienceOrb extends Entity {
      * @param ticks The new age of the orb in ticks.
      */
     void setOrbAge(int ticks);
-
-
-
 }

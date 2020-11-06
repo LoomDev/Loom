@@ -1,34 +1,35 @@
 package org.loomdev.loom.entity.passive;
 
-import net.minecraft.entity.passive.BatEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.passive.Bat;
-import org.loomdev.loom.entity.mob.AmbientEntityImpl;
+import org.loomdev.loom.entity.ambient.AmbientEntityImpl;
 
 public class BatImpl extends AmbientEntityImpl implements Bat {
 
-    public BatImpl(BatEntity entity) {
+    public BatImpl(net.minecraft.world.entity.ambient.Bat entity) {
         super(entity);
     }
 
     @Override
-    public @NotNull EntityType getType() {
+    @NotNull
+    public EntityType<Bat> getType() {
         return EntityType.BAT;
     }
 
     @Override
-    public @NotNull BatEntity getMinecraftEntity() {
-        return (BatEntity) super.getMinecraftEntity();
+    @NotNull
+    public net.minecraft.world.entity.ambient.Bat getMinecraftEntity() {
+        return (net.minecraft.world.entity.ambient.Bat) super.getMinecraftEntity();
     }
 
     @Override
     public boolean isRoosting() {
-        return getMinecraftEntity().isRoosting();
+        return getMinecraftEntity().isResting();
     }
 
     @Override
-    public void setRoosting(boolean flag) {
-        getMinecraftEntity().setRoosting(flag);
+    public void setRoosting(boolean resting) {
+        getMinecraftEntity().setResting(resting);
     }
 }

@@ -1,6 +1,6 @@
 package org.loomdev.api.entity.mob;
 
-public interface Endermite extends HostileEntity {
+public interface Endermite extends Monster {
 
     boolean isPlayerSpawned();
 
@@ -15,5 +15,4 @@ public interface Endermite extends HostileEntity {
     void setMaxLifeTime(int ticks);
 
     void resetMaxLifeTime();
-
 }

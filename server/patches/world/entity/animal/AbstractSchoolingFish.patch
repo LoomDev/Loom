@@ -1,0 +1,19 @@
+--- a/net/minecraft/world/entity/animal/AbstractSchoolingFish.java
++++ b/net/minecraft/world/entity/animal/AbstractSchoolingFish.java
+@@ -15,6 +15,7 @@
+ 
+ public abstract class AbstractSchoolingFish extends AbstractFish {
+ 
++    public java.util.OptionalInt maxSchoolSizeOverride = java.util.OptionalInt.empty(); // Loom
+     private AbstractSchoolingFish leader;
+     private int schoolSize = 1;
+ 
+@@ -32,7 +33,7 @@
+     }
+ 
+     public int getMaxSchoolSize() {
+-        return super.getMaxSpawnClusterSize();
++        return maxSchoolSizeOverride.orElse(super.getMaxSpawnClusterSize()); // Loom
+     }
+ 
+     protected boolean canRandomSwim() {

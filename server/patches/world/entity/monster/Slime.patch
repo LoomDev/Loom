@@ -1,0 +1,23 @@
+--- a/net/minecraft/world/entity/monster/Slime.java
++++ b/net/minecraft/world/entity/monster/Slime.java
+@@ -47,7 +47,7 @@
+ 
+ public class Slime extends Mob implements Enemy {
+ 
+-    private static final EntityDataAccessor<Integer> ID_SIZE = SynchedEntityData.defineId(Slime.class, EntityDataSerializers.INT);
++    public static final EntityDataAccessor<Integer> ID_SIZE = SynchedEntityData.defineId(Slime.class, EntityDataSerializers.INT); // Loom :: private -> public
+     public float targetSquish;
+     public float squish;
+     public float oSquish;
+@@ -178,9 +178,11 @@
+         super.onSyncedDataUpdated(entitydataaccessor);
+     }
+ 
++    /* // Loom start :: decompile error
+     public EntityType<? extends Slime> getType() {
+         return super.getType();
+     }
++     */ // Loom
+ 
+     public void remove(Entity.RemovalReason entity_removalreason) {
+         int i = this.getSize();

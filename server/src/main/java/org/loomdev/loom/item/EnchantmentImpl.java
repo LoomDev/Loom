@@ -1,27 +1,26 @@
 package org.loomdev.loom.item;
 
 import net.kyori.adventure.text.Component;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
-import org.loomdev.api.util.NamespacedKey;
 import org.loomdev.loom.util.registry.GenericWrapped;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
 public final class EnchantmentImpl extends GenericWrapped implements Enchantment {
 
-    private final net.minecraft.enchantment.Enchantment mcEnchant;
+    private final net.minecraft.world.item.enchantment.Enchantment mcEnchant;
 
     public EnchantmentImpl(String key) {
         super(key);
-        this.mcEnchant = Registry.ENCHANTMENT.get(new Identifier(key));
+        this.mcEnchant = Registry.ENCHANTMENT.get(new ResourceLocation(key));
     }
 
     @Override
     public @NotNull Component getName(int level) {
-        return TextTransformer.toLoom(mcEnchant.getName(level));
+        return TextTransformer.toLoom(mcEnchant.getFullname(level));
     }
 
     @Override
@@ -31,26 +30,26 @@ public final class EnchantmentImpl extends GenericWrapped implements Enchantment
 
     @Override
     public int getMaxLevel() {
-        return this.mcEnchant.getMaxLevel();
+        return mcEnchant.getMaxLevel();
     }
 
     @Override
     public boolean isAcceptableItem(@NotNull ItemStack itemStack) {
-        return this.mcEnchant.isAcceptableItem(((ItemStackImpl) itemStack).getMinecraftItemStack());
+        return mcEnchant.canEnchant(((ItemStackImpl) itemStack).getMinecraftItemStack());
     }
 
     @Override
     public boolean canCombineWith(@NotNull Enchantment enchantment) {
-        return this.mcEnchant.canCombine(Registry.ENCHANTMENT.get(new Identifier(enchantment.getKey().toString())));
+        return mcEnchant.isCompatibleWith(Registry.ENCHANTMENT.get(new ResourceLocation(enchantment.getKey().toString())));
     }
 
     @Override
     public boolean isCurse() {
-        return this.mcEnchant.isCursed();
+        return mcEnchant.isCurse();
     }
 
     @Override
     public boolean isTraded() {
-        return this.mcEnchant.isAvailableForEnchantedBookOffer();
+        return mcEnchant.isTradeable();
     }
 }

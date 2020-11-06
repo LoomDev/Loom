@@ -1,21 +1,22 @@
 package org.loomdev.loom.util.transformer;
 
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.effect.StatusEffectType;
 
 public final class StatusEffectTypeTransformer {
 
     private StatusEffectTypeTransformer() {
-        throw new UnsupportedOperationException("StatusEffectTypeTransformer shouldn't be initialized.");
     }
 
-    public static @NotNull net.minecraft.entity.effect.StatusEffect toMinecraft(@NotNull StatusEffectType statusEffectType) {
-        return Registry.STATUS_EFFECT.get(new Identifier(statusEffectType.getKey().toString()));
+    @NotNull
+    public static MobEffect toMinecraft(@NotNull StatusEffectType statusEffectType) {
+        return net.minecraft.core.Registry.MOB_EFFECT.get(new ResourceLocation(statusEffectType.getKey().toString()));
     }
 
-    public static @NotNull StatusEffectType toLoom(@NotNull net.minecraft.entity.effect.StatusEffect statusEffect) {
-        return StatusEffectType.getById(Registry.STATUS_EFFECT.getId(statusEffect).toString());
+    @NotNull
+    public static StatusEffectType toLoom(@NotNull MobEffect statusEffect) {
+        return StatusEffectType.getById(net.minecraft.core.Registry.MOB_EFFECT.getKey(statusEffect).toString()); // TODO ???
     }
 }

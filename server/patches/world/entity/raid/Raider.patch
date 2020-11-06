@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/raid/Raider.java
++++ b/net/minecraft/world/entity/raid/Raider.java
+@@ -46,7 +46,7 @@
+ 
+ public abstract class Raider extends PatrollingMonster {
+ 
+-    protected static final EntityDataAccessor<Boolean> IS_CELEBRATING = SynchedEntityData.defineId(Raider.class, EntityDataSerializers.BOOLEAN);
++    public static final EntityDataAccessor<Boolean> IS_CELEBRATING = SynchedEntityData.defineId(Raider.class, EntityDataSerializers.BOOLEAN); // Loom :: protected -> public
+     private static final Predicate<ItemEntity> ALLOWED_ITEMS = (itementity) -> {
+         return !itementity.hasPickUpDelay() && itementity.isAlive() && ItemStack.matches(itementity.getItem(), Raid.getLeaderBannerInstance());
+     };

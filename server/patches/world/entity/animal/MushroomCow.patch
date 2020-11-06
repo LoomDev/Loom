@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/entity/animal/MushroomCow.java
++++ b/net/minecraft/world/entity/animal/MushroomCow.java
+@@ -43,9 +43,9 @@
+ 
+ public class MushroomCow extends Cow implements Shearable {
+ 
+-    private static final EntityDataAccessor<String> DATA_TYPE = SynchedEntityData.defineId(MushroomCow.class, EntityDataSerializers.STRING);
+-    private MobEffect effect;
+-    private int effectDuration;
++    public static final EntityDataAccessor<String> DATA_TYPE = SynchedEntityData.defineId(MushroomCow.class, EntityDataSerializers.STRING); // Loom :: private -> public
++    public MobEffect effect; // Loom :: private -> public
++    public int effectDuration; // Loom :: private -> public
+     private UUID lastLightningBoltUUID;
+ 
+     public MushroomCow(EntityType<? extends MushroomCow> entitytype, Level level) {
+@@ -249,6 +249,7 @@
+         return mushroomcow_mushroomtype2;
+     }
+ 
++    /* // Loom start :: decompile error
+     public Cow getBreedOffspring(ServerLevel serverlevel, AgeableMob ageablemob) {
+         return this.getBreedOffspring(serverlevel, ageablemob);
+     }
+@@ -256,12 +257,13 @@
+     public AgeableMob getBreedOffspring(ServerLevel serverlevel, AgeableMob ageablemob) {
+         return this.getBreedOffspring(serverlevel, ageablemob);
+     }
++     */ // Loom end
+ 
+     public static enum MushroomType {
+ 
+         RED("red", Blocks.RED_MUSHROOM.defaultBlockState()), BROWN("brown", Blocks.BROWN_MUSHROOM.defaultBlockState());
+ 
+-        private final String type;
++        public final String type; // Loom :: private -> public
+         private final BlockState blockState;
+ 
+         private MushroomType(String s, BlockState blockstate) {

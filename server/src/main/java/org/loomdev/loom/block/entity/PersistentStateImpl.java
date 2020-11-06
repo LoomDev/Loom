@@ -1,7 +1,7 @@
 package org.loomdev.loom.block.entity;
 
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import org.loomdev.api.block.PersistentState;
 import org.loomdev.loom.block.BlockImpl;
 import org.loomdev.loom.block.BlockStateImpl;
@@ -13,7 +13,7 @@ public class PersistentStateImpl<T extends BlockEntity> extends BlockStateImpl i
     private final T blockEntity;
 
     public PersistentStateImpl(T blockEntity) {
-        super(BlockImpl.at(blockEntity.getWorld(), blockEntity.getPos()).getMinecraftBlockState());
+        super(BlockImpl.at(blockEntity.getLevel(), blockEntity.getBlockPos()).getMinecraftBlockState());
         this.blockEntity = blockEntity;
     }
 
@@ -22,7 +22,7 @@ public class PersistentStateImpl<T extends BlockEntity> extends BlockStateImpl i
             return Optional.empty();
         }
 
-        CompoundTag tag = blockEntity.toTag(new CompoundTag());
+        CompoundTag tag = blockEntity.save(new CompoundTag());
        // T snapshot = (T) BlockEntity.createFromTag(blockEntity, tag);
         return Optional.empty();
     }

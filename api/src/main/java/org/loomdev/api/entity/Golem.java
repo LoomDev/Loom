@@ -1,6 +1,6 @@
 package org.loomdev.api.entity;
 
-import org.loomdev.api.entity.mob.PathAwareEntity;
+import org.loomdev.api.entity.mob.PathableMob;
 
-public interface Golem extends PathAwareEntity {
+public interface Golem extends PathableMob {
 }

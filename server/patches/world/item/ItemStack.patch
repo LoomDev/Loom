@@ -1,0 +1,45 @@
+--- a/net/minecraft/world/item/ItemStack.java
++++ b/net/minecraft/world/item/ItemStack.java
+@@ -80,7 +80,7 @@
+     private int count;
+     private int popTime;
+     @Deprecated
+-    private final Item item;
++    public Item item; // Loom :: private -> public, non-final
+     private CompoundTag tag;
+     private boolean emptyCacheFlag;
+     private Entity entityRepresentation;
+@@ -89,6 +89,7 @@
+     private BlockInWorld cachedPlaceBlock;
+     private boolean cachedPlaceBlockResult;
+ 
++
+     public ItemStack(ItemLike itemlike) {
+         this(itemlike, 1);
+     }
+@@ -108,7 +109,7 @@
+         this.updateEmptyCacheFlag();
+     }
+ 
+-    private void updateEmptyCacheFlag() {
++    public void updateEmptyCacheFlag() { // Loom :: private -> public
+         this.emptyCacheFlag = false;
+         this.emptyCacheFlag = this.isEmpty();
+     }
+@@ -167,6 +168,16 @@
+         BlockPos blockpos = useoncontext.getClickedPos();
+         BlockInWorld blockinworld = new BlockInWorld(useoncontext.getLevel(), blockpos, false);
+ 
++        // Loom start :: fire EntityBlockPlaceEvent and PlantFertilizeEvent
++        if (player != null) {
++            if (item != Items.BONE_MEAL && org.loomdev.loom.event.LoomEventDispatcher.onEntityBlockPlace(useoncontext.getLevel(), blockpos, player).isCancelled()) {
++                ((org.loomdev.loom.entity.player.PlayerImpl) player.getLoomEntity()).updateInventory();
++                return InteractionResult.FAIL;
++            } else if (item == Items.BONE_MEAL && org.loomdev.loom.event.LoomEventDispatcher.onPlantFertilize(useoncontext.getLevel(), blockpos, player).isCancelled()) {
++                return InteractionResult.FAIL;
++            }
++        }
++        // Loom end
+         if (player != null && !player.getAbilities().mayBuild && !this.hasAdventureModePlaceTagForBlock(useoncontext.getLevel().getTagManager(), blockinworld)) {
+             return InteractionResult.PASS;
+         } else {

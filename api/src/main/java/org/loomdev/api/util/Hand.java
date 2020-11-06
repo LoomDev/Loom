@@ -1,6 +1,7 @@
 package org.loomdev.api.util;
 
 public enum Hand {
+
     MAIN_HAND(EquipmentSlot.MAINHAND),
     OFF_HAND(EquipmentSlot.OFFHAND);
 

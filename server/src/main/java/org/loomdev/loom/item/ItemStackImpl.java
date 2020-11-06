@@ -1,11 +1,11 @@
 package org.loomdev.loom.item;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.Loom;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
@@ -21,51 +21,55 @@ import java.util.stream.Collectors;
 
 public class ItemStackImpl implements ItemStack {
 
-    private final net.minecraft.item.ItemStack mcStack;
+    private final net.minecraft.world.item.ItemStack mcStack;
 
-    private ItemStackImpl(net.minecraft.item.ItemStack mcStack) {
+    private ItemStackImpl(net.minecraft.world.item.ItemStack mcStack) {
         this.mcStack = mcStack;
     }
 
-    public @NotNull net.minecraft.item.ItemStack getMinecraftItemStack() {
-        return this.mcStack;
+    @NotNull
+    public net.minecraft.world.item.ItemStack getMinecraftItemStack() {
+        return mcStack;
     }
 
     @Override
-    public @NotNull ItemType getType() {
-        Identifier identifier = Registry.ITEM.getId(this.mcStack.getItem());
-        return identifier == null ? ItemType.AIR : Loom.getRegistry().getWrapped(ItemType.class, identifier.toString());
+    @NotNull
+    public ItemType getType() {
+        var type = Loom.getRegistry().getWrapped(ItemType.class, Registry.ITEM.getKey(mcStack.getItem()).toString());
+        if (type == null) return ItemType.AIR;
+        return type;
     }
 
     @Override
     public void setType(@NotNull ItemType item) {
-        this.mcStack.item = Registry.ITEM.get(new Identifier(item.getKey().toString()));
-        this.mcStack.updateEmptyState();
+        mcStack.item = Registry.ITEM.get(new ResourceLocation(item.getKey().toString()));
+        mcStack.updateEmptyCacheFlag();
     }
 
     @Override
     public int getAmount() {
-        return this.mcStack.getCount();
+        return mcStack.getCount();
     }
 
     @Override
     public void setAmount(int amount) {
-        this.mcStack.setCount(amount);
+        mcStack.setCount(amount);
     }
 
     @Override
     public void increment(int amount) {
-        this.mcStack.increment(amount);
+        mcStack.grow(amount);
     }
 
     @Override
     public void decrement(int amount) {
-        this.mcStack.decrement(amount);
+        mcStack.shrink(amount);
     }
 
     @Override
-    public @NotNull ItemStack split(int newStackAmount) {
-        return ItemStackImpl.ofMcStack(this.mcStack.split(newStackAmount));
+    @NotNull
+    public ItemStack split(int stackAmount) {
+        return ItemStackImpl.of(mcStack.split(stackAmount));
     }
 
     @Override
@@ -86,13 +90,13 @@ public class ItemStackImpl implements ItemStack {
     }
 
     @Override
-    public boolean isFood() {
-        return this.mcStack.isFood();
+    public boolean isEdible() {
+        return mcStack.isEdible();
     }
 
     @Override
     public boolean isStackable() {
-        return this.mcStack.isStackable();
+        return mcStack.isStackable();
     }
 
     // region ItemProperties
@@ -173,6 +177,11 @@ public class ItemStackImpl implements ItemStack {
     }
 
     @Override
+    public boolean isEmpty() {
+        return mcStack.isEmpty();
+    }
+
+    @Override
     public @NotNull Component getHoverText() {
         return this.getProperty(ItemProperty.Name).getHoverText();
     }
@@ -184,69 +193,69 @@ public class ItemStackImpl implements ItemStack {
         private ItemStack itemStack;
 
         public BuilderImpl() {
-            this.itemStack = new ItemStackImpl(new net.minecraft.item.ItemStack(Items.AIR));
+            this.itemStack = new ItemStackImpl(new net.minecraft.world.item.ItemStack(Items.AIR));
         }
 
         @Override
         public ItemStack.Builder type(@NotNull ItemType item) {
-            this.itemStack.setType(item);
+            itemStack.setType(item);
             return this;
         }
 
         @Override
         public ItemStack.Builder amount(int amount) {
-            this.itemStack.setAmount(amount);
+            itemStack.setAmount(amount);
             return this;
         }
 
         @Override
         public ItemStack.Builder name(@NotNull String name) {
-            this.itemStack.setName(name);
+            itemStack.setName(name);
             return this;
         }
 
         @Override
         public ItemStack.Builder name(@NotNull Component component) {
-            this.itemStack.setName(component);
+            itemStack.setName(component);
             return this;
         }
 
         @Override
-        public ItemStack.Builder lore(@NotNull TextComponent... textComponents) {
-            this.itemStack.setLore(Arrays.asList(textComponents));
+        public ItemStack.Builder lore(@NotNull Component... textComponents) {
+            itemStack.setLore(Arrays.asList(textComponents));
             return this;
         }
 
         @Override
         public ItemStack.Builder appendLore(@NotNull String... lore) {
             List<Component> components = Arrays.stream(lore)
-                    .map(TextComponent::of)
+                    .map(Component::text)
                     .collect(Collectors.toList());
-            this.itemStack.setLore(components);
+            itemStack.setLore(components);
             return this;
         }
 
         @Override
-        public ItemStack.Builder appendLore(@NotNull TextComponent... textComponents) {
-            this.itemStack.appendLore(textComponents);
+        public ItemStack.Builder appendLore(@NotNull Component... textComponents) {
+            itemStack.appendLore(textComponents);
             return this;
         }
 
         @Override
         public ItemStack.Builder removeLoreLine(int index) {
-            this.itemStack.removeLoreLine(index);
+            itemStack.removeLoreLine(index);
             return this;
         }
 
         @Override
         public ItemStack.Builder enchant(@NotNull Enchantment enchantment, int level) {
-            this.itemStack.addEnchantment(enchantment, level);
+            itemStack.addEnchantment(enchantment, level);
             return this;
         }
 
         @Override
         public <T extends ItemPropertyData<T>> ItemStack.Builder property(ItemProperty<T> itemProperty, Consumer<T> consumer) {
-            this.itemStack.changeProperty(itemProperty, consumer);
+            itemStack.changeProperty(itemProperty, consumer);
             return this;
         }
 
@@ -258,14 +267,16 @@ public class ItemStackImpl implements ItemStack {
 
         @Override
         public ItemStack build() {
-            return this.itemStack;
+            return itemStack;
         }
     }
 
-    public static ItemStack ofMcStack(net.minecraft.item.ItemStack stack) {
-        if(stack == net.minecraft.item.ItemStack.EMPTY) {
+    @NotNull
+    public static ItemStack of(@Nullable net.minecraft.world.item.ItemStack stack) {
+        if (stack == null || stack.isEmpty()) {
             return ItemStack.EMPTY;
         }
+
         return new ItemStackImpl(stack);
     }
 }

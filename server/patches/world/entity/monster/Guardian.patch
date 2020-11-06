@@ -1,0 +1,30 @@
+--- a/net/minecraft/world/entity/monster/Guardian.java
++++ b/net/minecraft/world/entity/monster/Guardian.java
+@@ -107,7 +107,7 @@
+         return (Boolean) this.entityData.get(Guardian.DATA_ID_MOVING);
+     }
+ 
+-    private void setMoving(boolean flag) {
++    public void setMoving(boolean flag) { // Loom :: private -> public (GuardianImpl)
+         this.entityData.set(Guardian.DATA_ID_MOVING, flag);
+     }
+ 
+@@ -115,7 +115,7 @@
+         return 80;
+     }
+ 
+-    private void setActiveAttackTarget(int i) {
++    public void setActiveAttackTarget(int i) { // Loom :: private -> public (GuardianImpl)
+         this.entityData.set(Guardian.DATA_ID_ATTACK_TARGET, i);
+     }
+ 
+@@ -455,8 +455,6 @@
+             return (livingentity instanceof Player || livingentity instanceof Squid) && livingentity.distanceToSqr((Entity) this.guardian) > 9.0D;
+         }
+ 
+-        public boolean test(@Nullable Object object) {
+-            return this.test((LivingEntity) object);
+-        }
++        // Loom :: decompile error
+     }
+ }

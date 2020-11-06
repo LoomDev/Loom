@@ -1,0 +1,23 @@
+--- a/net/minecraft/network/protocol/game/ClientboundTabListPacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundTabListPacket.java
+@@ -8,8 +8,8 @@
+ 
+ public class ClientboundTabListPacket implements Packet<ClientGamePacketListener> {
+ 
+-    private Component header;
+-    private Component footer;
++    public Component header; // Loom :: private -> public
++    public Component footer; // Loom :: private -> public
+ 
+     public ClientboundTabListPacket() {}
+ 
+@@ -27,7 +27,9 @@
+         clientgamepacketlistener.handleTabListCustomisation(this);
+     }
+ 
++    /* // Loom start :: decompile error
+     public void handle(PacketListener packetlistener) {
+         this.handle((ClientGamePacketListener) packetlistener);
+     }
++     */ // Loom end
+ }

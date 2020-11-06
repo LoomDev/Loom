@@ -1,0 +1,42 @@
+--- a/net/minecraft/world/entity/monster/piglin/Piglin.java
++++ b/net/minecraft/world/entity/monster/piglin/Piglin.java
+@@ -54,9 +54,9 @@
+ 
+ public class Piglin extends AbstractPiglin implements CrossbowAttackMob {
+ 
+-    private static final EntityDataAccessor<Boolean> DATA_BABY_ID = SynchedEntityData.defineId(Piglin.class, EntityDataSerializers.BOOLEAN);
+-    private static final EntityDataAccessor<Boolean> DATA_IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(Piglin.class, EntityDataSerializers.BOOLEAN);
+-    private static final EntityDataAccessor<Boolean> DATA_IS_DANCING = SynchedEntityData.defineId(Piglin.class, EntityDataSerializers.BOOLEAN);
++    public static final EntityDataAccessor<Boolean> DATA_BABY_ID = SynchedEntityData.defineId(Piglin.class, EntityDataSerializers.BOOLEAN); // Loom :: private -> public
++    public static final EntityDataAccessor<Boolean> DATA_IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(Piglin.class, EntityDataSerializers.BOOLEAN); // Loom :: private -> public
++    public static final EntityDataAccessor<Boolean> DATA_IS_DANCING = SynchedEntityData.defineId(Piglin.class, EntityDataSerializers.BOOLEAN); // Loom :: private -> public
+     private static final UUID SPEED_MODIFIER_BABY_UUID = UUID.fromString("766bfa64-11f3-11ea-8d71-362b9e155667");
+     private static final AttributeModifier SPEED_MODIFIER_BABY = new AttributeModifier(Piglin.SPEED_MODIFIER_BABY_UUID, "Baby speed boost", 0.20000000298023224D, AttributeModifier.Operation.MULTIPLY_BASE);
+     private final SimpleContainer inventory = new SimpleContainer(8);
+@@ -175,7 +175,7 @@
+     }
+ 
+     public Brain<Piglin> getBrain() {
+-        return super.getBrain();
++        return (Brain<Piglin>) super.getBrain(); // Loom :: decompile error
+     }
+ 
+     public InteractionResult mobInteract(Player player, InteractionHand interactionhand) {
+@@ -237,7 +237,7 @@
+         return this.xpReward;
+     }
+ 
+-    protected void finishConversion(ServerLevel serverlevel) {
++    public void finishConversion(ServerLevel serverlevel) { // Loom :: protected -> public
+         PiglinAi.cancelAdmiring(this);
+         this.inventory.removeAllItems().forEach(this::spawnAtLocation);
+         super.finishConversion(serverlevel);
+@@ -353,7 +353,7 @@
+     }
+ 
+     protected SoundEvent getAmbientSound() {
+-        return this.level.isClientSide ? null : (SoundEvent) PiglinAi.getSoundForCurrentActivity(this).orElse((Object) null);
++        return this.level.isClientSide ? null : (SoundEvent) PiglinAi.getSoundForCurrentActivity(this).orElse(null); // Loom :: decompile error
+     }
+ 
+     protected SoundEvent getHurtSound(DamageSource damagesource) {

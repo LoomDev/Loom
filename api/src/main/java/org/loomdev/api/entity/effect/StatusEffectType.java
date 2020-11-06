@@ -50,5 +50,4 @@ public interface StatusEffectType extends Keyed {
     static StatusEffectType getById(String id) {
         return Loom.getRegistry().getWrapped(StatusEffectType.class, id);
     }
-
 }

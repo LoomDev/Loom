@@ -5,6 +5,8 @@ import org.loomdev.api.util.registry.Keyed;
 
 public interface SpawnGroup extends Keyed {
 
+    // TODO redo the method names, they're confusing af
+
     // region :: SpawnGroups
 
     SpawnGroup MONSTER = getById("minecraft:monster");

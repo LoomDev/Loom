@@ -1,8 +1,8 @@
 package org.loomdev.api.entity.raid;
 
-import org.loomdev.api.entity.mob.PatrolEntity;
+import org.loomdev.api.entity.mob.PatrollingMonster;
 
-public interface Raider extends PatrolEntity {
+public interface Raider extends PatrollingMonster {
 
     boolean canJoinRaid();
 

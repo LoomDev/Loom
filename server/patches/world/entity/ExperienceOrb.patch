@@ -1,0 +1,18 @@
+--- a/net/minecraft/world/entity/ExperienceOrb.java
++++ b/net/minecraft/world/entity/ExperienceOrb.java
+@@ -23,11 +23,11 @@
+ 
+ public class ExperienceOrb extends Entity {
+ 
+-    private int age;
+-    private int health;
+-    private int value;
++    public int age; // Loom :: private -> public (ExperienceOrbImpl)
++    public int health; // Loom :: private -> public (ExperienceOrbImpl)
++    public int value; // Loom :: private -> public (ExperienceOrbImpl)
+     private int count;
+-    private Player followingPlayer;
++    public Player followingPlayer; // Loom :: private -> public (ExperienceOrbImpl)
+ 
+     public ExperienceOrb(Level level, double d0, double d1, double d2, int i) {
+         this(EntityType.EXPERIENCE_ORB, level);

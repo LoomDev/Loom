@@ -1,0 +1,95 @@
+--- a/net/minecraft/server/level/ServerLevel.java
++++ b/net/minecraft/server/level/ServerLevel.java
+@@ -151,7 +151,7 @@
+     private final List<ServerPlayer> players = Lists.newArrayList();
+     private final ServerChunkCache chunkSource;
+     private final MinecraftServer server;
+-    private final ServerLevelData serverLevelData;
++    public final ServerLevelData serverLevelData; // Loom :: private -> public
+     private final EntityTickList entityTickList = new EntityTickList();
+     private final PersistentEntitySectionManager<Entity> entityManager;
+     public boolean noSave;
+@@ -217,6 +217,7 @@
+             this.dragonFight = null;
+         }
+ 
++        ((org.loomdev.loom.server.ServerImpl) org.loomdev.api.Loom.getServer()).registerWorld(this); // Loom
+     }
+ 
+     public void setWeatherParameters(int i, int j, boolean flag, boolean flag1) {
+@@ -438,7 +439,7 @@
+     }
+ 
+     private void wakeUpAllPlayers() {
+-        ((List) this.players.stream().filter(LivingEntity::isSleeping).collect(Collectors.toList())).forEach((serverplayer) -> {
++        (this.players.stream().filter(LivingEntity::isSleeping).collect(Collectors.toList())).forEach((serverplayer) -> { // Loom :: decompile error
+             serverplayer.stopSleepInBed(false, false);
+         });
+     }
+@@ -818,7 +819,7 @@
+     }
+ 
+     public boolean tryAddFreshEntityWithPassengers(Entity entity) {
+-        Stream stream = entity.getSelfAndPassengers().map(Entity::getUUID);
++        Stream<UUID> stream = entity.getSelfAndPassengers().map(Entity::getUUID); // Loom :: decompile error
+         PersistentEntitySectionManager persistententitysectionmanager = this.entityManager;
+ 
+         this.entityManager.getClass();
+@@ -906,7 +907,7 @@
+ 
+         explosion.explode();
+         explosion.finalizeExplosion(false);
+-        if (explosion_blockinteraction == Explosion.BlockInteraction.NONE) {
++        if (explosion.blockInteraction == Explosion.BlockInteraction.NONE) { // Loom
+             explosion.clearToBlow();
+         }
+ 
+@@ -1428,7 +1429,7 @@
+     private static <T> String getTypeCount(Iterable<T> iterable, Function<T, String> function) {
+         try {
+             Object2IntOpenHashMap<String> object2intopenhashmap = new Object2IntOpenHashMap();
+-            Iterator iterator = iterable.iterator();
++            Iterator<T> iterator = iterable.iterator(); // Loom :: decompile error
+ 
+             while (iterator.hasNext()) {
+                 T t0 = iterator.next();
+@@ -1437,7 +1438,7 @@
+                 object2intopenhashmap.addTo(s, 1);
+             }
+ 
+-            return (String) object2intopenhashmap.object2IntEntrySet().stream().sorted(Comparator.comparing(Entry::getIntValue).reversed()).limit(5L).map((entry) -> {
++            return (String) object2intopenhashmap.object2IntEntrySet().stream().sorted(Comparator.comparing(Entry::getIntValue)).sorted(java.util.Collections.reverseOrder()).limit(5L).map((entry) -> { // Loom :: decompile error
+                 return (String) entry.getKey() + ":" + entry.getIntValue();
+             }).collect(Collectors.joining(","));
+         } catch (Exception exception) {
+@@ -1480,6 +1481,7 @@
+         return "Chunks[S] W: " + this.chunkSource.gatherStats() + " E: " + this.entityManager.gatherStats();
+     }
+ 
++    /* // Loom start :: decompile error
+     public Scoreboard getScoreboard() {
+         return this.getScoreboard();
+     }
+@@ -1495,6 +1497,7 @@
+     public TickList getBlockTicks() {
+         return this.getBlockTicks();
+     }
++     */ // Loom end
+ 
+     final class EntityCallbacks implements LevelCallback<Entity> {
+ 
+@@ -1564,6 +1567,7 @@
+ 
+         }
+ 
++        /* // Loom start :: decompile error
+         public void onTrackingEnd(Object object) {
+             this.onTrackingEnd((Entity) object);
+         }
+@@ -1591,5 +1595,6 @@
+         EntityCallbacks(Object object) {
+             this();
+         }
++         */ // Loom end
+     }
+ }

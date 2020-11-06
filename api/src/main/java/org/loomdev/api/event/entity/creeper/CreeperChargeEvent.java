@@ -2,12 +2,10 @@ package org.loomdev.api.event.entity.creeper;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.entity.misc.Lightning;
+import org.loomdev.api.entity.misc.LightningBolt;
 import org.loomdev.api.entity.mob.Creeper;
 import org.loomdev.api.event.Cancellable;
 import org.loomdev.api.event.entity.EntityEvent;
-
-import java.util.Optional;
 
 /**
  * Fired when a creeper is struck by lightning and is about to become charged.
@@ -15,7 +13,7 @@ import java.util.Optional;
  */
 public class CreeperChargeEvent extends EntityEvent implements Cancellable { // TODO generic entity charge?
 
-    private Lightning lightning;
+    private LightningBolt lightning;
     private final Cause cause;
     private boolean cancelled;
 
@@ -24,7 +22,7 @@ public class CreeperChargeEvent extends EntityEvent implements Cancellable { // 
         this.cause = Cause.TRIGGERED;
     }
 
-    public CreeperChargeEvent(Creeper creeper, Lightning lightning) {
+    public CreeperChargeEvent(Creeper creeper, LightningBolt lightning) {
         super(creeper);
         this.lightning = lightning;
         this.cause = Cause.LIGHTNING;
@@ -36,7 +34,7 @@ public class CreeperChargeEvent extends EntityEvent implements Cancellable { // 
     }
 
     @Nullable
-    public Lightning getLightning() {
+    public LightningBolt getLightning() {
         return lightning;
     }
 
