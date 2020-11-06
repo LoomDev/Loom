@@ -383,7 +383,6 @@ public interface ItemType extends Keyed {
     ItemType GRANITE_WALL = getById("minecraft:granite_wall");
     ItemType GRASS = getById("minecraft:grass");
     ItemType GRASS_BLOCK = getById("minecraft:grass_block");
-    ItemType GRASS_PATH = getById("minecraft:grass_path");
     ItemType GRAVEL = getById("minecraft:gravel");
     ItemType GRAY_BANNER = getById("minecraft:gray_banner");
     ItemType GRAY_BED = getById("minecraft:gray_bed");

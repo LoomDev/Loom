@@ -122,6 +122,11 @@ public final class LoomEventDispatcher {
     }
 
     @NotNull
+    public static BlockChangeEvent onBlockChange(@NotNull Level world, @NotNull BlockPos pos) {
+        return fire(new BlockChangeEvent(BlockImpl.at(world, pos))); // TODO pass new state, old state
+    }
+
+    @NotNull
     public static BlockExplodeEvent onBlockExplode(@NotNull Level world, @NotNull BlockPos pos, @NotNull List<BlockPos> explodedBlocks) {
         Set<Block> blocks = explodedBlocks.stream() // TODO streams are ass for performance, de-streamify this
                 .map(blockpos -> BlockImpl.at(world, blockpos))
@@ -154,10 +159,7 @@ public final class LoomEventDispatcher {
 
     @NotNull
     public static PlantGrowEvent onPlantGrow(Level level, BlockPos pos) {
-        /*PlantGrewEvent event = new PlantGrewEvent(BlockImpl.of(world, pos)); // TODO remove variable
-        event.setCancelled(true);
-        return fire(event);*/
-        return null;
+        return fire(new PlantGrowEvent(BlockImpl.at(level, pos), null)); // TODO blockstate
     }
 
     @NotNull

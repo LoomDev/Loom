@@ -289,7 +289,6 @@ public interface BlockType extends Keyed {
     BlockType GRANITE_WALL = getById("minecraft:granite_wall");
     BlockType GRASS = getById("minecraft:grass");
     BlockType GRASS_BLOCK = getById("minecraft:grass_block");
-    BlockType GRASS_PATH = getById("minecraft:grass_path");
     BlockType GRAVEL = getById("minecraft:gravel");
     BlockType GRAY_BANNER = getById("minecraft:gray_banner");
     BlockType GRAY_BED = getById("minecraft:gray_bed");
