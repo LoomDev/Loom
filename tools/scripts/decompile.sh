@@ -16,12 +16,13 @@ function setup {
     git submodule update --init --recursive
 
     echo "Downloading vanilla server jar and Mojang mappings."
+    mkdir "$toolsdir/decomp"
     cd "$toolsdir/decomp"
-    wget $mcServerJar
-    wget $mcServerMappings
+    curl -O $mcServerJar
+    curl -O $mcServerMappings
 
     echo "Mapping vanilla server jar with Mojang mappings."
-    java -jar $toolsdir/reconstruct-cli-1.3.2.jar -jar server.jar -mapping server.txt -output server-deobf.jar -exclude "com.google.,com.mojang.,io.netty.,it.unimi.dsi.fastutil.,javax.,joptsimple.,org.apache."
+    java -jar $toolsdir/reconstruct-cli-1.3.2.jar -jar server.jar -mapping server.txt -output server-deobf.jar -exclude "com.google.,com.mojang.,io.netty.,it.unimi.dsi.fastutil.,javax.,joptsimple.,org.apache." -agree
     mvn install:install-file -Dfile="server-deobf.jar" -DgroupId="org.loomdev" -DartifactId="minecraft-server" -Dversion="$mcVersion-SNAPSHOT" -Dpackaging="jar"
 }
 
