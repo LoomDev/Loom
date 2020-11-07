@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.monster.piglin;
 
 import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.entity.mob.AbstractPiglin;
+import org.loomdev.api.entity.monster.piglin.AbstractPiglin;
 import org.loomdev.loom.entity.monster.MonsterImpl;
 
 public abstract class AbstractPiglinImpl extends MonsterImpl implements AbstractPiglin {

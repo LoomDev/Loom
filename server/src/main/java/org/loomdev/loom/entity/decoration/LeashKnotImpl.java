@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.LeashKnot;
 
-public class LeashKnotImpl extends HangingEntityImpl implements LeashKnot {
+public class LeashKnotImpl extends AbstractHangingEntityImpl implements LeashKnot {
 
     public LeashKnotImpl(LeashFenceKnotEntity entity) {
         super(entity);

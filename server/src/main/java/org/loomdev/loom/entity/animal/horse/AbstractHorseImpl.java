@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.animal.horse;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.entity.passive.AbstractHorse;
+import org.loomdev.api.entity.animal.horse.AbstractHorse;
 import org.loomdev.api.sound.SoundSource;
 import org.loomdev.loom.entity.animal.AnimalImpl;
 

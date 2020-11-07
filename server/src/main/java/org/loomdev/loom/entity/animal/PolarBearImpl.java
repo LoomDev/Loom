@@ -4,12 +4,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.LivingEntity;
-import org.loomdev.api.entity.passive.PolarBear;
+import org.loomdev.api.entity.animal.PolarBear;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.loom.entity.LivingEntityImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public class PolarBearImpl extends AnimalImpl implements PolarBear {

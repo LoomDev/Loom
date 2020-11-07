@@ -156,7 +156,7 @@ public class EventManagerImpl implements EventManager {
             LOGGER.error("Some errors occurred whilst posting event {}.", event);
             int i = 0;
             for (Throwable exception : result.exceptions().values()) {
-                LOGGER.error("#{}: \n", ++i, exception);
+                LOGGER.error("#{}: ", ++i, exception);
             }
         }
     }

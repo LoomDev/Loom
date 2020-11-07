@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.LivingEntity;
-import org.loomdev.api.entity.mob.EvokerFangs;
+import org.loomdev.api.entity.projectile.EvokerFangs;
 import org.loomdev.loom.entity.EntityImpl;
 import org.loomdev.loom.entity.LivingEntityImpl;
 

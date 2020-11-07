@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.ambient;
 
 import net.minecraft.world.entity.ambient.AmbientCreature;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.entity.mob.AmbientEntity;
+import org.loomdev.api.entity.ambient.AmbientEntity;
 import org.loomdev.loom.entity.monster.MobEntityImpl;
 
 public abstract class AmbientEntityImpl extends MobEntityImpl implements AmbientEntity {

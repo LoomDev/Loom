@@ -2,8 +2,8 @@ package org.loomdev.loom.entity.monster;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.mob.Enemy;
-import org.loomdev.api.entity.mob.Slime;
+import org.loomdev.api.entity.monster.Enemy;
+import org.loomdev.api.entity.monster.Slime;
 
 public class SlimeImpl extends MobEntityImpl implements Slime, Enemy {
 

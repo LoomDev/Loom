@@ -45,6 +45,10 @@ public interface LivingEntity extends Damageable {
 
     void swingHand(@NotNull Hand hand);
 
+    int getRiptideTicks();
+
+    void setRiptideTicks(int ticks);
+
     boolean isUsingRiptide();
 
     boolean isSleeping();
@@ -54,8 +58,6 @@ public interface LivingEntity extends Damageable {
     boolean canPickupItems();
 
     void setCanPickItems(boolean flag);
-
-    boolean isAlive();
 
     int getStuckArrowCount();
 

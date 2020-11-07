@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.monster;
 
 import net.minecraft.world.entity.Mob;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.entity.mob.MobEntity;
+import org.loomdev.api.entity.monster.MobEntity;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.loom.entity.LivingEntityImpl;
 

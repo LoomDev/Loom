@@ -5,7 +5,7 @@ import org.loomdev.api.entity.projectile.AbstractArrow;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.loom.item.ItemStackImpl;
 
-public abstract class AbstractArrowImpl extends ProjectileImpl implements AbstractArrow {
+public abstract class AbstractArrowImpl extends AbstractProjectileImpl implements AbstractArrow {
 
     public AbstractArrowImpl(net.minecraft.world.entity.projectile.AbstractArrow entity) {
         super(entity);

@@ -7,7 +7,7 @@ import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.ShulkerBullet;
 import org.loomdev.loom.entity.EntityImpl;
 
-public class ShulkerBulletImpl extends ProjectileImpl implements ShulkerBullet {
+public class ShulkerBulletImpl extends AbstractProjectileImpl implements ShulkerBullet {
 
     public ShulkerBulletImpl(net.minecraft.world.entity.projectile.ShulkerBullet entity) {
         super(entity);
@@ -35,7 +35,7 @@ public class ShulkerBulletImpl extends ProjectileImpl implements ShulkerBullet {
     public void setTarget(@Nullable Entity entity) {
         if (entity != null) {
             getMinecraftEntity().finalTarget = ((EntityImpl) entity).getMinecraftEntity();
-            getMinecraftEntity().targetId = entity.getUniqueId();
+            getMinecraftEntity().targetId = entity.getUUID();
         } else {
             getMinecraftEntity().finalTarget = null;
             getMinecraftEntity().targetId = null;

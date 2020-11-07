@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.FireworkRocket;
 
-public class FireworkRocketImpl extends ProjectileImpl implements FireworkRocket {
+public class FireworkRocketImpl extends AbstractProjectileImpl implements FireworkRocket {
 
     public FireworkRocketImpl(FireworkRocketEntity entity) {
         super(entity);

@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.decoration.EndCrystal;
+import org.loomdev.api.entity.boss.enderdragon.EndCrystal;
 import org.loomdev.api.world.Location;
 import org.loomdev.loom.entity.EntityImpl;
 

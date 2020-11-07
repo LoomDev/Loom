@@ -42,7 +42,8 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
     }
 
     @Override
-    public @NotNull List<StatusEffect> getStatusEffects() {
+    @NotNull
+    public List<StatusEffect> getStatusEffects() {
         return getMinecraftEntity().getActiveEffects().stream()
                 .map(StatusEffectTransformer::toLoom)
                 .collect(Collectors.toList());
@@ -117,9 +118,18 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
     }
 
     @Override
+    public int getRiptideTicks() {
+        return getMinecraftEntity().autoSpinAttackTicks;
+    }
+
+    @Override
+    public void setRiptideTicks(int ticks) {
+        getMinecraftEntity().startAutoSpinAttack(ticks);
+    }
+
+    @Override
     public boolean isUsingRiptide() {
-        return false; // TODO ??
-        // return getMinecraftEntity().isUsingRiptide();
+        return getMinecraftEntity().isAutoSpinAttack();
     }
 
     @Override
@@ -140,11 +150,6 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
     @Override
     public void setCanPickItems(boolean flag) {
         getMinecraftEntity().pickUpLoot = flag;
-    }
-
-    @Override
-    public boolean isAlive() {
-        return getMinecraftEntity().isAlive();
     }
 
     @Override

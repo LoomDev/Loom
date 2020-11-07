@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.entity.passive.AgeableMob;
+import org.loomdev.api.entity.animal.AgeableMob;
 
 public abstract class AgeableMobImpl extends PathfinderMob implements AgeableMob {
 

@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.monster;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.entity.mob.Monster;
+import org.loomdev.api.entity.monster.Monster;
 import org.loomdev.loom.entity.PathfinderMob;
 
 public abstract class MonsterImpl extends PathfinderMob implements Monster {

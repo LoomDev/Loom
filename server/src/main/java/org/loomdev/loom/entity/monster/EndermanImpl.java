@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.LivingEntity;
-import org.loomdev.api.entity.mob.Enderman;
+import org.loomdev.api.entity.monster.Enderman;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.loom.entity.LivingEntityImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;

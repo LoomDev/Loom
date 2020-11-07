@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.animal.horse;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Donkey;
+import org.loomdev.api.entity.animal.horse.Donkey;
 
 public class DonkeyImpl extends AbstractChestedHorseImpl implements Donkey {
 

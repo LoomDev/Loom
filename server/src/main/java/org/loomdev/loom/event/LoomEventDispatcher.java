@@ -17,7 +17,7 @@ import org.loomdev.api.Loom;
 import org.loomdev.api.block.Block;
 import org.loomdev.api.block.enums.Note;
 import org.loomdev.api.entity.misc.LightningBolt;
-import org.loomdev.api.entity.mob.Creeper;
+import org.loomdev.api.entity.monster.Creeper;
 import org.loomdev.api.event.Event;
 import org.loomdev.api.event.block.*;
 import org.loomdev.api.event.block.entity.EntityBlockBreakEvent;

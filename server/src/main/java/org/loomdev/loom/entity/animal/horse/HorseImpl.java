@@ -3,7 +3,7 @@ package org.loomdev.loom.entity.animal.horse;
 import net.minecraft.world.entity.animal.horse.Variant;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Horse;
+import org.loomdev.api.entity.animal.horse.Horse;
 
 public class HorseImpl extends AbstractHorseImpl implements Horse {
 

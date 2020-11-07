@@ -2,10 +2,10 @@ package org.loomdev.loom.entity.monster;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.mob.Enemy;
-import org.loomdev.api.entity.mob.Shulker;
+import org.loomdev.api.entity.monster.Enemy;
+import org.loomdev.api.entity.monster.Shulker;
 import org.loomdev.api.util.DyeColor;
-import org.loomdev.loom.entity.animal.AbstractGolemImpl;
+import org.loomdev.loom.entity.animal.golem.AbstractGolemImpl;
 
 public class ShulkerImpl extends AbstractGolemImpl implements Shulker, Enemy {
 

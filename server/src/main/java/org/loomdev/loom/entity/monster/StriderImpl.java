@@ -3,7 +3,7 @@ package org.loomdev.loom.entity.monster;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Strider;
+import org.loomdev.api.entity.monster.Strider;
 import org.loomdev.api.sound.SoundSource;
 import org.loomdev.loom.entity.animal.AnimalImpl;
 

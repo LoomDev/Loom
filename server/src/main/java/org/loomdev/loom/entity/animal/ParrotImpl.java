@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.animal;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Parrot;
+import org.loomdev.api.entity.animal.Parrot;
 import org.loomdev.loom.entity.TameableAnimalImpl;
 
 public class ParrotImpl extends TameableAnimalImpl implements Parrot {

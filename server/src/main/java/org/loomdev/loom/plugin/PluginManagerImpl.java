@@ -250,7 +250,7 @@ public class PluginManagerImpl implements PluginManager {
             asyncExecutor.execute(plugin::onPluginDisable);
             this.server.getEventManager().unregister(plugin);
             this.server.getCommandManager().unregister(plugin);
-            this.server.getScheduler().unregisterSchedulers(plugin);
+            this.server.getScheduler().unregisterTasks(plugin);
 
             enabledPlugins.remove(metadata.getId());
             enabledPluginsByInstance.remove(plugin);

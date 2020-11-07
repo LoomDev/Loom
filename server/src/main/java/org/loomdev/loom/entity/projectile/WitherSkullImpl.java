@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.WitherSkull;
 
-public class WitherSkullImpl extends ProjectileImpl implements WitherSkull {
+public class WitherSkullImpl extends AbstractProjectileImpl implements WitherSkull {
 
     public WitherSkullImpl(net.minecraft.world.entity.projectile.WitherSkull entity) {
         super(entity);

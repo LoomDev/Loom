@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.animal;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Wolf;
+import org.loomdev.api.entity.animal.Wolf;
 import org.loomdev.api.util.DyeColor;
 import org.loomdev.loom.entity.TameableAnimalImpl;
 
@@ -13,7 +13,8 @@ public class WolfImpl extends TameableAnimalImpl implements Wolf {
     }
 
     @Override
-    public @NotNull EntityType<Wolf> getType() {
+    @NotNull
+    public EntityType<Wolf> getType() {
         return EntityType.WOLF;
     }
 

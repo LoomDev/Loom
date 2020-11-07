@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.animal;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.entity.passive.Animal;
+import org.loomdev.api.entity.animal.Animal;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.loom.entity.AgeableMobImpl;
 import org.loomdev.loom.item.ItemStackImpl;

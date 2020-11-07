@@ -3,8 +3,8 @@ package org.loomdev.loom.entity.boss.enderdragon;
 import net.minecraft.world.level.dimension.end.DragonRespawnAnimation;
 import net.minecraft.world.level.dimension.end.EndDragonFight;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.entity.boss.dragon.DragonFight;
-import org.loomdev.api.entity.boss.dragon.EnderDragon;
+import org.loomdev.api.entity.boss.enderdragon.DragonFight;
+import org.loomdev.api.entity.boss.enderdragon.EnderDragon;
 import org.loomdev.api.world.Location;
 import org.loomdev.loom.bossbar.BossBarImpl;
 

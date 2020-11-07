@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.monster;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.mob.MagmaCube;
+import org.loomdev.api.entity.monster.MagmaCube;
 
 public class MagmaCubeImpl extends SlimeImpl implements MagmaCube {
 

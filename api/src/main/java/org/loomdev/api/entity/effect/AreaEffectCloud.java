@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.LivingEntity;
+import org.loomdev.api.particle.Particle;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,8 @@ import java.util.Optional;
 
 public interface AreaEffectCloud extends Entity {
 
-    @NotNull List<StatusEffect> getStatusEffects();
+    @NotNull
+    List<StatusEffect> getStatusEffects();
 
     @Nullable
     StatusEffect getStatusEffect(@NotNull StatusEffectType type);
@@ -20,9 +22,9 @@ public interface AreaEffectCloud extends Entity {
 
     void removeStatusEffect(@NotNull StatusEffectType type);
 
-    void clearStatusEffects();
-
     boolean hasStatusEffect(@NotNull StatusEffectType type);
+
+    void clearStatusEffects();
 
     int getDuration();
 
@@ -42,7 +44,7 @@ public interface AreaEffectCloud extends Entity {
 
     boolean isWaiting();
 
-    void  setWaiting(boolean flag);
+    void setWaiting(boolean waiting);
 
     float getRadiusOnUse();
 
@@ -52,12 +54,17 @@ public interface AreaEffectCloud extends Entity {
 
     void setRadiusPerTick(float radius);
 
-    @NotNull Optional<LivingEntity> getOwner();
+    @NotNull
+    @Nullable
+    LivingEntity getOwner();
 
-    void setOwner(@NotNull LivingEntity livingEntity);
+    void setOwner(@NotNull LivingEntity entity);
 
-    @NotNull Map<Entity, Integer> getAffectedEntities(); // TODO is this useful?
+    @NotNull
+    Map<Entity, Integer> getAffectedEntities(); // TODO is this useful?
 
-    // get/set particle effect
+    @NotNull
+    Particle getParticle();
 
+    void setParticle(@NotNull Particle particle);
 }

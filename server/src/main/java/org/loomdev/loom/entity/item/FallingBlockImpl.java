@@ -1,16 +1,15 @@
 package org.loomdev.loom.entity.item;
 
-import net.minecraft.world.entity.item.FallingBlockEntity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.BlockState;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.FallingBlock;
+import org.loomdev.api.entity.item.FallingBlock;
 import org.loomdev.loom.block.BlockStateImpl;
 import org.loomdev.loom.entity.EntityImpl;
 
 public class FallingBlockImpl extends EntityImpl implements FallingBlock {
 
-    public FallingBlockImpl(FallingBlockEntity entity) {
+    public FallingBlockImpl(net.minecraft.world.entity.item.FallingBlockEntity entity) {
         super(entity);
     }
 
@@ -22,8 +21,8 @@ public class FallingBlockImpl extends EntityImpl implements FallingBlock {
 
     @NotNull
     @Override
-    public FallingBlockEntity getMinecraftEntity() {
-        return (FallingBlockEntity) super.getMinecraftEntity();
+    public net.minecraft.world.entity.item.FallingBlockEntity getMinecraftEntity() {
+        return (net.minecraft.world.entity.item.FallingBlockEntity) super.getMinecraftEntity();
     }
 
     @Override

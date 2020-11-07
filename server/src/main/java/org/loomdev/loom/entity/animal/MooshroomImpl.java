@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.effect.StatusEffect;
-import org.loomdev.api.entity.passive.Mooshroom;
+import org.loomdev.api.entity.animal.Mooshroom;
 import org.loomdev.loom.util.transformer.StatusEffectTypeTransformer;
 
 public class MooshroomImpl extends CowImpl implements Mooshroom {

@@ -14,10 +14,6 @@ public interface ItemFrame extends HangingEntity {
 
     void setHeldItem(@NotNull ItemStack item);
 
-    boolean isVisible();
-
-    void setVisible(boolean flag);
-
     boolean isFixed();
 
     void setFixed(boolean flag);

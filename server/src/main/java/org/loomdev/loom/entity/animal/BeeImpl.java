@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.LivingEntity;
-import org.loomdev.api.entity.passive.Bee;
+import org.loomdev.api.entity.animal.Bee;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.world.Location;
 import org.loomdev.loom.entity.LivingEntityImpl;

@@ -5,14 +5,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockType;
+import org.loomdev.api.entity.npc.Villager;
 import org.loomdev.api.item.ItemType;
-import org.loomdev.api.sound.Sound;
 import org.loomdev.api.sound.SoundEvent;
 import org.loomdev.api.util.registry.Keyed;
 import org.loomdev.api.world.poi.PointOfInterestType;
 
 /**
- * Represents the profession of a {@link org.loomdev.api.entity.passive.Villager}.
+ * Represents the profession of a {@link Villager}.
  */
 public interface VillagerProfession extends Keyed {
 

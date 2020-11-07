@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.animal.horse;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.TraderLlama;
+import org.loomdev.api.entity.animal.horse.TraderLlama;
 
 public class TraderLlamaImpl extends LlamaImpl implements TraderLlama {
 

@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.animal.horse;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Mule;
+import org.loomdev.api.entity.animal.horse.Mule;
 
 public class MuleImpl extends AbstractChestedHorseImpl implements Mule {
 

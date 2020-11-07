@@ -17,11 +17,16 @@
      private static final UUID SPEED_MODIFIER_SPRINTING_UUID = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
      private static final UUID SPEED_MODIFIER_SOUL_SPEED_UUID = UUID.fromString("87f46a96-686f-4796-b035-22e16ee9e038");
      private static final AttributeModifier SPEED_MODIFIER_SPRINTING = new AttributeModifier(LivingEntity.SPEED_MODIFIER_SPRINTING_UUID, "Sprinting speed boost", 0.30000001192092896D, AttributeModifier.Operation.MULTIPLY_TOTAL);
-@@ -191,6 +201,7 @@
+@@ -187,10 +197,11 @@
+     private Optional<BlockPos> lastClimbablePos;
+     private DamageSource lastDamageSource;
+     private long lastDamageStamp;
+-    protected int autoSpinAttackTicks;
++    public int autoSpinAttackTicks; // Loom :: protected -> public (LivingEntityImpl)
      private float swimAmount;
      private float swimAmountO;
      protected Brain<?> brain;
-+    public boolean pickUpLoot; // Loom :: moved from MobEntity
++    public boolean pickUpLoot; // Loom :: moved from MobEntity (LivingEntityImpl)
  
      protected LivingEntity(EntityType<? extends LivingEntity> entitytype, Level level) {
          super(entitytype, level);

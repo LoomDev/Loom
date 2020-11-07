@@ -71,7 +71,8 @@ public class StatusEffect {
 
     public static final class Builder {
 
-        private final @NotNull StatusEffectType type;
+        @NotNull
+        private final StatusEffectType type;
         private int duration = 30;
         private int amplifier = 1;
         private boolean ambient = false;
@@ -118,9 +119,12 @@ public class StatusEffect {
             );
         }
 
-        public StatusEffect apply(@NotNull LivingEntity entity) {
-            StatusEffect statusEffect = build();
-            entity.addStatusEffect(statusEffect);
+        public StatusEffect applyTo(@NotNull LivingEntity... entities) {
+            var statusEffect = build();
+            for (var entity : entities)  {
+                entity.addStatusEffect(statusEffect);
+            }
+
             return statusEffect;
         }
     }

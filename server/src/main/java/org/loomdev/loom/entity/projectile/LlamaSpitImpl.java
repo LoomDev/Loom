@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.LlamaSpit;
 
-public class LlamaSpitImpl extends ProjectileImpl implements LlamaSpit {
+public class LlamaSpitImpl extends AbstractProjectileImpl implements LlamaSpit {
 
     public LlamaSpitImpl(net.minecraft.world.entity.projectile.LlamaSpit entity) {
         super(entity);

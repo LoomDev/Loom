@@ -22,13 +22,14 @@ public class BlockBurnEvent extends BlockEvent implements Cancellable {
     }
 
     @NotNull
-    public Optional<Block> getSource() {
-        return Optional.ofNullable(source);
+    @Nullable
+    public Block getSource() {
+        return source;
     }
 
     @Override
     public boolean isCancelled() {
-        return this.cancelled;
+        return cancelled;
     }
 
     @Override

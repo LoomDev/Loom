@@ -20,17 +20,22 @@ import java.util.UUID;
 
 public interface Entity extends CommandSource {
 
-    @NotNull EntityType getType();
+    @NotNull
+    EntityType<?> getType();
 
-    int getEntityId();
+    int getId();
 
-    @NotNull UUID getUniqueId();
+    @NotNull
+    UUID getUUID();
 
-    @NotNull String getName();
+    @NotNull
+    Component getName();
 
-    @NotNull Component getDisplayName();
+    @NotNull
+    Component getDisplayName();
 
-    @Nullable Component getCustomName();
+    @Nullable
+    Component getCustomName();
 
     void setCustomName(@Nullable Component component);
 
@@ -38,37 +43,39 @@ public interface Entity extends CommandSource {
 
     boolean isCustomNameVisible();
 
-    void setCustomNameVisible(boolean flag);
+    void setCustomNameVisible(boolean visible);
 
-    @NotNull BoundingBox getBoundingBox();
+    @NotNull
+    BoundingBox getBoundingBox();
 
-    @NotNull Location getLocation();
+    @NotNull
+    Location getLocation();
 
-    @NotNull World getWorld();
+    @NotNull
+    World getWorld();
 
     boolean teleport(@NotNull Entity entity); // TODO add tp cause
 
     boolean teleport(@NotNull Location location); // TODO add tp cause
 
-    void remove();
+    void kill();
 
-    void destroy();
+    void remove(@NotNull RemovalReason reason);
 
-    boolean isDead();
+    boolean isAlive();
 
-    @NotNull Optional<Entity> getVehicle();
+    @Nullable
+    Entity getVehicle();
 
     void leaveVehicle();
 
-    boolean isOnVehicle(); // TODO find a better name.
+    boolean hasVehicle();
+
+    boolean isVehicle();
 
     @NotNull List<Entity> getPassengers();
 
     void addPassenger(@NotNull Entity passenger);
-
-    @NotNull Optional<Entity> getPassenger();
-
-    void setPassenger(@NotNull Entity passenger);
 
     void removePassenger(@NotNull Entity passenger);
 
@@ -76,25 +83,30 @@ public interface Entity extends CommandSource {
 
     void ejectPassengers();
 
-    @NotNull Vector3d getVelocity();
+    @NotNull
+    Vector3d getVelocity();
 
-    void setVelocity(@NotNull Vector3d velocity);
+    void addVelocity(@NotNull Vector3d vector);
 
-    void addVelocity(@NotNull Vector3d velocity);
+    void addVelocity(double x, double y, double z);
+
+    void setVelocity(@NotNull Vector3d vector);
+
+    void setVelocity(double x, double y, double z);
 
     boolean isOnGround();
 
     boolean isSilent();
 
-    void setSilent(boolean flag);
+    void setSilent(boolean silent);
 
     boolean isGlowing();
 
-    void setGlowing(boolean flag);
+    void setGlowing(boolean glowing);
 
-    boolean hasNoGravity();
+    boolean isAffectedByGravity();
 
-    void setNoGravity(boolean flag);
+    void setAffectedByGravity(boolean gravity);
 
     int getAge();
 
@@ -106,31 +118,29 @@ public interface Entity extends CommandSource {
 
     void setFireTicks(int ticks);
 
-    void setOnFireFor(int ticks);
-
     boolean isOnFire();
 
     double getFallDistance();
 
     void setFallDistance(float distance);
 
-    double getEyeY();
+    double getEyeHeight();
 
     boolean isSwimming();
 
-    void setSwimming(boolean flag);
+    void setSwimming(boolean swimming);
 
     boolean isInvisible();
 
-    void  setInvisible(boolean flag);
+    void setInvisible(boolean invisible);
 
     boolean isInvulnerable();
 
-    void setInvulnerable(boolean flag);
+    void setInvulnerable(boolean invulnerable);
 
     boolean isInvulnerableTo(DamageSource damageSource);
 
-    void setRotation(float yaw, float pitch);
+    void setRotation(float pitch, float yaw);
 
     boolean hasWings();
 
@@ -174,9 +184,9 @@ public interface Entity extends CommandSource {
 
     void pushAwayFrom(@NotNull Entity entity);
 
-    void dropStack(@NotNull ItemStack itemStack);
+    void dropItem(@NotNull ItemStack item);
 
-    void dropStack(@NotNull ItemStack itemStack, float yOffset);
+    void dropItem(@NotNull ItemStack item, float yOffset);
 
     boolean isInsideWall();
 
@@ -194,4 +204,34 @@ public interface Entity extends CommandSource {
 
     // TODO getEntitiesNearby(double radius)
 
+    enum RemovalReason {
+
+        /**
+         * Generic removal reason, likely because the entity is no longer necessary.
+         */
+        DISCARDED,
+
+        /**
+         * When the entity is explicitly killed.
+         */
+        KILLED,
+
+        /**
+         * When an chunk unloads and the entity is saved to disk.
+         */
+        UNLOADED_TO_CHUNK,
+
+        /**
+         * When a player disconnects from the server while riding an entity
+         * and the entity is also removed from the world.
+         */
+        UNLOADED_WITH_PLAYER,
+
+        /**
+         * When the entity moves into another dimension. Internally, a second entity
+         * with the same attributes is created, with the old entity being removed
+         * for this reason.
+         */
+        CHANGED_DIMENSION;
+    }
 }

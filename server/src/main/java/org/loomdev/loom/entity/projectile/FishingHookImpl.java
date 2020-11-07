@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.FishingHook;
 
-public class FishingHookImpl extends ProjectileImpl implements FishingHook {
+public class FishingHookImpl extends AbstractProjectileImpl implements FishingHook {
 
     public FishingHookImpl(net.minecraft.world.entity.projectile.FishingHook entity) {
         super(entity);

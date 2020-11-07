@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.animal.horse;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Llama;
+import org.loomdev.api.entity.animal.horse.Llama;
 import org.loomdev.api.math.MathHelper;
 public class LlamaImpl extends AbstractChestedHorseImpl implements Llama {
 

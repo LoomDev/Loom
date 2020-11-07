@@ -3,7 +3,7 @@ package org.loomdev.loom.entity.animal;
 import net.minecraft.sounds.SoundSource;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Sheep;
+import org.loomdev.api.entity.animal.Sheep;
 import org.loomdev.api.util.DyeColor;
 
 public class SheepImpl extends AnimalImpl implements Sheep {

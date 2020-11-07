@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.animal.horse;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.mob.SkeletonHorse;
+import org.loomdev.api.entity.animal.horse.SkeletonHorse;
 
 public class SkeletonHorseImpl extends AbstractHorseImpl implements SkeletonHorse {
 

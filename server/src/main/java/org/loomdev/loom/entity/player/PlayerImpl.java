@@ -164,19 +164,19 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void showPlayer(@NotNull Player player) {
-        hiddenPlayers.remove(player.getUniqueId());
+        hiddenPlayers.remove(player.getUUID());
         // TODO register in entity tracker
     }
 
     @Override
     public void hidePlayer(@NotNull Player player) {
-        hiddenPlayers.add(player.getUniqueId());
+        hiddenPlayers.add(player.getUUID());
         // TODO unregister from entity tracker
     }
 
     @Override
     public boolean canSee(@NotNull Player player) {
-        return !hiddenPlayers.contains(player.getUniqueId());
+        return !hiddenPlayers.contains(player.getUUID());
     }
 
     @Override
@@ -211,7 +211,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     public void setTabListHeader(@NotNull Component header) {
         this.tabListHeader = header;
-        updatePlayerList();
+        updateTablist();
     }
 
     @Override
@@ -222,8 +222,15 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void setTabListFooter(@NotNull Component footer) {
-        this.tabListFooter = footer;
-        updatePlayerList();
+        tabListFooter = footer;
+        updateTablist();
+    }
+
+    private void updateTablist() {
+        getMinecraftEntity().connection.send(new ClientboundTabListPacket(
+                TextTransformer.toMinecraft(tabListHeader),
+                TextTransformer.toMinecraft(tabListFooter)
+        ));
     }
 
     @Override
@@ -351,12 +358,5 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     public void setGameMode(@NotNull GameMode gameMode) {
         getMinecraftEntity().setGameMode(GameType.byId(gameMode.ordinal()));
-    }
-
-    private void updatePlayerList() {
-        var packet = new ClientboundTabListPacket();
-        packet.header = TextTransformer.toMinecraft(this.tabListHeader);
-        packet.footer = TextTransformer.toMinecraft(this.tabListFooter);
-        getMinecraftEntity().connection.send(packet);
     }
 }

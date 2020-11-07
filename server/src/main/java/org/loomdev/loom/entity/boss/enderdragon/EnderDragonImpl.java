@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.entity.ComplexEntityPart;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.boss.dragon.DragonFight;
-import org.loomdev.api.entity.boss.dragon.EnderDragon;
+import org.loomdev.api.entity.boss.enderdragon.DragonFight;
+import org.loomdev.api.entity.boss.enderdragon.EnderDragon;
 import org.loomdev.loom.entity.monster.MobEntityImpl;
 
 import java.util.Arrays;

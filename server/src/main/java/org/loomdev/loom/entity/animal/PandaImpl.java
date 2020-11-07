@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.animal;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Panda;
+import org.loomdev.api.entity.animal.Panda;
 
 public class PandaImpl extends AnimalImpl implements Panda {
 

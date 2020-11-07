@@ -8,7 +8,7 @@ import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.Painting;
 import org.loomdev.loom.util.registry.GenericWrapped;
 
-public class PaintingImpl extends HangingEntityImpl implements Painting {
+public class PaintingImpl extends AbstractHangingEntityImpl implements Painting {
 
     public PaintingImpl(net.minecraft.world.entity.decoration.Painting entity) {
         super(entity);

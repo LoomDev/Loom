@@ -1,32 +1,31 @@
 package org.loomdev.loom.entity.item;
 
-import net.minecraft.world.entity.item.ItemEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.Item;
+import org.loomdev.api.entity.item.ItemEntity;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.loom.entity.EntityImpl;
 import org.loomdev.loom.item.ItemStackImpl;
 
 import java.util.UUID;
 
-public class ItemEntityImpl extends EntityImpl implements Item {
+public class ItemEntityImpl extends EntityImpl implements ItemEntity {
 
-    public ItemEntityImpl(ItemEntity entity) {
+    public ItemEntityImpl(net.minecraft.world.entity.item.ItemEntity entity) {
         super(entity);
     }
 
     @Override
     @NotNull
-    public EntityType<Item> getType() {
+    public EntityType<ItemEntity> getType() {
         return EntityType.ITEM;
     }
 
     @Override
     @NotNull
-    public ItemEntity getMinecraftEntity() {
-        return (ItemEntity) super.getMinecraftEntity();
+    public net.minecraft.world.entity.item.ItemEntity getMinecraftEntity() {
+        return (net.minecraft.world.entity.item.ItemEntity) super.getMinecraftEntity();
     }
 
     @Override

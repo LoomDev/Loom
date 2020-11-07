@@ -47,13 +47,15 @@ public interface World {
 
     boolean isChunkLoaded(@NotNull Chunk chunk);
 
-    @NotNull <T extends Entity> Optional<T> spawnEntity(@NotNull EntityType<T> type, @NotNull Location location);
+    @Nullable
+    <T extends Entity> T spawnEntity(@NotNull EntityType<T> type, @NotNull Location location);
 
     void spawnParticle(@NotNull Particle particle, @NotNull Location location);
 
     void playSound(@NotNull Sound sound, @NotNull Location location);
 
-    @NotNull Collection<? extends Player> getPlayers();
+    @NotNull
+    Collection<? extends Player> getPlayers();
 
     long getTime();
 

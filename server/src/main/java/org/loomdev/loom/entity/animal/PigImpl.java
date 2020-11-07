@@ -3,7 +3,7 @@ package org.loomdev.loom.entity.animal;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Pig;
+import org.loomdev.api.entity.animal.Pig;
 import org.loomdev.api.sound.SoundSource;
 
 import java.util.Optional;

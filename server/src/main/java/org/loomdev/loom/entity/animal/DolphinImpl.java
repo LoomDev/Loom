@@ -3,11 +3,10 @@ package org.loomdev.loom.entity.animal;
 import net.minecraft.core.BlockPos;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Dolphin;
+import org.loomdev.api.entity.animal.Dolphin;
 import org.loomdev.api.world.Location;
-import org.loomdev.loom.entity.passive.WaterAnimalImpl;
 
-public class DolphinImpl extends WaterAnimalImpl implements Dolphin {
+public class DolphinImpl extends AbstractWaterAnimalImpl implements Dolphin {
 
     public DolphinImpl(net.minecraft.world.entity.animal.Dolphin entity) {
         super(entity);

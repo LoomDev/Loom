@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.monster.piglin;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.mob.PiglinBrute;
+import org.loomdev.api.entity.monster.piglin.PiglinBrute;
 
 public class PiglinBruteImpl extends AbstractPiglinImpl implements PiglinBrute {
 

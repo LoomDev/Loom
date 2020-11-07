@@ -24,12 +24,12 @@ public class BatImpl extends AmbientEntityImpl implements Bat {
     }
 
     @Override
-    public boolean isRoosting() {
+    public boolean isResting() {
         return getMinecraftEntity().isResting();
     }
 
     @Override
-    public void setRoosting(boolean resting) {
+    public void setResting(boolean resting) {
         getMinecraftEntity().setResting(resting);
     }
 }

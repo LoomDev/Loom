@@ -2,8 +2,8 @@ package org.loomdev.loom.entity.boss.enderdragon;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.boss.dragon.EnderDragon;
-import org.loomdev.api.entity.boss.dragon.EnderDragonPart;
+import org.loomdev.api.entity.boss.enderdragon.EnderDragon;
+import org.loomdev.api.entity.boss.enderdragon.EnderDragonPart;
 import org.loomdev.loom.entity.EntityImpl;
 
 public class EnderDragonPartImpl extends EntityImpl implements EnderDragonPart {

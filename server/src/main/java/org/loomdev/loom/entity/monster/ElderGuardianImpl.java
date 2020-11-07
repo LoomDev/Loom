@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.monster;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.mob.ElderGuardian;
+import org.loomdev.api.entity.monster.ElderGuardian;
 
 public class ElderGuardianImpl extends GuardianImpl implements ElderGuardian {
 

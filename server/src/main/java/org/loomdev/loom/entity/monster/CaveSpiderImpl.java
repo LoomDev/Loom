@@ -2,8 +2,7 @@ package org.loomdev.loom.entity.monster;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.mob.CaveSpider;
-import org.loomdev.loom.entity.monster.SpiderImpl;
+import org.loomdev.api.entity.monster.CaveSpider;
 
 public class CaveSpiderImpl extends SpiderImpl implements CaveSpider {
 

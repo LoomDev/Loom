@@ -1,24 +1,28 @@
 package org.loomdev.api.scheduler;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.plugin.Plugin;
 
-import java.util.Optional;
 import java.util.Set;
 
-import static org.loomdev.api.scheduler.Task.Builder;
+import static org.loomdev.api.scheduler.ScheduledTask.Builder;
 
 public interface Scheduler {
 
-    @NotNull Builder createTask();
+    @NotNull
+    Builder createTask();
 
-    @NotNull Optional<Task> getTaskById(int id);
+    @Nullable
+    ScheduledTask getTaskById(int id);
 
-    @NotNull Set<Task> getScheduledTasks();
+    @NotNull
+    Set<ScheduledTask> getScheduledTasks();
 
-    @NotNull Set<Task> getScheduledTasks(@NotNull Plugin plugin);
+    @NotNull
+    Set<ScheduledTask> getScheduledTasks(@NotNull Plugin plugin);
 
-    void unregisterSchedulers(@NotNull Plugin plugin);
+    void unregisterTasks(@NotNull Plugin plugin);
 
-    void disableTask(int id, boolean interruptIfRunning);
+    void cancelTask(int id, boolean interrupt);
 }

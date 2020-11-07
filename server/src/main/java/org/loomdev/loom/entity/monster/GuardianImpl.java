@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.LivingEntity;
-import org.loomdev.api.entity.mob.Guardian;
+import org.loomdev.api.entity.monster.Guardian;
 import org.loomdev.loom.entity.LivingEntityImpl;
 
 public class GuardianImpl extends MonsterImpl implements Guardian {
@@ -45,7 +45,7 @@ public class GuardianImpl extends MonsterImpl implements Guardian {
 
     @Override
     public void setBeamTarget(@Nullable LivingEntity livingEntity) {
-        getMinecraftEntity().setActiveAttackTarget(livingEntity == null ? 0 : livingEntity.getEntityId());
+        getMinecraftEntity().setActiveAttackTarget(livingEntity == null ? 0 : livingEntity.getId());
     }
 
     @Override

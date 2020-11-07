@@ -1,11 +1,10 @@
 package org.loomdev.api.entity.passive;
 
-import org.loomdev.api.entity.mob.AmbientEntity;
+import org.loomdev.api.entity.ambient.AmbientEntity;
 
 public interface Bat extends AmbientEntity {
 
-    boolean isRoosting();
+    boolean isResting();
 
-    void setRoosting(boolean flag);
-
+    void setResting(boolean resting);
 }

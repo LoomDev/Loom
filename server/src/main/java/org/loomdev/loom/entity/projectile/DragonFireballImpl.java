@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.DragonFireball;
 
-public class DragonFireballImpl extends ProjectileImpl implements DragonFireball {
+public class DragonFireballImpl extends AbstractProjectileImpl implements DragonFireball {
 
     public DragonFireballImpl(net.minecraft.world.entity.projectile.DragonFireball entity) {
         super(entity);

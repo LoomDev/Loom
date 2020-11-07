@@ -17,6 +17,7 @@ import org.loomdev.api.event.block.BlockEvent;
  * <li>Chorus plants grow taller</li>
  * <li>Sweet berry bushes grow more berries</li>
  * <li>Turtle eggs advance growth stages</li>
+ * <li>Amethyst buds grow on a budding amethyst block</li>
  * </ul>
  */
 public class PlantGrowEvent extends BlockEvent implements Cancellable {
@@ -31,7 +32,7 @@ public class PlantGrowEvent extends BlockEvent implements Cancellable {
 
     @NotNull
     public BlockState getUpdatedState() {
-        return this.updatedState;
+        return updatedState;
     }
 
     @Override

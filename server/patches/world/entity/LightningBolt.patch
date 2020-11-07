@@ -1,14 +1,17 @@
 --- a/net/minecraft/world/entity/LightningBolt.java
 +++ b/net/minecraft/world/entity/LightningBolt.java
-@@ -28,7 +28,7 @@
+@@ -28,9 +28,9 @@
      private int life;
      public long seed;
      private int flashes;
 -    private boolean visualOnly;
 +    public boolean visualOnly; // Loom :: private -> public (LightningBoltEntity)
      @Nullable
-     private ServerPlayer cause;
+-    private ServerPlayer cause;
++    public ServerPlayer cause; // Loom :: private -> public (LightningBoltEntity)
  
+     public LightningBolt(EntityType<? extends LightningBolt> entitytype, Level level) {
+         super(entitytype, level);
 @@ -116,6 +116,7 @@
              BlockState blockstate = BaseFireBlock.getState(this.level, blockpos);
  

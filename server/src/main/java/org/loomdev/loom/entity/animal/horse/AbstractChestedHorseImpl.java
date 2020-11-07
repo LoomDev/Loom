@@ -1,7 +1,7 @@
 package org.loomdev.loom.entity.animal.horse;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.entity.passive.ChestedHorse;
+import org.loomdev.api.entity.animal.horse.ChestedHorse;
 
 public abstract class AbstractChestedHorseImpl extends AbstractHorseImpl implements ChestedHorse {
 

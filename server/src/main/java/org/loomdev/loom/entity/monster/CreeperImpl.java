@@ -3,7 +3,7 @@ package org.loomdev.loom.entity.monster;
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.mob.Creeper;
+import org.loomdev.api.entity.monster.Creeper;
 import org.loomdev.loom.event.LoomEventDispatcher;
 
 public class CreeperImpl extends MonsterImpl implements Creeper {

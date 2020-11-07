@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.SmallFireball;
 
-public class SmallFireballImpl extends FireballImpl implements SmallFireball {
+public class SmallFireballImpl extends AbstractFireballImpl implements SmallFireball {
 
     public SmallFireballImpl(net.minecraft.world.entity.projectile.SmallFireball entity) {
         super(entity);

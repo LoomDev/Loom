@@ -1,6 +1,7 @@
 package org.loomdev.loom.server;
 
 import com.google.gson.Gson;
+import joptsimple.OptionSet;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -57,16 +58,15 @@ public class ServerImpl implements Server {
 
     private final Map<UUID, World> worlds = new HashMap<>();
 
-    public ServerImpl(MinecraftServer minecraftServer) {
+    public ServerImpl(MinecraftServer minecraftServer, OptionSet optionSet) {
         Loom.setServer(this);
         this.minecraftServer = minecraftServer;
-        this.pluginDirectory = (File) this.minecraftServer.optionSet.valueOf("plugins");
+        this.pluginDirectory = (File) optionSet.valueOf("plugins");
         this.pluginManager = new PluginManagerImpl(this, this.pluginDirectory);
         this.eventManager = new EventManagerImpl(this.pluginManager);
         this.commandManager = new CommandManagerImpl(this);
         this.consoleSource = new ConsoleSource(minecraftServer);
         this.scheduler = new SchedulerImpl(pluginManager);
-        this.scheduler.start();
         this.tps = new LoomTps();
         this.tickTimes = new LoomTickTimes();
         this.registry = new RegistryImpl();
@@ -76,6 +76,10 @@ public class ServerImpl implements Server {
 
     private void init() {
         pluginManager.scanPluginDirectory();
+    }
+
+    public void shutdown() {
+        scheduler.shutdown();
     }
 
     @Override

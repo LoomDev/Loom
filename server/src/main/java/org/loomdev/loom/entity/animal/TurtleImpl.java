@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.animal;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Turtle;
+import org.loomdev.api.entity.animal.Turtle;
 
 public class TurtleImpl extends AnimalImpl implements Turtle {
 

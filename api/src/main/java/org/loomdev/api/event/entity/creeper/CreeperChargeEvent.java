@@ -3,7 +3,7 @@ package org.loomdev.api.event.entity.creeper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.misc.LightningBolt;
-import org.loomdev.api.entity.mob.Creeper;
+import org.loomdev.api.entity.monster.Creeper;
 import org.loomdev.api.event.Cancellable;
 import org.loomdev.api.event.entity.EntityEvent;
 

@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.monster;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.mob.Phantom;
+import org.loomdev.api.entity.monster.Phantom;
 
 public class PhantomImpl extends MobEntityImpl implements Phantom {
 

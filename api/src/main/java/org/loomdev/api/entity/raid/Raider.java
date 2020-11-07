@@ -1,6 +1,6 @@
 package org.loomdev.api.entity.raid;
 
-import org.loomdev.api.entity.mob.PatrollingMonster;
+import org.loomdev.api.entity.monster.illager.PatrollingMonster;
 
 public interface Raider extends PatrollingMonster {
 

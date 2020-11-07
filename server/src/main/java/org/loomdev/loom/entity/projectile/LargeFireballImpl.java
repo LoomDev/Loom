@@ -6,7 +6,7 @@ import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.Fireball;
 import org.loomdev.api.entity.projectile.LargeFireball;
 
-public class LargeFireballImpl extends FireballImpl implements LargeFireball {
+public class LargeFireballImpl extends AbstractFireballImpl implements LargeFireball {
 
     public LargeFireballImpl(net.minecraft.world.entity.projectile.LargeFireball entity) {
         super(entity);

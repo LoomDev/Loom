@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.GameRules;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.Loom;
 import org.loomdev.api.block.Block;
 import org.loomdev.api.block.BlockType;
@@ -26,7 +27,6 @@ import org.loomdev.loom.event.LoomEventDispatcher;
 import org.loomdev.loom.util.transformer.ParticleTransformer;
 
 import java.util.Collection;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -135,19 +135,21 @@ public class WorldImpl implements World {
     }
 
     @Override
-    @NotNull
-    public <T extends Entity> Optional<T> spawnEntity(@NotNull EntityType<T> type, @NotNull Location location) {
-        return location.getWorld().map(world -> {
-            var mcWorld = ((WorldImpl) world).getMinecraftWorld();
-            var mcEntity = Registry.ENTITY_TYPE.get(new ResourceLocation(type.getKey().toString())).create(mcWorld);
+    @Nullable
+    public <T extends Entity> T spawnEntity(@NotNull EntityType<T> type, @NotNull Location location) {
+        if (location.getWorld() == null) {
+            return null;
+        }
 
-            if (mcEntity != null) {
-                mcEntity.setPos(location.getX(), location.getY(), location.getZ());
-                mcWorld.addFreshEntity(mcEntity);
-            }
+        var mcEntity = Registry.ENTITY_TYPE.get(new ResourceLocation(type.getKey().toString())).create(getMinecraftWorld());
+        if (mcEntity != null) {
+            mcEntity.moveTo(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+            getMinecraftWorld().addFreshEntity(mcEntity);
+            System.out.println(mcEntity.getBlockX() + " " + mcEntity.getBlockY() + " " + mcEntity.getBlockZ());
+            System.out.println(getMinecraftWorld().serverLevelData.getLevelName());
+        }
 
-            return (T) mcEntity.getLoomEntity();
-        });
+        return (T) mcEntity.getLoomEntity();
     }
 
     @Override

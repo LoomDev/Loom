@@ -2,9 +2,9 @@ package org.loomdev.loom.entity.raid;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.raid.Raider;
-import org.loomdev.loom.entity.monster.PatrollingMonsterImpl;
+import org.loomdev.loom.entity.monster.illager.AbstractPatrollingMonsterImpl;
 
-public abstract class RaiderImpl extends PatrollingMonsterImpl implements Raider {
+public abstract class RaiderImpl extends AbstractPatrollingMonsterImpl implements Raider {
 
     public RaiderImpl(net.minecraft.world.entity.raid.Raider entity) {
         super(entity);

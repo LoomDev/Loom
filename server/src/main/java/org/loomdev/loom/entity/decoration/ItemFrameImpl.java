@@ -6,7 +6,7 @@ import org.loomdev.api.entity.decoration.ItemFrame;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.loom.item.ItemStackImpl;
 
-public class ItemFrameImpl extends HangingEntityImpl implements ItemFrame {
+public class ItemFrameImpl extends AbstractHangingEntityImpl implements ItemFrame {
 
     public ItemFrameImpl(net.minecraft.world.entity.decoration.ItemFrame entity) {
         super(entity);
@@ -33,16 +33,6 @@ public class ItemFrameImpl extends HangingEntityImpl implements ItemFrame {
     @Override
     public void setHeldItem(@NotNull ItemStack itemStack) {
         getMinecraftEntity().setItem(((ItemStackImpl) itemStack).getMinecraftItemStack(), false);
-    }
-
-    @Override
-    public boolean isVisible() {
-        return !getMinecraftEntity().isInvisible();
-    }
-
-    @Override
-    public void setVisible(boolean flag) {
-        getMinecraftEntity().setInvisible(!flag);
     }
 
     @Override

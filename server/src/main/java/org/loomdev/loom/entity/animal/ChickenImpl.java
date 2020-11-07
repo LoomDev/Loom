@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.animal;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Chicken;
+import org.loomdev.api.entity.animal.Chicken;
 
 public class ChickenImpl extends AnimalImpl implements Chicken {
 

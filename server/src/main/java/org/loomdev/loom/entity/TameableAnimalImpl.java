@@ -2,7 +2,8 @@ package org.loomdev.loom.entity;
 
 import net.minecraft.world.entity.TamableAnimal;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.entity.passive.TameableEntity;
+import org.jetbrains.annotations.Nullable;
+import org.loomdev.api.entity.animal.TameableEntity;
 import org.loomdev.loom.entity.animal.AnimalImpl;
 
 import java.util.Optional;
@@ -21,8 +22,9 @@ public abstract class TameableAnimalImpl extends AnimalImpl implements TameableE
     }
 
     @Override
-    public Optional<UUID> getOwnerId() {
-        return Optional.ofNullable(getMinecraftEntity().getOwnerUUID());
+    @Nullable
+    public UUID getOwnerId() {
+        return getMinecraftEntity().getOwnerUUID();
     }
 
     @Override

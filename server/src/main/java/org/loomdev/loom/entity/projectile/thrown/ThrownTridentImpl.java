@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.projectile.thrown;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.projectile.ThrownTrident;
+import org.loomdev.api.entity.projectile.thrown.ThrownTrident;
 import org.loomdev.loom.entity.projectile.AbstractArrowImpl;
 
 public class ThrownTridentImpl extends AbstractArrowImpl implements ThrownTrident {

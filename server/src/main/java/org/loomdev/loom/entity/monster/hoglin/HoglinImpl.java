@@ -3,7 +3,7 @@ package org.loomdev.loom.entity.monster.hoglin;
 import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.mob.Hoglin;
+import org.loomdev.api.entity.monster.hoglin.Hoglin;
 import org.loomdev.loom.entity.animal.AnimalImpl;
 
 public abstract class HoglinImpl extends AnimalImpl implements Hoglin {

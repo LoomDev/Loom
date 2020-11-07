@@ -2,8 +2,7 @@ package org.loomdev.loom.entity.monster;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.mob.Endermite;
-import org.loomdev.loom.entity.monster.MonsterImpl;
+import org.loomdev.api.entity.monster.Endermite;
 
 import java.util.OptionalInt;
 

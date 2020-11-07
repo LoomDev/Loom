@@ -2,7 +2,7 @@ package org.loomdev.loom.entity.animal;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.entity.passive.Cat;
+import org.loomdev.api.entity.animal.Cat;
 import org.loomdev.api.util.DyeColor;
 import org.loomdev.loom.entity.TameableAnimalImpl;
 
