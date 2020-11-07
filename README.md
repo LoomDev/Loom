@@ -1,12 +1,12 @@
 # 🧵 Loom
 ### The next generation Minecraft server software.
 
-Loom is an implementation of the [Loom API](/api) on vanilla Minecraft. Loom was inspired heavily by CraftBukkit, but with the goal to make minimal NMS modifications in order to implement its API and completely open-sourced development.
+Loom is an implementation of the [Loom API](/api) on vanilla Minecraft. Loom was inspired heavily by CraftBukkit and Sponge, but with the goal to make minimal NMS modifications in order to implement its API and completely open-sourced development. We hope to create a stable server platform for the future.
 
-Loom uses Fabric's [yarn](https://github.com/fabricmc/yarn) for its mappings, which allows it to be quickly updated to new and snapshot releases of Minecraft. These mappings are completely open-source and free for any project with it's permissive license, which makes it the best choice for Loom.
+Loom uses Mojang's mapping names, which allows it to be quickly updated to new and snapshot releases of Minecraft. Along with that, our minimal NMS changes and smart API design allow us to easily be on top of game updates.
 
 ### Why Loom?
-Loom was created because of the lack of fast version updates from Spigot, CraftBukkit's parent project. Not to mention, Bukkit's ancient, by today's standards, API is in need of rewrites and optimizations. Loom aims to stick as faithful to the original Bukkit API as possible to make it easy for plugin developers to switch over, while also introducing many modern features directly into the API.
+Loom was created because of the lack of fast version updates from Spigot, CraftBukkit's parent project. Not to mention, Bukkit's ancient, by today's standards, API is in need of rewrites and optimizations. Loom aims to stick as faithful to the original Bukkit API as possible to make it easy for plugin developers to switch over, while also introducing many modern features and concepts directly into the API. The end goal is to completely deprecate the usage of NMS in plugins.
 
 ### Building Loom
 Loom provides all of the scripts necessary to set up a build environment in this repository. To set up a fresh build environment, run the following in a bash shell (WSL is preferable on Windows systems):
