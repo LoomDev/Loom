@@ -1,6 +1,7 @@
 package org.loomdev.api.world;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.block.Block;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.entity.Entity;
@@ -15,19 +16,28 @@ import java.util.UUID;
 
 public interface World {
 
-    @NotNull String getName();
+    @NotNull
+    String getName();
 
-    @NotNull UUID getUUID();
+    @NotNull
+    UUID getUUID();
 
-    @NotNull Block getBlock(int x, int y, int z);
+    @NotNull
+    Block getBlock(int x, int y, int z);
 
-    @NotNull Block getBlock(@NotNull Location location);
+    @NotNull
+    Block getBlock(@NotNull Location location);
 
     void setBlock(Location location, BlockType type);
 
     void setBlock(int x, int y, int z, BlockType type);
 
-    @NotNull Chunk getChunk(int x, int z);
+    void setBlockControlledUpdate(Location location, BlockType type, UpdateType updateType);
+
+    void setBlockControlledUpdate(int x, int y, int z, BlockType type, UpdateType updateType);
+
+    @NotNull
+    Chunk getChunk(int x, int z);
 
     boolean isChunkGenerated(int x, int z);
 
@@ -56,4 +66,11 @@ public interface World {
     long getAbsoluteTime();
 
     void setAbsoluteTime(long ticks);
+
+    enum UpdateType {
+
+        NOTIFY,
+        OBSERVER_IGNORED,
+        NO_PLACE // TODO figure out all possible update types
+    }
 }

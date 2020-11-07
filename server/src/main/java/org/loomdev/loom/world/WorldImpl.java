@@ -59,14 +59,14 @@ public class WorldImpl implements World {
 
     @Override
     @NotNull
-    public Block getBlock(int x, int y, int z) {
-        return BlockImpl.at(this.world, new BlockPos(x, y, z));
+    public Block getBlock(@NotNull Location location) {
+        return getBlock(location.getBlockX(), location.getBlockY(), location.getBlockZ());
     }
 
     @Override
     @NotNull
-    public Block getBlock(@NotNull Location location) {
-        return getBlock(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+    public Block getBlock(int x, int y, int z) {
+        return BlockImpl.at(getMinecraftWorld(), new BlockPos(x, y, z));
     }
 
     @Override
@@ -76,10 +76,35 @@ public class WorldImpl implements World {
 
     @Override
     public void setBlock(int x, int y, int z, BlockType type) {
-        var key = new ResourceLocation(type.getKey().toString());
-        var block = Registry.BLOCK.get(key).defaultBlockState();
-        var pos = new BlockPos(x, y, z);
-        world.setBlockAndUpdate(pos, block);
+        var block = Registry.BLOCK.get(new ResourceLocation(type.getKey().toString())).defaultBlockState();
+        getMinecraftWorld().setBlockAndUpdate(new BlockPos(x, y, z), block);
+    }
+
+    @Override
+    public void setBlockControlledUpdate(Location location, BlockType type, UpdateType updateType) {
+        setBlockControlledUpdate(location.getBlockX(), location.getBlockY(), location.getBlockZ(), type, updateType);
+    }
+
+    @Override
+    public void setBlockControlledUpdate(int x, int y, int z, BlockType type, UpdateType updateType) {
+        var block = Registry.BLOCK.get(new ResourceLocation(type.getKey().toString())).defaultBlockState();
+
+        int updateId;
+        switch (updateType) {
+            case NOTIFY:
+                updateId = 2;
+                break;
+            case OBSERVER_IGNORED:
+                updateId = 16;
+                break;
+            case NO_PLACE:
+                updateId = 1024;
+                break;
+            default:
+                updateId = 3;
+        }
+
+        getMinecraftWorld().setBlock(new BlockPos(x, y, z), block, updateId);
     }
 
     @Override

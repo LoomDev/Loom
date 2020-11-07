@@ -32,8 +32,9 @@ public class Location {
         return new Location(world, x, y, z, yaw, pitch);
     }
 
-    public Optional<World> getWorld() {
-        return Optional.ofNullable(this.world);
+    @Nullable
+    public World getWorld() {
+        return world;
     }
 
     public void setWorld(World world) {
@@ -93,11 +94,11 @@ public class Location {
     }
 
     public int getBlockY() {
-        return (int) Math.floor(this.x);
+        return (int) Math.floor(this.y);
     }
 
     public int getBlockZ() {
-        return (int) Math.floor(this.x);
+        return (int) Math.floor(this.z);
     }
 
     public @NotNull Vector3d toVector() {
