@@ -220,3 +220,4 @@ gradle-app.setting
 
 /tools/decomp/
 /tools/dev-server/
+/loom-*.jar
