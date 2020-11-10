@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+mcVersion="20w45a"
+
 # resolve shell-specifics
 case "$(echo "$SHELL" | sed -E 's|/usr(/local)?||g')" in
     "/bin/zsh")
@@ -40,19 +42,17 @@ case "$1" in
         tools/scripts/applyPatches.sh "./tools/decomp/decompiled" || exit 1
     ) || failed=1
     ;;
-    "y" | "yarn")
-    (
-        set -e
-        cd "$basedir"
-        tools/scripts/decompile.sh "$basedir" || exit 1
-    ) || failed=1
-    ;;
     "s" | "setup")
         set -e
         cd "$basedir"
-        tools/scripts/decompile.sh "$basedir" || exit 1
+        tools/scripts/decompile.sh "$basedir" "$mcVersion" || exit 1
         cd "$basedir"
         tools/scripts/applyPatches.sh "./tools/decomp/decompiled" || exit 1
+    ;;
+    "jar")
+        cd "$basedir/tools/Paperclip"
+        mvn clean package "-Dmcver=$mcVersion" "-Dpaperjar=$basedir/server/target/loom-$mcVersion.jar" "-Dvanillajar=$basedir/tools/decomp/server.jar" || exit 1
+        cp "$basedir/tools/Paperclip/assembly/target/paperclip-$mcVersion.jar" "$basedir/loom-$mcVersion.jar"
     ;;
     *)
         echo "This tool provides a variety of commands to manage a Loom development environment."
@@ -63,6 +63,7 @@ case "$1" in
         echo "                      |"
         echo "  * p, patch          | Applies all Loom patches to NMS without building the project."
         echo "  * rb, rebuild       | Rebuilds and creates patches from your existing project source."
+        echo "  * jar               | Creates a distributable Loom server JAR."
     ;;
 esac
 

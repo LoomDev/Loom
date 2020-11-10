@@ -8,7 +8,7 @@ toolsdir="$basedir/tools"
 yarndir="$toolsdir/yarn"
 decompdir="$toolsdir/decomp"
 
-mcVersion="20w45a"
+mcVersion="$2"
 mcServerJar="https://launcher.mojang.com/v1/objects/043ec38297d0ec58abd6f636bc92f5664a8ccecb/server.jar"
 mcServerMappings="https://launcher.mojang.com/v1/objects/e13520140ed6bdbe2ca05f59ce12700e9081a8cf/server.txt"
 
@@ -16,7 +16,7 @@ function setup {
     git submodule update --init --recursive
 
     echo "Downloading vanilla server jar and Mojang mappings."
-    mkdir "$toolsdir/decomp"
+    mkdir -p "$toolsdir/decomp"
     cd "$toolsdir/decomp"
     curl -O $mcServerJar
     curl -O $mcServerMappings
