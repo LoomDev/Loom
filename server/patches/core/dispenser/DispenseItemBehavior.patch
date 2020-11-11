@@ -1,6 +1,6 @@
 --- a/net/minecraft/core/dispenser/DispenseItemBehavior.java
 +++ b/net/minecraft/core/dispenser/DispenseItemBehavior.java
-@@ -407,6 +407,7 @@
+@@ -406,6 +406,7 @@
                  BlockState blockstate = serverlevel.getBlockState(blockpos);
  
                  if (BaseFireBlock.canBePlacedAt(serverlevel, blockpos, direction)) {

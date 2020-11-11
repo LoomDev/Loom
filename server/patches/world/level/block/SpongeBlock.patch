@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/SpongeBlock.java
 +++ b/net/minecraft/world/level/block/SpongeBlock.java
-@@ -32,6 +32,7 @@
+@@ -31,6 +31,7 @@
      }
  
      protected void tryAbsorbWater(Level level, BlockPos blockpos) {
@@ -8,7 +8,7 @@
          if (this.removeWaterBreadthFirstSearch(level, blockpos)) {
              level.setBlock(blockpos, Blocks.WET_SPONGE.defaultBlockState(), 2);
              level.levelEvent(2001, blockpos, Block.getId(Blocks.WATER.defaultBlockState()));
-@@ -41,6 +42,7 @@
+@@ -40,6 +41,7 @@
  
      private boolean removeWaterBreadthFirstSearch(Level level, BlockPos blockpos) {
          Queue<Tuple<BlockPos, Integer>> queue = Lists.newLinkedList();
@@ -16,13 +16,13 @@
  
          queue.add(new Tuple<>(blockpos, 0));
          int i = 0;
-@@ -60,27 +62,32 @@
+@@ -59,22 +61,27 @@
                  Material material = blockstate.getMaterial();
  
                  if (fluidstate.is(FluidTags.WATER)) {
--                    if (blockstate.getBlock() instanceof BucketPickup && ((BucketPickup) blockstate.getBlock()).takeLiquid(level, blockpos2, blockstate) != Fluids.EMPTY) {
+-                    if (blockstate.getBlock() instanceof BucketPickup && !((BucketPickup) blockstate.getBlock()).pickupBlock(level, blockpos2, blockstate).isEmpty()) {
 +                    // Loom start
-+                    if (blockstate.getBlock() instanceof BucketPickup /* && ((BucketPickup) blockstate.getBlock()).takeLiquid(level, blockpos2, blockstate) != Fluids.EMPTY */) {
++                    if (blockstate.getBlock() instanceof BucketPickup /* && ((BucketPickup) blockstate.getBlock()).pickupBlock(level, blockpos2, blockstate).isEmpty() */) {
 +                        absorbedBlocks.add(org.loomdev.loom.block.BlockImpl.at(level, blockpos2));
                          ++i;
                          if (j < 6) {
@@ -45,16 +45,11 @@
 +                        // dropResources(blockstate, level, blockpos2, blockentity);
 +                        // level.setBlock(blockpos2, Blocks.AIR.defaultBlockState(), 3);
 +                        absorbedBlocks.add(org.loomdev.loom.block.BlockImpl.at(level, blockpos2));
++                        // Loom end
                          ++i;
                          if (j < 6) {
                              queue.add(new Tuple<>(blockpos2, j + 1));
-                         }
-                     }
-+                    // Loom end
-                 }
-             }
- 
-@@ -89,6 +96,35 @@
+@@ -88,6 +95,35 @@
              }
          }
  
@@ -70,7 +65,7 @@
 +                var level1 = (Level) blockImpl.getMinecraftWorld();
 +                var material1 = state.getMaterial();
 +
-+                if (state.getBlock() instanceof BucketPickup && ((BucketPickup) blockImpl.getMinecraftBlockState().getBlock()).takeLiquid(level1, pos, state) != Fluids.EMPTY) {
++                if (state.getBlock() instanceof BucketPickup && ((BucketPickup) blockImpl.getMinecraftBlockState().getBlock()).pickupBlock(level1, pos, state).isEmpty()) {
 +                    // NOOP
 +                } else if (state.getBlock() instanceof LiquidBlock) {
 +                    level1.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);

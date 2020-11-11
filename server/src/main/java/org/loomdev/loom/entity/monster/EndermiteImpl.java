@@ -25,16 +25,6 @@ public class EndermiteImpl extends MonsterImpl implements Endermite {
     }
 
     @Override
-    public boolean isPlayerSpawned() {
-        return getMinecraftEntity().isPlayerSpawned();
-    }
-
-    @Override
-    public void setPlayerSpawned(boolean flag) {
-        getMinecraftEntity().setPlayerSpawned(flag);
-    }
-
-    @Override
     public int getLifeTime() {
         return getMinecraftEntity().life;
     }

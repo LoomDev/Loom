@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/npc/AbstractVillager.java
 +++ b/net/minecraft/world/entity/npc/AbstractVillager.java
-@@ -38,7 +38,7 @@
+@@ -39,7 +39,7 @@
      @Nullable
      private Player tradingPlayer;
      @Nullable

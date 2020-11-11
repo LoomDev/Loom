@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/decoration/ItemFrame.java
 +++ b/net/minecraft/world/entity/decoration/ItemFrame.java
-@@ -40,8 +40,8 @@
+@@ -41,8 +41,8 @@
      private static final Logger LOGGER = LogManager.getLogger();
      private static final EntityDataAccessor<ItemStack> DATA_ITEM = SynchedEntityData.defineId(ItemFrame.class, EntityDataSerializers.ITEM_STACK);
      private static final EntityDataAccessor<Integer> DATA_ROTATION = SynchedEntityData.defineId(ItemFrame.class, EntityDataSerializers.INT);
@@ -11,7 +11,7 @@
  
      public ItemFrame(EntityType<? extends ItemFrame> entitytype, Level level) {
          super(entitytype, level);
-@@ -61,7 +61,7 @@
+@@ -62,7 +62,7 @@
          this.getEntityData().define(ItemFrame.DATA_ROTATION, 0);
      }
  

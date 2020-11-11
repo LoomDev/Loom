@@ -6,10 +6,10 @@
      private static final EntityDataAccessor<Boolean> DATA_CREEPY = SynchedEntityData.defineId(EnderMan.class, EntityDataSerializers.BOOLEAN);
 -    private static final EntityDataAccessor<Boolean> DATA_STARED_AT = SynchedEntityData.defineId(EnderMan.class, EntityDataSerializers.BOOLEAN);
 +    public static final EntityDataAccessor<Boolean> DATA_STARED_AT = SynchedEntityData.defineId(EnderMan.class, EntityDataSerializers.BOOLEAN); // Loom :: private -> public (EndermanImpl)
-     private static final Predicate<LivingEntity> ENDERMITE_SELECTOR = (livingentity) -> {
-         return livingentity instanceof Endermite && ((Endermite) livingentity).isPlayerSpawned();
-     };
-@@ -227,7 +227,7 @@
+     private int lastStareSound = Integer.MIN_VALUE;
+     private int targetChangeTime;
+     private static final IntRange PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+@@ -224,7 +224,7 @@
      }
  
      public boolean isSensitiveToWater() {

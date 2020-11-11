@@ -52,12 +52,12 @@ public class BossBarImpl implements BossBar {
 
     @Override
     public float getPercent() {
-        return mcBar.getPercent();
+        return mcBar.getProgress();
     }
 
     @Override
     public void setPercent(float percent) {
-        mcBar.setPercent(percent);
+        mcBar.setProgress(percent);
     }
 
     @Override

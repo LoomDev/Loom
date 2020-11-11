@@ -15,7 +15,8 @@ public enum ApiVersion {
     v1_16_4PRE2("1.16.4-PRE2", false),
     v1_16_4RC1("1.16.4-RC1", false),
     v1_16_4R1("1.16.4", true),
-    v20W45A("20w45a", false);
+    v20W45A("20w45a", false),
+    v20W46A("20w46a", false);
 
     public static final ApiVersion LATEST = values()[ApiVersion.values().length - 1];
     public static final ApiVersion LATEST_RELEASE = Arrays.stream(values())

@@ -5,13 +5,13 @@
  public class Endermite extends Monster {
  
 -    private int life;
++    public int life; // Loom :: private -> public (EndermiteImpl)
 +    public java.util.OptionalInt lifeTimeOverride = java.util.OptionalInt.empty(); // Loom :: (EndermiteImpl)
 +    public int vanillaLife = 2400; // Loom :: (EndermiteImpl)
-+    public int life; // Loom :: private -> public (EndermiteImpl)
-     private boolean playerSpawned;
  
      public Endermite(EntityType<? extends Endermite> entitytype, Level level) {
-@@ -119,7 +121,7 @@
+         super(entitytype, level);
+@@ -108,7 +110,7 @@
                  ++this.life;
              }
  

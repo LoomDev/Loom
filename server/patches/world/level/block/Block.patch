@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/Block.java
 +++ b/net/minecraft/world/level/block/Block.java
-@@ -49,6 +49,7 @@
+@@ -50,6 +50,7 @@
  import net.minecraft.world.phys.shapes.VoxelShape;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
@@ -8,7 +8,7 @@
  
  public class Block extends BlockBehaviour implements ItemLike {
  
-@@ -59,9 +60,7 @@
+@@ -60,9 +61,7 @@
              return !Shapes.joinIsNotEmpty(Shapes.block(), voxelshape, BooleanOp.NOT_SAME);
          }
  
@@ -19,7 +19,7 @@
      });
      protected final StateDefinition<Block, BlockState> stateDefinition;
      private BlockState defaultBlockState;
-@@ -258,7 +257,11 @@
+@@ -259,7 +258,11 @@
  
      protected void popExperience(ServerLevel serverlevel, BlockPos blockpos, int i) {
          if (serverlevel.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {

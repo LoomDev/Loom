@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -108,6 +108,16 @@
+@@ -112,6 +112,16 @@
  
  public abstract class LivingEntity extends Entity {
  
@@ -16,8 +16,8 @@
 +    // Loom end
      private static final UUID SPEED_MODIFIER_SPRINTING_UUID = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
      private static final UUID SPEED_MODIFIER_SOUL_SPEED_UUID = UUID.fromString("87f46a96-686f-4796-b035-22e16ee9e038");
-     private static final AttributeModifier SPEED_MODIFIER_SPRINTING = new AttributeModifier(LivingEntity.SPEED_MODIFIER_SPRINTING_UUID, "Sprinting speed boost", 0.30000001192092896D, AttributeModifier.Operation.MULTIPLY_TOTAL);
-@@ -187,10 +197,11 @@
+     private static final UUID SPEED_MODIFIER_POWDER_SNOW_UUID = UUID.fromString("1eaf83ff-7207-4596-b37a-d7a07b3ec4ce");
+@@ -192,10 +202,11 @@
      private Optional<BlockPos> lastClimbablePos;
      private DamageSource lastDamageSource;
      private long lastDamageStamp;
@@ -30,7 +30,7 @@
  
      protected LivingEntity(EntityType<? extends LivingEntity> entitytype, Level level) {
          super(entitytype, level);
-@@ -1559,7 +1570,7 @@
+@@ -1596,7 +1607,7 @@
  
      }
  
@@ -39,7 +39,7 @@
          this.hurt(DamageSource.OUT_OF_WORLD, 4.0F);
      }
  
-@@ -2348,7 +2359,7 @@
+@@ -2401,7 +2412,7 @@
      }
  
      public boolean isSensitiveToWater() {
@@ -48,7 +48,7 @@
      }
  
      private void updateFallFlying() {
-@@ -2604,7 +2615,7 @@
+@@ -2657,7 +2668,7 @@
  
      }
  
@@ -57,7 +57,7 @@
          byte b0 = (Byte) this.entityData.get(LivingEntity.DATA_LIVING_ENTITY_FLAGS);
          int j;
  
-@@ -2886,7 +2897,7 @@
+@@ -2939,7 +2950,7 @@
      }
  
      public void stopSleeping() {
