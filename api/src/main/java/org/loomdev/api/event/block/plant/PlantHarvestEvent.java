@@ -1,7 +1,7 @@
 package org.loomdev.api.event.block.plant;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.event.Cancellable;
 import org.loomdev.api.event.block.BlockEvent;
@@ -23,7 +23,7 @@ public class PlantHarvestEvent extends BlockEvent implements Cancellable {
     private final Cause cause;
     private boolean cancelled;
 
-    public PlantHarvestEvent(Block block, Entity entity, Cause cause) {
+    public PlantHarvestEvent(BlockPointer block, Entity entity, Cause cause) {
         super(block);
         this.entity = entity;
         this.cause = cause;

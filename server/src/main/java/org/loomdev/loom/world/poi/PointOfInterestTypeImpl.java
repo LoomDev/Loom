@@ -24,7 +24,7 @@ public class PointOfInterestTypeImpl extends GenericWrapped implements PointOfIn
     public ImmutableSet<BlockState> getBlockStates() {
         return ImmutableSet.copyOf(
                 this.mcPoiType.matchingStates.stream()
-                    .map(BlockStateImpl::of)
+                    .map(BlockStateImpl::new)
                     .collect(Collectors.toSet())
         );
     }

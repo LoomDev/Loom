@@ -9,7 +9,7 @@
      private final Random random = new Random();
      private final Level level;
      private final double x;
-@@ -230,7 +230,17 @@
+@@ -230,7 +230,18 @@
              ObjectArrayList<Pair<ItemStack, BlockPos>> objectarraylist = new ObjectArrayList();
  
              Collections.shuffle(this.toBlow, this.level.random);
@@ -22,13 +22,14 @@
 +            }
 +
 +            Iterator iterator = event.getAffectedBlocks().stream()
-+                    .map(block -> new BlockPos(block.getX(), block.getY(), block.getZ()))
++                    .map(org.loomdev.api.block.BlockPointer::getLocation)
++                    .map(location -> new BlockPos(location.getX(), location.getY(), location.getZ()))
 +                    .iterator();
 +            // Loom end
  
              while (iterator.hasNext()) {
                  BlockPos blockpos = (BlockPos) iterator.next();
-@@ -276,6 +286,7 @@
+@@ -276,6 +287,7 @@
                  BlockPos blockpos2 = (BlockPos) iterator1.next();
  
                  if (this.random.nextInt(3) == 0 && this.level.getBlockState(blockpos2).isAir() && this.level.getBlockState(blockpos2.below()).isSolidRender(this.level, blockpos2.below())) {

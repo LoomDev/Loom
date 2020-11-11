@@ -1,6 +1,6 @@
 package org.loomdev.api.event.block.plant;
 
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.event.Cancellable;
 import org.loomdev.api.event.block.BlockEvent;
 
@@ -17,7 +17,7 @@ public class PlantDecayEvent extends BlockEvent implements Cancellable {
 
     private boolean cancelled;
 
-    public PlantDecayEvent(Block block) {
+    public PlantDecayEvent(BlockPointer block) {
         super(block);
     }
 

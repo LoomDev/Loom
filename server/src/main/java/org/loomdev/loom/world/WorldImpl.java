@@ -1,6 +1,5 @@
 package org.loomdev.loom.world;
 
-import com.google.common.base.Preconditions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.protocol.game.ClientboundSetTimePacket;
@@ -8,10 +7,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.Loom;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
@@ -23,7 +23,7 @@ import org.loomdev.api.sound.Sound;
 import org.loomdev.api.world.Chunk;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
-import org.loomdev.loom.block.BlockImpl;
+import org.loomdev.loom.block.BlockPointerImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.event.LoomEventDispatcher;
 import org.loomdev.loom.util.transformer.ParticleTransformer;
@@ -35,89 +35,39 @@ import java.util.stream.Collectors;
 
 public class WorldImpl implements World {
 
-    private final WeakReference<ServerLevel> level;
+    private final Level level;
 
-    public WorldImpl(ServerLevel level) {
-        this.level = new WeakReference<>(Preconditions.checkNotNull(level));
+    public WorldImpl(@NotNull Level level) {
+        this.level = level;
     }
 
-    public static World of(ServerLevel world) {
-        return Loom.getServer().getWorld(world.serverLevelData.getLevelName()); // TODO use uuid once it works
-    }
-
-    @Nullable
-    public ServerLevel getMinecraftWorld() {
-        return level.get();
+    @NotNull
+    public Level getMinecraftWorld() {
+        return level;
     }
 
     @Override
     @NotNull
     public String getName() {
-        return getMinecraftWorld().serverLevelData.getLevelName();
-    }
-
-    @Override
-    public @NotNull UUID getUUID() {
-        return UUID.randomUUID(); // TODO
+        return ((ServerLevel) getMinecraftWorld()).serverLevelData.getLevelName();
     }
 
     @Override
     @NotNull
-    public BlockType getBlockType(@NotNull Vector3i pos) {
-        return getBlockType(pos.getX(), pos.getY(), pos.getZ());
+    public BlockPointer getBlock(Vector3i position) {
+        return getBlock(position.getX(), position.getY(), position.getZ());
     }
 
     @Override
     @NotNull
-    public BlockType getBlockType(int x, int y, int z) {
-        var block = getMinecraftWorld().getBlockState(new BlockPos(x, y, z)).getBlock();
-        return BlockType.getById(Registry.BLOCK.getKey(block).toString());
-    }
-
-    @Override
-    public void setBlockType(int x, int y, int z, @NotNull BlockType type) {
-        setBlockType(new Vector3i(x, y, z), type);
-    }
-
-    @Override
-    public void setBlockType(@NotNull Vector3i pos, @NotNull BlockType type) {
-        var block = Registry.BLOCK.get(new ResourceLocation(type.getKey().toString())).defaultBlockState();
-        getMinecraftWorld().setBlockAndUpdate(new BlockPos(pos.getX(), pos.getY(), pos.getZ()), block);
-    }
-
-    @Override
-    public void setBlockTypeControlledUpdate(@NotNull Vector3i pos, @NotNull BlockType type, @NotNull UpdateType updateType) {
-        setBlockTypeControlledUpdate(pos.getX(), pos.getY(), pos.getZ(), type, updateType);
-    }
-
-    @Override
-    public void setBlockTypeControlledUpdate(int x, int y, int z, BlockType type, UpdateType updateType) {
-        var block = Registry.BLOCK.get(new ResourceLocation(type.getKey().toString())).defaultBlockState();
-
-        int updateId;
-        switch (updateType) {
-            case NOTIFY:
-                updateId = 2;
-                break;
-            case OBSERVER_IGNORED:
-                updateId = 16;
-                break;
-            case NO_PLACE:
-                updateId = 1024;
-                break;
-            default:
-                updateId = 3;
-        }
-
-        getMinecraftWorld().setBlock(new BlockPos(x, y, z), block, updateId);
+    public BlockPointer getBlock(int x, int y, int z) {
+        return new BlockPointerImpl(getMinecraftWorld(), new BlockPos(x, y, z));
     }
 
     @Override
     @NotNull
     public Chunk getChunk(int x, int z) {
         return getMinecraftWorld().getChunk(x, z).getLoomChunk();
-
-        // return ChunkImpl.of(getMinecraftWorld().getChunk(x, z));
     }
 
     @Override
@@ -127,46 +77,21 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public boolean isChunkGenerated(int i, int i1) {
-        return false;
-    }
-
-    @Override
-    public boolean isChunkGenerated(@NotNull Chunk chunk) {
-        return false;
-    }
-
-    @Override
-    public boolean isChunkLoaded(int i, int i1) {
-        return false;
-    }
-
-    @Override
-    public boolean isChunkLoaded(Chunk chunk) {
-        return false;
-    }
-
-    @Override
     @Nullable
     public <T extends Entity> T spawnEntity(@NotNull EntityType<T> type, @NotNull Location location) {
-        if (location.getWorld() == null) {
+        var mcEntity = Registry.ENTITY_TYPE.get(new ResourceLocation(type.getKey().toString())).create(getMinecraftWorld());
+        if (mcEntity == null) {
             return null;
         }
 
-        var mcEntity = Registry.ENTITY_TYPE.get(new ResourceLocation(type.getKey().toString())).create(getMinecraftWorld());
-        if (mcEntity != null) {
-            mcEntity.moveTo(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
-            getMinecraftWorld().addFreshEntity(mcEntity);
-            System.out.println(mcEntity.getBlockX() + " " + mcEntity.getBlockY() + " " + mcEntity.getBlockZ());
-            System.out.println(getMinecraftWorld().serverLevelData.getLevelName());
-        }
-
+        mcEntity.moveTo(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+        getMinecraftWorld().addFreshEntity(mcEntity);
         return (T) mcEntity.getLoomEntity();
     }
 
     @Override
     public void spawnParticle(@NotNull Particle particle, @NotNull Location location) {
-        getMinecraftWorld().sendParticles(
+        ((ServerLevel) getMinecraftWorld()).sendParticles(
                 ParticleTransformer.toMinecraft(particle),
                 location.getX(),
                 location.getY(),
@@ -243,7 +168,7 @@ public class WorldImpl implements World {
             return;
         }
 
-        getMinecraftWorld().setDayTime(getAbsoluteTime() + event.getChange());
+        ((ServerLevel) getMinecraftWorld()).setDayTime(getAbsoluteTime() + event.getChange());
 
         for (Player player : getPlayers()) {
             if (!player.isConnected()) {
@@ -251,11 +176,11 @@ public class WorldImpl implements World {
             }
 
             PlayerImpl playerImpl = (PlayerImpl) player;
-            ServerLevel world = ((WorldImpl) playerImpl.getWorld()).getMinecraftWorld();
+            Level level = ((WorldImpl) playerImpl.getWorld()).getMinecraftWorld();
             playerImpl.getMinecraftEntity().connection.send(new ClientboundSetTimePacket(
-                    world.getGameTime(),
+                    level.getGameTime(),
                     player.getTime(),
-                    world.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)
+                    level.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)
             ));
         }
     }

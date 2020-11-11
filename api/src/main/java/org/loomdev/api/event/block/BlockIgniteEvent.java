@@ -1,7 +1,7 @@
 package org.loomdev.api.event.block;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.event.Cancellable;
 
@@ -26,25 +26,25 @@ import java.util.Optional;
  */
 public class BlockIgniteEvent extends BlockEvent implements Cancellable {
 
-    private Block sourceBlock;
+    private BlockPointer sourceBlock;
     private Entity sourceEntity;
     private final Cause cause;
     private boolean cancelled;
 
-    public BlockIgniteEvent(Block block, Block source, Cause cause) {
+    public BlockIgniteEvent(BlockPointer block, BlockPointer source, Cause cause) {
         super(block);
         this.sourceBlock = source;
         this.cause = cause;
     }
 
-    public BlockIgniteEvent(Block block, Entity source, Cause cause) {
+    public BlockIgniteEvent(BlockPointer block, Entity source, Cause cause) {
         super(block);
         this.sourceEntity = source;
         this.cause = cause;
     }
 
     @NotNull
-    public Optional<Block> getSourceBlock() {
+    public Optional<BlockPointer> getSourceBlock() {
         return Optional.ofNullable(this.sourceBlock);
     }
 

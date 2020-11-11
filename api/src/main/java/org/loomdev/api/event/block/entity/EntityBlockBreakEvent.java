@@ -1,7 +1,7 @@
 package org.loomdev.api.event.block.entity;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.event.Cancellable;
 import org.loomdev.api.event.block.BlockBreakEvent;
@@ -14,13 +14,13 @@ public class EntityBlockBreakEvent extends BlockBreakEvent implements Cancellabl
 
     private final Entity entity;
 
-    public EntityBlockBreakEvent(Block block, Entity entity) {
+    public EntityBlockBreakEvent(BlockPointer block, Entity entity) {
         super(block);
         this.entity = entity;
     }
 
     @NotNull
-    public Entity getPlayer() {
+    public Entity getEntity() {
         return entity;
     }
 }

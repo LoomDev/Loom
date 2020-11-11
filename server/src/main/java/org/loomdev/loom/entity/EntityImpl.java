@@ -138,7 +138,7 @@ public abstract class EntityImpl implements Entity {
 
         var targetWorld = position.getWorld();
         if (!targetWorld.equals(getWorld())) {
-            getMinecraftEntity().changeDimension(((WorldImpl) targetWorld).getMinecraftWorld());
+            getMinecraftEntity().changeDimension((ServerLevel) ((WorldImpl) targetWorld).getMinecraftWorld());
         }
 
         getMinecraftEntity().moveTo(position.getX(), position.getY(), position.getZ(), position.getYaw(), position.getPitch());

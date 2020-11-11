@@ -1,7 +1,7 @@
 package org.loomdev.api.event.block;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.event.Event;
 
 /**
@@ -9,14 +9,14 @@ import org.loomdev.api.event.Event;
  */
 public class BlockEvent implements Event {
 
-    private final Block block;
+    private final BlockPointer block;
 
-    public BlockEvent(@NotNull Block block) {
+    public BlockEvent(@NotNull BlockPointer block) {
         this.block = block;
     }
 
     @NotNull
-    public Block getBlock() {
+    public BlockPointer getBlock() {
         return this.block;
     }
 }

@@ -1,7 +1,7 @@
 package org.loomdev.api.event.block;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.event.Cancellable;
 
 import java.util.Set;
@@ -12,16 +12,16 @@ import java.util.Set;
  */
 public class BlockExplodeEvent extends BlockEvent implements Cancellable {
 
-    private final Set<Block> affectedBlocks;
+    private final Set<BlockPointer> affectedBlocks;
     private boolean cancelled;
 
-    public BlockExplodeEvent(Block block, Set<Block> affectedBlocks) {
+    public BlockExplodeEvent(BlockPointer block, Set<BlockPointer> affectedBlocks) {
         super(block);
         this.affectedBlocks = affectedBlocks;
     }
 
     @NotNull
-    public Set<Block> getAffectedBlocks() {
+    public Set<BlockPointer> getAffectedBlocks() {
         return affectedBlocks;
     }
 

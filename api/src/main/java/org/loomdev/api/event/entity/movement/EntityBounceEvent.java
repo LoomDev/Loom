@@ -1,7 +1,7 @@
 package org.loomdev.api.event.entity.movement;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.event.Cancellable;
 import org.loomdev.api.event.entity.EntityEvent;
@@ -18,18 +18,18 @@ import org.loomdev.api.event.entity.EntityEvent;
  */
 public class EntityBounceEvent extends EntityEvent implements Cancellable { // TODO EntityBlockBounceEvent?
 
-    private final Block block;
+    private final BlockPointer block;
     private double multiplier;
     private boolean cancelled;
 
-    public EntityBounceEvent(Entity entity, Block block, double multiplier) {
+    public EntityBounceEvent(Entity entity, BlockPointer block, double multiplier) {
         super(entity);
         this.block = block;
         this.multiplier = multiplier;
     }
 
     @NotNull
-    public Block getBlock() {
+    public BlockPointer getBlock() {
         return block;
     }
 

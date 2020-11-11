@@ -1,7 +1,7 @@
 package org.loomdev.api.world;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.math.vector.Vector3i;
 
 public interface Chunk {
@@ -10,7 +10,7 @@ public interface Chunk {
     World getWorld();
 
     @NotNull
-    Block getBlock(int x, int y, int z);
+    BlockPointer getBlock(int x, int y, int z);
 
     @NotNull
     Vector3i getPosition();

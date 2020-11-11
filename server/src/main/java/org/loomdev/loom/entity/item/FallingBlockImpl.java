@@ -28,12 +28,12 @@ public class FallingBlockImpl extends EntityImpl implements FallingBlock {
     @Override
     @NotNull
     public BlockState getBlock() {
-        return BlockStateImpl.of(getMinecraftEntity().getBlockState());
+        return new BlockStateImpl(getMinecraftEntity().getBlockState());
     }
 
     @Override
     public void setBlock(@NotNull BlockState blockState) {
-        getMinecraftEntity().blockState = ((BlockStateImpl) blockState).getMinecraftBlockState();
+        getMinecraftEntity().blockState = ((BlockStateImpl) blockState).getMinecraftState();
     }
 
     @Override

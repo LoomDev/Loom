@@ -2,7 +2,7 @@ package org.loomdev.api.world;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
@@ -20,35 +20,16 @@ public interface World {
     String getName();
 
     @NotNull
-    UUID getUUID();
+    BlockPointer getBlock(Vector3i position);
 
     @NotNull
-    BlockType getBlockType(int x, int y, int z);
-
-    @NotNull
-    BlockType getBlockType(@NotNull Vector3i pos);
-
-    void setBlockType(@NotNull Vector3i pos, @NotNull BlockType type);
-
-    void setBlockType(int x, int y, int z, BlockType type);
-
-    void setBlockTypeControlledUpdate(@NotNull Vector3i pos, @NotNull BlockType type, @NotNull UpdateType updateType);
-
-    void setBlockTypeControlledUpdate(int x, int y, int z, BlockType type, UpdateType updateType);
+    BlockPointer getBlock(int x, int y, int z);
 
     @NotNull
     Chunk getChunk(Vector3i chunkpos);
 
     @NotNull
     Chunk getChunk(int x, int z);
-
-    boolean isChunkGenerated(int x, int z);
-
-    boolean isChunkGenerated(@NotNull Chunk chunk);
-
-    boolean isChunkLoaded(int x, int z);
-
-    boolean isChunkLoaded(@NotNull Chunk chunk);
 
     @Nullable
     <T extends Entity> T spawnEntity(@NotNull EntityType<T> type, @NotNull Location location);

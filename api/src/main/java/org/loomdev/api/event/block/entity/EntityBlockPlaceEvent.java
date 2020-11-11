@@ -1,9 +1,8 @@
 package org.loomdev.api.event.block.entity;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.entity.Entity;
-import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.Cancellable;
 import org.loomdev.api.event.block.BlockEvent;
 
@@ -16,7 +15,7 @@ public class EntityBlockPlaceEvent extends BlockEvent implements Cancellable {
     private final Entity entity;
     private boolean cancelled;
 
-    public EntityBlockPlaceEvent(Block block, Entity entity) {
+    public EntityBlockPlaceEvent(BlockPointer block, Entity entity) {
         super(block);
         this.entity = entity;
     }

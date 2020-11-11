@@ -1,7 +1,7 @@
 package org.loomdev.api.event.block.sign;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.Cancellable;
 import org.loomdev.api.event.block.BlockEvent;
@@ -16,7 +16,7 @@ public class SignWriteEvent extends BlockEvent implements Cancellable {
     private final String[] text;
     private boolean cancelled;
 
-    public SignWriteEvent(Block sign, Player player, String[] text) {
+    public SignWriteEvent(BlockPointer sign, Player player, String[] text) {
         super(sign);
         this.player = player;
         this.text = text;

@@ -1,9 +1,7 @@
 package org.loomdev.api.event.block;
 
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.event.Cancellable;
-
-import java.util.Optional;
 
 /**
  * Fired when a block is placed in an ultra warm (Nether) dimension and changes state.
@@ -21,7 +19,7 @@ public class BlockEvaporateEvent extends BlockEvent implements Cancellable {
 
     private boolean cancelled;
 
-    public BlockEvaporateEvent(Block block) {
+    public BlockEvaporateEvent(BlockPointer block) {
         super(block);
     }
 

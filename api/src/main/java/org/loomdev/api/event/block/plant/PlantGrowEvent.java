@@ -1,7 +1,7 @@
 package org.loomdev.api.event.block.plant;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.block.BlockState;
 import org.loomdev.api.event.Cancellable;
 import org.loomdev.api.event.block.BlockEvent;
@@ -25,7 +25,7 @@ public class PlantGrowEvent extends BlockEvent implements Cancellable {
     private final BlockState updatedState;
     private boolean cancelled;
 
-    public PlantGrowEvent(Block block, BlockState updatedState) {
+    public PlantGrowEvent(BlockPointer block, BlockState updatedState) {
         super(block);
         this.updatedState = updatedState;
     }

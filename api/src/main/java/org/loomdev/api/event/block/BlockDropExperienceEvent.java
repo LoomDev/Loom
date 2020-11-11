@@ -1,6 +1,6 @@
 package org.loomdev.api.event.block;
 
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.event.Cancellable;
 
 /**
@@ -12,7 +12,7 @@ public class BlockDropExperienceEvent extends BlockEvent implements Cancellable 
     private int experience;
     private boolean cancelled;
 
-    public BlockDropExperienceEvent(Block block, int experience) {
+    public BlockDropExperienceEvent(BlockPointer block, int experience) {
         super(block);
         this.experience = experience;
     }

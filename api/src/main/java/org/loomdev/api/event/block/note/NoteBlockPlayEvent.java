@@ -1,7 +1,7 @@
 package org.loomdev.api.event.block.note;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.block.enums.Instrument;
 import org.loomdev.api.block.enums.Note;
 import org.loomdev.api.event.Cancellable;
@@ -18,7 +18,7 @@ public class NoteBlockPlayEvent extends BlockEvent implements Cancellable {
     private float pitch;
     private boolean cancelled;
 
-    public NoteBlockPlayEvent(Block block, Instrument instrument, Note note, float pitch) {
+    public NoteBlockPlayEvent(BlockPointer block, Instrument instrument, Note note, float pitch) {
         super(block);
         this.instrument = instrument;
         this.note = note;

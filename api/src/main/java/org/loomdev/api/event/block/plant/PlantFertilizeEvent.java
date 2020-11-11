@@ -2,13 +2,10 @@ package org.loomdev.api.event.block.plant;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.entity.Entity;
-import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.Cancellable;
 import org.loomdev.api.event.block.BlockEvent;
-
-import java.util.Optional;
 
 /**
  * Fired when bonemeal is used on a plant block and causes the plant
@@ -23,17 +20,17 @@ import java.util.Optional;
 public class PlantFertilizeEvent extends BlockEvent implements Cancellable {
 
     private Entity entity;
-    private Block dispenser;
+    private BlockPointer dispenser;
     private final Cause cause;
     private boolean cancelled;
 
-    public PlantFertilizeEvent(Block block, Entity entity) {
+    public PlantFertilizeEvent(BlockPointer block, Entity entity) {
         super(block);
         this.entity = entity;
         this.cause = Cause.PLAYER;
     }
 
-    public PlantFertilizeEvent(Block block, Block dispenser) {
+    public PlantFertilizeEvent(BlockPointer block, BlockPointer dispenser) {
         super(block);
         this.dispenser = dispenser;
         this.cause = Cause.DISPENSER;
@@ -50,7 +47,7 @@ public class PlantFertilizeEvent extends BlockEvent implements Cancellable {
     }
 
     @Nullable
-    public Block getDispenser() {
+    public BlockPointer getDispenser() {
         return dispenser;
     }
 

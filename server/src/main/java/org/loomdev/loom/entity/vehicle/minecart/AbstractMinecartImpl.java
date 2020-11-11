@@ -23,12 +23,12 @@ public abstract class AbstractMinecartImpl extends EntityImpl implements Minecar
     @Nullable
     @Override
     public BlockState getDisplayedBlock() {
-        return BlockStateImpl.of(getMinecraftEntity().getDisplayBlockState());
+        return new BlockStateImpl(getMinecraftEntity().getDisplayBlockState());
     }
 
     @Override
     public void setDisplayedBlock(@Nullable BlockState blockState) {
-        getMinecraftEntity().setDisplayBlockState(blockState == null ? null : ((BlockStateImpl) blockState).getMinecraftBlockState());
+        getMinecraftEntity().setDisplayBlockState(blockState == null ? null : ((BlockStateImpl) blockState).getMinecraftState());
     }
 
     @Override

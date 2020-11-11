@@ -2,7 +2,7 @@ package org.loomdev.api.event.entity.item;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.Cancellable;
@@ -15,7 +15,7 @@ import org.loomdev.api.event.entity.EntityEvent;
 public class ItemEntityPlaceEvent extends EntityEvent implements Cancellable {
 
     private Player player;
-    private Block dispenser; // TODO change to dispenser block
+    private BlockPointer dispenser; // TODO change to dispenser block
     private final Cause cause;
     private boolean cancelled;
 
@@ -25,7 +25,7 @@ public class ItemEntityPlaceEvent extends EntityEvent implements Cancellable {
         this.cause = Cause.PLAYER;
     }
 
-    public ItemEntityPlaceEvent(Entity entity, Block dispenser) { // TODO change to dispenser block
+    public ItemEntityPlaceEvent(Entity entity, BlockPointer dispenser) { // TODO change to dispenser block
         super(entity);
         this.dispenser = dispenser;
         this.cause = Cause.DISPENSER;
@@ -37,7 +37,7 @@ public class ItemEntityPlaceEvent extends EntityEvent implements Cancellable {
     }
 
     @Nullable
-    public Block getDispenser() { // TODO change to dispenser block
+    public BlockPointer getDispenser() { // TODO change to dispenser block
         return dispenser;
     }
 

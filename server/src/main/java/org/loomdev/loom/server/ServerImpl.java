@@ -185,7 +185,7 @@ public class ServerImpl implements Server {
             throw new IllegalStateException(String.format("World '%s' is a duplicate of an already loaded world.", world.getName()));
         }*/
 
-        worlds.put(worldImpl.getUUID(), worldImpl);
+        worlds.put(UUID.randomUUID(), worldImpl); // TODO modify once world UUIDs exist
     }
 
     @Override

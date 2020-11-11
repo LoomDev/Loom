@@ -2,10 +2,8 @@ package org.loomdev.api.event.block;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.event.Cancellable;
-
-import java.util.Optional;
 
 /**
  * Fired when a flammable block in the world is destroyed by a fire block.
@@ -13,17 +11,17 @@ import java.util.Optional;
  */
 public class BlockBurnEvent extends BlockEvent implements Cancellable {
 
-    private final Block source;
+    private final BlockPointer source;
     private boolean cancelled;
 
-    public BlockBurnEvent(Block block, Block source) {
+    public BlockBurnEvent(BlockPointer block, BlockPointer source) {
         super(block);
         this.source = source;
     }
 
     @NotNull
     @Nullable
-    public Block getSource() {
+    public BlockPointer getSource() {
         return source;
     }
 

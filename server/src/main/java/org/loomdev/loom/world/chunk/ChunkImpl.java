@@ -6,11 +6,11 @@ import net.minecraft.server.level.ChunkHolder;
 import net.minecraft.world.level.chunk.LevelChunk;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.math.vector.Vector3i;
 import org.loomdev.api.world.Chunk;
 import org.loomdev.api.world.World;
-import org.loomdev.loom.block.BlockImpl;
+import org.loomdev.loom.block.BlockPointerImpl;
 
 import java.lang.ref.WeakReference;
 
@@ -48,11 +48,11 @@ public class ChunkImpl implements Chunk {
 
     @Override
     @NotNull
-    public Block getBlock(int x, int y, int z) {
+    public BlockPointer getBlock(int x, int y, int z) {
         Preconditions.checkArgument(0 <= x && x <= 15, "x-coordinate out of range (expected 0-15, got %s).", x);
         Preconditions.checkArgument(0 <= y && y <= 255, "y-coordinate out of range (expected 0-255, got %s).", x);
         Preconditions.checkArgument(0 <= z && z <= 15, "z-coordinate out of range (expected 0-15, got %s).", x);
-        return BlockImpl.at(getMinecraftChunk().getLevel(), new BlockPos((x << 4) | x, y, (z << 4) | z));
+        return getMinecraftChunk().getLevel().getLoomWorld().getBlock((x << 4) | x, y, (z << 4) | z);
     }
 
     @Override

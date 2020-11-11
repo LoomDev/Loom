@@ -1,18 +1,18 @@
 --- a/net/minecraft/world/level/block/SpongeBlock.java
 +++ b/net/minecraft/world/level/block/SpongeBlock.java
-@@ -31,6 +31,7 @@
-     }
+@@ -32,6 +32,7 @@
  
      protected void tryAbsorbWater(Level level, BlockPos blockpos) {
-+        if (false) // Loom start :: move down block updates
          if (this.removeWaterBreadthFirstSearch(level, blockpos)) {
++            if (true) return; // Loom start :: move down block updates
              level.setBlock(blockpos, Blocks.WET_SPONGE.defaultBlockState(), 2);
              level.levelEvent(2001, blockpos, Block.getId(Blocks.WATER.defaultBlockState()));
+         }
 @@ -40,6 +41,7 @@
  
      private boolean removeWaterBreadthFirstSearch(Level level, BlockPos blockpos) {
          Queue<Tuple<BlockPos, Integer>> queue = Lists.newLinkedList();
-+        java.util.Set<org.loomdev.api.block.Block> absorbedBlocks = new java.util.HashSet<>(); // Loom
++        java.util.Set<org.loomdev.api.block.BlockPointer> absorbedBlocks = new java.util.HashSet<>(); // Loom
  
          queue.add(new Tuple<>(blockpos, 0));
          int i = 0;
@@ -23,7 +23,7 @@
 -                    if (blockstate.getBlock() instanceof BucketPickup && !((BucketPickup) blockstate.getBlock()).pickupBlock(level, blockpos2, blockstate).isEmpty()) {
 +                    // Loom start
 +                    if (blockstate.getBlock() instanceof BucketPickup /* && ((BucketPickup) blockstate.getBlock()).pickupBlock(level, blockpos2, blockstate).isEmpty() */) {
-+                        absorbedBlocks.add(org.loomdev.loom.block.BlockImpl.at(level, blockpos2));
++                        absorbedBlocks.add(new org.loomdev.loom.block.BlockPointerImpl(level, blockpos2));
                          ++i;
                          if (j < 6) {
                              queue.add(new Tuple<>(blockpos2, j + 1));
@@ -31,7 +31,7 @@
                      } else if (blockstate.getBlock() instanceof LiquidBlock) {
 -                        level.setBlock(blockpos2, Blocks.AIR.defaultBlockState(), 3);
 +                        // level.setBlock(blockpos2, Blocks.AIR.defaultBlockState(), 3);
-+                        absorbedBlocks.add(org.loomdev.loom.block.BlockImpl.at(level, blockpos2));
++                        absorbedBlocks.add(new org.loomdev.loom.block.BlockPointerImpl(level, blockpos2));
                          ++i;
                          if (j < 6) {
                              queue.add(new Tuple<>(blockpos2, j + 1));
@@ -44,7 +44,7 @@
 -                        level.setBlock(blockpos2, Blocks.AIR.defaultBlockState(), 3);
 +                        // dropResources(blockstate, level, blockpos2, blockentity);
 +                        // level.setBlock(blockpos2, Blocks.AIR.defaultBlockState(), 3);
-+                        absorbedBlocks.add(org.loomdev.loom.block.BlockImpl.at(level, blockpos2));
++                        absorbedBlocks.add(new org.loomdev.loom.block.BlockPointerImpl(level, blockpos2));
 +                        // Loom end
                          ++i;
                          if (j < 6) {
@@ -59,13 +59,13 @@
 +
 +        if (!event.isCancelled()) {
 +            for (var block : event.getAbsorbedBlocks()) {
-+                var blockImpl = (org.loomdev.loom.block.BlockImpl) block;
-+                var state = blockImpl.getMinecraftBlockState();
-+                var pos = blockImpl.getMinecraftPos();
-+                var level1 = (Level) blockImpl.getMinecraftWorld();
++                var pointer = (org.loomdev.loom.block.BlockPointerImpl) block;
++                var state = ((org.loomdev.loom.block.BlockStateImpl) pointer.getBlockState()).getMinecraftState();
++                var pos = pointer.getMinecraftPos();
++                var level1 = pointer.getMinecraftWorld();
 +                var material1 = state.getMaterial();
 +
-+                if (state.getBlock() instanceof BucketPickup && ((BucketPickup) blockImpl.getMinecraftBlockState().getBlock()).pickupBlock(level1, pos, state).isEmpty()) {
++                if (state.getBlock() instanceof BucketPickup && ((BucketPickup) state.getBlock()).pickupBlock(level1, pos, state).isEmpty()) {
 +                    // NOOP
 +                } else if (state.getBlock() instanceof LiquidBlock) {
 +                    level1.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);

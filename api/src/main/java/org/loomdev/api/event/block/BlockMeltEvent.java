@@ -1,7 +1,7 @@
 package org.loomdev.api.event.block;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.event.Cancellable;
 
 /**
@@ -19,7 +19,7 @@ public class BlockMeltEvent extends BlockEvent implements Cancellable {
     private final Cause cause;
     private boolean cancelled;
 
-    public BlockMeltEvent(Block block, Cause cause) {
+    public BlockMeltEvent(BlockPointer block, Cause cause) {
         super(block);
         this.cause = cause;
     }

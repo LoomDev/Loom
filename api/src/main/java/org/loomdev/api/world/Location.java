@@ -30,7 +30,7 @@ public class Location {
         this.yaw = yaw;
     }
 
-    @Nullable
+    @NotNull
     public World getWorld() {
         return world.get();
     }
@@ -93,4 +93,5 @@ public class Location {
     }
 
     // TODO equals(), hash, clone(), and toString()
+    // TODO getChunk()
 }

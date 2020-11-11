@@ -1,6 +1,6 @@
 package org.loomdev.api.event.block;
 
-import org.loomdev.api.block.Block;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.event.Cancellable;
 
 /**
@@ -16,7 +16,7 @@ public class BlockChangeEvent extends BlockEvent implements Cancellable {
 
     private boolean cancelled;
 
-    public BlockChangeEvent(Block block) {
+    public BlockChangeEvent(BlockPointer block) {
         super(block);
     }
 
