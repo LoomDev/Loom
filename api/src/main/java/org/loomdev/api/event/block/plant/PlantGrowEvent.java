@@ -22,17 +22,17 @@ import org.loomdev.api.event.block.BlockEvent;
  */
 public class PlantGrowEvent extends BlockEvent implements Cancellable {
 
-    private final BlockState updatedState;
+    private final BlockState newState;
     private boolean cancelled;
 
-    public PlantGrowEvent(BlockPointer block, BlockState updatedState) {
+    public PlantGrowEvent(BlockPointer block, BlockState newState) {
         super(block);
-        this.updatedState = updatedState;
+        this.newState = newState;
     }
 
     @NotNull
-    public BlockState getUpdatedState() {
-        return updatedState;
+    public BlockState getNewState() {
+        return newState;
     }
 
     @Override

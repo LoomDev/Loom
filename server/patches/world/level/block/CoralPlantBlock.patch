@@ -4,7 +4,7 @@
  
      public void tick(BlockState blockstate, ServerLevel serverlevel, BlockPos blockpos, Random random) {
          if (!scanForWater(blockstate, serverlevel, blockpos)) {
-+            if (org.loomdev.loom.event.LoomEventDispatcher.onPlantDie(serverlevel, blockpos).isCancelled()) return; // Loom :: fire PlantDieEvent
++            if (org.loomdev.loom.event.LoomEventDispatcher.onPlantDie(serverlevel, blockpos, deadBlock.defaultBlockState().setValue(CoralPlantBlock.WATERLOGGED, false)).isCancelled()) return; // Loom :: fire PlantDieEvent
              serverlevel.setBlock(blockpos, (BlockState) this.deadBlock.defaultBlockState().setValue(CoralPlantBlock.WATERLOGGED, false), 2);
          }
  

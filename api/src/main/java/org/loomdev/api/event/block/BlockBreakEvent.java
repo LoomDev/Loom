@@ -12,7 +12,7 @@ public class BlockBreakEvent extends BlockEvent implements Cancellable {
     private boolean dropsItems;
     private boolean cancelled;
 
-    public BlockBreakEvent( BlockPointer block) {
+    public BlockBreakEvent(BlockPointer block) {
         super(block);
     }
 

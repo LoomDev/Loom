@@ -1,6 +1,8 @@
 package org.loomdev.api.event.block;
 
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.BlockPointer;
+import org.loomdev.api.block.BlockState;
 import org.loomdev.api.event.Cancellable;
 
 /**
@@ -14,10 +16,17 @@ import org.loomdev.api.event.Cancellable;
  */
 public class BlockChangeEvent extends BlockEvent implements Cancellable {
 
+    private final BlockState newState;
     private boolean cancelled;
 
-    public BlockChangeEvent(BlockPointer block) {
+    public BlockChangeEvent(BlockPointer block, BlockState newState) {
         super(block);
+        this.newState = newState;
+    }
+
+    @NotNull
+    public BlockState getNewState() {
+        return newState;
     }
 
     @Override

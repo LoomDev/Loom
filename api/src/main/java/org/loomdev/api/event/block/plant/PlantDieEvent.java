@@ -1,6 +1,8 @@
 package org.loomdev.api.event.block.plant;
 
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.BlockPointer;
+import org.loomdev.api.block.BlockState;
 import org.loomdev.api.event.Cancellable;
 import org.loomdev.api.event.block.BlockEvent;
 
@@ -15,10 +17,17 @@ import org.loomdev.api.event.block.BlockEvent;
  */
 public class PlantDieEvent extends BlockEvent implements Cancellable {
 
+    private final BlockState deadState;
     private boolean cancelled;
 
-    public PlantDieEvent(BlockPointer block) {
+    public PlantDieEvent(BlockPointer block, BlockState deadState) {
         super(block);
+        this.deadState = deadState;
+    }
+
+    @NotNull
+    public BlockState getDeadState() {
+        return deadState;
     }
 
     @Override

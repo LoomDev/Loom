@@ -4,7 +4,7 @@
      }
  
      default void change(Level level, BlockState blockstate, BlockPos blockpos) {
-+        if (!org.loomdev.loom.event.LoomEventDispatcher.onBlockChange(level, blockpos).isCancelled()) // Loom :: fire BlockChangeEvent
++        if (!org.loomdev.loom.event.LoomEventDispatcher.onBlockChange(level, blockpos, getChangeTo(blockstate)).isCancelled()) // Loom :: fire BlockChangeEvent
          level.setBlockAndUpdate(blockpos, this.getChangeTo(blockstate));
      }
  }

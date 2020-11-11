@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
@@ -69,122 +70,141 @@ public final class LoomEventDispatcher {
     }
 
     @NotNull
-    public static ItemEntityPlaceEvent onItemEntityPlace(@NotNull Entity entity, @NotNull Player player) {
+    public static ItemEntityPlaceEvent onItemEntityPlace(Entity entity, Player player) {
         return fire(new ItemEntityPlaceEvent(entity.getLoomEntity(), (PlayerImpl) player.getLoomEntity()));
     }
 
     // TODO dispenser armor stand place event
 
     @NotNull
-    public static EntityBlockBreakEvent onEntityBlockBreak(@NotNull Level world, @NotNull BlockPos blockPos, @NotNull Entity entity) {
-        return fire(new EntityBlockBreakEvent(BlockPointerImpl.at(world, blockPos), entity.getLoomEntity()));
+    public static EntityBlockBreakEvent onEntityBlockBreak(Level level, BlockPos blockPos, Entity entity) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new EntityBlockBreakEvent(block, entity.getLoomEntity()));
     }
 
     @NotNull
-    public static EntityBlockPlaceEvent onEntityBlockPlace(@NotNull Level world, @NotNull BlockPos pos, @NotNull Entity entity) {
-        return fire(new EntityBlockPlaceEvent(BlockPointerImpl.at(world, pos), entity.getLoomEntity()));
+    public static EntityBlockPlaceEvent onEntityBlockPlace(Level level, BlockPos blockPos, Entity entity) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new EntityBlockPlaceEvent(block, entity.getLoomEntity()));
     }
 
     @NotNull
-    public static BlockDropExperienceEvent onBlockDropExperience(@NotNull Level world, @NotNull BlockPos pos, int experience) {
-        return fire(new BlockDropExperienceEvent(BlockPointerImpl.at(world, pos), experience));
+    public static BlockDropExperienceEvent onBlockDropExperience(Level level, BlockPos blockPos, int experience) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new BlockDropExperienceEvent(block, experience));
     }
 
     @NotNull
-    public static BlockIgniteEvent onBlockIgnite(@NotNull Level world, @NotNull BlockPos pos, @NotNull BlockPos ignitingpos, @NotNull BlockIgniteEvent.Cause cause) {
-        return fire(new BlockIgniteEvent(BlockPointerImpl.at(world, pos), BlockPointerImpl.at(world, ignitingpos), cause));
+    public static BlockIgniteEvent onBlockIgnite(Level level, BlockPos blockPos, BlockPos sourcePos, BlockIgniteEvent.Cause cause) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var source = level.getLoomWorld().getBlock(sourcePos.getX(), sourcePos.getY(), sourcePos.getZ());
+        return fire(new BlockIgniteEvent(block, source, cause));
     }
 
     @NotNull
-    public static BlockIgniteEvent onBlockIgnite(@NotNull Level world, @NotNull BlockPos pos, @NotNull Entity igniter, @NotNull BlockIgniteEvent.Cause cause) { // TODO add Fireball nms implementations for this
-        return fire(new BlockIgniteEvent(BlockPointerImpl.at(world, pos), igniter.getLoomEntity(), cause));
+    public static BlockIgniteEvent onBlockIgnite(Level level, BlockPos blockPos, Entity source, BlockIgniteEvent.Cause cause) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new BlockIgniteEvent(block, source.getLoomEntity(), cause));
     }
 
     @NotNull
-    public static BlockIgniteEvent onBlockIgnite(@NotNull Level world, @NotNull BlockPos pos, @NotNull Explosion explosion) {
-        var igniter = explosion.getSourceMob() == null ? null : explosion.getSourceMob().getLoomEntity();
-        return fire(new BlockIgniteEvent(BlockPointerImpl.at(world, pos), igniter, BlockIgniteEvent.Cause.EXPLOSION));
+    public static BlockIgniteEvent onBlockIgnite(Level level, BlockPos blockPos, Explosion explosion) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var source = explosion.getSourceMob() == null ? null : explosion.getSourceMob().getLoomEntity();
+        return fire(new BlockIgniteEvent(block, source, BlockIgniteEvent.Cause.EXPLOSION));
     }
 
     @NotNull
-    public static BlockBurnEvent onBlockBurn(@NotNull Level world, @NotNull BlockPos pos, @NotNull BlockPos source) {
-        return fire(new BlockBurnEvent(BlockPointerImpl.at(world, pos), BlockPointerImpl.at(world, source)));
+    public static BlockBurnEvent onBlockBurn(Level level, BlockPos blockPos, BlockPos sourcePos) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var source = level.getLoomWorld().getBlock(sourcePos.getX(), sourcePos.getY(), sourcePos.getZ());
+        return fire(new BlockBurnEvent(block, source));
     }
 
     @NotNull
-    public static BlockEvaporateEvent onBlockEvaporate(@NotNull Level world, @NotNull BlockPos pos) {
-        return fire(new BlockEvaporateEvent(BlockPointerImpl.at(world, pos)));
+    public static BlockEvaporateEvent onBlockEvaporate(Level level, BlockPos blockPos) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new BlockEvaporateEvent(block));
     }
 
     @NotNull
-    public static BlockMeltEvent onBlockMelt(@NotNull Level world, @NotNull BlockPos pos) {
-        return fire(new BlockMeltEvent(BlockPointerImpl.at(world, pos), null)); // TODO figure out causes
+    public static BlockMeltEvent onBlockMelt(Level level, BlockPos blockPos) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new BlockMeltEvent(block, null)); // TODO figure out causes
     }
 
     @NotNull
-    public static BlockChangeEvent onBlockChange(@NotNull Level world, @NotNull BlockPos pos) {
-        return fire(new BlockChangeEvent(BlockPointerImpl.at(world, pos))); // TODO pass new state, old state
+    public static BlockChangeEvent onBlockChange(Level level, BlockPos blockPos, BlockState newState) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var state = new BlockStateImpl(newState);
+        return fire(new BlockChangeEvent(block, state));
     }
 
     @NotNull
-    public static BlockExplodeEvent onBlockExplode(@NotNull Level world, @NotNull BlockPos pos, @NotNull List<BlockPos> explodedBlocks) {
+    public static BlockExplodeEvent onBlockExplode(Level level, BlockPos blockPos, List<BlockPos> explodedBlocks) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         Set<BlockPointer> blocks = explodedBlocks.stream() // TODO streams are ass for performance, de-streamify this
-                .map(blockpos -> BlockPointerImpl.at(world, blockpos))
+                .map(pos -> level.getLoomWorld().getBlock(pos.getX(), pos.getY(), pos.getZ()))
                 .collect(Collectors.toSet());
-
-        return fire(new BlockExplodeEvent(BlockPointerImpl.at(world, pos), blocks));
+        return fire(new BlockExplodeEvent(block, blocks));
     }
 
     @NotNull
-    public static NoteBlockPlayEvent onNoteBlockPlay(@NotNull Level world, @NotNull BlockPos pos, @NotNull NoteBlockInstrument instrument, int note, float pitch) {
-        NoteBlockPlayEvent event = new NoteBlockPlayEvent(
-                BlockPointerImpl.at(world, pos),
-                org.loomdev.api.block.enums.Instrument.getByName(instrument.getSerializedName()),
-                Note.getByUses(note),
-                pitch
-        );
-
-        return fire(event);
+    public static NoteBlockPlayEvent onNoteBlockPlay(Level level, BlockPos blockPos, NoteBlockInstrument mcInstrument, int note, float pitch) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var instrument = org.loomdev.api.block.enums.Instrument.getByName(mcInstrument.getSerializedName());
+        return fire(new NoteBlockPlayEvent(block, instrument, Note.getByUses(note), pitch));
     }
 
     @NotNull
-    public static PlantDieEvent onPlantDie(@NotNull Level level, @NotNull BlockPos pos) {
-        return fire(new PlantDieEvent(BlockPointerImpl.at(level, pos)));
+    public static PlantDieEvent onPlantDie(Level level, BlockPos blockPos, BlockState deadState) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var newState = new BlockStateImpl(deadState);
+        return fire(new PlantDieEvent(block, newState));
     }
 
     @NotNull
-    public static PlantDecayEvent onPlantDecay(@NotNull Level level, @NotNull BlockPos pos) {
-        return fire(new PlantDecayEvent(BlockPointerImpl.at(level, pos)));
+    public static PlantDecayEvent onPlantDecay(Level level, BlockPos blockPos) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new PlantDecayEvent(block));
     }
 
     @NotNull
-    public static PlantGrowEvent onPlantGrow(Level level, BlockPos pos) {
-        return fire(new PlantGrowEvent(BlockPointerImpl.at(level, pos), null)); // TODO blockstate
+    public static PlantGrowEvent onPlantGrow(Level level, BlockPos blockPos, BlockState newState) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var state = new BlockStateImpl(newState);
+        return fire(new PlantGrowEvent(block, state));
     }
 
     @NotNull
-    public static PlantFertilizeEvent onPlantFertilize(@NotNull Level world, @NotNull BlockPos pos, @NotNull Entity entity) {
-        return fire(new PlantFertilizeEvent(BlockPointerImpl.at(world, pos), entity.getLoomEntity()));
+    public static PlantFertilizeEvent onPlantFertilize(Level level, BlockPos blockPos, Entity entity) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new PlantFertilizeEvent(block, entity.getLoomEntity()));
     }
 
     @NotNull
-    public static PlantHarvestEvent onPlantHarvested(@NotNull Level world, @NotNull BlockPos pos, @NotNull Entity entity) {
-        return fire(new PlantHarvestEvent(BlockPointerImpl.at(world, pos), entity.getLoomEntity(), null));
+    public static PlantHarvestEvent onPlantHarvested(Level level, BlockPos blockPos, Entity entity) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new PlantHarvestEvent(block, entity.getLoomEntity(), null)); // TODO add a cause depending on entity type (fox vs player)
     }
 
     @NotNull
-    public static FluidLevelChangeEvent onFluidLevelChange(@NotNull Level world, @NotNull BlockPos pos) {
-        return fire(new FluidLevelChangeEvent(BlockPointerImpl.at(world, pos), BlockStateImpl.of(world.getBlockState(pos))));
+    public static FluidLevelChangeEvent onFluidLevelChange(Level level, BlockPos blockPos, BlockState newState) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var state = new BlockStateImpl(newState);
+        return fire(new FluidLevelChangeEvent(block, state));
     }
 
     @NotNull
-    public static SignWriteEvent onSignWrite(@NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull List<String> text) {
-        return fire(new SignWriteEvent(BlockPointerImpl.at(level, pos), (PlayerImpl) player.getLoomEntity(), text.toArray(new String[4])));
+    public static SignWriteEvent onSignWrite(Level level, BlockPos blockPos, Player player, List<String> text) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new SignWriteEvent(block, (PlayerImpl) player.getLoomEntity(), text));
     }
 
     @NotNull
-    public static BlockAbsorbEvent onBlockAbsorb(@NotNull Level world, @NotNull BlockPos pos, @NotNull Set<BlockPointer> absorbedBlocks) {
-        return fire(new BlockAbsorbEvent(BlockPointerImpl.at(world, pos), absorbedBlocks));
+    public static BlockAbsorbEvent onBlockAbsorb(Level level, BlockPos blockPos, Set<BlockPointer> absorbedBlocks) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new BlockAbsorbEvent(block, absorbedBlocks));
     }
 
     /*public static PlayerLoggedInEvent onPlayerLoggedIn(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
@@ -192,53 +212,55 @@ public final class LoomEventDispatcher {
     }*/
 
     @NotNull
-    public static PlayerJoinEvent onPlayerJoin(@NotNull ServerPlayer serverPlayerEntity, @NotNull Component joinMessage) {
-        return fire(new PlayerJoinEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
+    public static PlayerJoinEvent onPlayerJoin(ServerPlayer serverPlayerEntity, Component message) {
+        return fire(new PlayerJoinEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(message)));
     }
 
     @NotNull
-    public static PlayerDisconnectEvent onPlayerDisconnect(@NotNull ServerPlayer serverPlayerEntity, @NotNull Component joinMessage) {
-        return fire(new PlayerDisconnectEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
+    public static PlayerDisconnectEvent onPlayerDisconnect(ServerPlayer player, Component message) {
+        return fire(new PlayerDisconnectEvent((PlayerImpl) player.getLoomEntity(), TextTransformer.toLoom(message)));
     }
 
     @NotNull
-    public static CompletableFuture<PlayerChatEvent> onPlayerChat(@NotNull ServerPlayer serverPlayerEntity, @NotNull Component component) {
-        return fireAsync(new PlayerChatEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(component), Loom.getServer().getOnlinePlayers()));
+    public static CompletableFuture<PlayerChatEvent> onPlayerChat(ServerPlayer player, Component text) {
+        return fireAsync(new PlayerChatEvent((PlayerImpl) player.getLoomEntity(), TextTransformer.toLoom(text), Loom.getServer().getOnlinePlayers()));
     }
 
     @NotNull
-    public static PlayerEnteredFlightEvent onPlayerEnteredFlight(@NotNull Player playerEntity) { // TODO
+    public static PlayerEnteredFlightEvent onPlayerEnteredFlight(Player playerEntity) { // TODO
         return fire(new PlayerEnteredFlightEvent((PlayerImpl) playerEntity.getLoomEntity()));
     }
 
     @NotNull
-    public static PlayerRiptideEvent onPlayerRiptideLaunched(@NotNull Player playerEntity, int riptideLevel) {
+    public static PlayerRiptideEvent onPlayerRiptideLaunched(Player playerEntity, int riptideLevel) {
         return fire(new PlayerRiptideEvent((PlayerImpl) playerEntity.getLoomEntity(), riptideLevel));
     }
 
     @NotNull
-    public static EntityMoveEvent onEntityMove(@NotNull Player playerEntity, @NotNull Location currentLocation, @NotNull Location newLocation) {
-        return fire(new EntityMoveEvent((PlayerImpl) playerEntity.getLoomEntity(), currentLocation, newLocation));
+    public static EntityMoveEvent onEntityMove(Player player, Location currentLocation, Location newLocation) {
+        return fire(new EntityMoveEvent((PlayerImpl) player.getLoomEntity(), currentLocation, newLocation));
     }
 
     @NotNull
-    public static CreeperChargeEvent onCreeperCharge(@NotNull net.minecraft.world.entity.monster.Creeper creeper) {
+    public static CreeperChargeEvent onCreeperCharge(net.minecraft.world.entity.monster.Creeper creeper) {
         return fire(new CreeperChargeEvent((Creeper) creeper.getLoomEntity()));
     }
 
     @NotNull
-    public static CreeperChargeEvent onCreeperCharge(@NotNull net.minecraft.world.entity.monster.Creeper creeper, @NotNull net.minecraft.world.entity.LightningBolt lightning) {
+    public static CreeperChargeEvent onCreeperCharge(net.minecraft.world.entity.monster.Creeper creeper, net.minecraft.world.entity.LightningBolt lightning) {
         return fire(new CreeperChargeEvent((Creeper) creeper.getLoomEntity(), (LightningBolt) lightning.getLoomEntity()));
     }
 
     @NotNull
-    public static CreeperIgniteEvent onCreeperIgnite(@NotNull net.minecraft.world.entity.monster.Creeper creeper) {
+    public static CreeperIgniteEvent onCreeperIgnite(net.minecraft.world.entity.monster.Creeper creeper) {
         return fire(new CreeperIgniteEvent((Creeper) creeper.getLoomEntity()));
     }
 
     @NotNull
-    public static EntityBounceEvent onEntityBounce(@NotNull Entity entity, double multiplier) {
-        return fire(new EntityBounceEvent(entity.getLoomEntity(), BlockPointerImpl.at(entity.level, entity.blockPosition()), multiplier));
+    public static EntityBounceEvent onEntityBounce(Entity entity, double multiplier) {
+        var blockPos = entity.blockPosition();
+        var block = entity.level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new EntityBounceEvent(entity.getLoomEntity(), block, multiplier));
     }
 
     @NotNull
@@ -249,7 +271,7 @@ public final class LoomEventDispatcher {
     }
 
     @NotNull
-    public static EntityEquipEvent onEntityEquipEvent(@NotNull Entity entity, @NotNull EquipmentSlot slot, @NotNull ItemStack equipment) {
+    public static EntityEquipEvent onEntityEquipEvent(Entity entity, EquipmentSlot slot, ItemStack equipment) {
         /*EntityEquippedEquipmentEvent event = new EntityEquippedEquipmentEvent(entity.getLoomEntity());
         event.cancel(true);
         return fireAsync(event);*/
@@ -257,12 +279,12 @@ public final class LoomEventDispatcher {
     }
 
     @NotNull
-    public static WorldTimeChangeEvent onWorldTimeChanged(@NotNull World world, long change, @NotNull WorldTimeChangeEvent.Cause cause) {
+    public static WorldTimeChangeEvent onWorldTimeChanged(World world, long change, WorldTimeChangeEvent.Cause cause) {
         return fire(new WorldTimeChangeEvent(world, change, cause));
     }
 
     @NotNull
-    public static WorldTimeChangeEvent onWorldTimeChanged(@NotNull Level world, long change, @NotNull WorldTimeChangeEvent.Cause cause) {
+    public static WorldTimeChangeEvent onWorldTimeChanged(Level level, long change, WorldTimeChangeEvent.Cause cause) {
        /* WorldTimeChangeEvent event = new WorldTimeChangeEvent(
                 Loom.getServer().getWorld(world.getLevelData().getLevelName()).orElse(null), // TODO maybe don't fire on invalid world? also fetch world by uuid since it'll be O(1)
                 change,
@@ -273,7 +295,7 @@ public final class LoomEventDispatcher {
     }
 
     @NotNull
-    public static CompletableFuture<ServerPingEvent> onServerPing(@NotNull Connection connection, @NotNull ServerStatus status) {
+    public static CompletableFuture<ServerPingEvent> onServerPing(Connection connection, ServerStatus status) {
         return fireAsync(new ServerPingEvent(
                 ((InetSocketAddress) connection.getRemoteAddress()).getAddress(),
                 status.getVersion().getProtocol(),

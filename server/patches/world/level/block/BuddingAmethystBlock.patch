@@ -4,7 +4,7 @@
              if (block != null) {
                  BlockState blockstate2 = (BlockState) ((BlockState) block.defaultBlockState().setValue(AmethystClusterBlock.FACING, direction)).setValue(AmethystClusterBlock.WATERLOGGED, blockstate1.getFluidState().getType() == Fluids.WATER);
  
-+                if (!org.loomdev.loom.event.LoomEventDispatcher.onPlantGrow(serverlevel, blockpos1).isCancelled()) // Loom :: fire PlantGrowEvent
++                if (!org.loomdev.loom.event.LoomEventDispatcher.onPlantGrow(serverlevel, blockpos1, blockstate2).isCancelled()) // Loom :: fire PlantGrowEvent
                  serverlevel.setBlockAndUpdate(blockpos1, blockstate2);
              }
  
