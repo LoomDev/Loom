@@ -1,0 +1,69 @@
+--- a/net/minecraft/world/level/chunk/LevelChunk.java
++++ b/net/minecraft/world/level/chunk/LevelChunk.java
+@@ -56,6 +56,15 @@
+ 
+ public class LevelChunk implements ChunkAccess {
+ 
++    // Loom start
++    private org.loomdev.loom.world.chunk.ChunkImpl chunkImpl;
++    public final org.loomdev.loom.world.chunk.ChunkImpl getLoomChunk() {
++        if (chunkImpl == null) {
++            chunkImpl = new org.loomdev.loom.world.chunk.ChunkImpl(this);
++        }
++        return chunkImpl;
++    }
++    // Loom end
+     private static final Logger LOGGER = LogManager.getLogger();
+     private static final TickingBlockEntity NULL_TICKER = new TickingBlockEntity() {
+         public void tick() {}
+@@ -652,7 +661,7 @@
+     public void unpackTicks() {
+         if (this.blockTicks instanceof ProtoTickList) {
+             ((ProtoTickList) this.blockTicks).copyOut(this.level.getBlockTicks(), (blockpos) -> {
+-                return this.getBlockState(blockpos).getBlock();
++                return this.getBlockState((BlockPos) blockpos).getBlock(); // Loom :: decompile error
+             });
+             this.blockTicks = EmptyTickList.empty();
+         } else if (this.blockTicks instanceof ChunkTickList) {
+@@ -662,7 +671,7 @@
+ 
+         if (this.liquidTicks instanceof ProtoTickList) {
+             ((ProtoTickList) this.liquidTicks).copyOut(this.level.getLiquidTicks(), (blockpos) -> {
+-                return this.getFluidState(blockpos).getType();
++                return this.getFluidState((BlockPos) blockpos).getType(); // Loom :: decompile error
+             });
+             this.liquidTicks = EmptyTickList.empty();
+         } else if (this.liquidTicks instanceof ChunkTickList) {
+@@ -673,12 +682,12 @@
+     }
+ 
+     public void packTicks(ServerLevel serverlevel) {
+-        if (this.blockTicks == EmptyTickList.empty()) {
++        if (this.blockTicks == EmptyTickList.<Block>empty()) { // Loom :: decompile error
+             this.blockTicks = new ChunkTickList<>(Registry.BLOCK::getKey, serverlevel.getBlockTicks().fetchTicksInChunk(this.chunkPos, true, false), serverlevel.getGameTime());
+             this.setUnsaved(true);
+         }
+ 
+-        if (this.liquidTicks == EmptyTickList.empty()) {
++        if (this.liquidTicks == EmptyTickList.<Fluid>empty()) { // Loom :: decompile error
+             this.liquidTicks = new ChunkTickList<>(Registry.FLUID::getKey, serverlevel.getLiquidTicks().fetchTicksInChunk(this.chunkPos, true, false), serverlevel.getGameTime());
+             this.setUnsaved(true);
+         }
+@@ -724,7 +733,7 @@
+ 
+     private <T extends BlockEntity> void updateBlockEntityTicker(T t0) {
+         BlockState blockstate = t0.getBlockState();
+-        BlockEntityTicker<T> blockentityticker = blockstate.getTicker(this.level, t0.getType());
++        BlockEntityTicker<T> blockentityticker = (BlockEntityTicker<T>) blockstate.getTicker(this.level, t0.getType()); // Loom :: decompile error
+ 
+         if (blockentityticker == null) {
+             this.removeBlockEntityTicker(t0.getBlockPos());
+@@ -851,7 +860,7 @@
+         }
+ 
+         BoundTickingBlockEntity(BlockEntity blockentity, BlockEntityTicker blockentityticker, Object object) {
+-            this(blockentity, blockentityticker);
++            this((T) blockentity, blockentityticker); // Loom :: decompile error
+         }
+     }
+ 

@@ -180,13 +180,12 @@ public class ServerImpl implements Server {
         return tickTimes;
     }
 
-    public void registerWorld(@NotNull ServerLevel minecraftWorld) {
+    public void registerWorld(@NotNull WorldImpl worldImpl) {
         /*if (this.worlds.containsKey(world.getUUID())) {
             throw new IllegalStateException(String.format("World '%s' is a duplicate of an already loaded world.", world.getName()));
         }*/
 
-        World world = new WorldImpl(minecraftWorld);
-        worlds.put(world.getUUID(), world);
+        worlds.put(worldImpl.getUUID(), worldImpl);
     }
 
     @Override

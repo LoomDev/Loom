@@ -1,5 +1,6 @@
 package org.loomdev.loom.world;
 
+import com.google.common.base.Preconditions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.protocol.game.ClientboundSetTimePacket;
@@ -16,6 +17,7 @@ import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.world.WorldTimeChangeEvent;
+import org.loomdev.api.math.vector.Vector3i;
 import org.loomdev.api.particle.Particle;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.world.Chunk;
@@ -26,30 +28,32 @@ import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.event.LoomEventDispatcher;
 import org.loomdev.loom.util.transformer.ParticleTransformer;
 
+import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class WorldImpl implements World {
 
-    private final ServerLevel world;
+    private final WeakReference<ServerLevel> level;
 
-    public WorldImpl(ServerLevel world) {
-        this.world = world;
+    public WorldImpl(ServerLevel level) {
+        this.level = new WeakReference<>(Preconditions.checkNotNull(level));
     }
 
     public static World of(ServerLevel world) {
         return Loom.getServer().getWorld(world.serverLevelData.getLevelName()); // TODO use uuid once it works
     }
 
+    @Nullable
     public ServerLevel getMinecraftWorld() {
-        return world;
+        return level.get();
     }
 
     @Override
     @NotNull
     public String getName() {
-        return world.serverLevelData.getLevelName();
+        return getMinecraftWorld().serverLevelData.getLevelName();
     }
 
     @Override
