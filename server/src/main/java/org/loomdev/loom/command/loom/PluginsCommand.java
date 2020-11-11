@@ -90,7 +90,7 @@ public class PluginsCommand extends Command {
         TreeMap<String, PluginMetadata> plugins = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         Loom.getServer().getPluginManager().getAllPlugins()
                 .stream()
-                .filter(plugin -> full || Loom.getPluginManager().isEnabled(plugin.getId()).orElse(false))
+                .filter(plugin -> full || Loom.getPluginManager().isEnabled(plugin.getId()))
                 .forEach(plugin -> plugins.put(plugin.getNameOrId(), plugin));
 
         TextComponent.Builder builder = TextComponent.builder()

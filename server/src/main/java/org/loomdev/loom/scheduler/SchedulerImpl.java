@@ -2,7 +2,6 @@ package org.loomdev.loom.scheduler;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.scheduler.Scheduler;
 import org.loomdev.api.scheduler.ScheduledTask;
@@ -50,7 +49,7 @@ public class SchedulerImpl implements Scheduler {
 
     @Override
     @NotNull
-    public Set<ScheduledTask> getScheduledTasks(@NotNull Plugin plugin) {
+    public Set<ScheduledTask> getScheduledTasks(@NotNull Object plugin) {
         return taskQueue.values().stream()
                 .filter(t -> t.getPlugin() == plugin)
                 .collect(Collectors.toSet());
@@ -68,7 +67,7 @@ public class SchedulerImpl implements Scheduler {
     }
 
     @Override
-    public void unregisterTasks(@NotNull Plugin plugin) {
+    public void unregisterTasks(@NotNull Object plugin) {
         getScheduledTasks(plugin).forEach(task -> cancelTask(task.getTaskId(), true));
     }
 

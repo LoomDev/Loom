@@ -1,6 +1,7 @@
 package org.loomdev.api.plugin;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +18,7 @@ public interface PluginManager {
      * @param id The id of the plugin to get.
      * @return The plugin, if available.
      */
-    @NotNull Optional<PluginContainer> getPlugin(@NotNull String id);
+    @Nullable PluginContainer getPlugin(@NotNull String id);
 
     /**
      * Get a plugin container from an instance.
@@ -25,7 +26,7 @@ public interface PluginManager {
      * @param pluginInstance The instance to get the plugin container from.
      * @return The plugin container or {@link Optional#empty()} if not a plugin container.
      */
-    @NotNull Optional<PluginContainer> fromInstance(@NotNull Plugin pluginInstance);
+    @Nullable PluginContainer fromInstance(@NotNull Object pluginInstance);
 
     /**
      * Get all the plugins loaded by Loom.
@@ -40,17 +41,13 @@ public interface PluginManager {
 
     boolean wasFound(String id);
 
-    @NotNull Optional<Boolean> isEnabled(String id);
+    boolean isEnabled(String id);
 
-    @NotNull Optional<Boolean> isDisabled(String id);
+    boolean isDisabled(String id);
 
     @NotNull List<PluginMetadata> scanPluginDirectory();
 
     // TODO get dependency graph
-
-    // boolean loadPlugin(String id); // TODO isn't loading just part of enable?
-
-    // boolean unloadPlugin(String id); // TODO isn't unloading just part of disable ?
 
     boolean enablePlugin(@NotNull String id);
 

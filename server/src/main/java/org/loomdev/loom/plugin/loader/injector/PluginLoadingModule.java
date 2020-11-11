@@ -4,23 +4,22 @@ import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
-import org.loomdev.api.plugin.Plugin;
 
-public class PluginLoadingModule implements Module, Provider<Class<? extends Plugin>> {
+public class PluginLoadingModule implements Module, Provider<Class<?>> {
 
-    private final Class<? extends Plugin> mainClass;
+    private final Class<?> mainClass;
 
-    public PluginLoadingModule(Class<? extends Plugin> mainClass) {
+    public PluginLoadingModule(Class<?> mainClass) {
         this.mainClass = mainClass;
     }
 
     @Override
     public void configure(Binder binder) {
-        binder.bind(new TypeLiteral<Class<? extends Plugin>>() {}).toInstance(mainClass);
+        binder.bind(new TypeLiteral<Class<?>>() {}).toInstance(mainClass);
     }
 
     @Override
-    public Class<? extends Plugin> get() {
+    public Class<?> get() {
         return this.mainClass;
     }
 }

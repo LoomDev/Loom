@@ -6,10 +6,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginContainer;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.plugin.PluginMetadata;
+import org.loomdev.api.plugin.hooks.Hook;
+import org.loomdev.api.plugin.hooks.PluginDisableHook;
+import org.loomdev.api.plugin.hooks.PluginEnableHook;
+import org.loomdev.api.plugin.hooks.PluginHook;
 import org.loomdev.loom.command.CommandManagerImpl;
 import org.loomdev.loom.plugin.data.LoomPluginMetadata;
 import org.loomdev.loom.plugin.loader.PluginClassLoader;
@@ -18,6 +21,8 @@ import org.loomdev.loom.server.ServerImpl;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,7 +43,7 @@ public class PluginManagerImpl implements PluginManager {
 
     public final Map<String, PluginMetadata> plugins = new HashMap<>();
     public final Map<String, PluginContainer> enabledPlugins = new HashMap<>();
-    public final Map<Plugin, PluginContainer> enabledPluginsByInstance = new IdentityHashMap<>();
+    public final Map<Object, PluginContainer> enabledPluginsByInstance = new IdentityHashMap<>();
 
     public final Set<String> disabledPlugins = new HashSet<>();
 
@@ -57,13 +62,13 @@ public class PluginManagerImpl implements PluginManager {
     }
 
     @Override
-    public @NotNull Optional<PluginContainer> getPlugin(@NotNull String id) {
-        return Optional.ofNullable(this.enabledPlugins.get(id));
+    public @NotNull PluginContainer getPlugin(@NotNull String id) {
+        return this.enabledPlugins.get(id);
     }
 
     @Override
-    public @NotNull Optional<PluginContainer> fromInstance(@NotNull Plugin plugin) {
-        return Optional.ofNullable(this.enabledPluginsByInstance.get(plugin));
+    public @NotNull PluginContainer fromInstance(@NotNull Object plugin) {
+        return this.enabledPluginsByInstance.get(plugin);
     }
 
     @Override
@@ -87,21 +92,14 @@ public class PluginManagerImpl implements PluginManager {
     }
 
     @Override
-    public @NotNull Optional<Boolean> isEnabled(String id) {
-        if (!this.plugins.containsKey(id)) {
-            return Optional.empty();
-        }
-        return Optional.of(enabledPlugins.containsKey(id));
+    public boolean isEnabled(String id) {
+        return this.plugins.containsKey(id) && this.enabledPlugins.containsKey(id);
     }
 
     @Override
-    public @NotNull Optional<Boolean> isDisabled(String id) {
-        if (!this.plugins.containsKey(id)) {
-            return Optional.empty();
-        }
-        return Optional.of(!enabledPlugins.containsKey(id));
+    public boolean isDisabled(String id) {
+        return this.plugins.containsKey(id) && !this.enabledPlugins.containsKey(id);
     }
-
 
     @Override
     public @NotNull List<PluginMetadata> scanPluginDirectory() {
@@ -208,18 +206,35 @@ public class PluginManagerImpl implements PluginManager {
         LOGGER.info("Loading {} ({}).", metadata.getNameOrId(), metadata.getVersion().orElse("Unknown version"));
 
         Optional<PluginContainer> containerOpt = this.pluginLoader.loadPlugin(metadata);
-        if (!containerOpt.isPresent()) {
+        if (containerOpt.isEmpty()) {
             LOGGER.error("Failed to load plugin '{}'.", metadata.getNameOrId());
             return false;
         }
 
         PluginContainer container = containerOpt.get();
-        Plugin plugin = container.getInstance();
+        Object plugin = container.getInstance();
         enabledPlugins.put(metadata.getId(), container);
         enabledPluginsByInstance.put(plugin, container);
 
+        if (!callHook(plugin, new PluginEnableHook(), false)) {
+            try {
+                ((PluginClassLoader) container.getClassLoader()).close();
+                container = null;
+                System.gc();
+                ((LoomPluginMetadata) metadata).setState(PluginMetadata.State.DISABLED);
+
+                enabledPlugins.remove(metadata.getId());
+                enabledPluginsByInstance.remove(plugin);
+
+                LOGGER.error("Failed to enable plugin '{}'.", metadata.getNameOrId());
+            } catch (IOException e) {
+                e.printStackTrace();
+                LOGGER.fatal("Like.. at this point shit is really on fire ¯\\_(ツ)_/¯");
+            }
+            return false;
+        }
+
         this.server.getEventManager().register(plugin, plugin);
-        plugin.onPluginEnable();
         ((CommandManagerImpl) this.server.getCommandManager()).internalReload();
 
         ((LoomPluginMetadata) metadata).setState(PluginMetadata.State.ENABLED);
@@ -229,7 +244,7 @@ public class PluginManagerImpl implements PluginManager {
 
     @Override
     public boolean disablePlugin(@NotNull String id) {
-        asyncExecutor.execute(() -> internalDisablePlugin(id));  // todo return completableFuture
+        asyncExecutor.execute(() -> internalDisablePlugin(id));  // TODO return completableFuture
         return false;
     }
 
@@ -240,14 +255,12 @@ public class PluginManagerImpl implements PluginManager {
 
         PluginContainer container = this.enabledPlugins.get(id);
         PluginMetadata metadata = container.getMetadata();
-        Plugin plugin = container.getInstance();
+        Object plugin = container.getInstance();
 
         LOGGER.info("Disabling {} ({})", metadata.getNameOrId(), metadata.getVersion().orElse("Unknown version"));
 
-        // TODO disable plugins that require this plugin.
-
         try {
-            asyncExecutor.execute(plugin::onPluginDisable);
+            callHook(plugin, new PluginDisableHook(), false);
             this.server.getEventManager().unregister(plugin);
             this.server.getCommandManager().unregister(plugin);
             this.server.getScheduler().unregisterTasks(plugin);
@@ -287,6 +300,33 @@ public class PluginManagerImpl implements PluginManager {
             }
         });
         return false;
+    }
+
+    private boolean callHook(Object pluginInstance, PluginHook hook, boolean required) {
+        var method = getHookMethod(pluginInstance.getClass(), hook.getClass());
+        if (method == null) {
+            return !required;
+        }
+
+        try {
+            method.invoke(pluginInstance, hook);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private Method getHookMethod(Class<?> pluginClass, Class<? extends PluginHook> hookType) {
+        return Arrays.stream(pluginClass.getMethods())
+                .filter(method -> method.isAnnotationPresent(Hook.class))
+                .filter(method -> {
+                    var paramTypes = method.getParameterTypes();
+                    if (paramTypes.length != 1) return false;
+                    return paramTypes[0].equals(hookType);
+                })
+                .findFirst()
+                .orElse(null);
     }
 
 }

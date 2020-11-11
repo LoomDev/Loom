@@ -1,26 +1,24 @@
 package org.loomdev.api.event;
 
-import org.loomdev.api.plugin.Plugin;
-
 import java.util.concurrent.CompletableFuture;
 
 public interface EventManager {
 
-    void register(Plugin plugin, Object listener);
+    void register(Object plugin, Object listener);
 
-    default <E extends Event> void register(Plugin plugin, Class<E> eventClass, EventHandler<E> handler) {
+    default <E extends Event> void register(Object plugin, Class<E> eventClass, EventHandler<E> handler) {
         register(plugin, eventClass, EventOrder.NORMAL, handler);
     }
 
-    <E extends Event> void register(Plugin plugin, Class<E> eventClass, EventOrder order, EventHandler<E> handler);
+    <E extends Event> void register(Object plugin, Class<E> eventClass, EventOrder order, EventHandler<E> handler);
 
-    void unregister(Plugin plugin);
+    void unregister(Object plugin);
 
-    void unregister(Plugin plugin, Object listener);
+    void unregister(Object plugin, Object listener);
 
     <E extends Event> void unregister(EventHandler<E> handler);
 
-    <E extends Event> void unregister(Plugin plugin, EventHandler<E> handler);
+    <E extends Event> void unregister(Object plugin, EventHandler<E> handler);
 
     <E extends Event> E fire(E event);
 

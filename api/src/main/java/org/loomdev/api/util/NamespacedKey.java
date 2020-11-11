@@ -1,6 +1,7 @@
 package org.loomdev.api.util;
 
-import org.loomdev.api.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.Loom;
 
 /**
  * Represents a key which consists of two parts, a namespace and a key.
@@ -66,8 +67,11 @@ public class NamespacedKey {
      * @param plugin The plugin to use as the namespace.
      * @param key The key to create.
      */
-    public NamespacedKey(Plugin plugin, String key) {
-        this.namespace = plugin.toString();
+    public NamespacedKey(@NotNull Object plugin, @NotNull String key) {
+        var pluginContainer = Loom.getPluginManager().fromInstance(plugin);
+        if (pluginContainer == null) throw new NullPointerException();
+
+        this.namespace = pluginContainer.getMetadata().getId();
         this.key = key;
     }
 

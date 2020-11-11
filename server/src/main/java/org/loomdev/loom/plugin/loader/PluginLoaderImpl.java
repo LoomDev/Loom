@@ -6,9 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.ApiVersion;
-import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginContainer;
-import org.loomdev.api.plugin.PluginLoader;
 import org.loomdev.api.plugin.PluginMetadata;
 import org.loomdev.api.plugin.ap.SerializedPluginMetadata;
 import org.loomdev.loom.plugin.data.LoomPluginContainer;
@@ -32,7 +30,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.stream.Collectors;
 
-public class PluginLoaderImpl implements PluginLoader {
+public class PluginLoaderImpl {
 
     private static final Logger LOGGER = LogManager.getLogger("PluginLoader");
 
@@ -44,7 +42,6 @@ public class PluginLoaderImpl implements PluginLoader {
         this.pluginDirectory = pluginDirectory;
     }
 
-    @Override
     public @NotNull Optional<PluginMetadata> loadMetadata(@NotNull Path source) {
         Optional<SerializedPluginMetadata> serialized = getSerializedPluginInfo(source);
         if (!serialized.isPresent()) {
@@ -76,7 +73,6 @@ public class PluginLoaderImpl implements PluginLoader {
         return Optional.of(createMetadata(data, source));
     }
 
-    @Override
     public @NotNull Optional<PluginContainer> loadPlugin(@NotNull PluginMetadata metadata) {
         if (!(metadata instanceof LoomPluginMetadata)) {
             throw new IllegalArgumentException("Invalid plugin metadata.");
@@ -85,10 +81,10 @@ public class PluginLoaderImpl implements PluginLoader {
         try {
             PluginClassLoader loader = new PluginClassLoader(new URL[] { metadata.getSource().toUri().toURL() });
             loader.addToClassloaders();
-            Class<? extends Plugin> mainClass = (Class<? extends Plugin>) loader.loadClass(metadata.getMain());
+            Class<?> mainClass = loader.loadClass(metadata.getMain());
 
             Injector injector = Guice.createInjector(new InjectionPointProvider(), new PluginLoadingModule(mainClass), new PluginInjectorModule(this.server, (LoomPluginMetadata) metadata, this.pluginDirectory));
-            Plugin instance = (Plugin) injector.getInstance(mainClass);
+            Object instance = injector.getInstance(mainClass);
 
             if (instance == null) {
                 throw new IllegalStateException(String.format("Got nothing from injector for %s.", metadata.getId()));

@@ -10,10 +10,8 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.command.CommandSource;
-import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginMetadata;
 import org.loomdev.loom.Loom;
-import org.loomdev.loom.command.loom.DebugCommand;
 import org.loomdev.loom.command.loom.PluginsCommand;
 import org.loomdev.loom.command.loom.TpsCommand;
 import org.loomdev.loom.command.loom.VersionCommand;
@@ -32,7 +30,6 @@ public class CommandManagerImpl implements CommandManager {
         this.commands = new HashMap<>();
         this.pluginCommands = ArrayListMultimap.create();
 
-        register(Loom.LOOM_PLUGIN, new DebugCommand());
         register(Loom.LOOM_PLUGIN, new PluginsCommand());
         register(Loom.LOOM_PLUGIN, new TpsCommand(server));
         register(Loom.LOOM_PLUGIN, new VersionCommand(server));
@@ -40,8 +37,11 @@ public class CommandManagerImpl implements CommandManager {
     }
 
     @Override
-    public void register(@NotNull Plugin plugin, @NotNull Command command) {
-        server.getPluginManager().fromInstance(plugin).ifPresent(container -> register(container.getMetadata(), command));
+    public void register(@NotNull Object plugin, @NotNull Command command) {
+        var container = server.getPluginManager().fromInstance(plugin);
+        if (container != null) {
+            register(container.getMetadata(), command);
+        }
     }
 
     @Override
@@ -71,16 +71,15 @@ public class CommandManagerImpl implements CommandManager {
     }
 
     @Override
-    public void unregister(@NotNull Plugin plugin) {
-        server.getPluginManager().fromInstance(plugin).ifPresent((container) -> {
-            Collection<String> commands = pluginCommands.get(container.getMetadata().getId());
+    public void unregister(@NotNull Object plugin) {
+        var container = server.getPluginManager().fromInstance(plugin);
+        if (container == null) return;
 
-            if (commands != null) {
-                commands.forEach(this.commands::remove);
-            }
-
-            pluginCommands.removeAll(container.getMetadata().getId());
-        });
+        Collection<String> commands = pluginCommands.get(container.getMetadata().getId());
+        if (commands != null) {
+            commands.forEach(this.commands::remove);
+        }
+        pluginCommands.removeAll(container.getMetadata().getId());
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.google.inject.Provider;
 import org.loomdev.api.config.Configuration;
 import org.loomdev.api.config.ConfigurationException;
 import org.loomdev.api.config.file.YamlConfiguration;
-import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.annotation.Config;
 import org.loomdev.api.plugin.annotation.PluginDirectory;
 import org.loomdev.loom.plugin.loader.injector.InjectionException;
@@ -21,7 +20,7 @@ import java.nio.file.Path;
 public class ConfigProvider implements Provider<Configuration> {
 
     @Inject
-    Class<? extends Plugin> pluginClass;
+    Class<?> pluginClass;
 
     @Inject
     @PluginDirectory

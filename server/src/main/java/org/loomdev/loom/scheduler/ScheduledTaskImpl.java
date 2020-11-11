@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.scheduler.ScheduledTask;
 import org.loomdev.api.scheduler.ScheduledTaskRunnable;
 
@@ -17,7 +16,7 @@ public class ScheduledTaskImpl extends FutureTask<Void> implements ScheduledTask
 
     private static final AtomicInteger NEXT_TASK_ID = new AtomicInteger(0);
 
-    private final Plugin plugin;
+    private final Object plugin;
     private final int taskId;
     private final boolean sync;
     private final long delay;
@@ -25,7 +24,7 @@ public class ScheduledTaskImpl extends FutureTask<Void> implements ScheduledTask
     private ExecutionState state;
     private long tickCounter;
 
-    public ScheduledTaskImpl(@NotNull Plugin plugin, @NotNull Runnable task, boolean sync, long delay, long period) {
+    public ScheduledTaskImpl(@NotNull Object plugin, @NotNull Runnable task, boolean sync, long delay, long period) {
         super(task, null);
         Preconditions.checkArgument(period != 0, "Period cannot be zero.");
         this.plugin = plugin;
@@ -49,7 +48,7 @@ public class ScheduledTaskImpl extends FutureTask<Void> implements ScheduledTask
     }
 
     @NotNull
-    public Plugin getPlugin() {
+    public Object getPlugin() {
         return plugin;
     }
 
@@ -167,7 +166,7 @@ public class ScheduledTaskImpl extends FutureTask<Void> implements ScheduledTask
 
         @Override
         @NotNull
-        public ScheduledTask complete(@NotNull Plugin plugin) {
+        public ScheduledTask complete(@NotNull Object plugin) {
             var task = new ScheduledTaskImpl(plugin, runnable, !async, delayTicks, intervalTicks < 1 ? -1 : intervalTicks);
 
             if (runnable instanceof ScheduledTaskRunnable) {

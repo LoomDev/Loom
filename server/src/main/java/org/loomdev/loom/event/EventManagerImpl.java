@@ -14,7 +14,6 @@ import org.loomdev.api.event.Event;
 import org.loomdev.api.event.EventHandler;
 import org.loomdev.api.event.EventManager;
 import org.loomdev.api.event.EventOrder;
-import org.loomdev.api.plugin.Plugin;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.loom.plugin.loader.PluginClassLoader;
 
@@ -63,7 +62,7 @@ public class EventManagerImpl implements EventManager {
     }
 
     @Override
-    public void register(Plugin plugin, Object listener) {
+    public void register(Object plugin, Object listener) {
         Preconditions.checkNotNull(listener);
         if (plugin == listener && registeredListenersByPlugin.containsEntry(plugin, plugin)) {
             throw new IllegalArgumentException("The plugin main instance is automatically registered.");
@@ -74,7 +73,7 @@ public class EventManagerImpl implements EventManager {
     }
 
     @Override
-    public <E extends Event> void register(Plugin plugin, Class<E> eventClass, EventOrder eventOrder, EventHandler<E> eventHandler) {
+    public <E extends Event> void register(Object plugin, Class<E> eventClass, EventOrder eventOrder, EventHandler<E> eventHandler) {
         Preconditions.checkNotNull(eventClass);
         Preconditions.checkNotNull(eventOrder);
         Preconditions.checkNotNull(eventHandler);
@@ -84,7 +83,7 @@ public class EventManagerImpl implements EventManager {
     }
 
     @Override
-    public void unregister(Plugin plugin) {
+    public void unregister(Object plugin) {
         Collection<Object> listeners = registeredListenersByPlugin.removeAll(plugin);
         listeners.forEach(methodAdapter::unregister);
         Collection<EventHandler<?>> handlers = registeredHandlersByPlugin.removeAll(plugin);
@@ -92,7 +91,7 @@ public class EventManagerImpl implements EventManager {
     }
 
     @Override
-    public void unregister(Plugin plugin, Object listener) {
+    public void unregister(Object plugin, Object listener) {
         Preconditions.checkNotNull(listener, "listener");
         if (registeredListenersByPlugin.remove(plugin, listener)) {
             methodAdapter.unregister(listener);
@@ -105,7 +104,7 @@ public class EventManagerImpl implements EventManager {
     }
 
     @Override
-    public <E extends Event> void unregister(Plugin plugin, EventHandler<E> handler) {
+    public <E extends Event> void unregister(Object plugin, EventHandler<E> handler) {
         Preconditions.checkNotNull(handler, "listener");
         if (registeredHandlersByPlugin.remove(plugin, handler)) {
             unregister(handler);

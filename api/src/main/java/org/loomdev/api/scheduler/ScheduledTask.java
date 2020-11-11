@@ -2,14 +2,13 @@ package org.loomdev.api.scheduler;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
-import org.loomdev.api.plugin.Plugin;
 
 import java.util.concurrent.TimeUnit;
 
 public interface ScheduledTask {
 
     @NotNull
-    Plugin getPlugin();
+    Object getPlugin();
 
     int getTaskId();
 
@@ -50,11 +49,10 @@ public interface ScheduledTask {
         Builder interval(long delay, TimeUnit timeUnit);
 
         @NotNull
-        ScheduledTask complete(@NotNull Plugin plugin);
+        ScheduledTask complete(@NotNull Object plugin);
     }
 
     enum ExecutionState {
-
         STOPPED,
         RUNNING,
         WAITING

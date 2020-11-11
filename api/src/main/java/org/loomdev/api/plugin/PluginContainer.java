@@ -19,7 +19,7 @@ public interface PluginContainer {
      *
      * @return The instance of the plugin.
      */
-    @NotNull Plugin getInstance();
+    @NotNull Object getInstance();
 
     /**
      * Returns this plugin's classloader.
