@@ -68,8 +68,10 @@ public class BlockImpl implements Block {
     }
 
     @Override
-    public @NotNull BlockType getType() {
-        return null;
+    @NotNull
+    public BlockType getType() {
+        System.out.println(getMinecraftBlockState().getBlock().getDescriptionId());
+        return BlockType.getById(getMinecraftBlockState().getBlock().getDescriptionId());
     }
 
     @Override

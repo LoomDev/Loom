@@ -63,34 +63,35 @@ public class WorldImpl implements World {
 
     @Override
     @NotNull
-    public Block getBlock(@NotNull Vector3i pos) {
-        return getBlock(pos.getX(), pos.getY(), pos.getZ());
+    public BlockType getBlockType(@NotNull Vector3i pos) {
+        return getBlockType(pos.getX(), pos.getY(), pos.getZ());
     }
 
     @Override
     @NotNull
-    public Block getBlock(int x, int y, int z) {
-        return BlockImpl.at(getMinecraftWorld(), new BlockPos(x, y, z));
+    public BlockType getBlockType(int x, int y, int z) {
+        var block = getMinecraftWorld().getBlockState(new BlockPos(x, y, z)).getBlock();
+        return BlockType.getById(Registry.BLOCK.getKey(block).toString());
     }
 
     @Override
-    public void setBlock(int x, int y, int z, @NotNull BlockType type) {
-        setBlock(new Vector3i(x, y, z), type);
+    public void setBlockType(int x, int y, int z, @NotNull BlockType type) {
+        setBlockType(new Vector3i(x, y, z), type);
     }
 
     @Override
-    public void setBlock(@NotNull Vector3i pos, @NotNull BlockType type) {
+    public void setBlockType(@NotNull Vector3i pos, @NotNull BlockType type) {
         var block = Registry.BLOCK.get(new ResourceLocation(type.getKey().toString())).defaultBlockState();
         getMinecraftWorld().setBlockAndUpdate(new BlockPos(pos.getX(), pos.getY(), pos.getZ()), block);
     }
 
     @Override
-    public void setBlockControlledUpdate(@NotNull Vector3i pos, @NotNull BlockType type, @NotNull UpdateType updateType) {
-        setBlockControlledUpdate(pos.getX(), pos.getY(), pos.getZ(), type, updateType);
+    public void setBlockTypeControlledUpdate(@NotNull Vector3i pos, @NotNull BlockType type, @NotNull UpdateType updateType) {
+        setBlockTypeControlledUpdate(pos.getX(), pos.getY(), pos.getZ(), type, updateType);
     }
 
     @Override
-    public void setBlockControlledUpdate(int x, int y, int z, BlockType type, UpdateType updateType) {
+    public void setBlockTypeControlledUpdate(int x, int y, int z, BlockType type, UpdateType updateType) {
         var block = Registry.BLOCK.get(new ResourceLocation(type.getKey().toString())).defaultBlockState();
 
         int updateId;
