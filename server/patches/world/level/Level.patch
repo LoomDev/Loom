@@ -1,0 +1,45 @@
+--- a/net/minecraft/world/level/Level.java
++++ b/net/minecraft/world/level/Level.java
+@@ -66,6 +66,15 @@
+ 
+ public abstract class Level implements LevelAccessor, AutoCloseable {
+ 
++    // Loom start
++    private org.loomdev.loom.world.WorldImpl worldImpl;
++    public final org.loomdev.loom.world.WorldImpl getLoomWorld() {
++        if (worldImpl == null) {
++            worldImpl = new org.loomdev.loom.world.WorldImpl(this);
++        }
++        return worldImpl;
++    }
++    // Loom end
+     protected static final Logger LOGGER = LogManager.getLogger();
+     public static final Codec<ResourceKey<Level>> RESOURCE_KEY_CODEC = ResourceLocation.CODEC.xmap(ResourceKey.elementKey(Registry.DIMENSION_REGISTRY), ResourceKey::location);
+     public static final ResourceKey<Level> OVERWORLD = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("overworld"));
+@@ -116,6 +125,7 @@
+         this.thread = Thread.currentThread();
+         this.biomeManager = new BiomeManager(this, i, dimensiontype.getBiomeZoomer());
+         this.isDebug = flag1;
++        ((org.loomdev.loom.server.ServerImpl) org.loomdev.api.Loom.getServer()).registerWorld(getLoomWorld()); // Loom
+     }
+ 
+     public boolean isClientSide() {
+@@ -554,7 +564,7 @@
+ 
+                 for (int j = 0; j < i; ++j) {
+                     EnderDragonPart enderdragonpart = aenderdragonpart[j];
+-                    T t0 = (Entity) entitytypetest.tryCast(enderdragonpart);
++                    T t0 = entitytypetest.tryCast(enderdragonpart); // Loom :: decompile error
+ 
+                     if (t0 != null && predicate.test(t0)) {
+                         list.add(t0);
+@@ -852,7 +862,9 @@
+ 
+     protected abstract LevelEntityGetter<Entity> getEntities();
+ 
++    /* // Loom start :: decompile error
+     public ChunkAccess getChunk(int i, int j) {
+         return this.getChunk(i, j);
+     }
++     */ // Loom end
+ }

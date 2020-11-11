@@ -1,37 +1,15 @@
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -146,12 +146,18 @@
- 
- public class ServerLevel extends Level implements WorldGenLevel {
- 
-+    // Loom start
-+    private final org.loomdev.loom.world.WorldImpl worldImpl;
-+    public final org.loomdev.loom.world.WorldImpl getLoomWorld() {
-+        return worldImpl;
-+    }
-+    // Loom end
-     public static final BlockPos END_SPAWN_POINT = new BlockPos(100, 50, 0);
-     private static final Logger LOGGER = LogManager.getLogger();
+@@ -151,7 +151,7 @@
      private final List<ServerPlayer> players = Lists.newArrayList();
      private final ServerChunkCache chunkSource;
      private final MinecraftServer server;
 -    private final ServerLevelData serverLevelData;
-+    public final ServerLevelData serverLevelData; // Loom :: private -> public
++    public final ServerLevelData serverLevelData; // Loom :: private -> public (WorldImpl)
      private final EntityTickList entityTickList = new EntityTickList();
      private final PersistentEntitySectionManager<Entity> entityManager;
      public boolean noSave;
-@@ -219,6 +225,10 @@
-             this.dragonFight = null;
-         }
- 
-+        // Loom start
-+        worldImpl = new org.loomdev.loom.world.WorldImpl(this);
-+        ((org.loomdev.loom.server.ServerImpl) org.loomdev.api.Loom.getServer()).registerWorld(worldImpl);
-+        // Loom end
-     }
- 
-     public void setWeatherParameters(int i, int j, boolean flag, boolean flag1) {
-@@ -440,7 +450,7 @@
+@@ -440,7 +440,7 @@
      }
  
      private void wakeUpAllPlayers() {
@@ -40,7 +18,7 @@
              serverplayer.stopSleepInBed(false, false);
          });
      }
-@@ -821,7 +831,7 @@
+@@ -821,7 +821,7 @@
      }
  
      public boolean tryAddFreshEntityWithPassengers(Entity entity) {
@@ -49,7 +27,7 @@
          PersistentEntitySectionManager persistententitysectionmanager = this.entityManager;
  
          this.entityManager.getClass();
-@@ -909,7 +919,7 @@
+@@ -909,7 +909,7 @@
  
          explosion.explode();
          explosion.finalizeExplosion(false);
@@ -58,7 +36,7 @@
              explosion.clearToBlow();
          }
  
-@@ -1429,7 +1439,7 @@
+@@ -1429,7 +1429,7 @@
      private static <T> String getTypeCount(Iterable<T> iterable, Function<T, String> function) {
          try {
              Object2IntOpenHashMap<String> object2intopenhashmap = new Object2IntOpenHashMap();
@@ -67,7 +45,7 @@
  
              while (iterator.hasNext()) {
                  T t0 = iterator.next();
-@@ -1438,7 +1448,7 @@
+@@ -1438,7 +1438,7 @@
                  object2intopenhashmap.addTo(s, 1);
              }
  
@@ -76,7 +54,7 @@
                  return (String) entry.getKey() + ":" + entry.getIntValue();
              }).collect(Collectors.joining(","));
          } catch (Exception exception) {
-@@ -1481,6 +1491,7 @@
+@@ -1481,6 +1481,7 @@
          return "Chunks[S] W: " + this.chunkSource.gatherStats() + " E: " + this.entityManager.gatherStats();
      }
  
@@ -84,7 +62,7 @@
      public Scoreboard getScoreboard() {
          return this.getScoreboard();
      }
-@@ -1496,6 +1507,7 @@
+@@ -1496,6 +1497,7 @@
      public TickList getBlockTicks() {
          return this.getBlockTicks();
      }
@@ -92,7 +70,7 @@
  
      final class EntityCallbacks implements LevelCallback<Entity> {
  
-@@ -1565,6 +1577,7 @@
+@@ -1565,6 +1567,7 @@
  
          }
  
@@ -100,7 +78,7 @@
          public void onTrackingEnd(Object object) {
              this.onTrackingEnd((Entity) object);
          }
-@@ -1592,5 +1605,6 @@
+@@ -1592,5 +1595,6 @@
          EntityCallbacks(Object object) {
              this();
          }
