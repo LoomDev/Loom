@@ -31,6 +31,7 @@ import java.util.UUID;
 public abstract class EntityImpl implements Entity {
 
     private final net.minecraft.world.entity.Entity mcEntity;
+    private Location location;
 
     public EntityImpl(net.minecraft.world.entity.Entity entity) {
         mcEntity = entity;
@@ -99,7 +100,7 @@ public abstract class EntityImpl implements Entity {
 
     @Override
     @NotNull
-    public Location getPosition() {
+    public Location getLocation() {
         return new Location(
                 getWorld(),
                 getMinecraftEntity().getX(),
@@ -113,12 +114,12 @@ public abstract class EntityImpl implements Entity {
     @Override
     @NotNull
     public World getWorld() {
-        return Loom.getServer().getWorld(((ServerLevel) mcEntity.level).serverLevelData.getLevelName()); // TODO use UUID, check null
+        return ((ServerLevel) getMinecraftEntity().level).getLoomWorld();
     }
 
     @Override
     public boolean teleport(@NotNull Entity entity) {
-        return teleport(entity.getPosition());
+        return teleport(entity.getLocation());
     }
 
     @Override
