@@ -1,5 +1,7 @@
 package org.loomdev.api.math;
 
+import org.loomdev.api.math.vector.Vector3d;
+
 public class BoundingBox {
 
     public final double minX;

@@ -22,19 +22,20 @@ public interface ItemFrame extends HangingEntity {
 
     void setItemDropChance(float dropChance);
 
-    @NotNull Rotation getRotation();
+    @NotNull
+    Rotation getRotation();
 
     void setRotation(@NotNull Rotation rotation);
 
     enum Rotation {
-        R0(0),
-        R45(45),
-        R90(90),
-        R135(135),
-        R180(180),
-        R225(225),
-        R270(270),
-        R315(315);
+        DEGREES_0(0),
+        DEGREES_45(45),
+        DEGREES_90(90),
+        DEGREES_135(135),
+        DEGREES_180(180),
+        DEGREES_225(225),
+        DEGREES_270(270),
+        DEGREES_315(315);
 
         private static final Map<Integer, Rotation> INT_ROT_MAP = Arrays.stream(values()).collect(Collectors.toMap(Enum::ordinal, e -> e));
         private final int degrees;

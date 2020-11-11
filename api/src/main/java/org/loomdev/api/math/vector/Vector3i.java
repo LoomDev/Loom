@@ -1,5 +1,6 @@
-package org.loomdev.api.math;
+package org.loomdev.api.math.vector;
 
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.util.Direction;
 
 public class Vector3i {
@@ -20,15 +21,15 @@ public class Vector3i {
     }
 
     public int getX() {
-        return this.x;
+        return x;
     }
 
     public int getY() {
-        return this.y;
+        return y;
     }
 
     public int getZ() {
-        return this.z;
+        return z;
     }
 
     public void setX(int x) {
@@ -47,6 +48,7 @@ public class Vector3i {
         if (offset == 0) {
             return this;
         }
+
         return add(direction.getOffset().multiply(offset));
     }
 

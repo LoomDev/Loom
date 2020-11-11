@@ -8,14 +8,12 @@ import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.damage.DamageSource;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.math.BoundingBox;
-import org.loomdev.api.math.Vector3d;
-import org.loomdev.api.sound.Sound;
+import org.loomdev.api.math.vector.Vector3d;
 import org.loomdev.api.sound.SoundEvent;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface Entity extends CommandSource {

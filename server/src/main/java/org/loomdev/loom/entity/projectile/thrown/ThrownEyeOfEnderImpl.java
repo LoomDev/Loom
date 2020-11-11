@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.projectile.thrown.ThrownEyeOfEnder;
 import org.loomdev.api.item.ItemStack;
-import org.loomdev.api.math.Vector3d;
+import org.loomdev.api.math.vector.Vector3d;
 import org.loomdev.loom.entity.EntityImpl;
 import org.loomdev.loom.item.ItemStackImpl;
 

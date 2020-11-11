@@ -63,8 +63,8 @@ public class WorldImpl implements World {
 
     @Override
     @NotNull
-    public Block getBlock(@NotNull Location location) {
-        return getBlock(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+    public Block getBlock(@NotNull Vector3i pos) {
+        return getBlock(pos.getX(), pos.getY(), pos.getZ());
     }
 
     @Override
@@ -74,19 +74,19 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public void setBlock(Location location, BlockType type) {
-        setBlock(location.getBlockX(), location.getBlockY(), location.getBlockZ(), type);
+    public void setBlock(int x, int y, int z, @NotNull BlockType type) {
+        setBlock(new Vector3i(x, y, z), type);
     }
 
     @Override
-    public void setBlock(int x, int y, int z, BlockType type) {
+    public void setBlock(@NotNull Vector3i pos, @NotNull BlockType type) {
         var block = Registry.BLOCK.get(new ResourceLocation(type.getKey().toString())).defaultBlockState();
-        getMinecraftWorld().setBlockAndUpdate(new BlockPos(x, y, z), block);
+        getMinecraftWorld().setBlockAndUpdate(new BlockPos(pos.getX(), pos.getY(), pos.getZ()), block);
     }
 
     @Override
-    public void setBlockControlledUpdate(Location location, BlockType type, UpdateType updateType) {
-        setBlockControlledUpdate(location.getBlockX(), location.getBlockY(), location.getBlockZ(), type, updateType);
+    public void setBlockControlledUpdate(@NotNull Vector3i pos, @NotNull BlockType type, @NotNull UpdateType updateType) {
+        setBlockControlledUpdate(pos.getX(), pos.getY(), pos.getZ(), type, updateType);
     }
 
     @Override
@@ -114,8 +114,15 @@ public class WorldImpl implements World {
     @Override
     @NotNull
     public Chunk getChunk(int x, int z) {
-        // return ChunkImpl.from(this.world.getChunk(x, z));
-        return null;
+        return getMinecraftWorld().getChunk(x, z).getLoomChunk();
+
+        // return ChunkImpl.of(getMinecraftWorld().getChunk(x, z));
+    }
+
+    @Override
+    @NotNull
+    public Chunk getChunk(Vector3i chunkpos) {
+        return getChunk(chunkpos.getX(), chunkpos.getZ());
     }
 
     @Override
@@ -158,7 +165,7 @@ public class WorldImpl implements World {
 
     @Override
     public void spawnParticle(@NotNull Particle particle, @NotNull Location location) {
-        this.world.sendParticles(
+        getMinecraftWorld().sendParticles(
                 ParticleTransformer.toMinecraft(particle),
                 location.getX(),
                 location.getY(),
@@ -174,7 +181,7 @@ public class WorldImpl implements World {
     @Override
     public void playSound(@NotNull Sound sound, @NotNull Location location) {
         var pos = new BlockPos(location.getX(), location.getY(), location.getZ());
-        world.playSound(
+        getMinecraftWorld().playSound(
                 null,
                 pos,
                 Registry.SOUND_EVENT.get(new ResourceLocation(sound.getSoundEffect().getKey().toString())),
@@ -187,7 +194,7 @@ public class WorldImpl implements World {
     @Override
     @NotNull
     public Collection<? extends Player> getPlayers() {
-        return this.world.players()
+        return this.getMinecraftWorld().players()
                 .stream()
                 .map(e -> (PlayerImpl) e.getLoomEntity())
                 .collect(Collectors.toList());
@@ -214,17 +221,17 @@ public class WorldImpl implements World {
 
     @Override
     public boolean isDay() {
-        return world.isDay();
+        return getMinecraftWorld().isDay();
     }
 
     @Override
     public boolean isNight() {
-        return world.isNight();
+        return getMinecraftWorld().isNight();
     }
 
     @Override
     public long getAbsoluteTime() {
-        return world.getGameTime();
+        return getMinecraftWorld().getGameTime();
     }
 
     @Override
@@ -235,7 +242,7 @@ public class WorldImpl implements World {
             return;
         }
 
-        world.setDayTime(getAbsoluteTime() + event.getChange());
+        getMinecraftWorld().setDayTime(getAbsoluteTime() + event.getChange());
 
         for (Player player : getPlayers()) {
             if (!player.isConnected()) {

@@ -1,7 +1,6 @@
 package org.loomdev.api.entity.player;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.bossbar.BossBar;

@@ -2,123 +2,95 @@ package org.loomdev.api.world;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.math.Vector3d;
+import org.loomdev.api.math.vector.Vector3d;
+import org.loomdev.api.math.vector.Vector3i;
 
-import java.util.Optional;
+import java.lang.ref.WeakReference;
+import java.util.Objects;
 
 public class Location {
 
-    private World world;
-    private double x;
-    private double y;
-    private double z;
-    private float yaw;
-    private float pitch;
+    private final WeakReference<World> world;
+    private final double x;
+    private final double y;
+    private final double z;
+    private final float pitch;
+    private final float yaw;
 
-    public Location(@Nullable World world, double x, double y, double z) {
+    public Location(@NotNull World world, double x, double y, double z) {
         this(world, x, y, z, 0, 0);
     }
 
-    public Location(@Nullable World world, double x, double y, double z, float yaw, float pitch) {
-        this.world = world;
+    public Location(@NotNull World world, double x, double y, double z, float pitch, float yaw) {
+        this.world = new WeakReference<>(world);
         this.x = x;
         this.y = y;
         this.z = z;
-        this.yaw = yaw;
         this.pitch = pitch;
-    }
-
-    public static Location at(@Nullable World world, double x, double y, double z, float yaw, float pitch) {
-        return new Location(world, x, y, z, yaw, pitch);
+        this.yaw = yaw;
     }
 
     @Nullable
     public World getWorld() {
-        return world;
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
+        return world.get();
     }
 
     public double getX() {
-        return this.x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
+        return x;
     }
 
     public double getY() {
-        return this.y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+        return y;
     }
 
     public double getZ() {
-        return this.z;
-    }
-
-    public void setZ(int z) {
-        this.z = z;
+        return z;
     }
 
     public float getPitch() {
-        return this.pitch;
-    }
-
-    public void setPitch(int pitch) {
-        this.pitch = pitch;
+        return pitch;
     }
 
     public float getYaw() {
-        return this.pitch;
+        return pitch;
     }
 
-    public void setYaw(int yaw) {
-        this.yaw = yaw;
+    public Vector3d getPosition() {
+        return new Vector3d(x, y, z);
     }
 
-    // TODO normalizePitch(), normalizeYaw()
-
-    // TODO getBlock()
-
-    // TODO getChunk()
-
-    // TODO getDirection(), setDirection()
-
-    public int getBlockX() {
-        return (int) Math.floor(this.x);
+    @NotNull
+    public Vector3i getBlockPosition() {
+        return new Vector3i((int) Math.floor(x), (int) Math.floor(y), (int) Math.floor(z));
     }
 
-    public int getBlockY() {
-        return (int) Math.floor(this.y);
+    @NotNull
+    public Vector3i getChunkPosition() {
+        return new Vector3i((int) Math.floor(x) >> 4, (int) Math.floor(y), (int) Math.floor(z) >> 4);
     }
 
-    public int getBlockZ() {
-        return (int) Math.floor(this.z);
+    @NotNull
+    public Vector3d getVector() {
+        return new Vector3d(x, y, z);
     }
-
-    public @NotNull Vector3d toVector() {
-        return new Vector3d(this.x, this.y, this.z);
-    }
-
-    // TODO add(), subtract(), multiply(), zero()
-
-    // TODO equals(), hash, clone(), and toString()
-
 
     @Override
-    public String toString() {
-        return "Location{" +
-                "world=" + world +
-                ", x=" + x +
-                ", y=" + y +
-                ", z=" + z +
-                ", pitch=" + pitch +
-                ", yaw=" + yaw +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location position = (Location) o;
+        return Double.compare(position.x, x) == 0 &&
+                Double.compare(position.y, y) == 0 &&
+                Double.compare(position.z, z) == 0 &&
+                Float.compare(position.pitch, pitch) == 0 &&
+                Float.compare(position.yaw, yaw) == 0 &&
+                Objects.equals(world, position.world);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(world, x, y, z, pitch, yaw);
+    }
+
+    // TODO equals(), hash, clone(), and toString()
 }

@@ -7,11 +7,11 @@ import org.loomdev.api.block.BlockType;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
+import org.loomdev.api.math.vector.Vector3i;
 import org.loomdev.api.particle.Particle;
 import org.loomdev.api.sound.Sound;
 
 import java.util.Collection;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface World {
@@ -26,15 +26,18 @@ public interface World {
     Block getBlock(int x, int y, int z);
 
     @NotNull
-    Block getBlock(@NotNull Location location);
+    Block getBlock(@NotNull Vector3i pos);
 
-    void setBlock(Location location, BlockType type);
+    void setBlock(@NotNull Vector3i pos, @NotNull BlockType type);
 
     void setBlock(int x, int y, int z, BlockType type);
 
-    void setBlockControlledUpdate(Location location, BlockType type, UpdateType updateType);
+    void setBlockControlledUpdate(@NotNull Vector3i pos, @NotNull BlockType type, @NotNull UpdateType updateType);
 
     void setBlockControlledUpdate(int x, int y, int z, BlockType type, UpdateType updateType);
+
+    @NotNull
+    Chunk getChunk(Vector3i chunkpos);
 
     @NotNull
     Chunk getChunk(int x, int z);

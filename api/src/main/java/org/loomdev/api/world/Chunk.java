@@ -2,22 +2,39 @@ package org.loomdev.api.world;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.Block;
+import org.loomdev.api.math.vector.Vector3i;
 
 public interface Chunk {
 
-    int getX();
+    @NotNull
+    World getWorld();
 
-    int getZ();
+    @NotNull
+    Block getBlock(int x, int y, int z);
 
-    long getKey();
+    @NotNull
+    Vector3i getPosition();
 
-    @NotNull World getWorld();
+    @NotNull
+    ChunkState getChunkState();
 
-    @NotNull Block getBlock(int x, int y, int z);
+    void setChunkState(@NotNull ChunkState state);
 
     boolean isLoaded();
 
     long getInhabitedTime();
 
     void setInhabitedTime(long ticks);
+
+    enum ChunkState {
+
+        INACCESSIBLE,
+        BORDER,
+        TICKING,
+        ENTITY_TICKING;
+
+        public boolean isOrAfter(ChunkState state) {
+            return ordinal() >= state.ordinal();
+        }
+    }
 }

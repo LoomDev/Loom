@@ -1,4 +1,4 @@
-package org.loomdev.api.math;
+package org.loomdev.api.math.vector;
 
 import org.loomdev.api.util.Direction;
 

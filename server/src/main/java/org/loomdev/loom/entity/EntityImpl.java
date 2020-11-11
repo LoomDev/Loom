@@ -14,7 +14,7 @@ import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.damage.DamageSource;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.math.BoundingBox;
-import org.loomdev.api.math.Vector3d;
+import org.loomdev.api.math.vector.Vector3d;
 import org.loomdev.api.sound.SoundEvent;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public abstract class EntityImpl implements Entity {
 
@@ -100,14 +99,14 @@ public abstract class EntityImpl implements Entity {
 
     @Override
     @NotNull
-    public Location getLocation() {
+    public Location getPosition() {
         return new Location(
                 getWorld(),
                 getMinecraftEntity().getX(),
                 getMinecraftEntity().getY(),
                 getMinecraftEntity().getZ(),
-                getMinecraftEntity().yRot,
-                getMinecraftEntity().xRot
+                getMinecraftEntity().xRot,
+                getMinecraftEntity().yRot
         );
     }
 
@@ -119,11 +118,11 @@ public abstract class EntityImpl implements Entity {
 
     @Override
     public boolean teleport(@NotNull Entity entity) {
-        return teleport(entity.getLocation());
+        return teleport(entity.getPosition());
     }
 
     @Override
-    public boolean teleport(@NotNull Location location) {
+    public boolean teleport(@NotNull Location position) {
         if (!isAlive()) {
             return false;
         }
@@ -136,16 +135,12 @@ public abstract class EntityImpl implements Entity {
             getMinecraftEntity().stopRiding();
         }
 
-        var targetWorld = location.getWorld();
-        if (targetWorld == null) {
-            return false;
-        }
-
+        var targetWorld = position.getWorld();
         if (!targetWorld.equals(getWorld())) {
             getMinecraftEntity().changeDimension(((WorldImpl) targetWorld).getMinecraftWorld());
         }
 
-        getMinecraftEntity().moveTo(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+        getMinecraftEntity().moveTo(position.getX(), position.getY(), position.getZ(), position.getYaw(), position.getPitch());
         return true;
     }
 

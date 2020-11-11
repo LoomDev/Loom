@@ -1,6 +1,6 @@
 package org.loomdev.api.util;
 
-import org.loomdev.api.math.Vector3i;
+import org.loomdev.api.math.vector.Vector3i;
 
 import java.util.Arrays;
 import java.util.Map;
