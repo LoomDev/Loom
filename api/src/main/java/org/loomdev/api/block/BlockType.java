@@ -847,6 +847,8 @@ public interface BlockType extends Keyed {
     BlockType CALCITE = getById("minecraft:calcite");
     BlockType COPPER_BLOCK = getById("minecraft:copper_block");
     BlockType LAVA_CAULDRON = getById("minecraft:lava_cauldron");
+    BlockType POWDER_SNOW_CAULDRON = getById("minecraft:powder_snow_cauldron");
+    BlockType POWDER_SNOW = getById("minecraft:powder_snow");
 
     // endregion :: BlockTypes
 

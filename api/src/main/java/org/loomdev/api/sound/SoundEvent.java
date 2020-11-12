@@ -1042,6 +1042,14 @@ public interface SoundEvent extends Keyed {
     SoundEvent BLOCK_CANDLE_HIT = getById("minecraft:block.candle.hit");
     SoundEvent BLOCK_SMALL_AMETHYST_BUD_BREAK = getById("minecraft:block.small_amethyst_bud.break");
     SoundEvent BLOCK_TUFF_HIT = getById("minecraft:block.tuff.hit");
+    SoundEvent BLOCK_POWDER_SNOW_PLACE = getById("minecraft:block.powder_snow.place");
+    SoundEvent BLOCK_POWDER_SNOW_HIT = getById("minecraft:block.powder_snow.hit");
+    SoundEvent ENTITY_PLAYER_HURT_FREEZE = getById("minecraft:entity.player.hurt_freeze");
+    SoundEvent BLOCK_POWDER_SNOW_FALL = getById("minecraft:block.powder_snow.fall");
+    SoundEvent BLOCK_POWDER_SNOW_STEP = getById("minecraft:block.powder_snow.step");
+    SoundEvent ITEM_BUCKET_EMPTY_POWDER_SNOW = getById("minecraft:item.bucket.empty_powder_snow");
+    SoundEvent BLOCK_POWDER_SNOW_BREAK = getById("minecraft:block.powder_snow.break");
+    SoundEvent ITEM_BUCKET_FILL_POWDER_SNOW = getById("minecraft:item.bucket.fill_powder_snow");
 
     // endregion SoundEvents
 
