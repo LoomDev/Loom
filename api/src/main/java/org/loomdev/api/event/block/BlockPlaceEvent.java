@@ -21,7 +21,7 @@ import org.loomdev.api.event.block.BlockEvent;
 public class BlockPlaceEvent extends BlockEvent implements Cancellable {
 
     private final EventCause cause;
-    private final BlockState newState;
+    private BlockState newState;
     private boolean cancelled;
 
     public BlockPlaceEvent(EventCause cause, BlockPointer block, BlockState newState) {
@@ -38,6 +38,10 @@ public class BlockPlaceEvent extends BlockEvent implements Cancellable {
     @NotNull
     public BlockState getNewState() {
         return newState;
+    }
+
+    public void setNewState(@NotNull BlockState state) {
+        this.newState = state;
     }
 
     @Override

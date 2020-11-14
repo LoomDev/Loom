@@ -26,11 +26,16 @@
                  level.removeBlock(blockpos, false);
                  this.enderman.setCarriedBlock(blockstate.getBlock().defaultBlockState());
              }
-@@ -418,6 +419,7 @@
+@@ -418,7 +419,11 @@
              if (blockstate2 != null) {
                  blockstate2 = Block.updateFromNeighbourShapes(blockstate2, this.enderman.level, blockpos);
                  if (this.canPlaceBlock(level, blockpos, blockstate2, blockstate, blockstate1, blockpos1)) {
-+                    if (org.loomdev.loom.event.LoomEventDispatcher.onBlockPlace(enderman, level, blockpos, blockstate2).isCancelled()) return; // Loom :: fire BlockPlaceEvent
-                     level.setBlock(blockpos, blockstate2, 3);
+-                    level.setBlock(blockpos, blockstate2, 3);
++                    // Loom start :: fire BlockPlaceEvent
++                    var event = org.loomdev.loom.event.LoomEventDispatcher.onBlockPlace(enderman, level, blockpos, blockstate2);
++                    if (event.isCancelled()) return;
++                    level.setBlock(blockpos, ((org.loomdev.loom.block.BlockStateImpl) event.getNewState()).getMinecraftState(), 3);
++                    // Loom end
                      this.enderman.setCarriedBlock((BlockState) null);
                  }
+ 

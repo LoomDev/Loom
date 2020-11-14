@@ -1,10 +1,16 @@
 --- a/net/minecraft/world/item/BlockItem.java
 +++ b/net/minecraft/world/item/BlockItem.java
-@@ -51,6 +51,7 @@
+@@ -51,6 +51,13 @@
                  return InteractionResult.FAIL;
              } else {
                  BlockState blockstate = this.getPlacementState(blockplacecontext1);
-+                if (blockstate != null && blockplacecontext1.getPlayer() != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockPlace(blockplacecontext1.getPlayer(), blockplacecontext1.getLevel(), blockplacecontext1.getClickedPos(), blockstate).isCancelled()) return InteractionResult.FAIL; // Loom :: fire BlockPlaceEvent
++                // Loom start :: fire BlockPlaceEvent
++                if (blockstate != null && blockplacecontext1.getPlayer() != null) {
++                    var event = org.loomdev.loom.event.LoomEventDispatcher.onBlockPlace(blockplacecontext1.getPlayer(), blockplacecontext1.getLevel(), blockplacecontext1.getClickedPos(), blockstate);
++                    if (event.isCancelled()) return InteractionResult.FAIL;
++                    blockstate = ((org.loomdev.loom.block.BlockStateImpl) event.getNewState()).getMinecraftState();
++                }
++                // Loom end
  
                  if (blockstate == null) {
                      return InteractionResult.FAIL;
