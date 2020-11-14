@@ -1,0 +1,10 @@
+--- a/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
++++ b/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
+@@ -439,6 +439,7 @@
+ 
+                     if (!blockstate.isAir() && blockstate.getMaterial() != Material.FIRE) {
+                         if (this.level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && !blockstate.is((Tag) BlockTags.DRAGON_IMMUNE)) {
++                            if (!org.loomdev.loom.event.LoomEventDispatcher.onBlockBreak(this, level, blockpos).isCancelled()) // Loom :: fire BlockBreakEvent
+                             flag1 = this.level.removeBlock(blockpos, false) || flag1;
+                         } else {
+                             flag = true;

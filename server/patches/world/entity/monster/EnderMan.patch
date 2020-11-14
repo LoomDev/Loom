@@ -18,3 +18,19 @@
      }
  
      protected void customServerAiStep() {
+@@ -384,6 +384,7 @@
+             boolean flag = blockhitresult.getBlockPos().equals(blockpos);
+ 
+             if (blockstate.is((Tag) BlockTags.ENDERMAN_HOLDABLE) && flag) {
++                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBreak(enderman, level, blockpos).isCancelled()) return; // Loom :: fire BlockBreakEvent
+                 level.removeBlock(blockpos, false);
+                 this.enderman.setCarriedBlock(blockstate.getBlock().defaultBlockState());
+             }
+@@ -418,6 +419,7 @@
+             if (blockstate2 != null) {
+                 blockstate2 = Block.updateFromNeighbourShapes(blockstate2, this.enderman.level, blockpos);
+                 if (this.canPlaceBlock(level, blockpos, blockstate2, blockstate, blockstate1, blockpos1)) {
++                    if (org.loomdev.loom.event.LoomEventDispatcher.onBlockPlace(enderman, level, blockpos, blockstate2).isCancelled()) return; // Loom :: fire BlockPlaceEvent
+                     level.setBlock(blockpos, blockstate2, 3);
+                     this.enderman.setCarriedBlock((BlockState) null);
+                 }

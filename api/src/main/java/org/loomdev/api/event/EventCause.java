@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 /**
- * Represents the in-game object that triggered this event. This
+ * Represents an in-game object that triggered an event. This
  * can represent a block, entity, or other type of world interaction.
  */
 public class EventCause {

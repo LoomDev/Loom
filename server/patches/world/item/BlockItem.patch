@@ -1,10 +1,10 @@
 --- a/net/minecraft/world/item/BlockItem.java
 +++ b/net/minecraft/world/item/BlockItem.java
-@@ -67,6 +67,7 @@
-                         blockstate1 = this.updateBlockStateFromTag(blockpos, level, itemstack, blockstate1);
-                         this.updateCustomBlockEntityTag(blockpos, level, player, itemstack, blockstate1);
-                         blockstate1.getBlock().setPlacedBy(level, blockpos, blockstate1, player, itemstack);
-+                        if (player != null && org.loomdev.loom.event.LoomEventDispatcher.onEntityBlockPlace(level, blockpos, player).isCancelled()) return InteractionResult.FAIL; // Loom :: fire EntityBlockPlaceEvent
-                         if (player instanceof ServerPlayer) {
-                             CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockpos, itemstack);
-                         }
+@@ -51,6 +51,7 @@
+                 return InteractionResult.FAIL;
+             } else {
+                 BlockState blockstate = this.getPlacementState(blockplacecontext1);
++                if (blockstate != null && blockplacecontext1.getPlayer() != null && org.loomdev.loom.event.LoomEventDispatcher.onBlockPlace(blockplacecontext1.getPlayer(), blockplacecontext1.getLevel(), blockplacecontext1.getClickedPos(), blockstate).isCancelled()) return InteractionResult.FAIL; // Loom :: fire BlockPlaceEvent
+ 
+                 if (blockstate == null) {
+                     return InteractionResult.FAIL;

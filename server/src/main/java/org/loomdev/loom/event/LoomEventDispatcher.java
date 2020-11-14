@@ -20,9 +20,9 @@ import org.loomdev.api.block.enums.Note;
 import org.loomdev.api.entity.misc.LightningBolt;
 import org.loomdev.api.entity.monster.Creeper;
 import org.loomdev.api.event.Event;
+import org.loomdev.api.event.EventCause;
 import org.loomdev.api.event.block.*;
-import org.loomdev.api.event.block.entity.EntityBlockBreakEvent;
-import org.loomdev.api.event.block.entity.EntityBlockPlaceEvent;
+import org.loomdev.api.event.block.BlockPlaceEvent;
 import org.loomdev.api.event.block.fluid.FluidLevelChangeEvent;
 import org.loomdev.api.event.block.note.NoteBlockPlayEvent;
 import org.loomdev.api.event.block.plant.*;
@@ -44,7 +44,6 @@ import org.loomdev.api.event.server.ServerPingEvent;
 import org.loomdev.api.event.world.WorldTimeChangeEvent;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
-import org.loomdev.loom.block.BlockPointerImpl;
 import org.loomdev.loom.block.BlockStateImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
@@ -77,15 +76,16 @@ public final class LoomEventDispatcher {
     // TODO dispenser armor stand place event
 
     @NotNull
-    public static EntityBlockBreakEvent onEntityBlockBreak(Level level, BlockPos blockPos, Entity entity) {
+    public static BlockBreakEvent onBlockBreak(Entity entity, Level level, BlockPos blockPos) {
         var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return fire(new EntityBlockBreakEvent(block, entity.getLoomEntity()));
+        return fire(new BlockBreakEvent(new EventCause(entity.getLoomEntity()), block));
     }
 
     @NotNull
-    public static EntityBlockPlaceEvent onEntityBlockPlace(Level level, BlockPos blockPos, Entity entity) {
+    public static BlockPlaceEvent onBlockPlace(Entity entity, Level level, BlockPos blockPos, BlockState newState) {
         var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return fire(new EntityBlockPlaceEvent(block, entity.getLoomEntity()));
+        var state = new BlockStateImpl(newState);
+        return fire(new BlockPlaceEvent(new EventCause(entity.getLoomEntity()), block, state));
     }
 
     @NotNull
