@@ -2,6 +2,7 @@ package org.loomdev.loom.command.loom;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.Command;
+import org.loomdev.api.command.CommandContext;
 import org.loomdev.api.command.CommandSource;
 
 public class ReloadCommand extends Command {
@@ -14,7 +15,7 @@ public class ReloadCommand extends Command {
     }
 
     @Override
-    public void execute(@NotNull CommandSource source, String[] args) {
+    public void execute(@NotNull CommandContext context) {
         // TODO minecraft reload and config stuff.
     }
 }

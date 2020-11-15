@@ -7,6 +7,7 @@ import net.kyori.adventure.text.format.TextColor;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.command.Command;
+import org.loomdev.api.command.CommandContext;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.plugin.PluginMetadata;
@@ -27,7 +28,10 @@ public class PluginsCommand extends Command {
     }
 
     @Override
-    public void execute(@NotNull CommandSource source, String[] args) {
+    public void execute(@NotNull CommandContext context) {
+        var source = context.getSource();
+        var args = context.getArguments();
+
         if (args.length == 0) {
             sendList(source);
             return;

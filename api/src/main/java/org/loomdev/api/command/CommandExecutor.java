@@ -4,6 +4,5 @@ import org.jetbrains.annotations.NotNull;
 
 public interface CommandExecutor {
 
-    void execute(@NotNull CommandSource source, String[] args);
-
+    void execute(@NotNull CommandContext context);
 }

@@ -4,6 +4,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.Command;
+import org.loomdev.api.command.CommandContext;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.monitoring.TickTimes;
 import org.loomdev.api.monitoring.Tps;
@@ -30,7 +31,7 @@ public class TpsCommand extends Command {
     }
 
     @Override
-    public void execute(@NotNull CommandSource source, String[] args) {
+    public void execute(@NotNull CommandContext context) {
         Tps tps = server.getTps();
         TickTimes tickTimes = server.getTickTimes();
 
@@ -39,7 +40,7 @@ public class TpsCommand extends Command {
         times.addAll(eval(tickTimes.getTimes(TickTimes.TickTimesInterval.SECONDS_10)));
         times.addAll(eval(tickTimes.getTimes(TickTimes.TickTimesInterval.SECONDS_60)));
 
-        source.sendMessage(TextComponent.builder()
+        context.getSource().sendMessage(TextComponent.builder()
                 .append(TextComponent.of("TPS from the last 1m, 5m, 15m: "))
                 .append(TextComponent.of(String.format("%s§f, %s§f, %s",
                         getFormattedTps(tps, Tps.TpsInterval.MINUTES_1),
@@ -48,7 +49,7 @@ public class TpsCommand extends Command {
                 .build()
         );
 
-        source.sendMessage(TextComponent.builder()
+        context.getSource().sendMessage(TextComponent.builder()
                 .append(TextComponent.of("Tick rates: "))
                 .append(TextComponent.of(String.format("%s§7/%s§7/%s§f, %s§7/%s§7/%s§f, %s§7/%s§7/%s", times.toArray()))
                         .hoverEvent(HoverEvent.showText(TextComponent.of("Tick rates from last 5s, 10s, 15s"))))

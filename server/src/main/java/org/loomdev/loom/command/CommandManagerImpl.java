@@ -117,16 +117,16 @@ public class CommandManagerImpl implements CommandManager {
             return 0;
         }
 
-        String name = args[0].toLowerCase(Locale.ENGLISH);
-        name = name.startsWith("/") ? name.substring(1) : name;
-        Command command = commands.get(name);
+        String alias = args[0].toLowerCase(Locale.ENGLISH);
+        alias = alias.startsWith("/") ? alias.substring(1) : alias;
+        Command command = commands.get(alias);
 
         if (command == null) {
             return 0;
         }
 
         try {
-            command.execute(source, Arrays.copyOfRange(args, 1, args.length));
+            command.execute(new CommandContextImpl(source, alias, Arrays.copyOfRange(args, 1, args.length)));
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
