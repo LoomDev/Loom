@@ -174,6 +174,10 @@ public interface Entity extends CommandSource {
 
     boolean isSubmergedInLava();
 
+    boolean isInsidePowderSnow();
+
+    void setInsidePowderSnow(boolean flag);
+
     float getBrightnessAtEyes();
 
     float distanceTo(@NotNull Entity entity);

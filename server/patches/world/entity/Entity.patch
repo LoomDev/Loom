@@ -43,8 +43,12 @@
      protected boolean isInsidePortal;
      protected int portalTime;
      protected BlockPos portalEntrancePos;
-@@ -194,6 +203,7 @@
-     protected boolean bodyIsInPowderSnow;
+@@ -191,9 +200,10 @@
+     private long pistonDeltasGameTime;
+     private EntityDimensions dimensions;
+     private float eyeHeight;
+-    protected boolean bodyIsInPowderSnow;
++    public boolean bodyIsInPowderSnow; // Loom :: protected -> public (EntityImpl)
      private float crystalSoundIntensity;
      private int lastCrystalSoundPlayTick;
 +    public Optional<Boolean> fireResistantOverride = Optional.empty(); // Loom

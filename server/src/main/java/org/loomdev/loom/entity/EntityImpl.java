@@ -429,6 +429,16 @@ public abstract class EntityImpl implements Entity {
     }
 
     @Override
+    public boolean isInsidePowderSnow() {
+        return getMinecraftEntity().bodyIsInPowderSnow;
+    }
+
+    @Override
+    public void setInsidePowderSnow(boolean flag) {
+        getMinecraftEntity().setBodyIsInPowderSnow(flag);
+    }
+
+    @Override
     public float getBrightnessAtEyes() {
         return getMinecraftEntity().getBrightness();
     }
