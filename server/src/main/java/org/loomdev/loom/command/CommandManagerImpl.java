@@ -1,9 +1,14 @@
 package org.loomdev.loom.command;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.commands.CommandSourceStack;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +23,7 @@ import org.loomdev.loom.command.loom.VersionCommand;
 import org.loomdev.loom.server.ServerImpl;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class CommandManagerImpl implements CommandManager {
 
@@ -33,7 +39,20 @@ public class CommandManagerImpl implements CommandManager {
         register(Loom.LOOM_PLUGIN, new PluginsCommand());
         register(Loom.LOOM_PLUGIN, new TpsCommand(server));
         register(Loom.LOOM_PLUGIN, new VersionCommand(server));
-        internalReload();
+    }
+
+    @NotNull
+    private CommandDispatcher<CommandSourceStack> getDispatcher() {
+        return server.getMinecraftServer().getCommands().getDispatcher();
+    }
+
+    @NotNull
+    private CommandSource getSource(@NotNull CommandSourceStack stack) {
+        if (stack.getEntity() != null) {
+            return stack.getEntity().getLoomEntity();
+        }
+
+        return new CommandSourceImpl(stack);
     }
 
     @Override
@@ -52,22 +71,38 @@ public class CommandManagerImpl implements CommandManager {
             return;
         }
 
-        String namespacedName = metadata.getId() + ":" + commandName;
-        commands.put(commandName, command);
-        commands.put(namespacedName, command);
-        pluginCommands.put(metadata.getId(), commandName);
-        pluginCommands.put(metadata.getId(), namespacedName);
+        var pluginId = metadata.getId();
+        registerAlias(metadata.getId(), command, commandName);
+        registerAlias(metadata.getId(), command, pluginId + ":" + commandName);
 
-        Arrays.stream(command.getAliases())
-                .filter(StringUtils::isAlphanumeric)
-                .filter(alias -> !commands.containsKey(alias))
-                .forEach(alias -> {
-                    String namespacedAlias = metadata.getId() + ":" + alias;
-                    commands.put(alias, command);
-                    commands.put(namespacedAlias, command);
-                    pluginCommands.put(metadata.getId(), alias);
-                    pluginCommands.put(metadata.getId(), namespacedAlias);
-                });
+        for (var alias : command.getAliases()) {
+            if (!StringUtils.isAlphanumeric(commandName)) {
+                return;
+            }
+
+            if (commands.containsKey(alias)) {
+                return;
+            }
+
+            registerAlias(metadata.getId(), command, alias);
+            registerAlias(metadata.getId(), command, pluginId + ":" + alias);
+        }
+    }
+
+    private void registerAlias(@NotNull String pluginId, @NotNull Command command, @NotNull String alias) {
+        commands.put(alias, command);
+        pluginCommands.put(pluginId, alias);
+        internalRegister(alias);
+    }
+
+    private void internalRegister(String alias) {
+        var arguments = RequiredArgumentBuilder.<CommandSourceStack, String>argument("arguments", StringArgumentType.greedyString())
+                .suggests(this::suggest);
+
+        getDispatcher().register(LiteralArgumentBuilder.<CommandSourceStack>literal(alias)
+                .requires(a -> true) // TODO permissions
+                .executes(this::execute)
+                .then(arguments));
     }
 
     @Override
@@ -87,46 +122,23 @@ public class CommandManagerImpl implements CommandManager {
         // TODO
     }
 
-    public void internalReload() {
-        commands.forEach((name, command) -> {
-            var wrapper = new LoomCommandWrapper(server, this, server.getMinecraftServer().getCommands().getDispatcher())
-                    .registerCommand(name);
-        });
-
-        /*commands.forEach((name, command) -> this.server.getMinecraftServer().getCommandManager().getDispatcher()
-                .register(LiteralArgumentBuilder.<ServerCommandSource>literal(name)
-                        .requires(source -> true) // TODO test permission
-                        .executes(context -> handle(getSource(context), context.getInput()))
-                        .then(RequiredArgumentBuilder.<ServerCommandSource, String>argument("args",
-                                StringArgumentType.greedyString()).suggests(provider -> command.suggest(provider)).executes(null)) // TODO suggestions
-                ));*/
-    }
-
-    private @NotNull CommandSource getSource(@NotNull CommandContext<CommandSourceStack> context) {
-        if (context.getSource().getEntity() != null) {
-            return context.getSource().getEntity().getLoomEntity();
-        }
-
-        return server.getConsoleSource();
-    }
-
-    public int handle(@NotNull CommandSource source, @NotNull String input) {
-        String[] args = input.split("\\s+");
-
-        if (args.length == 0) {
+    private int execute(CommandContext<CommandSourceStack> context) {
+        var arguments = context.getInput().split(" ");
+        if (arguments.length == 0) {
             return 0;
         }
 
-        String alias = args[0].toLowerCase(Locale.ENGLISH);
+        var alias = arguments[0].toLowerCase(Locale.ENGLISH);
         alias = alias.startsWith("/") ? alias.substring(1) : alias;
-        Command command = commands.get(alias);
 
+        var command = commands.get(alias);
         if (command == null) {
             return 0;
         }
 
         try {
-            command.execute(new CommandContextImpl(source, alias, Arrays.copyOfRange(args, 1, args.length)));
+            var input = Arrays.copyOfRange(arguments, 1, arguments.length);
+            command.execute(new CommandContextImpl(getSource(context.getSource()), alias, input));
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -134,21 +146,36 @@ public class CommandManagerImpl implements CommandManager {
         return 1;
     }
 
-    public List<String> suggest(@NotNull CommandSource source, @NotNull String input) {
-        String[] args = input.split("\\s+");
+    @NotNull
+    private CompletableFuture<Suggestions> suggest(CommandContext<CommandSourceStack> context, SuggestionsBuilder suggestionsBuilder) {
+        var builder = suggestionsBuilder.createOffset(suggestionsBuilder.getInput().lastIndexOf(' ') + 1);
+        return CompletableFuture.supplyAsync(() -> {
+            var arguments = builder.getInput().split(" ");
+            if (arguments.length == 0) {
+                return builder.build();
+            }
 
-        if (args.length == 0) {
-            return ImmutableList.of();
+            var alias = arguments[0].toLowerCase(Locale.ENGLISH);
+            alias = alias.startsWith("/") ? alias.substring(1) : alias;
+
+            var command = commands.get(alias);
+            if (command == null) {
+                return builder.build();
+            }
+
+            var source = new CommandSourceImpl(context.getSource());
+            var input = Arrays.copyOfRange(arguments, 1, arguments.length);
+            for (var suggestion : command.suggest(new CommandContextImpl(source, alias, input))) {
+                builder.suggest(suggestion);
+            }
+
+            return builder.build();
+        });
+    }
+
+    public void internalReload() {
+        for (var entry : commands.keySet()) {
+            internalRegister(entry);
         }
-
-        String name = args[0].toLowerCase(Locale.ENGLISH);
-        name = name.startsWith("/") ? name.substring(1) : name;
-        Command command = commands.get(name);
-
-        if (command == null) {
-            return ImmutableList.of();
-        }
-
-        return command.suggest(source, Arrays.copyOfRange(args, 1, args.length));
     }
 }

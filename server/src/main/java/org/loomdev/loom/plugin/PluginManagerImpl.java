@@ -235,7 +235,7 @@ public class PluginManagerImpl implements PluginManager {
         }
 
         this.server.getEventManager().register(plugin, plugin);
-        ((CommandManagerImpl) this.server.getCommandManager()).internalReload();
+        // ((CommandManagerImpl) this.server.getCommandManager()).internalReload();
 
         ((LoomPluginMetadata) metadata).setState(PluginMetadata.State.ENABLED);
         LOGGER.info("Enabled {} ({}).", metadata.getNameOrId(), metadata.getVersion().orElse("Unknown version"));

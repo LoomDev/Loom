@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +26,9 @@ public abstract class Command implements CommandExecutor {
         this.aliases = aliases;
     }
 
-    public @NotNull List<String> suggest(@NotNull CommandSource source, @Nullable String[] args) {
-        return ImmutableList.of();
+    @NotNull
+    public List<String> suggest(@NotNull CommandContext context) {
+        return Collections.emptyList();
     }
 
     public @NotNull String getName() {
