@@ -6,7 +6,7 @@ import org.loomdev.api.helpers.LoomAssert;
 
 public class PaintingMotiveTests {
     @Test
-    public void checkItemTypesAgainstMC() {
+    public void checkMotivesAgainstMC() {
         LoomAssert.fieldsAgainstMCRegistry(Painting.Motive.class, Registry.MOTIVE);
     }
 }

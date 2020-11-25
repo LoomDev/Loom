@@ -25,6 +25,8 @@ public interface ParticleType extends Keyed {
     ParticleType DAMAGE_INDICATOR = getById("minecraft:damage_indicator");
     ParticleType DOLPHIN = getById("minecraft:dolphin");
     ParticleType DRAGON_BREATH = getById("minecraft:dragon_breath");
+    ParticleType DRIPPING_DRIPSTONE_LAVA = getById("minecraft:dripping_dripstone_lava");
+    ParticleType DRIPPING_DRIPSTONE_WATER = getById("minecraft:dripping_dripstone_water");
     ParticleType DRIPPING_HONEY = getById("minecraft:dripping_honey");
     ParticleType DRIPPING_LAVA = getById("minecraft:dripping_lava");
     ParticleType DRIPPING_OBSIDIAN_TEAR = getById("minecraft:dripping_obsidian_tear");
@@ -38,6 +40,8 @@ public interface ParticleType extends Keyed {
     ParticleType ENTITY_EFFECT = getById("minecraft:entity_effect");
     ParticleType EXPLOSION = getById("minecraft:explosion");
     ParticleType EXPLOSION_EMITTER = getById("minecraft:explosion_emitter");
+    ParticleType FALLING_DRIPSTONE_LAVA = getById("minecraft:falling_dripstone_lava");
+    ParticleType FALLING_DRIPSTONE_WATER = getById("minecraft:falling_dripstone_water");
     ParticleType FALLING_DUST = getById("minecraft:falling_dust");
     ParticleType FALLING_HONEY = getById("minecraft:falling_honey");
     ParticleType FALLING_LAVA = getById("minecraft:falling_lava");

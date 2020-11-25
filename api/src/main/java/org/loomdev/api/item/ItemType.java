@@ -305,6 +305,7 @@ public interface ItemType extends Keyed {
     ItemType DRAGON_HEAD = getById("minecraft:dragon_head");
     ItemType DRIED_KELP = getById("minecraft:dried_kelp");
     ItemType DRIED_KELP_BLOCK = getById("minecraft:dried_kelp_block");
+    ItemType DRIPSTONE_BLOCK = getById("minecraft:dripstone_block");
     ItemType DROPPER = getById("minecraft:dropper");
     ItemType DROWNED_SPAWN_EGG = getById("minecraft:drowned_spawn_egg");
     ItemType EGG = getById("minecraft:egg");
@@ -671,6 +672,7 @@ public interface ItemType extends Keyed {
     ItemType PISTON = getById("minecraft:piston");
     ItemType PLAYER_HEAD = getById("minecraft:player_head");
     ItemType PODZOL = getById("minecraft:podzol");
+    ItemType POINTED_DRIPSTONE = getById("minecraft:pointed_dripstone");
     ItemType POISONOUS_POTATO = getById("minecraft:poisonous_potato");
     ItemType POLAR_BEAR_SPAWN_EGG = getById("minecraft:polar_bear_spawn_egg");
     ItemType POLISHED_ANDESITE = getById("minecraft:polished_andesite");

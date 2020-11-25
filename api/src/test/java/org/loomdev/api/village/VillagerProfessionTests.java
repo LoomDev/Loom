@@ -7,7 +7,7 @@ import org.loomdev.api.helpers.LoomAssert;
 public class VillagerProfessionTests {
 
     @Test
-    public void checkItemTypesAgainstMC() {
+    public void checkVillagerProfessionAgainstMC() {
         LoomAssert.fieldsAgainstMCRegistry(VillagerProfession.class, Registry.VILLAGER_PROFESSION);
     }
 }

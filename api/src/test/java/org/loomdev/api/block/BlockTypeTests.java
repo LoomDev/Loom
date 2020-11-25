@@ -7,7 +7,7 @@ import org.loomdev.api.helpers.LoomAssert;
 public class BlockTypeTests {
 
     @Test
-    public void checkItemTypesAgainstMC() {
+    public void checkBlockTypesAgainstMC() {
         LoomAssert.fieldsAgainstMCRegistry(BlockType.class, Registry.BLOCK);
     }
 }

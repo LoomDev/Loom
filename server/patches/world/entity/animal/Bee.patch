@@ -40,7 +40,7 @@
          return true;
      }
  
-@@ -579,9 +579,11 @@
+@@ -577,9 +577,11 @@
          return blockpos.closerThan((Vec3i) this.blockPosition(), (double) i);
      }
  

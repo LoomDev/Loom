@@ -7,7 +7,7 @@ import org.loomdev.api.helpers.LoomAssert;
 public class VillagerVariantTests {
 
     @Test
-    public void checkItemTypesAgainstMC() {
+    public void checkVillagerVariantAgainstMC() {
         LoomAssert.fieldsAgainstMCRegistry(VillagerVariant.class, Registry.VILLAGER_TYPE);
     }
 }

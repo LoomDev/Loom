@@ -7,7 +7,7 @@ import org.loomdev.api.helpers.LoomAssert;
 public class EntityTypeTests {
 
     @Test
-    public void checkItemTypesAgainstMC() {
+    public void checkEntityTypesAgainstMC() {
         LoomAssert.fieldsAgainstMCRegistry(EntityType.class, Registry.ENTITY_TYPE);
     }
 }

@@ -1050,6 +1050,21 @@ public interface SoundEvent extends Keyed {
     SoundEvent ITEM_BUCKET_EMPTY_POWDER_SNOW = getById("minecraft:item.bucket.empty_powder_snow");
     SoundEvent BLOCK_POWDER_SNOW_BREAK = getById("minecraft:block.powder_snow.break");
     SoundEvent ITEM_BUCKET_FILL_POWDER_SNOW = getById("minecraft:item.bucket.fill_powder_snow");
+    SoundEvent BLOCK_POINTED_DRIPSTONE_PLACE = getById("minecraft:block.pointed_dripstone.place");
+    SoundEvent BLOCK_DRIPSTONE_BLOCK_HIT = getById("minecraft:block.dripstone_block.hit");
+    SoundEvent BLOCK_POINTED_DRIPSTONE_DRIP_WATER = getById("minecraft:block.pointed_dripstone.drip_water");
+    SoundEvent BLOCK_POINTED_DRIPSTONE_FALL = getById("minecraft:block.pointed_dripstone.fall");
+    SoundEvent BLOCK_DRIPSTONE_BLOCK_BREAK = getById("minecraft:block.dripstone_block.break");
+    SoundEvent BLOCK_DRIPSTONE_BLOCK_FALL = getById("minecraft:block.dripstone_block.fall");
+    SoundEvent BLOCK_POINTED_DRIPSTONE_LAND = getById("minecraft:block.pointed_dripstone.land");
+    SoundEvent BLOCK_POINTED_DRIPSTONE_DRIP_LAVA_INTO_CAULDRON = getById("minecraft:block.pointed_dripstone.drip_lava_into_cauldron");
+    SoundEvent BLOCK_POINTED_DRIPSTONE_STEP = getById("minecraft:block.pointed_dripstone.step");
+    SoundEvent BLOCK_POINTED_DRIPSTONE_DRIP_LAVA = getById("minecraft:block.pointed_dripstone.drip_lava");
+    SoundEvent BLOCK_DRIPSTONE_BLOCK_STEP = getById("minecraft:block.dripstone_block.step");
+    SoundEvent BLOCK_POINTED_DRIPSTONE_HIT = getById("minecraft:block.pointed_dripstone.hit");
+    SoundEvent BLOCK_DRIPSTONE_BLOCK_PLACE = getById("minecraft:block.dripstone_block.place");
+    SoundEvent BLOCK_POINTED_DRIPSTONE_BREAK = getById("minecraft:block.pointed_dripstone.break");
+    SoundEvent BLOCK_POINTED_DRIPSTONE_DRIP_WATER_INTO_CAULDRON = getById("minecraft:block.pointed_dripstone.drip_water_into_cauldron");
 
     // endregion SoundEvents
 

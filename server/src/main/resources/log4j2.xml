@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN" packages="com.mojang.util" shutdownHook="disable">
     <Appenders>
-        <Queue name="ServerGuiConsole">
-            <PatternLayout pattern="[%d{HH:mm:ss} %level]: %msg%n" />
-        </Queue>
         <TerminalConsole name="TerminalConsole">
             <PatternLayout>
                 <LoggerNamePatternSelector defaultPattern="%highlightError{[%d{HH:mm:ss} %level]: [%logger] %minecraftFormatting{%msg}%n%xEx{full}}">
@@ -35,7 +32,6 @@
             </filters>
             <AppenderRef ref="File"/>
             <AppenderRef ref="TerminalConsole" level="info"/>
-            <AppenderRef ref="ServerGuiConsole" level="info"/>
         </Root>
     </Loggers>
 </Configuration>

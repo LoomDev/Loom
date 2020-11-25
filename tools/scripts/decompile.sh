@@ -9,8 +9,8 @@ yarndir="$toolsdir/yarn"
 decompdir="$toolsdir/decomp"
 
 mcVersion="$2"
-mcServerJar="https://launcher.mojang.com/v1/objects/373675677cc57b9294a187a4d0ecab6f340d4189/server.jar"
-mcServerMappings="https://launcher.mojang.com/v1/objects/5de650acd5894cf687a911fb9affb3b294de4dd2/server.txt"
+mcServerJar="https://launcher.mojang.com/v1/objects/a14d24f89d5a4ec7521b91909caf4fee89c997f4/server.jar"
+mcServerMappings="https://launcher.mojang.com/v1/objects/a54f1c40e3b9a63a7a23fc268df7e79c2cb7e6cb/server.txt"
 
 function setup {
     git submodule update --init --recursive

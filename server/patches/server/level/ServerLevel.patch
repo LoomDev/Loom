@@ -18,7 +18,7 @@
              serverplayer.stopSleepInBed(false, false);
          });
      }
-@@ -821,7 +821,7 @@
+@@ -817,7 +817,7 @@
      }
  
      public boolean tryAddFreshEntityWithPassengers(Entity entity) {
@@ -27,7 +27,7 @@
          PersistentEntitySectionManager persistententitysectionmanager = this.entityManager;
  
          this.entityManager.getClass();
-@@ -909,7 +909,7 @@
+@@ -905,7 +905,7 @@
  
          explosion.explode();
          explosion.finalizeExplosion(false);
@@ -36,7 +36,7 @@
              explosion.clearToBlow();
          }
  
-@@ -1429,7 +1429,7 @@
+@@ -1425,7 +1425,7 @@
      private static <T> String getTypeCount(Iterable<T> iterable, Function<T, String> function) {
          try {
              Object2IntOpenHashMap<String> object2intopenhashmap = new Object2IntOpenHashMap();
@@ -45,7 +45,7 @@
  
              while (iterator.hasNext()) {
                  T t0 = iterator.next();
-@@ -1438,7 +1438,7 @@
+@@ -1434,7 +1434,7 @@
                  object2intopenhashmap.addTo(s, 1);
              }
  
@@ -54,7 +54,7 @@
                  return (String) entry.getKey() + ":" + entry.getIntValue();
              }).collect(Collectors.joining(","));
          } catch (Exception exception) {
-@@ -1481,6 +1481,7 @@
+@@ -1477,6 +1477,7 @@
          return "Chunks[S] W: " + this.chunkSource.gatherStats() + " E: " + this.entityManager.gatherStats();
      }
  
@@ -62,7 +62,7 @@
      public Scoreboard getScoreboard() {
          return this.getScoreboard();
      }
-@@ -1496,6 +1497,7 @@
+@@ -1492,6 +1493,7 @@
      public TickList getBlockTicks() {
          return this.getBlockTicks();
      }
@@ -70,7 +70,7 @@
  
      final class EntityCallbacks implements LevelCallback<Entity> {
  
-@@ -1565,6 +1567,7 @@
+@@ -1561,6 +1563,7 @@
  
          }
  
@@ -78,7 +78,7 @@
          public void onTrackingEnd(Object object) {
              this.onTrackingEnd((Entity) object);
          }
-@@ -1592,5 +1595,6 @@
+@@ -1588,5 +1591,6 @@
          EntityCallbacks(Object object) {
              this();
          }

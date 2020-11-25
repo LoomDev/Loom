@@ -11,7 +11,7 @@
          this.settings = dedicatedserversettings;
          this.rconConsoleSource = new RconConsoleSource(this);
          this.textFilterClient = null;
-@@ -172,6 +172,7 @@
+@@ -171,6 +171,7 @@
              GameProfileCache.setUsesAuthentication(this.usesAuthentication());
              DedicatedServer.LOGGER.info("Preparing level \"{}\"", this.getLevelIdName());
              this.loadLevel();
@@ -20,7 +20,7 @@
              String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
  
 @@ -553,7 +554,9 @@
-         return this.settings.getProperties().requireResourcePack;
+         return this.settings.getProperties().forceGameMode ? this.worldData.getGameType() : null;
      }
  
 +    /* // Loom start :: decompile error

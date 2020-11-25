@@ -7,7 +7,7 @@ import org.loomdev.api.helpers.LoomAssert;
 public class PointOfInterestTypeTests {
 
     @Test
-    public void checkItemTypesAgainstMC() {
+    public void checkPointOfInterestTypeAgainstMC() {
         LoomAssert.fieldsAgainstMCRegistry(PointOfInterestType.class, Registry.POINT_OF_INTEREST_TYPE);
     }
 }

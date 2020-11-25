@@ -252,6 +252,7 @@ public interface BlockType extends Keyed {
     BlockType DRAGON_HEAD = getById("minecraft:dragon_head");
     BlockType DRAGON_WALL_HEAD = getById("minecraft:dragon_wall_head");
     BlockType DRIED_KELP_BLOCK = getById("minecraft:dried_kelp_block");
+    BlockType DRIPSTONE_BLOCK = getById("minecraft:dripstone_block");
     BlockType DROPPER = getById("minecraft:dropper");
     BlockType EMERALD_BLOCK = getById("minecraft:emerald_block");
     BlockType EMERALD_ORE = getById("minecraft:emerald_ore");
@@ -498,6 +499,7 @@ public interface BlockType extends Keyed {
     BlockType PLAYER_HEAD = getById("minecraft:player_head");
     BlockType PLAYER_WALL_HEAD = getById("minecraft:player_wall_head");
     BlockType PODZOL = getById("minecraft:podzol");
+    BlockType POINTED_DRIPSTONE = getById("minecraft:pointed_dripstone");
     BlockType POLISHED_ANDESITE = getById("minecraft:polished_andesite");
     BlockType POLISHED_ANDESITE_SLAB = getById("minecraft:polished_andesite_slab");
     BlockType POLISHED_ANDESITE_STAIRS = getById("minecraft:polished_andesite_stairs");
