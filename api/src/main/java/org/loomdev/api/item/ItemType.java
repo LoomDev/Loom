@@ -1048,6 +1048,7 @@ public interface ItemType extends Keyed {
     ItemType CALCITE = getById("minecraft:calcite");
     ItemType COPPER_BLOCK = getById("minecraft:copper_block");
     ItemType POWDER_SNOW_BUCKET = getById("minecraft:powder_snow_bucket");
+    ItemType SCULK_SENSOR = getById("minecraft:sculk_sensor");
 
     // endregion :: ItemTypes
 

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -113,6 +113,16 @@
+@@ -114,6 +114,16 @@
  
  public abstract class LivingEntity extends Entity {
  
@@ -17,7 +17,7 @@
      private static final UUID SPEED_MODIFIER_SPRINTING_UUID = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
      private static final UUID SPEED_MODIFIER_SOUL_SPEED_UUID = UUID.fromString("87f46a96-686f-4796-b035-22e16ee9e038");
      private static final UUID SPEED_MODIFIER_POWDER_SNOW_UUID = UUID.fromString("1eaf83ff-7207-4596-b37a-d7a07b3ec4ce");
-@@ -194,10 +204,11 @@
+@@ -195,10 +205,11 @@
      @Nullable
      private DamageSource lastDamageSource;
      private long lastDamageStamp;
@@ -30,7 +30,7 @@
  
      protected LivingEntity(EntityType<? extends LivingEntity> entitytype, Level level) {
          super(entitytype, level);
-@@ -1598,7 +1609,7 @@
+@@ -1600,7 +1611,7 @@
  
      }
  
@@ -39,7 +39,7 @@
          this.hurt(DamageSource.OUT_OF_WORLD, 4.0F);
      }
  
-@@ -2403,7 +2414,7 @@
+@@ -2405,7 +2416,7 @@
      }
  
      public boolean isSensitiveToWater() {
@@ -48,7 +48,7 @@
      }
  
      private void updateFallFlying() {
-@@ -2659,7 +2670,7 @@
+@@ -2669,7 +2680,7 @@
  
      }
  
@@ -57,7 +57,7 @@
          byte b0 = (Byte) this.entityData.get(LivingEntity.DATA_LIVING_ENTITY_FLAGS);
          int j;
  
-@@ -2941,7 +2952,7 @@
+@@ -2951,7 +2962,7 @@
      }
  
      public void stopSleeping() {

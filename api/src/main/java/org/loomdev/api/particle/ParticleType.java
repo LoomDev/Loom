@@ -85,6 +85,8 @@ public interface ParticleType extends Keyed {
     ParticleType WITCH = getById("minecraft:witch");
     ParticleType SMALL_FLAME = getById("minecraft:small_flame");
     ParticleType SNOWFLAKE = getById("minecraft:snowflake");
+    ParticleType VIBRATION = getById("minecraft:vibration");
+    ParticleType DUST_COLOR_TRANSITION = getById("minecraft:dust_color_transition");
 
     // endregion ParticleTypes
 

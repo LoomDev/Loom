@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-mcVersion="20w48a"
+mcVersion="20w49a"
 
 # resolve shell-specifics
 case "$(echo "$SHELL" | sed -E 's|/usr(/local)?||g')" in

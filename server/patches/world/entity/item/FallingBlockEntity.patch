@@ -9,3 +9,12 @@
      public int time;
      public boolean dropItem;
      private boolean cancelDrop;
+@@ -214,7 +214,7 @@
+             if (i < 0) {
+                 return false;
+             } else {
+-                Predicate predicate;
++                Predicate<Entity> predicate; // Loom :: decompile error
+                 DamageSource damagesource;
+ 
+                 if (this.blockState.getBlock() instanceof Fallable) {

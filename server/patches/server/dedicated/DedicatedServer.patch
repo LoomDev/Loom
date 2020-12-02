@@ -11,7 +11,7 @@
          this.settings = dedicatedserversettings;
          this.rconConsoleSource = new RconConsoleSource(this);
          this.textFilterClient = null;
-@@ -171,6 +171,7 @@
+@@ -170,6 +170,7 @@
              GameProfileCache.setUsesAuthentication(this.usesAuthentication());
              DedicatedServer.LOGGER.info("Preparing level \"{}\"", this.getLevelIdName());
              this.loadLevel();

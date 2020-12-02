@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/decoration/ArmorStand.java
 +++ b/net/minecraft/world/entity/decoration/ArmorStand.java
-@@ -66,10 +66,10 @@
+@@ -67,10 +67,10 @@
      private int disabledSlots;
      private Rotations headPose;
      private Rotations bodyPose;
@@ -15,7 +15,7 @@
  
      public ArmorStand(EntityType<? extends ArmorStand> entitytype, Level level) {
          super(entitytype, level);
-@@ -604,7 +604,7 @@
+@@ -610,7 +610,7 @@
          return this.isMarker() ? PushReaction.IGNORE : super.getPistonPushReaction();
      }
  
@@ -24,7 +24,7 @@
          this.entityData.set(ArmorStand.DATA_CLIENT_FLAGS, this.setBit((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS), 1, flag));
      }
  
-@@ -612,7 +612,7 @@
+@@ -618,7 +618,7 @@
          return ((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS) & 1) != 0;
      }
  
@@ -33,7 +33,7 @@
          this.entityData.set(ArmorStand.DATA_CLIENT_FLAGS, this.setBit((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS), 4, flag));
      }
  
-@@ -620,7 +620,7 @@
+@@ -626,7 +626,7 @@
          return ((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS) & 4) != 0;
      }
  
@@ -42,7 +42,7 @@
          this.entityData.set(ArmorStand.DATA_CLIENT_FLAGS, this.setBit((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS), 8, flag));
      }
  
-@@ -628,7 +628,7 @@
+@@ -634,7 +634,7 @@
          return ((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS) & 8) != 0;
      }
  

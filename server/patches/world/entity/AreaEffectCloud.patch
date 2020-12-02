@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/AreaEffectCloud.java
 +++ b/net/minecraft/world/entity/AreaEffectCloud.java
-@@ -41,15 +41,15 @@
+@@ -40,15 +40,15 @@
      private static final EntityDataAccessor<Boolean> DATA_WAITING = SynchedEntityData.defineId(AreaEffectCloud.class, EntityDataSerializers.BOOLEAN);
      private static final EntityDataAccessor<ParticleOptions> DATA_PARTICLE = SynchedEntityData.defineId(AreaEffectCloud.class, EntityDataSerializers.PARTICLE);
      private Potion potion;
@@ -18,10 +18,10 @@
 -    private float radiusPerTick;
 +    public float radiusOnUse; // Loom :: private -> public (AreaEffectCloudImpl)
 +    public float radiusPerTick; // Loom :: private -> public (AreaEffectCloudImpl)
+     @Nullable
      private LivingEntity owner;
-     private UUID ownerUUID;
- 
-@@ -139,7 +139,7 @@
+     @Nullable
+@@ -140,7 +140,7 @@
          this.getEntityData().set(AreaEffectCloud.DATA_PARTICLE, particleoptions);
      }
  

@@ -5,12 +5,13 @@
     <parent>
         <artifactId>loom-root</artifactId>
         <groupId>org.loomdev</groupId>
-        <version>20w48a</version>
+        <version>1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>loom-server</artifactId>
+    <version>20w49a</version>
 
     <dependencies>
         <!-- Server dependencies -->

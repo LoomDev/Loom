@@ -29,7 +29,7 @@
                  }
  
                  i = serverboundeditbookpacket.getSlot();
-@@ -1100,7 +1100,10 @@
+@@ -1102,7 +1102,10 @@
      public void onDisconnect(Component component) {
          ServerGamePacketListenerImpl.LOGGER.info("{} lost connection: {}", this.player.getName().getString(), component.getString());
          this.server.invalidateStatus();
@@ -41,7 +41,7 @@
          this.player.disconnect();
          this.server.getPlayerList().remove(this.player);
          TextFilter textfilter = this.player.getTextFilter();
-@@ -1191,7 +1194,12 @@
+@@ -1193,7 +1196,12 @@
              } else {
                  TranslatableComponent translatablecomponent = new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s});
  
@@ -55,7 +55,7 @@
              }
  
              this.chatSpamTickCount += 20;
-@@ -1481,6 +1489,7 @@
+@@ -1483,6 +1491,7 @@
                  return;
              }
  

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/Explosion.java
 +++ b/net/minecraft/world/level/Explosion.java
-@@ -45,7 +45,7 @@
+@@ -46,7 +46,7 @@
  
      private static final ExplosionDamageCalculator EXPLOSION_DAMAGE_CALCULATOR = new ExplosionDamageCalculator();
      private final boolean fire;
@@ -9,7 +9,7 @@
      private final Random random = new Random();
      private final Level level;
      private final double x;
-@@ -230,7 +230,18 @@
+@@ -232,7 +232,18 @@
              ObjectArrayList<Pair<ItemStack, BlockPos>> objectarraylist = new ObjectArrayList();
  
              Collections.shuffle(this.toBlow, this.level.random);
@@ -29,7 +29,7 @@
  
              while (iterator.hasNext()) {
                  BlockPos blockpos = (BlockPos) iterator.next();
-@@ -276,6 +287,7 @@
+@@ -278,6 +289,7 @@
                  BlockPos blockpos2 = (BlockPos) iterator1.next();
  
                  if (this.random.nextInt(3) == 0 && this.level.getBlockState(blockpos2).isAir() && this.level.getBlockState(blockpos2.below()).isSolidRender(this.level, blockpos2.below())) {

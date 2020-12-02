@@ -1065,6 +1065,13 @@ public interface SoundEvent extends Keyed {
     SoundEvent BLOCK_DRIPSTONE_BLOCK_PLACE = getById("minecraft:block.dripstone_block.place");
     SoundEvent BLOCK_POINTED_DRIPSTONE_BREAK = getById("minecraft:block.pointed_dripstone.break");
     SoundEvent BLOCK_POINTED_DRIPSTONE_DRIP_WATER_INTO_CAULDRON = getById("minecraft:block.pointed_dripstone.drip_water_into_cauldron");
+    SoundEvent BLOCK_SCULK_SENSOR_PLACE = getById("minecraft:block.sculk_sensor.place");
+    SoundEvent BLOCK_SCULK_SENSOR_HIT = getById("minecraft:block.sculk_sensor.hit");
+    SoundEvent BLOCK_SCULK_SENSOR_STEP = getById("minecraft:block.sculk_sensor.step");
+    SoundEvent BLOCK_SCULK_SENSOR_CLICKING_STOP = getById("minecraft:block.sculk_sensor.clicking_stop");
+    SoundEvent BLOCK_SCULK_SENSOR_CLICKING = getById("minecraft:block.sculk_sensor.clicking");
+    SoundEvent BLOCK_SCULK_SENSOR_BREAK = getById("minecraft:block.sculk_sensor.break");
+    SoundEvent BLOCK_SCULK_SENSOR_FALL = getById("minecraft:block.sculk_sensor.fall");
 
     // endregion SoundEvents
 

@@ -5,7 +5,7 @@
     <groupId>org.loomdev</groupId>
     <artifactId>loom-root</artifactId>
     <packaging>pom</packaging>
-    <version>20w48a</version>
+    <version>1</version>
 
     <modules>
         <module>api</module>
@@ -38,8 +38,8 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <minecraft.version>${project.version}</minecraft.version>
-        <api.version>${project.version}</api.version>
+        <minecraft.version>20w49a</minecraft.version>
+        <api.version>20w49a</api.version>
     </properties>
 
     <dependencies>
