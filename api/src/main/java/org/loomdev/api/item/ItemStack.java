@@ -26,6 +26,14 @@ public interface ItemStack {
         return Loom.getRegistry().createBuilder(ItemStack.class);
     }
 
+    static Builder builder(ItemType type) {
+        return builder().type(type);
+    }
+
+    static Builder builder(ItemType type, int amount) {
+        return builder().type(type).amount(amount);
+    }
+
     /**
      * Get the item type of this ItemStack.
      *
