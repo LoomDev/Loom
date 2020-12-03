@@ -88,6 +88,7 @@ public interface BiomeType extends Keyed {
     BiomeType WARPED_FOREST = getById("minecraft:warped_forest");
     BiomeType SOUL_SAND_VALLEY = getById("minecraft:soul_sand_valley");
     BiomeType BASALT_DELTAS = getById("minecraft:basalt_deltas");
+    BiomeType DRIPSTONE_CAVES = getById("minecraft:dripstone_caves");
 
     // endregion :: BiomeTypes
 
