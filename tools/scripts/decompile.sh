@@ -1,43 +1,28 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-(
-set -e
-PS1="$"
-basedir="$(cd "$1" && pwd -P)"
-toolsdir="$basedir/tools"
-yarndir="$toolsdir/yarn"
-decompdir="$toolsdir/decomp"
+mcVersion=$(cat ".loomversion")
 
-mcVersion="$2"
-mcServerJar="https://launcher.mojang.com/v1/objects/2fc0afe1fd31ca872761efbd2a7f635db234b359/server.jar"
-mcServerMappings="https://launcher.mojang.com/v1/objects/0b30deba62ef6c2064dfd12f4f46b9d6388d9c8c/server.txt"
+mapServerJar() {
+    printf "Mapping $mcVersion Minecraft server jar..."
+    java -jar tools/reconstruct-cli-1.3.2.jar -jar ".cache/$mcVersion/server.jar" -mapping ".cache/$mcVersion/server.txt" -output ".cache/$mcVersion/server-deobf.jar" -exclude "com.google.,com.mojang.,io.netty.,it.unimi.dsi.fastutil.,javax.,joptsimple.,org.apache." -agree
+    rm -rf ./logs
+    printf " Done!\n"
 
-function setup {
-    git submodule update --init --recursive
-
-    echo "Downloading vanilla server jar and Mojang mappings."
-    mkdir -p "$toolsdir/decomp"
-    cd "$toolsdir/decomp"
-    curl -O $mcServerJar
-    curl -O $mcServerMappings
-
-    echo "Mapping vanilla server jar with Mojang mappings."
-    java -jar $toolsdir/reconstruct-cli-1.3.2.jar -jar server.jar -mapping server.txt -output server-deobf.jar -exclude "com.google.,com.mojang.,io.netty.,it.unimi.dsi.fastutil.,javax.,joptsimple.,org.apache." -agree
-    mvn install:install-file -Dfile="server-deobf.jar" -DgroupId="org.loomdev" -DartifactId="minecraft-server" -Dversion="$mcVersion-SNAPSHOT" -Dpackaging="jar"
+    printf "Installing $mcVersion mapped Minecraft server jar in your local maven repo..."
+    mvn install:install-file -Dfile=".cache/$mcVersion/server-deobf.jar" -DgroupId="org.loomdev" -DartifactId="minecraft-server" -Dversion="$mcVersion-SNAPSHOT" -Dpackaging="jar" > /dev/null
+    printf " Done!\n"
 }
 
-function decomp {
-    echo "Extracting mapped Minecraft source."
-    mkdir -p "$decompdir/extracted"
-    cd "$decompdir/extracted"
-    unzip -o "$decompdir/server-deobf.jar" "net/**/*" || exit 1
+decompile() {
+    printf "Extracting $mcVersion mapped Minecraft server jar..."
+    unzip -o ".cache/$mcVersion/server-deobf.jar" "net/**/*" -d ".cache/$mcVersion/extracted/" > /dev/null
+    printf " Done!\n"
 
-    echo "Decompiling mapped Minecraft source."
-    mkdir -p "$decompdir/decompiled"
-    cd "$decompdir/decompiled"
-    java -jar "$toolsdir/fernflower.jar" -dgs=1 -hdc=0 -rbr=0 -asc=1 -udv=0 "$decompdir/extracted" "$decompdir/decompiled"
+    printf "Decompiling $mcVersion mapped Minecraft source..."
+    mkdir -p ".cache/$mcVersion/decompiled/"
+    java -jar "tools/fernflower.jar" -dgs=1 -hdc=0 -rbr=0 -asc=1 -udv=0 ".cache/$mcVersion/extracted/" ".cache/$mcVersion/decompiled/"
+    printf " Done!\n"
 }
 
-setup
-decomp
-) || exit 1
+mapServerJar
+decompile

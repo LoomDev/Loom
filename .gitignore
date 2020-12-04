@@ -213,11 +213,17 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/gradle
 
 ### LoomDev ###
-/dev-server/
+
+/.cache
+/logs
 
 /server/src/main/java/net/minecraft
-/server/dev-server/
 
-/tools/decomp/
+/dev-server/
+/server/dev-server/
 /tools/dev-server/
+
 /loom-*.jar
+
+#TODO remove
+/tools/decomp/

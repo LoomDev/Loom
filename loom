@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-
-mcVersion="20w49a"
+#!/bin/bash
 
 # resolve shell-specifics
 case "$(echo "$SHELL" | sed -E 's|/usr(/local)?||g')" in
@@ -27,53 +25,98 @@ SOURCE=$([[ "$SOURCE" = /* ]] && echo "$SOURCE" || echo "$PWD/${SOURCE#./}")
 basedir=$(dirname "$SOURCE")
 
 failed=0
-case "$1" in
-    "rb" | "rebuild" | "makePatches")
+
+########
+# Loom #
+########
+
+mcVersion=$(cat ".loomversion")
+
+showHelp () {
+    echo "This tool provides a variety of commands to manage a Loom development environment."
+    echo ""
+    echo "Usage: loom [command]"
+    echo ""
+    echo "Commands:"
+    echo ""
+    echo "  c, clean                | Clean the repository."
+    echo "  s, setup                | Setup the repository. (Downloads, maps, decompiles and patches the MC Server)"
+    echo "  p, patch                | Apply all Loom patches. (Required a set up repository)"
+    echo "  rb, rebuild             | Create/update patches base on your current project source."
+    echo "  jar                     | Create a distributable server jar for Loom."
+    # echo "  switchVersion <version> | Switch the Minecraft version you are targeting"
+    echo ""
+    echo "Selected version: $mcVersion"
+    echo ""
+}
+
+cleanRepository() {
+    printf "\r%-60s" "Removing: .cache"
+    rm -rf ./.cache
+
+    printf "\r%-60s" "Removing: ./server/src/main/java/net"
+    rm -rf ./server/src/main/java/net
+
+    printf "\r%-60s" "Removing: Paperclip submodule"
+    git submodule deinit --all -f &> /dev/null
+
+    printf "\r%-60s" "Cleaned repository!"
+}
+
+setupRepository() {
     (
-        set -e
-        cd "$basedir"
-        tools/scripts/makePatches.sh "./tools/decomp/decompiled" || exit 1
-    ) || failed=1
-    ;;
-    "p" | "patch" | "applyPatches")
-    (
-        set -e
-        cd "$basedir"
-        tools/scripts/applyPatches.sh "./tools/decomp/decompiled" || exit 1
-    ) || failed=1
-    ;;
-    "s" | "setup")
-        set -e
-        cd "$basedir"
-        tools/scripts/decompile.sh "$basedir" "$mcVersion" || exit 1
-        cd "$basedir"
-        tools/scripts/applyPatches.sh "./tools/decomp/decompiled" || exit 1
-    ;;
-    "jar")
-        cd "$basedir/tools/Paperclip"
-        mvn clean package "-Dmcver=$mcVersion" "-Dpaperjar=$basedir/server/target/loom-$mcVersion.jar" "-Dvanillajar=$basedir/tools/decomp/server.jar" || exit 1
-        cp "$basedir/tools/Paperclip/assembly/target/paperclip-$mcVersion.jar" "$basedir/loom-$mcVersion.jar"
-    ;;
-    *)
-        echo "This tool provides a variety of commands to manage a Loom development environment."
+        git submodule init "tools/Paperclip" || exit 1
+        tools/scripts/downloadMinecraftServer.sh || exit 1
+        tools/scripts/decompile.sh || exit 1
+
         echo ""
-        echo " Commands:"
-        echo "  * s, setup          | Creates a complete Loom development environment."
-        echo "                      | Downloads, maps, and decompiles NMS. This also applies Loom patches."
-        echo "                      |"
-        echo "  * p, patch          | Applies all Loom patches to NMS without building the project."
-        echo "  * rb, rebuild       | Rebuilds and creates patches from your existing project source."
-        echo "  * jar               | Creates a distributable Loom server JAR."
-    ;;
+        echo "Set up!"
+        echo ""
+    ) || failed=1
+}
+
+applyPatches() {
+    (
+        tools/scripts/applyPatches.sh || exit 1
+
+        echo ""
+        echo "Patched!"
+        echo ""
+    ) || failed=1
+}
+
+rebuildPatches() {
+    (
+        tools/scripts/rebuildPatches.sh || exit 1
+
+        echo ""
+        echo "Build Patched!"
+        echo ""
+    ) || failed=1
+}
+
+buildJar() {
+    (
+        mvn package || exit 1
+        tools/scripts/buildJar.sh || exit 1
+
+        echo ""
+        echo "Build Jar! (loom-$mcVersion.jar)"
+        echo ""
+    ) || failed=1
+}
+
+case "$1" in
+    "c" | "clean") cleanRepository ;;
+    "s" | "setup") setupRepository ;;
+    "p" | "patch") applyPatches ;;
+    "rb" | "rebuild") rebuildPatches ;;
+    "jar") buildJar ;;
+    *) showHelp ;;
 esac
 
 unset RCPATH
 unset SOURCE
 unset basedir
-if [[ "$failed" == "1" ]]; then
-	unset failed
-	false
-else
-	unset failed
-	true
-fi
+
+exit $failed

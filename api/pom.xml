@@ -65,14 +65,6 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- Development tools -->
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>19.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.loomdev</groupId>
