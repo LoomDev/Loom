@@ -4,7 +4,7 @@
  
  public class Creeper extends Monster {
  
-+    public void setCharged(boolean charged) { this.entityData.set(DATA_IS_POWERED, charged); } // Loom start
++    public void setPowered(boolean powered) { this.entityData.set(DATA_IS_POWERED, powered); } // Loom :: (CreeperImpl)
      private static final EntityDataAccessor<Integer> DATA_SWELL_DIR = SynchedEntityData.defineId(Creeper.class, EntityDataSerializers.INT);
      private static final EntityDataAccessor<Boolean> DATA_IS_POWERED = SynchedEntityData.defineId(Creeper.class, EntityDataSerializers.BOOLEAN);
      private static final EntityDataAccessor<Boolean> DATA_IS_IGNITED = SynchedEntityData.defineId(Creeper.class, EntityDataSerializers.BOOLEAN);
@@ -23,7 +23,7 @@
  
      public void thunderHit(ServerLevel serverlevel, LightningBolt lightningbolt) {
          super.thunderHit(serverlevel, lightningbolt);
-+        if (!org.loomdev.loom.event.LoomEventDispatcher.onCreeperCharge(this, lightningbolt).isCancelled()) // Loom :: fire CreeperChargeEvent
++        if (!org.loomdev.loom.event.LoomEventDispatcher.onCreeperPower(this, lightningbolt).isCanceled()) // Loom :: fire CreeperEvent.Power
          this.entityData.set(Creeper.DATA_IS_POWERED, true);
      }
  
@@ -47,7 +47,7 @@
      }
  
      public void ignite() {
-+        if (!org.loomdev.loom.event.LoomEventDispatcher.onCreeperIgnite(this).isCancelled()) // Loom :: fire CreeperIgniteEvent
++        if (!org.loomdev.loom.event.LoomEventDispatcher.onCreeperIgnite(this).isCanceled()) // Loom :: fire CreeperEvent.Ignite
          this.entityData.set(Creeper.DATA_IS_IGNITED, true);
      }
  

@@ -4,7 +4,7 @@
                  float f = this.incrementDestroyProgress(blockstate, this.delayedDestroyPos, this.delayedTickStart);
  
                  if (f >= 1.0F) {
-+                    if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBreak(player, level, delayedDestroyPos).isCancelled()) return; // Loom :: fire BlockBreakEvent
++                    if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBreak(player, level, delayedDestroyPos).isCanceled()) return; // Loom :: fire BlockEvent.Break
                      this.hasDelayedDestroy = false;
                      this.destroyBlock(this.delayedDestroyPos);
                  }
@@ -20,7 +20,7 @@
              BlockEntity blockentity = this.level.getBlockEntity(blockpos);
              Block block = blockstate.getBlock();
  
-+            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBreak(player, level, blockpos).isCancelled()) return false; // Loom :: fire BlockBreakEvent
++            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBreak(player, level, blockpos).isCanceled()) return false; // Loom :: fire BlockEvent.Break
              if (block instanceof GameMasterBlock && !this.player.canUseGameMasterBlocks()) {
                  this.level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
                  return false;

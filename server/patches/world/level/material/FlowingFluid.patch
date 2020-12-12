@@ -1,19 +1,27 @@
 --- a/net/minecraft/world/level/material/FlowingFluid.java
 +++ b/net/minecraft/world/level/material/FlowingFluid.java
-@@ -433,13 +433,16 @@
+@@ -433,13 +433,23 @@
              FluidState fluidstate1 = this.getNewLiquid(level, blockpos, level.getBlockState(blockpos));
              int i = this.getSpreadDelay(level, blockpos, fluidstate, fluidstate1);
  
 +
              if (fluidstate1.isEmpty()) {
                  fluidstate = fluidstate1;
-+                if (org.loomdev.loom.event.LoomEventDispatcher.onFluidLevelChange(level, blockpos, Blocks.AIR.defaultBlockState()).isCancelled()) return; // Loom start :: fire FluidLevelChangeEvent
-                 level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 3);
+-                level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 3);
++                // Loom start :: fire FluidEvent.LevelChange
++                var event = org.loomdev.loom.event.LoomEventDispatcher.onFluidLevelChange(level, blockpos, Blocks.AIR.defaultBlockState());
++                if (event.isCanceled()) return;
++                level.setBlock(blockpos, ((org.loomdev.loom.block.BlockStateImpl) event.getNewState()).getMinecraftState(), 3);
++                // Loom end
              } else if (!fluidstate1.equals(fluidstate)) {
                  fluidstate = fluidstate1;
                  BlockState blockstate = fluidstate1.createLegacyBlock();
  
-+                if (org.loomdev.loom.event.LoomEventDispatcher.onFluidLevelChange(level, blockpos, blockstate).isCancelled()) return; // Loom start :: fire FluidLevelChangeEvent
++                // Loom start :: fire FluidEvent.LevelChange
++                var event = org.loomdev.loom.event.LoomEventDispatcher.onFluidLevelChange(level, blockpos, blockstate);
++                if (event.isCanceled()) return;
++                blockstate = ((org.loomdev.loom.block.BlockStateImpl) event.getNewState()).getMinecraftState();
++                // Loom end
                  level.setBlock(blockpos, blockstate, 2);
                  level.getLiquidTicks().scheduleTick(blockpos, fluidstate1.getType(), i);
                  level.updateNeighborsAt(blockpos, blockstate.getBlock());

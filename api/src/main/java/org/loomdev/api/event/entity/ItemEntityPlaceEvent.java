@@ -1,34 +1,39 @@
-package org.loomdev.api.event.entity.item;
+package org.loomdev.api.event.entity;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.player.Player;
-import org.loomdev.api.event.Cancellable;
-import org.loomdev.api.event.entity.EntityEvent;
+import org.loomdev.api.event.Event;
 
 /**
  * Fires when an item entity, such as an armor stand, has been placed in the world.
  * The armor stand will not be placed if this event is cancelled.
  */
-public class ItemEntityPlaceEvent extends EntityEvent implements Cancellable {
+public class ItemEntityPlaceEvent extends Event {
 
+    private final Entity entity;
     private Player player;
     private BlockPointer dispenser; // TODO change to dispenser block
     private final Cause cause;
     private boolean cancelled;
 
     public ItemEntityPlaceEvent(Entity entity, Player player) {
-        super(entity);
+        this.entity = entity;
         this.player = player;
         this.cause = Cause.PLAYER;
     }
 
     public ItemEntityPlaceEvent(Entity entity, BlockPointer dispenser) { // TODO change to dispenser block
-        super(entity);
+        this.entity = entity;
         this.dispenser = dispenser;
         this.cause = Cause.DISPENSER;
+    }
+
+    @NotNull
+    public Entity getEntity() {
+        return entity;
     }
 
     @Nullable
@@ -47,13 +52,8 @@ public class ItemEntityPlaceEvent extends EntityEvent implements Cancellable {
     }
 
     @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public boolean isCancelable() {
+        return true;
     }
 
     /**

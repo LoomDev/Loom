@@ -4,7 +4,7 @@
  
      public void randomTick(BlockState blockstate, ServerLevel serverlevel, BlockPos blockpos, Random random) {
          if (!(Boolean) blockstate.getValue(LeavesBlock.PERSISTENT) && (Integer) blockstate.getValue(LeavesBlock.DISTANCE) == 7) {
-+            if (org.loomdev.loom.event.LoomEventDispatcher.onPlantDecay(serverlevel, blockpos).isCancelled()) return; // Loom :: fire PlantDecayEvent
++            if (org.loomdev.loom.event.LoomEventDispatcher.onPlantDecay(serverlevel, blockpos).isCanceled()) return; // Loom :: fire PlantEvent.Decay
              dropResources(blockstate, serverlevel, blockpos);
              serverlevel.removeBlock(blockpos, false);
          }

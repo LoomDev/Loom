@@ -29,37 +29,32 @@
                  }
  
                  i = serverboundeditbookpacket.getSlot();
-@@ -1102,7 +1102,10 @@
+@@ -1102,7 +1102,12 @@
      public void onDisconnect(Component component) {
          ServerGamePacketListenerImpl.LOGGER.info("{} lost connection: {}", this.player.getName().getString(), component.getString());
          this.server.invalidateStatus();
 -        this.server.getPlayerList().broadcastMessage((new TranslatableComponent("multiplayer.player.left", new Object[]{this.player.getDisplayName()})).withStyle(ChatFormatting.YELLOW), ChatType.SYSTEM, Util.NIL_UUID);
-+        // Loom start :: fire PlayerDisconnectEvent
++        // Loom start :: fire ConnectionEvent.Disconnect
 +        var event = org.loomdev.loom.event.LoomEventDispatcher.onPlayerDisconnect(player, (new TranslatableComponent("multiplayer.player.left", new Object[]{this.player.getDisplayName()})).withStyle(ChatFormatting.YELLOW));
-+        if (event.getMessage() != null) this.server.getPlayerList().broadcastMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMessage()), ChatType.SYSTEM, Util.NIL_UUID);
++        if (event.getDisconnectMessage().toString().length() != 0) {
++            this.server.getPlayerList().broadcastMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getDisconnectMessage()), ChatType.SYSTEM, Util.NIL_UUID);
++        }
 +        // Loom end
          this.player.disconnect();
          this.server.getPlayerList().remove(this.player);
          TextFilter textfilter = this.player.getTextFilter();
-@@ -1193,7 +1196,12 @@
+@@ -1193,7 +1198,13 @@
              } else {
                  TranslatableComponent translatablecomponent = new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s});
  
 -                this.server.getPlayerList().broadcastMessage(translatablecomponent, ChatType.CHAT, this.player.getUUID());
-+                // Loom start :: fire PlayerChatEvent
-+                org.loomdev.loom.event.LoomEventDispatcher.onPlayerChat(player, translatablecomponent).thenAccept(event -> {
-+                    if (event.isCancelled() || event.getMessage() == null) return;
-+                    this.server.getPlayerList().broadcastMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMessage()), ChatType.CHAT, this.player.getUUID());
++                // Loom start :: fire ChatEvent.Entity
++                org.loomdev.loom.event.LoomEventDispatcher.onEntityChat(player, translatablecomponent).thenAccept(event -> {
++                    if (event.isCanceled() || event.getMessage().toString().length() == 0) return;
++                    var message = org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMessage());
++                    this.server.getPlayerList().broadcastMessage(message, ChatType.CHAT, this.player.getUUID());
 +                });
 +                // Loom end
              }
  
              this.chatSpamTickCount += 20;
-@@ -1483,6 +1491,7 @@
-                 return;
-             }
- 
-+            if (!org.loomdev.loom.event.LoomEventDispatcher.onSignWrite(serverlevel, blockpos, player, list).isCancelled()) // Loom :: fire SignWriteEvent
-             for (int i = 0; i < list.size(); ++i) {
-                 signblockentity.setMessage(i, new TextComponent((String) list.get(i)));
-             }

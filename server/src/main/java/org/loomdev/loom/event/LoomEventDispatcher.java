@@ -4,9 +4,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.status.ServerStatus;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Explosion;
@@ -17,42 +19,27 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.block.enums.Note;
-import org.loomdev.api.entity.misc.LightningBolt;
-import org.loomdev.api.entity.monster.Creeper;
-import org.loomdev.api.event.Event;
-import org.loomdev.api.event.EventCause;
+import org.loomdev.api.event.ChatEvent;
+import org.loomdev.api.event.*;
 import org.loomdev.api.event.block.*;
-import org.loomdev.api.event.block.BlockPlaceEvent;
-import org.loomdev.api.event.block.fluid.FluidLevelChangeEvent;
-import org.loomdev.api.event.block.note.NoteBlockPlayEvent;
-import org.loomdev.api.event.block.plant.*;
-import org.loomdev.api.event.block.sign.SignWriteEvent;
-import org.loomdev.api.event.block.BlockAbsorbEvent;
-import org.loomdev.api.event.entity.equipment.EntityEquipEvent;
-import org.loomdev.api.event.entity.creeper.CreeperChargeEvent;
-import org.loomdev.api.event.entity.creeper.CreeperIgniteEvent;
-import org.loomdev.api.event.entity.item.ItemEntityPlaceEvent;
-import org.loomdev.api.event.entity.movement.EntityBounceEvent;
-import org.loomdev.api.event.entity.movement.EntitySwimEvent;
-import org.loomdev.api.event.player.PlayerChatEvent;
-import org.loomdev.api.event.player.connection.PlayerDisconnectEvent;
-import org.loomdev.api.event.player.connection.PlayerJoinEvent;
-import org.loomdev.api.event.player.movement.PlayerEnteredFlightEvent;
-import org.loomdev.api.event.entity.movement.EntityMoveEvent;
-import org.loomdev.api.event.player.movement.PlayerRiptideEvent;
-import org.loomdev.api.event.server.ServerPingEvent;
-import org.loomdev.api.event.world.WorldTimeChangeEvent;
-import org.loomdev.api.world.Location;
-import org.loomdev.api.world.World;
+import org.loomdev.api.event.connection.StatusPingEvent;
+import org.loomdev.api.event.entity.CreeperEvent;
+import org.loomdev.api.event.connection.ConnectionEvent;
+import org.loomdev.api.event.world.BlockEvent;
+import org.loomdev.api.event.world.ExplosionEvent;
+import org.loomdev.api.event.world.FluidEvent;
+import org.loomdev.api.event.world.WorldEvent;
+import org.loomdev.api.util.Hand;
 import org.loomdev.loom.block.BlockStateImpl;
+import org.loomdev.loom.entity.monster.CreeperImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
+import org.loomdev.loom.item.ItemStackImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
+import org.loomdev.loom.world.ExplosionImpl;
 
 import java.net.InetSocketAddress;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 public final class LoomEventDispatcher {
 
@@ -68,242 +55,147 @@ public final class LoomEventDispatcher {
         return Loom.getServer().getEventManager().fireAsync(event);
     }
 
-    @NotNull
-    public static ItemEntityPlaceEvent onItemEntityPlace(Entity entity, Player player) {
-        return fire(new ItemEntityPlaceEvent(entity.getLoomEntity(), (PlayerImpl) player.getLoomEntity()));
+    public static void onPreTick(long tick) {
+        fire(new TickEvent.Pre(tick));
     }
 
-    // TODO dispenser armor stand place event
-
-    @NotNull
-    public static BlockBreakEvent onBlockBreak(Entity entity, Level level, BlockPos blockPos) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return fire(new BlockBreakEvent(new EventCause(entity.getLoomEntity()), block));
+    public static void onPostTick(long tick) {
+        fire(new TickEvent.Post(tick));
     }
 
-    @NotNull
-    public static BlockPlaceEvent onBlockPlace(Entity entity, Level level, BlockPos blockPos, BlockState newState) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        var state = new BlockStateImpl(newState);
-        return fire(new BlockPlaceEvent(new EventCause(entity.getLoomEntity()), block, state));
+    public static void onTickLevel(ServerLevel level, long tick) {
+        fire(new TickEvent.Level(level.getLoomWorld(), tick));
     }
 
-    @NotNull
-    public static BlockDropExperienceEvent onBlockDropExperience(Level level, BlockPos blockPos, int experience) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return fire(new BlockDropExperienceEvent(block, experience));
+    public static ConnectionEvent.Join onPlayerJoin(ServerPlayer serverPlayer, Component message) {
+        return fire(new ConnectionEvent.Join((PlayerImpl) serverPlayer.getLoomEntity(), TextTransformer.toLoom(message)));
     }
 
-    @NotNull
-    public static BlockIgniteEvent onBlockIgnite(Level level, BlockPos blockPos, BlockPos sourcePos, BlockIgniteEvent.Cause cause) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        var source = level.getLoomWorld().getBlock(sourcePos.getX(), sourcePos.getY(), sourcePos.getZ());
-        return fire(new BlockIgniteEvent(block, source, cause));
+    public static ConnectionEvent.Disconnect onPlayerDisconnect(ServerPlayer player, Component message) {
+        return fire(new ConnectionEvent.Disconnect((PlayerImpl) player.getLoomEntity(), TextTransformer.toLoom(message)));
     }
 
-    @NotNull
-    public static BlockIgniteEvent onBlockIgnite(Level level, BlockPos blockPos, Entity source, BlockIgniteEvent.Cause cause) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return fire(new BlockIgniteEvent(block, source.getLoomEntity(), cause));
-    }
-
-    @NotNull
-    public static BlockIgniteEvent onBlockIgnite(Level level, BlockPos blockPos, Explosion explosion) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        var source = explosion.getSourceMob() == null ? null : explosion.getSourceMob().getLoomEntity();
-        return fire(new BlockIgniteEvent(block, source, BlockIgniteEvent.Cause.EXPLOSION));
-    }
-
-    @NotNull
-    public static BlockBurnEvent onBlockBurn(Level level, BlockPos blockPos, BlockPos sourcePos) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        var source = level.getLoomWorld().getBlock(sourcePos.getX(), sourcePos.getY(), sourcePos.getZ());
-        return fire(new BlockBurnEvent(block, source));
-    }
-
-    @NotNull
-    public static BlockEvaporateEvent onBlockEvaporate(Level level, BlockPos blockPos) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return fire(new BlockEvaporateEvent(block));
-    }
-
-    @NotNull
-    public static BlockMeltEvent onBlockMelt(Level level, BlockPos blockPos) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return fire(new BlockMeltEvent(block, null)); // TODO figure out causes
-    }
-
-    @NotNull
-    public static BlockChangeEvent onBlockChange(Level level, BlockPos blockPos, BlockState newState) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        var state = new BlockStateImpl(newState);
-        return fire(new BlockChangeEvent(block, state));
-    }
-
-    @NotNull
-    public static BlockExplodeEvent onBlockExplode(Level level, BlockPos blockPos, List<BlockPos> explodedBlocks) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        Set<BlockPointer> blocks = explodedBlocks.stream() // TODO streams are ass for performance, de-streamify this
-                .map(pos -> level.getLoomWorld().getBlock(pos.getX(), pos.getY(), pos.getZ()))
-                .collect(Collectors.toSet());
-        return fire(new BlockExplodeEvent(block, blocks));
-    }
-
-    @NotNull
-    public static NoteBlockPlayEvent onNoteBlockPlay(Level level, BlockPos blockPos, NoteBlockInstrument mcInstrument, int note, float pitch) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        var instrument = org.loomdev.api.block.enums.Instrument.getByName(mcInstrument.getSerializedName());
-        return fire(new NoteBlockPlayEvent(block, instrument, Note.getByUses(note), pitch));
-    }
-
-    @NotNull
-    public static PlantDieEvent onPlantDie(Level level, BlockPos blockPos, BlockState deadState) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        var newState = new BlockStateImpl(deadState);
-        return fire(new PlantDieEvent(block, newState));
-    }
-
-    @NotNull
-    public static PlantDecayEvent onPlantDecay(Level level, BlockPos blockPos) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return fire(new PlantDecayEvent(block));
-    }
-
-    @NotNull
-    public static PlantGrowEvent onPlantGrow(Level level, BlockPos blockPos, BlockState newState) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        var state = new BlockStateImpl(newState);
-        return fire(new PlantGrowEvent(block, state));
-    }
-
-    @NotNull
-    public static PlantFertilizeEvent onPlantFertilize(Level level, BlockPos blockPos, Entity entity) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return fire(new PlantFertilizeEvent(block, entity.getLoomEntity()));
-    }
-
-    @NotNull
-    public static PlantHarvestEvent onPlantHarvested(Level level, BlockPos blockPos, Entity entity) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return fire(new PlantHarvestEvent(block, entity.getLoomEntity(), null)); // TODO add a cause depending on entity type (fox vs player)
-    }
-
-    @NotNull
-    public static FluidLevelChangeEvent onFluidLevelChange(Level level, BlockPos blockPos, BlockState newState) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        var state = new BlockStateImpl(newState);
-        return fire(new FluidLevelChangeEvent(block, state));
-    }
-
-    @NotNull
-    public static SignWriteEvent onSignWrite(Level level, BlockPos blockPos, Player player, List<String> text) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return fire(new SignWriteEvent(block, (PlayerImpl) player.getLoomEntity(), text));
-    }
-
-    @NotNull
-    public static BlockAbsorbEvent onBlockAbsorb(Level level, BlockPos blockPos, Set<BlockPointer> absorbedBlocks) {
-        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return fire(new BlockAbsorbEvent(block, absorbedBlocks));
-    }
-
-    /*public static PlayerLoggedInEvent onPlayerLoggedIn(ServerPlayerEntity serverPlayerEntity, Text joinMessage) {
-        return fire(new PlayerLoggedInEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(joinMessage)));
-    }*/
-
-    @NotNull
-    public static PlayerJoinEvent onPlayerJoin(ServerPlayer serverPlayerEntity, Component message) {
-        return fire(new PlayerJoinEvent((PlayerImpl) serverPlayerEntity.getLoomEntity(), TextTransformer.toLoom(message)));
-    }
-
-    @NotNull
-    public static PlayerDisconnectEvent onPlayerDisconnect(ServerPlayer player, Component message) {
-        return fire(new PlayerDisconnectEvent((PlayerImpl) player.getLoomEntity(), TextTransformer.toLoom(message)));
-    }
-
-    @NotNull
-    public static CompletableFuture<PlayerChatEvent> onPlayerChat(ServerPlayer player, Component text) {
-        return fireAsync(new PlayerChatEvent((PlayerImpl) player.getLoomEntity(), TextTransformer.toLoom(text), Loom.getServer().getOnlinePlayers()));
-    }
-
-    @NotNull
-    public static PlayerEnteredFlightEvent onPlayerEnteredFlight(Player playerEntity) { // TODO
-        return fire(new PlayerEnteredFlightEvent((PlayerImpl) playerEntity.getLoomEntity()));
-    }
-
-    @NotNull
-    public static PlayerRiptideEvent onPlayerRiptideLaunched(Player playerEntity, int riptideLevel) {
-        return fire(new PlayerRiptideEvent((PlayerImpl) playerEntity.getLoomEntity(), riptideLevel));
-    }
-
-    @NotNull
-    public static EntityMoveEvent onEntityMove(Player player, Location currentLocation, Location newLocation) {
-        return fire(new EntityMoveEvent((PlayerImpl) player.getLoomEntity(), currentLocation, newLocation));
-    }
-
-    @NotNull
-    public static CreeperChargeEvent onCreeperCharge(net.minecraft.world.entity.monster.Creeper creeper) {
-        return fire(new CreeperChargeEvent((Creeper) creeper.getLoomEntity()));
-    }
-
-    @NotNull
-    public static CreeperChargeEvent onCreeperCharge(net.minecraft.world.entity.monster.Creeper creeper, net.minecraft.world.entity.LightningBolt lightning) {
-        return fire(new CreeperChargeEvent((Creeper) creeper.getLoomEntity(), (LightningBolt) lightning.getLoomEntity()));
-    }
-
-    @NotNull
-    public static CreeperIgniteEvent onCreeperIgnite(net.minecraft.world.entity.monster.Creeper creeper) {
-        return fire(new CreeperIgniteEvent((Creeper) creeper.getLoomEntity()));
-    }
-
-    @NotNull
-    public static EntityBounceEvent onEntityBounce(Entity entity, double multiplier) {
-        var blockPos = entity.blockPosition();
-        var block = entity.level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return fire(new EntityBounceEvent(entity.getLoomEntity(), block, multiplier));
-    }
-
-    @NotNull
-    public static EntitySwimEvent onEntitySwim(Entity entity) {
-        EntitySwimEvent event = new EntitySwimEvent(entity.getLoomEntity());
-        event.setCancelled(true);
-        return fire(event);
-    }
-
-    @NotNull
-    public static EntityEquipEvent onEntityEquipEvent(Entity entity, EquipmentSlot slot, ItemStack equipment) {
-        /*EntityEquippedEquipmentEvent event = new EntityEquippedEquipmentEvent(entity.getLoomEntity());
-        event.cancel(true);
-        return fireAsync(event);*/
-        return null;
-    }
-
-    @NotNull
-    public static WorldTimeChangeEvent onWorldTimeChanged(World world, long change, WorldTimeChangeEvent.Cause cause) {
-        return fire(new WorldTimeChangeEvent(world, change, cause));
-    }
-
-    @NotNull
-    public static WorldTimeChangeEvent onWorldTimeChanged(Level level, long change, WorldTimeChangeEvent.Cause cause) {
-       /* WorldTimeChangeEvent event = new WorldTimeChangeEvent(
-                Loom.getServer().getWorld(world.getLevelData().getLevelName()).orElse(null), // TODO maybe don't fire on invalid world? also fetch world by uuid since it'll be O(1)
-                change,
-                cause
-        );
-        return fire(event);*/
-        return null;
-    }
-
-    @NotNull
-    public static CompletableFuture<ServerPingEvent> onServerPing(Connection connection, ServerStatus status) {
-        return fireAsync(new ServerPingEvent(
+    public static CompletableFuture<StatusPingEvent> onStatusPing(Connection connection, ServerStatus status) {
+        return fireAsync(new StatusPingEvent(
                 ((InetSocketAddress) connection.getRemoteAddress()).getAddress(),
                 status.getVersion().getProtocol(),
                 status.getVersion().getName(),
-                TextTransformer.toLoom(status.getDescription()),
                 status.getPlayers().getNumPlayers(),
                 status.getPlayers().getMaxPlayers(),
+                TextTransformer.toLoom(status.getDescription()),
                 status.getFavicon()
         ));
+    }
+
+    public static BlockEvent.Break onBlockBreak(Entity entity, Level level, BlockPos blockPos) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new BlockEvent.Break(new EventCause(entity.getLoomEntity()), block));
+    }
+
+    public static BlockEvent.Place onBlockPlace(Entity entity, Level level, BlockPos blockPos, BlockState newState) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var state = new BlockStateImpl(newState);
+        return fire(new BlockEvent.Place(new EventCause(entity.getLoomEntity()), block, state));
+    }
+
+    public static BlockEvent.DropExperience onBlockDropExperience(Level level, BlockPos blockPos, int experience) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new BlockEvent.DropExperience(block, experience));
+    }
+
+    public static BlockEvent.DropItem onBlockDropItem(Level level, BlockPos blockPos, ItemStack item) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new BlockEvent.DropItem(block, ItemStackImpl.of(item)));
+    }
+
+    public static BlockEvent.BurnUp onBlockBurnUp(Level level, BlockPos blockPos, BlockPos sourcePos) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var source = level.getLoomWorld().getBlock(sourcePos.getX(), sourcePos.getY(), sourcePos.getZ());
+        return fire(new BlockEvent.BurnUp(block, source));
+    }
+
+    public static BlockEvent.Melt onBlockMelt(Level level, BlockPos blockPos) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new BlockEvent.Melt(block)); // TODO figure out causes
+    }
+
+    public static BlockEvent.ChangeOverTime onBlockChangeOverTime(Level level, BlockPos blockPos, BlockState newState) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var state = new BlockStateImpl(newState);
+        return fire(new BlockEvent.ChangeOverTime(block, state));
+    }
+
+    public static NoteBlockEvent.Play onNoteBlockPlay(Level level, BlockPos blockPos, NoteBlockInstrument mcInstrument, int note, float pitch) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var instrument = org.loomdev.api.block.enums.Instrument.getByName(mcInstrument.getSerializedName());
+        return fire(new NoteBlockEvent.Play(block, instrument, Note.getByUses(note), pitch));
+    }
+
+    public static NoteBlockEvent.ChangeNote onNoteBlockChangeNote(Level level, BlockPos blockPos, Player player, InteractionHand hand) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new NoteBlockEvent.ChangeNote(block, (PlayerImpl) player.getLoomEntity(), Hand.values()[hand.ordinal()]));
+    }
+
+    public static ExplosionEvent.Pre onPreExplosion(Explosion explosion) {
+        return fire(new ExplosionEvent.Pre(new ExplosionImpl(explosion)));
+    }
+
+    public static ExplosionEvent.Detonate onExplosionDetonate(Explosion explosion) {
+        return fire(new ExplosionEvent.Detonate(new ExplosionImpl(explosion)));
+    }
+
+    public static void onPostExplosion(Explosion explosion) {
+        fire(new ExplosionEvent.Post(new ExplosionImpl(explosion)));
+    }
+
+    @NotNull
+    public static FluidEvent.LevelChange onFluidLevelChange(Level level, BlockPos blockPos, BlockState newState) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var state = new BlockStateImpl(newState);
+        return fire(new FluidEvent.LevelChange(block, state));
+    }
+
+    public static PlantEvent.Die onPlantDie(Level level, BlockPos blockPos, BlockState deadState) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var newState = new BlockStateImpl(deadState);
+        return fire(new PlantEvent.Die(block, newState));
+    }
+
+    public static PlantEvent.Decay onPlantDecay(Level level, BlockPos blockPos) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new PlantEvent.Decay(block));
+    }
+
+    public static PlantEvent.Grow onPlantGrow(Level level, BlockPos blockPos, BlockState newState) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var state = new BlockStateImpl(newState);
+        return fire(new PlantEvent.Grow(block, state));
+    }
+
+    public static SpongeEvent.Absorb onSpongeAbsorb(Level level, BlockPos blockPos, List<BlockPointer> absorbedBlocks) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new SpongeEvent.Absorb(block, absorbedBlocks));
+    }
+
+    public static SpongeEvent.Dry onSpongeDry(Level level, BlockPos blockPos) {
+        var block = level.getLoomWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        return fire(new SpongeEvent.Dry(block));
+    }
+
+    public static CompletableFuture<ChatEvent.Entity> onEntityChat(Entity entity, Component text) {
+        return fireAsync(new ChatEvent.Entity(new EventCause(entity.getLoomEntity()), TextTransformer.toLoom(text)));
+    }
+
+    public static CreeperEvent.Power onCreeperPower(Creeper creeper, net.minecraft.world.entity.LightningBolt lightning) {
+        var cause = new EventCause(lightning);
+        return fire(new CreeperEvent.Power(cause, (CreeperImpl) creeper.getLoomEntity()));
+    }
+
+    public static CreeperEvent.Ignite onCreeperIgnite(net.minecraft.world.entity.monster.Creeper creeper) {
+        return fire(new CreeperEvent.Ignite((CreeperImpl) creeper.getLoomEntity()));
+    }
+
+    public static WorldEvent.TimeSkip onWorldTimeSkip(Level level, long skippedTicks) {
+        return fire(new WorldEvent.TimeSkip(level.getLoomWorld(), skippedTicks));
     }
 }

@@ -1,31 +1,25 @@
 --- a/net/minecraft/world/level/block/IceBlock.java
 +++ b/net/minecraft/world/level/block/IceBlock.java
-@@ -26,6 +26,12 @@
+@@ -26,6 +26,14 @@
          super.playerDestroy(level, player, blockpos, blockstate, blockentity, itemstack);
          if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, itemstack) == 0) {
              if (level.dimensionType().ultraWarm()) {
-+                // Loom start :: fire BlockEvaporateEvent
++                // TODO Loom start :: fire BlockEvaporateEvent
++                /*
 +                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporate(level, blockpos).isCancelled()) {
 +                    level.setBlockAndUpdate(blockpos, Blocks.WATER.defaultBlockState());
 +                    return;
 +                }
++                 */
 +                // Loom end
                  level.removeBlock(blockpos, false);
                  return;
              }
-@@ -47,7 +53,15 @@
+@@ -47,6 +55,7 @@
      }
  
      protected void melt(BlockState blockstate, Level level, BlockPos blockpos) {
-+        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockMelt(level, blockpos).isCancelled()) return; // Loom :: fire BlockMeltEvent
++        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockMelt(level, blockpos).isCanceled()) return; // Loom :: fire BlockEvent.Melt
          if (level.dimensionType().ultraWarm()) {
-+            // Loom start :: fire BlockEvaporateEvent
-+            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockEvaporate(level, blockpos).isCancelled()) {
-+                level.setBlockAndUpdate(blockpos, Blocks.WATER.defaultBlockState());
-+                level.neighborChanged(blockpos, Blocks.WATER, blockpos);
-+                return;
-+            }
-+            // Loom end
              level.removeBlock(blockpos, false);
          } else {
-             level.setBlockAndUpdate(blockpos, Blocks.WATER.defaultBlockState());

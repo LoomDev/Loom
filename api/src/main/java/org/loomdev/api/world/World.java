@@ -14,7 +14,7 @@ import org.loomdev.api.sound.Sound;
 import java.util.Collection;
 import java.util.UUID;
 
-public interface World {
+public interface World { // TODO rename to Level???
 
     @NotNull
     String getName();

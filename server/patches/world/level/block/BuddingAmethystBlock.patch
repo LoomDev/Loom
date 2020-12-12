@@ -1,10 +1,15 @@
 --- a/net/minecraft/world/level/block/BuddingAmethystBlock.java
 +++ b/net/minecraft/world/level/block/BuddingAmethystBlock.java
-@@ -41,6 +41,7 @@
+@@ -41,7 +41,11 @@
              if (block != null) {
                  BlockState blockstate2 = (BlockState) ((BlockState) block.defaultBlockState().setValue(AmethystClusterBlock.FACING, direction)).setValue(AmethystClusterBlock.WATERLOGGED, blockstate1.getFluidState().getType() == Fluids.WATER);
  
-+                if (!org.loomdev.loom.event.LoomEventDispatcher.onPlantGrow(serverlevel, blockpos1, blockstate2).isCancelled()) // Loom :: fire PlantGrowEvent
-                 serverlevel.setBlockAndUpdate(blockpos1, blockstate2);
+-                serverlevel.setBlockAndUpdate(blockpos1, blockstate2);
++                // Loom start :: fire PlantEvent.Grow
++                var event = org.loomdev.loom.event.LoomEventDispatcher.onPlantGrow(serverlevel, blockpos1, blockstate2);
++                if (!event.isCanceled()) return;
++                serverlevel.setBlockAndUpdate(blockpos1, ((org.loomdev.loom.block.BlockStateImpl) event.getNewState()).getMinecraftState());
++                // Loom end
              }
  
+         }

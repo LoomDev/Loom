@@ -3,7 +3,6 @@ package org.loomdev.loom.event;
 import net.kyori.event.EventSubscriber;
 import net.kyori.event.SimpleEventBus;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.loomdev.api.event.Cancellable;
 import org.loomdev.api.event.Event;
 
 public class LoomEventBus extends SimpleEventBus<Event> {
@@ -14,9 +13,10 @@ public class LoomEventBus extends SimpleEventBus<Event> {
 
     @Override
     protected boolean shouldPost(@NonNull Event event, @NonNull EventSubscriber<?> subscriber) {
-        if (event instanceof Cancellable) {
-            return !((Cancellable) event).isCancelled();
+        if (event.isCancelable()) {
+            return !event.isCanceled();
         }
+
         return true;
     }
 }

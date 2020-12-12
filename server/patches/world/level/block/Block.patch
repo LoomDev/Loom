@@ -1,14 +1,6 @@
 --- a/net/minecraft/world/level/block/Block.java
 +++ b/net/minecraft/world/level/block/Block.java
-@@ -51,6 +51,7 @@
- import net.minecraft.world.phys.shapes.VoxelShape;
- import org.apache.logging.log4j.LogManager;
- import org.apache.logging.log4j.Logger;
-+import org.loomdev.api.event.block.BlockDropExperienceEvent;
- 
- public class Block extends BlockBehaviour implements ItemLike {
- 
-@@ -61,9 +62,7 @@
+@@ -61,9 +61,7 @@
              return !Shapes.joinIsNotEmpty(Shapes.block(), voxelshape, BooleanOp.NOT_SAME);
          }
  
@@ -19,15 +11,29 @@
      });
      protected final StateDefinition<Block, BlockState> stateDefinition;
      private BlockState defaultBlockState;
-@@ -260,7 +259,11 @@
+@@ -251,7 +249,12 @@
+             double d0 = (double) (level.random.nextFloat() * 0.5F) + 0.25D;
+             double d1 = (double) (level.random.nextFloat() * 0.5F) + 0.25D;
+             double d2 = (double) (level.random.nextFloat() * 0.5F) + 0.25D;
+-            ItemEntity itementity = new ItemEntity(level, (double) blockpos.getX() + d0, (double) blockpos.getY() + d1, (double) blockpos.getZ() + d2, itemstack);
++            // Loom start :: fire BlockEvent.DropItem
++            var event = org.loomdev.loom.event.LoomEventDispatcher.onBlockDropItem(level, blockpos, itemstack);
++            if (event.isCanceled()) return;
++            var item = ((org.loomdev.loom.item.ItemStackImpl) event.getItem()).getMinecraftItemStack();
++            ItemEntity itementity = new ItemEntity(level, (double) blockpos.getX() + d0, (double) blockpos.getY() + d1, (double) blockpos.getZ() + d2, item);
++            // Loom end
+ 
+             itementity.setDefaultPickUpDelay();
+             level.addFreshEntity(itementity);
+@@ -260,7 +263,11 @@
  
      protected void popExperience(ServerLevel serverlevel, BlockPos blockpos, int i) {
          if (serverlevel.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
 -            ExperienceOrb.award(serverlevel, Vec3.atCenterOf(blockpos), i);
-+            // Loom start :: fire BlockDropExperience
++            // Loom start :: fire BlockEvent.DropExperience
 +            var event = org.loomdev.loom.event.LoomEventDispatcher.onBlockDropExperience(serverlevel, blockpos, i);
-+            if (event.isCancelled()) return;
-+            ExperienceOrb.award(serverlevel, Vec3.atCenterOf(blockpos), event.getDroppedExperience());
++            if (event.isCanceled()) return;
++            ExperienceOrb.award(serverlevel, Vec3.atCenterOf(blockpos), event.getExperience());
 +            // Loom end
          }
  

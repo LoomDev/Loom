@@ -31,12 +31,12 @@ public class CreeperImpl extends MonsterImpl implements Creeper {
 
     @Override
     public void setCharged(boolean charged) {
-        if (charged && !LoomEventDispatcher.onCreeperCharge(getMinecraftEntity()).isCancelled()) {
-            getMinecraftEntity().setCharged(true);
+        if (charged && !LoomEventDispatcher.onCreeperPower(getMinecraftEntity(), null).isCanceled()) {
+            getMinecraftEntity().setPowered(true);
             return;
         }
 
-        getMinecraftEntity().setCharged(false);
+        getMinecraftEntity().setPowered(false);
     }
 
     @Override

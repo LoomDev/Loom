@@ -22,7 +22,7 @@
              ItemStack itemstack = this.getItemBySlot(EquipmentSlot.CHEST);
  
              if (itemstack.is(Items.ELYTRA) && ElytraItem.isFlyEnabled(itemstack)) {
-+                if (org.loomdev.loom.event.LoomEventDispatcher.onPlayerEnteredFlight(this).isCancelled()) return false; // Loom :: fire PlayerEnteredFlightEvent TODO - rename
++                // TODO if (org.loomdev.loom.event.LoomEventDispatcher.onPlayerEnteredFlight(this).isCancelled()) return false; // Loom :: fire PlayerEnteredFlightEvent TODO - rename
                  this.startFallFlying();
                  return true;
              }

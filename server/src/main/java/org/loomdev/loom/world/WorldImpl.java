@@ -10,13 +10,10 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockPointer;
-import org.loomdev.api.block.BlockType;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
-import org.loomdev.api.event.world.WorldTimeChangeEvent;
 import org.loomdev.api.math.vector.Vector3i;
 import org.loomdev.api.particle.Particle;
 import org.loomdev.api.sound.Sound;
@@ -162,13 +159,13 @@ public class WorldImpl implements World {
 
     @Override
     public void setAbsoluteTime(long ticks) {
-        var event = LoomEventDispatcher.onWorldTimeChanged(this, ticks - getAbsoluteTime(), WorldTimeChangeEvent.Cause.TRIGGERED);
+        var event = LoomEventDispatcher.onWorldTimeSkip(getMinecraftWorld(), ticks - getAbsoluteTime());
 
-        if (event.isCancelled()) {
+        if (event.isCanceled()) {
             return;
         }
 
-        ((ServerLevel) getMinecraftWorld()).setDayTime(getAbsoluteTime() + event.getChange());
+        ((ServerLevel) getMinecraftWorld()).setDayTime(getAbsoluteTime() + event.getSkippedTicks());
 
         for (Player player : getPlayers()) {
             if (!player.isConnected()) {

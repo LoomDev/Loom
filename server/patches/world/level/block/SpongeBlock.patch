@@ -4,7 +4,7 @@
  
      protected void tryAbsorbWater(Level level, BlockPos blockpos) {
          if (this.removeWaterBreadthFirstSearch(level, blockpos)) {
-+            if (true) return; // Loom start :: move down block updates
++            if (true) return; // Loom :: move down block updates
              level.setBlock(blockpos, Blocks.WET_SPONGE.defaultBlockState(), 2);
              level.levelEvent(2001, blockpos, Block.getId(Blocks.WATER.defaultBlockState()));
          }
@@ -12,7 +12,7 @@
  
      private boolean removeWaterBreadthFirstSearch(Level level, BlockPos blockpos) {
          Queue<Tuple<BlockPos, Integer>> queue = Lists.newLinkedList();
-+        java.util.Set<org.loomdev.api.block.BlockPointer> absorbedBlocks = new java.util.HashSet<>(); // Loom
++        java.util.List<org.loomdev.api.block.BlockPointer> absorbedBlocks = new java.util.ArrayList<>(); // Loom
  
          queue.add(new Tuple<>(blockpos, 0));
          int i = 0;
@@ -53,11 +53,11 @@
              }
          }
  
-+        // Loom start :: fire BlockAbsorbEvent
++        // Loom start :: fire SpongeEvent.Absorb
 +        final int finali = i;
-+        var event = org.loomdev.loom.event.LoomEventDispatcher.onBlockAbsorb(level, blockpos, absorbedBlocks);
++        var event = org.loomdev.loom.event.LoomEventDispatcher.onSpongeAbsorb(level, blockpos, absorbedBlocks);
 +
-+        if (!event.isCancelled()) {
++        if (!event.isCanceled()) {
 +            for (var block : event.getAbsorbedBlocks()) {
 +                var pointer = (org.loomdev.loom.block.BlockPointerImpl) block;
 +                var state = ((org.loomdev.loom.block.BlockStateImpl) pointer.getBlockState()).getMinecraftState();

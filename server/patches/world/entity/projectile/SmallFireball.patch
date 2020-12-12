@@ -4,7 +4,7 @@
                  BlockPos blockpos = blockhitresult.getBlockPos().relative(blockhitresult.getDirection());
  
                  if (this.level.isEmptyBlock(blockpos)) {
-+                    if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(level, blockpos, this, org.loomdev.api.event.block.BlockIgniteEvent.Cause.FIREBALL).isCancelled()) return;
++                    // TODO if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(level, blockpos, this, org.loomdev.api.event.block.BlockIgniteEvent.Cause.FIREBALL).isCancelled()) return;
                      this.level.setBlockAndUpdate(blockpos, BaseFireBlock.getState(this.level, blockpos));
                  }
              }

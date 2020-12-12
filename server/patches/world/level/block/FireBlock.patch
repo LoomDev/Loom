@@ -25,7 +25,7 @@
                                      if (i2 > 0 && random.nextInt(k1) <= i2 && (!serverlevel.isRaining() || !this.isNearRain(serverlevel, blockpos_mutableblockpos))) {
                                          int j2 = Math.min(15, i + random.nextInt(5) / 4);
  
-+                                        if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(serverlevel, blockpos_mutableblockpos, blockpos, org.loomdev.api.event.block.BlockIgniteEvent.Cause.FIRE_SPREAD).isCancelled()) continue;
++                                        // TODO if (org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(serverlevel, blockpos_mutableblockpos, blockpos, org.loomdev.api.event.block.BlockIgniteEvent.Cause.FIRE_SPREAD).isCancelled()) continue;
                                          serverlevel.setBlock(blockpos_mutableblockpos, this.getStateWithAge(serverlevel, blockpos_mutableblockpos, j2), 3);
                                      }
                                  }
@@ -40,7 +40,7 @@
          if (random.nextInt(i) < k) {
              BlockState blockstate = level.getBlockState(blockpos);
  
-+            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBurn(level, blockpos, sourcepos).isCancelled()) return; // Loom :: fire BlockBurnEvent
++            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBurnUp(level, blockpos, sourcepos).isCanceled()) return; // Loom :: fire BlockEvent.BurnUp
              if (random.nextInt(j + 10) < 5 && !level.isRainingAt(blockpos)) {
                  int l = Math.min(j + random.nextInt(5) / 4, 15);
  
