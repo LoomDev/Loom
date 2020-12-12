@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/gameevent/GameEvent.java
++++ b/net/minecraft/world/level/gameevent/GameEvent.java
+@@ -39,7 +39,7 @@
+     public static final GameEvent EATING_START = register("eating_start");
+     public static final GameEvent EATING_FINISH = register("eating_finish");
+     public static final GameEvent LIGHTNING_STRIKE = register("lightning_strike");
+-    private final String name;
++    public final String name; // Loom :: private -> public (SculkSensorEvent)
+     private final int notificationRadius;
+ 
+     public GameEvent(String s, int i) {

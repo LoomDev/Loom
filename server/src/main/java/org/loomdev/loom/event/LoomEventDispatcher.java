@@ -1,6 +1,7 @@
 package org.loomdev.loom.event;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.status.ServerStatus;
@@ -15,6 +16,8 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.gameevent.PositionSource;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockPointer;
@@ -38,10 +41,14 @@ import org.loomdev.loom.util.transformer.TextTransformer;
 import org.loomdev.loom.world.ExplosionImpl;
 
 import java.net.InetSocketAddress;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public final class LoomEventDispatcher {
+
+    private static final Map<GameEvent, SculkSensorEvent.VibrationType> VIBRATION_MAP = new HashMap<>();
 
     private LoomEventDispatcher() {
         throw new UnsupportedOperationException("LoomEventDispatcher should not be instantiated.");
@@ -195,7 +202,20 @@ public final class LoomEventDispatcher {
         return fire(new CreeperEvent.Ignite((CreeperImpl) creeper.getLoomEntity()));
     }
 
+    public static SculkSensorEvent.Activate onSculkSensorActivate(Level level, BlockPos blockPos, PositionSource sourcePos, GameEvent event) {
+        var world = level.getLoomWorld();
+        var block = world.getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        var source = sourcePos.getPosition(level).map(pos -> level.getLoomWorld().getBlock(pos.getX(), pos.getY(), pos.getZ())).orElse(null);
+        return fire(new SculkSensorEvent.Activate(block, source, VIBRATION_MAP.get(event)));
+    }
+
     public static WorldEvent.TimeSkip onWorldTimeSkip(Level level, long skippedTicks) {
         return fire(new WorldEvent.TimeSkip(level.getLoomWorld(), skippedTicks));
+    }
+
+    static {
+        Registry.GAME_EVENT.forEach(gameEvent -> {
+            VIBRATION_MAP.put(gameEvent, SculkSensorEvent.VibrationType.valueOf(gameEvent.name.toUpperCase()));
+        });
     }
 }
