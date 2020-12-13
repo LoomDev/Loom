@@ -3,6 +3,8 @@ package org.loomdev.api.util;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 
+import java.util.Objects;
+
 /**
  * Represents a key which consists of two parts, a namespace and a key.
  *
@@ -101,5 +103,19 @@ public class NamespacedKey {
     @Override
     public String toString() {
         return namespace + ':' + key;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NamespacedKey that = (NamespacedKey) o;
+        return Objects.equals(namespace, that.namespace) &&
+                Objects.equals(key, that.key);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(namespace, key);
     }
 }
