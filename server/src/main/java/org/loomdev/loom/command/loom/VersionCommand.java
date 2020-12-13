@@ -24,7 +24,7 @@ public class VersionCommand extends Command {
     public void execute(@NotNull CommandContext context) {
         context.getSource().sendMessage(Component.text(String.format(
                 "This server is running %s %s (MC: %s).",
-                server.getName(), server.getVersion(), server.getMinecraftVersion()
+                server.getImplementationName(), server.getImplementationVersion(), server.getMinecraftVersion()
         )));
     }
 }

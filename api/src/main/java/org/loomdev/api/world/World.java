@@ -10,6 +10,7 @@ import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.math.vector.Vector3i;
 import org.loomdev.api.particle.Particle;
 import org.loomdev.api.sound.Sound;
+import org.loomdev.api.util.NamespacedKey;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -18,6 +19,9 @@ public interface World { // TODO rename to Level???
 
     @NotNull
     String getName();
+
+    @NotNull
+    NamespacedKey getDimension();
 
     @NotNull
     BlockPointer getBlock(Vector3i position);

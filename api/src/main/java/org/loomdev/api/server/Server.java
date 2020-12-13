@@ -15,6 +15,7 @@ import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.scheduler.Scheduler;
 import org.loomdev.api.util.registry.Registry;
 import org.loomdev.api.world.World;
+import org.loomdev.api.world.WorldManager;
 
 import java.nio.file.Path;
 import java.util.Collection;
@@ -28,7 +29,7 @@ public interface Server {
      * @return The name of the server implementation.
      */
     @NotNull
-    String getName();
+    String getImplementationName();
 
     /**
      * Get the version of the server implementation that is currently being ran.
@@ -36,7 +37,7 @@ public interface Server {
      * @return The version of the server implementation.
      */
     @NotNull
-    String getVersion();
+    String getImplementationVersion();
 
     /**
      * Get the version of Minecraft that is currently being ran.
@@ -94,6 +95,9 @@ public interface Server {
     @NotNull
     CommandManager getCommandManager();
 
+    @NotNull
+    WorldManager getWorldManager();
+
     /**
      * Get the scheduler.
      *
@@ -141,15 +145,6 @@ public interface Server {
      */
     @NotNull
     TickTimes getTickTimes();
-
-    @NotNull
-    Collection<World> getWorlds();
-
-    @Nullable
-    World getWorld(@NotNull String name);
-
-    @Nullable
-    World getWorld(@NotNull UUID uuid);
 
     int getProtocolVersion();
 

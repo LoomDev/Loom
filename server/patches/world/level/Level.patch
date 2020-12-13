@@ -16,15 +16,7 @@
      protected static final Logger LOGGER = LogManager.getLogger();
      public static final Codec<ResourceKey<Level>> RESOURCE_KEY_CODEC = ResourceLocation.CODEC.xmap(ResourceKey.elementKey(Registry.DIMENSION_REGISTRY), ResourceKey::location);
      public static final ResourceKey<Level> OVERWORLD = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("overworld"));
-@@ -117,6 +126,7 @@
-         this.thread = Thread.currentThread();
-         this.biomeManager = new BiomeManager(this, i, dimensiontype.getBiomeZoomer());
-         this.isDebug = flag1;
-+        ((org.loomdev.loom.server.ServerImpl) org.loomdev.api.Loom.getServer()).registerWorld(getLoomWorld()); // Loom
-     }
- 
-     public boolean isClientSide() {
-@@ -561,7 +571,7 @@
+@@ -561,7 +570,7 @@
  
                  for (int j = 0; j < i; ++j) {
                      EnderDragonPart enderdragonpart = aenderdragonpart[j];
@@ -33,7 +25,7 @@
  
                      if (t0 != null && predicate.test(t0)) {
                          list.add(t0);
-@@ -873,7 +883,9 @@
+@@ -873,7 +882,9 @@
  
      }
  

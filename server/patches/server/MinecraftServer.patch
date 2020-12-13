@@ -117,7 +117,7 @@
  
      public String getServerModName() {
 -        return "vanilla";
-+        return loomServer.getName(); // Loom :: display server brand
++        return loomServer.getImplementationName(); // Loom :: display server brand
      }
  
      public CrashReport fillReport(CrashReport crashreport) {

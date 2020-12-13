@@ -17,6 +17,7 @@ import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.math.vector.Vector3i;
 import org.loomdev.api.particle.Particle;
 import org.loomdev.api.sound.Sound;
+import org.loomdev.api.util.NamespacedKey;
 import org.loomdev.api.world.Chunk;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
@@ -33,14 +34,23 @@ import java.util.stream.Collectors;
 public class WorldImpl implements World {
 
     private final Level level;
+    private final NamespacedKey namespacedKey;
 
     public WorldImpl(@NotNull Level level) {
         this.level = level;
+        var location = level.dimension().location();
+        this.namespacedKey = new NamespacedKey(location.getNamespace(), location.getPath());
     }
 
     @NotNull
     public Level getMinecraftWorld() {
         return level;
+    }
+
+    @Override
+    @NotNull
+    public NamespacedKey getDimension() {
+        return namespacedKey;
     }
 
     @Override

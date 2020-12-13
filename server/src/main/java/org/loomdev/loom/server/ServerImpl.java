@@ -23,6 +23,7 @@ import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.server.Server;
 import org.loomdev.api.util.registry.Registry;
 import org.loomdev.api.world.World;
+import org.loomdev.api.world.WorldManager;
 import org.loomdev.loom.command.CommandManagerImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.event.EventManagerImpl;
@@ -32,6 +33,7 @@ import org.loomdev.loom.plugin.PluginManagerImpl;
 import org.loomdev.loom.scheduler.SchedulerImpl;
 import org.loomdev.loom.util.registry.RegistryImpl;
 import org.loomdev.loom.world.WorldImpl;
+import org.loomdev.loom.world.WorldManagerImpl;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -49,11 +51,10 @@ public class ServerImpl implements Server {
     private final EventManagerImpl eventManager;
     private final CommandManagerImpl commandManager;
     private final SchedulerImpl scheduler;
+    private final WorldManagerImpl worldManager;
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
     private final RegistryImpl registry;
-
-    private final Map<UUID, World> worlds = new HashMap<>();
 
     public ServerImpl(MinecraftServer minecraftServer, OptionSet optionSet) {
         Loom.setServer(this);
@@ -63,6 +64,7 @@ public class ServerImpl implements Server {
         this.eventManager = new EventManagerImpl(this.pluginManager);
         this.commandManager = new CommandManagerImpl(this);
         this.scheduler = new SchedulerImpl(pluginManager);
+        this.worldManager = new WorldManagerImpl();
         this.tps = new LoomTps();
         this.tickTimes = new LoomTickTimes();
         this.registry = new RegistryImpl();
@@ -80,12 +82,13 @@ public class ServerImpl implements Server {
 
     @Override
     @NotNull
-    public String getName() {
+    public String getImplementationName() {
         return "Loom";
     }
 
     @Override
-    public @NotNull String getVersion() {
+    @NotNull
+    public String getImplementationVersion() {
         var version = ServerImpl.class.getPackage().getImplementationVersion();
         return version == null ? "DEVELOPMENT" : version;
     }
@@ -132,6 +135,12 @@ public class ServerImpl implements Server {
         return commandManager;
     }
 
+    @Override
+    @NotNull
+    public WorldManager getWorldManager() {
+        return worldManager;
+    }
+
     @NotNull
     @Override
     public SchedulerImpl getScheduler() {
@@ -170,34 +179,6 @@ public class ServerImpl implements Server {
         return tickTimes;
     }
 
-    public void registerWorld(@NotNull WorldImpl worldImpl) {
-        /*if (this.worlds.containsKey(world.getUUID())) {
-            throw new IllegalStateException(String.format("World '%s' is a duplicate of an already loaded world.", world.getName()));
-        }*/
-
-        worlds.put(UUID.randomUUID(), worldImpl); // TODO modify once world UUIDs exist
-    }
-
-    @Override
-    @NotNull
-    public Collection<World> getWorlds() {
-        return worlds.values();
-    }
-
-    @Override
-    @Nullable
-    public World getWorld(@NotNull String name) {
-        return worlds.values().stream()
-                .filter(world -> world.getName().equals(name))
-                .findFirst().orElse(null);
-    }
-
-    @Override
-    @Nullable
-    public World getWorld(@NotNull UUID uuid) {
-        return worlds.get(uuid);
-    }
-
     @Override
     public int getProtocolVersion() {
         return SharedConstants.getCurrentVersion().getProtocolVersion();
@@ -227,5 +208,9 @@ public class ServerImpl implements Server {
 
     public MinecraftServer getMinecraftServer() {
         return minecraftServer;
+    }
+
+    public interface Settings {
+
     }
 }
