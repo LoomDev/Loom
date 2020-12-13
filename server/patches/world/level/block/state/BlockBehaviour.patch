@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/block/state/BlockBehaviour.java
++++ b/net/minecraft/world/level/block/state/BlockBehaviour.java
+@@ -68,7 +68,7 @@
+ 
+     protected static final Direction[] UPDATE_SHAPE_ORDER = new Direction[]{Direction.WEST, Direction.EAST, Direction.NORTH, Direction.SOUTH, Direction.DOWN, Direction.UP};
+     protected final Material material;
+-    protected final boolean hasCollision;
++    public final boolean hasCollision; // Loom :: protected -> public (BlockTypeImpl)
+     protected final float explosionResistance;
+     protected final boolean isRandomlyTicking;
+     protected final SoundType soundType;
+@@ -76,7 +76,7 @@
+     protected final float speedFactor;
+     protected final float jumpFactor;
+     protected final boolean dynamicShape;
+-    protected final BlockBehaviour.Properties properties;
++    public final BlockBehaviour.Properties properties; // Loom :: protected -> public (BlockTypeImpl)
+     @Nullable
+     protected ResourceLocation drops;
+ 
+@@ -796,7 +796,7 @@
+         private float speedFactor;
+         private float jumpFactor;
+         private ResourceLocation drops;
+-        private boolean canOcclude;
++        public boolean canOcclude; // Loom :: protected -> public (BlockTypeImpl)
+         private boolean isAir;
+         private BlockBehaviour.StateArgumentPredicate<EntityType<?>> isValidSpawn;
+         private BlockBehaviour.StatePredicate isRedstoneConductor;

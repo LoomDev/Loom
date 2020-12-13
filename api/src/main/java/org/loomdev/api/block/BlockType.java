@@ -870,6 +870,10 @@ public interface BlockType extends Keyed {
 
     float getJumpVelocityMultiplier();
 
+    boolean isSolid();
+
+    boolean hasCollision();
+
     @NotNull
     ItemType asItem();
 }

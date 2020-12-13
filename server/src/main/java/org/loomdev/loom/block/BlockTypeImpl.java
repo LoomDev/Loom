@@ -35,6 +35,16 @@ public class BlockTypeImpl extends GenericWrapped implements BlockType {
     }
 
     @Override
+    public boolean isSolid() {
+        return mcBlock.hasCollision && mcBlock.properties.canOcclude;
+    }
+
+    @Override
+    public boolean hasCollision() {
+        return mcBlock.hasCollision;
+    }
+
+    @Override
     @NotNull
     public ItemType asItem() {
         var resourceLocation = Registry.ITEM.getKey(mcBlock.asItem());
