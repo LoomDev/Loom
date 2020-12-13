@@ -71,7 +71,7 @@ public final class LoomEventDispatcher {
     }
 
     public static void onTickLevel(ServerLevel level, long tick) {
-        fire(new TickEvent.Level(level.getLoomWorld(), tick));
+        fire(new TickEvent.World(level.getLoomWorld(), tick));
     }
 
     public static ConnectionEvent.Join onPlayerJoin(ServerPlayer serverPlayer, Component message) {

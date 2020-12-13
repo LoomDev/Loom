@@ -29,17 +29,17 @@ public class TickEvent extends Event {
         }
     }
 
-    public static class Level extends TickEvent {
+    public static class World extends TickEvent {
 
-        private final World world;
+        private final org.loomdev.api.world.World world;
 
-        public Level(World world, long tick) {
+        public World(org.loomdev.api.world.World world, long tick) {
             super(tick);
             this.world = world;
         }
 
         @NotNull
-        public World getLevel() {
+        public org.loomdev.api.world.World getLevel() {
             return world;
         }
     }
