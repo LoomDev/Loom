@@ -1,5 +1,6 @@
 package org.loomdev.loom.command.loom;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -39,51 +40,51 @@ public class PluginsCommand extends Command {
 
         // TODO permissions
         if (source instanceof Player && !((Player) source).isOp()) {
-            source.sendMessage(TextComponent.of("Insufficient permissions!").color(ChatColor.RED));
+            source.sendMessage(Component.text("Insufficient permissions!").color(ChatColor.RED));
             return;
         }
 
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("reload")) {
-                source.sendMessage(TextComponent.of("Reloading all plugins..."));
+                source.sendMessage(Component.text("Reloading all plugins..."));
                 Loom.getPluginManager().reloadAll();
-                source.sendMessage(TextComponent.of("Successfully reloaded all plugins!").color(ChatColor.GREEN));
+                source.sendMessage(Component.text("Successfully reloaded all plugins!").color(ChatColor.GREEN));
             } else if(args[0].equalsIgnoreCase("scan")) {
-                source.sendMessage(TextComponent.of("Scanning for new plugins..."));
+                source.sendMessage(Component.text("Scanning for new plugins..."));
                 List<PluginMetadata> newPlugins = Loom.getPluginManager().scanPluginDirectory();
-                source.sendMessage(TextComponent.of("Found " + newPlugins.size() + " new plugins!").color(ChatColor.GREEN));
+                source.sendMessage(Component.text("Found " + newPlugins.size() + " new plugins!").color(ChatColor.GREEN));
             }
         } else if (args.length == 2) {
             String pluginId = args[1];
             Optional<PluginMetadata> metadataOpt = Loom.getPluginManager().getPluginMetadata(pluginId);
 
             if (!metadataOpt.isPresent()) {
-                source.sendMessage(TextComponent.of(String.format("No plugin found with id: %s.", args[1])).color(ChatColor.RED));
+                source.sendMessage(Component.text(String.format("No plugin found with id: %s.", args[1])).color(ChatColor.RED));
                 return;
             }
 
             PluginMetadata metadata = metadataOpt.get();
 
             if (args[0].equalsIgnoreCase("reload")) {
-                source.sendMessage(TextComponent.of("Reloading " + metadata.getNameOrId() + "...").color(ChatColor.YELLOW));
+                source.sendMessage(Component.text("Reloading " + metadata.getNameOrId() + "...").color(ChatColor.YELLOW));
                 Loom.getPluginManager().reloadPlugin(metadata.getId());
-                source.sendMessage(TextComponent.of("Successfully reloaded " + metadata.getNameOrId() + "!").color(ChatColor.GREEN));
+                source.sendMessage(Component.text("Successfully reloaded " + metadata.getNameOrId() + "!").color(ChatColor.GREEN));
             } else if (args[0].equalsIgnoreCase("enable")) {
-                source.sendMessage(TextComponent.of("Enabling " + metadata.getNameOrId() + "...").color(ChatColor.YELLOW));
+                source.sendMessage(Component.text("Enabling " + metadata.getNameOrId() + "...").color(ChatColor.YELLOW));
                 Loom.getPluginManager().enablePlugin(metadata.getId());
-                source.sendMessage(TextComponent.of("Successfully enabled " + metadata.getNameOrId() + "!").color(ChatColor.GREEN));
+                source.sendMessage(Component.text("Successfully enabled " + metadata.getNameOrId() + "!").color(ChatColor.GREEN));
             } else if (args[0].equalsIgnoreCase("disable")) {
-                source.sendMessage(TextComponent.of("Disabling " + metadata.getNameOrId() + "...").color(ChatColor.YELLOW));
+                source.sendMessage(Component.text("Disabling " + metadata.getNameOrId() + "...").color(ChatColor.YELLOW));
                 Loom.getPluginManager().disablePlugin(metadata.getId());
-                source.sendMessage(TextComponent.of("Successfully disabled " + metadata.getNameOrId() + "!").color(ChatColor.GREEN));
+                source.sendMessage(Component.text("Successfully disabled " + metadata.getNameOrId() + "!").color(ChatColor.GREEN));
             } else {
-                source.sendMessage(TextComponent.of("Unknown usage!").color(ChatColor.RED)
-                        .append(TextComponent.newline())
+                source.sendMessage(Component.text("Unknown usage!").color(ChatColor.RED)
+                        .append(Component.newline())
                         .append(getHelpText()));
             }
         } else {
-            source.sendMessage(TextComponent.of("Unknown usage!").color(ChatColor.RED)
-                    .append(TextComponent.newline())
+            source.sendMessage(Component.text("Unknown usage!").color(ChatColor.RED)
+                    .append(Component.newline())
                     .append(getHelpText()));
         }
     }
@@ -97,35 +98,35 @@ public class PluginsCommand extends Command {
                 .filter(plugin -> full || Loom.getPluginManager().isEnabled(plugin.getId()))
                 .forEach(plugin -> plugins.put(plugin.getNameOrId(), plugin));
 
-        TextComponent.Builder builder = TextComponent.builder()
-                .append(TextComponent.of("Plugins (" + plugins.size() + "): ").color(ChatColor.WHITE));
+        var builder = Component.empty().toBuilder()
+                .append(Component.text("Plugins (" + plugins.size() + "): ").color(ChatColor.WHITE));
 
         int index = 0;
         for (Map.Entry<String, PluginMetadata> entry : plugins.entrySet()) {
             if (index++ > 0) {
-                builder.append(TextComponent.of(", ").color(ChatColor.WHITE));
+                builder.append(Component.text(", ").color(ChatColor.WHITE));
             }
 
-            TextComponent.Builder pluginBuilder = TextComponent.builder();
+            TextComponent.Builder pluginBuilder = Component.empty().toBuilder();
             PluginMetadata metadata = entry.getValue();
-            TextComponent.Builder hoverBuilder = TextComponent.builder();
+            TextComponent.Builder hoverBuilder = Component.empty().toBuilder();
 
             if (full) {
-                hoverBuilder.append(TextComponent.of("Id: ").color(ChatColor.WHITE)
-                        .append(TextComponent.of(metadata.getId()).color(ChatColor.GREEN))).append(TextComponent.newline());
+                hoverBuilder.append(Component.text("Id: ").color(ChatColor.WHITE)
+                        .append(Component.text(metadata.getId()).color(ChatColor.GREEN))).append(Component.newline());
             }
 
             metadata.getDescription().ifPresent(description ->
-                    hoverBuilder.append(TextComponent.of("Description: ").color(ChatColor.WHITE)
-                            .append(TextComponent.of(description).color(ChatColor.GREEN))));
+                    hoverBuilder.append(Component.text("Description: ").color(ChatColor.WHITE)
+                            .append(Component.text(description).color(ChatColor.GREEN))));
 
-            metadata.getVersion().ifPresent(version -> hoverBuilder.append(TextComponent.newline())
-                    .append(TextComponent.of("Version: ").color(ChatColor.WHITE)
-                            .append(TextComponent.of(version).color(ChatColor.GREEN))));
+            metadata.getVersion().ifPresent(version -> hoverBuilder.append(Component.newline())
+                    .append(Component.text("Version: ").color(ChatColor.WHITE)
+                            .append(Component.text(version).color(ChatColor.GREEN))));
 
             if (metadata.getAuthors().size() > 0) {
-                hoverBuilder.append(TextComponent.newline()).append(TextComponent.of("Authors: ").color(ChatColor.WHITE))
-                        .append(TextComponent.of(String.join(", ", metadata.getAuthors())).color(ChatColor.GREEN));
+                hoverBuilder.append(Component.newline()).append(Component.text("Authors: ").color(ChatColor.WHITE))
+                        .append(Component.text(String.join(", ", metadata.getAuthors())).color(ChatColor.GREEN));
             }
 
             PluginMetadata.State state = metadata.getState();
@@ -137,12 +138,12 @@ public class PluginsCommand extends Command {
             }
 
             if (full) {
-                hoverBuilder.append(TextComponent.newline())
-                        .append(TextComponent.of("State: ", ChatColor.WHITE))
-                        .append(TextComponent.of(state.name().toLowerCase(), stateColor));
+                hoverBuilder.append(Component.newline())
+                        .append(Component.text("State: ", ChatColor.WHITE))
+                        .append(Component.text(state.name().toLowerCase(), stateColor));
             }
 
-            pluginBuilder.append(TextComponent.of(entry.getKey()).color(stateColor));
+            pluginBuilder.append(Component.text(entry.getKey()).color(stateColor));
             pluginBuilder.hoverEvent(HoverEvent.showText(hoverBuilder.build()));
 
             if (full && state != PluginMetadata.State.ERROR) {
@@ -160,17 +161,16 @@ public class PluginsCommand extends Command {
     }
 
     private TextComponent getHelpText() {
-        return TextComponent.builder()
-                .append(getHelpTextLine("/pl", "Shows a list of all plugins.")).append(TextComponent.newline())
-                .append(getHelpTextLine("/pl reload", "Reload all plugins.")).append(TextComponent.newline())
-                .append(getHelpTextLine("/pl enable <plugin-id>", "Enable a disabled plugin.")).append(TextComponent.newline())
-                .append(getHelpTextLine("/pl disable <plugin-id>", "Disable a enabled plugin."))
-                .build();
+        return Component.empty()
+                .append(getHelpTextLine("/pl", "Shows a list of all plugins.")).append(Component.newline())
+                .append(getHelpTextLine("/pl reload", "Reload all plugins.")).append(Component.newline())
+                .append(getHelpTextLine("/pl enable <plugin-id>", "Enable a disabled plugin.")).append(Component.newline())
+                .append(getHelpTextLine("/pl disable <plugin-id>", "Disable a enabled plugin."));
     }
 
     private TextComponent getHelpTextLine(String command, String description) {
-        return TextComponent.of(command).color(ChatColor.GOLD)
-                .append(TextComponent.of(" - ").color(ChatColor.GRAY))
-                .append(TextComponent.of(description).color(ChatColor.GRAY));
+        return Component.text(command).color(ChatColor.GOLD)
+                .append(Component.text(" - ").color(ChatColor.GRAY))
+                .append(Component.text(description).color(ChatColor.GRAY));
     }
 }
