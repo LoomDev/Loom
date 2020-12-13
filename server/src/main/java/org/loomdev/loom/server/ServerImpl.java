@@ -214,6 +214,17 @@ public class ServerImpl implements Server {
         return registry;
     }
 
+    @Override
+    @NotNull
+    public Thread getServerThread() {
+        return minecraftServer.getRunningThread();
+    }
+
+    @Override
+    public boolean isOnServerThread() {
+        return Thread.currentThread() == getServerThread();
+    }
+
     public MinecraftServer getMinecraftServer() {
         return minecraftServer;
     }

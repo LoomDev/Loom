@@ -157,4 +157,9 @@ public interface Server {
 
     @NotNull
     Registry getRegistry();
+
+    @NotNull
+    Thread getServerThread();
+
+    boolean isOnServerThread();
 }
