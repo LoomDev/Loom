@@ -26,6 +26,7 @@ jobs:
         git submodule update --init --recursive
     - name: Loom Setup
       run: ./loom s
+    - name: Loom Jar
       run: ./loom jar
     - name: Upload Artifact
       uses: actions/upload-artifact@v2-preview
