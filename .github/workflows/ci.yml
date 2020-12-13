@@ -19,13 +19,12 @@ jobs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
-    - name: Git config
+    - name: Git Config
       run: |
         git config --global user.email "ci@loomdev.org"
         git config --global user.name "LoomDev CI"
-        git submodule update --init --recursive
-    - name: Loom Setup
-      run: ./loom s
+    - name: Setup linux folder permissions
+      run: chmod -R -f 777 tools/scripts
     - name: Loom Jar
       run: ./loom jar
     - name: Upload Artifact
