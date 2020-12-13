@@ -127,14 +127,6 @@ public interface Server {
     void broadcastMessage(@NotNull Component component);
 
     /**
-     * Returns an instance of the console command source.
-     *
-     * @return The console command source for this server.
-     */
-    @NotNull
-    CommandSource getConsoleSource();
-
-    /**
      * Get the tps of the server.
      *
      * @return Instance of {@link Tps} containing TPS measurements of the server.

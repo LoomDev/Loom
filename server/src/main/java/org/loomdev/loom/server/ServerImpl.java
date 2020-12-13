@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.ApiVersion;
 import org.loomdev.api.Loom;
 import org.loomdev.api.command.CommandManager;
-import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.EventManager;
 import org.loomdev.api.monitoring.TickTimes;
@@ -25,7 +24,6 @@ import org.loomdev.api.server.Server;
 import org.loomdev.api.util.registry.Registry;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.command.CommandManagerImpl;
-import org.loomdev.loom.command.ConsoleSource;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.event.EventManagerImpl;
 import org.loomdev.loom.monitoring.LoomTickTimes;
@@ -51,7 +49,6 @@ public class ServerImpl implements Server {
     private final EventManagerImpl eventManager;
     private final CommandManagerImpl commandManager;
     private final SchedulerImpl scheduler;
-    private final CommandSource consoleSource;
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
     private final RegistryImpl registry;
@@ -65,7 +62,6 @@ public class ServerImpl implements Server {
         this.pluginManager = new PluginManagerImpl(this, this.pluginDirectory);
         this.eventManager = new EventManagerImpl(this.pluginManager);
         this.commandManager = new CommandManagerImpl(this);
-        this.consoleSource = new ConsoleSource(minecraftServer);
         this.scheduler = new SchedulerImpl(pluginManager);
         this.tps = new LoomTps();
         this.tickTimes = new LoomTickTimes();
@@ -160,12 +156,6 @@ public class ServerImpl implements Server {
     @Override
     public void broadcastMessage(@NotNull Component component) {
         getOnlinePlayers().forEach(player -> player.sendMessage(component));
-    }
-
-    @Override
-    @NotNull
-    public CommandSource getConsoleSource() {
-        return consoleSource;
     }
 
     @Override
