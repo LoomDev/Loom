@@ -69,11 +69,6 @@ public class Location {
         return new Vector3i((int) Math.floor(x) >> 4, (int) Math.floor(y), (int) Math.floor(z) >> 4);
     }
 
-    @NotNull
-    public Vector3d getVector() {
-        return new Vector3d(x, y, z);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
