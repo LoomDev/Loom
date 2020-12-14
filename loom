@@ -65,9 +65,10 @@ cleanRepository() {
 
 setupRepository() {
     (
-        git submodule init "tools/Paperclip" || exit 1
+        git submodule update --init --recursive || exit 1
         tools/scripts/downloadMinecraftServer.sh || exit 1
         tools/scripts/decompile.sh || exit 1
+		tools/scripts/applyPatches.sh || exit 1
 
         echo ""
         echo "Set up!"

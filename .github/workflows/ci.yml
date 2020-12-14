@@ -25,6 +25,8 @@ jobs:
         git config --global user.name "LoomDev CI"
     - name: Setup linux folder permissions
       run: chmod -R -f 777 tools/scripts
+    - name: Loom Setup
+      run: ./loom s
     - name: Loom Jar
       run: ./loom jar
     - name: Upload Artifact
