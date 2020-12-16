@@ -1072,6 +1072,15 @@ public interface SoundEvent extends Keyed {
     SoundEvent BLOCK_SCULK_SENSOR_CLICKING = getById("minecraft:block.sculk_sensor.clicking");
     SoundEvent BLOCK_SCULK_SENSOR_BREAK = getById("minecraft:block.sculk_sensor.break");
     SoundEvent BLOCK_SCULK_SENSOR_FALL = getById("minecraft:block.sculk_sensor.fall");
+    SoundEvent ITEM_BUCKET_FILL_AXOLOTL = getById("minecraft:item.bucket.fill_axolotl");
+    SoundEvent ENTITY_AXOLOTL_HURT = getById("minecraft:entity.axolotl.hurt");
+    SoundEvent ENTITY_AXOLOTL_IDLE_WATER = getById("minecraft:entity.axolotl.idle_water");
+    SoundEvent ENTITY_AXOLOTL_ATTACK = getById("minecraft:entity.axolotl.attack");
+    SoundEvent ENTITY_AXOLOTL_IDLE_AIR = getById("minecraft:entity.axolotl.idle_air");
+    SoundEvent ENTITY_AXOLOTL_DEATH = getById("minecraft:entity.axolotl.death");
+    SoundEvent ENTITY_AXOLOTL_SWIM = getById("minecraft:entity.axolotl.swim");
+    SoundEvent ITEM_BUCKET_EMPTY_AXOLOTL = getById("minecraft:item.bucket.empty_axolotl");
+    SoundEvent ENTITY_AXOLOTL_SPLASH = getById("minecraft:entity.axolotl.splash");
 
     // endregion SoundEvents
 

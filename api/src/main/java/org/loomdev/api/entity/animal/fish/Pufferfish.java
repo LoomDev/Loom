@@ -1,11 +1,12 @@
 package org.loomdev.api.entity.animal.fish;
 
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.entity.animal.Bucketable;
 
 /**
  * Represents a Pufferfish entity.
  */
-public interface Pufferfish extends Fish {
+public interface Pufferfish extends Fish, Bucketable {
 
     /**
      * Get the current {@link PuffState} of the Pufferish.

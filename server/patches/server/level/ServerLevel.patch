@@ -18,15 +18,15 @@
  
      public void setWeatherParameters(int i, int j, boolean flag, boolean flag1) {
 @@ -444,7 +445,7 @@
-     }
  
      private void wakeUpAllPlayers() {
+         this.percentageSleepingPlayers = 0.0F;
 -        ((List) this.players.stream().filter(LivingEntity::isSleeping).collect(Collectors.toList())).forEach((serverplayer) -> {
 +        (this.players.stream().filter(LivingEntity::isSleeping).collect(Collectors.toList())).forEach((serverplayer) -> { // Loom :: decompile error
              serverplayer.stopSleepInBed(false, false);
          });
      }
-@@ -821,7 +822,7 @@
+@@ -882,7 +883,7 @@
      }
  
      public boolean tryAddFreshEntityWithPassengers(Entity entity) {
@@ -35,7 +35,7 @@
          PersistentEntitySectionManager persistententitysectionmanager = this.entityManager;
  
          this.entityManager.getClass();
-@@ -917,7 +918,7 @@
+@@ -978,7 +979,7 @@
  
          explosion.explode();
          explosion.finalizeExplosion(false);
@@ -44,7 +44,7 @@
              explosion.clearToBlow();
          }
  
-@@ -1446,7 +1447,7 @@
+@@ -1507,7 +1508,7 @@
      private static <T> String getTypeCount(Iterable<T> iterable, Function<T, String> function) {
          try {
              Object2IntOpenHashMap<String> object2intopenhashmap = new Object2IntOpenHashMap();
@@ -53,7 +53,7 @@
  
              while (iterator.hasNext()) {
                  T t0 = iterator.next();
-@@ -1455,7 +1456,7 @@
+@@ -1516,7 +1517,7 @@
                  object2intopenhashmap.addTo(s, 1);
              }
  
@@ -62,7 +62,7 @@
                  return (String) entry.getKey() + ":" + entry.getIntValue();
              }).collect(Collectors.joining(","));
          } catch (Exception exception) {
-@@ -1498,6 +1499,7 @@
+@@ -1559,6 +1560,7 @@
          return "Chunks[S] W: " + this.chunkSource.gatherStats() + " E: " + this.entityManager.gatherStats();
      }
  
@@ -70,7 +70,7 @@
      public Scoreboard getScoreboard() {
          return this.getScoreboard();
      }
-@@ -1513,6 +1515,7 @@
+@@ -1574,6 +1576,7 @@
      public TickList getBlockTicks() {
          return this.getBlockTicks();
      }
@@ -78,7 +78,7 @@
  
      final class EntityCallbacks implements LevelCallback<Entity> {
  
-@@ -1588,6 +1591,7 @@
+@@ -1649,6 +1652,7 @@
  
          }
  
@@ -86,7 +86,7 @@
          public void onTrackingEnd(Object object) {
              this.onTrackingEnd((Entity) object);
          }
-@@ -1615,5 +1619,6 @@
+@@ -1676,5 +1680,6 @@
          EntityCallbacks(Object object) {
              this();
          }

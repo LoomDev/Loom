@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/Mob.java
 +++ b/net/minecraft/world/entity/Mob.java
-@@ -90,7 +90,7 @@
+@@ -91,7 +91,7 @@
      private final NonNullList<ItemStack> armorItems;
      protected final float[] armorDropChances;
      private boolean canPickUpLoot;
@@ -9,7 +9,7 @@
      private final Map<BlockPathTypes, Float> pathfindingMalus;
      private ResourceLocation lootTable;
      private long lootTableSeed;
-@@ -1088,7 +1088,7 @@
+@@ -1089,7 +1089,7 @@
              if (itemstack.getItem() instanceof SpawnEggItem) {
                  if (this.level instanceof ServerLevel) {
                      SpawnEggItem spawneggitem = (SpawnEggItem) itemstack.getItem();
@@ -18,7 +18,7 @@
  
                      optional.ifPresent((mob) -> {
                          this.onOffspringSpawnedFromEgg(player, mob);
-@@ -1139,7 +1139,7 @@
+@@ -1140,7 +1140,7 @@
          if (this.isRemoved()) {
              return null;
          } else {

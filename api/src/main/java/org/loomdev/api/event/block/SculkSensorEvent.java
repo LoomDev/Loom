@@ -62,7 +62,6 @@ public class SculkSensorEvent extends Event {
         WOLF_SHAKING,
         PROJECTILE_SHOOT,
         PROJECTILE_LAND,
-        EATING_START,
         EATING_FINISH,
         ENTITY_HIT,
         ARMOR_STAND_ADD_ITEM,

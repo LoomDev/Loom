@@ -64,7 +64,7 @@
          this.discard();
      }
  
-@@ -885,7 +895,7 @@
+@@ -887,7 +897,7 @@
          return 0.0F;
      }
  
@@ -73,7 +73,7 @@
          return false;
      }
  
-@@ -931,7 +941,7 @@
+@@ -939,7 +949,7 @@
      }
  
      public boolean fireImmune() {
@@ -82,7 +82,7 @@
      }
  
      public boolean causeFallDamage(float f, float f1) {
-@@ -2220,7 +2230,7 @@
+@@ -2228,7 +2238,7 @@
                      }
  
                      return PortalShape.createPortalInfo(serverlevel, blockutil_foundrectangle, direction_axis, vec3, this.getDimensions(this.getPose()), this.getDeltaMovement(), this.yRot, this.xRot);

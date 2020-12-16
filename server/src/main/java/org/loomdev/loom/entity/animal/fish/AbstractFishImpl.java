@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.animal.fish.Fish;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.loom.entity.animal.AbstractWaterAnimalImpl;
+import org.loomdev.loom.item.ItemStackImpl;
 
 public abstract class AbstractFishImpl extends AbstractWaterAnimalImpl implements Fish {
 
@@ -19,6 +20,12 @@ public abstract class AbstractFishImpl extends AbstractWaterAnimalImpl implement
     }
 
     @Override
+    @NotNull
+    public ItemStack getFishBucket() {
+        return ItemStackImpl.of(getMinecraftEntity().getBucketItemStack());
+    }
+
+    @Override
     public boolean isFromBucket() {
         return getMinecraftEntity().fromBucket();
     }
@@ -26,10 +33,5 @@ public abstract class AbstractFishImpl extends AbstractWaterAnimalImpl implement
     @Override
     public void setFromBucket(boolean flag) {
         getMinecraftEntity().setFromBucket(flag);
-    }
-
-    @Override
-    public ItemStack getFishBucket() {
-        return null; // TODO convert getMinecraftEntity().getFishBucketItem() to Loom ItemStack.
     }
 }

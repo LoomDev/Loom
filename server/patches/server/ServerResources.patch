@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/ServerResources.java
 +++ b/net/minecraft/server/ServerResources.java
-@@ -21,7 +21,7 @@
+@@ -22,7 +22,7 @@
  
      private static final CompletableFuture<Unit> DATA_RELOAD_INITIAL_TASK = CompletableFuture.completedFuture(Unit.INSTANCE);
      private final ReloadableResourceManager resources;
@@ -9,7 +9,7 @@
      private final RecipeManager recipes;
      private final TagManager tagManager;
      private final PredicateManager predicateManager;
-@@ -47,6 +47,7 @@
+@@ -48,6 +48,7 @@
          this.resources.registerReloadListener(this.itemModifierManager);
          this.resources.registerReloadListener(this.functionLibrary);
          this.resources.registerReloadListener(this.advancements);

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/Fox.java
 +++ b/net/minecraft/world/entity/animal/Fox.java
-@@ -316,19 +316,19 @@
+@@ -317,19 +317,19 @@
          return Fox.Type.byId((Integer) this.entityData.get(Fox.DATA_TYPE_ID));
      }
  
@@ -25,7 +25,7 @@
          if (((Optional) this.entityData.get(Fox.DATA_TRUSTED_ID_0)).isPresent()) {
              this.entityData.set(Fox.DATA_TRUSTED_ID_1, Optional.ofNullable(uuid));
          } else {
-@@ -404,7 +404,7 @@
+@@ -405,7 +405,7 @@
          return this.getFlag(32);
      }
  
@@ -34,7 +34,7 @@
          this.setFlag(32, flag);
      }
  
-@@ -650,9 +650,11 @@
+@@ -651,9 +651,11 @@
          return true;
      }
  
@@ -46,7 +46,7 @@
  
      class FoxLookAtPlayerGoal extends LookAtPlayerGoal {
  
-@@ -1095,9 +1097,7 @@
+@@ -1096,9 +1098,7 @@
              return livingentity instanceof Fox ? false : (!(livingentity instanceof Chicken) && !(livingentity instanceof Rabbit) && !(livingentity instanceof Monster) ? (livingentity instanceof TamableAnimal ? !((TamableAnimal) livingentity).isTame() : (livingentity instanceof Player && (livingentity.isSpectator() || ((Player) livingentity).isCreative()) ? false : (Fox.this.trusts(livingentity.getUUID()) ? false : !livingentity.isSleeping() && !livingentity.isDiscrete()))) : true);
          }
  

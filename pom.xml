@@ -38,8 +38,8 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <minecraft.version>20w49a</minecraft.version>
-        <api.version>20w49a</api.version>
+        <minecraft.version>20w51a</minecraft.version>
+        <api.version>20w51a</api.version>
     </properties>
 
     <dependencies>

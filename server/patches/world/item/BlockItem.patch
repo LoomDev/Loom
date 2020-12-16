@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/item/BlockItem.java
 +++ b/net/minecraft/world/item/BlockItem.java
-@@ -52,6 +52,13 @@
+@@ -55,6 +55,13 @@
                  return InteractionResult.FAIL;
              } else {
                  BlockState blockstate = this.getPlacementState(blockplacecontext1);
@@ -14,3 +14,12 @@
  
                  if (blockstate == null) {
                      return InteractionResult.FAIL;
+@@ -223,7 +230,7 @@
+ 
+             if (compoundtag != null) {
+                 ListTag listtag = compoundtag.getCompound("BlockEntityTag").getList("Items", 10);
+-                Stream stream = listtag.stream();
++                Stream<net.minecraft.nbt.Tag> stream = listtag.stream(); // Loom :: decompile error
+ 
+                 CompoundTag.class.getClass();
+                 ItemUtils.onContainerDestroyed(itementity, stream.map(CompoundTag.class::cast).map(ItemStack::of));

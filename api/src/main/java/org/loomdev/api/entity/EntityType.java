@@ -23,6 +23,7 @@ import org.loomdev.api.entity.animal.Sheep;
 import org.loomdev.api.entity.animal.Squid;
 import org.loomdev.api.entity.animal.Turtle;
 import org.loomdev.api.entity.animal.Wolf;
+import org.loomdev.api.entity.animal.axolotl.Axolotl;
 import org.loomdev.api.entity.animal.fish.Cod;
 import org.loomdev.api.entity.animal.fish.Pufferfish;
 import org.loomdev.api.entity.animal.fish.Salmon;
@@ -105,6 +106,7 @@ public interface EntityType<T extends Entity> extends Keyed {
     EntityType<AreaEffectCloud> AREA_EFFECT_CLOUD = getById("minecraft:area_effect_cloud");
     EntityType<ArmorStand> ARMOR_STAND = getById("minecraft:armor_stand");
     EntityType<Arrow> ARROW = getById("minecraft:arrow");
+    EntityType<Axolotl> AXOLOTL = getById("minecraft:axolotl");
     EntityType<Bat> BAT = getById("minecraft:bat");
     EntityType<Bee> BEE = getById("minecraft:bee");
     EntityType<Blaze> BLAZE = getById("minecraft:blaze");

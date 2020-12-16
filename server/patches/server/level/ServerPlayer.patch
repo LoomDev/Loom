@@ -17,7 +17,7 @@
              Logger logger = ServerPlayer.LOGGER;
  
              logger.getClass();
-@@ -1241,6 +1242,7 @@
+@@ -1245,6 +1246,7 @@
          this.canChatColor = serverboundclientinformationpacket.getChatColors();
          this.getEntityData().set(ServerPlayer.DATA_PLAYER_MODE_CUSTOMISATION, (byte) serverboundclientinformationpacket.getModelCustomisation());
          this.getEntityData().set(ServerPlayer.DATA_PLAYER_MAIN_HAND, (byte) (serverboundclientinformationpacket.getMainHand() == HumanoidArm.LEFT ? 0 : 1));

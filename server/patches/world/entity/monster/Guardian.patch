@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Guardian.java
 +++ b/net/minecraft/world/entity/monster/Guardian.java
-@@ -107,7 +107,7 @@
+@@ -108,7 +108,7 @@
          return (Boolean) this.entityData.get(Guardian.DATA_ID_MOVING);
      }
  
@@ -9,7 +9,7 @@
          this.entityData.set(Guardian.DATA_ID_MOVING, flag);
      }
  
-@@ -115,7 +115,7 @@
+@@ -116,7 +116,7 @@
          return 80;
      }
  
@@ -18,8 +18,8 @@
          this.entityData.set(Guardian.DATA_ID_ATTACK_TARGET, i);
      }
  
-@@ -455,8 +455,6 @@
-             return (livingentity instanceof Player || livingentity instanceof Squid) && livingentity.distanceToSqr((Entity) this.guardian) > 9.0D;
+@@ -456,8 +456,6 @@
+             return (livingentity instanceof Player || livingentity instanceof Squid || livingentity != null && Axolotl.NOT_PLAYING_DEAD_SELECTOR.test(livingentity)) && livingentity.distanceToSqr((Entity) this.guardian) > 9.0D;
          }
  
 -        public boolean test(@Nullable Object object) {

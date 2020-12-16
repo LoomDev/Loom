@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>loom-api</artifactId>
-    <version>20w49a</version>
+    <version>20w51a</version>
 
     <name>Loom API</name>
     <url>https://loomdev.org/</url>

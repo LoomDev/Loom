@@ -133,7 +133,7 @@
 -            return (ImmutableList) stream.map(packrepository::getPack).filter(Objects::nonNull).map(Pack::open).collect(ImmutableList.toImmutableList());
 +            return stream.map(packrepository::getPack).filter(Objects::nonNull).map(Pack::open).collect(ImmutableList.toImmutableList()); // Loom :: decompile error
          }, this).thenCompose((immutablelist) -> {
-             return ServerResources.loadResources(immutablelist, this.isDedicatedServer() ? Commands.CommandSelection.DEDICATED : Commands.CommandSelection.INTEGRATED, this.getFunctionCompilationLevel(), this.executor, this);
+             return ServerResources.loadResources(immutablelist, this.registryHolder, this.isDedicatedServer() ? Commands.CommandSelection.DEDICATED : Commands.CommandSelection.INTEGRATED, this.getFunctionCompilationLevel(), this.executor, this);
          }).thenAcceptAsync((serverresources) -> {
 @@ -1735,6 +1757,7 @@
          return null;

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/net/minecraft/world/entity/item/ItemEntity.java
-@@ -33,9 +33,9 @@
+@@ -34,9 +34,9 @@
  
  public class ItemEntity extends Entity {
  
