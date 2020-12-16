@@ -10,6 +10,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.server.MinecraftServer;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.Command;
@@ -48,11 +49,15 @@ public class CommandManagerImpl implements CommandManager {
 
     @NotNull
     private CommandSource getSource(@NotNull CommandSourceStack stack) {
+        var source = stack.source;
+
         if (stack.getEntity() != null) {
             return stack.getEntity().getLoomEntity();
         }
 
-        return new CommandSourceImpl(stack);
+        return source instanceof MinecraftServer
+                ? new ConsoleCommandSourceImpl(source)
+                : new CommandSourceImpl(source);
     }
 
     @Override
@@ -163,7 +168,7 @@ public class CommandManagerImpl implements CommandManager {
                 return builder.build();
             }
 
-            var source = new CommandSourceImpl(context.getSource());
+            var source = getSource(context.getSource());
             var input = Arrays.copyOfRange(arguments, 1, arguments.length);
             for (var suggestion : command.suggest(new CommandContextImpl(source, alias, input))) {
                 builder.suggest(suggestion);

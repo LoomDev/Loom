@@ -10,6 +10,7 @@ import net.minecraft.tags.FluidTags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.Loom;
+import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.damage.DamageSource;
 import org.loomdev.api.item.ItemStack;
@@ -18,6 +19,7 @@ import org.loomdev.api.math.vector.Vector3d;
 import org.loomdev.api.sound.SoundEvent;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
+import org.loomdev.loom.command.CommandSourceImpl;
 import org.loomdev.loom.item.ItemStackImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
 import org.loomdev.loom.world.WorldImpl;
@@ -28,13 +30,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public abstract class EntityImpl implements Entity {
+public abstract class EntityImpl extends CommandSourceImpl implements Entity {
 
     private final net.minecraft.world.entity.Entity mcEntity;
-    private Location location;
 
     public EntityImpl(net.minecraft.world.entity.Entity entity) {
-        mcEntity = entity;
+        super(entity);
+        this.mcEntity = entity;
     }
 
     @NotNull

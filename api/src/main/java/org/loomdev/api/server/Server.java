@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.ApiVersion;
 import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.command.CommandSource;
+import org.loomdev.api.command.ConsoleCommandSource;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.EventManager;
 import org.loomdev.api.monitoring.TickTimes;
@@ -157,4 +158,7 @@ public interface Server {
     Thread getServerThread();
 
     boolean isOnServerThread();
+
+    @NotNull
+    ConsoleCommandSource getSource();
 }

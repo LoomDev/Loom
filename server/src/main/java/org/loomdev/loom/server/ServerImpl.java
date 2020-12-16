@@ -15,6 +15,8 @@ import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.ApiVersion;
 import org.loomdev.api.Loom;
 import org.loomdev.api.command.CommandManager;
+import org.loomdev.api.command.CommandSource;
+import org.loomdev.api.command.ConsoleCommandSource;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.EventManager;
 import org.loomdev.api.monitoring.TickTimes;
@@ -25,6 +27,8 @@ import org.loomdev.api.util.registry.Registry;
 import org.loomdev.api.world.World;
 import org.loomdev.api.world.WorldManager;
 import org.loomdev.loom.command.CommandManagerImpl;
+import org.loomdev.loom.command.CommandSourceImpl;
+import org.loomdev.loom.command.ConsoleCommandSourceImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.event.EventManagerImpl;
 import org.loomdev.loom.monitoring.LoomTickTimes;
@@ -55,6 +59,7 @@ public class ServerImpl implements Server {
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
     private final RegistryImpl registry;
+    private final ConsoleCommandSource commandSource;
 
     public ServerImpl(MinecraftServer minecraftServer, OptionSet optionSet) {
         Loom.setServer(this);
@@ -68,6 +73,7 @@ public class ServerImpl implements Server {
         this.tps = new LoomTps();
         this.tickTimes = new LoomTickTimes();
         this.registry = new RegistryImpl();
+        this.commandSource = new ConsoleCommandSourceImpl(minecraftServer);
 
         init(); // TODO move to the appropriate place in nms.
     }
@@ -204,6 +210,12 @@ public class ServerImpl implements Server {
     @Override
     public boolean isOnServerThread() {
         return Thread.currentThread() == getServerThread();
+    }
+
+    @Override
+    @NotNull
+    public ConsoleCommandSource getSource() {
+        return commandSource;
     }
 
     public MinecraftServer getMinecraftServer() {

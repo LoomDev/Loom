@@ -3,7 +3,7 @@ package org.loomdev.api.command;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
-public interface CommandSource {
+public interface CommandSource extends CommandSourceConsumable {
 
     void sendMessage(@NotNull String message);
 
