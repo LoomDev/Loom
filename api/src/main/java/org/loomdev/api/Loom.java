@@ -4,8 +4,10 @@ import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.event.EventManager;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.scheduler.Scheduler;
+import org.loomdev.api.server.PlayerManager;
 import org.loomdev.api.server.Server;
 import org.loomdev.api.util.registry.Registry;
+import org.loomdev.api.world.WorldManager;
 
 public abstract class Loom {
 
@@ -33,6 +35,14 @@ public abstract class Loom {
 
     public static CommandManager getCommandManager() {
         return getServer().getCommandManager();
+    }
+
+    public static WorldManager getWorldManager() {
+        return getServer().getWorldManager();
+    }
+
+    public static PlayerManager getPlayerManager() {
+        return getServer().getPlayerManager();
     }
 
     public static Scheduler getScheduler() {

@@ -56,6 +56,7 @@ public class ServerImpl implements Server {
     private final CommandManagerImpl commandManager;
     private final SchedulerImpl scheduler;
     private final WorldManagerImpl worldManager;
+    private final PlayerManagerImpl playerManager;
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
     private final RegistryImpl registry;
@@ -70,6 +71,7 @@ public class ServerImpl implements Server {
         this.commandManager = new CommandManagerImpl(this);
         this.scheduler = new SchedulerImpl(pluginManager);
         this.worldManager = new WorldManagerImpl();
+        this.playerManager = new PlayerManagerImpl(this);
         this.tps = new LoomTps();
         this.tickTimes = new LoomTickTimes();
         this.registry = new RegistryImpl();
@@ -149,28 +151,14 @@ public class ServerImpl implements Server {
 
     @NotNull
     @Override
+    public PlayerManagerImpl getPlayerManager() {
+        return playerManager;
+    }
+
+    @NotNull
+    @Override
     public SchedulerImpl getScheduler() {
         return scheduler;
-    }
-
-    @Override
-    @NotNull
-    public Collection<? extends Player> getOnlinePlayers() {
-        return minecraftServer.getPlayerList()
-                .getPlayers()
-                .stream()
-                .map(e -> (PlayerImpl) e.getLoomEntity())
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public void broadcastMessage(@NotNull String message) {
-        this.broadcastMessage(Component.text(message));
-    }
-
-    @Override
-    public void broadcastMessage(@NotNull Component component) {
-        getOnlinePlayers().forEach(player -> player.sendMessage(component));
     }
 
     @Override
@@ -220,9 +208,5 @@ public class ServerImpl implements Server {
 
     public MinecraftServer getMinecraftServer() {
         return minecraftServer;
-    }
-
-    public interface Settings {
-
     }
 }

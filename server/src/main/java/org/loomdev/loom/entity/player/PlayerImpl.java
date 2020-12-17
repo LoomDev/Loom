@@ -37,15 +37,9 @@ import java.util.UUID;
 
 public class PlayerImpl extends LivingEntityImpl implements Player {
 
-    private long timeOffset = 0;
-    private boolean relativeTime = true;
-    private Weather weather;
-
     private Component tabListName;
     private Component tabListHeader;
     private Component tabListFooter;
-
-    private final Set<UUID> hiddenPlayers = new HashSet<>();
 
     public PlayerImpl(ServerPlayer entity) {
         super(entity);
@@ -163,23 +157,6 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public void showPlayer(@NotNull Player player) {
-        hiddenPlayers.remove(player.getUUID());
-        // TODO register in entity tracker
-    }
-
-    @Override
-    public void hidePlayer(@NotNull Player player) {
-        hiddenPlayers.add(player.getUUID());
-        // TODO unregister from entity tracker
-    }
-
-    @Override
-    public boolean canSee(@NotNull Player player) {
-        return !hiddenPlayers.contains(player.getUUID());
-    }
-
-    @Override
     @Nullable
     public InetSocketAddress getRemoteAddress() {
         if (!isConnected()) return null;
@@ -234,101 +211,6 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    @Nullable
-    public Location getBedLocation() {
-        return null; // TODO
-    }
-
-    @Override
-    public void setBedLocation(@NotNull Location location) {
-
-    }
-
-    @Override
-    public @NotNull Optional<Location> getCompassTarget() {
-        return Optional.empty();
-    }
-
-    @Override
-    public void setCompassTarget(@NotNull Location location) {
-
-    }
-
-    @Override
-    public @NotNull Optional<Entity> getSpectatorTarget() {
-        return Optional.empty();
-    }
-
-    @Override
-    public void setSpectatorTarget(@NotNull Entity entity) {
-
-    }
-
-    @Override
-    public long getTime() {
-        if (relativeTime) {
-            return getWorld().getAbsoluteTime() + timeOffset;
-        } else {
-            return getWorld().getAbsoluteTime() - (getWorld().getAbsoluteTime() % 24000) + timeOffset;
-        }
-    }
-
-    @Override
-    public void setTime(long time, boolean relative) {
-        this.timeOffset = time;
-        this.relativeTime = relative;
-    }
-
-    @Override
-    public long getTimeOffset() {
-        return timeOffset;
-    }
-
-    @Override
-    public boolean isTimeRelative() {
-        return relativeTime;
-    }
-
-    @Override
-    public void syncTime() {
-        setTime(0, true);
-    }
-
-    @Override
-    public @NotNull Optional<Weather> getWeather() {
-        return Optional.ofNullable(weather);
-    }
-
-    @Override
-    public void setWeather(@NotNull Weather weather) {
-        if (weather == Weather.PRECIPITATION) {
-            getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.STOP_RAINING, 0));
-        } else {
-            getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.START_RAINING, 0));
-        }
-    }
-
-    @Override
-    public void resetWeather() {
-
-    }
-
-    public void kick(@NotNull Component message) {
-        if (!isConnected()) return;
-        getMinecraftEntity().connection.disconnect(TextTransformer.toMinecraft(message));
-    }
-
-    @Override
-    public void ban(@NotNull Component component) {
-        // TODO
-    }
-
-    @Override
-    public boolean isOp() {
-        return getMinecraftEntity().getServer().getPlayerList().isOp(getMinecraftEntity().getGameProfile());
-    }
-
-    @Override
     public void playSound(@NotNull Sound sound) {
         getMinecraftEntity().connection.send(new ClientboundSoundEntityPacket(
                 Registry.SOUND_EVENT.get(new ResourceLocation(sound.getSoundEffect().getKey().toString())),
@@ -337,16 +219,6 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
                 sound.getVolume(),
                 sound.getPitch()
         ));
-    }
-
-    @Override
-    public void addBossBar(@NotNull BossBar bossBar) {
-        bossBar.addPlayer(this);
-    }
-
-    @Override
-    public void removeBossBar(@NotNull BossBar bossBar) {
-        bossBar.removePlayer(this);
     }
 
     @Override

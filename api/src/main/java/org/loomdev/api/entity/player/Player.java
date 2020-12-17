@@ -50,12 +50,6 @@ public interface Player extends LivingEntity {
 
     void sendTitle(@NotNull Component top, @NotNull Component bottom, int fadeIn, int stay, int fadeOut);
 
-    void showPlayer(@NotNull Player player);
-
-    void hidePlayer(@NotNull Player player);
-
-    boolean canSee(@NotNull Player player);
-
     @Nullable
     InetSocketAddress getRemoteAddress();
 
@@ -76,55 +70,6 @@ public interface Player extends LivingEntity {
 
     void setTabListFooter(@NotNull Component text);
 
-    @Nullable
-    Location getBedLocation();
-
-    void setBedLocation(@NotNull Location bed);
-
-    // TODO sleeping ignored toggles
-
-    @NotNull Optional<Location> getCompassTarget();
-
-    void setCompassTarget(@NotNull Location target);
-
-    @NotNull Optional<Entity> getSpectatorTarget();
-
-    void setSpectatorTarget(@NotNull Entity target);
-
-    // TODO food, hunger, saturation shit
-
-    long getTime();
-
-    void setTime(long time, boolean relative);
-
-    long getTimeOffset();
-
-    boolean isTimeRelative();
-
-    void syncTime();
-
-    @NotNull Optional<Weather> getWeather();
-
-    void setWeather(@NotNull Weather weather);
-
-    // TODO update, tick, and sync weather
-
-    void resetWeather();
-
-    default void kick(@NotNull String message) {
-        kick(Component.text(message));
-    }
-
-    void kick(@NotNull Component message);
-
-    default void ban(@NotNull String message) {
-        ban(Component.text(message));
-    }
-
-    void ban(@NotNull Component message);
-
-    boolean isOp();
-
     void playSound(@NotNull Sound sound);
 
     /**
@@ -140,8 +85,4 @@ public interface Player extends LivingEntity {
      * @param gameMode The new {@link GameMode}.
      */
     void setGameMode(@NotNull GameMode gameMode);
-    
-    void addBossBar(@NotNull BossBar bar);
-
-    void removeBossBar(@NotNull BossBar bar);
 }

@@ -1,26 +1,18 @@
 package org.loomdev.api.server;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.ApiVersion;
 import org.loomdev.api.command.CommandManager;
-import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.command.ConsoleCommandSource;
-import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.EventManager;
 import org.loomdev.api.monitoring.TickTimes;
 import org.loomdev.api.monitoring.Tps;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.scheduler.Scheduler;
 import org.loomdev.api.util.registry.Registry;
-import org.loomdev.api.world.World;
 import org.loomdev.api.world.WorldManager;
 
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.UUID;
 
 public interface Server {
 
@@ -96,8 +88,21 @@ public interface Server {
     @NotNull
     CommandManager getCommandManager();
 
+    /**
+     * Get the world manager.
+     *
+     * @return The world manager.
+     */
     @NotNull
     WorldManager getWorldManager();
+
+    /**
+     * Get the player manager.
+     *
+     * @return The player manager.
+     */
+    @NotNull
+    PlayerManager getPlayerManager();
 
     /**
      * Get the scheduler.
@@ -106,30 +111,6 @@ public interface Server {
      */
     @NotNull
     Scheduler getScheduler();
-
-    /**
-     * Returns all currently online players on the server.
-     *
-     * @return Immutable collection of all online players.
-     */
-    @NotNull
-    Collection<? extends Player> getOnlinePlayers();
-
-    /**
-     * Send a message to all players on the server.
-     *
-     * @param message The message to send.
-     */
-    default void broadcastMessage(@NotNull String message) {
-        broadcastMessage(Component.text(message));
-    }
-
-    /**
-     * Send a message to all players on the server.
-     *
-     * @param component The component to send.
-     */
-    void broadcastMessage(@NotNull Component component);
 
     /**
      * Get the tps of the server.

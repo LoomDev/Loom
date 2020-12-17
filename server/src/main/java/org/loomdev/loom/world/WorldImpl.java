@@ -186,7 +186,7 @@ public class WorldImpl implements World {
             Level level = ((WorldImpl) playerImpl.getWorld()).getMinecraftWorld();
             playerImpl.getMinecraftEntity().connection.send(new ClientboundSetTimePacket(
                     level.getGameTime(),
-                    player.getTime(),
+                    level.getDayTime(),
                     level.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)
             ));
         }
