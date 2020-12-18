@@ -7,6 +7,7 @@ import org.loomdev.api.command.ConsoleCommandSource;
 import org.loomdev.api.event.EventManager;
 import org.loomdev.api.monitoring.TickTimes;
 import org.loomdev.api.monitoring.Tps;
+import org.loomdev.api.permissions.PermissionsEngine;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.scheduler.Scheduler;
 import org.loomdev.api.util.registry.Registry;
@@ -103,6 +104,13 @@ public interface Server {
      */
     @NotNull
     PlayerManager getPlayerManager();
+
+    /**
+     * Get the permissions engine.
+     *
+     * @return The permission engine.
+     */
+    PermissionsEngine getPermissionsEngine();
 
     /**
      * Get the scheduler.

@@ -3,6 +3,7 @@ package org.loomdev.loom.command;
 import net.kyori.adventure.text.Component;
 import net.minecraft.Util;
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.Loom;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.command.CommandSourceConsumable;
 import org.loomdev.api.command.ConsoleCommandSource;
@@ -19,16 +20,6 @@ public class CommandSourceImpl implements CommandSource {
 
     public CommandSourceImpl(net.minecraft.commands.CommandSource source) {
         this.source = source;
-    }
-
-    @Override
-    public void sendMessage(@NotNull String message) {
-        sendMessage(Component.text(message));
-    }
-
-    @Override
-    public void sendMessage(@NotNull Component message) {
-        source.sendMessage(TextTransformer.toMinecraft(message), Util.NIL_UUID);
     }
 
     @Override
@@ -73,5 +64,20 @@ public class CommandSourceImpl implements CommandSource {
 
         playerConsumed = consoleConsumed = false;
         consumer.accept(this);
+    }
+
+    @Override
+    public void sendMessage(@NotNull String message) {
+        sendMessage(Component.text(message));
+    }
+
+    @Override
+    public void sendMessage(@NotNull Component message) {
+        source.sendMessage(TextTransformer.toMinecraft(message), Util.NIL_UUID);
+    }
+
+    @Override
+    public boolean isOperator() {
+        return isPlayer() && Loom.getPlayerManager().isOperator((Player) this);
     }
 }

@@ -38,8 +38,7 @@ public class PluginsCommand extends Command {
             return;
         }
 
-        // TODO permissions
-        if (source instanceof Player && !Loom.getPlayerManager().isOperator((Player) source)) {
+        if (source.hasPermission("loom.command.plugins.admin")) {
             source.sendMessage(Component.text("Insufficient permissions!").color(ChatColor.RED));
             return;
         }
@@ -90,7 +89,7 @@ public class PluginsCommand extends Command {
     }
 
     private void sendList(CommandSource source) {
-        boolean full = !(source instanceof Player) || Loom.getPlayerManager().isOperator((Player) source); // TODO permissions
+        boolean full = source.hasPermission("loom.command.plugins.admin");
 
         TreeMap<String, PluginMetadata> plugins = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         Loom.getServer().getPluginManager().getAllPlugins()

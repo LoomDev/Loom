@@ -2,47 +2,37 @@ package org.loomdev.loom.server;
 
 import com.google.gson.Gson;
 import joptsimple.OptionSet;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.SharedConstants;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.ApiVersion;
 import org.loomdev.api.Loom;
 import org.loomdev.api.command.CommandManager;
-import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.command.ConsoleCommandSource;
-import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.EventManager;
 import org.loomdev.api.monitoring.TickTimes;
 import org.loomdev.api.monitoring.Tps;
+import org.loomdev.api.permissions.PermissionsEngine;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.server.Server;
 import org.loomdev.api.util.registry.Registry;
-import org.loomdev.api.world.World;
 import org.loomdev.api.world.WorldManager;
 import org.loomdev.loom.command.CommandManagerImpl;
-import org.loomdev.loom.command.CommandSourceImpl;
 import org.loomdev.loom.command.ConsoleCommandSourceImpl;
-import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.event.EventManagerImpl;
 import org.loomdev.loom.monitoring.LoomTickTimes;
 import org.loomdev.loom.monitoring.LoomTps;
+import org.loomdev.loom.permissions.PermissionsEngineImpl;
 import org.loomdev.loom.plugin.PluginManagerImpl;
 import org.loomdev.loom.scheduler.SchedulerImpl;
 import org.loomdev.loom.util.registry.RegistryImpl;
-import org.loomdev.loom.world.WorldImpl;
 import org.loomdev.loom.world.WorldManagerImpl;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class ServerImpl implements Server {
 
@@ -57,6 +47,8 @@ public class ServerImpl implements Server {
     private final SchedulerImpl scheduler;
     private final WorldManagerImpl worldManager;
     private final PlayerManagerImpl playerManager;
+    private final PermissionsEngineImpl permissionsEngine;
+
     private final LoomTps tps;
     private final LoomTickTimes tickTimes;
     private final RegistryImpl registry;
@@ -72,6 +64,8 @@ public class ServerImpl implements Server {
         this.scheduler = new SchedulerImpl(pluginManager);
         this.worldManager = new WorldManagerImpl();
         this.playerManager = new PlayerManagerImpl(this);
+        this.permissionsEngine = new PermissionsEngineImpl();
+
         this.tps = new LoomTps();
         this.tickTimes = new LoomTickTimes();
         this.registry = new RegistryImpl();
@@ -153,6 +147,11 @@ public class ServerImpl implements Server {
     @Override
     public PlayerManagerImpl getPlayerManager() {
         return playerManager;
+    }
+
+    @Override
+    public PermissionsEngine getPermissionsEngine() {
+        return this.permissionsEngine;
     }
 
     @NotNull

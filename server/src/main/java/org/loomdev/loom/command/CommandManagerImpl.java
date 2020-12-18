@@ -55,9 +55,11 @@ public class CommandManagerImpl implements CommandManager {
             return stack.getEntity().getLoomEntity();
         }
 
-        return source instanceof MinecraftServer
-                ? new ConsoleCommandSourceImpl(source)
-                : new CommandSourceImpl(source);
+        if (source instanceof MinecraftServer) {
+            return new ConsoleCommandSourceImpl(source);
+        }
+
+        return new CommandSourceImpl(source);
     }
 
     @Override
@@ -97,15 +99,20 @@ public class CommandManagerImpl implements CommandManager {
     private void registerAlias(@NotNull String pluginId, @NotNull Command command, @NotNull String alias) {
         commands.put(alias, command);
         pluginCommands.put(pluginId, alias);
-        internalRegister(alias);
+        internalRegister(alias, command);
     }
 
-    private void internalRegister(String alias) {
+    private void internalRegister(@NotNull String alias, @NotNull Command command) {
         var arguments = RequiredArgumentBuilder.<CommandSourceStack, String>argument("arguments", StringArgumentType.greedyString())
                 .suggests(this::suggest);
 
         getDispatcher().register(LiteralArgumentBuilder.<CommandSourceStack>literal(alias)
-                .requires(a -> true) // TODO permissions
+                .requires(commandSourceStack -> {
+                    var commandSource = getSource(commandSourceStack);
+                    return command.getPermission()
+                            .map(commandSource::hasPermission)
+                            .orElse(true);
+                })
                 .executes(this::execute)
                 .then(arguments));
     }
@@ -114,17 +121,16 @@ public class CommandManagerImpl implements CommandManager {
     public void unregister(@NotNull Object plugin) {
         var container = server.getPluginManager().fromInstance(plugin);
         if (container == null) return;
-
-        Collection<String> commands = pluginCommands.get(container.getMetadata().getId());
-        if (commands != null) {
-            commands.forEach(this.commands::remove);
-        }
-        pluginCommands.removeAll(container.getMetadata().getId());
+        unregister(container.getMetadata());
     }
 
     @Override
     public void unregister(@NotNull PluginMetadata metadata) {
-        // TODO
+        Collection<String> commands = pluginCommands.get(metadata.getId());
+        if (commands != null) {
+            commands.forEach(this.commands::remove);
+        }
+        pluginCommands.removeAll(metadata.getId());
     }
 
     private int execute(CommandContext<CommandSourceStack> context) {
@@ -179,8 +185,6 @@ public class CommandManagerImpl implements CommandManager {
     }
 
     public void internalReload() {
-        for (var entry : commands.keySet()) {
-            internalRegister(entry);
-        }
+        commands.forEach(this::internalRegister);
     }
 }

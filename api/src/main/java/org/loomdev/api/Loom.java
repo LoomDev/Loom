@@ -2,6 +2,7 @@ package org.loomdev.api;
 
 import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.event.EventManager;
+import org.loomdev.api.permissions.PermissionsEngine;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.scheduler.Scheduler;
 import org.loomdev.api.server.PlayerManager;
@@ -43,6 +44,10 @@ public abstract class Loom {
 
     public static PlayerManager getPlayerManager() {
         return getServer().getPlayerManager();
+    }
+
+    public static PermissionsEngine getPermissionsEngine() {
+        return getServer().getPermissionsEngine();
     }
 
     public static Scheduler getScheduler() {

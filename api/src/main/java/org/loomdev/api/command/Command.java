@@ -14,7 +14,9 @@ public abstract class Command implements CommandExecutor {
 
     private final String[] aliases;
 
-    private String description, usage, permission;
+    private String description;
+    private String usage;
+    private String permission;
 
     protected Command(@NotNull String name) {
         this.name = name;
