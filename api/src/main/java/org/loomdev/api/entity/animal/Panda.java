@@ -56,7 +56,7 @@ public interface Panda extends Animal {
         /**
          * Gets whether the gene is recessive.
          *
-         * @return True if the gene is recessive, otherwise False.
+         * @return {@code true} if the gene is recessive, otherwise {@code false}.
          */
         public boolean isRecessive() {
             return recessive;

@@ -5,7 +5,7 @@ import org.loomdev.api.entity.monster.Enemy;
 import org.loomdev.api.entity.monster.Monster;
 
 /**
- * Represents a Zoglin entity.
+ * Represents a zoglin entity.
  */
 public interface Zoglin extends Monster, Enemy, Ageable {
 

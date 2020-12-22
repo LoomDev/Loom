@@ -27,7 +27,7 @@ public @interface Config {
     /**
      * Should the default config be copied if configuration file is missing.
      *
-     * @return True if the default config should be copied.
+     * @return {@code true} if the default config should be copied.
      */
     boolean copyDefault() default true;
 

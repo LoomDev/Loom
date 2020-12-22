@@ -40,7 +40,7 @@ public interface NameData extends ItemPropertyData<NameData> {
     /**
      * Checks whether the item stack has a custom name.
      *
-     * @return True if the names doesn't equal the default minecraft name.
+     * @return {@code true} if the name isn't equal to the default minecraft name.
      */
     boolean hasCustomName();
 

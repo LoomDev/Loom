@@ -8,14 +8,14 @@ public interface Ageable {
     /**
      * Gets whether the entity is a baby.
      *
-     * @return True if the entity is a baby, otherwise False.
+     * @return {@code true} if the entity is a baby, otherwise {@code false}.
      */
     boolean isBaby();
 
     /**
      * Sets whether the entity is a baby.
      *
-     * @param baby True to make the entity a baby, otherwise False.
+     * @param baby {@code true} to make the entity a baby, otherwise {@code false}.
      */
     void setBaby(boolean baby);
 

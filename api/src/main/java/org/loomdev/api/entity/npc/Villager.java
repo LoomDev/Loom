@@ -7,7 +7,7 @@ import org.loomdev.api.village.VillagerProfession;
 import org.loomdev.api.village.VillagerVariant;
 
 /**
- * Represent a Villager entity.
+ * Represent a villager entity.
  */
 public interface Villager extends AbstractVillager {
 

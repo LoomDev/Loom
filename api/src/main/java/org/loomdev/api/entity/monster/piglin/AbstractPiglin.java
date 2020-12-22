@@ -11,14 +11,14 @@ public interface AbstractPiglin extends Monster, ConvertableEntity {
     /**
      * Gets whether the piglin entity is immune to zombification.
      *
-     * @return True if the piglin entity is immune.
+     * @return {@code true} if the piglin entity is immune.
      */
     boolean isImmuneToZombification();
 
     /**
      * Sets whether the piglin entity is immune to zombification.
      *
-     * @param flag True to make the piglin entity immune.
+     * @param flag {@code true} to make the piglin entity immune.
      */
     void setImmuneToZombification(boolean flag);
 

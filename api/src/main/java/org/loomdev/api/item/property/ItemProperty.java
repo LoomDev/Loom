@@ -13,25 +13,25 @@ public interface ItemProperty<T extends ItemPropertyData<T>> {
 
     /**
      * Change the name of an item stack.
-     * <p>Can be applied to all {@link ItemType}s.</p>
+     * <p>Can be applied to all item stacks.</p>
      */
     ItemProperty<NameData> Name = Loom.getRegistry().getItemProperty(NameData.class);
 
     /**
      * Change the lore of an item stack.
-     * <p>Can be applied to all {@link ItemType}s.</p>
+     * <p>Can be applied to all item types.</p>
      */
     ItemProperty<LoreData> Lore = Loom.getRegistry().getItemProperty(LoreData.class);
 
     /**
      * Modify the damage properties of an item stack.
-     * <p>Can be applied to all {@link ItemType}s.</p>
+     * <p>Can be applied to all item types.</p>
      */
     ItemProperty<DamageData> Damage = Loom.getRegistry().getItemProperty(DamageData.class);
 
     /**
      * Add, remove, etc. enchantments of an item stack.
-     * <p>Can be applied to all {@link ItemType}s.</p>
+     * <p>Can be applied to all item types.</p>
      */
     ItemProperty<EnchantmentData> Enchantments = Loom.getRegistry().getItemProperty(EnchantmentData.class);
 
@@ -85,7 +85,7 @@ public interface ItemProperty<T extends ItemPropertyData<T>> {
      * Check if the {@link ItemProperty} can be applied to an {@link ItemStack}.
      *
      * @param itemStack The {@link ItemStack} to check the {@link ItemProperty} against.
-     * @return True if the {@link ItemProperty van be applied}.
+     * @return {@code true} if the {@link ItemProperty van be applied}.
      */
     default boolean canApplyTo(@NotNull ItemStack itemStack) {
         return true;

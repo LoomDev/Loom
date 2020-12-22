@@ -6,21 +6,21 @@ import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.math.vector.Vector3d;
 
 /**
- * Represents a EyeOfEnder entity.
+ * Represents a eye of ender entity.
  */
 public interface ThrownEyeOfEnder extends Entity {
 
     /**
      * Gets whether the eye of ender is dropped.
      *
-     * @return True if the EyeOfEnder item is dropped, otherwise False.
+     * @return {@code true} if the eye of ender item is dropped, otherwise {@code false}.
      */
     boolean getDropsItem();
 
     /**
      * Sets whether the eye of ender is dropped.
      *
-     * @param flag True if the EyeOfEnder item should be dropped, otherwise False.
+     * @param flag {@code true} if the eye of ender item should be dropped, otherwise {@code false}.
      */
     void setDropsItem(boolean flag);
 

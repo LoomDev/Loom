@@ -13,17 +13,17 @@ public interface Mooshroom extends Cow, Shearable {
     void setStewEffect(@Nullable StatusEffect effect);
 
     /**
-     * Gets the {@link Variant} of the Mooshroom.
+     * Gets the variant of the Mooshroom.
      *
-     * @return The {@link Variant} of the Mooshroom.
+     * @return The variant of the Mooshroom.
      */
     @NotNull
     Variant getVariant();
 
     /**
-     * Sets the {@link Variant} of the Mooshroom.
+     * Sets the variant of the Mooshroom.
      *
-     * @param variant The new {@link Variant} of the Mooshroom.
+     * @param variant The new variant of the Mooshroom.
      */
     void setVariant(@NotNull Variant variant);
 

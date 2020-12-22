@@ -9,7 +9,7 @@ import org.loomdev.api.entity.monster.Monster;
  * <ul>
  *   <li>{@link Skeleton}
  *   <li>{@link Stray}
- *   <li>TODO WitherSkeleton
+ *   <li>{@link WitherSkeleton}
  * </ul>
  */
 public interface AbstractSkeleton extends Monster {

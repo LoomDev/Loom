@@ -9,7 +9,7 @@ import org.loomdev.api.village.VillagerVariant;
 import java.util.UUID;
 
 /**
- * Represents a villager that used to be a villager.
+ * Represents a villager that was turned into a zombie.
  */
 public interface ZombieVillager extends Zombie, ConvertableEntity {
 

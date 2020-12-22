@@ -62,7 +62,7 @@ public interface EnchantmentData extends ItemPropertyData<EnchantmentData> {
      * Check whether the item stack has a specific enchantment.
      *
      * @param enchantment The enchantment to check for.
-     * @return True if the enchantment is applied to the item stack.
+     * @return {@code true} if the enchantment is applied to the item stack.
      */
     boolean hasEnchantment(@NotNull Enchantment enchantment);
 

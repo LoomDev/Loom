@@ -246,7 +246,7 @@ public interface Enchantment extends Keyed {
      * </p>
      *
      * @param itemStack The item stack to check against.
-     * @return True if the enchantment can be applied.
+     * @return {@code true} if the enchantment can be applied.
      */
     boolean isAcceptableItem(@NotNull ItemStack itemStack);
 
@@ -260,7 +260,7 @@ public interface Enchantment extends Keyed {
      * </p>
      *
      * @param enchantment The enchantment to check against.
-     * @return True if the enchantments can be combined on the same item stack.
+     * @return {@code true} if the enchantments can be combined on the same item stack.
      */
     boolean canCombineWith(@NotNull Enchantment enchantment);
 
@@ -271,14 +271,14 @@ public interface Enchantment extends Keyed {
      *     Example of a curse enchantment is {@link Enchantment#BINDING_CURSE}
      * </p>
      *
-     * @return True if the enchantment is a curse, otherwise false.
+     * @return {@code true} if the enchantment is a curse, otherwise {@code false}.
      */
     boolean isCurse();
 
     /**
      * Check if the enchantment is traded by villagers.
      *
-     * @return True if the enchantment is traded by villagers, otherwise false.
+     * @return {@code true} if the enchantment is traded by villagers, otherwise {@code false}.
      */
     boolean isTraded();
 

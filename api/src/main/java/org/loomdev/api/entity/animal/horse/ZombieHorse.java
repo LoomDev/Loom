@@ -3,7 +3,7 @@ package org.loomdev.api.entity.animal.horse;
 import org.loomdev.api.entity.animal.horse.AbstractHorse;
 
 /**
- * Represents a ZombieHorse entity.
+ * Represents a zombie horse entity.
  */
 public interface ZombieHorse extends AbstractHorse {
 }

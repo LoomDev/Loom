@@ -1,7 +1,7 @@
 package org.loomdev.api.entity.projectile.thrown;
 
 /**
- * Represents a ExperienceBottle entity.
+ * Represents an experience bottle entity.
  */
 public interface ThrownExperienceBottle extends ThrowableItem {
 }

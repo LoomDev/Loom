@@ -7,7 +7,7 @@ public interface Shearable {
 
     /**
      * Gets whether the entity is shearable.
-     * @return True if the entity is shearable.
+     * @return {@code true} if the entity is shearable.
      */
     boolean isShearable();
 
