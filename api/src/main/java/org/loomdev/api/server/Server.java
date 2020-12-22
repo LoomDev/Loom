@@ -157,9 +157,9 @@ public interface Server {
     Thread getServerThread();
 
     /**
-     * Gets if the current thread is the server thread.
+     * Gets whether the current thread is the server thread.
      *
-     * @return If the current thread is equal to the server thread.
+     * @return Whether the current thread is equal to the server thread.
      */
     boolean isOnServerThread();
 

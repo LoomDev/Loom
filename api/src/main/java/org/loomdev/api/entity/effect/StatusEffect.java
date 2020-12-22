@@ -26,6 +26,7 @@ public class StatusEffect {
         this.showIcon = showIcon;
     }
 
+    // TODO this should be static
     public StatusEffect of(@NotNull StatusEffect effect) {
         return new StatusEffect(
                 effect.type,
@@ -49,6 +50,11 @@ public class StatusEffect {
         return amplifier;
     }
 
+    /**
+     * Gets whether the status effect is ambient (produces more particles that are translucent).
+     *
+     * @return Whether the status effect is ambient.
+     */
     public boolean isAmbient() {
         return ambient;
     }
@@ -93,6 +99,11 @@ public class StatusEffect {
             return this;
         }
 
+        /**
+         * Sets whether the status effect is ambient (produces more particles that are translucent).
+         *
+         * @return The same builder.
+         */
         public Builder ambient(boolean ambient) {
             this.ambient = ambient;
             return this;

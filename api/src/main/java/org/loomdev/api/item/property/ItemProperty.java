@@ -12,31 +12,31 @@ public interface ItemProperty<T extends ItemPropertyData<T>> {
     // region ItemProperties
 
     /**
-     * Change the name of an {@link org.loomdev.api.item.ItemStack}.
+     * Change the name of an item stack.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
     ItemProperty<NameData> Name = Loom.getRegistry().getItemProperty(NameData.class);
 
     /**
-     * Change the lore of an {@link org.loomdev.api.item.ItemStack}.
+     * Change the lore of an item stack.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
     ItemProperty<LoreData> Lore = Loom.getRegistry().getItemProperty(LoreData.class);
 
     /**
-     * Modify the damage properties of an {@link org.loomdev.api.item.ItemStack}.
+     * Modify the damage properties of an item stack.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
     ItemProperty<DamageData> Damage = Loom.getRegistry().getItemProperty(DamageData.class);
 
     /**
-     * Add, remove, etc. enchantments of an {@link org.loomdev.api.item.ItemStack}.
+     * Add, remove, etc. enchantments of an item stack.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
     ItemProperty<EnchantmentData> Enchantments = Loom.getRegistry().getItemProperty(EnchantmentData.class);
 
     /**
-     *  Get or modify the repair cost of an {@link org.loomdev.api.item.ItemStack}.
+     *  Get or modify the repair cost of an item stack.
      *  <p>Can be applied to all repairable Items</p>
      */
     ItemProperty<RepairableData> Repairable = Loom.getRegistry().getItemProperty(RepairableData.class);

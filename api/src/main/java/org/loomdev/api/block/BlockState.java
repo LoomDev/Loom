@@ -13,16 +13,16 @@ public interface BlockState {
     BlockType getBlockType();
 
     /**
-     * Gets if the block state is air.
+     * Gets whether the block state is air.
      * 
-     * @return If the block state is air.
+     * @return Whether the block state is air.
      */
     boolean isAir();
 
     /**
-     * Gets if the block state has a block entity.
+     * Gets whether the block state has a block entity.
      * 
-     * @return If the block state has a block entity.
+     * @return Whether the block state has a block entity.
      */
     boolean hasBlockEntity();
 }

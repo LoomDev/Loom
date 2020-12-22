@@ -17,37 +17,37 @@ import java.util.Optional;
 public interface Player extends LivingEntity {
 
     /**
-     * Gets if the player is connected to the server.
+     * Gets whether the player is connected to the server.
      *
      * @return If the player is connected.
      */
     boolean isConnected();
 
     /**
-     * Gets if the player is crouching.
+     * Gets whether the player is crouching.
      *
-     * @return If the player is crouching.
+     * @return Whether the player is crouching.
      */
     boolean isCrouching();
 
     /**
-     * Forces if the player is crouching.
+     * Forces whether the player is crouching.
      *
-     * @param crouching If the player is crouching.
+     * @param crouching Whether the player is crouching.
      */
     void setCrouching(boolean crouching);
 
     /**
-     * Gets if the player is sprinting.
+     * Gets whether the player is sprinting.
      *
-     * @return If the player is sprinting.
+     * @return Whether the player is sprinting.
      */
     boolean isSprinting();
 
     /**
-     * Forces if the player is sprinting.
+     * Forces whether the player is sprinting.
      *
-     * @param sprinting If the player is sprinting.
+     * @param sprinting Whether the player is sprinting.
      */
     void setSprinting(boolean sprinting);
 
@@ -82,7 +82,7 @@ public interface Player extends LivingEntity {
     /**
      * Gets the player's view distance.
      *
-     * @return The player's view distance, or if it has not been sent the server's view distance.
+     * @return The player's view distance, or if it has not been sent, the server's view distance.
      */
     int getViewDistance();
 

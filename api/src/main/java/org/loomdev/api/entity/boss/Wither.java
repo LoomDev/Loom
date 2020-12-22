@@ -4,7 +4,7 @@ import org.loomdev.api.entity.monster.Monster;
 import org.loomdev.api.entity.monster.RangedAttackMob;
 
 /**
- * Represents a Wither boss.
+ * Represents a wither boss.
  */
 public interface Wither extends Monster, RangedAttackMob, Boss {
 }
