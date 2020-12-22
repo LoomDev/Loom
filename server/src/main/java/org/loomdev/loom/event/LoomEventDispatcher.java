@@ -33,6 +33,7 @@ import org.loomdev.api.event.world.ExplosionEvent;
 import org.loomdev.api.event.world.FluidEvent;
 import org.loomdev.api.event.world.WorldEvent;
 import org.loomdev.api.util.Hand;
+import org.loomdev.api.world.event.GameEventType;
 import org.loomdev.loom.block.BlockStateImpl;
 import org.loomdev.loom.entity.monster.CreeperImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
@@ -41,14 +42,10 @@ import org.loomdev.loom.util.transformer.TextTransformer;
 import org.loomdev.loom.world.ExplosionImpl;
 
 import java.net.InetSocketAddress;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public final class LoomEventDispatcher {
-
-    private static final Map<GameEvent, SculkSensorEvent.VibrationType> VIBRATION_MAP = new HashMap<>();
 
     private LoomEventDispatcher() {
         throw new UnsupportedOperationException("LoomEventDispatcher should not be instantiated.");
@@ -206,16 +203,11 @@ public final class LoomEventDispatcher {
         var world = level.getLoomWorld();
         var block = world.getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         var source = sourcePos.getPosition(level).map(pos -> level.getLoomWorld().getBlock(pos.getX(), pos.getY(), pos.getZ())).orElse(null);
-        return fire(new SculkSensorEvent.Activate(block, source, VIBRATION_MAP.get(event)));
+        var gameEvent = GameEventType.getById(Registry.GAME_EVENT.getKey(event).toString());
+        return fire(new SculkSensorEvent.Activate(block, source, gameEvent));
     }
 
     public static WorldEvent.TimeSkip onWorldTimeSkip(Level level, long skippedTicks) {
         return fire(new WorldEvent.TimeSkip(level.getLoomWorld(), skippedTicks));
-    }
-
-    static {
-        Registry.GAME_EVENT.forEach(gameEvent -> {
-            VIBRATION_MAP.put(gameEvent, SculkSensorEvent.VibrationType.valueOf(gameEvent.name.toUpperCase()));
-        });
     }
 }

@@ -92,6 +92,7 @@ public class RegistryImpl implements Registry {
         wrapperSuppliers.put(StatusEffectType.class, StatusEffectTypeImpl::new);
         wrapperSuppliers.put(ParticleType.class, ParticleTypeImpl::new);
         wrapperSuppliers.put(SoundEvent.class, SoundEventImpl::new);
+        wrapperSuppliers.put(GameEventType.class, GameEventTypeImpl::new);
 
         // MC Enums
         wrapperSuppliers.put(SpawnGroup.class, SpawnGroupImpl::new);

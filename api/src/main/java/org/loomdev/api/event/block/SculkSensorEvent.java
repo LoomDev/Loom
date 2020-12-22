@@ -3,6 +3,7 @@ package org.loomdev.api.event.block;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.event.Event;
+import org.loomdev.api.world.event.GameEventType;
 
 import java.util.Optional;
 
@@ -23,9 +24,9 @@ public class SculkSensorEvent extends Event {
     public static class Activate extends SculkSensorEvent {
 
         private final BlockPointer vibrationSource;
-        private VibrationType vibrationType;
+        private GameEventType vibrationType;
 
-        public Activate(BlockPointer pointer, BlockPointer vibrationSource, VibrationType vibrationType) {
+        public Activate(BlockPointer pointer, BlockPointer vibrationSource, GameEventType vibrationType) {
             super(pointer);
             this.vibrationSource = vibrationSource;
             this.vibrationType = vibrationType;
@@ -37,11 +38,11 @@ public class SculkSensorEvent extends Event {
         }
 
         @NotNull
-        public VibrationType getVibrationType() {
+        public GameEventType getVibrationType() {
             return vibrationType;
         }
 
-        public void setVibrationType(@NotNull VibrationType vibrationType) {
+        public void setVibrationType(@NotNull GameEventType vibrationType) {
             this.vibrationType = vibrationType;
         }
 
@@ -49,43 +50,5 @@ public class SculkSensorEvent extends Event {
         public boolean isCancelable() {
             return true;
         }
-    }
-
-    public enum VibrationType {
-
-        STEP,
-        FLAP,
-        SWIM,
-        ELYTRA_FREE_FALL,
-        HIT_GROUND,
-        SPLASH,
-        WOLF_SHAKING,
-        PROJECTILE_SHOOT,
-        PROJECTILE_LAND,
-        EATING_FINISH,
-        ENTITY_HIT,
-        ARMOR_STAND_ADD_ITEM,
-        BLOCK_OPEN,
-        BLOCK_CLOSE,
-        BLOCK_SWITCH,
-        BLOCK_UNSWITCH,
-        BLOCK_PRESS,
-        BLOCK_UNPRESS,
-        BLOCK_ATTACH,
-        BLOCK_DETACH,
-        CONTAINER_OPEN,
-        CONTAINER_CLOSE,
-        DISPENSE_FAIL,
-        FLINT_AND_STEEL_USE,
-        BLOCK_PLACE,
-        BLOCK_DESTROY,
-        FLUID_PLACE,
-        FLUID_PICKUP,
-        FISHING_ROD_CAST,
-        FISHING_ROD_REEL_IN,
-        PISTON_EXTEND,
-        PISTON_CONTRACT,
-        EXPLODE,
-        LIGHTNING_STRIKE
     }
 }
