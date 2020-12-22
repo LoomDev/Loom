@@ -231,9 +231,9 @@ public interface EntityType<T extends Entity> extends Keyed {
     ImmutableSet<BlockType> getCanSpawnInside();
 
     /**
-     * Gets if the entity can be spawned.
+     * Gets whether the entity can be spawned.
      *
-     * @return If the entity is summonable.
+     * @return Whether the entity is summonable.
      */
     boolean isSummonable();
 

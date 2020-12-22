@@ -4,12 +4,12 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.animal.Bucketable;
 
 /**
- * Represents a Pufferfish entity.
+ * Represents a pufferfish entity.
  */
 public interface Pufferfish extends Fish, Bucketable {
 
     /**
-     * Gets the current {@link PuffState} of the Pufferish.
+     * Gets the current {@link PuffState} of the pufferfish.
      *
      * @return The current {@link PuffState}.
      */
@@ -17,7 +17,7 @@ public interface Pufferfish extends Fish, Bucketable {
     PuffState getPuffState();
 
     /**
-     * Sets the {@link PuffState} of the Pufferish.
+     * Sets the {@link PuffState} of the pufferfish.
      *
      * @param puffState The new {@link PuffState}
      */
@@ -28,7 +28,7 @@ public interface Pufferfish extends Fish, Bucketable {
     void setDeflateTicks(int ticks);
 
     /**
-     * Represents the puffed up state of a {@link Pufferfish}.
+     * Represents the puffed up state of a pufferfish.
      */
     enum PuffState {
 

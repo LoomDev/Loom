@@ -5,7 +5,7 @@ import java.util.concurrent.CompletableFuture;
 public interface EventManager {
 
     /**
-     * Register all methods in the specified listener marked with the {@link Subscribe Subscribe} annotation.
+     * Register all methods in the specified listener marked with the {@link Subscribe} annotation.
      *
      * @param plugin The plugin.
      * @param listener The listener.

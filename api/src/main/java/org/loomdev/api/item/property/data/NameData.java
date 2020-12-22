@@ -5,19 +5,19 @@ import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Naming data of {@link org.loomdev.api.item.ItemStack}s.
+ * Naming data of item stacks.
  */
 public interface NameData extends ItemPropertyData<NameData> {
 
     /**
-     * Gets the current name of the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the current name of the item stack.
      *
      * @return The current name.
      */
     @NotNull Component getName();
 
     /**
-     * Change the name of the {@link org.loomdev.api.item.ItemStack}.
+     * Changes the name of the item stack.
      *
      * @param name The new name.
      */
@@ -26,26 +26,26 @@ public interface NameData extends ItemPropertyData<NameData> {
     }
 
     /**
-     * Change the name of the {@link org.loomdev.api.item.ItemStack}.
+     * Changes the name of the item stack.
      *
      * @param name The new name.
      */
     void setName(@NotNull Component name);
 
     /**
-     * Reset the name of the {@link org.loomdev.api.item.ItemStack} to the name of the item.
+     * Resets the name of the item stack to the name of the item.
      */
     void removeCustomName();
 
     /**
-     * Check whether the {@link org.loomdev.api.item.ItemStack} has a custom name.
+     * Checks whether the item stack has a custom name.
      *
      * @return True if the names doesn't equal the default minecraft name.
      */
     boolean hasCustomName();
 
     /**
-     * Gets the chat hover text for the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the chat hover text for the item stack.
      *
      * @return The hover text.
      */

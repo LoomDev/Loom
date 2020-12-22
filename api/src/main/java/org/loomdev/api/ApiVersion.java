@@ -62,40 +62,40 @@ public enum ApiVersion {
     }
 
     /**
-     * Gets if the version is newer than another version.
+     * Gets whether the version is newer than another version.
      *
      * @param other The other version.
-     * @return If the version is newer that the other version.
+     * @return Whether the version is newer that the other version.
      */
     public boolean isNewerThan(ApiVersion other) {
         return this.ordinal() > other.ordinal();
     }
 
     /**
-     * Gets if the version is newer than or equal to another version.
+     * Gets whether the version is newer than or equal to another version.
      *
      * @param other The other version.
-     * @return If the version is at least the other version.
+     * @return Whether the version is at least the other version.
      */
     public boolean isAtLeast(ApiVersion other) {
         return this.ordinal() >= other.ordinal();
     }
 
     /**
-     * Gets if the version is older than another version.
+     * Gets whether the version is older than another version.
      *
      * @param other The other version.
-     * @return If the version is older that the other version.
+     * @return Whether the version is older that the other version.
      */
     public boolean isOlderThan(ApiVersion other) {
         return this.ordinal() < other.ordinal();
     }
 
     /**
-     * Gets if the version is older than or equal to another version.
+     * Gets whether the version is older than or equal to another version.
      *
      * @param other The other version.
-     * @return If the version is at most the other version.
+     * @return Whether the version is at most the other version.
      */
     public boolean isAtMost(ApiVersion other) {
         return this.ordinal() <= other.ordinal();

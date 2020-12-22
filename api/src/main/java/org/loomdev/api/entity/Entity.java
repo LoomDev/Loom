@@ -166,9 +166,9 @@ public interface Entity extends CommandSource {
     void setRotation(float pitch, float yaw);
 
     /**
-     * Gets if the entity has wings.
+     * Gets whether the entity has wings.
      *
-     * @return If the entity has wings.
+     * @return Whether the entity has wings.
      */
     boolean hasWings();
 
@@ -181,48 +181,48 @@ public interface Entity extends CommandSource {
     void resetFireResistance();
 
     /**
-     * Gets if the entity is touching water (does not include rain).
+     * Gets whether the entity is touching water (does not include rain).
      *
-     * @return If the entity is touching water.
+     * @return Whether the entity is touching water.
      */
     boolean isTouchingWater();
 
     /**
-     * Gets if the entity is being rained on.
+     * Gets whether the entity is being rained on.
      *
-     * @return If the entity is being rained on.
+     * @return Whether the entity is being rained on.
      */
     boolean isBeingRainedOn();
 
     /**
-     * Gets if the entity is in a bubble column.
+     * Gets whether the entity is in a bubble column.
      *
-     * @return If the entity is in a bubble column.
+     * @return Whether the entity is in a bubble column.
      */
     boolean isInsideBubbleColumn();
 
     /**
-     * Gets if the entity is touching rain or water.
+     * Gets whether the entity is touching rain or water.
      *
-     * @return If the entity is touching rain or water.
+     * @return Whether the entity is touching rain or water.
      */
     default boolean isTouchingRainOrWater() {
         return isTouchingWater() || isBeingRainedOn();
     }
 
     /**
-     * Gets if the entity is wet.
+     * Gets whether the entity is wet.
      *
-     * @return If the entity is touching water, being rained on or inside a bubble column.
+     * @return Whether the entity is touching water, being rained on or inside a bubble column.
      */
     default boolean isWet() {
         return isTouchingWater() || isBeingRainedOn() || isInsideBubbleColumn();
     }
 
     /*
-     * Gets if the entity is inside water or a bubble column.
+     * Gets whether the entity is inside water or a bubble column.
      *
-     * @return If the entity is inside water or a bubble column.
+     * @return Whether the entity is inside water or a bubble column.
      */
     default boolean isInsideWaterOrBubbleColumn() {
         return isTouchingWater() || isInsideBubbleColumn();

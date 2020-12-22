@@ -3,40 +3,40 @@ package org.loomdev.api.entity.animal;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a Panda entity.
+ * Represents a panda entity.
  */
 public interface Panda extends Animal {
 
     /**
-     * Gets the main {@link Gene} of the Panda.
+     * Gets the main gene of the panda.
      *
-     * @return The main {@link Gene}
+     * @return The main gene.
      */
     @NotNull Gene getMainGene();
 
     /**
-     * Sets the main {@link Gene} of the Panda.
+     * Sets the main gene of the panda.
      *
-     * @param gene The new main {@link Gene}
+     * @param gene The new main gene.
      */
     void setMainGene(@NotNull Gene gene);
 
     /**
-     * Gets the hidden {@link Gene} of the Panda.
+     * Gets the hidden gene of the panda.
      *
-     * @return The hidden {@link Gene}
+     * @return The hidden gene.
      */
     @NotNull Gene getHiddenGene();
 
     /**
-     * Sets the hidden {@link Gene} of the Panda.
+     * Sets the hidden gene of the panda.
      *
-     * @param gene The new hidden {@link Gene}
+     * @param gene The new hidden gene
      */
     void setHiddenGene(@NotNull Gene gene);
 
     /**
-     * Represents a Gene of a {@link Panda}.
+     * Represents a gene of a panda.
      */
     enum Gene {
         NORMAL(false),

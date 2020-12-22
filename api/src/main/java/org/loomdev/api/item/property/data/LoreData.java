@@ -8,21 +8,21 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Lore data of {@link org.loomdev.api.item.ItemStack}s.
+ * Lore data of item stacks.
  */
 public interface LoreData extends ItemPropertyData<LoreData> {
 
     /**
-     * Gets the lore of the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the lore of the item stack.
      *
-     * @return The lore of the {@link org.loomdev.api.item.ItemStack}.
+     * @return The lore of the item stack.
      */
     @NotNull List<Component> getLore();
 
     /**
-     * Sets the lore of the {@link org.loomdev.api.item.ItemStack}.
+     * Sets the lore of the item stack.
      *
-     * @param components The new lore of the {@link org.loomdev.api.item.ItemStack}.
+     * @param components The new lore of the item stack.
      */
     void setLore(@NotNull List<Component> components);
 

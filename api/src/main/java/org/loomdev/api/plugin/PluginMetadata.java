@@ -97,7 +97,7 @@ public interface PluginMetadata {
     /**
      * Gets the name of the plugin if present, else the id will be returened.
      *
-     * @return The name if present or
+     * @return The name if present or the id.
      */
     default @NotNull String getNameOrId() {
         return getName().orElse(getId());

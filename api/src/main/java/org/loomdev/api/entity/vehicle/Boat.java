@@ -8,16 +8,16 @@ import org.loomdev.api.item.ItemType;
 public interface Boat extends Entity {
 
     /**
-     * Gets the {@link Variant} of the Boat.
+     * Gets the variant of the Boat.
      *
-     * @return The {@link Variant} of the Boat.
+     * @return The variant of the Boat.
      */
     @NotNull Variant getVariant();
 
     /**
-     * Sets the {@link Variant} of the Boat.
+     * Sets the variant of the Boat.
      *
-     * @param variant The new {@link Variant} of the Boat.
+     * @param variant The new variant of the Boat.
      */
     void setVariant(@NotNull Variant variant);
 

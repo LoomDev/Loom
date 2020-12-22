@@ -70,7 +70,7 @@ public interface BossBar {
     void addPlayer(@NotNull Player player);
 
     /**
-     * Removes a player from the boss bar causing it to dissappear from their screen.
+     * Removes a player from the boss bar causing it to be invisible to them.
      *
      * @param player The player.
      */
@@ -120,17 +120,25 @@ public interface BossBar {
         Builder dragonMusic(boolean dragonMusic);
 
         /**
-         * @see BossBar#addPlayer(Player)
+         * Adds a player to the boss bar causing it to be visible to them (when created).
+         *
+         * @param player The player.
+         * @return The same builder.
          */
         Builder addPlayer(@NotNull Player... player);
 
         /**
-         * @see BossBar#removePlayer(Player)
+         * Removes a player from the boss bar causing it to be invisible to them (when created).
+         *
+         * @param player The player.
+         * @return The same builder.
          */
         Builder removePlayer(@NotNull Player... player);
 
         /**
-         * @see BossBar#removeAll()
+         * Removes all players from the boss bar causing it to be invisible to them (when created).
+         *
+         * @return The same builder.
          */
         Builder clearPlayers();
     }

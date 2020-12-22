@@ -7,8 +7,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.loomdev.api.config.Configuration;
+
 /**
- * This annotation injects an {@link org.loomdev.api.config.Configuration} instance.
+ * This annotation injects an {@link Configuration} instance.
  */
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

@@ -19,7 +19,7 @@ public interface PlayerManager {
     Collection<? extends Player> getOnlinePlayers();
 
     /**
-     * Send a message to all players on the server.
+     * Sends a message to all players on the server.
      *
      * @param message The message to send.
      */
@@ -28,7 +28,7 @@ public interface PlayerManager {
     }
 
     /**
-     * Send a message to all players on the server.
+     * Sends a message to all players on the server.
      *
      * @param component The component to send.
      */
@@ -60,7 +60,7 @@ public interface PlayerManager {
     Optional<Player> getPlayer(@NotNull String username);
 
     /**
-     * Check whether a player is an operator.
+     * Checks whether a player is an operator.
      *
      * @param player The player to check.
      * @return {@code true} if the player is an operator, otherwise {@code false}.

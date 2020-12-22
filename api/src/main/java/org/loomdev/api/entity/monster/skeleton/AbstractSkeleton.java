@@ -3,7 +3,7 @@ package org.loomdev.api.entity.monster.skeleton;
 import org.loomdev.api.entity.monster.Monster;
 
 /**
- * Represents the base Skeleton type.
+ * Represents the base skeleton type.
  * <p>
  * Variants:
  * <ul>

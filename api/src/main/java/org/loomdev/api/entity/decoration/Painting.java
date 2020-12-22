@@ -10,16 +10,16 @@ import org.loomdev.api.util.registry.Keyed;
 public interface Painting extends HangingEntity {
 
     /**
-     * Gets the current {@link Motive} of the painting.
+     * Gets the current motive of the painting.
      *
-     * @return The current {@link Motive}.
+     * @return The current motive.
      */
     @NotNull Motive getMotive();
 
     /**
-     * Sets the {@link Motive} of the painting.
+     * Sets the move of the painting.
      *
-     * @param motive The new {@link Motive}.
+     * @param motive The new motive.
      */
     void setMotive(@NotNull Motive motive);
 
