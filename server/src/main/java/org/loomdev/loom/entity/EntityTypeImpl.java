@@ -23,6 +23,11 @@ public class EntityTypeImpl extends GenericWrapped implements EntityType<Entity>
         this.mcEntity = Registry.ENTITY_TYPE.get(new ResourceLocation(key));
     }
 
+    @NotNull
+    public net.minecraft.world.entity.EntityType<?> getMinecraftEntity() {
+        return mcEntity;
+    }
+
     @Override
     @NotNull
     public SpawnGroup getSpawnGroup() {

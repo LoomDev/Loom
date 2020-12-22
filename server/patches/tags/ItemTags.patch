@@ -1,0 +1,11 @@
+--- a/net/minecraft/tags/ItemTags.java
++++ b/net/minecraft/tags/ItemTags.java
+@@ -5,7 +5,7 @@
+ 
+ public final class ItemTags {
+ 
+-    protected static final StaticTaghgHelper<Item> HELPER = StaticTags.create(Registry.ITEM_REGISTRY, "tags/items");
++    public static final StaticTagHelper<Item> HELPER = StaticTags.create(Registry.ITEM_REGISTRY, "tags/items"); // Loom :: protected -> public (ItemTagImpl)
+     public static final Tag.Named<Item> WOOL = bind("wool");
+     public static final Tag.Named<Item> PLANKS = bind("planks");
+     public static final Tag.Named<Item> STONE_BRICKS = bind("stone_bricks");

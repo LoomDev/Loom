@@ -1,0 +1,11 @@
+--- a/net/minecraft/tags/BlockTags.java
++++ b/net/minecraft/tags/BlockTags.java
+@@ -5,7 +5,7 @@
+ 
+ public final class BlockTags {
+ 
+-    protected static final StaticTagHelper<Block> HELPER = StaticTags.create(Registry.BLOCK_REGISTRY, "tags/blocks");
++    public static final StaticTagHelper<Block> HELPER = StaticTags.create(Registry.BLOCK_REGISTRY, "tags/blocks"); // Loom :: protected -> public (BlockTagImpl)
+     public static final Tag.Named<Block> WOOL = bind("wool");
+     public static final Tag.Named<Block> PLANKS = bind("planks");
+     public static final Tag.Named<Block> STONE_BRICKS = bind("stone_bricks");

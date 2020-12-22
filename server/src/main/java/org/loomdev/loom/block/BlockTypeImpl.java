@@ -19,6 +19,11 @@ public class BlockTypeImpl extends GenericWrapped implements BlockType {
         this.mcBlock = Registry.BLOCK.get(new ResourceLocation(key));
     }
 
+    @NotNull
+    public Block getMinecraftBlock() {
+        return mcBlock;
+    }
+
     @Override
     public float getSlipperiness() {
         return mcBlock.getFriction();

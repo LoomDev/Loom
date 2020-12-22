@@ -1,0 +1,11 @@
+--- a/net/minecraft/tags/EntityTypeTags.java
++++ b/net/minecraft/tags/EntityTypeTags.java
+@@ -5,7 +5,7 @@
+ 
+ public final class EntityTypeTags {
+ 
+-    protected static final StaticTagHelper<EntityType<?>> HELPER = StaticTags.create(Registry.ENTITY_TYPE_REGISTRY, "tags/entity_types");
++    public static final StaticTagHelper<EntityType<?>> HELPER = StaticTags.create(Registry.ENTITY_TYPE_REGISTRY, "tags/entity_types"); // Loom :: protected -> public (EntityTypeTagImpl)
+     public static final Tag.Named<EntityType<?>> SKELETONS = bind("skeletons");
+     public static final Tag.Named<EntityType<?>> RAIDERS = bind("raiders");
+     public static final Tag.Named<EntityType<?>> BEEHIVE_INHABITORS = bind("beehive_inhabitors");

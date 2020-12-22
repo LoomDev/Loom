@@ -20,6 +20,11 @@ public class ItemTypeImpl extends GenericWrapped implements ItemType {
         this.mcItem = Registry.ITEM.get(new ResourceLocation(key));
     }
 
+    @NotNull
+    public Item getMinecraftItem() {
+        return mcItem;
+    }
+
     @Override
     public int getMaxStackSize() {
         return mcItem.getMaxStackSize();

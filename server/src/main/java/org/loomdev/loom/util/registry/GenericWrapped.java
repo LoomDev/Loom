@@ -6,14 +6,19 @@ import org.loomdev.api.util.registry.Keyed;
 
 public class GenericWrapped implements Keyed {
 
-    private final NamespacedKey namespacedKey;
+    private final NamespacedKey key;
 
-    public GenericWrapped(String key) {
-        this.namespacedKey = NamespacedKey.of(key);
+    public GenericWrapped(@NotNull String key) {
+        this.key = NamespacedKey.of(key);
+    }
+
+    public GenericWrapped(@NotNull NamespacedKey key) {
+        this.key = key;
     }
 
     @Override
-    public @NotNull NamespacedKey getKey() {
-        return namespacedKey;
+    @NotNull
+    public NamespacedKey getKey() {
+        return key;
     }
 }

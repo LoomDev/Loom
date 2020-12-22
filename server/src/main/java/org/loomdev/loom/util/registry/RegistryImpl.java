@@ -19,12 +19,15 @@ import org.loomdev.api.item.property.data.*;
 import org.loomdev.api.particle.ParticleType;
 import org.loomdev.api.sound.SoundSource;
 import org.loomdev.api.sound.SoundEvent;
+import org.loomdev.api.tag.Tag;
+import org.loomdev.api.util.NamespacedKey;
 import org.loomdev.api.util.builder.BuilderBase;
 import org.loomdev.api.util.registry.Keyed;
 import org.loomdev.api.util.registry.Registry;
 import org.loomdev.api.village.VillagerProfession;
 import org.loomdev.api.village.VillagerVariant;
 import org.loomdev.api.world.biome.BiomeType;
+import org.loomdev.api.world.event.GameEventType;
 import org.loomdev.api.world.poi.PointOfInterestType;
 import org.loomdev.loom.block.BlockTypeImpl;
 import org.loomdev.loom.bossbar.BossBarImpl;
@@ -39,13 +42,19 @@ import org.loomdev.loom.item.property.*;
 import org.loomdev.loom.particle.ParticleTypeImpl;
 import org.loomdev.loom.sound.SoundSourceImpl;
 import org.loomdev.loom.sound.SoundEventImpl;
+import org.loomdev.loom.tag.BlockTagImpl;
+import org.loomdev.loom.tag.EntityTypeTagImpl;
+import org.loomdev.loom.tag.GameEventTagImpl;
+import org.loomdev.loom.tag.ItemTagImpl;
 import org.loomdev.loom.village.VillagerProfessionImpl;
 import org.loomdev.loom.village.VillagerVariantImpl;
 import org.loomdev.loom.world.biome.BiomeTypeImpl;
+import org.loomdev.loom.world.event.GameEventTypeImpl;
 import org.loomdev.loom.world.poi.PointOfInterestTypeImpl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class RegistryImpl implements Registry {
@@ -56,6 +65,8 @@ public class RegistryImpl implements Registry {
 
     private final Map<Class<?>, Supplier<?>> builders = new HashMap<>();
 
+    private final Map<Class<? extends Keyed>, RegistrySupplier<Tag<? extends Keyed>, NamespacedKey>> tagSuppliers = Maps.newHashMap();
+
     private final Map<Class<? extends Keyed>, WrapperSupplier<? extends Keyed>> wrapperSuppliers = Maps.newHashMap();
     private final Map<Class<? extends Keyed>, Map<String, ? extends Keyed>> wrapperCache = Maps.newHashMap();
 
@@ -63,6 +74,7 @@ public class RegistryImpl implements Registry {
         initItemProperties();
         initBuilders();
         initMcRegistries();
+        initTags();
     }
 
     private void initItemProperties() {
@@ -99,6 +111,13 @@ public class RegistryImpl implements Registry {
         wrapperSuppliers.put(SoundSource.class, SoundSourceImpl::new);
     }
 
+    private void initTags() {
+        tagSuppliers.put(BlockType.class, BlockTagImpl::new);
+        tagSuppliers.put(ItemType.class, ItemTagImpl::new);
+        tagSuppliers.put(EntityType.class, EntityTypeTagImpl::new);
+        tagSuppliers.put(GameEventType.class, GameEventTagImpl::new);
+    }
+
     @Override
     public <T extends ItemPropertyData<T>> void registerItemProperty(@NotNull Class<T> type, @NotNull Supplier<ItemProperty<T>> supplier) {
         ((Map) this.itemPropertySuppliers).put(type, supplier);
@@ -129,7 +148,24 @@ public class RegistryImpl implements Registry {
     }
 
     @Override
-    public <T extends Keyed> @Nullable T getWrapped(Class<T> type, String key) {
+    @NotNull
+    public <T extends Tag<? extends Keyed>> Optional<T> getTag(@NotNull Class<? extends Keyed> type, @NotNull NamespacedKey key) {
+        var supplier = tagSuppliers.get(type);
+
+        if (supplier == null) {
+            return Optional.empty();
+        }
+
+        try {
+            return (Optional<T>) Optional.of(supplier.get(key));
+        } catch (Exception e) {
+            LOGGER.warn("Could not get Tag {} of type {}.", key.toString(), type.getSimpleName());
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public <T extends Keyed> @Nullable T getWrapped(@NotNull Class<T> type, @NotNull String key) {
         Map typeCache = wrapperCache.computeIfAbsent(type, k -> new HashMap<>());
 
         if (typeCache.containsKey(key)) {
