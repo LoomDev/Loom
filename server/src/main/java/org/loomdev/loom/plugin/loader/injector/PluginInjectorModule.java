@@ -7,12 +7,14 @@ import org.apache.logging.log4j.Logger;
 import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.config.Configuration;
 import org.loomdev.api.event.EventManager;
+import org.loomdev.api.permissions.PermissionsEngine;
 import org.loomdev.api.plugin.PluginManager;
 import org.loomdev.api.plugin.PluginMetadata;
 import org.loomdev.api.plugin.annotation.Config;
 import org.loomdev.api.plugin.annotation.PluginDirectory;
 import org.loomdev.api.scheduler.Scheduler;
 import org.loomdev.api.server.Server;
+import org.loomdev.api.world.WorldManager;
 import org.loomdev.loom.plugin.data.LoomPluginMetadata;
 import org.loomdev.loom.plugin.loader.injector.providers.ConfigProvider;
 
@@ -40,7 +42,9 @@ public class PluginInjectorModule implements Module {
         binder.bind(PluginManager.class).toInstance(this.server.getPluginManager());
         binder.bind(EventManager.class).toInstance(this.server.getEventManager());
         binder.bind(CommandManager.class).toInstance(this.server.getCommandManager());
+        binder.bind(WorldManager.class).toInstance(this.server.getWorldManager());
         binder.bind(Scheduler.class).toInstance(this.server.getScheduler());
+        binder.bind(PermissionsEngine.class).toInstance(this.server.getPermissionsEngine());
         binder.bind(Configuration.class).annotatedWith(Config.class).toProvider(ConfigProvider.class);
     }
 }
