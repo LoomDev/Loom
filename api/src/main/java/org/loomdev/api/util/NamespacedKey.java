@@ -27,24 +27,24 @@ public class NamespacedKey {
     }
 
     /**
-     * This should never be used by plugins and if for internal use only.
+     * Used to represent an internal Minecraft key.
+     * This should not be used by plugins.
      *
      * @param key The key.
      * @return A minecraft namespaced key.
      */
-    @Deprecated
-    public static NamespacedKey forMinecraft(String key) {
+    public static NamespacedKey minecraft(@NotNull String key) {
         return new NamespacedKey("minecraft", key);
     }
 
     /**
-     * This should never be used by plugins and if for internal use only.
+     * Used to represent an internal Loom key.
+     * This should not be used by plugins.
      *
      * @param key The key.
      * @return A loom namespaced key.
      */
-    @Deprecated
-    public static NamespacedKey forLoom(String key) {
+    public static NamespacedKey loom(@NotNull String key) {
         return new NamespacedKey("loom", key);
     }
 
