@@ -104,7 +104,8 @@ public class CommandManagerImpl implements CommandManager {
 
     private void internalRegister(@NotNull String alias, @NotNull Command command) {
         var arguments = RequiredArgumentBuilder.<CommandSourceStack, String>argument("arguments", StringArgumentType.greedyString())
-                .suggests(this::suggest);
+                .suggests(this::suggest)
+                .executes(this::execute);
 
         getDispatcher().register(LiteralArgumentBuilder.<CommandSourceStack>literal(alias)
                 .requires(commandSourceStack -> {
