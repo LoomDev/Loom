@@ -2,6 +2,9 @@ package org.loomdev.api.sound;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents a sound that can be played to players.
+ */
 public class Sound {
 
     private final @NotNull SoundEvent effect;

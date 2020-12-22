@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public interface NameData extends ItemPropertyData<NameData> {
 
     /**
-     * Get the current name of the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the current name of the {@link org.loomdev.api.item.ItemStack}.
      *
      * @return The current name.
      */
@@ -45,7 +45,7 @@ public interface NameData extends ItemPropertyData<NameData> {
     boolean hasCustomName();
 
     /**
-     * Get the chat hover text for the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the chat hover text for the {@link org.loomdev.api.item.ItemStack}.
      *
      * @return The hover text.
      */

@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+/**
+ * Represents a living entity.
+ */
 public interface LivingEntity extends Damageable {
 
     @NotNull List<StatusEffect> getStatusEffects();

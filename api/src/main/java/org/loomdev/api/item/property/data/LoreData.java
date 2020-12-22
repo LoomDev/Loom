@@ -13,14 +13,14 @@ import java.util.List;
 public interface LoreData extends ItemPropertyData<LoreData> {
 
     /**
-     * Get the lore of the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the lore of the {@link org.loomdev.api.item.ItemStack}.
      *
      * @return The lore of the {@link org.loomdev.api.item.ItemStack}.
      */
     @NotNull List<Component> getLore();
 
     /**
-     * Set the lore of the {@link org.loomdev.api.item.ItemStack}.
+     * Sets the lore of the {@link org.loomdev.api.item.ItemStack}.
      *
      * @param components The new lore of the {@link org.loomdev.api.item.ItemStack}.
      */

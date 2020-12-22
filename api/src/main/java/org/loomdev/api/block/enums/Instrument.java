@@ -2,6 +2,9 @@ package org.loomdev.api.block.enums;
 
 import org.loomdev.api.sound.SoundEvent;
 
+/**
+ * Represents a note block instrument.
+ */
 public enum Instrument {
 
     HARP(SoundEvent.BLOCK_NOTE_BLOCK_HARP),
@@ -27,10 +30,21 @@ public enum Instrument {
         this.sound = sound;
     }
 
+    /**
+     * Gets the sound event for the instrument.
+     *
+     * @return The sound event.
+     */
     public SoundEvent getSound() {
         return sound;
     }
 
+    /**
+     * Gets an instrument from its name.
+     *
+     * @param name The name.
+     * @return The instrument.
+     */
     public static Instrument getByName(String name) {
         return valueOf(name.toUpperCase());
     }

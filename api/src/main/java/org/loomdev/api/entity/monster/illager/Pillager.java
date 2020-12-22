@@ -10,14 +10,14 @@ import org.loomdev.api.entity.monster.illager.Illager;
 public interface Pillager extends Illager {
 
     /**
-     * Get whether the Pillager is charging.
+     * Gets whether the Pillager is charging.
      *
      * @return True if the Pillager is charging, otherwise False.
      */
     boolean isChargingCrossbow();
 
     /**
-     * Set whether the Pillager is charging.
+     * Sets whether the Pillager is charging.
      *
      * @param charging True to make the Pillager charge, otherwise False.
      */

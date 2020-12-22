@@ -1,5 +1,8 @@
 package org.loomdev.api.block.enums;
 
+/**
+ * Represents a note's octave.
+ */
 public enum Octave {
 
     OCTAVE_1(1),
@@ -11,6 +14,11 @@ public enum Octave {
         this.number = number;
     }
 
+    /**
+     * Gets the octave's number
+     *
+     * @return The number.
+     */
     public int getNumber() {
         return number;
     }

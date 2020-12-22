@@ -35,14 +35,14 @@ public interface PlayerManager {
     void broadcastMessage(@NotNull Component component);
 
     /**
-     * Get the amount of players online on the server.
+     * Gets the amount of players online on the server.
      *
-     * @return the amount of players online.
+     * @return The amount of players online.
      */
     int getOnlinePlayerCount();
 
     /**
-     * Get a player based on their UUID
+     * Gets a player based on their UUID
      *
      * @param uuid The UUID of the player.
      * @return Instance of {@link Player} or {@code null} if the player is offline.
@@ -51,19 +51,19 @@ public interface PlayerManager {
     Optional<Player> getPlayer(@NotNull UUID uuid);
 
     /**
-     * Get a player based on their current username.
+     * Gets a player based on their current username.
      *
      * @param username The username of the player.
-     * @return Instance of {@link Player} or {@code null} if the player is offline.
+     * @return Instance of player or {@code null} if the player is offline.
      */
     @NotNull
     Optional<Player> getPlayer(@NotNull String username);
 
     /**
-     * Check whether a {@link Player} is an operator.
+     * Check whether a player is an operator.
      *
-     * @param player The {@link Player} to check for.
-     * @return True if the player is an operator, otherwise False.
+     * @param player The player to check.
+     * @return {@code true} if the player is an operator, otherwise {@code false}.
      */
     boolean isOperator(@NotNull Player player);
 }

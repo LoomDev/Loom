@@ -4,6 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
 
+/**
+ * Represents a sound source (a sound category).
+ */
 public interface SoundSource extends Keyed {
 
     // region SoundCategories

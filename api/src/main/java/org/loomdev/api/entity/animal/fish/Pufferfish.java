@@ -9,7 +9,7 @@ import org.loomdev.api.entity.animal.Bucketable;
 public interface Pufferfish extends Fish, Bucketable {
 
     /**
-     * Get the current {@link PuffState} of the Pufferish.
+     * Gets the current {@link PuffState} of the Pufferish.
      *
      * @return The current {@link PuffState}.
      */
@@ -17,7 +17,7 @@ public interface Pufferfish extends Fish, Bucketable {
     PuffState getPuffState();
 
     /**
-     * Set the {@link PuffState} of the Pufferish.
+     * Sets the {@link PuffState} of the Pufferish.
      *
      * @param puffState The new {@link PuffState}
      */

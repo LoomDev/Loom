@@ -1,5 +1,8 @@
 package org.loomdev.api.math;
 
+/**
+ * Represents a rotation of pitch, yaw and roll (pitch is on the X axis, yaw on the Y axis and roll on the Z axis).
+ */
 public class EulerAngle {
 
     protected final float pitch;

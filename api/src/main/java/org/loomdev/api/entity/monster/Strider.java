@@ -10,14 +10,14 @@ public interface Strider extends Animal, Saddleable {
     // TODO possible add things todo with the stick steering item
 
     /**
-     * Get whether the Strider is cold.
+     * Gets whether the Strider is cold.
      *
      * @return True is the Strider is cold, otherwise False.
      */
     boolean isShivering();
 
     /**
-     * Set whether the Strider is cold.
+     * Sets whether the Strider is cold.
      *
      * @param shivering True is cold, otherwise False.
      */

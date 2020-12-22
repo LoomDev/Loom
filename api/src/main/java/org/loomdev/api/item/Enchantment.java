@@ -206,7 +206,7 @@ public interface Enchantment extends Keyed {
     // endregion Enchantments
 
     /**
-     * Get an enchantment based on the id.
+     * Gets an enchantment based on the id.
      * @param id The if of the enchantment to get.
      * @return The enchantment if found, otherwise null.
      */
@@ -215,7 +215,7 @@ public interface Enchantment extends Keyed {
     }
 
     /**
-     * Get the name of the enchantment.
+     * Gets the name of the enchantment.
      *
      * @param level The level to get the name for.
      * @return The name.
@@ -223,14 +223,14 @@ public interface Enchantment extends Keyed {
     @NotNull Component getName(int level);
 
     /**
-     * Get the minimum possible enchantment level of this enchantment.
+     * Gets the minimum possible enchantment level of this enchantment.
      *
      * @return The minimum level.
      */
     int getMinLevel();
 
     /**
-     * Get the maximum possible enchantment level of this enchantment.
+     * Gets the maximum possible enchantment level of this enchantment.
      *
      * @return The maximum level.
      */

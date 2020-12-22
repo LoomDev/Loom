@@ -16,7 +16,7 @@ public interface ThrowableItem extends Projectile {
     ItemStack getItem();
 
     /**
-     * Set the item of the ThrownItem entity.
+     * Sets the item of the ThrownItem entity.
      *
      * @param item The item.
      */

@@ -66,7 +66,7 @@ public interface ItemProperty<T extends ItemPropertyData<T>> {
     // endregion ItemProperties
 
     /**
-     * Get the {@link ItemPropertyData} object linked to the {@link ItemProperty} of this {@link ItemStack}
+     * Gets the {@link ItemPropertyData} object linked to the {@link ItemProperty} of this {@link ItemStack}
      *
      * @param itemStack The {@link ItemStack} the get the {@link ItemPropertyData} object for.
      * @return The {@link ItemPropertyData} object or null if nnot

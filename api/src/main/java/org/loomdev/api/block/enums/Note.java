@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a note block note.
+ */
 public enum Note {
 
     F_SHARP0(Octave.OCTAVE_1, "F#0", 0),
@@ -45,22 +48,49 @@ public enum Note {
         this.index = index;
     }
 
+    /**
+     * Gets the note's octave.
+     *
+     * @return The octave.
+     */
     public Octave getOctave() {
         return octave;
     }
 
+    /**
+     * Gets the note's name.
+     *
+     * @return The name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the note's index (uses).
+     *
+     * @return The index.
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     * Gets a note from its name.
+     *
+     * @param name The name.
+     * @return The note.
+     */
     public static Note getByName(String name) {
         return NAME_NOTE_MAP.get(name);
     }
 
+    /**
+     * Gets a note from its index (uses).
+     *
+     * @param uses The index.
+     * @return The note.
+     */
     public static Note getByUses(int uses) {
         return USES_NOTE_MAP.get(uses);
     }

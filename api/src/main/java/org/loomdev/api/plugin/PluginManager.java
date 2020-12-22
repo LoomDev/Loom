@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface PluginManager {
 
     /**
-     * Get a plugin container based on its id.
+     * Gets a plugin container based on its id.
      *
      * @param id The id of the plugin to get.
      * @return The plugin, if available.
@@ -21,7 +21,7 @@ public interface PluginManager {
     @Nullable PluginContainer getPlugin(@NotNull String id);
 
     /**
-     * Get a plugin container from an instance.
+     * Gets a plugin container from an instance.
      *
      * @param pluginInstance The instance to get the plugin container from.
      * @return The plugin container or {@link Optional#empty()} if not a plugin container.
@@ -29,7 +29,7 @@ public interface PluginManager {
     @Nullable PluginContainer fromInstance(@NotNull Object pluginInstance);
 
     /**
-     * Get all the plugins loaded by Loom.
+     * Gets all the plugins loaded by Loom.
      *
      * @return The plugins loaded by Loom.
      */

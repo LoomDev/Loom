@@ -6,14 +6,14 @@ package org.loomdev.api.entity.vehicle.minecart;
 public interface CommandBlockMinecart extends Minecart {
 
     /**
-     * Get the command that this minecart will run when activated.
+     * Gets the command that this minecart will run when activated.
      *
      * @return The command that this minecart will run when activated.
      */
     String getCommand();
 
     /**
-     * Set the command that this minecart will run when activated.
+     * Sets the command that this minecart will run when activated.
      *
      * @param command the new command that this minecart will run when activated.
      */

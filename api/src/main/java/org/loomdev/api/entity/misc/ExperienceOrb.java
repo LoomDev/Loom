@@ -19,7 +19,7 @@ public interface ExperienceOrb extends Entity {
     void setAmount(int amount);
 
     /**
-     * Get the health of the experience orb.
+     * Gets the health of the experience orb.
      * <p>
      *     By default a experience orb has a health of 5.
      *     When the health is equal to or lower than 0, the experience orb will despawn.
@@ -30,7 +30,7 @@ public interface ExperienceOrb extends Entity {
     int getHealth();
 
     /**
-     * Set the health of the experience orb.
+     * Sets the health of the experience orb.
      * <p>
      *     By default a experience orb has a health of 5.
      *     When the health is equal to or lower than 0, the experience orb will despawn.
@@ -41,7 +41,7 @@ public interface ExperienceOrb extends Entity {
     void setHealth(int health);
 
     /**
-     * Get the age of the orb.
+     * Gets the age of the orb.
      * <p>An experience orb despawns after 6000 ticks.</p>
      *
      * @return The age of the experience orb.
@@ -49,7 +49,7 @@ public interface ExperienceOrb extends Entity {
     int getOrbAge();
 
     /**
-     * Set the age of the orb.
+     * Sets the age of the orb.
      * <p>An experience orb despawns after 6000 ticks.</p>
      *
      * @param ticks The new age of the orb in ticks.

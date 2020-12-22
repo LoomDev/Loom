@@ -6,14 +6,14 @@ package org.loomdev.api.item.property.data;
 public interface DamageData extends ItemPropertyData<DamageData> {
 
     /**
-     * Get the amount of damage that has been dealt to the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the amount of damage that has been dealt to the {@link org.loomdev.api.item.ItemStack}.
      *
      * @return The damage that has been dealt to the {@link org.loomdev.api.item.ItemStack}.
      */
     int getDamage();
 
     /**
-     * Set the amount of damage that is dealt to the {@link org.loomdev.api.item.ItemStack}.
+     * Sets the amount of damage that is dealt to the {@link org.loomdev.api.item.ItemStack}.
      *
      * @param amount The amount of damage
      */
@@ -34,7 +34,7 @@ public interface DamageData extends ItemPropertyData<DamageData> {
     void decrement(int amount);
 
     /**
-     * Get the maximum amount of damage that can be dealt to the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the maximum amount of damage that can be dealt to the {@link org.loomdev.api.item.ItemStack}.
      *
      * @return The maximum amount of damage.
      */

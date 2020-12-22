@@ -17,21 +17,21 @@ import java.util.Map;
 public interface EnchantmentData extends ItemPropertyData<EnchantmentData> {
 
     /**
-     * Get the enchantments of the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the enchantments of the {@link org.loomdev.api.item.ItemStack}.
      *
      * @return Map of enchantment and level.
      */
     @NotNull Map<Enchantment, Integer> getEnchantments();
 
     /**
-     * Set the enchantments of the {@link org.loomdev.api.item.ItemStack}.
+     * Sets the enchantments of the {@link org.loomdev.api.item.ItemStack}.
      *
      * @param enchantments The enchantments.
      */
     void setEnchantments(@NotNull Map<Enchantment, Integer> enchantments);
 
     /**
-     * Get the level of a specific enchantment on the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the level of a specific enchantment on the {@link org.loomdev.api.item.ItemStack}.
      *
      * @param enchantment The enchantment to get the level for.
      * @return The level of the enchantment. 0 if the enchantment is not applied to the {@link org.loomdev.api.item.ItemStack}.

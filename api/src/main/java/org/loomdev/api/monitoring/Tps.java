@@ -1,5 +1,8 @@
 package org.loomdev.api.monitoring;
 
+/**
+ * Represents server TPS (ticks per second).
+ */
 public interface Tps {
 
     double getTps();

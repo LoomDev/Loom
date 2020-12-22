@@ -1,5 +1,8 @@
 package org.loomdev.api.entity;
 
+/**
+ * Represents an entity with health.
+ */
 public interface Damageable extends Entity {
 
     void damage(float amount);

@@ -5,6 +5,9 @@ import org.loomdev.api.Loom;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.api.util.registry.Keyed;
 
+/**
+ * Represents a type of block.
+ */
 public interface BlockType extends Keyed {
 
     // region :: BlockTypes
@@ -856,9 +859,10 @@ public interface BlockType extends Keyed {
     // endregion :: BlockTypes
 
     /**
-     * Get an block based on the id.
-     * @param id The if of the block to get.
-     * @return The block if found, otherwise null.
+     * Gets a block from its id.
+     *
+     * @param id The id of the block to get.
+     * @return The block if found, otherwise <code>null</code>.
      */
     static BlockType getById(String id) {
         return Loom.getRegistry().getWrapped(BlockType.class, id);

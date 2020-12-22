@@ -15,10 +15,11 @@ import java.util.Objects;
 public class NamespacedKey {
 
     /**
-     * This should never be used by plugins and if for internal use only.
+     * Parses a namespaced key.
      *
      * @param key The full key.
      * @return A namespaced key.
+     * @deprecated This should never be used by plugins and if for internal use only.
      */
     @Deprecated
     public static NamespacedKey of(String key) {
@@ -31,7 +32,7 @@ public class NamespacedKey {
      * This should not be used by plugins.
      *
      * @param key The key.
-     * @return A minecraft namespaced key.
+     * @return A loom namespaced key.
      */
     public static NamespacedKey minecraft(@NotNull String key) {
         return new NamespacedKey("minecraft", key);
@@ -52,10 +53,11 @@ public class NamespacedKey {
     private final String key;
 
     /**
-     * This should never be used by plugins and if for internal use only.
+     * Creates a namespaced key with a namespace and key.
      *
      * @param namespace The namespace.
      * @param key The key.
+     * @deprecated Use the plugin constructor instead.
      */
     @Deprecated
     public NamespacedKey(String namespace, String key) {
@@ -78,27 +80,27 @@ public class NamespacedKey {
     }
 
     /**
-     * Get the namespace of this NamespacedKey.
+     * Gets the namespace of this namespaced key.
      *
-     * @return The namespace of this NamespacedKey.
+     * @return The namespace of this namespaced key.
      */
     public String getNamespace() {
         return namespace;
     }
 
     /**
-     * Get the key of this NamespacedKey.
+     * Gets the key of this namespaced key.
      *
-     * @return The key of this NamespacedKey.
+     * @return The key of this namespaced key.
      */
     public String getKey() {
         return key;
     }
 
     /**
-     * Get the String representation of this NamespacedKey.
+     * Gets a string representation of this namespaced key.
      *
-     * @return The String representation of this NamespacedKey.
+     * @return A string representation of this namespaced key (with the format <code>namespace:key</code>).
      */
     @Override
     public String toString() {

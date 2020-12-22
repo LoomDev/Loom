@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Represents a particle.
+ */
 public class Particle {
 
     private final @NotNull ParticleType type;

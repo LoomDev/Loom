@@ -8,28 +8,28 @@ import org.jetbrains.annotations.NotNull;
 public interface Panda extends Animal {
 
     /**
-     * Get the main {@link Gene} of the Panda.
+     * Gets the main {@link Gene} of the Panda.
      *
      * @return The main {@link Gene}
      */
     @NotNull Gene getMainGene();
 
     /**
-     * Set the main {@link Gene} of the Panda.
+     * Sets the main {@link Gene} of the Panda.
      *
      * @param gene The new main {@link Gene}
      */
     void setMainGene(@NotNull Gene gene);
 
     /**
-     * Get the hidden {@link Gene} of the Panda.
+     * Gets the hidden {@link Gene} of the Panda.
      *
      * @return The hidden {@link Gene}
      */
     @NotNull Gene getHiddenGene();
 
     /**
-     * Set the hidden {@link Gene} of the Panda.
+     * Sets the hidden {@link Gene} of the Panda.
      *
      * @param gene The new hidden {@link Gene}
      */
@@ -54,7 +54,7 @@ public interface Panda extends Animal {
         }
 
         /**
-         * Get whether the gene is recessive.
+         * Gets whether the gene is recessive.
          *
          * @return True if the gene is recessive, otherwise False.
          */
@@ -63,7 +63,7 @@ public interface Panda extends Animal {
         }
 
         /**
-         * Get the product of two genes.
+         * Gets the product of two genes.
          *
          * @param gene1 The first gene.
          * @param gene2 The second gene.

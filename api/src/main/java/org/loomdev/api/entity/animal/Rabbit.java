@@ -9,14 +9,14 @@ import java.util.stream.Collectors;
 public interface Rabbit extends Animal {
 
     /**
-     * Get the {@link Variant} of the Mooshroom.
+     * Gets the {@link Variant} of the Mooshroom.
      *
      * @return The {@link Variant} of the Mooshroom.
      */
     @NotNull Variant getVariant();
 
     /**
-     * Set the {@link Variant} of the Mooshroom.
+     * Sets the {@link Variant} of the Mooshroom.
      *
      * @param variant The new {@link Variant} of the Mooshroom.
      */

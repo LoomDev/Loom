@@ -9,14 +9,14 @@ import org.loomdev.api.entity.monster.Angerable;
 public interface PolarBear extends Animal, Angerable, Ageable {
 
     /**
-     * Get whether the PolarBear is in its warning state.
+     * Gets whether the PolarBear is in its warning state.
      *
      * @return True if the PolarBear is in its warning state, otherwise False.
      */
     boolean isStanding();
 
     /**
-     * Set whether the PolarBear is in its warning state.
+     * Sets whether the PolarBear is in its warning state.
      *
      * @param standing True to active the warning state, otherwise False.
      */

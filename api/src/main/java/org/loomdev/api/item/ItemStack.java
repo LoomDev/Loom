@@ -13,12 +13,12 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * Represents an ItemStack.
+ * Represents an item stack.
  */
 public interface ItemStack {
 
     /**
-     * An empty ItemStack.
+     * An empty item stack.
      */
     ItemStack EMPTY = ItemStack.builder().type(ItemType.AIR).build();
 
@@ -35,7 +35,7 @@ public interface ItemStack {
     }
 
     /**
-     * Get the item type of this ItemStack.
+     * Gets the item type of this item stack.
      *
      * @return The type of the item.
      * @see ItemType
@@ -43,7 +43,7 @@ public interface ItemStack {
     @NotNull ItemType getType();
 
     /**
-     * Set the item type of this ItemStack.
+     * Sets the item type of this item stack.
      *
      * @param type The item type.
      * @see ItemType
@@ -51,49 +51,49 @@ public interface ItemStack {
     void setType(@NotNull ItemType type);
 
     /**
-     * Get the amount of items in the ItemStack.
+     * Gets the amount of items in the item stack.
      *
-     * @return The amount of items in the ItemStack.
+     * @return The amount of items in the item stack.
      */
     int getAmount();
 
     /**
-     * Set the amount of items in the ItemStack.
+     * Sets the amount of items in the item stack.
      *
      * @param amount The new amount of items.
      */
     void setAmount(int amount);
 
     /**
-     * Increment the amount of items in the ItemStack by 1.
+     * Increment the amount of items in the item stack by 1.
      */
     default void increment() {
         increment(1);
     }
 
     /**
-     * Increment the amount of items in the ItemStack by a specific amount.
+     * Increment the amount of items in the item stack by a specific amount.
      *
-     * @param amount The amount to increment the ItemStack size with.
+     * @param amount The amount to increment the item stack size with.
      */
     void increment(int amount);
 
     /**
-     * Decrement the amount of items in the ItemStack by 1.
+     * Decrement the amount of items in the item stack by 1.
      */
     default void decrement() {
         decrement(1);
     }
 
     /**
-     * Decrement the amount of items in the ItemStack by a specific amount.
+     * Decrement the amount of items in the item stack by a specific amount.
      *
-     * @param amount The amount to decrement the ItemStack size with.
+     * @param amount The amount to decrement the item stack size with.
      */
     void decrement(int amount);
 
     /**
-     * Split the ItemStack into two stacks.
+     * Split the item stack into two stacks.
      *
      * <pre>{@code
      * ItemStack firstStack = ItemStack.builder().type(ItemType.STONE).amount(45).build();
@@ -106,7 +106,7 @@ public interface ItemStack {
      * }</pre>
      *
      * @param splitCount The amount of items in the returned stack.
-     * @return A the split of ItemStack.
+     * @return The split item stack.
      */
     @NotNull ItemStack split(int splitCount);
 
@@ -119,14 +119,14 @@ public interface ItemStack {
     boolean isEmpty();
 
     /**
-     * Get whether the itemstack is a food item.
+     * Gets whether the itemstack is a food item.
      *
      * @return True if the item can be consumed, otherwise false.
      */
     boolean isEdible();
 
     /**
-     * Get whether the item is stackable or not.
+     * Gets whether the item is stackable or not.
      *
      * @return True if stackable, otherwise false.
      */
@@ -135,14 +135,14 @@ public interface ItemStack {
     // region general item properties
 
     /**
-     * Get the current name of the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the current name of the item stack.
      *
      * @return The current name.
      */
     @NotNull Component getName();
 
     /**
-     * Change the name of the {@link org.loomdev.api.item.ItemStack}.
+     * Change the name of the item stack.
      *
      * @param name The new name.
      */
@@ -151,42 +151,42 @@ public interface ItemStack {
     }
 
     /**
-     * Change the name of the {@link org.loomdev.api.item.ItemStack}.
+     * Change the name of the item stack.
      *
      * @param name The new name.
      */
     void setName(@NotNull Component name);
 
     /**
-     * Reset the name of the {@link org.loomdev.api.item.ItemStack} to the name of the item.
+     * Reset the name of the item stack to the name of the item.
      */
     void removeCustomName();
 
     /**
-     * Check whether the {@link org.loomdev.api.item.ItemStack} has a custom name.
+     * Check whether the item stack has a custom name.
      *
-     * @return True if the names doesn't equal the default minecraft name.
+     * @return True if the names isn't equal to the default minecraft name.
      */
     boolean hasCustomName();
 
     /**
-     * Get the chat hover text for the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the chat hover text for the item stack.
      *
      * @return The hover text.
      */
     @NotNull Component getHoverText();
 
     /**
-     * Get the lore of the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the lore of the item stack.
      *
-     * @return The lore of the {@link org.loomdev.api.item.ItemStack}.
+     * @return The lore of the item stack.
      */
     @NotNull List<Component> getLore();
 
     /**
-     * Set the lore of the {@link org.loomdev.api.item.ItemStack}.
+     * Sets the lore of the item stack.
      *
-     * @param components The new lore of the {@link org.loomdev.api.item.ItemStack}.
+     * @param components The new lore of the item stack.
      */
     void setLore(@NotNull List<Component> components);
 
@@ -214,29 +214,29 @@ public interface ItemStack {
     void removeLoreLine(int lineIndex);
 
     /**
-     * Get the enchantments of the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the enchantments of the item stack.
      *
      * @return Map of enchantment and level.
      */
     @NotNull Map<Enchantment, Integer> getEnchantments();
 
     /**
-     * Set the enchantments of the {@link org.loomdev.api.item.ItemStack}.
+     * Sets the enchantments of the item stack.
      *
      * @param enchantments The enchantments.
      */
     void setEnchantments(@NotNull Map<Enchantment, Integer> enchantments);
 
     /**
-     * Get the level of a specific enchantment on the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the level of a specific enchantment on the item stack.
      *
      * @param enchantment The enchantment to get the level for.
-     * @return The level of the enchantment. 0 if the enchantment is not applied to the {@link org.loomdev.api.item.ItemStack}.
+     * @return The level of the enchantment. 0 if the enchantment is not applied to the item stack.
      */
     int getEnchantmentLevel(Enchantment enchantment);
 
     /**
-     * Add an enchantment to the {@link org.loomdev.api.item.ItemStack}.
+     * Add an enchantment to the item stack.
      *
      * @param enchantment The enchantment to add.
      * @param level The level of the enchantment.
@@ -244,29 +244,29 @@ public interface ItemStack {
     void addEnchantment(@NotNull Enchantment enchantment, Integer level);
 
     /**
-     * Remove an enchantment of the {@link org.loomdev.api.item.ItemStack}.
+     * Remove an enchantment of the item stack.
      *
      * @param enchantment The enchantment to remove.
      */
     void removeEnchantment(@NotNull Enchantment enchantment);
 
     /**
-     * Remove all enchantments of the {@link org.loomdev.api.item.ItemStack}.
+     * Remove all enchantments of the item stack.
      */
     void clearEnchantments();
 
     /**
-     * Check whether the {@link org.loomdev.api.item.ItemStack} has a specific enchantment.
+     * Check whether the item stack has a specific enchantment.
      *
      * @param enchantment The enchantment to check for.
-     * @return True if the enchantment is applied to the {@link org.loomdev.api.item.ItemStack}.
+     * @return True if the enchantment is applied to the item stack.
      */
     boolean hasEnchantment(@NotNull Enchantment enchantment);
 
     // endregion general item properties
 
     /**
-     * Builder for ItemStacks
+     * Builder for {@link ItemStack}s.
      */
     interface Builder extends BuilderBase<ItemStack, Builder> {
 

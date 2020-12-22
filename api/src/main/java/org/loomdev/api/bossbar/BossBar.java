@@ -9,6 +9,10 @@ import org.loomdev.api.util.builder.BuilderBase;
 import java.util.Collection;
 import java.util.UUID;
 
+/**
+ * Represents a boss bar.
+ * Boss bars are usually used to show a boss' health, but is commonly used to show a countdown or display text at the top of a player's screen.
+ */
 public interface BossBar {
 
     static Builder builder() {
@@ -51,12 +55,30 @@ public interface BossBar {
 
     void setDragonMusic(boolean music);
 
+    /**
+     * Gets a list of players viewing the boss bar.
+     *
+     * @return The list.
+     */
     @NotNull Collection<? extends Player> getPlayers();
 
+    /**
+     * Adds a player to the boss bar causing it to be visible to them.
+     *
+     * @param player The player.
+     */
     void addPlayer(@NotNull Player player);
 
+    /**
+     * Removes a player from the boss bar causing it to dissappear from their screen.
+     *
+     * @param player The player.
+     */
     void removePlayer(@NotNull Player player);
 
+    /**
+     * Removes all players from the boss bar causing it to dissappear from their screens.
+     */
     void removeAll();
 
     enum Color {
@@ -97,10 +119,19 @@ public interface BossBar {
 
         Builder dragonMusic(boolean dragonMusic);
 
+        /**
+         * @see BossBar#addPlayer(Player)
+         */
         Builder addPlayer(@NotNull Player... player);
 
+        /**
+         * @see BossBar#removePlayer(Player)
+         */
         Builder removePlayer(@NotNull Player... player);
 
+        /**
+         * @see BossBar#removeAll()
+         */
         Builder clearPlayers();
     }
 }

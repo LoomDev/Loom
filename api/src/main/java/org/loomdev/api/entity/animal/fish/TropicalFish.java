@@ -9,42 +9,42 @@ import org.loomdev.api.util.DyeColor;
 public interface TropicalFish extends SchoolingFish {
 
     /**
-     * Get the pattern of the TropicalFish.
+     * Gets the pattern of the TropicalFish.
      *
      * @return The pattern of the TropicalFish.
      */
     @NotNull Pattern getPattern();
 
     /**
-     * Set the pattern of the TropicalFish.
+     * Sets the pattern of the TropicalFish.
      *
      * @param pattern the new pattern of the TropicalFish.
      */
     void setPattern(@NotNull Pattern pattern);
 
     /**
-     * Get the base color of the TropicalFish.
+     * Gets the base color of the TropicalFish.
      *
      * @return The base color of the TropicalFish.
      */
     @NotNull DyeColor getBaseColor();
 
     /**
-     * Set the base color of the TropicalFish.
+     * Sets the base color of the TropicalFish.
      *
      * @param color The new base color of the TropicalFish.
      */
     void setBaseColor(@NotNull DyeColor color);
 
     /**
-     * Get the pattern color of the TropicalFish.
+     * Gets the pattern color of the TropicalFish.
      *
      * @return The pattern color of the TropicalFish.
      */
     @NotNull DyeColor getPatternColor();
 
     /**
-     * Set the pattern color of the TropicalFish.
+     * Sets the pattern color of the TropicalFish.
      *
      * @param color The new pattern color of the TropicalFish.
      */

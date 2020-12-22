@@ -10,14 +10,14 @@ import javax.annotation.Nullable;
 public interface ShulkerBullet extends Projectile {
 
     /**
-     * Get the target {@link Entity} of the bullet.
+     * Gets the target {@link Entity} of the bullet.
      *
      * @return The target {@link Entity}.
      */
     @Nullable Entity getTarget();
 
     /**
-     * Set the target {@link Entity} of the bullet.
+     * Sets the target {@link Entity} of the bullet.
      *
      * @param target The new target {@link Entity} of the bullet.
      */

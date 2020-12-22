@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface Fox extends Animal {
 
     /**
-     * Get the {@link Variant} of the Fox.
+     * Gets the {@link Variant} of the Fox.
      *
      * @return The {@link Variant} of the Fox.
      */
@@ -16,7 +16,7 @@ public interface Fox extends Animal {
     Variant getVariant();
 
     /**
-     * Set the {@link Variant} of the Fox.
+     * Sets the {@link Variant} of the Fox.
      *
      * @param variant The new {@link Variant} of the Fox.
      */

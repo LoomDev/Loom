@@ -10,14 +10,14 @@ import org.loomdev.api.util.registry.Keyed;
 public interface Painting extends HangingEntity {
 
     /**
-     * Get the current {@link Motive} of the painting.
+     * Gets the current {@link Motive} of the painting.
      *
      * @return The current {@link Motive}.
      */
     @NotNull Motive getMotive();
 
     /**
-     * Set the {@link Motive} of the painting.
+     * Sets the {@link Motive} of the painting.
      *
      * @param motive The new {@link Motive}.
      */
@@ -56,7 +56,7 @@ public interface Painting extends HangingEntity {
         Motive DONKEY_KONG = getById("minecraft:donkey_kong");
 
         /**
-         * Get a motive based on the id.
+         * Gets a motive based on the id.
          * @param id The id of the motive to get.
          * @return The motive if found, otherwise null.
          */
@@ -65,7 +65,7 @@ public interface Painting extends HangingEntity {
         }
 
         /**
-         * Get the width in pixels.
+         * Gets the width in pixels.
          * <p>16 pixels per block</p>
          *
          * @return The width in pixels.
@@ -73,7 +73,7 @@ public interface Painting extends HangingEntity {
         int getWidth();
 
         /**
-         * Get the height in pixels.
+         * Gets the height in pixels.
          * <p>16 pixels per block</p>
          *
          * @return The height in pixels.
@@ -81,7 +81,7 @@ public interface Painting extends HangingEntity {
         int getHeight();
 
         /**
-         * Get the width in blocks.
+         * Gets the width in blocks.
          *
          * @return The width in blocks.
          */
@@ -90,7 +90,7 @@ public interface Painting extends HangingEntity {
         }
 
         /**
-         * Get the height in blocks.
+         * Gets the height in blocks.
          *
          * @return The height in blocks.
          */

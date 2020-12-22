@@ -7,6 +7,9 @@ import java.util.Set;
 
 import static org.loomdev.api.scheduler.ScheduledTask.Builder;
 
+/**
+ * Represents a task scheduler.
+ */
 public interface Scheduler {
 
     @NotNull

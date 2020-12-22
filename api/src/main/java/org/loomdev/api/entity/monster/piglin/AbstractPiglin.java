@@ -9,14 +9,14 @@ import org.loomdev.api.entity.monster.Monster;
 public interface AbstractPiglin extends Monster, ConvertableEntity {
 
     /**
-     * Get whether the Piglin entity is immune to zombification.
+     * Gets whether the Piglin entity is immune to zombification.
      *
      * @return True if the Piglin entity is immune.
      */
     boolean isImmuneToZombification();
 
     /**
-     * Set whether the Piglin entity is immune to zombification.
+     * Sets whether the Piglin entity is immune to zombification.
      *
      * @param flag True to make the Plugin entity immune.
      */
