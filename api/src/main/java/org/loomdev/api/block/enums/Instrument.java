@@ -31,7 +31,7 @@ public enum Instrument {
     }
 
     /**
-     * Gets the sound event for the instrument.
+     * Gets the sound event when a note block with this instrument is played.
      *
      * @return The sound event.
      */
@@ -40,7 +40,7 @@ public enum Instrument {
     }
 
     /**
-     * Gets an instrument from its name.
+     * Gets an instrument by its name.
      *
      * @param name The name.
      * @return The instrument.

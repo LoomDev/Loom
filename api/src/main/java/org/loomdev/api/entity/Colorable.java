@@ -8,16 +8,16 @@ import org.loomdev.api.util.DyeColor;
 public interface Colorable {
 
     /**
-     * Gets the dye color of the entity.
+     * Gets the {@link DyeColor} of the entity.
      *
-     * @return The dye color of the entity.
+     * @return The {@link DyeColor} of the entity.
      */
     DyeColor getColor();
 
     /**
-     * Sets the dye color of the entity.
+     * Sets the {@link DyeColor} of the entity.
      *
-     * @param color The new dye color of the entity.
+     * @param color The new {@link DyeColor} of the entity.
      */
     void setColor(DyeColor color);
 

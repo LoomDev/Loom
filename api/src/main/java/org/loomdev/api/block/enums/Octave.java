@@ -15,7 +15,7 @@ public enum Octave {
     }
 
     /**
-     * Gets the octave's number
+     * Gets the octave's number ({@code 1} or {@code 2}).
      *
      * @return The number.
      */

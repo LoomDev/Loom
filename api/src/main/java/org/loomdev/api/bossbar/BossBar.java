@@ -11,7 +11,7 @@ import java.util.UUID;
 
 /**
  * Represents a boss bar.
- * Boss bars are usually used to show a boss' health, but is commonly used to show a countdown or display text at the top of a player's screen.
+ * Boss bars are usually used to visually represent boss health, but can also be used to show any percentage.
  */
 public interface BossBar {
 
@@ -63,14 +63,14 @@ public interface BossBar {
     @NotNull Collection<? extends Player> getPlayers();
 
     /**
-     * Adds a player to the boss bar causing it to be visible to them.
+     * Adds a player to the boss bar causing it (and all future changes) to be visible to them.
      *
      * @param player The player.
      */
     void addPlayer(@NotNull Player player);
 
     /**
-     * Removes a player from the boss bar causing it to be invisible to them.
+     * Removes a player from the boss bar causing it to dissappear from their screen.
      *
      * @param player The player.
      */
@@ -120,7 +120,7 @@ public interface BossBar {
         Builder dragonMusic(boolean dragonMusic);
 
         /**
-         * Adds a player to the boss bar causing it to be visible to them (when created).
+         * Adds a player to the boss bar causing it (and all future changes) to be visible to them (when created).
          *
          * @param player The player.
          * @return The same builder.
@@ -128,7 +128,7 @@ public interface BossBar {
         Builder addPlayer(@NotNull Player... player);
 
         /**
-         * Removes a player from the boss bar causing it to be invisible to them (when created).
+         * Removes a player from the boss bar causing it not to show on their screen (when created).
          *
          * @param player The player.
          * @return The same builder.
@@ -136,7 +136,7 @@ public interface BossBar {
         Builder removePlayer(@NotNull Player... player);
 
         /**
-         * Removes all players from the boss bar causing it to be invisible to them (when created).
+         * Removes all players from the boss bar causing it not to show on their screens (when created).
          *
          * @return The same builder.
          */

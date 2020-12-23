@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Represents a particle.
+ * Represents a particle that can be played to players.
  */
 public class Particle {
 

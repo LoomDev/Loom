@@ -237,7 +237,7 @@ public interface Enchantment extends Keyed {
     int getMaxLevel();
 
     /**
-     * Check if this enchantment can by applied to an item stack.
+     * Check if this enchantment can by applied to an {@link ItemStack}.
      *
      * <p>
      *     Note: All enchantments can be applied to any item.
@@ -245,7 +245,7 @@ public interface Enchantment extends Keyed {
      *     item stack in vanilla Minecraft.
      * </p>
      *
-     * @param itemStack The item stack to check against.
+     * @param itemStack The {@link ItemStack} to check against.
      * @return {@code true} if the enchantment can be applied.
      */
     boolean isAcceptableItem(@NotNull ItemStack itemStack);

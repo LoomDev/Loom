@@ -65,35 +65,35 @@ public interface ItemStack {
     void setAmount(int amount);
 
     /**
-     * Increment the amount of items in the item stack by 1.
+     * Increments the amount of items in the item stack by 1.
      */
     default void increment() {
         increment(1);
     }
 
     /**
-     * Increment the amount of items in the item stack by a specific amount.
+     * Increments the amount of items in the item stack by a specific amount.
      *
      * @param amount The amount to increment the item stack size with.
      */
     void increment(int amount);
 
     /**
-     * Decrement the amount of items in the item stack by 1.
+     * Decrements the amount of items in the item stack by 1.
      */
     default void decrement() {
         decrement(1);
     }
 
     /**
-     * Decrement the amount of items in the item stack by a specific amount.
+     * Decrements the amount of items in the item stack by a specific amount.
      *
      * @param amount The amount to decrement the item stack size with.
      */
     void decrement(int amount);
 
     /**
-     * Split the item stack into two stacks.
+     * Splits the item stack into two stacks.
      *
      * <pre>{@code
      * ItemStack firstStack = ItemStack.builder().type(ItemType.STONE).amount(45).build();
@@ -119,7 +119,7 @@ public interface ItemStack {
     boolean isEmpty();
 
     /**
-     * Gets whether the itemstack is a food item.
+     * Gets whether the item stack is a food item.
      *
      * @return True if the item can be consumed, otherwise false.
      */
@@ -142,7 +142,7 @@ public interface ItemStack {
     @NotNull Component getName();
 
     /**
-     * Change the name of the item stack.
+     * Changes the name of the item stack.
      *
      * @param name The new name.
      */
@@ -151,19 +151,19 @@ public interface ItemStack {
     }
 
     /**
-     * Change the name of the item stack.
+     * Changes the name of the item stack.
      *
      * @param name The new name.
      */
     void setName(@NotNull Component name);
 
     /**
-     * Reset the name of the item stack to the name of the item.
+     * Resets the name of the item stack to the name of the item.
      */
     void removeCustomName();
 
     /**
-     * Check whether the item stack has a custom name.
+     * Checks whether the item stack has a custom name.
      *
      * @return True if the names isn't equal to the default minecraft name.
      */
@@ -191,7 +191,7 @@ public interface ItemStack {
     void setLore(@NotNull List<Component> components);
 
     /**
-     * Append extra lore to the current lore.
+     * Appends extra lore to the current lore.
      *
      * @param lore The lore to add.
      */
@@ -200,7 +200,7 @@ public interface ItemStack {
     }
 
     /**
-     * Append extra lore to the current lore.
+     * Appends extra lore to the current lore.
      *
      * @param lore The lore to add.
      */
@@ -236,7 +236,7 @@ public interface ItemStack {
     int getEnchantmentLevel(Enchantment enchantment);
 
     /**
-     * Add an enchantment to the item stack.
+     * Adds an enchantment to the item stack.
      *
      * @param enchantment The enchantment to add.
      * @param level The level of the enchantment.
@@ -244,19 +244,19 @@ public interface ItemStack {
     void addEnchantment(@NotNull Enchantment enchantment, Integer level);
 
     /**
-     * Remove an enchantment of the item stack.
+     * Removes an enchantment of the item stack.
      *
      * @param enchantment The enchantment to remove.
      */
     void removeEnchantment(@NotNull Enchantment enchantment);
 
     /**
-     * Remove all enchantments of the item stack.
+     * Removes all enchantments of the item stack.
      */
     void clearEnchantments();
 
     /**
-     * Check whether the item stack has a specific enchantment.
+     * Checks whether the item stack has a specific enchantment.
      *
      * @param enchantment The enchantment to check for.
      * @return True if the enchantment is applied to the item stack.

@@ -9,16 +9,16 @@ import org.loomdev.api.util.DyeColor;
 public interface TropicalFish extends SchoolingFish {
 
     /**
-     * Gets the pattern of the tropical fish.
+     * Gets the {@link Pattern} of the tropical fish.
      *
-     * @return The pattern of the tropical fish.
+     * @return The {@link Pattern} of the tropical fish.
      */
     @NotNull Pattern getPattern();
 
     /**
-     * Sets the pattern of the tropical fish.
+     * Sets the {@link Pattern} of the tropical fish.
      *
-     * @param pattern the new pattern of the tropical fish.
+     * @param pattern The new {@link Pattern} of the tropical fish.
      */
     void setPattern(@NotNull Pattern pattern);
 
@@ -51,7 +51,7 @@ public interface TropicalFish extends SchoolingFish {
     void setPatternColor(@NotNull DyeColor color);
 
     /**
-     * Different possible tropical fish patterns.
+     * Different possible {@link TropicalFish} patterns.
      */
     enum Pattern {
         KOB,

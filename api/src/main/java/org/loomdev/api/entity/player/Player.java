@@ -16,39 +16,14 @@ import java.util.Optional;
 
 public interface Player extends LivingEntity {
 
-    /**
-     * Gets whether the player is connected to the server.
-     *
-     * @return If the player is connected.
-     */
     boolean isConnected();
 
-    /**
-     * Gets whether the player is crouching.
-     *
-     * @return Whether the player is crouching.
-     */
     boolean isCrouching();
 
-    /**
-     * Forces whether the player is crouching.
-     *
-     * @param crouching Whether the player is crouching.
-     */
     void setCrouching(boolean crouching);
 
-    /**
-     * Gets whether the player is sprinting.
-     *
-     * @return Whether the player is sprinting.
-     */
     boolean isSprinting();
 
-    /**
-     * Forces whether the player is sprinting.
-     *
-     * @param sprinting Whether the player is sprinting.
-     */
     void setSprinting(boolean sprinting);
 
     /**
@@ -86,9 +61,6 @@ public interface Player extends LivingEntity {
      */
     int getViewDistance();
 
-    /**
-     * Updates the player's inventory.
-     */
     void updateInventory();
 
     /**
@@ -143,11 +115,6 @@ public interface Player extends LivingEntity {
      */
     void sendTitle(@NotNull Component title, @NotNull Component subtitle, int fadeIn, int stay, int fadeOut);
 
-    /**
-     * Gets the player's address.
-     *
-     * @return The address.
-     */
     @Nullable
     InetSocketAddress getRemoteAddress();
 
@@ -173,54 +140,29 @@ public interface Player extends LivingEntity {
      */
     void setTabListName(@NotNull Component name);
 
-    /**
-     * Gets the text that appears at the top of the tab list.
-     *
-     * @return The text.
-     */
     @Nullable
     Component getTabListHeader();
 
-    /**
-     * Sets the text that appears at the top of the tab list.
-     *
-     * @param text The text.
-     */
     void setTabListHeader(@NotNull Component text);
 
-    /**
-     * Gets the text that appears at the bottom of the tab list.
-     *
-     * @return The text.
-     */
     @Nullable
     Component getTabListFooter();
 
-    /**
-     * Sets the text that appears at the bottom of the tab list.
-     *
-     * @param text The text.
-     */
     void setTabListFooter(@NotNull Component text);
 
-    /**
-     * Plays a sound to the player.
-     *
-     * @param sound The sound.
-     */
     void playSound(@NotNull Sound sound);
 
     /**
-     * Gets the current game mode of the player.
+     * Gets the current {@link GameMode} of the player.
      *
-     * @return The game mode of the player.
+     * @return The {@link GameMode} of the player.
      */
     @NotNull GameMode getGameMode();
 
     /**
-     * Changes the game mode of the player.
+     * Changes the {@link GameMode} of the player.
      *
-     * @param gameMode The new game mode.
+     * @param gameMode The new {@link GameMode}.
      */
     void setGameMode(@NotNull GameMode gameMode);
 }

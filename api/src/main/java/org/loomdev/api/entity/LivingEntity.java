@@ -16,6 +16,7 @@ import java.util.function.Predicate;
 
 /**
  * Represents a living entity.
+ * A living entity has health, can have {@link StatusEffect}s, can drown, and become invisible.
  */
 public interface LivingEntity extends Damageable {
 

@@ -11,33 +11,13 @@ import org.loomdev.api.village.VillagerVariant;
  */
 public interface Villager extends AbstractVillager {
 
-    /**
-     * Gets the villager's variant.
-     *
-     * @return The variant.
-     */
     @NotNull
     VillagerVariant getVariant();
 
-    /**
-     * Sets the villager's variant.
-     *
-     * @param variant The variant.
-     */
     void setVariant(@NotNull VillagerVariant variant);
 
-    /**
-     * Gets the villager's profession.
-     *
-     * @return The profession.
-     */
     @NotNull VillagerProfession getProfession();
 
-    /**
-     * Sets the villager's profession.
-     *
-     * @param profession The profession.
-     */
     void setProfession(@NotNull VillagerProfession profession);
 
     int getLevel();

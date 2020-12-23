@@ -32,7 +32,7 @@ public class NamespacedKey {
      * This should not be used by plugins.
      *
      * @param key The key.
-     * @return A loom namespaced key.
+     * @return A minecraft namespaced key.
      */
     public static NamespacedKey minecraft(@NotNull String key) {
         return new NamespacedKey("minecraft", key);

@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.permissions.PermissionSubject;
 
 /**
- * Represents a command source.
+ * Represents anything that can execute commands and receive messages.
  */
 public interface CommandSource extends CommandSourceConsumable, PermissionSubject {
 

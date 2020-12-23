@@ -6,7 +6,7 @@ import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.math.vector.Vector3d;
 
 /**
- * Represents a eye of ender entity.
+ * Represents an eye of ender entity.
  */
 public interface ThrownEyeOfEnder extends Entity {
 

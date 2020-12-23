@@ -28,7 +28,7 @@ public interface Pufferfish extends Fish, Bucketable {
     void setDeflateTicks(int ticks);
 
     /**
-     * Represents the puffed up state of a pufferfish.
+     * Represents the puffed up state of a {@link Pufferfish}.
      */
     enum PuffState {
 

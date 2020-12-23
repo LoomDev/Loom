@@ -5,12 +5,12 @@ import org.loomdev.api.entity.Entity;
 import javax.annotation.Nullable;
 
 /**
- * Represents a shulker entity.
+ * Represents a shulker bullet entity.
  */
 public interface ShulkerBullet extends Projectile {
 
     /**
-     * Gets the target {@link Entity} of the shulker bullet.
+     * Gets the target {@link Entity} of the bullet.
      *
      * @return The target {@link Entity}.
      */

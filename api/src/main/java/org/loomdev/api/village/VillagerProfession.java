@@ -12,7 +12,7 @@ import org.loomdev.api.util.registry.Keyed;
 import org.loomdev.api.world.poi.PointOfInterestType;
 
 /**
- * Represents the profession of a villager.
+ * Represents the profession of a {@link Villager}.
  */
 public interface VillagerProfession extends Keyed {
 

@@ -6,7 +6,7 @@ import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
 
 /**
- * Represents a type of item.
+ * Represents a type of item used in {@link ItemStack}s and {@link ItemEntity}s.
  */
 public interface ItemType extends Keyed {
 

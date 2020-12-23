@@ -11,7 +11,7 @@ import org.loomdev.api.util.registry.Registry;
 import org.loomdev.api.world.WorldManager;
 
 /**
- * Holds server instance.
+ * Holds the current {@link Server} instance.
  */
 public abstract class Loom {
 
@@ -19,6 +19,7 @@ public abstract class Loom {
 
     /**
      * Sets the current server instance.
+     * <p>This method should only be used by API implementations.</p>
      *
      * @param instance The new instance.
      * @throws UnsupportedOperationException if the server has already been set.
@@ -44,6 +45,7 @@ public abstract class Loom {
      * Gets the plugin manager.
      *
      * @return The plugin manager.
+     * @see Server#getPluginManager()
      */
     public static PluginManager getPluginManager() {
         return getServer().getPluginManager();
@@ -53,6 +55,7 @@ public abstract class Loom {
      * Gets the event manager;
      *
      * @return The event manager.
+     * @see Server#getEventManager()
      */
     public static EventManager getEventManager() {
         return getServer().getEventManager();
@@ -62,6 +65,7 @@ public abstract class Loom {
      * Gets the command manager.
      *
      * @return The command manager.
+     * @see Server#getCommandManager()
      */
     public static CommandManager getCommandManager() {
         return getServer().getCommandManager();
@@ -71,6 +75,7 @@ public abstract class Loom {
      * Gets the world manager.
      *
      * @return The world manager.
+     * @see Server#getWorldManager()
      */
     public static WorldManager getWorldManager() {
         return getServer().getWorldManager();
@@ -80,6 +85,7 @@ public abstract class Loom {
      * Gets the player manager.
      *
      * @return The player manager.
+     * @see Server#getPlayerManager()
      */
     public static PlayerManager getPlayerManager() {
         return getServer().getPlayerManager();
@@ -89,6 +95,7 @@ public abstract class Loom {
      * Gets the permissions engine.
      *
      * @return The permission engine.
+     * @see Server#getPermissionsEngine()
      */
     public static PermissionsEngine getPermissionsEngine() {
         return getServer().getPermissionsEngine();
@@ -98,6 +105,7 @@ public abstract class Loom {
      * Gets the scheduler.
      *
      * @return The scheduler.
+     * @see Server#getScheduler()
      */
     public static Scheduler getScheduler() {
         return getServer().getScheduler();
@@ -107,6 +115,7 @@ public abstract class Loom {
      * Gets the registry.
      *
      * @return The registry.
+     * @see Server#getRegistry()
      */
     public static Registry getRegistry() {
         return getServer().getRegistry();

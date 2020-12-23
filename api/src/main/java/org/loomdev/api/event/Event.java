@@ -10,6 +10,7 @@ public abstract class Event {
 
     /**
      * Gets whether the event can be canceled.
+     * If not, {@link #setCanceled} will throw an {@link IllegalArgumentException}.
      *
      * @return Whether the event is cancelable.
      */

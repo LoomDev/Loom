@@ -5,9 +5,6 @@ import org.loomdev.api.Loom;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.api.util.registry.Keyed;
 
-/**
- * Represents a type of block.
- */
 public interface BlockType extends Keyed {
 
     // region :: BlockTypes

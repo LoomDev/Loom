@@ -5,7 +5,7 @@ import java.util.concurrent.CompletableFuture;
 public interface EventManager {
 
     /**
-     * Register all methods in the specified listener marked with the {@link Subscribe} annotation.
+     * Registers all methods in the specified listener marked with the {@link Subscribe} annotation.
      *
      * @param plugin The plugin.
      * @param listener The listener.
@@ -13,7 +13,7 @@ public interface EventManager {
     void register(Object plugin, Object listener);
 
     /**
-     * Register an event handler
+     * Registers an event handler.
      *
      * @param plugin The plugin.
      * @param eventClass The event class to listen to.
@@ -26,27 +26,25 @@ public interface EventManager {
     }
 
     /**
-     * Register an event handler
+     * Registers an event handler.
      *
      * @param plugin The plugin.
      * @param eventClass The event class to listen to.
      * @param order The event order.
      * @param handler The event handler.
      * @param <E> The event type.
-     * @param eventOrder The event order.
-     * @param handler the event handler
      */
     <E extends Event> void register(Object plugin, Class<E> eventClass, EventOrder order, EventHandler<E> handler);
 
     /**
-     * Unregister all event handlers linked to a plugin.
+     * Unregisters all event handlers linked to a plugin.
      *
      * @param plugin The plugin.
      */
     void unregister(Object plugin);
 
     /**
-     * Unregister a listener.
+     * Unregisters a listener.
      *
      * @param plugin The plugin.
      * @param listener The listener.
@@ -54,27 +52,24 @@ public interface EventManager {
     void unregister(Object plugin, Object listener);
 
     /**
-     * Unregister an event handler
+     * Unregisters an event handler
      *
      * @param handler The event handler.
      * @param <E> The event type.
-     * @param handler The handler.
      */
     <E extends Event> void unregister(EventHandler<E> handler);
 
     /**
-     * Unregister an event handler
+     * Unregisters an event handler
      *
-     * @param plugin The plugin
-     * @param handler The event handler.
-     * @param <E> The event type.
      * @param plugin the Plugin
      * @param handler The handler.
+     * @param <E> The event type.
      */
     <E extends Event> void unregister(Object plugin, EventHandler<E> handler);
 
     /**
-     * Fire an event.
+     * Fires an event.
      *
      * @param event The event.
      * @return The same event.
@@ -83,7 +78,7 @@ public interface EventManager {
     <E extends Event> E fire(E event);
 
     /**
-     * Fire an event asyncronously.
+     * Fires an event asyncronously.
      *
      * @param event The event.
      * @return A completable future completed when the event is fired.
@@ -92,7 +87,7 @@ public interface EventManager {
     <E extends Event> CompletableFuture<E> fireAsync(E event);
 
     /**
-     * Fire an event.
+     * Fires an event without returning any changes.
      *
      * @param event The event.
      * @param <E> The event type.
@@ -102,7 +97,7 @@ public interface EventManager {
     }
 
     /**
-     * Fire an event asyncronously.
+     * Fires an event without returning any changes asyncronously.
      *
      * @param event The event.
      * @param <E> The event type.

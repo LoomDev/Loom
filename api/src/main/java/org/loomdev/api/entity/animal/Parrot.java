@@ -8,16 +8,16 @@ import org.jetbrains.annotations.NotNull;
 public interface Parrot extends TameableEntity {
 
     /**
-     * Gets the variant of the parrot.
+     * Gets the {@link Variant} of the parrot.
      *
-     * @return The variant of the parrot.
+     * @return The {@link Variant} of the parrot.
      */
     @NotNull Variant getVariant();
 
     /**
-     * Sets the variant of the parrot.
+     * Sets the {@link Variant} of the parrot.
      *
-     * @param variant The new variant of the parrot.
+     * @param {@link Variant} The new variant of the parrot.
      */
     void setVariant(@NotNull Variant variant);
 

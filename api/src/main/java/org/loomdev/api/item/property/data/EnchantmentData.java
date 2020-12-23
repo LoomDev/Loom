@@ -3,11 +3,12 @@ package org.loomdev.api.item.property.data;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemType;
+import org.loomdev.api.item.ItemStack;
 
 import java.util.Map;
 
 /**
- * Enchantment data of an item stack.
+ * Enchantment data of a {@link ItemStack}s.
  *
  * <p>
  *     Note: When used on an {@link ItemType#ENCHANTED_BOOK}
@@ -17,29 +18,29 @@ import java.util.Map;
 public interface EnchantmentData extends ItemPropertyData<EnchantmentData> {
 
     /**
-     * Gets the enchantments of the item stack.
+     * Gets the enchantments of the {@link ItemStack}.
      *
      * @return Map of enchantment and level.
      */
     @NotNull Map<Enchantment, Integer> getEnchantments();
 
     /**
-     * Sets the enchantments of the item stack.
+     * Sets the enchantments of the {@link ItemStack}.
      *
      * @param enchantments The enchantments.
      */
     void setEnchantments(@NotNull Map<Enchantment, Integer> enchantments);
 
     /**
-     * Gets the level of a specific enchantment on the item stack.
+     * Gets the level of a specific enchantment on the {@link ItemStack}.
      *
      * @param enchantment The enchantment to get the level for.
-     * @return The level of the enchantment. 0 if the enchantment is not applied to the item stack.
+     * @return The level of the enchantment. 0 if the enchantment is not applied to the {@link ItemStack}.
      */
     int getEnchantmentLevel(Enchantment enchantment);
 
     /**
-     * Add an enchantment to the item stack.
+     * Add an enchantment to the {@link ItemStack}.
      *
      * @param enchantment The enchantment to add.
      * @param level The level of the enchantment.
@@ -47,22 +48,22 @@ public interface EnchantmentData extends ItemPropertyData<EnchantmentData> {
     void addEnchantment(@NotNull Enchantment enchantment, Integer level);
 
     /**
-     * Remove an enchantment of the item stack.
+     * Remove an enchantment of the {@link ItemStack}.
      *
      * @param enchantment The enchantment to remove.
      */
     void removeEnchantment(@NotNull Enchantment enchantment);
 
     /**
-     * Remove all enchantments of the item stack.
+     * Remove all enchantments of the {@link ItemStack}.
      */
     void clearEnchantments();
 
     /**
-     * Check whether the item stack has a specific enchantment.
+     * Check whether the {@link ItemStack} has a specific enchantment.
      *
      * @param enchantment The enchantment to check for.
-     * @return {@code true} if the enchantment is applied to the item stack.
+     * @return {@code true} if the enchantment is applied to the {@link ItemStack}.
      */
     boolean hasEnchantment(@NotNull Enchantment enchantment);
 

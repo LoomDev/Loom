@@ -48,26 +48,16 @@ public enum Note {
         this.index = index;
     }
 
-    /**
-     * Gets the note's octave.
-     *
-     * @return The octave.
-     */
     public Octave getOctave() {
         return octave;
     }
 
-    /**
-     * Gets the note's name.
-     *
-     * @return The name.
-     */
     public String getName() {
         return name;
     }
 
     /**
-     * Gets the note's index (uses).
+     * Gets the note's index (number of uses required on a note block).
      *
      * @return The index.
      */
@@ -86,7 +76,7 @@ public enum Note {
     }
 
     /**
-     * Gets a note from its index (uses).
+     * Gets a note from its index (number of uses required on a note block).
      *
      * @param uses The index.
      * @return The note.

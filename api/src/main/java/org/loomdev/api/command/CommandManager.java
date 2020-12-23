@@ -3,9 +3,6 @@ package org.loomdev.api.command;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.plugin.PluginMetadata;
 
-/**
- * Represents a command manager.
- */
 public interface CommandManager {
 
     void register(@NotNull Object plugin, @NotNull Command command);

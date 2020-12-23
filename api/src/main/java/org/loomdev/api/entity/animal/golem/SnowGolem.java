@@ -9,14 +9,14 @@ import org.loomdev.api.entity.Shearable;
 public interface SnowGolem extends Golem, Shearable {
 
     /**
-     * Gets whether the snow golem has a Pumpkin on his head.
+     * Gets whether the snow golem has a pumpkin on its head.
      *
-     * @return True if the snow golem has a Pumpkin on his head.
+     * @return {@code true} if the snow golem has a pumpkin on its head.
      */
     boolean hasPumpkin();
 
     /**
-     * Sets whether the snow golem has a pumpkin on his head.
+     * Sets whether the snow golem has a pumpkin on its head.
      *
      * @param flag {@code true} to set a pumpkin on the snow golem's head, otherwise {@code false}.
      */

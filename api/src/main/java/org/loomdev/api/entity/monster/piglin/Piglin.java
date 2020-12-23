@@ -8,30 +8,30 @@ import org.loomdev.api.entity.Ageable;
 public interface Piglin extends AbstractPiglin, Ageable {
 
     /**
-     * Gets whether the Piglin is dancing.
+     * Gets whether the piglin is dancing.
      *
-     * @return {@code true} if the Piglin is dancing, otherwise {@code false}.
+     * @return {@code true} if the piglin is dancing, otherwise {@code false}.
      */
     boolean isDancing();
 
     /**
-     * Sets whether the Piglin dancing state.
+     * Sets whether the piglin is dancing.
      *
-     * @param flag {@code true} to make the Piglin dance, otherwise {@code false}.
+     * @param flag {@code true} to make the piglin dance, otherwise {@code false}.
      */
     void setDancing(boolean flag);
 
     /**
-     * Gets whether the Piglin is charging.
+     * Gets whether the piglin is charging.
      *
-     * @return {@code true} if the Piglin is charging, otherwise {@code false}.
+     * @return {@code true} if the piglin is charging, otherwise {@code false}.
      */
     boolean isChargingCrossbow();
 
     /**
-     * Sets whether the Piglin is charging.
+     * Sets whether the piglin is charging.
      *
-     * @param flag {@code true} to make the Piglin charge, otherwise {@code false}.
+     * @param flag {@code true} to make the piglin charge, otherwise {@code false}.
      */
     void setChargingCrossbow(boolean flag);
 

@@ -28,11 +28,6 @@ public interface Entity extends CommandSource {
 
     int getId();
 
-    /**
-     * Gets the entity's UUID (unique identifier).
-     *
-     * @return The UUID.
-     */
     @NotNull
     UUID getUUID();
 
@@ -58,19 +53,9 @@ public interface Entity extends CommandSource {
 
     void setCustomNameVisible(boolean visible);
 
-    /**
-     * Gets the entity's bounding box.
-     *
-     * @return The box.
-     */
     @NotNull
     BoundingBox getBoundingBox();
 
-    /**
-     * Gets the entity's location.
-     *
-     * @return the location
-     */
     @NotNull
     Location getLocation();
 

@@ -8,35 +8,35 @@ import org.jetbrains.annotations.NotNull;
 public interface Panda extends Animal {
 
     /**
-     * Gets the main gene of the panda.
+     * Gets the main {@link Gene} of the panda.
      *
-     * @return The main gene.
+     * @return The main {@link Gene}.
      */
     @NotNull Gene getMainGene();
 
     /**
-     * Sets the main gene of the panda.
+     * Sets the main {@link Gene} of the panda.
      *
-     * @param gene The new main gene.
+     * @param gene The new main {@link Gene}.
      */
     void setMainGene(@NotNull Gene gene);
 
     /**
-     * Gets the hidden gene of the panda.
+     * Gets the hidden {@link Gene} of the panda.
      *
-     * @return The hidden gene.
+     * @return The hidden {@link Gene}.
      */
     @NotNull Gene getHiddenGene();
 
     /**
-     * Sets the hidden gene of the panda.
+     * Sets the hidden {@link Gene} of the panda.
      *
-     * @param gene The new hidden gene
+     * @param gene The new hidden {@link Gene}.
      */
     void setHiddenGene(@NotNull Gene gene);
 
     /**
-     * Represents a gene of a panda.
+     * Represents a gene of a {@link Panda}.
      */
     enum Gene {
         NORMAL(false),
