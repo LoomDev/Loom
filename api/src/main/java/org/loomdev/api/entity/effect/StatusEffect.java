@@ -103,6 +103,8 @@ public class StatusEffect {
         /**
          * Sets whether the status effect is ambient.
          * Ambient effects produce translucent particles.
+         *
+         * @param ambient Whether the status effect is ambient.
          * @return The same builder.
          */
         public Builder ambient(boolean ambient) {

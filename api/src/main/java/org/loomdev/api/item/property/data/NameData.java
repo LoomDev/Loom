@@ -3,6 +3,7 @@ package org.loomdev.api.item.property.data;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.item.ItemStack;
 
 /**
  * Naming data of {@link ItemStack}s.

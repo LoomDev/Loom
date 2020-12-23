@@ -17,7 +17,7 @@ public interface Parrot extends TameableEntity {
     /**
      * Sets the {@link Variant} of the parrot.
      *
-     * @param {@link Variant} The new variant of the parrot.
+     * @param variant {@link Variant} The new variant of the parrot.
      */
     void setVariant(@NotNull Variant variant);
 

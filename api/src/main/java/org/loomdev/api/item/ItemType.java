@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.entity.item.ItemEntity;
 
 /**
  * Represents a type of item used in {@link ItemStack}s and {@link ItemEntity}s.

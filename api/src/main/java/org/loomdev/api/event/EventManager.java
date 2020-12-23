@@ -19,7 +19,6 @@ public interface EventManager {
      * @param eventClass The event class to listen to.
      * @param handler The event handler.
      * @param <E> The event type.
-     * @param handler the event handler
      */
     default <E extends Event> void register(Object plugin, Class<E> eventClass, EventHandler<E> handler) {
         register(plugin, eventClass, EventOrder.NORMAL, handler);
