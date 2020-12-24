@@ -41,7 +41,7 @@ applyPatches() {
         fi
     done
 
-    echo " Done!\n"
+    echo "Done!"
 }
 
 applyPatches
