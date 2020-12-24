@@ -1,3 +1,5 @@
+> :warning: **Work in progress**: Loom, and by extension, the Loom API, is still under *heavy* development. Any part of the project is subject to change at any time and this project is by no means in a *release* status. Contributions are much appreciated. 
+
 # 🧵 Loom
 ### The next generation Minecraft server software.
 
