@@ -3,6 +3,9 @@ package org.loomdev.api.sound;
 import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
 
+/**
+ * Represents a sound event (a sound that can be played to players).
+ */
 public interface SoundEvent extends Keyed {
 
     // region SoundEvents
@@ -1085,7 +1088,8 @@ public interface SoundEvent extends Keyed {
     // endregion SoundEvents
 
     /**
-     * Get a SoundEvent based on the id.
+     * Gets a SoundEvent from its id.
+     *
      * @param id The id of the sound event to get.
      * @return The sound event if found otherwise null.
      */

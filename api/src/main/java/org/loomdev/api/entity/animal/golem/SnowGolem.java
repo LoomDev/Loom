@@ -4,21 +4,21 @@ import org.loomdev.api.entity.animal.golem.Golem;
 import org.loomdev.api.entity.Shearable;
 
 /**
- * Represents a SnowGolem entity.
+ * Represents a snow golem entity.
  */
 public interface SnowGolem extends Golem, Shearable {
 
     /**
-     * Get whether the SnowGolem has a Pumpkin on his head.
+     * Gets whether the snow golem has a pumpkin on its head.
      *
-     * @return True if the SnowGolem has a Pumpkin on his head.
+     * @return {@code true} if the snow golem has a pumpkin on its head.
      */
     boolean hasPumpkin();
 
     /**
-     * Set whether the SnowGolem has a Pumpkin on his head.
+     * Sets whether the snow golem has a pumpkin on its head.
      *
-     * @param flag True to set a Pumpkin on the SnowGolem's head, otherwise False.
+     * @param flag {@code true} to set a pumpkin on the snow golem's head, otherwise {@code false}.
      */
     void setHasPumpkin(boolean flag);
 

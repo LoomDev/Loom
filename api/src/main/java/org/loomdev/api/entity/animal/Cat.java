@@ -6,16 +6,16 @@ import org.loomdev.api.util.DyeColor;
 public interface Cat extends TameableEntity, Sittable {
 
     /**
-     * Get the {@link Variant} of the Cat.
+     * Gets the {@link Variant} of the cat.
      *
-     * @return The {@link Variant} of the Cat.
+     * @return The {@link Variant} of the cat.
      */
     @NotNull Variant getVariant();
 
     /**
-     * Set the {@link Variant} of the Cat.
+     * Sets the {@link Variant} of the cat.
      *
-     * @param variant The new {@link Variant} of the Cat.
+     * @param variant The new {@link Variant} of the cat.
      */
     void setVariant(@NotNull Variant variant);
 

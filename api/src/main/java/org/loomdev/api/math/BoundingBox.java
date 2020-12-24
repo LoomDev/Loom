@@ -2,6 +2,9 @@ package org.loomdev.api.math;
 
 import org.loomdev.api.math.vector.Vector3d;
 
+/**
+ * Represents a bounding box.
+ */
 public class BoundingBox {
 
     public final double minX;

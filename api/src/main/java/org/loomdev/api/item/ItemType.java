@@ -4,7 +4,11 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.entity.item.ItemEntity;
 
+/**
+ * Represents a type of item used in {@link ItemStack}s and {@link ItemEntity}s.
+ */
 public interface ItemType extends Keyed {
 
     // region :: ItemTypes
@@ -1055,7 +1059,8 @@ public interface ItemType extends Keyed {
     // endregion :: ItemTypes
 
     /**
-     * Get an item based on the id.
+     * Gets an item based from its id.
+     *
      * @param id The id of the item to get.
      * @return The item if found, otherwise null.
      */

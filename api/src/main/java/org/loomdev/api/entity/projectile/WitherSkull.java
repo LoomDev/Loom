@@ -6,16 +6,16 @@ package org.loomdev.api.entity.projectile;
 public interface WitherSkull extends ExplosiveProjectile {
 
     /**
-     * Get whether the wither skull is charged.
+     * Gets whether the wither skull is charged.
      *
-     * @return True if the wither skull is charger, otherwise false.
+     * @return {@code true} if the wither skull is charged, otherwise {@code false}.
      */
     boolean isCharged(); // TODO ???? what is charged??
 
     /**
-     * Set whether the wither skull is charged.
+     * Sets whether the wither skull is charged.
      *
-     * @param flag True if the wither skull should be charged, otherwise false.
+     * @param flag {@code true} if the wither skull should be charged, otherwise {@code false}.
      */
     void setCharged(boolean flag);
 

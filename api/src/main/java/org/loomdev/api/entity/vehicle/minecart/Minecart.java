@@ -11,28 +11,28 @@ import javax.annotation.Nullable;
 public interface Minecart extends Entity {
 
     /**
-     * Get the {@link BlockState} displayed in the minecart.
+     * Gets the {@link BlockState} displayed in the minecart.
      *
      * @return The {@link BlockState} displayed in the minecart or null if empty.
      */
     @Nullable BlockState getDisplayedBlock();
 
     /**
-     * Set the {@link BlockState} displayed in the minecart.
+     * Sets the {@link BlockState} displayed in the minecart.
      *
      * @param blockState The new {@link BlockState} displayed in the minecart or null if empty.
      */
     void setDisplayedBlock(@Nullable BlockState blockState);
 
     /**
-     * Get the offset of the {@link BlockState} displayed in the minecart.
+     * Gets the offset of the {@link BlockState} displayed in the minecart.
      *
      * @return The offset of the {@link BlockState} displayed in the minecart.
      */
     int getDisplayedBlockOffset();
 
     /**
-     * Set the offset of the {@link BlockState} displayed in the minecart.
+     * Sets the offset of the {@link BlockState} displayed in the minecart.
      *
      * @param offset The new offset of the {@link BlockState} displayed in the minecart.
      */

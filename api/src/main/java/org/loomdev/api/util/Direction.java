@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a direction.
+ */
 public enum Direction {
 
     DOWN(0, 1, Direction.AxisDirection.NEGATIVE, Direction.Axis.Y, new Vector3i(0, -1, 0)),

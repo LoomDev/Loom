@@ -8,14 +8,14 @@ import org.loomdev.api.entity.Explosive;
 public interface TntMinecart extends Minecart, Explosive {
 
     /**
-     * Get the remaining amount of ticks before the minecart explodes.
+     * Gets the remaining amount of ticks before the minecart explodes.
      *
      * @return The amount of ticks remaining before the minecart explodes.
      */
     int getRemainingFuseTicks();
 
     /**
-     * Set the remaining amount of ticks before the minecart explodes.
+     * Sets the remaining amount of ticks before the minecart explodes.
      *
      * @param ticks The new amount of ticks remaining before the minecart explodes.
      */

@@ -1,5 +1,8 @@
 package org.loomdev.api.monitoring;
 
+/**
+ * Represents server tick times.
+ */
 public interface TickTimes {
 
     double getAverage(TickTimesInterval interval);

@@ -9,21 +9,24 @@ public interface Llama extends ChestedHorse {
     void setStrength(int strength);
 
     /**
-     * Get the {@link Variant} of the Llama.
+     * Gets the {@link Variant} of the llama.
      *
-     * @return The {@link Variant} of the Llama.
+     * @return The {@link Variant} of the llama.
      */
     @NotNull Variant getVariant();
 
     /**
-     * Set the {@link Variant} of the Llama.
+     * Sets the {@link Variant} of the llama.
      *
-     * @param variant The new {@link Variant} of the Llama.
+     * @param variant The new {@link Variant} of the llama.
      */
     void setVariant(@NotNull Variant variant);
 
     // TODO inventory
 
+    /**
+     * Represents a variant of {@link Llama}.
+     */
     enum Variant {
         CREAMY,
         WHITE,

@@ -6,12 +6,12 @@ import org.loomdev.api.entity.Shearable;
 import org.loomdev.api.util.DyeColor;
 
 /**
- * Represents a Sheep entity.
+ * Represents a sheep entity.
  */
 public interface Sheep extends Animal, Shearable, Colorable {
 
     /**
-     * Get the {@link DyeColor} of the sheep.
+     * Gets the {@link DyeColor} of the sheep.
      *
      * @return The {@link DyeColor} of the sheep.
      */
@@ -19,7 +19,7 @@ public interface Sheep extends Animal, Shearable, Colorable {
     @NotNull DyeColor getColor();
 
     /**
-     * Set the {@link DyeColor} of the sheep.
+     * Sets the {@link DyeColor} of the sheep.
      *
      * @param color The new {@link DyeColor} of the sheep.
      */
@@ -27,10 +27,10 @@ public interface Sheep extends Animal, Shearable, Colorable {
     void setColor(@NotNull DyeColor color);
 
     /**
-     * Set whether the Sheep is sheared or not.
+     * Sets whether the sheep is sheared or not.
      *
-     * @param flag True is the Sheep is in a sheared state, otherwise false.
+     * @param sheared True is the sheep is in a sheared state, otherwise false.
      */
-    void setSheared(boolean flag);
+    void setSheared(boolean sheared);
 
 }

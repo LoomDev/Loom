@@ -6,8 +6,8 @@ package org.loomdev.api.entity;
 public interface Shearable {
 
     /**
-     * Get whether the entity is shearable.
-     * @return True if the entity is shearable.
+     * Gets whether the entity is shearable.
+     * @return {@code true} if the entity is shearable.
      */
     boolean isShearable();
 

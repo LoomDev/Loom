@@ -18,7 +18,7 @@ import java.nio.file.Path;
 public interface Server {
 
     /**
-     * Get the name of the server implementation that is currently being ran.
+     * Gets the name of the server implementation that is currently being run.
      *
      * @return The name of the server implementation.
      */
@@ -26,7 +26,7 @@ public interface Server {
     String getImplementationName();
 
     /**
-     * Get the version of the server implementation that is currently being ran.
+     * Gets the version of the server implementation that is currently being run.
      *
      * @return The version of the server implementation.
      */
@@ -34,7 +34,7 @@ public interface Server {
     String getImplementationVersion();
 
     /**
-     * Get the version of Minecraft that is currently being ran.
+     * Gets the version of Minecraft that is currently being run.
      *
      * @return The version of the Minecraft server software.
      */
@@ -42,15 +42,15 @@ public interface Server {
     String getMinecraftVersion();
 
     /**
-     * Get the version of the api that the server implements.
+     * Gets the version of the API that the server implements.
      *
-     * @return The version of the api.
+     * @return The version of the API.
      */
     @NotNull
     ApiVersion getApiVersion();
 
     /**
-     * Get the path of the root directory container the server files.
+     * Gets the path of the root directory container the server files.
      *
      * @return The path of the root directory.
      */
@@ -58,7 +58,7 @@ public interface Server {
     Path getRootDirectory();
 
     /**
-     * Get the path of the folder containing the plugin files.
+     * Gets the path of the folder containing the plugin files.
      *
      * @return The path of the plugin folder.
      */
@@ -66,7 +66,7 @@ public interface Server {
     Path getPluginDirectory();
 
     /**
-     * Get the plugin manager.
+     * Gets the plugin manager.
      *
      * @return The plugin manager.
      */
@@ -74,7 +74,7 @@ public interface Server {
     PluginManager getPluginManager();
 
     /**
-     * Get the event manager;
+     * Gets the event manager;
      *
      * @return The event manager.
      */
@@ -82,7 +82,7 @@ public interface Server {
     EventManager getEventManager();
 
     /**
-     * Get the command manager.
+     * Gets the command manager.
      *
      * @return The command manager.
      */
@@ -90,7 +90,7 @@ public interface Server {
     CommandManager getCommandManager();
 
     /**
-     * Get the world manager.
+     * Gets the world manager.
      *
      * @return The world manager.
      */
@@ -98,7 +98,7 @@ public interface Server {
     WorldManager getWorldManager();
 
     /**
-     * Get the player manager.
+     * Gets the player manager.
      *
      * @return The player manager.
      */
@@ -106,14 +106,14 @@ public interface Server {
     PlayerManager getPlayerManager();
 
     /**
-     * Get the permissions engine.
+     * Gets the permissions engine.
      *
      * @return The permission engine.
      */
     PermissionsEngine getPermissionsEngine();
 
     /**
-     * Get the scheduler.
+     * Gets the scheduler.
      *
      * @return The scheduler.
      */
@@ -121,7 +121,7 @@ public interface Server {
     Scheduler getScheduler();
 
     /**
-     * Get the tps of the server.
+     * Gets the tps of the server.
      *
      * @return Instance of {@link Tps} containing TPS measurements of the server.
      */
@@ -129,7 +129,7 @@ public interface Server {
     Tps getTps();
 
     /**
-     * Get the tick times of the server.
+     * Gets the tick times of the server.
      *
      * @return Instance of {@link TickTimes} containing tick times measurements of the server.
      */
@@ -140,12 +140,27 @@ public interface Server {
 
     int getViewDistance();
 
+    /**
+     * Gets the registry.
+     *
+     * @return The registry.
+     */
     @NotNull
     Registry getRegistry();
 
+    /**
+     * Gets the main server thread.
+     *
+     * @return The server thread.
+     */
     @NotNull
     Thread getServerThread();
 
+    /**
+     * Gets whether the current thread is the server thread.
+     *
+     * @return Whether the current thread is equal to the server thread.
+     */
     boolean isOnServerThread();
 
     @NotNull

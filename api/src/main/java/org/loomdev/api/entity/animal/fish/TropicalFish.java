@@ -4,49 +4,49 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.util.DyeColor;
 
 /**
- * Represents a TropicalFish entity.
+ * Represents a tropical fish entity.
  */
 public interface TropicalFish extends SchoolingFish {
 
     /**
-     * Get the pattern of the TropicalFish.
+     * Gets the {@link Pattern} of the tropical fish.
      *
-     * @return The pattern of the TropicalFish.
+     * @return The {@link Pattern} of the tropical fish.
      */
     @NotNull Pattern getPattern();
 
     /**
-     * Set the pattern of the TropicalFish.
+     * Sets the {@link Pattern} of the tropical fish.
      *
-     * @param pattern the new pattern of the TropicalFish.
+     * @param pattern The new {@link Pattern} of the tropical fish.
      */
     void setPattern(@NotNull Pattern pattern);
 
     /**
-     * Get the base color of the TropicalFish.
+     * Gets the base color of the tropical fish.
      *
-     * @return The base color of the TropicalFish.
+     * @return The base color of the tropical fish.
      */
     @NotNull DyeColor getBaseColor();
 
     /**
-     * Set the base color of the TropicalFish.
+     * Sets the base color of the tropical fish.
      *
-     * @param color The new base color of the TropicalFish.
+     * @param color The new base color of the tropical fish.
      */
     void setBaseColor(@NotNull DyeColor color);
 
     /**
-     * Get the pattern color of the TropicalFish.
+     * Gets the pattern color of the tropical fish.
      *
-     * @return The pattern color of the TropicalFish.
+     * @return The pattern color of the tropical fish.
      */
     @NotNull DyeColor getPatternColor();
 
     /**
-     * Set the pattern color of the TropicalFish.
+     * Sets the pattern color of the tropical fish.
      *
-     * @param color The new pattern color of the TropicalFish.
+     * @param color The new pattern color of the tropical fish.
      */
     void setPatternColor(@NotNull DyeColor color);
 

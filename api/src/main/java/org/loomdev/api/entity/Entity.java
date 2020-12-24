@@ -18,6 +18,11 @@ import java.util.UUID;
 
 public interface Entity extends CommandSource {
 
+    /**
+     * Gets the entity's type.
+     *
+     * @return The type.
+     */
     @NotNull
     EntityType<?> getType();
 
@@ -26,6 +31,11 @@ public interface Entity extends CommandSource {
     @NotNull
     UUID getUUID();
 
+    /**
+     * Gets the entity's name as a text component.
+     *
+     * @return The name.
+     */
     @NotNull
     Component getName();
 
@@ -140,30 +150,65 @@ public interface Entity extends CommandSource {
 
     void setRotation(float pitch, float yaw);
 
+    /**
+     * Gets whether the entity has wings.
+     *
+     * @return Whether the entity has wings.
+     */
     boolean hasWings();
 
     void emitSound(@NotNull SoundEvent type, float volume, float pitch);
 
     boolean isFireResistant();
 
-    void  setFireResistant(boolean flag);
+    void setFireResistant(boolean resistant);
 
     void resetFireResistance();
 
+    /**
+     * Gets whether the entity is touching water (does not include rain).
+     *
+     * @return Whether the entity is touching water.
+     */
     boolean isTouchingWater();
 
+    /**
+     * Gets whether the entity is being rained on.
+     *
+     * @return Whether the entity is being rained on.
+     */
     boolean isBeingRainedOn();
 
+    /**
+     * Gets whether the entity is in a bubble column.
+     *
+     * @return Whether the entity is in a bubble column.
+     */
     boolean isInsideBubbleColumn();
 
+    /**
+     * Gets whether the entity is touching rain or water.
+     *
+     * @return Whether the entity is touching rain or water.
+     */
     default boolean isTouchingRainOrWater() {
         return isTouchingWater() || isBeingRainedOn();
     }
 
+    /**
+     * Gets whether the entity is wet.
+     *
+     * @return Whether the entity is touching water, being rained on or inside a bubble column.
+     */
     default boolean isWet() {
         return isTouchingWater() || isBeingRainedOn() || isInsideBubbleColumn();
     }
 
+    /*
+     * Gets whether the entity is inside water or a bubble column.
+     *
+     * @return Whether the entity is inside water or a bubble column.
+     */
     default boolean isInsideWaterOrBubbleColumn() {
         return isTouchingWater() || isInsideBubbleColumn();
     }
@@ -176,7 +221,7 @@ public interface Entity extends CommandSource {
 
     boolean isInsidePowderSnow();
 
-    void setInsidePowderSnow(boolean flag);
+    void setInsidePowderSnow(boolean insidePowderSnow);
 
     float getBrightnessAtEyes();
 

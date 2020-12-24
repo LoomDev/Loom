@@ -5,6 +5,9 @@ import org.loomdev.api.Loom;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Represents a task that has been scheduled.
+ */
 public interface ScheduledTask {
 
     @NotNull

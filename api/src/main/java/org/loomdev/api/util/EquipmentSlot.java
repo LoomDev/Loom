@@ -1,5 +1,8 @@
 package org.loomdev.api.util;
 
+/**
+ * Represents an equipment slot.
+ */
 public enum EquipmentSlot {
 
     MAINHAND(EquipmentSlot.Type.HAND, 0, 0, "mainhand"),

@@ -12,31 +12,31 @@ public interface ItemProperty<T extends ItemPropertyData<T>> {
     // region ItemProperties
 
     /**
-     * Change the name of an {@link org.loomdev.api.item.ItemStack}.
+     * Change the name of an {@link ItemStack}.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
     ItemProperty<NameData> Name = Loom.getRegistry().getItemProperty(NameData.class);
 
     /**
-     * Change the lore of an {@link org.loomdev.api.item.ItemStack}.
+     * Change the lore of an {@link ItemStack}.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
     ItemProperty<LoreData> Lore = Loom.getRegistry().getItemProperty(LoreData.class);
 
     /**
-     * Modify the damage properties of an {@link org.loomdev.api.item.ItemStack}.
+     * Modify the damage properties of an {@link ItemStack}.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
     ItemProperty<DamageData> Damage = Loom.getRegistry().getItemProperty(DamageData.class);
 
     /**
-     * Add, remove, etc. enchantments of an {@link org.loomdev.api.item.ItemStack}.
+     * Add, remove, etc. enchantments of an {@link ItemStack}.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
     ItemProperty<EnchantmentData> Enchantments = Loom.getRegistry().getItemProperty(EnchantmentData.class);
 
     /**
-     *  Get or modify the repair cost of an {@link org.loomdev.api.item.ItemStack}.
+     *  Get or modify the repair cost of an {@link ItemStack}.
      *  <p>Can be applied to all repairable Items</p>
      */
     ItemProperty<RepairableData> Repairable = Loom.getRegistry().getItemProperty(RepairableData.class);
@@ -66,7 +66,7 @@ public interface ItemProperty<T extends ItemPropertyData<T>> {
     // endregion ItemProperties
 
     /**
-     * Get the {@link ItemPropertyData} object linked to the {@link ItemProperty} of this {@link ItemStack}
+     * Gets the {@link ItemPropertyData} object linked to the {@link ItemProperty} of this {@link ItemStack}
      *
      * @param itemStack The {@link ItemStack} the get the {@link ItemPropertyData} object for.
      * @return The {@link ItemPropertyData} object or null if nnot
@@ -85,7 +85,7 @@ public interface ItemProperty<T extends ItemPropertyData<T>> {
      * Check if the {@link ItemProperty} can be applied to an {@link ItemStack}.
      *
      * @param itemStack The {@link ItemStack} to check the {@link ItemProperty} against.
-     * @return True if the {@link ItemProperty van be applied}.
+     * @return {@code true} if the {@link ItemProperty} can be applied.
      */
     default boolean canApplyTo(@NotNull ItemStack itemStack) {
         return true;

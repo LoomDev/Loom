@@ -8,6 +8,9 @@ import org.loomdev.api.item.ItemStack;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Represents a dropped item entity.
+ */
 public interface ItemEntity extends Entity {
 
     @Nullable

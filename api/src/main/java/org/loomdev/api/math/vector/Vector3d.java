@@ -2,8 +2,14 @@ package org.loomdev.api.math.vector;
 
 import org.loomdev.api.util.Direction;
 
+/**
+ * Represents a vector consisting of 3 double components (<code>x</code>, <code>y</code> and <code>z</code>).
+ */
 public class Vector3d {
 
+    /**
+     * A vector with all components set to <code>0</code>.
+     */
     public static final Vector3d ZERO = new Vector3d(0, 0, 0);
     private double x;
     private double y;

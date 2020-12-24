@@ -9,16 +9,16 @@ import java.util.stream.Collectors;
 public interface Rabbit extends Animal {
 
     /**
-     * Get the {@link Variant} of the Mooshroom.
+     * Gets the {@link Variant} of the mooshroom.
      *
-     * @return The {@link Variant} of the Mooshroom.
+     * @return The {@link Variant} of the mooshroom.
      */
     @NotNull Variant getVariant();
 
     /**
-     * Set the {@link Variant} of the Mooshroom.
+     * Sets the {@link Variant} of the mooshroom.
      *
-     * @param variant The new {@link Variant} of the Mooshroom.
+     * @param variant The new {@link Variant} of the mooshroom.
      */
     void setVariant(@NotNull Variant variant);
 
@@ -28,7 +28,7 @@ public interface Rabbit extends Animal {
         BLACK_AND_WHITE(3),
         GOLD(4),
         /**
-         * Mixture between gray and brown with a white belly?
+         * Mixture between gray and brown with a white belly.
          */
         SALT_AND_PEPPER(5),
         BROWN(6),

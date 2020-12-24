@@ -3,21 +3,22 @@ package org.loomdev.api.item.property.data;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.item.ItemStack;
 
 /**
- * Naming data of {@link org.loomdev.api.item.ItemStack}s.
+ * Naming data of {@link ItemStack}s.
  */
 public interface NameData extends ItemPropertyData<NameData> {
 
     /**
-     * Get the current name of the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the current name of the {@link ItemStack}.
      *
      * @return The current name.
      */
     @NotNull Component getName();
 
     /**
-     * Change the name of the {@link org.loomdev.api.item.ItemStack}.
+     * Changes the name of the {@link ItemStack}.
      *
      * @param name The new name.
      */
@@ -26,26 +27,26 @@ public interface NameData extends ItemPropertyData<NameData> {
     }
 
     /**
-     * Change the name of the {@link org.loomdev.api.item.ItemStack}.
+     * Changes the name of the {@link ItemStack}.
      *
      * @param name The new name.
      */
     void setName(@NotNull Component name);
 
     /**
-     * Reset the name of the {@link org.loomdev.api.item.ItemStack} to the name of the item.
+     * Resets the name of the {@link ItemStack} to the name of the {@link ItemStack}.
      */
     void removeCustomName();
 
     /**
-     * Check whether the {@link org.loomdev.api.item.ItemStack} has a custom name.
+     * Checks whether the {@link ItemStack} has a custom name.
      *
-     * @return True if the names doesn't equal the default minecraft name.
+     * @return {@code true} if the name isn't equal to the default minecraft name.
      */
     boolean hasCustomName();
 
     /**
-     * Get the chat hover text for the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the chat hover text for the {@link ItemStack}.
      *
      * @return The hover text.
      */

@@ -61,22 +61,52 @@ public enum ApiVersion {
         return this == LATEST;
     }
 
+    /**
+     * Gets whether the version is newer than another version.
+     *
+     * @param other The other version.
+     * @return {@code true} if the version is newer than the other version.
+     */
     public boolean isNewerThan(ApiVersion other) {
         return this.ordinal() > other.ordinal();
     }
 
+    /**
+     * Gets whether the version is newer than or equal to another version.
+     *
+     * @param other The other version.
+     * @return {@code true} if the version is at least the other version.
+     */
     public boolean isAtLeast(ApiVersion other) {
         return this.ordinal() >= other.ordinal();
     }
 
+    /**
+     * Gets whether the version is older than another version.
+     *
+     * @param other The other version.
+     * @return {@code true} if the version is older than the other version.
+     */
     public boolean isOlderThan(ApiVersion other) {
         return this.ordinal() < other.ordinal();
     }
 
+    /**
+     * Gets whether the version is older than or equal to another version.
+     *
+     * @param other The other version.
+     * @return {@code true} if the version is at most the other version.
+     */
     public boolean isAtMost(ApiVersion other) {
         return this.ordinal() <= other.ordinal();
     }
 
+    /**
+     * Gets an api version by its name.
+     *
+     * @param name The name.
+     * @return The version.
+     */
     public static ApiVersion getByName(String name) {
         return NAME_VERSION_MAP.get(name);
     }

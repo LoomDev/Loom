@@ -5,21 +5,21 @@ import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.monster.illager.Illager;
 
 /**
- * Represents a Pillages entity.
+ * Represents a pillager entity.
  */
 public interface Pillager extends Illager {
 
     /**
-     * Get whether the Pillager is charging.
+     * Gets whether the pillager is charging their crossbow.
      *
-     * @return True if the Pillager is charging, otherwise False.
+     * @return {@code true} if the Pillager is charging, otherwise {@code false}.
      */
     boolean isChargingCrossbow();
 
     /**
-     * Set whether the Pillager is charging.
+     * Sets whether the pillager is charging their crossbow.
      *
-     * @param charging True to make the Pillager charge, otherwise False.
+     * @param charging {@code true} to make the Pillager charge, otherwise {@code false}.
      */
     void setChargingCrossbow(boolean charging);
 

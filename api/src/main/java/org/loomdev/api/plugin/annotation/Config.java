@@ -7,8 +7,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.loomdev.api.config.Configuration;
+
 /**
- * This annotation injects an {@link org.loomdev.api.config.Configuration} instance.
+ * This annotation injects an {@link Configuration} instance.
  */
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
@@ -25,7 +27,7 @@ public @interface Config {
     /**
      * Should the default config be copied if configuration file is missing.
      *
-     * @return True if the default config should be copied.
+     * @return {@code true} if the default config should be copied.
      */
     boolean copyDefault() default true;
 

@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.world.Location;
 
 /**
- * Represent a Wandering Trader entity.
+ * Represent a wandering trader entity.
  */
 public interface WanderingTrader extends AbstractVillager {
 

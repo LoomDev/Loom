@@ -9,6 +9,10 @@ import org.loomdev.api.util.builder.BuilderBase;
 import java.util.Collection;
 import java.util.UUID;
 
+/**
+ * Represents a boss bar.
+ * Boss bars are usually used to visually represent boss health, but can also be used to show any percentage.
+ */
 public interface BossBar {
 
     static Builder builder() {
@@ -51,12 +55,30 @@ public interface BossBar {
 
     void setDragonMusic(boolean music);
 
+    /**
+     * Gets a list of players viewing the boss bar.
+     *
+     * @return The list.
+     */
     @NotNull Collection<? extends Player> getPlayers();
 
+    /**
+     * Adds a player to the boss bar causing it (and all future changes) to be visible to them.
+     *
+     * @param player The player.
+     */
     void addPlayer(@NotNull Player player);
 
+    /**
+     * Removes a player from the boss bar causing it to dissappear from their screen.
+     *
+     * @param player The player.
+     */
     void removePlayer(@NotNull Player player);
 
+    /**
+     * Removes all players from the boss bar causing it to dissappear from their screens.
+     */
     void removeAll();
 
     enum Color {
@@ -97,10 +119,27 @@ public interface BossBar {
 
         Builder dragonMusic(boolean dragonMusic);
 
+        /**
+         * Adds a player to the boss bar causing it (and all future changes) to be visible to them (when created).
+         *
+         * @param player The player.
+         * @return The same builder.
+         */
         Builder addPlayer(@NotNull Player... player);
 
+        /**
+         * Removes a player from the boss bar causing it not to show on their screen (when created).
+         *
+         * @param player The player.
+         * @return The same builder.
+         */
         Builder removePlayer(@NotNull Player... player);
 
+        /**
+         * Removes all players from the boss bar causing it not to show on their screens (when created).
+         *
+         * @return The same builder.
+         */
         Builder clearPlayers();
     }
 }

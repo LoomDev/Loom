@@ -1,7 +1,7 @@
 package org.loomdev.api.entity.projectile.thrown;
 
 /**
- * Represents a Snowball entity.
+ * Represents a snowball entity.
  */
 public interface ThrownSnowball extends ThrowableItem {
 }

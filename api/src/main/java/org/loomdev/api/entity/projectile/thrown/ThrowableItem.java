@@ -4,19 +4,19 @@ import org.loomdev.api.entity.projectile.Projectile;
 import org.loomdev.api.item.ItemStack;
 
 /**
- * Represents a ThrownItem entity.
+ * Represents a throwable item entity.
  */
 public interface ThrowableItem extends Projectile {
 
     /**
-     * Gets the item of the ThrownItem entity.
+     * Gets the item of the throwable item entity.
      *
      * @return The item.
      */
     ItemStack getItem();
 
     /**
-     * Set the item of the ThrownItem entity.
+     * Sets the item of the throwable item entity.
      *
      * @param item The item.
      */

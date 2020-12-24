@@ -219,12 +219,22 @@ public interface EntityType<T extends Entity> extends Keyed {
         return Loom.getRegistry().getWrapped(EntityType.class, id);
     }
 
+    /**
+     * Gets the entity's spawn group (category).
+     *
+     * @return The spawn group.
+     */
     @NotNull
     SpawnGroup getSpawnGroup();
 
     @NotNull
     ImmutableSet<BlockType> getCanSpawnInside();
 
+    /**
+     * Gets whether the entity can be spawned (with {@code /summon} or from spawners, etc.).
+     *
+     * @return Whether the entity is summonable.
+     */
     boolean isSummonable();
 
     boolean isFireImmune();

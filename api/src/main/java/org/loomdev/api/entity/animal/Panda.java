@@ -3,40 +3,40 @@ package org.loomdev.api.entity.animal;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a Panda entity.
+ * Represents a panda entity.
  */
 public interface Panda extends Animal {
 
     /**
-     * Get the main {@link Gene} of the Panda.
+     * Gets the main {@link Gene} of the panda.
      *
-     * @return The main {@link Gene}
+     * @return The main {@link Gene}.
      */
     @NotNull Gene getMainGene();
 
     /**
-     * Set the main {@link Gene} of the Panda.
+     * Sets the main {@link Gene} of the panda.
      *
-     * @param gene The new main {@link Gene}
+     * @param gene The new main {@link Gene}.
      */
     void setMainGene(@NotNull Gene gene);
 
     /**
-     * Get the hidden {@link Gene} of the Panda.
+     * Gets the hidden {@link Gene} of the panda.
      *
-     * @return The hidden {@link Gene}
+     * @return The hidden {@link Gene}.
      */
     @NotNull Gene getHiddenGene();
 
     /**
-     * Set the hidden {@link Gene} of the Panda.
+     * Sets the hidden {@link Gene} of the panda.
      *
-     * @param gene The new hidden {@link Gene}
+     * @param gene The new hidden {@link Gene}.
      */
     void setHiddenGene(@NotNull Gene gene);
 
     /**
-     * Represents a Gene of a {@link Panda}.
+     * Represents a gene of a {@link Panda}.
      */
     enum Gene {
         NORMAL(false),
@@ -54,16 +54,16 @@ public interface Panda extends Animal {
         }
 
         /**
-         * Get whether the gene is recessive.
+         * Gets whether the gene is recessive.
          *
-         * @return True if the gene is recessive, otherwise False.
+         * @return {@code true} if the gene is recessive, otherwise {@code false}.
          */
         public boolean isRecessive() {
             return recessive;
         }
 
         /**
-         * Get the product of two genes.
+         * Gets the product of two genes.
          *
          * @param gene1 The first gene.
          * @param gene2 The second gene.

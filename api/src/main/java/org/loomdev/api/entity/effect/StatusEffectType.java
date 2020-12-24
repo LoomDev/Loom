@@ -43,9 +43,9 @@ public interface StatusEffectType extends Keyed {
     // endregion StatusEffectTypes
 
     /**
-     * Get a StatusEffectType based on the id.
+     * Gets a status effect type by its id.
      * @param id The id of the status effect type to get.
-     * @return The status effect type if found otherwise null.
+     * @return The status effect type if found, otherwise null.
      */
     static StatusEffectType getById(String id) {
         return Loom.getRegistry().getWrapped(StatusEffectType.class, id);

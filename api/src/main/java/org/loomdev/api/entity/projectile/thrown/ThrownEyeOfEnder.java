@@ -6,47 +6,47 @@ import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.math.vector.Vector3d;
 
 /**
- * Represents a EyeOfEnder entity.
+ * Represents an eye of ender entity.
  */
 public interface ThrownEyeOfEnder extends Entity {
 
     /**
-     * Get whether the eye of ender is dropped.
+     * Gets whether the eye of ender is dropped.
      *
-     * @return True if the EyeOfEnder item is dropped, otherwise False.
+     * @return {@code true} if the eye of ender item is dropped, otherwise {@code false}.
      */
     boolean getDropsItem();
 
     /**
-     * Set whether the eye of ender is dropped.
+     * Sets whether the eye of ender is dropped.
      *
-     * @param flag True if the EyeOfEnder item should be dropped, otherwise False.
+     * @param flag {@code true} if the eye of ender item should be dropped, otherwise {@code false}.
      */
     void setDropsItem(boolean flag);
 
     /**
-     * Get the target of the eye of ender.
+     * Gets the target of the eye of ender.
      *
      * @return The target of the eye of ender.
      */
     @NotNull Vector3d getTarget();
 
     /**
-     * Set the target location for the eye of ender to fly towards.
+     * Sets the target location for the eye of ender to fly towards.
      *
      * @param target The new target location for the eye of ender.
      */
     void setTarget(@NotNull Vector3d target);
 
     /**
-     * Get the item that is displayed for the entity.
+     * Gets the item that is displayed for the entity.
      *
      * @return The item that is displayed, null if an eye of ender is displayed.
      */
     @NotNull ItemStack getItem();
 
     /**
-     * Set the item that is displayed for the entity.
+     * Sets the item that is displayed for the entity.
      *
      * @param item The item to display as the entity, null for an eye of ender.
      */

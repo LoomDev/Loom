@@ -14,6 +14,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+/**
+ * Represents a living entity.
+ * A living entity has health, can have {@link StatusEffect}s, can drown, and become invisible.
+ */
 public interface LivingEntity extends Damageable {
 
     @NotNull List<StatusEffect> getStatusEffects();

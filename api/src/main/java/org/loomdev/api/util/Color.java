@@ -4,6 +4,9 @@ import com.google.common.base.Preconditions;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 
+/**
+ * Represents a color.
+ */
 public class Color {
     private static final int BIT_MASK = 0xff;
 

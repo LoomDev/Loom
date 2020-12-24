@@ -11,23 +11,23 @@ import org.loomdev.api.entity.LivingEntity;
 public interface PrimedTnt extends Entity, Explosive {
 
     /**
-     * Get the time in ticks until the tnt explodes.
+     * Gets the time in ticks until the TNT explodes.
      *
-     * @return The time in ticks until the tnt explodes.
+     * @return The time in ticks until the TNT explodes.
      */
     int getFuse();
 
     /**
-     * Set the time in ticks until the tnt explodes.
+     * Sets the time in ticks until the TNT explodes.
      *
-     * @param ticks The time in ticks until the tnt explodes.
+     * @param ticks The time in ticks until the TNT explodes.
      */
     void setFuse(int ticks);
 
     /**
-     * Get the {@link LivingEntity} that activated the tnt.
+     * Gets the {@link LivingEntity} that activated the TNT.
      *
-     * @return The {@link LivingEntity} that activated the tnt.
+     * @return The {@link LivingEntity} that activated the TNT.
      */
     @Nullable
     LivingEntity getSource();

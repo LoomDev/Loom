@@ -4,8 +4,18 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 
+/**
+ * Represents a reference to a block in a world.
+ * Every value can change, apart from the location.
+ */
 public interface BlockPointer {
 
+    /**
+     * Gets the block's location.
+     * This will always be the same.
+     *
+     * @return The location.
+     */
     @NotNull
     Location getLocation();
 

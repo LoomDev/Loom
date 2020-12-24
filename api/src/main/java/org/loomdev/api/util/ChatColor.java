@@ -2,6 +2,9 @@ package org.loomdev.api.util;
 
 import net.kyori.adventure.text.format.TextColor;
 
+/**
+ * Chat color utilities.
+ */
 public class ChatColor {
 
     public static final char COLOR_CHAR = '\u00A7';

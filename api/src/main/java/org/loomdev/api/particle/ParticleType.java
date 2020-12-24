@@ -3,6 +3,9 @@ package org.loomdev.api.particle;
 import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
 
+/**
+ * Represents a type of particle.
+ */
 public interface ParticleType extends Keyed {
 
     // region ParticleTypes
@@ -91,7 +94,7 @@ public interface ParticleType extends Keyed {
     // endregion ParticleTypes
 
     /**
-     * Get a ParticleType based on the id.
+     * Gets a ParticleType from its id.
      * @param id The id of the particle type to get.
      * @return The particle type if found otherwise null.
      */

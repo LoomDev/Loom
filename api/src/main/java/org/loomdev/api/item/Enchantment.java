@@ -206,7 +206,7 @@ public interface Enchantment extends Keyed {
     // endregion Enchantments
 
     /**
-     * Get an enchantment based on the id.
+     * Gets an enchantment based on the id.
      * @param id The if of the enchantment to get.
      * @return The enchantment if found, otherwise null.
      */
@@ -215,7 +215,7 @@ public interface Enchantment extends Keyed {
     }
 
     /**
-     * Get the name of the enchantment.
+     * Gets the name of the enchantment.
      *
      * @param level The level to get the name for.
      * @return The name.
@@ -223,14 +223,14 @@ public interface Enchantment extends Keyed {
     @NotNull Component getName(int level);
 
     /**
-     * Get the minimum possible enchantment level of this enchantment.
+     * Gets the minimum possible enchantment level of this enchantment.
      *
      * @return The minimum level.
      */
     int getMinLevel();
 
     /**
-     * Get the maximum possible enchantment level of this enchantment.
+     * Gets the maximum possible enchantment level of this enchantment.
      *
      * @return The maximum level.
      */
@@ -242,11 +242,11 @@ public interface Enchantment extends Keyed {
      * <p>
      *     Note: All enchantments can be applied to any item.
      *     This method returns whether the enchantment can occur on a specific
-     *     {@link ItemStack} in vanilla Minecraft.
+     *     item stack in vanilla Minecraft.
      * </p>
      *
      * @param itemStack The {@link ItemStack} to check against.
-     * @return True if the enchantment can be applied.
+     * @return {@code true} if the enchantment can be applied.
      */
     boolean isAcceptableItem(@NotNull ItemStack itemStack);
 
@@ -256,29 +256,29 @@ public interface Enchantment extends Keyed {
      * <p>
      *     Note: All enchantments can be combined in Loom.
      *     This method returns whether two enchantments can occur combined on the same
-     *     {@link ItemStack} in vanilla Minecraft.
+     *     item stack in vanilla Minecraft.
      * </p>
      *
      * @param enchantment The enchantment to check against.
-     * @return True if the enchantments can be combined on the same {@link ItemStack}.
+     * @return {@code true} if the enchantments can be combined on the same item stack.
      */
     boolean canCombineWith(@NotNull Enchantment enchantment);
 
     /**
-     * Checks if this {@link Enchantment} is a curse.
+     * Checks if the enchantment is a curse.
      *
      * <p>
      *     Example of a curse enchantment is {@link Enchantment#BINDING_CURSE}
      * </p>
      *
-     * @return True if the enchantment is a curse, otherwise false.
+     * @return {@code true} if the enchantment is a curse, otherwise {@code false}.
      */
     boolean isCurse();
 
     /**
-     * Check if this {@link Enchantment} is traded by villagers.
+     * Check if the enchantment is traded by villagers.
      *
-     * @return True if the enchantment is traded by villagers, otherwise false.
+     * @return {@code true} if the enchantment is traded by villagers, otherwise {@code false}.
      */
     boolean isTraded();
 

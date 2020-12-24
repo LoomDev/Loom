@@ -3,26 +3,27 @@ package org.loomdev.api.item.property.data;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.item.ItemStack;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * Lore data of {@link org.loomdev.api.item.ItemStack}s.
+ * Lore data of {@link ItemStack}s.
  */
 public interface LoreData extends ItemPropertyData<LoreData> {
 
     /**
-     * Get the lore of the {@link org.loomdev.api.item.ItemStack}.
+     * Gets the lore of the {@link ItemStack}.
      *
-     * @return The lore of the {@link org.loomdev.api.item.ItemStack}.
+     * @return The lore of the {@link ItemStack}.
      */
     @NotNull List<Component> getLore();
 
     /**
-     * Set the lore of the {@link org.loomdev.api.item.ItemStack}.
+     * Sets the lore of the {@link ItemStack}.
      *
-     * @param components The new lore of the {@link org.loomdev.api.item.ItemStack}.
+     * @param components The new lore of the {@link ItemStack}.
      */
     void setLore(@NotNull List<Component> components);
 

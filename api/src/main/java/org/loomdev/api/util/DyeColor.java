@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a dye color (used for wool, signs, concrete etc.).
+ */
 // TODO create test to check these values agains the minecraft DyeColor enum
 public enum DyeColor {
 

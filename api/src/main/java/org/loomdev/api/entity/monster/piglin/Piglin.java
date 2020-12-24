@@ -3,35 +3,35 @@ package org.loomdev.api.entity.monster.piglin;
 import org.loomdev.api.entity.Ageable;
 
 /**
- * Represents a Piglin entity.
+ * Represents a piglin entity.
  */
 public interface Piglin extends AbstractPiglin, Ageable {
 
     /**
-     * Get whether the Piglin is dancing.
+     * Gets whether the piglin is dancing.
      *
-     * @return True if the Piglin is dancing, otherwise False.
+     * @return {@code true} if the piglin is dancing, otherwise {@code false}.
      */
     boolean isDancing();
 
     /**
-     * Set whether the Piglin dancing state.
+     * Sets whether the piglin is dancing.
      *
-     * @param flag True to make the Piglin dance, otherwise False.
+     * @param flag {@code true} to make the piglin dance, otherwise {@code false}.
      */
     void setDancing(boolean flag);
 
     /**
-     * Get whether the Piglin is charging.
+     * Gets whether the piglin is charging.
      *
-     * @return True if the Piglin is charging, otherwise False.
+     * @return {@code true} if the piglin is charging, otherwise {@code false}.
      */
     boolean isChargingCrossbow();
 
     /**
-     * Set whether the Piglin is charging.
+     * Sets whether the piglin is charging.
      *
-     * @param flag True to make the Piglin charge, otherwise False.
+     * @param flag {@code true} to make the piglin charge, otherwise {@code false}.
      */
     void setChargingCrossbow(boolean flag);
 

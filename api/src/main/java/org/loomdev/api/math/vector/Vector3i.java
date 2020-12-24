@@ -3,8 +3,14 @@ package org.loomdev.api.math.vector;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.util.Direction;
 
+/**
+ * Represents a vector consisting of 3 integer components (<code>x</code>, <code>y</code> and <code>z</code>).
+ */
 public class Vector3i {
 
+    /**
+     * A vector with all components set to <code>0</code>.
+     */
     public static final Vector3i ZERO = new Vector3i(0, 0, 0);
     private int x;
     private int y;

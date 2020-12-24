@@ -3,19 +3,19 @@ package org.loomdev.api.entity.monster.illager;
 import org.loomdev.api.entity.monster.Monster;
 
 /**
- * Represents a Vex entity.
+ * Represents a vex entity.
  */
 public interface Vex extends Monster {
 
     /**
-     * Get the charging state of the Vex.
+     * Gets the charging state of the vex.
      *
      * @return The charging state.
      */
     boolean isCharging();
 
     /**
-     * Set the charging state of the Vex.
+     * Sets the charging state of the vex.
      * @param charging The new charging state.
      */
     void setCharging(boolean charging);
