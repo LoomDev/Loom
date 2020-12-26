@@ -3,9 +3,12 @@
 mcVersion=$(cat ".loomversion")
 
 mapServerJar() {
+    printf "Converting $mcVersion Minecraft mappings..."
+    java -jar tools/enigma-cli-0.21.6+build.229-all.jar convert-mappings proguard ".cache/$mcVersion/server.txt" tinyv2:obf:deobf ".cache/$mcVersion/server.tiny" || exit 1
+    printf " Done!\n"
+   
     printf "Mapping $mcVersion Minecraft server jar...\n"
-    java -jar tools/tiny-remapper-0.3.1.72-fat.jar ".cache/$mcVersion/server.jar" ".cache/$mcVersion/server-deobf.jar" ".cache/$mcVersion/server.tiny" obf deobf --skipLocalVariableMapping || exit
-    # rm -rf ./logs
+    java -jar tools/tiny-remapper-0.3.1.72-fat.jar ".cache/$mcVersion/server.jar" ".cache/$mcVersion/server-deobf.jar" ".cache/$mcVersion/server.tiny" obf deobf --rebuildSourceFilenames || exit 1
 
     printf "Installing $mcVersion mapped Minecraft server jar in your local maven repo..."
     mvn install:install-file -Dfile=".cache/$mcVersion/server-deobf.jar" -DgroupId="org.loomdev" -DartifactId="minecraft-server" -Dversion="$mcVersion-SNAPSHOT" -Dpackaging="jar" > /dev/null

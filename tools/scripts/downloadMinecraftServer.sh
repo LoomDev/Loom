@@ -18,12 +18,8 @@ downloadTargettedVersion() {
     versionSpecificServerUri=$(grep -o "https:\/\/launcher\.mojang\.com\/v1\/objects\/.\{40\}\/server\.jar" .cache/$mcVersion/version_manifest.json)
     versionSpecificMappingsUri=$(grep -o "https:\/\/launcher\.mojang\.com\/v1\/objects\/.\{40\}\/server\.txt" .cache/$mcVersion/version_manifest.json)
 
-    serverProGuard=".cache/$mcVersion/server.txt"
-    serverTiny=".cache/$mcVersion/server.tiny"
     curl --create-dirs -s -o ".cache/$mcVersion/server.jar" "$versionSpecificServerUri" || exit 1
-    curl --create-dirs -s -o $serverProGuard "$versionSpecificMappingsUri" || exit 1
-    java -jar tools/enigma-cli-0.21.6+build.229-all.jar convert-mappings proguard $serverProGuard tinyv2:obf:deobf $serverTiny || exit 1
-    rm $serverProGuard
+    curl --create-dirs -s -o ".cache/$mcVersion/server.txt" "$versionSpecificMappingsUri" || exit 1
     printf " Done!\n"
 }
 
