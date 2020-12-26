@@ -4,7 +4,7 @@ mcVersion=$(cat ".loomversion")
 
 mapServerJar() {
     printf "Converting $mcVersion Minecraft mappings..."
-    java -jar tools/enigma-cli-0.21.6+build.229-all.jar convert-mappings proguard ".cache/$mcVersion/server.txt" tinyv2:obf:deobf ".cache/$mcVersion/server.tiny" || exit 1
+    java -jar tools/enigma-cli-0.22.0-all.jar convert-mappings proguard ".cache/$mcVersion/server.txt" tinyv2:obf:deobf ".cache/$mcVersion/server.tiny" || exit 1
     printf " Done!\n"
    
     printf "Mapping $mcVersion Minecraft server jar...\n"
