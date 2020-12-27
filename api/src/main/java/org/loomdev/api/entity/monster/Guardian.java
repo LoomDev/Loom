@@ -1,7 +1,10 @@
 package org.loomdev.api.entity.monster;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.LivingEntity;
+
+import java.util.Optional;
 
 public interface Guardian extends Monster {
 
@@ -9,8 +12,8 @@ public interface Guardian extends Monster {
 
     void setSpikesRetracted(boolean flag);
 
-    @Nullable
-    LivingEntity getBeamTarget();
+    @NotNull
+    Optional<LivingEntity> getBeamTarget();
 
     void setBeamTarget(@Nullable LivingEntity entity);
 

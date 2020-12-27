@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 public abstract class EntityImpl extends CommandSourceImpl implements Entity {
 
@@ -68,9 +69,10 @@ public abstract class EntityImpl extends CommandSourceImpl implements Entity {
     }
 
     @Override
-    @Nullable
-    public Component getCustomName() {
-        return getMinecraftEntity().getCustomName() == null ? null : TextTransformer.toLoom(getMinecraftEntity().getCustomName());
+    @NotNull
+    public Optional<Component> getCustomName() {
+        return Optional.ofNullable(getMinecraftEntity().getCustomName())
+                .map(TextTransformer::toLoom);
     }
 
     @Override
@@ -163,14 +165,10 @@ public abstract class EntityImpl extends CommandSourceImpl implements Entity {
     }
 
     @Override
-    @Nullable
-    public Entity getVehicle() {
-        var vehicle = getMinecraftEntity().getVehicle();
-        if (vehicle == null) {
-            return null;
-        }
-
-        return vehicle.getLoomEntity();
+    @NotNull
+    public Optional<Entity> getVehicle() {
+        return Optional.ofNullable(getMinecraftEntity().getVehicle())
+                .map(net.minecraft.world.entity.Entity::getLoomEntity);
     }
 
     @Override
@@ -190,18 +188,9 @@ public abstract class EntityImpl extends CommandSourceImpl implements Entity {
 
     @Override
     @NotNull
-    public List<Entity> getPassengers() {
-        var passengers = getMinecraftEntity().getPassengers();
-        if (passengers.size() == 0) {
-            return Collections.emptyList();
-        }
-
-        var loomPassengers = new ArrayList<Entity>();
-        for (var passenger : passengers) {
-            loomPassengers.add(passenger.getLoomEntity());
-        }
-
-        return loomPassengers;
+    public Stream<Entity> getPassengers() {
+        return getMinecraftEntity().getPassengers().stream()
+                .map(net.minecraft.world.entity.Entity::getLoomEntity);
     }
 
     @Override

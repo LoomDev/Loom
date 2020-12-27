@@ -8,6 +8,8 @@ import org.loomdev.api.entity.boss.enderdragon.EndCrystal;
 import org.loomdev.api.world.Location;
 import org.loomdev.loom.entity.EntityImpl;
 
+import java.util.Optional;
+
 public class EndCrystalImpl extends EntityImpl implements EndCrystal {
 
     public EndCrystalImpl(net.minecraft.world.entity.boss.enderdragon.EndCrystal entity) {
@@ -27,15 +29,19 @@ public class EndCrystalImpl extends EntityImpl implements EndCrystal {
     }
 
     @Override
-    @Nullable
-    public Location getBeamTarget() {
-        var target = getMinecraftEntity().getBeamTarget();
-        if (target == null) return null;
-        return new Location(null, target.getX(), target.getY(), target.getZ()); // TODO world
+    @NotNull
+    public Optional<Location> getBeamTarget() {
+        return Optional.ofNullable(getMinecraftEntity().getBeamTarget())
+                .map(target -> new Location(getMinecraftEntity().level.getLoomWorld(), target.getX(), target.getY(), target.getZ()));
     }
 
     @Override
     public void setBeamTarget(@Nullable Location location) {
+        if (location == null) {
+            getMinecraftEntity().setBeamTarget(null);
+            return;
+        }
+
         getMinecraftEntity().setBeamTarget(new BlockPos(location.getX(), location.getY(), location.getZ()));
     }
 

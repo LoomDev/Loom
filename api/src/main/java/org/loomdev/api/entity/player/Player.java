@@ -115,8 +115,8 @@ public interface Player extends LivingEntity {
      */
     void sendTitle(@NotNull Component title, @NotNull Component subtitle, int fadeIn, int stay, int fadeOut);
 
-    @Nullable
-    InetSocketAddress getRemoteAddress();
+    @NotNull
+    Optional<InetSocketAddress> getRemoteAddress();
 
     /**
      * Gets the player's protocol version.
@@ -130,8 +130,8 @@ public interface Player extends LivingEntity {
      *
      * @return The name.
      */
-    @Nullable
-    Component getTabListName();
+    @NotNull
+    Optional<Component> getTabListName();
 
     /**
      * Sets the player's name that appears on the tab list.
@@ -140,13 +140,13 @@ public interface Player extends LivingEntity {
      */
     void setTabListName(@NotNull Component name);
 
-    @Nullable
-    Component getTabListHeader();
+    @NotNull
+    Optional<Component> getTabListHeader();
 
     void setTabListHeader(@NotNull Component text);
 
-    @Nullable
-    Component getTabListFooter();
+    @NotNull
+    Optional<Component> getTabListFooter();
 
     void setTabListFooter(@NotNull Component text);
 

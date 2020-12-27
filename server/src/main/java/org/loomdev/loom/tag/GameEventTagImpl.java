@@ -5,16 +5,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.GameEventTags;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Unmodifiable;
 import org.loomdev.api.tag.GameEventTag;
 import org.loomdev.api.util.NamespacedKey;
 import org.loomdev.api.world.event.GameEventType;
 import org.loomdev.loom.util.registry.GenericWrapped;
 import org.loomdev.loom.world.event.GameEventTypeImpl;
 
-import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GameEventTagImpl extends GenericWrapped implements GameEventTag {
 
@@ -36,11 +34,9 @@ public class GameEventTagImpl extends GenericWrapped implements GameEventTag {
 
     @Override
     @NotNull
-    @Unmodifiable
-    public List<GameEventType> getValues() {
+    public Stream<GameEventType> getValues() {
         return tag.getValues().stream()
-                .map(block -> GameEventType.getById(getEventKey(block)))
-                .collect(Collectors.toList());
+                .map(block -> GameEventType.getById(getEventKey(block)));
     }
 
     @Override

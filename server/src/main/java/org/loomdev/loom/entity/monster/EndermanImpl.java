@@ -1,5 +1,6 @@
 package org.loomdev.loom.entity.monster;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.monster.EnderMan;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,6 +11,7 @@ import org.loomdev.api.entity.player.Player;
 import org.loomdev.loom.entity.LivingEntityImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class EndermanImpl extends MonsterImpl implements Enderman {
@@ -61,9 +63,9 @@ public class EndermanImpl extends MonsterImpl implements Enderman {
     }
 
     @Override
-    @Nullable
-    public UUID getAngryAt() {
-        return getMinecraftEntity().getPersistentAngerTarget();
+    @NotNull
+    public Optional<UUID> getAngryAt() {
+        return Optional.ofNullable(getMinecraftEntity().getPersistentAngerTarget());
     }
 
     @Override
@@ -72,16 +74,21 @@ public class EndermanImpl extends MonsterImpl implements Enderman {
     }
 
     @Override
-    @Nullable
-    public LivingEntity getTarget() {
-        var target = getMinecraftEntity().getTarget();
-        if (target == null) return null;
-        return (LivingEntityImpl) target.getLoomEntity();
+    @NotNull
+    public Optional<LivingEntity> getTarget() {
+        return Optional.ofNullable(getMinecraftEntity().getTarget())
+                .map(Entity::getLoomEntity)
+                .map(LivingEntity.class::cast);
     }
 
     @Override
-    public void setTarget(@NotNull LivingEntity livingEntity) {
-        getMinecraftEntity().setTarget(((LivingEntityImpl) livingEntity).getMinecraftEntity());
+    public void setTarget(@Nullable LivingEntity entity) {
+        if (entity == null) {
+            getMinecraftEntity().setTarget(null);
+            return;
+        }
+
+        getMinecraftEntity().setTarget(((LivingEntityImpl) entity).getMinecraftEntity());
     }
 
     @Override

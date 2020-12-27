@@ -5,16 +5,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Unmodifiable;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.api.tag.ItemTag;
 import org.loomdev.api.util.NamespacedKey;
 import org.loomdev.loom.item.ItemTypeImpl;
 import org.loomdev.loom.util.registry.GenericWrapped;
 
-import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ItemTagImpl extends GenericWrapped implements ItemTag {
 
@@ -36,11 +34,9 @@ public class ItemTagImpl extends GenericWrapped implements ItemTag {
 
     @Override
     @NotNull
-    @Unmodifiable
-    public List<ItemType> getValues() {
+    public Stream<ItemType> getValues() {
         return tag.getValues().stream()
-                .map(item -> ItemType.getById(getItemKey(item)))
-                .collect(Collectors.toList());
+                .map(item -> ItemType.getById(getItemKey(item)));
     }
 
     @Override

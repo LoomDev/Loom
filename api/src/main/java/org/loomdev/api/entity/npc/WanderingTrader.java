@@ -1,15 +1,18 @@
 package org.loomdev.api.entity.npc;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.world.Location;
+
+import java.util.Optional;
 
 /**
  * Represent a wandering trader entity.
  */
 public interface WanderingTrader extends AbstractVillager {
 
-    @Nullable
-    Location getWanderingTarget();
+    @NotNull
+    Optional<Location> getWanderingTarget();
 
     void setWanderingTarget(@Nullable Location location);
 

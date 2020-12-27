@@ -1,5 +1,6 @@
 package org.loomdev.loom.entity.misc;
 
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
@@ -7,6 +8,8 @@ import org.loomdev.api.entity.misc.LightningBolt;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.loom.entity.EntityImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
+
+import java.util.Optional;
 
 public class LightningBoltImpl extends EntityImpl implements LightningBolt {
 
@@ -36,13 +39,11 @@ public class LightningBoltImpl extends EntityImpl implements LightningBolt {
     }
 
     @Override
-    @Nullable
-    public Player getCause() {
-        if (getMinecraftEntity().cause == null) {
-            return null;
-        }
-
-        return (Player) getMinecraftEntity().getLoomEntity();
+    @NotNull
+    public Optional<Player> getCause() {
+        return Optional.ofNullable(getMinecraftEntity().cause)
+                .map(Entity::getLoomEntity)
+                .map(Player.class::cast);
     }
 
     @Override

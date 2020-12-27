@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.entity.player.Player;
@@ -14,6 +15,7 @@ import org.loomdev.loom.util.transformer.TextTransformer;
 import java.util.Collection;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BossBarImpl implements BossBar {
 
@@ -124,11 +126,10 @@ public class BossBarImpl implements BossBar {
 
     @Override
     @NotNull
-    public Collection<? extends Player> getPlayers() {
-        return mcBar.getPlayers()
-                .stream()
-                .map(e -> (PlayerImpl) e.getLoomEntity())
-                .collect(Collectors.toList());
+    public Stream<Player> getPlayers() {
+        return getMinecraftBossBar().getPlayers().stream()
+                .map(Entity::getLoomEntity)
+                .map(PlayerImpl.class::cast);
     }
 
     @Override

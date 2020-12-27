@@ -99,6 +99,8 @@ import org.loomdev.api.entity.vehicle.minecart.SpawnerMinecart;
 import org.loomdev.api.entity.vehicle.minecart.TntMinecart;
 import org.loomdev.api.util.registry.Keyed;
 
+import java.util.Optional;
+
 public interface EntityType<T extends Entity> extends Keyed {
 
     // region :: EntityTypes
@@ -243,8 +245,8 @@ public interface EntityType<T extends Entity> extends Keyed {
 
     int maxTrackDistance();
 
-    @Nullable
-    Component getName();
+    @NotNull
+    Optional<Component> getName();
 
     // TODO EntityDimensions?
 

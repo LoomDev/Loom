@@ -9,6 +9,8 @@ import org.loomdev.api.entity.effect.StatusEffect;
 import org.loomdev.api.entity.animal.Mooshroom;
 import org.loomdev.loom.util.transformer.StatusEffectTypeTransformer;
 
+import java.util.Optional;
+
 public class MooshroomImpl extends CowImpl implements Mooshroom {
 
     public MooshroomImpl(MushroomCow entity) {
@@ -28,15 +30,12 @@ public class MooshroomImpl extends CowImpl implements Mooshroom {
     }
 
     @Override
-    @Nullable
-    public StatusEffect getStewEffect() {
-        if (getMinecraftEntity().effect == null) {
-            return null;
-        }
-
-        return StatusEffect.builder(StatusEffectTypeTransformer.toLoom(getMinecraftEntity().effect))
-                .duration(getMinecraftEntity().effectDuration)
-                .build();
+    @NotNull
+    public Optional<StatusEffect> getStewEffect() {
+        return Optional.ofNullable(getMinecraftEntity().effect)
+                .map(effect -> StatusEffect.builder(StatusEffectTypeTransformer.toLoom(effect))
+                        .duration(getMinecraftEntity().effectDuration)
+                        .build());
     }
 
     @Override

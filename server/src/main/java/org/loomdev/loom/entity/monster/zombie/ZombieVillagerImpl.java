@@ -9,6 +9,7 @@ import org.loomdev.api.entity.monster.zombie.ZombieVillager;
 import org.loomdev.api.village.VillagerProfession;
 import org.loomdev.api.village.VillagerVariant;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class ZombieVillagerImpl extends ZombieImpl implements ZombieVillager {
@@ -76,8 +77,8 @@ public class ZombieVillagerImpl extends ZombieImpl implements ZombieVillager {
     }
 
     @Override
-    @Nullable
-    public UUID getConverterUniqueId() {
-        return getMinecraftEntity().conversionStarter;
+    @NotNull
+    public Optional<UUID> getConverterUniqueId() {
+        return Optional.ofNullable(getMinecraftEntity().conversionStarter);
     }
 }

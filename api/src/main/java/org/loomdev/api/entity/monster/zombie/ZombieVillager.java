@@ -6,6 +6,7 @@ import org.loomdev.api.entity.ConvertableEntity;
 import org.loomdev.api.village.VillagerProfession;
 import org.loomdev.api.village.VillagerVariant;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -30,8 +31,6 @@ public interface ZombieVillager extends Zombie, ConvertableEntity {
 
     void setExperience(int experience);
 
-    @Nullable
-    UUID getConverterUniqueId();
-
-
+    @NotNull
+    Optional<UUID> getConverterUniqueId();
 }

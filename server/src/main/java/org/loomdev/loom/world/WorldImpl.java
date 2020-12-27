@@ -28,8 +28,10 @@ import org.loomdev.loom.util.transformer.ParticleTransformer;
 
 import java.lang.ref.WeakReference;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class WorldImpl implements World {
 
@@ -84,16 +86,14 @@ public class WorldImpl implements World {
     }
 
     @Override
-    @Nullable
-    public <T extends Entity> T spawnEntity(@NotNull EntityType<T> type, @NotNull Location location) {
-        var mcEntity = Registry.ENTITY_TYPE.get(new ResourceLocation(type.getKey().toString())).create(getMinecraftWorld());
-        if (mcEntity == null) {
-            return null;
-        }
-
-        mcEntity.moveTo(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
-        getMinecraftWorld().addFreshEntity(mcEntity);
-        return (T) mcEntity.getLoomEntity();
+    @NotNull
+    public <T extends Entity> Optional<T> spawnEntity(@NotNull EntityType<T> type, @NotNull Location location) {
+        return Optional.ofNullable(Registry.ENTITY_TYPE.get(new ResourceLocation(type.getKey().toString())).create(getMinecraftWorld()))
+                .map(entity -> {
+                    entity.moveTo(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+                    getMinecraftWorld().addFreshEntity(entity);
+                    return (T) entity.getLoomEntity();
+                });
     }
 
     @Override
@@ -126,11 +126,9 @@ public class WorldImpl implements World {
 
     @Override
     @NotNull
-    public Collection<? extends Player> getPlayers() {
-        return this.getMinecraftWorld().players()
-                .stream()
-                .map(e -> (PlayerImpl) e.getLoomEntity())
-                .collect(Collectors.toList());
+    public Stream<Player> getPlayers() {
+        return getMinecraftWorld().players().stream()
+                .map(e -> (PlayerImpl) e.getLoomEntity());
     }
 
     @Override
@@ -177,18 +175,16 @@ public class WorldImpl implements World {
 
         ((ServerLevel) getMinecraftWorld()).setDayTime(getAbsoluteTime() + event.getSkippedTicks());
 
-        for (Player player : getPlayers()) {
-            if (!player.isConnected()) {
-                return;
-            }
-
-            PlayerImpl playerImpl = (PlayerImpl) player;
-            Level level = ((WorldImpl) playerImpl.getWorld()).getMinecraftWorld();
-            playerImpl.getMinecraftEntity().connection.send(new ClientboundSetTimePacket(
-                    level.getGameTime(),
-                    level.getDayTime(),
-                    level.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)
-            ));
-        }
+        getPlayers()
+                .filter(Player::isConnected)
+                .map(PlayerImpl.class::cast)
+                .forEach(player -> {
+                    Level level = ((WorldImpl) player.getWorld()).getMinecraftWorld();
+                    player.getMinecraftEntity().connection.send(new ClientboundSetTimePacket(
+                            level.getGameTime(),
+                            level.getDayTime(),
+                            level.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)
+                    ));
+                });
     }
 }

@@ -5,10 +5,12 @@ import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.Shearable;
 import org.loomdev.api.entity.effect.StatusEffect;
 
+import java.util.Optional;
+
 public interface Mooshroom extends Cow, Shearable {
 
-    @Nullable
-    StatusEffect getStewEffect();
+    @NotNull
+    Optional<StatusEffect> getStewEffect();
 
     void setStewEffect(@Nullable StatusEffect effect);
 

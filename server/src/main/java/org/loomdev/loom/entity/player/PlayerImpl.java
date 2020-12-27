@@ -157,10 +157,14 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    @Nullable
-    public InetSocketAddress getRemoteAddress() {
-        if (!isConnected()) return null;
-        return (InetSocketAddress) getMinecraftEntity().connection.connection.getRemoteAddress();
+    @NotNull
+    public Optional<InetSocketAddress> getRemoteAddress() {
+        if (isConnected()) {
+            return Optional.of(getMinecraftEntity().connection.connection.getRemoteAddress())
+                    .map(InetSocketAddress.class::cast);
+        }
+
+        return Optional.empty();
     }
 
     @Override
@@ -169,9 +173,9 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    @Nullable
-    public Component getTabListName() {
-        return tabListName;
+    @NotNull
+    public Optional<Component> getTabListName() {
+        return Optional.ofNullable(tabListName);
     }
 
     @Override
@@ -181,8 +185,8 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     @NotNull
-    public Component getTabListHeader() {
-        return tabListHeader;
+    public Optional<Component> getTabListHeader() {
+        return Optional.ofNullable(tabListHeader);
     }
 
     @Override
@@ -192,9 +196,9 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    @Nullable
-    public Component getTabListFooter() {
-        return tabListFooter;
+    @NotNull
+    public Optional<Component> getTabListFooter() {
+        return Optional.ofNullable(tabListHeader);
     }
 
     @Override

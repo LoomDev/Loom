@@ -7,6 +7,8 @@ import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.npc.WanderingTrader;
 import org.loomdev.api.world.Location;
 
+import java.util.Optional;
+
 public class WanderingTraderImpl extends AbstractVillagerImpl implements WanderingTrader {
 
     public WanderingTraderImpl(net.minecraft.world.entity.npc.WanderingTrader entity) {
@@ -25,9 +27,10 @@ public class WanderingTraderImpl extends AbstractVillagerImpl implements Wanderi
     }
 
     @Override
-    public @Nullable Location getWanderingTarget() {
-        var pos = getMinecraftEntity().wanderTarget;
-        return pos == null ? null : new Location(null, pos.getX(), pos.getY(), pos.getZ()); // TODO replace with location without world
+    @NotNull
+    public Optional<Location> getWanderingTarget() {
+        return Optional.ofNullable(getMinecraftEntity().wanderTarget)
+                .map(pos -> new Location(getMinecraftEntity().level.getLoomWorld(), pos.getX(), pos.getY(), pos.getZ()));
     }
 
     @Override

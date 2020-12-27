@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.item.ItemStack;
 
+import java.util.Optional;
+
 public interface MerchantOffer {
 
     @NotNull
@@ -14,8 +16,8 @@ public interface MerchantOffer {
 
     void setFirstBuyItem(@NotNull ItemStack item);
 
-    @Nullable
-    ItemStack getSecondBuyItem();
+    @NotNull
+    Optional<ItemStack> getSecondBuyItem();
 
     void setSecondBuyItem(@Nullable ItemStack item);
 

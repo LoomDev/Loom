@@ -8,8 +8,8 @@ import java.util.Optional;
 
 public interface Projectile extends Entity {
 
-    @Nullable
-    Entity getOwner();
+    @NotNull
+    Optional<Entity> getOwner();
 
     void setOwner(@Nullable Entity entity);
 

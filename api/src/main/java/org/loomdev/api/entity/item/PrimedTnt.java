@@ -1,9 +1,12 @@
 package org.loomdev.api.entity.item;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.Explosive;
 import org.loomdev.api.entity.LivingEntity;
+
+import java.util.Optional;
 
 /**
  * Represents a TNT entity.
@@ -29,6 +32,6 @@ public interface PrimedTnt extends Entity, Explosive {
      *
      * @return The {@link LivingEntity} that activated the TNT.
      */
-    @Nullable
-    LivingEntity getSource();
+    @NotNull
+    Optional<LivingEntity> getOwner();
 }

@@ -1,8 +1,11 @@
 package org.loomdev.api.entity.misc;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.player.Player;
+
+import java.util.Optional;
 
 public interface LightningBolt extends Entity {
 
@@ -10,8 +13,8 @@ public interface LightningBolt extends Entity {
 
     void setVisualOnly(boolean visualOnly);
 
-    @Nullable
-    Player getCause();
+    @NotNull
+    Optional<Player> getCause();
 
     void setCause(@Nullable Player player);
 }

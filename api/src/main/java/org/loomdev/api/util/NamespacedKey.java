@@ -72,10 +72,7 @@ public class NamespacedKey {
      * @param key The key to create.
      */
     public NamespacedKey(@NotNull Object plugin, @NotNull String key) {
-        var pluginContainer = Loom.getPluginManager().fromInstance(plugin);
-        if (pluginContainer == null) throw new NullPointerException();
-
-        this.namespace = pluginContainer.getMetadata().getId();
+        this.namespace = Loom.getPluginManager().fromInstance(plugin).orElseThrow().getMetadata().getId();
         this.key = key;
     }
 
