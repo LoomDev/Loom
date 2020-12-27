@@ -42,6 +42,7 @@ public class NamespacedKey {
      *
      * @param namespace The namespace.
      * @param key The key.
+     * @return A {@link NamespacedKey} of the provided namespace and key.
      * @throws InvalidNamespacedKeyException when the namespace or key is invalid.
      */
     @NotNull
