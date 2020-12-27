@@ -160,11 +160,11 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @NotNull
     public Optional<InetSocketAddress> getRemoteAddress() {
         if (isConnected()) {
-            return Optional.of(getMinecraftEntity().connection.connection.getRemoteAddress())
-                    .map(InetSocketAddress.class::cast);
+            return Optional.empty();
         }
 
-        return Optional.empty();
+        return Optional.of(getMinecraftEntity().connection.connection.getRemoteAddress())
+                .map(InetSocketAddress.class::cast);
     }
 
     @Override
