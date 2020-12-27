@@ -8,6 +8,7 @@ import org.loomdev.api.item.ItemStack;
 import org.loomdev.loom.entity.EntityImpl;
 import org.loomdev.loom.item.ItemStackImpl;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class ItemEntityImpl extends EntityImpl implements ItemEntity {
@@ -29,9 +30,9 @@ public class ItemEntityImpl extends EntityImpl implements ItemEntity {
     }
 
     @Override
-    @Nullable
-    public UUID getOwner() {
-        return getMinecraftEntity().getOwner();
+    @NotNull
+    public Optional<UUID> getOwner() {
+        return Optional.ofNullable(getMinecraftEntity().getOwner());
     }
 
     @Override
@@ -40,9 +41,9 @@ public class ItemEntityImpl extends EntityImpl implements ItemEntity {
     }
 
     @Override
-    @Nullable
-    public UUID getThrower() {
-        return getMinecraftEntity().getThrower();
+    @NotNull
+    public Optional<UUID> getThrower() {
+        return Optional.ofNullable(getMinecraftEntity().getThrower());
     }
 
     @Override

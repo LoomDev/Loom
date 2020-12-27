@@ -1,8 +1,8 @@
 package org.loomdev.loom.entity.effect;
 
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.effect.AreaEffectCloud;
@@ -15,11 +15,8 @@ import org.loomdev.loom.util.transformer.ParticleTransformer;
 import org.loomdev.loom.util.transformer.StatusEffectTransformer;
 import org.loomdev.loom.util.transformer.StatusEffectTypeTransformer;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class AreaEffectCloudImpl extends EntityImpl implements AreaEffectCloud {
 
@@ -41,30 +38,17 @@ public class AreaEffectCloudImpl extends EntityImpl implements AreaEffectCloud {
 
     @Override
     @NotNull
-    public List<StatusEffect> getStatusEffects() {
-        var effects = getMinecraftEntity().effects;
-        if (effects.size() == 0) {
-            return Collections.emptyList();
-        }
-
-        var loomEffects = new ArrayList<StatusEffect>();
-        for (var effect : effects) {
-            loomEffects.add(StatusEffectTransformer.toLoom(effect));
-        }
-
-        return loomEffects;
+    public Stream<StatusEffect> getStatusEffects() {
+        return getMinecraftEntity().effects.stream()
+                .map(StatusEffectTransformer::toLoom);
     }
 
     @Override
-    @Nullable
-    public StatusEffect getStatusEffect(@NotNull StatusEffectType type) {
-        for (var effect : getMinecraftEntity().effects) {
-            if (effect.getEffect().equals(StatusEffectTypeTransformer.toMinecraft(type))) {
-                return StatusEffectTransformer.toLoom(effect);
-            }
-        }
-
-        return null;
+    @NotNull
+    public Optional<StatusEffect> getStatusEffect(@NotNull StatusEffectType type) {
+        return getStatusEffects()
+                .filter(effect -> effect.getType().equals(type))
+                .findFirst();
     }
 
     @Override
@@ -78,8 +62,8 @@ public class AreaEffectCloudImpl extends EntityImpl implements AreaEffectCloud {
     }
 
     @Override
-    public boolean hasStatusEffect(@NotNull StatusEffectType statusEffectType) {
-        return getStatusEffect(statusEffectType) != null;
+    public boolean hasStatusEffect(@NotNull StatusEffectType type) {
+        return getStatusEffect(type).isPresent();
     }
 
     @Override
@@ -158,14 +142,10 @@ public class AreaEffectCloudImpl extends EntityImpl implements AreaEffectCloud {
     }
 
     @Override
-    @Nullable
-    public LivingEntity getOwner() {
-        var owner = getMinecraftEntity().getOwner();
-        if (owner == null) {
-            return null;
-        }
-
-        return (LivingEntity) owner.getLoomEntity();
+    @NotNull
+    public Optional<LivingEntity> getOwner() {
+        return Optional.ofNullable(getMinecraftEntity().getOwner())
+                .map(owner -> (LivingEntity) owner.getLoomEntity());
     }
 
     @Override
@@ -179,9 +159,10 @@ public class AreaEffectCloudImpl extends EntityImpl implements AreaEffectCloud {
 
     @Override
     @NotNull
-    public Map<Entity, Integer> getAffectedEntities() {
-        return getMinecraftEntity().victims.entrySet().stream()
-                .collect(Collectors.toMap(es -> es.getKey().getLoomEntity(), Map.Entry::getValue));
+    public Stream<LivingEntity> getAffectedEntities() {
+        return getMinecraftEntity().victims.keySet().stream()
+                .map(Entity::getLoomEntity)
+                .map(LivingEntity.class::cast);
     }
 
     @Override

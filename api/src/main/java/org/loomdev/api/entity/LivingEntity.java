@@ -22,8 +22,8 @@ public interface LivingEntity extends Damageable {
 
     @NotNull List<StatusEffect> getStatusEffects();
 
-    @Nullable
-    StatusEffect getStatusEffect(@NotNull StatusEffectType type);
+    @NotNull
+    Optional<StatusEffect> getStatusEffect(@NotNull StatusEffectType type);
 
     void addStatusEffect(@NotNull StatusEffect effect);
 
@@ -75,28 +75,28 @@ public interface LivingEntity extends Damageable {
 
     boolean isHolding(@NotNull Predicate<ItemType> predicate);
 
-    @Nullable
-    ItemStack getItemInHand(@NotNull Hand hand);
+    @NotNull
+    Optional<ItemStack> getItemInHand(@NotNull Hand hand);
 
     void setItemInHand(@NotNull Hand hand, @NotNull ItemStack itemStack);
 
-    @Nullable
-    ItemStack getBoots();
+    @NotNull
+    Optional<ItemStack> getBoots();
 
     void setBoots(@NotNull ItemStack itemStack);
 
-    @Nullable
-    ItemStack getLeggings();
+    @NotNull
+    Optional<ItemStack> getLeggings();
 
     void setLeggings(@NotNull ItemStack itemStack);
 
-    @Nullable
-    ItemStack getChestplate();
+    @NotNull
+    Optional<ItemStack> getChestplate();
 
     void setChestplate(@NotNull ItemStack itemStack);
 
-    @Nullable
-    ItemStack getHelmet();
+    @NotNull
+    Optional<ItemStack> getHelmet();
 
     void setHelmet(@NotNull ItemStack itemStack);
 

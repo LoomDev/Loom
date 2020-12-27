@@ -8,6 +8,8 @@ import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.vehicle.minecart.CommandBlockMinecart;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
+import java.util.Optional;
+
 public class CommandBlockMinecartImpl extends AbstractMinecartImpl implements CommandBlockMinecart {
 
     public CommandBlockMinecartImpl(MinecartCommandBlock entity) {
@@ -37,8 +39,10 @@ public class CommandBlockMinecartImpl extends AbstractMinecartImpl implements Co
     }
 
     @Override
-    public @NotNull Component getCustomName() {
-        return TextTransformer.toLoom(getMinecraftEntity().getCommandBlock().getName());
+    @NotNull
+    public Optional<Component> getCustomName() {
+        return Optional.ofNullable(getMinecraftEntity().getCommandBlock().getName())
+                .map(TextTransformer::toLoom);
     }
 
     @Override

@@ -8,6 +8,8 @@ import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.vehicle.minecart.SpawnerMinecart;
 
+import java.util.Optional;
+
 public class SpawnerMinecartImpl extends AbstractMinecartImpl implements SpawnerMinecart {
 
     public SpawnerMinecartImpl(MinecartSpawner entity) {
@@ -27,10 +29,10 @@ public class SpawnerMinecartImpl extends AbstractMinecartImpl implements Spawner
     }
 
     @Override
-    @Nullable
-    public EntityType<?> getEntityType() {
-        ResourceLocation id = getMinecraftEntity().spawner.getEntityId(null, null); // fucking hell, why mojang????
-        return id == null ? null : EntityType.getById(id.toString());
+    @NotNull
+    public Optional<EntityType<?>> getEntityType() {
+        return Optional.ofNullable(getMinecraftEntity().spawner.getEntityId(null, null))
+                .map(id -> EntityType.getById(id.toString()));
     }
 
     @Override

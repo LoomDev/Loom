@@ -1,11 +1,15 @@
 package org.loomdev.api.world;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 
+import java.util.Optional;
+
 public interface MobSpawner {
 
-    @Nullable EntityType<?> getEntityType();
+    @NotNull
+    Optional<EntityType<?>> getEntityType();
 
     void setEntityType(@Nullable EntityType<?> type);
 

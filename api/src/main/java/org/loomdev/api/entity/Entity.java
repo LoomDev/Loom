@@ -14,7 +14,9 @@ import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 public interface Entity extends CommandSource {
 
@@ -42,8 +44,8 @@ public interface Entity extends CommandSource {
     @NotNull
     Component getDisplayName();
 
-    @Nullable
-    Component getCustomName();
+    @NotNull
+    Optional<Component> getCustomName();
 
     void setCustomName(@Nullable Component component);
 
@@ -72,8 +74,8 @@ public interface Entity extends CommandSource {
 
     boolean isAlive();
 
-    @Nullable
-    Entity getVehicle();
+    @NotNull
+    Optional<Entity> getVehicle();
 
     void leaveVehicle();
 
@@ -81,7 +83,8 @@ public interface Entity extends CommandSource {
 
     boolean isVehicle();
 
-    @NotNull List<Entity> getPassengers();
+    @NotNull
+    Stream<Entity> getPassengers();
 
     void addPassenger(@NotNull Entity passenger);
 

@@ -64,10 +64,8 @@ public class CommandManagerImpl implements CommandManager {
 
     @Override
     public void register(@NotNull Object plugin, @NotNull Command command) {
-        var container = server.getPluginManager().fromInstance(plugin);
-        if (container != null) {
-            register(container.getMetadata(), command);
-        }
+        server.getPluginManager().fromInstance(plugin)
+                .ifPresent(container -> register(container.getMetadata(), command));
     }
 
     @Override
@@ -120,9 +118,7 @@ public class CommandManagerImpl implements CommandManager {
 
     @Override
     public void unregister(@NotNull Object plugin) {
-        var container = server.getPluginManager().fromInstance(plugin);
-        if (container == null) return;
-        unregister(container.getMetadata());
+        server.getPluginManager().fromInstance(plugin).ifPresent(container -> unregister(container.getMetadata()));
     }
 
     @Override

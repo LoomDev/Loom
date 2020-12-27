@@ -1,16 +1,19 @@
 package org.loomdev.api.entity.misc;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.player.Player;
+
+import java.util.Optional;
 
 /**
  * Represents an experience orb entity.
  */
 public interface ExperienceOrb extends Entity {
 
-    @Nullable
-    Player getTarget();
+    @NotNull
+    Optional<Player> getTarget();
 
     void setTarget(Player player);
 

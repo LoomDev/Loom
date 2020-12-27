@@ -7,6 +7,7 @@ import org.loomdev.api.entity.player.Player;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 public interface PlayerManager {
 
@@ -16,7 +17,7 @@ public interface PlayerManager {
      * @return Immutable collection of all online players.
      */
     @NotNull
-    Collection<? extends Player> getOnlinePlayers();
+    Stream<Player> getOnlinePlayers();
 
     /**
      * Sends a message to all players on the server.

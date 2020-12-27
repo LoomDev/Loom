@@ -13,13 +13,13 @@ import java.util.UUID;
  */
 public interface ItemEntity extends Entity {
 
-    @Nullable
-    UUID getOwner();
+    @NotNull
+    Optional<UUID> getOwner();
 
     void setOwner(@Nullable UUID uuid);
 
-    @Nullable
-    UUID getThrower();
+    @NotNull
+    Optional<UUID> getThrower();
 
     void setThrower(@Nullable UUID uuid);
 

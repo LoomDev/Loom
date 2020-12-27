@@ -8,6 +8,8 @@ import org.loomdev.api.entity.vehicle.minecart.Minecart;
 import org.loomdev.loom.block.BlockStateImpl;
 import org.loomdev.loom.entity.EntityImpl;
 
+import java.util.Optional;
+
 public abstract class AbstractMinecartImpl extends EntityImpl implements Minecart {
 
     public AbstractMinecartImpl(AbstractMinecart entity) {
@@ -20,10 +22,11 @@ public abstract class AbstractMinecartImpl extends EntityImpl implements Minecar
         return (AbstractMinecart) super.getMinecraftEntity();
     }
 
-    @Nullable
     @Override
-    public BlockState getDisplayedBlock() {
-        return new BlockStateImpl(getMinecraftEntity().getDisplayBlockState());
+    @NotNull
+    public Optional<BlockState> getDisplayedBlock() {
+        return Optional.ofNullable(getMinecraftEntity().getDisplayBlockState())
+                .map(BlockStateImpl::new);
     }
 
     @Override

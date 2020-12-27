@@ -40,11 +40,10 @@ public class PrimedTntImpl extends EntityImpl implements PrimedTnt {
     }
 
     @Override
-    @Nullable
-    public LivingEntity getSource() {
+    @NotNull
+    public Optional<LivingEntity> getOwner() {
         return Optional.ofNullable(getMinecraftEntity().getOwner())
-                .map(e -> (LivingEntityImpl) e.getLoomEntity())
-                .orElse(null);
+                .map(e -> (LivingEntityImpl) e.getLoomEntity());
     }
 
     @Override

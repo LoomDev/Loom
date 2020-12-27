@@ -9,14 +9,15 @@ import org.loomdev.api.particle.Particle;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public interface AreaEffectCloud extends Entity {
 
     @NotNull
-    List<StatusEffect> getStatusEffects();
+    Stream<StatusEffect> getStatusEffects();
 
-    @Nullable
-    StatusEffect getStatusEffect(@NotNull StatusEffectType type);
+    @NotNull
+    Optional<StatusEffect> getStatusEffect(@NotNull StatusEffectType type);
 
     void addStatusEffect(@NotNull StatusEffect effect);
 
@@ -55,13 +56,12 @@ public interface AreaEffectCloud extends Entity {
     void setRadiusPerTick(float radius);
 
     @NotNull
-    @Nullable
-    LivingEntity getOwner();
+    Optional<LivingEntity> getOwner();
 
-    void setOwner(@NotNull LivingEntity entity);
+    void setOwner(@Nullable LivingEntity entity);
 
     @NotNull
-    Map<Entity, Integer> getAffectedEntities(); // TODO is this useful?
+    Stream<LivingEntity> getAffectedEntities();
 
     @NotNull
     Particle getParticle();

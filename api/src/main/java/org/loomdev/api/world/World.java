@@ -13,7 +13,9 @@ import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.NamespacedKey;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 public interface World { // TODO rename to Level???
 
@@ -35,15 +37,15 @@ public interface World { // TODO rename to Level???
     @NotNull
     Chunk getChunk(int x, int z);
 
-    @Nullable
-    <T extends Entity> T spawnEntity(@NotNull EntityType<T> type, @NotNull Location location);
+    @NotNull
+    <T extends Entity> Optional<T> spawnEntity(@NotNull EntityType<T> type, @NotNull Location location);
 
     void spawnParticle(@NotNull Particle particle, @NotNull Location location);
 
     void playSound(@NotNull Sound sound, @NotNull Location location);
 
     @NotNull
-    Collection<? extends Player> getPlayers();
+    Stream<Player> getPlayers();
 
     long getTime();
 

@@ -1,6 +1,7 @@
 package org.loomdev.loom.entity.animal;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
@@ -33,13 +34,19 @@ public class BeeImpl extends AnimalImpl implements Bee {
     }
 
     @Override
+    @NotNull
     public Optional<Location> getFlowerLocation() {
-        // TODO world?
-        return Optional.ofNullable(getMinecraftEntity().getSavedFlowerPos()).map(bp -> new Location(null, bp.getX(), bp.getY(), bp.getZ()));
+        return Optional.ofNullable(getMinecraftEntity().getSavedFlowerPos())
+                .map(pos -> new Location(getMinecraftEntity().level.getLoomWorld(), pos.getX(), pos.getY(), pos.getZ()));
     }
 
     @Override
-    public void setFlowerLocation(@Nullable Location location) { // TODO this will break
+    public void setFlowerLocation(@Nullable Location location) {
+        if (location == null) {
+            getMinecraftEntity().setSavedFlowerPos(null);
+            return;
+        }
+
         getMinecraftEntity().setSavedFlowerPos(new BlockPos(location.getX(), location.getY(), location.getZ()));
     }
 
@@ -49,14 +56,21 @@ public class BeeImpl extends AnimalImpl implements Bee {
     }
 
     @Override
+    @NotNull
     public Optional<Location> getHiveLocation() {
-        // TODO world?
-        return Optional.ofNullable(getMinecraftEntity().getHivePos()).map(bp -> new Location(null, bp.getX(), bp.getY(), bp.getZ()));
+        return Optional.ofNullable(getMinecraftEntity().getHivePos())
+                .map(pos -> new Location(getMinecraftEntity().level.getLoomWorld(), pos.getX(), pos.getY(), pos.getZ()));
     }
 
     @Override
     public void setHiveLocation(@Nullable Location location) {
-        // TODO
+        if (location == null) {
+            getMinecraftEntity().hivePos = null;
+            return;
+        }
+
+        var pos = location.getBlockPosition();
+        getMinecraftEntity().hivePos = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
     }
 
     @Override
@@ -125,9 +139,9 @@ public class BeeImpl extends AnimalImpl implements Bee {
     }
 
     @Override
-    @Nullable
-    public UUID getAngryAt() {
-        return getMinecraftEntity().getPersistentAngerTarget();
+    @NotNull
+    public Optional<UUID> getAngryAt() {
+        return Optional.ofNullable(getMinecraftEntity().getPersistentAngerTarget());
     }
 
     @Override
@@ -136,14 +150,15 @@ public class BeeImpl extends AnimalImpl implements Bee {
     }
 
     @Override
-    public LivingEntity getTarget() {
-        var target = getMinecraftEntity().getTarget();
-        if (target == null) return null;
-        return (LivingEntityImpl) target.getLoomEntity();
+    @NotNull
+    public Optional<LivingEntity> getTarget() {
+        return Optional.ofNullable(getMinecraftEntity().getTarget())
+                .map(Entity::getLoomEntity)
+                .map(LivingEntity.class::cast);
     }
 
     @Override
-    public void setTarget(@NotNull LivingEntity livingEntity) {
+    public void setTarget(@Nullable LivingEntity livingEntity) {
         getMinecraftEntity().setTarget(((LivingEntityImpl) livingEntity).getMinecraftEntity());
     }
 

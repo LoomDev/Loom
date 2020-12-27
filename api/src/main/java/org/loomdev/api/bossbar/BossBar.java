@@ -8,6 +8,7 @@ import org.loomdev.api.util.builder.BuilderBase;
 
 import java.util.Collection;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 /**
  * Represents a boss bar.
@@ -60,7 +61,8 @@ public interface BossBar {
      *
      * @return The list.
      */
-    @NotNull Collection<? extends Player> getPlayers();
+    @NotNull
+    Stream<Player> getPlayers();
 
     /**
      * Adds a player to the boss bar causing it (and all future changes) to be visible to them.

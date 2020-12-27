@@ -2,6 +2,7 @@ package org.loomdev.loom.server;
 
 import net.kyori.adventure.text.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.server.PlayerManager;
@@ -11,6 +12,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PlayerManagerImpl implements PlayerManager {
 
@@ -22,12 +24,10 @@ public class PlayerManagerImpl implements PlayerManager {
 
     @Override
     @NotNull
-    public Collection<? extends Player> getOnlinePlayers() {
-        return server.getMinecraftServer().getPlayerList()
-                .getPlayers()
-                .stream()
-                .map(e -> (PlayerImpl) e.getLoomEntity())
-                .collect(Collectors.toList());
+    public Stream<Player> getOnlinePlayers() {
+        return server.getMinecraftServer().getPlayerList().getPlayers().stream()
+                .map(Entity::getLoomEntity)
+                .map(Player.class::cast);
     }
 
     @Override

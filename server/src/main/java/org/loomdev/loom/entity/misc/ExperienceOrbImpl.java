@@ -1,5 +1,6 @@
 package org.loomdev.loom.entity.misc;
 
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
@@ -7,6 +8,8 @@ import org.loomdev.api.entity.misc.ExperienceOrb;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.loom.entity.EntityImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
+
+import java.util.Optional;
 
 public class ExperienceOrbImpl extends EntityImpl implements ExperienceOrb {
 
@@ -27,11 +30,11 @@ public class ExperienceOrbImpl extends EntityImpl implements ExperienceOrb {
     }
 
     @Override
-    @Nullable
-    public Player getTarget() {
-        var target = getMinecraftEntity().followingPlayer;
-        if (target == null) return null;
-        return (Player) target.getLoomEntity();
+    @NotNull
+    public Optional<Player> getTarget() {
+        return Optional.ofNullable(getMinecraftEntity().followingPlayer)
+                .map(Entity::getLoomEntity)
+                .map(Player.class::cast);
     }
 
     @Override

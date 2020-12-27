@@ -14,6 +14,8 @@ import org.loomdev.api.entity.SpawnGroup;
 import org.loomdev.loom.util.registry.GenericWrapped;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
+import java.util.Optional;
+
 public class EntityTypeImpl extends GenericWrapped implements EntityType<Entity> {
 
     private final net.minecraft.world.entity.EntityType<?> mcEntity;
@@ -61,8 +63,9 @@ public class EntityTypeImpl extends GenericWrapped implements EntityType<Entity>
     }
 
     @Override
-    @Nullable
-    public Component getName() {
-        return TextTransformer.toLoom(mcEntity.getDescription());
+    @NotNull
+    public Optional<Component> getName() {
+        return Optional.ofNullable(getMinecraftEntity().getDescription())
+                .map(TextTransformer::toLoom);
     }
 }

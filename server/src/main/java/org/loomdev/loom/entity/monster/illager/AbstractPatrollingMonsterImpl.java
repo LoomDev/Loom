@@ -7,6 +7,8 @@ import org.loomdev.api.entity.monster.illager.PatrollingMonster;
 import org.loomdev.api.world.Location;
 import org.loomdev.loom.entity.monster.MonsterImpl;
 
+import java.util.Optional;
+
 public abstract class AbstractPatrollingMonsterImpl extends MonsterImpl implements PatrollingMonster {
 
     public AbstractPatrollingMonsterImpl(net.minecraft.world.entity.monster.PatrollingMonster entity) {
@@ -40,16 +42,19 @@ public abstract class AbstractPatrollingMonsterImpl extends MonsterImpl implemen
     }
 
     @Override
-    @Nullable
-    public Location getPatrolTarget() {
-        var target = getMinecraftEntity().getPatrolTarget();
-        if (target == null) return null;
-        return new Location(null, target.getX(), target.getY(), target.getZ()); // TODO world
+    @NotNull
+    public Optional<Location> getPatrolTarget() {
+        return Optional.ofNullable(getMinecraftEntity().getPatrolTarget())
+                .map(target -> new Location(getMinecraftEntity().level.getLoomWorld(), target.getX(), target.getY(), target.getZ()));
     }
 
     @Override
     public void setPatrolTarget(@Nullable Location location) {
-        if (location == null) getMinecraftEntity().setPatrolTarget(null);
-        else getMinecraftEntity().setPatrolTarget(new BlockPos(location.getX(), location.getY(), location.getZ()));
+        if (location == null) {
+            getMinecraftEntity().setPatrolTarget(null);
+            return;
+        }
+
+        getMinecraftEntity().setPatrolTarget(new BlockPos(location.getX(), location.getY(), location.getZ()));
     }
 }

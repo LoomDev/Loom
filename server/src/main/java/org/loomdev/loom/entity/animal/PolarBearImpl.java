@@ -1,5 +1,6 @@
 package org.loomdev.loom.entity.animal;
 
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
@@ -9,6 +10,7 @@ import org.loomdev.api.entity.player.Player;
 import org.loomdev.loom.entity.LivingEntityImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class PolarBearImpl extends AnimalImpl implements PolarBear {
@@ -60,9 +62,9 @@ public class PolarBearImpl extends AnimalImpl implements PolarBear {
     }
 
     @Override
-    @Nullable
-    public UUID getAngryAt() {
-        return getMinecraftEntity().getPersistentAngerTarget();
+    @NotNull
+    public Optional<UUID> getAngryAt() {
+        return Optional.ofNullable(getMinecraftEntity().getPersistentAngerTarget());
     }
 
     @Override
@@ -71,16 +73,21 @@ public class PolarBearImpl extends AnimalImpl implements PolarBear {
     }
 
     @Override
-    @Nullable
-    public LivingEntity getTarget() {
-        var target = getMinecraftEntity().getTarget();
-        if (target == null) return null;
-        return (LivingEntity) target.getLoomEntity();
+    @NotNull
+    public Optional<LivingEntity> getTarget() {
+        return Optional.ofNullable(getMinecraftEntity().getTarget())
+                .map(Entity::getLoomEntity)
+                .map(LivingEntity.class::cast);
     }
 
     @Override
-    public void setTarget(@NotNull LivingEntity livingEntity) {
-        getMinecraftEntity().setTarget(((LivingEntityImpl) livingEntity).getMinecraftEntity());
+    public void setTarget(@Nullable LivingEntity entity) {
+        if (entity == null) {
+            getMinecraftEntity().setTarget(null);
+            return;
+        }
+
+        getMinecraftEntity().setTarget(((LivingEntityImpl) entity).getMinecraftEntity());
     }
 
     @Override

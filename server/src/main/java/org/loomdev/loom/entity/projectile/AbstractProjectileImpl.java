@@ -6,6 +6,8 @@ import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.projectile.Projectile;
 import org.loomdev.loom.entity.EntityImpl;
 
+import java.util.Optional;
+
 public abstract class AbstractProjectileImpl extends EntityImpl implements Projectile {
 
     public AbstractProjectileImpl(net.minecraft.world.entity.projectile.Projectile entity) {
@@ -19,11 +21,10 @@ public abstract class AbstractProjectileImpl extends EntityImpl implements Proje
     }
 
     @Override
-    @Nullable
-    public Entity getOwner() {
-        var owner = getMinecraftEntity().getOwner();
-        if (owner == null) return null;
-        return owner.getLoomEntity();
+    @NotNull
+    public Optional<Entity> getOwner() {
+        return Optional.ofNullable(getMinecraftEntity().getOwner())
+                .map(net.minecraft.world.entity.Entity::getLoomEntity);
     }
 
     @Override

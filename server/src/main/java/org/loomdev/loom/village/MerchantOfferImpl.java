@@ -6,6 +6,8 @@ import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.village.MerchantOffer;
 import org.loomdev.loom.item.ItemStackImpl;
 
+import java.util.Optional;
+
 public class MerchantOfferImpl implements MerchantOffer {
 
     private final net.minecraft.world.item.trading.MerchantOffer mcOffer;
@@ -32,12 +34,10 @@ public class MerchantOfferImpl implements MerchantOffer {
     }
 
     @Override
-    @Nullable
-    public ItemStack getSecondBuyItem() {
-        if (mcOffer.costB == null) {
-            return null;
-        }
-        return ItemStackImpl.of(mcOffer.costB);
+    @NotNull
+    public Optional<ItemStack> getSecondBuyItem() {
+        return Optional.ofNullable(mcOffer.costB)
+                .map(ItemStackImpl::of);
     }
 
     @Override

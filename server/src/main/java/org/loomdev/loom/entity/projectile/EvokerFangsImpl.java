@@ -1,5 +1,6 @@
 package org.loomdev.loom.entity.projectile;
 
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
@@ -7,6 +8,8 @@ import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.projectile.EvokerFangs;
 import org.loomdev.loom.entity.EntityImpl;
 import org.loomdev.loom.entity.LivingEntityImpl;
+
+import java.util.Optional;
 
 public class EvokerFangsImpl extends EntityImpl implements EvokerFangs {
 
@@ -27,11 +30,11 @@ public class EvokerFangsImpl extends EntityImpl implements EvokerFangs {
     }
 
     @Override
-    @Nullable
-    public LivingEntity getOwner() {
-        var owner = getMinecraftEntity().getOwner();
-        if (owner == null) return null;
-        return (LivingEntity) owner.getLoomEntity();
+    @NotNull
+    public Optional<LivingEntity> getOwner() {
+        return Optional.ofNullable(getMinecraftEntity().getOwner())
+                .map(Entity::getLoomEntity)
+                .map(LivingEntity.class::cast);
     }
 
     @Override

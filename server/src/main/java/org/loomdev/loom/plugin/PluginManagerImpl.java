@@ -62,27 +62,32 @@ public class PluginManagerImpl implements PluginManager {
     }
 
     @Override
-    public @NotNull PluginContainer getPlugin(@NotNull String id) {
-        return this.enabledPlugins.get(id);
+    @NotNull
+    public Optional<PluginContainer> getPlugin(@NotNull String id) {
+        return Optional.ofNullable(enabledPlugins.get(id));
     }
 
     @Override
-    public @NotNull PluginContainer fromInstance(@NotNull Object plugin) {
-        return this.enabledPluginsByInstance.get(plugin);
+    @NotNull
+    public Optional<PluginContainer> fromInstance(@NotNull Object plugin) {
+        return Optional.ofNullable(enabledPluginsByInstance.get(plugin));
     }
 
     @Override
-    public @NotNull Collection<PluginContainer> getEnabledPlugins() {
+    @NotNull
+    public Collection<PluginContainer> getEnabledPlugins() {
         return this.enabledPlugins.values();
     }
 
     @Override
-    public @NotNull Optional<PluginMetadata> getPluginMetadata(String id) {
+    @NotNull
+    public Optional<PluginMetadata> getPluginMetadata(String id) {
         return Optional.ofNullable(this.plugins.get(id));
     }
 
     @Override
-    public @NotNull Collection<PluginMetadata> getAllPlugins() {
+    @NotNull
+    public Collection<PluginMetadata> getAllPlugins() {
         return this.plugins.values();
     }
 

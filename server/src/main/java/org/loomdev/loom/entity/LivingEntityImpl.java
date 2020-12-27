@@ -55,11 +55,10 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
     }
 
     @Override
-    @Nullable
-    public StatusEffect getStatusEffect(@NotNull StatusEffectType type) {
-        var effect = getMinecraftEntity().getEffect(StatusEffectTypeTransformer.toMinecraft(type));
-        if (effect == null) return null;
-        return StatusEffectTransformer.toLoom(effect);
+    @NotNull
+    public Optional<StatusEffect> getStatusEffect(@NotNull StatusEffectType type) {
+        return Optional.ofNullable(getMinecraftEntity().getEffect(StatusEffectTypeTransformer.toMinecraft(type)))
+                .map(StatusEffectTransformer::toLoom);
     }
 
     @Override
@@ -182,22 +181,23 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
         var mainHand = getItemInHand(Hand.MAIN_HAND);
         var offHand = getItemInHand(Hand.OFF_HAND);
 
-        if (mainHand != null && predicate.test(mainHand.getType())) {
+        if (mainHand.isPresent() && predicate.test(mainHand.get().getType())) {
             return true;
         }
 
-        return offHand != null && predicate.test(offHand.getType());
+        return offHand.isPresent() && predicate.test(offHand.get().getType());
     }
 
     @Override
-    @Nullable
-    public ItemStack getItemInHand(@NotNull Hand hand) {
+    @NotNull
+    public Optional<ItemStack> getItemInHand(@NotNull Hand hand) {
         var mcStack = getMinecraftEntity().getItemInHand(hand == Hand.MAIN_HAND ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND);
+
         if (mcStack == net.minecraft.world.item.ItemStack.EMPTY) {
-            return null;
+            return Optional.empty();
         }
 
-        return ItemStackImpl.of(mcStack);
+        return Optional.of(ItemStackImpl.of(mcStack));
     }
 
     @Override
@@ -206,19 +206,19 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
         getMinecraftEntity().setItemInHand(hand == Hand.MAIN_HAND ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND, mcStack);
     }
 
-    @Nullable
-    private ItemStack getStack(@NotNull EquipmentSlot mcEquipmentSlot) {
+    @NotNull
+    private Optional<ItemStack> getStack(@NotNull EquipmentSlot mcEquipmentSlot) {
         var mcStack = getMinecraftEntity().getItemBySlot(mcEquipmentSlot);
         if (mcStack == null || mcStack.isEmpty()) {
-            return null;
+            return Optional.empty();
         }
 
-        return ItemStackImpl.of(mcStack);
+        return Optional.of(ItemStackImpl.of(mcStack));
     }
 
     @Override
-    @Nullable
-    public ItemStack getBoots() {
+    @NotNull
+    public Optional<ItemStack> getBoots() {
         return getStack(EquipmentSlot.FEET);
     }
 
@@ -228,8 +228,8 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
     }
 
     @Override
-    @Nullable
-    public ItemStack getLeggings() {
+    @NotNull
+    public Optional<ItemStack> getLeggings() {
         return getStack(EquipmentSlot.LEGS);
     }
 
@@ -239,8 +239,8 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
     }
 
     @Override
-    @Nullable
-    public ItemStack getChestplate() {
+    @NotNull
+    public Optional<ItemStack> getChestplate() {
         return getStack(EquipmentSlot.CHEST);
     }
 
@@ -250,8 +250,8 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
     }
 
     @Override
-    @Nullable
-    public ItemStack getHelmet() {
+    @NotNull
+    public Optional<ItemStack> getHelmet() {
         return getStack(EquipmentSlot.HEAD);
     }
 

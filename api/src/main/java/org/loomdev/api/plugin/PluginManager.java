@@ -18,7 +18,8 @@ public interface PluginManager {
      * @param id The id of the plugin to get.
      * @return The plugin, if available.
      */
-    @Nullable PluginContainer getPlugin(@NotNull String id);
+    @NotNull
+    Optional<PluginContainer> getPlugin(@NotNull String id);
 
     /**
      * Gets a plugin container from an instance.
@@ -26,7 +27,8 @@ public interface PluginManager {
      * @param pluginInstance The instance to get the plugin container from.
      * @return The plugin container or {@link Optional#empty()} if not a plugin container.
      */
-    @Nullable PluginContainer fromInstance(@NotNull Object pluginInstance);
+    @NotNull
+    Optional<PluginContainer> fromInstance(@NotNull Object pluginInstance);
 
     /**
      * Gets all the plugins loaded by Loom.
