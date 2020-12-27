@@ -5,8 +5,8 @@ package org.loomdev.api.util;
  */
 public enum EquipmentSlot {
 
-    MAINHAND(EquipmentSlot.Type.HAND, 0, 0, "mainhand"),
-    OFFHAND(EquipmentSlot.Type.HAND, 1, 5, "offhand"),
+    MAIN_HAND(EquipmentSlot.Type.HAND, 0, 0, "main_hand"),
+    OFF_HAND(EquipmentSlot.Type.HAND, 1, 5, "off_hand"),
     FEET(EquipmentSlot.Type.ARMOR, 0, 1, "feet"),
     LEGS(EquipmentSlot.Type.ARMOR, 1, 2, "legs"),
     CHEST(EquipmentSlot.Type.ARMOR, 2, 3, "chest"),
