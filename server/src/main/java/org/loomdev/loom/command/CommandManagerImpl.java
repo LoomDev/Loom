@@ -64,7 +64,8 @@ public class CommandManagerImpl implements CommandManager {
 
     @Override
     public void register(@NotNull Object plugin, @NotNull Command command) {
-        server.getPluginManager().fromInstance(plugin).ifPresent(container -> register(container.getMetadata(), command));
+        server.getPluginManager().fromInstance(plugin)
+                .ifPresent(container -> register(container.getMetadata(), command));
     }
 
     @Override
