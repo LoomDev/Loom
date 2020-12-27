@@ -6,6 +6,7 @@ import org.loomdev.api.entity.effect.StatusEffect;
 import org.loomdev.api.entity.effect.StatusEffectType;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.ItemType;
+import org.loomdev.api.util.EquipmentSlot;
 import org.loomdev.api.util.Hand;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
@@ -76,29 +77,9 @@ public interface LivingEntity extends Damageable {
     boolean isHolding(@NotNull Predicate<ItemType> predicate);
 
     @NotNull
-    Optional<ItemStack> getItemInHand(@NotNull Hand hand);
+    Optional<ItemStack> getEquipment(@NotNull EquipmentSlot slot);
 
-    void setItemInHand(@NotNull Hand hand, @NotNull ItemStack itemStack);
-
-    @NotNull
-    Optional<ItemStack> getBoots();
-
-    void setBoots(@NotNull ItemStack itemStack);
-
-    @NotNull
-    Optional<ItemStack> getLeggings();
-
-    void setLeggings(@NotNull ItemStack itemStack);
-
-    @NotNull
-    Optional<ItemStack> getChestplate();
-
-    void setChestplate(@NotNull ItemStack itemStack);
-
-    @NotNull
-    Optional<ItemStack> getHelmet();
-
-    void setHelmet(@NotNull ItemStack itemStack);
+    void setEquipment(@NotNull EquipmentSlot slot, @NotNull ItemStack equipment);
 
     float getMovementSpeed();
 

@@ -4,16 +4,15 @@ import com.google.common.base.Preconditions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.entity.effect.StatusEffect;
 import org.loomdev.api.entity.effect.StatusEffectType;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.ItemType;
+import org.loomdev.api.util.EquipmentSlot;
 import org.loomdev.api.util.Hand;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
@@ -172,14 +171,14 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
     }
 
     @Override
-    public boolean isHolding(@NotNull ItemType item) {
-        return isHolding(mat -> mat.equals(item));
+    public boolean isHolding(@NotNull ItemType type) {
+        return isHolding(type1 -> type1.equals(type));
     }
 
     @Override
     public boolean isHolding(@NotNull Predicate<ItemType> predicate) {
-        var mainHand = getItemInHand(Hand.MAIN_HAND);
-        var offHand = getItemInHand(Hand.OFF_HAND);
+        var mainHand = getEquipment(EquipmentSlot.MAIN_HAND);
+        var offHand = getEquipment(EquipmentSlot.OFF_HAND);
 
         if (mainHand.isPresent() && predicate.test(mainHand.get().getType())) {
             return true;
@@ -190,74 +189,18 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
 
     @Override
     @NotNull
-    public Optional<ItemStack> getItemInHand(@NotNull Hand hand) {
-        var mcStack = getMinecraftEntity().getItemInHand(hand == Hand.MAIN_HAND ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND);
-
-        if (mcStack == net.minecraft.world.item.ItemStack.EMPTY) {
-            return Optional.empty();
-        }
-
-        return Optional.of(ItemStackImpl.of(mcStack));
+    public Optional<ItemStack> getEquipment(@NotNull EquipmentSlot slot) {
+        return Optional.ofNullable(getMinecraftEntity().getItemBySlot(getMinecraftEquipmentSlot(slot)))
+                .map(ItemStackImpl::of);
     }
 
     @Override
-    public void setItemInHand(@NotNull Hand hand, @NotNull ItemStack itemStack) {
-        var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
-        getMinecraftEntity().setItemInHand(hand == Hand.MAIN_HAND ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND, mcStack);
+    public void setEquipment(@NotNull EquipmentSlot slot, @NotNull ItemStack equipment) {
+        getMinecraftEntity().setItemSlot(getMinecraftEquipmentSlot(slot), ((ItemStackImpl) equipment).getMinecraftItemStack());
     }
 
-    @NotNull
-    private Optional<ItemStack> getStack(@NotNull EquipmentSlot mcEquipmentSlot) {
-        var mcStack = getMinecraftEntity().getItemBySlot(mcEquipmentSlot);
-        if (mcStack == null || mcStack.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(ItemStackImpl.of(mcStack));
-    }
-
-    @Override
-    @NotNull
-    public Optional<ItemStack> getBoots() {
-        return getStack(EquipmentSlot.FEET);
-    }
-
-    @Override
-    public void setBoots(@NotNull ItemStack itemStack) {
-        getMinecraftEntity().setItemSlot(EquipmentSlot.FEET, ((ItemStackImpl) itemStack).getMinecraftItemStack());
-    }
-
-    @Override
-    @NotNull
-    public Optional<ItemStack> getLeggings() {
-        return getStack(EquipmentSlot.LEGS);
-    }
-
-    @Override
-    public void setLeggings(@NotNull ItemStack itemStack) {
-        getMinecraftEntity().setItemSlot(EquipmentSlot.LEGS, ((ItemStackImpl) itemStack).getMinecraftItemStack());
-    }
-
-    @Override
-    @NotNull
-    public Optional<ItemStack> getChestplate() {
-        return getStack(EquipmentSlot.CHEST);
-    }
-
-    @Override
-    public void setChestplate(@NotNull ItemStack itemStack) {
-        getMinecraftEntity().setItemSlot(EquipmentSlot.CHEST, ((ItemStackImpl) itemStack).getMinecraftItemStack());
-    }
-
-    @Override
-    @NotNull
-    public Optional<ItemStack> getHelmet() {
-        return getStack(EquipmentSlot.HEAD);
-    }
-
-    @Override
-    public void setHelmet(@NotNull ItemStack itemStack) {
-        getMinecraftEntity().setItemSlot(EquipmentSlot.HEAD, ((ItemStackImpl) itemStack).getMinecraftItemStack());
+    private net.minecraft.world.entity.EquipmentSlot getMinecraftEquipmentSlot(@NotNull EquipmentSlot slot) {
+        return net.minecraft.world.entity.EquipmentSlot.values()[slot.ordinal()];
     }
 
     @Override
