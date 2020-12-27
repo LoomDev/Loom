@@ -8,7 +8,7 @@ mapServerJar() {
     printf " Done!\n"
 
     printf "Mapping $mcVersion Minecraft server jar...\n"
-    java -jar tools/tiny-remapper-0.3.1.72-fat.jar ".cache/$mcVersion/server.jar" ".cache/$mcVersion/server-deobf.jar" ".cache/$mcVersion/server.tiny" obf deobf --rebuildSourceFilenames --renameInvalidLocals || exit 1
+    java -jar tools/tiny-remapper-0.3.1.72-fat.jar ".cache/$mcVersion/server.jar" ".cache/$mcVersion/server-deobf.jar" ".cache/$mcVersion/server.tiny" obf deobf --renameInvalidLocals || exit 1
 
     printf "Installing $mcVersion mapped Minecraft server jar in your local maven repo..."
     mvn install:install-file -Dfile=".cache/$mcVersion/server-deobf.jar" -DgroupId="org.loomdev" -DartifactId="minecraft-server" -Dversion="$mcVersion-SNAPSHOT" -Dpackaging="jar" > /dev/null
