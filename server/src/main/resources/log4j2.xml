@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" packages="com.mojang.util" shutdownHook="disable">
+<Configuration status="WARN" packages="com.mojang.util">
     <Appenders>
-        <TerminalConsole name="TerminalConsole">
-            <PatternLayout>
-                <LoggerNamePatternSelector defaultPattern="%highlightError{[%d{HH:mm:ss} %level]: [%logger] %minecraftFormatting{%msg}%n%xEx{full}}">
-                    <!-- Log root, Minecraft, Mojang and Bukkit loggers without prefix -->
-                    <!-- Disable prefix for various plugins that bypass the plugin logger -->
-                    <PatternMatch key=",net.minecraft.,Minecraft,com.mojang." pattern="%highlightError{[%d{HH:mm:ss} %level]: %minecraftFormatting{%msg}%n%xEx{full}}" />
+        <TerminalConsole name="Console">
+            <PatternLayout noConsoleNoAnsi="true">
+                <LoggerNamePatternSelector defaultPattern="%highlightError{[%d{HH:mm:ss}] [%t/%level]: [%logger] %minecraftFormatting{%msg}%n}">
+                    <PatternMatch key=",net.minecraft.,com.mojang.,org.loomdev.loom.,Minecraft,Plugin Manager" pattern="%highlightError{[%d{HH:mm:ss}] [%t/%level]: %minecraftFormatting{%msg}%n}" />
                 </LoggerNamePatternSelector>
             </PatternLayout>
         </TerminalConsole>
+        <Queue name="ServerGuiConsole">
+            <PatternLayout>
+				<LoggerNamePatternSelector defaultPattern="[%d{HH:mm:ss} %level]: [%logger] %msg%n">
+					<PatternMatch key=",net.minecraft.,com.mojang.,org.loomdev.loom.,Minecraft,Plugin Manager" pattern="[%d{HH:mm:ss} %level]: %msg%n" />
+				</LoggerNamePatternSelector>
+			</PatternLayout>
+        </Queue>
         <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout>
-                <LoggerNamePatternSelector defaultPattern="[%d{HH:mm:ss}] [%t/%level]: [%logger] %minecraftFormatting{%msg}{strip}%n%xEx{full}">
-                    <!-- Log root, Minecraft, Mojang and Bukkit loggers without prefix -->
-                    <!-- Disable prefix for various plugins that bypass the plugin logger -->
-                    <PatternMatch key=",net.minecraft.,Minecraft,com.mojang." pattern="[%d{HH:mm:ss}] [%t/%level]: %minecraftFormatting{%msg}{strip}%n%xEx{full}" />
+                <LoggerNamePatternSelector defaultPattern="[%d{HH:mm:ss}] [%t/%level]: [%logger] %msg%n">
+                    <PatternMatch key=",net.minecraft.,com.mojang.,org.loomdev.loom.,Minecraft,Plugin Manager" pattern="[%d{HH:mm:ss}] [%t/%level]: %msg%n" />
                 </LoggerNamePatternSelector>
             </PatternLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy />
                 <OnStartupTriggeringPolicy />
             </Policies>
-            <DefaultRolloverStrategy max="1000"/>
         </RollingRandomAccessFile>
     </Appenders>
     <Loggers>
@@ -31,7 +33,8 @@
                 <MarkerFilter marker="NETWORK_PACKETS" onMatch="DENY" onMismatch="NEUTRAL" />
             </filters>
             <AppenderRef ref="File"/>
-            <AppenderRef ref="TerminalConsole" level="info"/>
+            <AppenderRef ref="ServerGuiConsole"/>
+            <AppenderRef ref="Console" level="info"/>
         </Root>
     </Loggers>
 </Configuration>
