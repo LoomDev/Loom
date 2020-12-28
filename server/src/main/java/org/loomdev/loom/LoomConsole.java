@@ -62,7 +62,7 @@ public class LoomConsole extends SimpleTerminalConsole {
                 Suggestions suggestions = server.getCommands().getDispatcher().getCompletionSuggestions(results).get();
                 for (Suggestion suggestion : suggestions.getList()) {
                     String text = suggestion.getText();
-                    if(!text.isEmpty()) {
+                    if (!text.isEmpty()) {
                         candidates.add(new Candidate(text));
                     }
                 }
@@ -70,7 +70,5 @@ public class LoomConsole extends SimpleTerminalConsole {
                 LOGGER.error("Error finding command completions", error);
             }
         }
-
     }
-
 }
