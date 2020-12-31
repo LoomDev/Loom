@@ -68,14 +68,14 @@ public interface Player extends LivingEntity {
      *
      * @param message The message of the action bar.
      */
-    void sendActionbar(@NotNull String message);
+    void sendActionBar(@NotNull String message);
 
     /**
      * Sends an action bar to the player that will appear above the hotbar.
      *
      * @param message The message of the action bar.
      */
-    void sendActionbar(@NotNull Component message);
+    void sendActionBar(@NotNull Component message);
 
     /**
      * Sends a title (with a subtitle below it) to the player.

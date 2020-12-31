@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  *
  *
  * <p>
- *     As of Minecraft 1.13 all item, blocks, ... use a namespaced key instead of an id. This provides more felixbility for modding
+ *     As of Minecraft 1.13 all item, blocks, etc. use a namespaced key instead of an id. This provides more flexibility for modding.
  * </p>
  *
  * <p>

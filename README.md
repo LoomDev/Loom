@@ -19,7 +19,7 @@ cd Loom
 ```
 Once your environment is set up, you can open the project in your IDE of choice. If you have made an NMS modification and want to convert your changes to a patch, use `./loom rb` to rebuild patches. To apply all patches to existing NMS, use `./loom p`.
 
-To build a complete Loom JAR, run the setup commands above and then use `mvn package`. The final JAR will be inside the `target/` folder.
+To build a complete Loom JAR, you will need to have maven installed. Once installed, run the setup commands above followed by `./loom jar`. The final JAR will be inside the `target/` folder.
 
 We hope to create a stable and modern server software for many generations of Minecraft servers to come. Loom is completely open-source and licensed with the MIT license. Feel free to contribute to the project! ✨
 

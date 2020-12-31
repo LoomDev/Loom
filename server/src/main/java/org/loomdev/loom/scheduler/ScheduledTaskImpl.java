@@ -103,7 +103,7 @@ public class ScheduledTaskImpl extends FutureTask<Void> implements ScheduledTask
         try {
             get();
         } catch (ExecutionException ex) {
-            LogManager.getLogger("Loom task logger - #" + taskId).log(Level.ERROR, "Error while executing " + this, ex.getCause());
+            LogManager.getLogger("Task logger - #" + taskId).log(Level.ERROR, "Error while executing " + this, ex.getCause());
         } catch (InterruptedException e) {
             // Task is already done
         }

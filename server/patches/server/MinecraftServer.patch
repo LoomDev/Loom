@@ -44,7 +44,20 @@
          MinecraftServer.LOGGER.info("Stopping server");
          if (this.getConnection() != null) {
              this.getConnection().stop();
-@@ -652,10 +658,13 @@
+@@ -618,6 +624,12 @@
+             MinecraftServer.LOGGER.error("Failed to unlock level {}", this.storageSource.getLevelId(), ioexception1);
+         }
+ 
++        // Loom start :: Terminal console appender
++        try {
++            net.minecrell.terminalconsole.TerminalConsoleAppender.close();
++        } catch(Throwable ignored) {
++        }
++        // Loom end
+     }
+ 
+     public String getLocalIp() {
+@@ -652,10 +664,13 @@
                  this.status.setVersion(new ServerStatus.Version(SharedConstants.getCurrentVersion().getName(), SharedConstants.getCurrentVersion().getProtocolVersion()));
                  this.updateStatusIcon(this.status);
  
@@ -60,7 +73,7 @@
                          long j = i / 50L;
  
                          MinecraftServer.LOGGER.warn("Can't keep up! Is the server overloaded? Running {}ms or {} ticks behind", i, j);
-@@ -663,6 +672,14 @@
+@@ -663,6 +678,14 @@
                          this.lastOverloadWarning = this.nextTickTime;
                      }
  
@@ -75,7 +88,7 @@
                      this.nextTickTime += 50L;
                      SingleTickProfiler singletickprofiler = SingleTickProfiler.createTickProfiler("Server");
  
-@@ -806,6 +823,7 @@
+@@ -806,6 +829,7 @@
          long i = Util.getNanos();
  
          ++this.tickCount;
@@ -83,7 +96,7 @@
          this.tickChildren(booleansupplier);
          if (i - this.lastServerStatus >= 5000000000L) {
              this.lastServerStatus = i;
-@@ -840,17 +858,20 @@
+@@ -840,17 +864,20 @@
          }
  
          this.profiler.pop();
@@ -104,7 +117,7 @@
          this.profiler.push("commandFunctions");
          this.getFunctions().tick();
          this.profiler.popPush("levels");
-@@ -871,6 +892,7 @@
+@@ -871,6 +898,7 @@
              this.profiler.push("tick");
  
              try {
@@ -112,7 +125,7 @@
                  serverlevel.tick(booleansupplier);
              } catch (Throwable throwable) {
                  CrashReport crashreport = CrashReport.forThrowable(throwable, "Exception ticking world");
-@@ -950,7 +972,7 @@
+@@ -950,7 +978,7 @@
      }
  
      public String getServerModName() {
@@ -121,7 +134,16 @@
      }
  
      public CrashReport fillReport(CrashReport crashreport) {
-@@ -1289,11 +1311,11 @@
+@@ -991,7 +1019,7 @@
+     public abstract Optional<String> getModdedStatus();
+ 
+     public void sendMessage(Component component, UUID uuid) {
+-        MinecraftServer.LOGGER.info(component.getString());
++        MinecraftServer.LOGGER.info(org.loomdev.loom.util.ChatUtil.toString(component)); // Loom :: Show formatting in console
+     }
+ 
+     public KeyPair getKeyPair() {
+@@ -1289,11 +1317,11 @@
  
      public CompletableFuture<Void> reloadResources(Collection<String> collection) {
          CompletableFuture<Void> completablefuture = CompletableFuture.supplyAsync(() -> {
@@ -135,7 +157,7 @@
          }, this).thenCompose((immutablelist) -> {
              return ServerResources.loadResources(immutablelist, this.registryHolder, this.isDedicatedServer() ? Commands.CommandSelection.DEDICATED : Commands.CommandSelection.INTEGRATED, this.getFunctionCompilationLevel(), this.executor, this);
          }).thenAcceptAsync((serverresources) -> {
-@@ -1735,6 +1757,7 @@
+@@ -1735,6 +1763,7 @@
          return null;
      }
  
@@ -143,7 +165,7 @@
      public void doRunTask(Runnable runnable) {
          this.doRunTask((TickTask) runnable);
      }
-@@ -1746,4 +1769,5 @@
+@@ -1746,4 +1775,5 @@
      public Runnable wrapRunnable(Runnable runnable) {
          return this.wrapRunnable(runnable);
      }

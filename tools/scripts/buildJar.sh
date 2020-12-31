@@ -3,7 +3,7 @@
 mcVersion=$(cat ".loomversion")
 
 buildJar() {
-    printf "Building distributable Loom server jar for Minecraft $mcVersion..."
+    printf "Building distributable Loom server jar for Minecraft $mcVersion...\n"
     rootPath=$(pwd)
 
     cd "tools/Paperclip"
@@ -11,7 +11,7 @@ buildJar() {
     cp "assembly/target/paperclip-$mcVersion.jar" "$rootPath/loom-$mcVersion.jar"
     cd ../..
     
-    printf " Done!\n"
+    printf "Done!"
 }
 
 buildJar

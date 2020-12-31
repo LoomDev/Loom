@@ -4,7 +4,7 @@ import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
 
 /**
- * Represents a sound event (a sound that can be played to players).
+ * Represents a sound event (a type of {@link Sound}).
  */
 public interface SoundEvent extends Keyed {
 
