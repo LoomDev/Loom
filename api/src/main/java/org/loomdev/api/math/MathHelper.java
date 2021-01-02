@@ -54,6 +54,6 @@ public final class MathHelper {
     }
 
     private MathHelper() {
-        throw new UnsupportedOperationException("You should be instantiating MathHelper");
+        throw new UnsupportedOperationException("MathHelper shouldn't be initialized.");
     }
 }

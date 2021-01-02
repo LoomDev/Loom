@@ -17,7 +17,7 @@ public enum Hand {
     /**
      * Gets the equipment slot corresponding to the hand.
      * 
-     * @return the slot
+     * @return The slot.
      */
     public EquipmentSlot getEquipmentSlot() {
         return equipmentSlot;

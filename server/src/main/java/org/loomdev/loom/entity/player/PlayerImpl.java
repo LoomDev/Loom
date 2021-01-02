@@ -115,12 +115,12 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public void sendActionbar(@NotNull String message) {
-        sendActionbar(Component.text(message));
+    public void sendActionBar(@NotNull String message) {
+        sendActionBar(Component.text(message));
     }
 
     @Override
-    public void sendActionbar(@NotNull Component message) {
+    public void sendActionBar(@NotNull Component message) {
         getMinecraftEntity().sendMessage(TextTransformer.toMinecraft(message), ChatType.GAME_INFO, Util.NIL_UUID);
     }
 

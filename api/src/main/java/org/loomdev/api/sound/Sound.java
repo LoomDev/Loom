@@ -1,9 +1,10 @@
 package org.loomdev.api.sound;
 
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.entity.player.Player;
 
 /**
- * Represents a sound that can be played to players.
+ * Represents a sound that can be played to {@link Player}s.
  */
 public class Sound {
 
