@@ -139,7 +139,7 @@
  
      public void sendMessage(Component component, UUID uuid) {
 -        MinecraftServer.LOGGER.info(component.getString());
-+        MinecraftServer.LOGGER.info(org.loomdev.loom.util.ChatUtil.toString(component)); // Loom :: Show formatting in console
++        MinecraftServer.LOGGER.info(org.loomdev.loom.util.ChatToLegacyConverter.toLegacy(component)); // Loom :: Show formatting in console
      }
  
      public KeyPair getKeyPair() {

@@ -1,9 +1,11 @@
 package org.loomdev.loom.entity.player;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitlesPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundTabListPacket;
@@ -13,17 +15,25 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.GameType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.Loom;
+import org.loomdev.api.bossbar.BossBar;
+import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.math.MathHelper;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.GameMode;
+import org.loomdev.api.world.Location;
+import org.loomdev.api.world.Weather;
 import org.loomdev.loom.entity.LivingEntityImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.net.InetSocketAddress;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 public class PlayerImpl extends LivingEntityImpl implements Player {
 
