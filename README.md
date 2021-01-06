@@ -27,7 +27,7 @@ We hope to create a stable and modern server software for many generations of Mi
 
 ### Tips
 - If you have multiple versions of Java installed, use `export JAVA_HOME=/location/of/java`.
-- To run in an IDE run the class "org.loomdev.loom.Loom" inside "loom-server".
+- To run in an IDE, run the class "org.loomdev.loom.Loom" inside "loom-server".
 - In IntelliJ Idea, if "org.loomdev.loom.Loom" cannot be found, set "Use classpath of module" to "loom-root.loom-server.main".
 
 ### Special thanks
