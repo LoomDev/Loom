@@ -1,0 +1,7 @@
+rootProject.name = "loom-root"
+include "api"
+project(":api").name = "loom-api"
+include "server"
+project(":server").name = "loom-server"
+include "launcher"
+project(":launcher").name = "loom-launcher"

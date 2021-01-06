@@ -13,12 +13,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - uses: actions/cache@v1.1.2
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
     - name: Git Config
       run: |
         git config --global user.email "ci@loomdev.org"
@@ -33,5 +27,5 @@ jobs:
       uses: actions/upload-artifact@v2-preview
       with:
         name: loom-server
-        path: loom-*.jar
+        path: loom-launcher-*.jar
 

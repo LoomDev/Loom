@@ -37,9 +37,9 @@ import java.util.UUID;
 
 public class PlayerImpl extends LivingEntityImpl implements Player {
 
-    private Component tabListName;
-    private Component tabListHeader;
-    private Component tabListFooter;
+    private Component playerListName;
+    private Component playerListHeader;
+    private Component playerListFooter;
 
     public PlayerImpl(ServerPlayer entity) {
         super(entity);
@@ -174,43 +174,43 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     @NotNull
-    public Optional<Component> getTabListName() {
-        return Optional.ofNullable(tabListName);
+    public Optional<Component> getPlayerListName() {
+        return Optional.ofNullable(playerListName);
     }
 
     @Override
-    public void setTabListName(@NotNull Component name) {
-        this.tabListName = name;
-    }
-
-    @Override
-    @NotNull
-    public Optional<Component> getTabListHeader() {
-        return Optional.ofNullable(tabListHeader);
-    }
-
-    @Override
-    public void setTabListHeader(@NotNull Component header) {
-        this.tabListHeader = header;
-        updateTablist();
+    public void setPlayerListName(@NotNull Component name) {
+        this.playerListName = name;
     }
 
     @Override
     @NotNull
-    public Optional<Component> getTabListFooter() {
-        return Optional.ofNullable(tabListHeader);
+    public Optional<Component> getPlayerListHeader() {
+        return Optional.ofNullable(playerListHeader);
     }
 
     @Override
-    public void setTabListFooter(@NotNull Component footer) {
-        tabListFooter = footer;
-        updateTablist();
+    public void setPlayerListHeader(@NotNull Component header) {
+        this.playerListHeader = header;
+        updatePlayerList();
     }
 
-    private void updateTablist() {
+    @Override
+    @NotNull
+    public Optional<Component> getPlayerListFooter() {
+        return Optional.ofNullable(playerListHeader);
+    }
+
+    @Override
+    public void setPlayerListFooter(@NotNull Component footer) {
+        playerListFooter = footer;
+        updatePlayerList();
+    }
+
+    private void updatePlayerList() {
         getMinecraftEntity().connection.send(new ClientboundTabListPacket(
-                TextTransformer.toMinecraft(tabListHeader),
-                TextTransformer.toMinecraft(tabListFooter)
+                TextTransformer.toMinecraft(playerListHeader),
+                TextTransformer.toMinecraft(playerListFooter)
         ));
     }
 

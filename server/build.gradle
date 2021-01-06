@@ -1,0 +1,44 @@
+apply plugin: "com.github.johnrengelman.shadow"
+
+description "Implementation of the Loom API on vanilla Minecraft."
+
+// https://stackoverflow.com/a/48249897
+
+jar {
+    enabled = false
+    dependsOn(shadowJar)
+}
+
+shadowJar {
+    classifier = null
+    transform com.github.jengelman.gradle.plugins.shadow.transformers.Log4j2PluginsCacheFileTransformer
+    exclude "module-info.class"
+    relocate "jline", "org.loomdev.loom.lib.jline"
+    relocate "it.unimi", "org.loomdev.loom.lib.it.unimi"
+    relocate "org.apache.commons.codec", "org.loomdev.loom.lib.org.apache.commons.codec"
+    relocate "org.apache.commons.io", "org.loomdev.loom.lib.org.apache.commons.io"
+    relocate "org.apache.commons.lang3", "org.loomdev.loom.lib.org.apache.commons.lang3"
+    relocate "org.objectweb.asm", "org.loomdev.loom.lib.org.objectweb.asm"
+    manifest {
+        attributes(
+            "Main-Class": "org.loomdev.loom.Loom",
+            "Implementation-Title": "Loom",
+            "Implementation-Version": project.version
+        )
+    }
+}
+
+dependencies {
+    implementation project(":loom-api")
+    implementation "org.jetbrains:annotations:19.0.0"
+    implementation "org.loomdev:minecraft-server:$mcVersion"
+    implementation "net.kyori:event-method-asm:3.0.0"
+    implementation "org.apache.logging.log4j:log4j-core:2.8.1"
+    implementation "org.apache.logging.log4j:log4j-iostreams:2.8.1"
+    implementation "net.minecrell:terminalconsoleappender:1.2.0"
+    implementation "org.jetbrains:annotations:19.0.0"
+    runtimeOnly "org.jline:jline-terminal-jansi:3.12.1"
+    runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:2.8.1"
+    runtimeOnly "com.lmax:disruptor:3.4.2"
+}
+

@@ -11,7 +11,17 @@ mapServerJar() {
     java -jar "tools/jars/tiny-remapper-0.3.1.72-fat.jar" ".cache/$mcVersion/server.jar" ".cache/$mcVersion/server-deobf.jar" ".cache/$mcVersion/server.tiny" obf deobf --renameInvalidLocals || exit 1
 
     printf "Installing $mcVersion mapped Minecraft server jar in your local maven repo..."
-    mvn install:install-file -Dfile=".cache/$mcVersion/server-deobf.jar" -DgroupId="org.loomdev" -DartifactId="minecraft-server" -Dversion="$mcVersion-SNAPSHOT" -Dpackaging="jar" > /dev/null
+    mavenDir="$HOME/.m2/repository/org/loomdev/minecraft-server/$mcVersion"
+    mkdir -p "$mavenDir"
+    cp ".cache/$mcVersion/server-deobf.jar" "$mavenDir/minecraft-server-$mcVersion.jar"
+    printf """<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\" xmlns=\"http://maven.apache.org/POM/4.0.0\"
+    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.loomdev</groupId>
+    <artifactId>minecraft-server</artifactId>
+    <version>$mcVersion</version>
+</project>""" > "$mavenDir/minecraft-server-$mcVersion.pom"
     printf " Done!\n"
 }
 
