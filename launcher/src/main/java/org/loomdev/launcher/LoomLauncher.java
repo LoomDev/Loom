@@ -24,16 +24,15 @@ import java.util.jar.JarFile;
 public class LoomLauncher {
 
     public static void main(String[] args) {
-        Agent.addToClassPath(setup());
+        Agent.addToClassPath(setUp());
 
         org.loomdev.loom.Loom.main(args);
     }
 
-    private static File setup() {
+    private static File setUp() {
         try {
             boolean display = System.console() != null;
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
-
 
             File folder = new File(System.getProperty("user.dir"));
             File cacheFolder = new File(folder, "cache");
@@ -68,7 +67,7 @@ public class LoomLauncher {
                     System.out.println("Downloading vanilla jar...");
                     download(vanillaURL, vanillaJar, display);
                     if (!checkSha1(digest, vanillaBytes = toByteArray(vanillaJar), vanillaSha1)) {
-                        System.err.println("\rInvalid jar!");
+                        System.err.println("Invalid jar!");
                         System.exit(1);
                     }
                 }
@@ -175,24 +174,14 @@ public class LoomLauncher {
         return result;
     }
 
-    private static boolean checkJar(File jar) {
-        try {
-            new JarFile(jar).close();
-            return true;
-        } catch(Throwable error) {
-            return false;
-        }
-    }
-
     // https://stackoverflow.com/a/140861
     private static byte[] parseHexBinary(String hex) {
-        int len = hex.length();
-        byte[] data = new byte[len / 2];
-        for (int i = 0; i < len; i += 2) {
+        int length = hex.length();
+        byte[] data = new byte[length / 2];
+        for (int i = 0; i < length; i += 2) {
             data[i / 2] = (byte) ((Character.digit(hex.charAt(i), 16) << 4)
                                  + Character.digit(hex.charAt(i + 1), 16));
         }
         return data;
     }
-
 }
