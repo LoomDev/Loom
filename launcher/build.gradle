@@ -26,17 +26,16 @@ task generateData {
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
         }
+
         def propertiesFile = new File(dataFolder.getPath(), "launcher.properties")
         def patchFile = new File(dataFolder.getPath(), "loom.patch")
         
         def vanillaJar = rootProject.file(".cache" + File.separator + project.mcVersion + File.separator + "server.jar")
         def vanillaSha1 = vanillaJar.bytes.digest("SHA-1")
 
-        def mappings = rootProject.file(".cache" + File.separator + project.mcVersion + File.separator + "server.txt")
-        def mappingsSha1 = mappings.bytes.digest("SHA-1")
-
         def patchedJar = project(":loom-server").jar.archivePath
         def patchedSha1 = patchedJar.bytes.digest("SHA-1")
+
         Properties properties = new Properties()
         properties.put("vanilla.download", "https://launcher.mojang.com/v1/objects/$vanillaSha1/server.jar".toString())
         properties.put("vanilla.sha1", vanillaSha1)
@@ -44,7 +43,7 @@ task generateData {
         propertiesFile.withWriter { out ->
             properties.store(out, "Loom Launcher Properties".toString())
         }
-        project.javaexec({spec ->
+        project.javaexec({ spec ->
             spec.classpath(project.buildscript.configurations.classpath)
             spec.setMain("io.sigpipe.jbsdiff.ui.CLI")
             spec.jvmArgs("-Xmx512M")
