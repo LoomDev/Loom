@@ -95,6 +95,7 @@ rebuildPatches() {
 
 buildJar() {
     (
+        ./gradlew build || exit 1
         tools/scripts/buildJar.sh || exit 1
 
         echo ""

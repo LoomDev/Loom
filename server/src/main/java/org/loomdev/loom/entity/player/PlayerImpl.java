@@ -175,42 +175,42 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     @NotNull
     public Optional<Component> getTabListName() {
-        return Optional.ofNullable(playerListName);
+        return Optional.ofNullable(tabListName);
     }
 
     @Override
     public void setTabListName(@NotNull Component name) {
-        this.playerListName = name;
+        this.tabListName = name;
     }
 
     @Override
     @NotNull
     public Optional<Component> getTabListHeader() {
-        return Optional.ofNullable(playerListHeader);
+        return Optional.ofNullable(tabListHeader);
     }
 
     @Override
     public void setTabListHeader(@NotNull Component header) {
-        this.playerListHeader = header;
-        updatePlayerList();
+        this.tabListHeader = header;
+        updateTablist();
     }
 
     @Override
     @NotNull
-    public Optional<Component> getPlayerListFooter() {
-        return Optional.ofNullable(playerListHeader);
+    public Optional<Component> getTabListFooter() {
+        return Optional.ofNullable(tabListHeader);
     }
 
     @Override
-    public void setPlayerListFooter(@NotNull Component footer) {
-        playerListFooter = footer;
-        updatePlayerList();
+    public void setTabListFooter(@NotNull Component footer) {
+        tabListFooter = footer;
+        updateTablist();
     }
 
-    private void updatePlayerList() {
+    private void updateTablist() {
         getMinecraftEntity().connection.send(new ClientboundTabListPacket(
-                TextTransformer.toMinecraft(playerListHeader),
-                TextTransformer.toMinecraft(playerListFooter)
+                TextTransformer.toMinecraft(tabListHeader),
+                TextTransformer.toMinecraft(tabListFooter)
         ));
     }
 

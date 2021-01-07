@@ -64,23 +64,21 @@ public interface Player extends LivingEntity {
     void updateInventory();
 
     /**
-     * Sends an action bar to the player.
-     * Action bars are similar to titles, but they appear above the hotbar.
+     * Sends an action bar to the player that will appear above the hotbar.
      *
      * @param message The message of the action bar.
      */
     void sendActionBar(@NotNull String message);
 
     /**
-     * Sends an action bar to the player.
-     * Action bars are similar to titles, but they appear above the hotbar.
+     * Sends an action bar to the player that will appear above the hotbar.
      *
      * @param message The message of the action bar.
      */
     void sendActionBar(@NotNull Component message);
 
     /**
-     * Sends a title (with a subtitle below) to the player.
+     * Sends a title (with a subtitle below it) to the player.
      *
      * @param title The title.
      * @param subtitle The subtitle.
@@ -88,7 +86,7 @@ public interface Player extends LivingEntity {
     void sendTitle(@NotNull String title, @NotNull String subtitle);
 
     /**
-     * Sends a title (with a subtitle below) to the player.
+     * Sends a title (with a subtitle below it) to the player.
      *
      * @param title The title.
      * @param subtitle The subtitle.
@@ -96,7 +94,7 @@ public interface Player extends LivingEntity {
     void sendTitle(@NotNull Component title, @NotNull Component subtitle);
 
     /**
-     * Sends a title (with a subtitle below) to the player.
+     * Sends a title (with a subtitle below it) to the player.
      *
      * @param title The title.
      * @param subtitle The subtitle.
@@ -107,7 +105,7 @@ public interface Player extends LivingEntity {
     void sendTitle(@NotNull String title, @NotNull String subtitle, int fadeIn, int stay, int fadeOut);
 
     /**
-     * Sends a title (with a subtitle below) to the player.
+     * Sends a title (with a subtitle below it) to the player.
      *
      * @param title The title.
      * @param subtitle The subtitle.
@@ -128,35 +126,30 @@ public interface Player extends LivingEntity {
     int getProtocolVersion();
 
     /**
-     * Gets the player's name that appears on the player list.
+     * Gets the player's name that appears on the tab list.
      *
      * @return The name.
      */
     @NotNull
-    Optional<Component> getPlayerListName();
+    Optional<Component> getTabListName();
 
     /**
-     * Sets the player's name that appears on the player list.
+     * Sets the player's name that appears on the tab list.
      *
      * @param name The name.
      */
-    void setPlayerListName(@NotNull Component name);
+    void setTabListName(@NotNull Component name);
 
     @NotNull
-    Optional<Component> getPlayerListHeader();
+    Optional<Component> getTabListHeader();
 
-    void setPlayerListHeader(@NotNull Component header);
+    void setTabListHeader(@NotNull Component text);
 
     @NotNull
-    Optional<Component> getPlayerListFooter();
+    Optional<Component> getTabListFooter();
 
-    void setPlayerListFooter(@NotNull Component footer);
+    void setTabListFooter(@NotNull Component text);
 
-    /**
-     * Plays a {@link Sound} to the player.
-     *
-     * @param sound The sound.
-     */
     void playSound(@NotNull Sound sound);
 
     /**
@@ -173,4 +166,3 @@ public interface Player extends LivingEntity {
      */
     void setGameMode(@NotNull GameMode gameMode);
 }
-
