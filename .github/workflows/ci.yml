@@ -13,19 +13,28 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
+    - uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+    - name: Validate Gradle Wrapper
+      uses: gradle/wrapper-validation-action@v1
     - name: Git Config
       run: |
         git config --global user.email "ci@loomdev.org"
         git config --global user.name "LoomDev CI"
-    - name: Setup linux folder permissions
+    - name: Set up Linux folder permissions
       run: chmod -R -f 777 tools/scripts
     - name: Loom Setup
       run: ./loom s
-    - name: Loom Jar
-      run: ./loom jar
+    - name: Build
+      run: ./gradlew build --no-daemon
     - name: Upload Artifact
       uses: actions/upload-artifact@v2-preview
       with:
-        name: loom-server
+        name: loom-launcher
         path: loom-launcher-*.jar
-

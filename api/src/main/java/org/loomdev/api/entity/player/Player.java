@@ -59,7 +59,6 @@ public interface Player extends LivingEntity {
      *
      * @return The player's view distance, or if it has not been sent, the server's view distance.
      */
-    // TODO an optional could be used here
     int getViewDistance();
 
     void updateInventory();

@@ -4,12 +4,16 @@ description "Launcher for the Loom server."
 
 buildscript {
     repositories {
-        maven { url "https://jitpack.io" }
+        maven { url "https://jitpack.io/" }
     }
 
     dependencies {
         classpath "com.github.malensek:jbsdiff:$jbsdiffVersion"
     }
+}
+
+repositories {
+    maven { url "https://jitpack.io/" }
 }
 
 dependencies {

@@ -18,7 +18,7 @@ class Agent {
         Agent.instrumentation = instrumentation;
     }
 
-    static void addToClassPath(File jar) {
+    public static void addToClassPath(File jar) {
         if (instrumentation == null) {
             try {
             System.err.println("Please add -javaagent:" + new File(Agent.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getName());
@@ -35,6 +35,5 @@ class Agent {
             System.exit(1);
         }
     }
-
 }
 

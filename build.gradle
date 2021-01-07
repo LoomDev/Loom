@@ -4,10 +4,10 @@ plugins {
 
 subprojects {
     apply plugin: "java"
-    apply plugin: "maven-publish"
 
     sourceCompatibility = 11
     targetCompatibility = 11
+
     version rootProject.file(".loomversion").text
 
     ext {
@@ -20,10 +20,8 @@ subprojects {
     }
 
     repositories {
-        mavenCentral()
         mavenLocal()
+        mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "https://maven.fabricmc.net/" }
-        maven { url "https://jitpack.io/" }
     }
 }

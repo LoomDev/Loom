@@ -27,7 +27,12 @@ public class ChatToLegacyConverter {
 
         boolean hasFormatting = false;
         for (Component subComponent : getComponents(component)) {
-            
+            if (hasFormatting) {
+                // If the previous component was formatted, clear all formatting.
+                hasFormatting = false;
+                result.append(ChatFormatting.RESET);
+            }
+
             Style style = subComponent.getStyle();
             TextColor color = style.getColor();
 
