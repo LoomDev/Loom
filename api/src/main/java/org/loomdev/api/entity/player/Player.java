@@ -173,3 +173,4 @@ public interface Player extends LivingEntity {
      */
     void setGameMode(@NotNull GameMode gameMode);
 }
+

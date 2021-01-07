@@ -1,13 +1,16 @@
 package org.loomdev.loom.util;
 
+import com.google.common.collect.BoundType;
+import com.google.common.collect.Streams;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ChatToLegacyConverter {
 
@@ -25,14 +28,14 @@ public class ChatToLegacyConverter {
         }
         StringBuilder result = new StringBuilder();
 
+        List<Component> components = stream(component).collect(Collectors.toList());
         boolean hasFormatting = false;
-        for (Component subComponent : getComponents(component)) {
+        for (Component subComponent : components) {
             if (hasFormatting) {
                 // If the previous component was formatted, clear all formatting.
                 hasFormatting = false;
                 result.append(ChatFormatting.RESET);
             }
-
             Style style = subComponent.getStyle();
             TextColor color = style.getColor();
 
@@ -41,7 +44,7 @@ public class ChatToLegacyConverter {
                 try {
                     result.append(ChatFormatting.valueOf(color.toString().toUpperCase()));
                     hasFormatting = true;
-                } catch (IllegalArgumentException ignored) {
+                } catch(IllegalArgumentException ignored) {
                     // Legacy does not support RGB
                 }
             }
@@ -76,17 +79,8 @@ public class ChatToLegacyConverter {
         return result.toString();
     }
 
-    private static List<Component> getComponents(Component component) {
-        List<Component> components = new ArrayList<Component>();
-        getComponents(component, components);
-        return components;
-    }
-
-    private static void getComponents(Component component, List<Component> out) {
-        out.add(component);
-        for (Component sibling : component.getSiblings()) {
-            getComponents(sibling, out);
-        }
+    private static Stream<Component> stream(Component component) {
+        return Streams.concat(Stream.of(component), component.getSiblings().stream().flatMap(ChatToLegacyConverter::stream));
     }
 
     private ChatToLegacyConverter() {

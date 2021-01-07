@@ -31,10 +31,10 @@ jobs:
       run: chmod -R -f 777 tools/scripts
     - name: Loom Setup
       run: ./loom s
-    - name: Build
-      run: ./gradlew build --no-daemon
+    - name: Loom Jar
+      run: ./loom jar
     - name: Upload Artifact
       uses: actions/upload-artifact@v2-preview
       with:
-        name: loom-launcher
-        path: loom-launcher-*.jar
+        name: loom
+        path: loom-*.jar

@@ -1,0 +1,3 @@
+[submodule "tools/Paperclip"]
+	path = tools/Paperclip
+	url = https://github.com/PaperMC/Paperclip

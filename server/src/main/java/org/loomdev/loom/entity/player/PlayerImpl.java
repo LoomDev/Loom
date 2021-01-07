@@ -37,9 +37,9 @@ import java.util.UUID;
 
 public class PlayerImpl extends LivingEntityImpl implements Player {
 
-    private Component playerListName;
-    private Component playerListHeader;
-    private Component playerListFooter;
+    private Component tabListName;
+    private Component tabListHeader;
+    private Component tabListFooter;
 
     public PlayerImpl(ServerPlayer entity) {
         super(entity);
@@ -174,23 +174,23 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     @NotNull
-    public Optional<Component> getPlayerListName() {
+    public Optional<Component> getTabListName() {
         return Optional.ofNullable(playerListName);
     }
 
     @Override
-    public void setPlayerListName(@NotNull Component name) {
+    public void setTabListName(@NotNull Component name) {
         this.playerListName = name;
     }
 
     @Override
     @NotNull
-    public Optional<Component> getPlayerListHeader() {
+    public Optional<Component> getTabListHeader() {
         return Optional.ofNullable(playerListHeader);
     }
 
     @Override
-    public void setPlayerListHeader(@NotNull Component header) {
+    public void setTabListHeader(@NotNull Component header) {
         this.playerListHeader = header;
         updatePlayerList();
     }
