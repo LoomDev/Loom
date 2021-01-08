@@ -21,7 +21,7 @@ Once your environment is set up, you can open the project in your IDE of choice.
 
 To build a distributable Loom JAR, run `./loom jar`. The final JAR will be inside the root folder (the folder Loom was cloned into).
 
-To build a non-distributable Loom JAR (to make the build quicker, for debugging purposes), run `./gradlew loom-server:build`. The JAR will be inside "server/build/libs".
+To build a non-distributable Loom JAR (to make the build quicker, for debugging purposes), run `./gradlew build`. The JAR will be inside "server/build/libs".
 
 We hope to create a stable and modern server software for many generations of Minecraft servers to come. Loom is completely open-source and licensed with the [MIT license](/LICENSE). Feel free to contribute to the project! ✨
 

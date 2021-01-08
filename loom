@@ -57,6 +57,9 @@ cleanRepository() {
     printf "\r%-60s" "Removing: ./server/src/main/java/net"
     rm -rf ./server/src/main/java/net
 
+    printf "\r%-60s" "Removing: Paperclip submodule"
+    git submodule deinit --all -f &> /dev/null
+
     printf "\r%-60s" "Cleaned repository!"
 }
 
@@ -99,7 +102,7 @@ buildJar() {
         tools/scripts/buildJar.sh || exit 1
 
         echo ""
-        echo "Built Jar! (loom-launcher-$mcVersion.jar)"
+        echo "Built Jar! (loom-$mcVersion.jar)"
         echo ""
     ) || failed=1
 }
@@ -118,4 +121,3 @@ unset SOURCE
 unset basedir
 
 exit $failed
-
