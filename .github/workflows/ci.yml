@@ -13,6 +13,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
+    - name: Update Submodules
+      run: git submodule update --init --recursive
     - name: Gradle Cache
       uses: actions/cache@v2
       with:
@@ -26,7 +28,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        key: ${{ runner.os }}-maven-${{ hashFiles('./tools/Paperclip/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
     - name: Validate Gradle Wrapper
@@ -44,5 +46,5 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2-preview
       with:
-        name: loom
+        name: loom-server
         path: loom-*.jar
