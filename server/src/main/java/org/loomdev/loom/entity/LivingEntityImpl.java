@@ -20,6 +20,7 @@ import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.item.ItemStackImpl;
 import org.loomdev.loom.util.transformer.StatusEffectTransformer;
 import org.loomdev.loom.util.transformer.StatusEffectTypeTransformer;
+import org.loomdev.loom.util.transformer.DamageSourceTransformer;
 import org.loomdev.loom.world.WorldImpl;
 
 import java.util.List;
@@ -304,7 +305,7 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
 
     @Override
     public void damage(float damage) {
-        this.damage(damage, null);
+        getMinecraftEntity().hurt(DamageSource.GENERIC, damage);
     }
 
     @Override
@@ -316,6 +317,11 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
             reason = DamageSource.mobAttack(((LivingEntityImpl) source).getMinecraftEntity());
         }
         getMinecraftEntity().hurt(reason, damage);
+    }
+
+    @Override
+    public void damage(float damage, org.loomdev.api.entity.damage.DamageSource source) {
+        getMinecraftEntity().hurt(DamageSourceTransformer.toMinecraft(source), damage);
     }
 
     @Override
