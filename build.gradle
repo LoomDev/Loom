@@ -12,7 +12,6 @@ subprojects {
 
     ext {
         mcVersion = version
-        jbsdiffVersion = "5df6d1a09b"
     }
 
     tasks.withType(JavaCompile) {
