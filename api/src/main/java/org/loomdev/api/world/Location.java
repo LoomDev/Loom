@@ -52,7 +52,7 @@ public class Location {
     }
 
     public float getYaw() {
-        return pitch;
+        return yaw;
     }
 
     public Vector3d getPosition() {
