@@ -22,7 +22,7 @@ public class DamageSourceTransformer {
                 return DamageSource.LAVA;
             case HOT_FLOOR:
                 return DamageSource.HOT_FLOOR;
-            case IN_WALL:
+            case INSIDE_BLOCK:
                 return DamageSource.IN_WALL;
             case CRAMMING:
                 return DamageSource.CRAMMING;
@@ -59,7 +59,7 @@ public class DamageSourceTransformer {
             case FALLING_STALACTITE:
                 return DamageSource.FALLING_STALACTITE;
             default:
-                return DamageSource.GENERIC;
+                throw new UnsupportedOperationException("Cannot convert damage source " + source.getName() + " to Minecraft.");
         }
     }
 }

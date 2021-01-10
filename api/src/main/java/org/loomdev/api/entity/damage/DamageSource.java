@@ -18,7 +18,7 @@ public enum DamageSource {
     /**
      * Damage caused by being inside a block.
      */
-    IN_WALL("inWall"),
+    INSIDE_BLOCK("inWall"),
     /**
      * Damage caused by too many entities being in the same spot.
      */
