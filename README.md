@@ -11,7 +11,7 @@ Loom uses Mojang's mapping names, which allows it to be quickly updated to new a
 Loom was created because of the lack of fast version updates from Spigot, CraftBukkit's parent project. Not to mention, Bukkit's ancient, by today's standards, API is in need of rewrites and optimizations. Loom aims to stick as faithful to the original Bukkit API as possible to make it easy for plugin developers to switch over, while also introducing many modern features and concepts directly into the API. The end goal is to completely deprecate the usage of NMS in plugins.
 
 ### Building Loom
-Loom provides all of the scripts necessary to set up a build environment in this repository. To set up a fresh build environment, you need to have [Maven](https://maven.apache.org/) installed. Once installed, run the following in a bash shell ([WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) is preferable on Windows systems):
+Loom provides all of the scripts necessary to set up a build environment in this repository. To set up a fresh build environment, run the following in a bash shell ([WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) is preferable on Windows systems):
 ```bash
 git clone https://github.com/LoomDev/Loom
 cd Loom
