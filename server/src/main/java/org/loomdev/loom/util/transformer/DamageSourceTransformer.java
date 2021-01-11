@@ -50,7 +50,7 @@ public class DamageSourceTransformer {
                 return DamageSource.FALLING_BLOCK;
             case DRAGON_BREATH:
                 return DamageSource.DRAGON_BREATH;
-            case DRYOUT:
+            case DRY_OUT:
                 return DamageSource.DRY_OUT;
             case SWEET_BERRY_BUSH:
                 return DamageSource.SWEET_BERRY_BUSH;

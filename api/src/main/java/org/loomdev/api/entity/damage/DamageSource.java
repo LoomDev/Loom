@@ -44,7 +44,7 @@ public enum DamageSource {
     /**
      * Damage caused by being out of water.
      */
-    DRYOUT("dryout"),
+    DRY_OUT("dryout"),
     SWEET_BERRY_BUSH("sweetBerryBush"),
     FREEZE("freeze"),
     FALLING_STALACTITE("fallingStalactite");
