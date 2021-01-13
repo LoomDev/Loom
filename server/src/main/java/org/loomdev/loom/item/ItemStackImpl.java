@@ -220,7 +220,7 @@ public class ItemStackImpl implements ItemStack {
         @Override
         public ItemStack.Builder appendLore(@NotNull String... lore) {
             List<Component> components = Arrays.stream(lore)
-                    .map(TextComponent::of)
+                    .map(Component::text)
                     .collect(Collectors.toList());
             this.itemStack.setLore(components);
             return this;

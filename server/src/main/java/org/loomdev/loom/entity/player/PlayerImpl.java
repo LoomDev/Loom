@@ -38,8 +38,8 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     private Weather weather;
 
     private Component tabListName;
-    private Component tabListHeader = TextComponent.empty();
-    private Component tabListFooter = TextComponent.empty();
+    private Component tabListHeader = Component.empty();
+    private Component tabListFooter = Component.empty();
 
     private final Set<UUID> hiddenPlayers = new HashSet<>();
 
@@ -116,7 +116,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void sendActionbar(@NotNull String message) {
-        sendActionbar(TextComponent.of(message));
+        sendActionbar(Component.text(message));
     }
 
     @Override
@@ -126,7 +126,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void sendMessage(@NotNull String text) {
-        this.sendMessage(TextComponent.of(text));
+        this.sendMessage(Component.text(text));
     }
 
     @Override
@@ -146,7 +146,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void sendTitle(@NotNull String title, @NotNull String subtitle, int fadeIn, int stay, int fadeOut) {
-        sendTitle(TextComponent.of(title), TextComponent.of(subtitle), fadeIn, stay, fadeOut);
+        sendTitle(Component.text(title), Component.text(subtitle), fadeIn, stay, fadeOut);
     }
 
     @Override

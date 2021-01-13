@@ -1,5 +1,6 @@
 package org.loomdev.loom.command.loom;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.jetbrains.annotations.NotNull;
@@ -39,20 +40,18 @@ public class TpsCommand extends Command {
         times.addAll(eval(tickTimes.getTimes(TickTimes.TickTimesInterval.SECONDS_10)));
         times.addAll(eval(tickTimes.getTimes(TickTimes.TickTimesInterval.SECONDS_60)));
 
-        source.sendMessage(TextComponent.builder()
-                .append(TextComponent.of("TPS from the last 1m, 5m, 15m: "))
-                .append(TextComponent.of(String.format("%s§f, %s§f, %s",
+        source.sendMessage(Component.empty()
+                .append(Component.text("TPS from the last 1m, 5m, 15m: "))
+                .append(Component.text(String.format("%s§f, %s§f, %s",
                         getFormattedTps(tps, Tps.TpsInterval.MINUTES_1),
                         getFormattedTps(tps, Tps.TpsInterval.MINUTES_5),
                         getFormattedTps(tps, Tps.TpsInterval.MINUTES_15))))
-                .build()
         );
 
-        source.sendMessage(TextComponent.builder()
-                .append(TextComponent.of("Tick rates: "))
-                .append(TextComponent.of(String.format("%s§7/%s§7/%s§f, %s§7/%s§7/%s§f, %s§7/%s§7/%s", times.toArray()))
-                        .hoverEvent(HoverEvent.showText(TextComponent.of("Tick rates from last 5s, 10s, 15s"))))
-                .build()
+        source.sendMessage(Component.empty()
+                .append(Component.text("Tick rates: "))
+                .append(Component.text(String.format("%s§7/%s§7/%s§f, %s§7/%s§7/%s§f, %s§7/%s§7/%s", times.toArray()))
+                        .hoverEvent(HoverEvent.showText(Component.text("Tick rates from last 5s, 10s, 15s"))))
         );
     }
 
