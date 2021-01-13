@@ -14,7 +14,7 @@
      public void handleRecipeBookSeenRecipePacket(ServerboundRecipeBookSeenRecipePacket serverboundrecipebookseenrecipepacket) {
          PacketUtils.ensureRunningOnSameThread(serverboundrecipebookseenrecipepacket, this, this.player.getLevel());
 -        Optional optional = this.server.getRecipeManager().byKey(serverboundrecipebookseenrecipepacket.getRecipe());
-+        Optional<? extends net.minecraft.world.item.crafting.Recipe<?>> optional = this.server.getRecipeManager().byKey(serverboundrecipebookseenrecipepacket.getRecipe()); // Loom :: decompile error
++        Optional<? extends net.minecraft.world.item.crafting.Recipe<?>> optional = this.server.getRecipeManager().byKey(serverboundrecipebookseenrecipepacket.getRecipe());
          ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
  
          optional.ifPresent(serverrecipebook::removeHighlight);
