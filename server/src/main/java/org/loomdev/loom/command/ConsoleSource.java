@@ -18,7 +18,7 @@ public class ConsoleSource implements CommandSource {
 
     @Override
     public void sendMessage(@NotNull String message) {
-        minecraftServer.sendMessage(TextTransformer.toMinecraft(TextComponent.of(message)), Util.NIL_UUID);
+        minecraftServer.sendMessage(TextTransformer.toMinecraft(Component.text(message)), Util.NIL_UUID);
     }
 
     @Override
