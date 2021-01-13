@@ -140,7 +140,7 @@ public class ServerImpl implements Server {
 
     @Override
     public void broadcastMessage(@NotNull String message) {
-        this.broadcastMessage(TextComponent.of(message));
+        this.broadcastMessage(Component.text(message));
     }
 
     @Override
