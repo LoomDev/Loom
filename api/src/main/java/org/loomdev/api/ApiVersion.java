@@ -16,6 +16,7 @@ public enum ApiVersion {
     v1_16_4PRE2("1.16.4-PRE2", ReleaseType.PRE_RELEASE),
     v1_16_4RC1("1.16.4-RC1", ReleaseType.RELEASE_CANDIDATE),
     v1_16_4R1("1.16.4", ReleaseType.RELEASE),
+    V1_16_5RC1("1.16.5-RC1", ReleaseType.RELEASE_CANDIDATE),
     v20W45A("20w45a", ReleaseType.SNAPSHOT),
     v20W46A("20w46a", ReleaseType.SNAPSHOT);
 

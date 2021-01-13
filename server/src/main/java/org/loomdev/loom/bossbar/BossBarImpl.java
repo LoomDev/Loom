@@ -42,7 +42,7 @@ public class BossBarImpl implements BossBar {
 
     @Override
     public void setText(@NotNull String text) {
-        setText(TextComponent.of(text));
+        setText(Component.text(text));
     }
 
     @Override
