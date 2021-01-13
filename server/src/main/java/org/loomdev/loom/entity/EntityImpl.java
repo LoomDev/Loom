@@ -22,6 +22,7 @@ import org.loomdev.api.world.World;
 import org.loomdev.loom.command.CommandSourceImpl;
 import org.loomdev.loom.item.ItemStackImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
+import org.loomdev.loom.util.transformer.DamageSourceTransformer;
 import org.loomdev.loom.world.WorldImpl;
 
 import java.util.ArrayList;
@@ -355,7 +356,7 @@ public abstract class EntityImpl extends CommandSourceImpl implements Entity {
 
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        return false; // TODO
+        return getMinecraftEntity().isInvulnerableTo(DamageSourceTransformer.toMinecraft(damageSource));
     }
 
     @Override
