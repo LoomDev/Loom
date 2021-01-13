@@ -97,7 +97,7 @@ public class PluginsCommand extends Command {
                 .filter(plugin -> full || Loom.getPluginManager().isEnabled(plugin.getId()))
                 .forEach(plugin -> plugins.put(plugin.getNameOrId(), plugin));
 
-        var builder = Component.empty().toBuilder()
+        Component builder = Component.empty()
                 .append(Component.text("Plugins (" + plugins.size() + "): ").color(ChatColor.WHITE));
 
         int index = 0;
@@ -106,9 +106,9 @@ public class PluginsCommand extends Command {
                 builder.append(Component.text(", ").color(ChatColor.WHITE));
             }
 
-            TextComponent.Builder pluginBuilder = Component.empty().toBuilder();
+            Component pluginBuilder = Component.empty();
             PluginMetadata metadata = entry.getValue();
-            TextComponent.Builder hoverBuilder = Component.empty().toBuilder();
+            Component hoverBuilder = Component.empty();
 
             if (full) {
                 hoverBuilder.append(Component.text("Id: ").color(ChatColor.WHITE)
@@ -143,7 +143,7 @@ public class PluginsCommand extends Command {
             }
 
             pluginBuilder.append(Component.text(entry.getKey()).color(stateColor));
-            pluginBuilder.hoverEvent(HoverEvent.showText(hoverBuilder.build()));
+            pluginBuilder.hoverEvent(HoverEvent.showText(hoverBuilder));
 
             if (full && state != PluginMetadata.State.ERROR) {
                 if (state == PluginMetadata.State.DISABLED) {
@@ -156,7 +156,7 @@ public class PluginsCommand extends Command {
             builder.append(pluginBuilder);
         }
 
-        source.sendMessage(builder.build());
+        source.sendMessage(builder);
     }
 
     private TextComponent getHelpText() {
