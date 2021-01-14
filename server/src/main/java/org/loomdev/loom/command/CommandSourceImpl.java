@@ -1,9 +1,11 @@
 package org.loomdev.loom.command;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.minecraft.Util;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.Loom;
+import org.loomdev.api.util.ChatColor;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.command.CommandSourceConsumable;
 import org.loomdev.api.command.ConsoleCommandSource;
@@ -11,6 +13,7 @@ import org.loomdev.api.entity.player.Player;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.util.function.Consumer;
+import java.util.UUID;
 
 public class CommandSourceImpl implements CommandSource {
 
@@ -72,8 +75,18 @@ public class CommandSourceImpl implements CommandSource {
     }
 
     @Override
+    public void sendMessage(@NotNull String message, @NotNull UUID sender) {
+        sendMessage(Component.text(message), sender);
+    }
+
+    @Override
     public void sendMessage(@NotNull Component message) {
-        source.sendMessage(TextTransformer.toMinecraft(message), Util.NIL_UUID);
+        sendMessage(message, Util.NIL_UUID);
+    }
+
+    @Override
+    public void sendMessage(@NotNull Component message, @NotNull UUID sender) {
+        source.sendMessage(TextTransformer.toMinecraft(message), sender);
     }
 
     @Override

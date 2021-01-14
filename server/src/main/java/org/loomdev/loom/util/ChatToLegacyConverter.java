@@ -2,6 +2,7 @@ package org.loomdev.loom.util;
 
 import com.google.common.collect.BoundType;
 import com.google.common.collect.Streams;
+import org.loomdev.loom.util.transformer.TextTransformer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;

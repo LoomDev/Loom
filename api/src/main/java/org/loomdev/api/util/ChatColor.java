@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.TextColor;
 /**
  * Chat color utilities.
  */
+// TODO replace with net.kyori.adventure.text.format.NamedTextColor
 public class ChatColor {
 
     public static final char COLOR_CHAR = '\u00A7';
