@@ -80,18 +80,6 @@ public class ChatToLegacyConverter {
         return result.toString();
     }
 
-    /**
-     * Converts a text component to a legacy string
-     * with colors replaced with their legacy codes
-     * (§ followed by a number or letter).
-     *
-     * @return The legacy string.
-     * @see https://minecraft.gamepedia.com/Formatting_codes
-     */
-    public static String toLegacy(net.kyori.adventure.text.Component component) {
-        return toLegacy(TextTransformer.toMinecraft(component));
-    }
-
     private static Stream<Component> stream(Component component) {
         return Streams.concat(Stream.of(component), component.getSiblings().stream().flatMap(ChatToLegacyConverter::stream));
     }

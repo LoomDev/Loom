@@ -25,11 +25,6 @@ public class CommandSourceImpl implements CommandSource {
         this.source = source;
     }
 
-    @NotNull
-    public net.minecraft.commands.CommandSource getMinecraftSource() {
-        return source;
-    }
-
     @Override
     public boolean isPlayer() {
         return this instanceof Player;
