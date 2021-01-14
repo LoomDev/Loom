@@ -22,9 +22,9 @@ public interface CommandSource extends CommandSourceConsumable, PermissionSubjec
      * Sends a message to the command source.
      *
      * @param message The message (as a legacy string).
-     * @param uuid The sender's UUID (used for blocking players on the client).
+     * @param sender The sender's UUID (used for blocking players on the client).
      */
-    void sendMessage(@NotNull String message, @NotNull UUID uuid);
+    void sendMessage(@NotNull String message, @NotNull UUID sender);
 
     /**
      * Sends a message to the command source.
@@ -37,43 +37,51 @@ public interface CommandSource extends CommandSourceConsumable, PermissionSubjec
      * Sends a message to the command source.
      *
      * @param message The message (as a text component).
-     * @param uuid The sender's UUID (used for blocking players on the client).
+     * @param sender The sender's UUID (used for blocking players on the client).
      */
-    void sendMessage(@NotNull Component message, @NotNull UUID uuid);
+    void sendMessage(@NotNull Component message, @NotNull UUID sender);
 
     /**
      * Sends an error message to the command source.
-     * Error messages appear in red.
+     * This does not change formatting by default.
      *
      * @param message The message (as a legacy string).
      */
-    void sendError(@NotNull String message);
+    default void sendError(@NotNull String message) {
+        sendMessage(message);
+    }
 
     /**
      * Sends an error message to the command source.
-     * Error messages appear in red.
+     * This does not change formatting by default.
      *
      * @param message The message (as a legacy string).
-     * @param uuid The sender's UUID (used for blocking players on the client).
+     * @param sender The sender's UUID (used for blocking players on the client).
      */
-    void sendError(@NotNull String message, @NotNull UUID uuid);
+    default void sendError(@NotNull String message, @NotNull UUID sender) {
+        sendMessage(message, sender);
+    }
 
     /**
      * Sends an error message to the command source.
-     * Error messages appear in red.
+     * This does not change formatting by default.
      *
      * @param message The message (as a legacy string).
      */
-    void sendError(@NotNull Component message);
+    default void sendError(@NotNull Component message) {
+        sendMessage(message);
+    }
 
     /**
      * Sends an error message to the command source.
-     * Error messages appear in red.
+     * This does not change formatting by default.
      *
      * @param message The message (as a text component).
-     * @param uuid The sender's UUID (used for blocking players on the client).
+     * @param sender The sender's UUID (used for blocking players on the client).
      */
-    void sendError(@NotNull Component message, @NotNull UUID uuid);
+    default void sendError(@NotNull Component message, @NotNull UUID sender) {
+        sendMessage(message, sender);
+    }
 
     // TODO getName, broadcastToOps
 }

@@ -25,6 +25,11 @@ public class CommandSourceImpl implements CommandSource {
         this.source = source;
     }
 
+    @NotNull
+    public net.minecraft.commands.CommandSource getMinecraftSource() {
+        return source;
+    }
+
     @Override
     public boolean isPlayer() {
         return this instanceof Player;
@@ -75,43 +80,18 @@ public class CommandSourceImpl implements CommandSource {
     }
 
     @Override
-    public void sendMessage(@NotNull String message, @NotNull UUID uuid) {
-        sendMessage(Component.text(message), uuid);
+    public void sendMessage(@NotNull String message, @NotNull UUID sender) {
+        sendMessage(Component.text(message), sender);
     }
 
     @Override
     public void sendMessage(@NotNull Component message) {
-        source.sendMessage(TextTransformer.toMinecraft(message), Util.NIL_UUID);
+        sendMessage(message, Util.NIL_UUID);
     }
 
     @Override
-    public void sendMessage(@NotNull Component message, @NotNull UUID uuid) {
-        source.sendMessage(TextTransformer.toMinecraft(message), uuid);
-    }
-
-    @Override
-    public void sendError(@NotNull String message) {
-        sendError(Component.text(message));
-    }
-
-    @Override
-    public void sendError(@NotNull String message, @NotNull UUID uuid) {
-        sendError(Component.text(message), uuid);
-    }
-
-    @Override
-    public void sendError(@NotNull Component message) {
-        sendMessage(toError(message));
-    }
-
-    @Override
-    @Deprecated
-    public void sendError(@NotNull Component message, @NotNull UUID uuid) {
-        sendMessage(toError(message), uuid);
-    }
-
-    private Component toError(Component component) {
-        return Component.text("").append(component).color(ChatColor.RED);
+    public void sendMessage(@NotNull Component message, @NotNull UUID sender) {
+        source.sendMessage(TextTransformer.toMinecraft(message), sender);
     }
 
     @Override
