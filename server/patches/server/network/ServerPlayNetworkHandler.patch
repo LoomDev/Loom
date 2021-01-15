@@ -9,11 +9,11 @@
  import net.minecraft.advancement.Advancement;
  import net.minecraft.advancement.criterion.Criteria;
 @@ -320,7 +321,7 @@
-         class_5513 class_5513 = this.player.method_31273();
+         TextStream textstream = this.player.getTextStream();
  
-         if (class_5513 != null) {
--            ((CompletableFuture) bifunction.apply(class_5513, t0)).thenAcceptAsync((optional) -> {
-+            (bifunction.apply(class_5513, t0)).thenAcceptAsync((optional) -> {
+         if (textstream != null) {
+-            ((CompletableFuture) bifunction.apply(textstream, t0)).thenAcceptAsync((optional) -> {
++            (bifunction.apply(textstream, t0)).thenAcceptAsync((optional) -> { // Loom :: decompile error
                  optional.ifPresent(consumer1);
              }, threadexecutor);
          } else {
@@ -30,13 +30,13 @@
  
                  i = bookupdatec2spacket.getSlot();
                  if (PlayerInventory.isValidHotbarIndex(i) || i == 40) {
-+                    int finalI = i;
-                     this.method_31279(list, flag ? (list1) -> {
++                    int finalI = i; // Loom :: decompile error
+                     this.filterTexts(list, flag ? (list1) -> {
 -                        this.method_31276((String) list1.get(0), list1.subList(1, list1.size()), i);
-+                        this.method_31276((String) list1.get(0), list1.subList(1, list1.size()), finalI);
++                        this.method_31276((String) list1.get(0), list1.subList(1, list1.size()), finalI); // Loom :: decompile error
                      } : (list1) -> {
 -                        this.method_31278(list1, i);
-+                        this.method_31278(list1, finalI);
++                        this.method_31278(list1, finalI); // Loom :: decompile error
                      });
                  }
              }
@@ -52,7 +52,7 @@
 +        // Loom end
          this.player.onDisconnect();
          this.server.getPlayerManager().remove(this.player);
-         class_5513 class_5513 = this.player.method_31273();
+         TextStream textstream = this.player.getTextStream();
 @@ -1177,9 +1183,16 @@
              if (s.startsWith("/")) {
                  this.executeCommand(s);

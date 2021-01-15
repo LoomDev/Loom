@@ -2,7 +2,7 @@
 +++ b/net/minecraft/server/dedicated/MinecraftDedicatedServer.java
 @@ -71,8 +71,8 @@
      @Nullable
-     private final class_5514 field_26898;
+     private final TextFilterer filterer;
  
 -    public MinecraftDedicatedServer(Thread thread, DynamicRegistryManager.Impl dynamicregistrymanager_impl, LevelStorage.Session levelstorage_session, ResourcePackManager resourcepackmanager, ServerResourceManager serverresourcemanager, SaveProperties saveproperties, ServerPropertiesLoader serverpropertiesloader, DataFixer datafixer, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldGenerationProgressListenerFactory worldgenerationprogresslistenerfactory) {
 -        super(thread, dynamicregistrymanager_impl, levelstorage_session, saveproperties, resourcepackmanager, Proxy.NO_PROXY, datafixer, serverresourcemanager, minecraftsessionservice, gameprofilerepository, usercache, worldgenerationprogresslistenerfactory);
@@ -10,7 +10,7 @@
 +        super(optionSet, thread, dynamicregistrymanager_impl, levelstorage_session, saveproperties, resourcepackmanager, Proxy.NO_PROXY, datafixer, serverresourcemanager, minecraftsessionservice, gameprofilerepository, usercache, worldgenerationprogresslistenerfactory); // Loom :: add optionSet
          this.propertiesLoader = serverpropertiesloader;
          this.rconCommandOutput = new RconCommandOutput(this);
-         this.field_26898 = null;
+         this.filterer = null;
 @@ -169,6 +169,7 @@
              UserCache.setUseRemote(this.isOnlineMode());
              MinecraftDedicatedServer.LOGGER.info("Preparing level \"{}\"", this.getLevelName());
@@ -20,7 +20,7 @@
              String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
  
 @@ -546,7 +547,5 @@
-         return this.field_26898 != null ? this.field_26898.method_31297(serverplayerentity.getGameProfile()) : null;
+         return this.filterer != null ? this.filterer.createFilterer(serverplayerentity.getGameProfile()) : null;
      }
  
 -    public PlayerManager getPlayerManager() {
