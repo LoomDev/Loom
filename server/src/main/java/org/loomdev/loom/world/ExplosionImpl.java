@@ -15,10 +15,14 @@ public class ExplosionImpl implements org.loomdev.api.world.Explosion {
 
     private final Explosion explosion;
     private final BlockPointer pointer;
+    private final List<BlockPointer> affectedBlocks;
 
     public ExplosionImpl(Explosion explosion) {
         this.explosion = explosion;
         this.pointer = new BlockPointerImpl(explosion.level, new BlockPos(explosion.x, explosion.y, explosion.z));
+        this.affectedBlocks = explosion.getToBlow().stream()
+                .map(blockPos -> new BlockPointerImpl(explosion.level, blockPos))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -41,9 +45,7 @@ public class ExplosionImpl implements org.loomdev.api.world.Explosion {
     @Override
     @NotNull
     public List<BlockPointer> getAffectedBlocks() {
-        return explosion.getToBlow().stream()
-                .map(blockPos -> new BlockPointerImpl(explosion.level, blockPos))
-                .collect(Collectors.toList());
+        return affectedBlocks;
     }
 
     @Override
