@@ -11,8 +11,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Loom {
 
@@ -93,7 +91,7 @@ public class Loom {
         try {
             options = parser.parse(args);
         } catch (joptsimple.OptionException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            System.err.println(ex.getLocalizedMessage());
         }
 
         System.out.println("Starting Minecraft server...");
