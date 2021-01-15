@@ -37,7 +37,6 @@ import java.util.UUID;
 
 public class PlayerImpl extends LivingEntityImpl implements Player {
 
-    private Component tabListName;
     private Component tabListHeader;
     private Component tabListFooter;
 
@@ -159,7 +158,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     @NotNull
     public Optional<InetSocketAddress> getRemoteAddress() {
-        if (isConnected()) {
+        if (!isConnected()) {
             return Optional.empty();
         }
 
@@ -175,12 +174,13 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     @NotNull
     public Optional<Component> getTabListName() {
-        return Optional.ofNullable(tabListName);
+        return Optional.ofNullable(TextTransformer.toLoom(getMinecraftEntity().tabListName));
     }
 
     @Override
     public void setTabListName(@NotNull Component name) {
-        this.tabListName = name;
+        getMinecraftEntity().tabListName = TextTransformer.toMinecraft(name);
+        getMinecraftEntity().updateTabListName();
     }
 
     @Override
@@ -192,7 +192,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     public void setTabListHeader(@NotNull Component header) {
         this.tabListHeader = header;
-        updateTablist();
+        updateTabList();
     }
 
     @Override
@@ -204,10 +204,10 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     public void setTabListFooter(@NotNull Component footer) {
         tabListFooter = footer;
-        updateTablist();
+        updateTabList();
     }
 
-    private void updateTablist() {
+    private void updateTabList() {
         getMinecraftEntity().connection.send(new ClientboundTabListPacket(
                 TextTransformer.toMinecraft(tabListHeader),
                 TextTransformer.toMinecraft(tabListFooter)
