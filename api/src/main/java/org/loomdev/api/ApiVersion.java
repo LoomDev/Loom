@@ -16,6 +16,7 @@ public enum ApiVersion {
     v1_16_4RC1("1.16.4-RC1", false),
     v1_16_4R1("1.16.4", true),
     V1_16_5RC1("1.16.5-RC1", false),
+    V1_16_5R1("1.16.5", true),
     V20W45A("20W45A", false);
 
     public static final ApiVersion LATEST = values()[ApiVersion.values().length - 1];
