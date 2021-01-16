@@ -40,7 +40,7 @@
          if (random.nextInt(i) < k) {
              BlockState blockstate = level.getBlockState(blockpos);
  
-+            if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBurnUp(level, blockpos, sourcepos).isCanceled()) return; // Loom :: fire BlockEvent.BurnUp
++            if (org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.BlockEventImpl.BurnUpImpl(level, blockpos, sourcepos)).isCanceled()) return; // Loom :: fire BlockEvent.BurnUp
              if (random.nextInt(j + 10) < 5 && !level.isRainingAt(blockpos)) {
                  int l = Math.min(j + random.nextInt(5) / 4, 15);
  

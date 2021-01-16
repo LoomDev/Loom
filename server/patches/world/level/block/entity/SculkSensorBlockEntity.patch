@@ -1,10 +1,14 @@
 --- a/net/minecraft/world/level/block/entity/SculkSensorBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/SculkSensorBlockEntity.java
-@@ -52,6 +52,7 @@
+@@ -52,6 +52,11 @@
          BlockState blockstate = this.getBlockState();
  
          if (!level.isClientSide() && SculkSensorBlock.canActivate(blockstate)) {
-+            if (org.loomdev.loom.event.LoomEventDispatcher.onSculkSensorActivate(level, getBlockPos(), gameeventlistener.getListenerSource(), gameevent).isCanceled()) return; // Loom :: fire SculkSensorEvent.Activate
++            // Loom start :: fire SculkSensorEvent.Activate
++            var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.SculkSensorEventImpl.Activate(level, getBlockPos(), gameeventlistener.getListenerSource(), gameevent));
++            if (event.isCanceled()) return;
++            gameevent = event.getMinecraftEvent();
++            // Loom end
              this.lastVibrationFrequency = SculkSensorBlock.VIBRATION_STRENGTH_FOR_EVENT.getInt(gameevent);
              SculkSensorBlock.activate(level, this.worldPosition, blockstate, getRedstoneStrengthForDistance(i, gameeventlistener.getListenerRadius()));
          }

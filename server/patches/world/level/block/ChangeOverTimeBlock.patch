@@ -6,9 +6,9 @@
      default void change(Level level, BlockState blockstate, BlockPos blockpos) {
 -        level.setBlockAndUpdate(blockpos, this.getChangeTo(blockstate));
 +        // Loom start :: fire BlockEvent.ChangeOverTime
-+        var event = org.loomdev.loom.event.LoomEventDispatcher.onBlockChangeOverTime(level, blockpos, getChangeTo(blockstate));
++        var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.BlockEventImpl.ChangeOverTimeImpl(level, blockpos, getChangeTo(blockstate)));
 +        if (event.isCancelable()) return;
-+        level.setBlockAndUpdate(blockpos, this.getChangeTo(((org.loomdev.loom.block.BlockStateImpl) event.getNewState()).getMinecraftState()));
++        level.setBlockAndUpdate(blockpos, event.getMinecraftState());
 +        // Loom end
      }
  }

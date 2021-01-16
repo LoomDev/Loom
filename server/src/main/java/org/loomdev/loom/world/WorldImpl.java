@@ -24,6 +24,7 @@ import org.loomdev.api.world.World;
 import org.loomdev.loom.block.BlockPointerImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.event.LoomEventDispatcher;
+import org.loomdev.loom.event.world.WorldEventImpl;
 import org.loomdev.loom.util.transformer.ParticleTransformer;
 
 import java.lang.ref.WeakReference;
@@ -167,7 +168,7 @@ public class WorldImpl implements World {
 
     @Override
     public void setAbsoluteTime(long ticks) {
-        var event = LoomEventDispatcher.onWorldTimeSkip(getMinecraftWorld(), ticks - getAbsoluteTime());
+        var event = LoomEventDispatcher.fire(new WorldEventImpl.TimeSkipImpl(getMinecraftWorld(), ticks - getAbsoluteTime()));
 
         if (event.isCanceled()) {
             return;

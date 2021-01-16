@@ -1,61 +1,50 @@
 package org.loomdev.api.event.entity;
 
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.entity.Entity;
+import org.loomdev.api.entity.damage.DamageSource;
+import org.loomdev.api.event.Cancelable;
 import org.loomdev.api.event.Event;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.util.EquipmentSlot;
 
-public class EntityEvent extends Event {
-
-    private final Entity entity;
-
-    public EntityEvent(Entity entity) {
-        this.entity = entity;
-    }
+public interface EntityEvent extends Event {
 
     @NotNull
-    public Entity getEntity() {
-        return this.entity;
-    }
+    Entity getEntity();
 
-    public static class Damage extends EntityEvent {
-
-        public Damage(Entity entity) {
-            super(entity);
-        }
-    }
-
-    public static class Equip extends EntityEvent {
-
-        private EquipmentSlot slot;
-        private ItemStack equipment;
-
-        public Equip(Entity entity, EquipmentSlot slot, ItemStack equipment) {
-            super(entity);
-        }
+    // TODO we should probably split this into environmental damage
+    // and entity damaged by another entity
+    interface Damage extends EntityEvent, Cancelable {
 
         @NotNull
-        public EquipmentSlot getSlot() {
-            return slot;
+        DamageSource getDamageSource();
+
+        interface Environmental extends Damage {
         }
 
-        public void setSlot(@NotNull EquipmentSlot slot) {
-            this.slot = slot;
+        interface Entity extends Damage {
+
+            @NotNull
+            Entity getAttackingEntity();
         }
+    }
+
+    interface Equip extends EntityEvent, Cancelable {
 
         @NotNull
-        public ItemStack getEquipment() {
-            return equipment;
-        }
+        EquipmentSlot getEquipmentSlot();
 
-        public void setEquipment(@NotNull ItemStack equipment) {
-            this.equipment = equipment;
-        }
+        @NotNull
+        ItemStack getEquipment();
 
-        @Override
-        public boolean isCancelable() {
-            return true;
-        }
+        void setEquipment(@NotNull ItemStack itemStack);
+    }
+
+    interface MobGrief extends EntityEvent, Cancelable {
+
+        @NotNull
+        BlockPointer getModifiedPointer();
     }
 }

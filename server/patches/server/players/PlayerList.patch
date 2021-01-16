@@ -6,7 +6,7 @@
  
 -        this.broadcastMessage(translatablecomponent.withStyle(ChatFormatting.YELLOW), ChatType.SYSTEM, Util.NIL_UUID);
 +        // Loom start :: fire PlayerJoinEvent
-+        var event = org.loomdev.loom.event.LoomEventDispatcher.onPlayerJoin(serverplayer, translatablecomponent.withStyle(ChatFormatting.YELLOW));
++        var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.entity.PlayerEventImpl.JoinImpl(serverplayer, translatablecomponent.withStyle(ChatFormatting.YELLOW)));
 +        if (event.getJoinMessage().toString().length() != 0) {
 +            this.broadcastMessage(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getJoinMessage()), ChatType.SYSTEM, Util.NIL_UUID);
 +        }

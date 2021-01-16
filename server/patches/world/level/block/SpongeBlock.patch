@@ -55,7 +55,7 @@
  
 +        // Loom start :: fire SpongeEvent.Absorb
 +        final int finali = i;
-+        var event = org.loomdev.loom.event.LoomEventDispatcher.onSpongeAbsorb(level, blockpos, absorbedBlocks);
++        var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.SpongeEventImpl.AbsorbImpl(level, blockpos, absorbedBlocks));
 +
 +        if (!event.isCanceled()) {
 +            for (var block : event.getAbsorbedBlocks()) {

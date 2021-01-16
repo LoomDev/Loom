@@ -1,81 +1,27 @@
 package org.loomdev.api.event.block;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.block.BlockState;
-import org.loomdev.api.event.Event;
 
-public class PlantEvent extends Event {
+public interface PlantEvent extends BlockEvent {
 
-    private final BlockPointer pointer;
-
-    public PlantEvent(BlockPointer pointer) {
-        this.pointer = pointer;
-    }
-
-    @NotNull
-    public BlockPointer getPointer() {
-        return pointer;
-    }
-
-    public static class Grow extends PlantEvent {
-
-        private BlockState newState;
-
-        public Grow(BlockPointer pointer, BlockState newState) {
-            super(pointer);
-            this.newState = newState;
-        }
+    interface Grow extends PlantEvent {
 
         @NotNull
-        public BlockState getNewState() {
-            return newState;
-        }
+        BlockState getNewState();
 
-        public void setNewState(@NotNull BlockState newState) {
-            this.newState = newState;
-        }
-
-        @Override
-        public boolean isCancelable() {
-            return true;
-        }
+        void setNewState(@NotNull BlockState blockState);
     }
 
-    public static class Decay extends PlantEvent {
-
-        public Decay(BlockPointer pointer) {
-            super(pointer);
-        }
-
-        @Override
-        public boolean isCancelable() {
-            return true;
-        }
+    interface Decay extends PlantEvent {
     }
 
-    public static class Die extends PlantEvent {
-
-        private BlockState newState;
-
-        public Die(BlockPointer pointer, BlockState newState) {
-            super(pointer);
-            this.newState = newState;
-        }
+    interface Die extends PlantEvent {
 
         @NotNull
-        public BlockState getNewState() {
-            return newState;
-        }
+        BlockState getNewState();
 
-        public void setNewState(@NotNull BlockState newState) {
-            this.newState = newState;
-        }
-
-        @Override
-        public boolean isCancelable() {
-            return true;
-        }
+        void setNewState(@NotNull BlockState blockState);
     }
 
     // TODO fertilize, needs dispenser and entity causes (dispenser might be separate in DispenserEvent potentially)

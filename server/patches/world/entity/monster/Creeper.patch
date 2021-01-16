@@ -23,7 +23,7 @@
  
      public void thunderHit(ServerLevel serverlevel, LightningBolt lightningbolt) {
          super.thunderHit(serverlevel, lightningbolt);
-+        if (!org.loomdev.loom.event.LoomEventDispatcher.onCreeperPower(this, lightningbolt).isCanceled()) // Loom :: fire CreeperEvent.Power
++        if (!org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.entity.CreeperEventImpl.ChargeImpl(this, lightningbolt)).isCanceled()) // Loom :: fire CreeperEvent.Charge
          this.entityData.set(Creeper.DATA_IS_POWERED, true);
      }
  
@@ -47,7 +47,7 @@
      }
  
      public void ignite() {
-+        if (!org.loomdev.loom.event.LoomEventDispatcher.onCreeperIgnite(this).isCanceled()) // Loom :: fire CreeperEvent.Ignite
++        if (!org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.entity.CreeperEventImpl.IgniteImpl(this)).isCanceled()) // Loom :: fire CreeperEvent.Ignite
          this.entityData.set(Creeper.DATA_IS_IGNITED, true);
      }
  

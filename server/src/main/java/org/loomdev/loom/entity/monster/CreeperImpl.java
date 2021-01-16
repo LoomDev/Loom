@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.monster.Creeper;
 import org.loomdev.loom.event.LoomEventDispatcher;
+import org.loomdev.loom.event.entity.CreeperEventImpl;
 
 public class CreeperImpl extends MonsterImpl implements Creeper {
 
@@ -31,7 +32,7 @@ public class CreeperImpl extends MonsterImpl implements Creeper {
 
     @Override
     public void setCharged(boolean charged) {
-        if (charged && !LoomEventDispatcher.onCreeperPower(getMinecraftEntity(), null).isCanceled()) {
+        if (charged && !LoomEventDispatcher.fire(new CreeperEventImpl.ChargeImpl(getMinecraftEntity(), null)).isCanceled()) {
             getMinecraftEntity().setPowered(true);
             return;
         }

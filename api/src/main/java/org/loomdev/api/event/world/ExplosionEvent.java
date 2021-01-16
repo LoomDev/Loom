@@ -1,50 +1,21 @@
 package org.loomdev.api.event.world;
 
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.event.Cancelable;
 import org.loomdev.api.event.Event;
 import org.loomdev.api.world.Explosion;
 
-public class ExplosionEvent extends Event {
-
-    private final Explosion explosion;
-
-    public ExplosionEvent(Explosion explosion) {
-        this.explosion = explosion;
-    }
+public interface ExplosionEvent extends Event {
 
     @NotNull
-    public Explosion getExplosion() {
-        return explosion;
+    Explosion getExplosion();
+
+    interface Pre extends ExplosionEvent, Cancelable {
     }
 
-    public static class Pre extends ExplosionEvent {
-
-        public Pre(Explosion explosion) {
-            super(explosion);
-        }
-
-        @Override
-        public boolean isCancelable() {
-            return true;
-        }
+    interface Detonate extends ExplosionEvent, Cancelable {
     }
 
-    public static class Detonate extends ExplosionEvent {
-
-        public Detonate(Explosion explosion) {
-            super(explosion);
-        }
-
-        @Override
-        public boolean isCancelable() {
-            return true;
-        }
-    }
-
-    public static class Post extends ExplosionEvent {
-
-        public Post(Explosion explosion) {
-            super(explosion);
-        }
+    interface Post extends ExplosionEvent {
     }
 }
