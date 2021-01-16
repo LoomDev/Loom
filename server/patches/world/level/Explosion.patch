@@ -28,31 +28,28 @@
  
      public void explode() {
          this.level.gameEvent(this.source, GameEvent.EXPLODE, new BlockPos(this.x, this.y, this.z));
-+        if (org.loomdev.loom.event.LoomEventDispatcher.onPreExplosion(this).isCanceled()) return; // Loom :: fire ExplosionEvent.Pre
++        if (org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.world.ExplosionEventImpl.PreImpl(this)).isCanceled()) return;  // Loom :: fire ExplosionEvent.Pre
          Set<BlockPos> set = Sets.newHashSet();
          boolean flag = true;
  
-@@ -232,7 +233,18 @@
+@@ -232,7 +233,15 @@
              ObjectArrayList<Pair<ItemStack, BlockPos>> objectarraylist = new ObjectArrayList();
  
              Collections.shuffle(this.toBlow, this.level.random);
 -            Iterator iterator = this.toBlow.iterator();
 +            // Loom start :: fire ExplosionEvent.Detonate
-+            var event = org.loomdev.loom.event.LoomEventDispatcher.onExplosionDetonate(this);
++            var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.world.ExplosionEventImpl.DetonateImpl(this));
 +            if (event.isCanceled()) {
 +                this.blockInteraction = BlockInteraction.NONE;
 +                return;
 +            }
 +
-+            Iterator iterator = event.getExplosion().getAffectedBlocks().stream()
-+                    .map(org.loomdev.api.block.BlockPointer::getLocation)
-+                    .map(location -> new BlockPos(location.getX(), location.getY(), location.getZ()))
-+                    .iterator();
++            Iterator iterator = event.getMinecraftAffectedBlocks();
 +            // Loom end
  
              while (iterator.hasNext()) {
                  BlockPos blockpos = (BlockPos) iterator.next();
-@@ -278,11 +290,13 @@
+@@ -278,11 +287,13 @@
                  BlockPos blockpos2 = (BlockPos) iterator1.next();
  
                  if (this.random.nextInt(3) == 0 && this.level.getBlockState(blockpos2).isAir() && this.level.getBlockState(blockpos2.below()).isSolidRender(this.level, blockpos2.below())) {
@@ -62,7 +59,7 @@
              }
          }
  
-+        org.loomdev.loom.event.LoomEventDispatcher.onPostExplosion(this); // Loom :: fire ExplosionEvent.Post
++        org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.world.ExplosionEventImpl.PostImpl(this)); // Loom :: fire ExplosionEvent.Post
      }
  
      private static void addBlockDrops(ObjectArrayList<Pair<ItemStack, BlockPos>> objectarraylist, ItemStack itemstack, BlockPos blockpos) {

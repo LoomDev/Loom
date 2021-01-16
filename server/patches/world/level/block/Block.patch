@@ -11,27 +11,26 @@
      });
      protected final StateDefinition<Block, BlockState> stateDefinition;
      private BlockState defaultBlockState;
-@@ -251,7 +249,12 @@
+@@ -251,7 +249,11 @@
              double d0 = (double) (level.random.nextFloat() * 0.5F) + 0.25D;
              double d1 = (double) (level.random.nextFloat() * 0.5F) + 0.25D;
              double d2 = (double) (level.random.nextFloat() * 0.5F) + 0.25D;
 -            ItemEntity itementity = new ItemEntity(level, (double) blockpos.getX() + d0, (double) blockpos.getY() + d1, (double) blockpos.getZ() + d2, itemstack);
 +            // Loom start :: fire BlockEvent.DropItem
-+            var event = org.loomdev.loom.event.LoomEventDispatcher.onBlockDropItem(level, blockpos, itemstack);
++            var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.BlockEventImpl.DropItemImpl(level, blockpos, itemstack));
 +            if (event.isCanceled()) return;
-+            var item = ((org.loomdev.loom.item.ItemStackImpl) event.getItem()).getMinecraftItemStack();
-+            ItemEntity itementity = new ItemEntity(level, (double) blockpos.getX() + d0, (double) blockpos.getY() + d1, (double) blockpos.getZ() + d2, item);
++            ItemEntity itementity = new ItemEntity(level, (double) blockpos.getX() + d0, (double) blockpos.getY() + d1, (double) blockpos.getZ() + d2, event.getMinecraftItemStack());
 +            // Loom end
  
              itementity.setDefaultPickUpDelay();
              level.addFreshEntity(itementity);
-@@ -260,7 +263,11 @@
+@@ -260,7 +262,11 @@
  
      protected void popExperience(ServerLevel serverlevel, BlockPos blockpos, int i) {
          if (serverlevel.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
 -            ExperienceOrb.award(serverlevel, Vec3.atCenterOf(blockpos), i);
 +            // Loom start :: fire BlockEvent.DropExperience
-+            var event = org.loomdev.loom.event.LoomEventDispatcher.onBlockDropExperience(serverlevel, blockpos, i);
++            var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.BlockEventImpl.DropExperienceImpl(serverlevel, blockpos, i));
 +            if (event.isCanceled()) return;
 +            ExperienceOrb.award(serverlevel, Vec3.atCenterOf(blockpos), event.getExperience());
 +            // Loom end

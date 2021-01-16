@@ -7,9 +7,9 @@
 -            serverlevel.setBlock(blockpos, (BlockState) this.deadBlock.defaultBlockState().setValue(CoralFanBlock.WATERLOGGED, false), 2);
 +            // Loom start :: fire PlantEvent.Die
 +            var newState = this.deadBlock.defaultBlockState().setValue(CoralFanBlock.WATERLOGGED, false);
-+            var event = org.loomdev.loom.event.LoomEventDispatcher.onPlantDie(serverlevel, blockpos, newState);
++            var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.PlantEventImpl.DieImpl(serverlevel, blockpos, newState));
 +            if (event.isCanceled()) return;
-+            serverlevel.setBlock(blockpos, ((org.loomdev.loom.block.BlockStateImpl) event.getNewState()).getMinecraftState(), 2);
++            serverlevel.setBlock(blockpos, event.getMinecraftState(), 2);
 +            // Loom end
          }
  

@@ -6,9 +6,9 @@
          if (!this.scanForWater(serverlevel, blockpos)) {
 -            serverlevel.setBlock(blockpos, this.deadBlock.defaultBlockState(), 2);
 +            // Loom start :: fire PlantEvent.Die
-+            var event = org.loomdev.loom.event.LoomEventDispatcher.onPlantDie(serverlevel, blockpos, deadBlock.defaultBlockState());
++            var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.PlantEventImpl.DieImpl(serverlevel, blockpos, deadBlock.defaultBlockState()));
 +            if (event.isCanceled()) return;
-+            serverlevel.setBlock(blockpos, ((org.loomdev.loom.block.BlockStateImpl) event.getNewState()).getMinecraftState(), 2);
++            serverlevel.setBlock(blockpos, event.getMinecraftState(), 2);
 +            // Loom end
          }
  

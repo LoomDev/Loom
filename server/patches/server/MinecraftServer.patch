@@ -92,7 +92,7 @@
          long i = Util.getNanos();
  
          ++this.tickCount;
-+        org.loomdev.loom.event.LoomEventDispatcher.onPreTick(tickCount); // Loom :: fire TickEvent.Pre
++        org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.server.TickEventImpl.PreImpl(tickCount)); // Loom :: fire TickEvent.Pre
          this.tickChildren(booleansupplier);
          if (i - this.lastServerStatus >= 5000000000L) {
              this.lastServerStatus = i;
@@ -100,7 +100,7 @@
          }
  
          this.profiler.pop();
-+        org.loomdev.loom.event.LoomEventDispatcher.onPostTick(tickCount); // Loom :: fire TickEvent.Post
++        org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.server.TickEventImpl.PostImpl(tickCount)); // Loom :: fire TickEvent.Post
          this.profiler.push("tallying");
          long l = this.tickTimes[this.tickCount % 100] = Util.getNanos() - i;
  
@@ -121,7 +121,7 @@
              this.profiler.push("tick");
  
              try {
-+                org.loomdev.loom.event.LoomEventDispatcher.onTickLevel(serverlevel, tickCount); // Loom :: fire TickEvent.Level
++                org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.server.TickEventImpl.WorldImpl(tickCount, serverlevel)); // Loom :: fire TickEvent.World
                  serverlevel.tick(booleansupplier);
              } catch (Throwable throwable) {
                  CrashReport crashreport = CrashReport.forThrowable(throwable, "Exception ticking world");

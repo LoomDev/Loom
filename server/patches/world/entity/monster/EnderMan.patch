@@ -22,7 +22,7 @@
              boolean flag = blockhitresult.getBlockPos().equals(blockpos);
  
              if (blockstate.is((Tag) BlockTags.ENDERMAN_HOLDABLE) && flag) {
-+                if (org.loomdev.loom.event.LoomEventDispatcher.onBlockBreak(enderman, level, blockpos).isCanceled()) return; // Loom :: fire BlockEvent.Break
++                if (org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.BlockEventImpl.BreakImpl(level, blockpos, enderman)).isCanceled()) return; // Loom :: fire BlockEvent.Break
                  level.removeBlock(blockpos, false);
                  this.enderman.setCarriedBlock(blockstate.getBlock().defaultBlockState());
              }
@@ -32,9 +32,9 @@
                  if (this.canPlaceBlock(level, blockpos, blockstate2, blockstate, blockstate1, blockpos1)) {
 -                    level.setBlock(blockpos, blockstate2, 3);
 +                    // Loom start :: fire BlockEvent.Place
-+                    var event = org.loomdev.loom.event.LoomEventDispatcher.onBlockPlace(enderman, level, blockpos, blockstate2);
++                    var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.BlockEventImpl.PlaceImpl(level, blockpos, enderman, blockstate2));
 +                    if (event.isCanceled()) return;
-+                    level.setBlock(blockpos, ((org.loomdev.loom.block.BlockStateImpl) event.getNewState()).getMinecraftState(), 3);
++                    level.setBlock(blockpos, event.getMinecraftState(), 3);
 +                    // Loom end
                      this.enderman.setCarriedBlock((BlockState) null);
                  }

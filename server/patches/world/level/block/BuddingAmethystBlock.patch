@@ -6,9 +6,9 @@
  
 -                serverlevel.setBlockAndUpdate(blockpos1, blockstate2);
 +                // Loom start :: fire PlantEvent.Grow
-+                var event = org.loomdev.loom.event.LoomEventDispatcher.onPlantGrow(serverlevel, blockpos1, blockstate2);
++                var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.PlantEventImpl.GrowImpl(serverlevel, blockpos1, blockstate2));
 +                if (!event.isCanceled()) return;
-+                serverlevel.setBlockAndUpdate(blockpos1, ((org.loomdev.loom.block.BlockStateImpl) event.getNewState()).getMinecraftState());
++                serverlevel.setBlockAndUpdate(blockpos1, event.getMinecraftState());
 +                // Loom end
              }
  

@@ -1,23 +1,15 @@
 --- a/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
-@@ -32,8 +32,22 @@
+@@ -32,8 +32,14 @@
          if (this.hasRequestedStatus) {
              this.connection.disconnect(ServerStatusPacketListenerImpl.DISCONNECT_REASON);
          } else {
 +            // Loom start :: fire StatusPingEvent
-+            org.loomdev.loom.event.LoomEventDispatcher.onStatusPing(connection, server.getStatus()).thenAccept(event -> {
-+                if (event.isCanceled()) return;
-+                net.minecraft.network.protocol.status.ServerStatus status;
-+                try {
-+                    status = (net.minecraft.network.protocol.status.ServerStatus) server.getStatus().clone();
-+                    status.setDescription(org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMotd()));
-+                    status.setPlayers(new net.minecraft.network.protocol.status.ServerStatus.Players(event.getPlayerSlots(), event.getOnlinePlayers()));
-+                    status.setFavicon(event.getFavicon());
-+                } catch (CloneNotSupportedException e) {
-+                    status = server.getStatus();
-+                }
-+                this.connection.send(new ClientboundStatusResponsePacket(status));
-+            });
++            try {
++                org.loomdev.loom.event.LoomEventDispatcher.fireAsync(new org.loomdev.loom.event.server.connection.StatusPingEventImpl(connection, (net.minecraft.network.protocol.status.ServerStatus) server.getStatus().clone())).thenAccept(event -> {
++                    if (!event.isCanceled()) this.connection.send(new ClientboundStatusResponsePacket(event.getMinecraftStatus()));
++                });
++            } catch (CloneNotSupportedException ignored) { }
 +            // Loom end
              this.hasRequestedStatus = true;
 -            this.connection.send(new ClientboundStatusResponsePacket(this.server.getStatus()));

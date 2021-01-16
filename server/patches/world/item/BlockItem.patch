@@ -6,9 +6,9 @@
                  BlockState blockstate = this.getPlacementState(blockplacecontext1);
 +                // Loom start :: fire BlockEvent.Place
 +                if (blockstate != null && blockplacecontext1.getPlayer() != null) {
-+                    var event = org.loomdev.loom.event.LoomEventDispatcher.onBlockPlace(blockplacecontext1.getPlayer(), blockplacecontext1.getLevel(), blockplacecontext1.getClickedPos(), blockstate);
++                    var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.BlockEventImpl.PlaceImpl(blockplacecontext1.getLevel(), blockplacecontext1.getClickedPos(), blockplacecontext1.getPlayer(), blockstate));
 +                    if (event.isCanceled()) return InteractionResult.FAIL;
-+                    blockstate = ((org.loomdev.loom.block.BlockStateImpl) event.getNewState()).getMinecraftState();
++                    blockstate = event.getMinecraftState();
 +                }
 +                // Loom end
  
