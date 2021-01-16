@@ -1,32 +1,14 @@
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -137,6 +137,8 @@
+@@ -137,6 +137,7 @@
  
  public class ServerPlayer extends Player implements ContainerListener {
  
 +    public java.util.OptionalInt viewDistance = java.util.OptionalInt.empty(); // Loom
-+    public Component tabListName = null; // Loom
      private static final Logger LOGGER = LogManager.getLogger();
      public ServerGamePacketListenerImpl connection;
      public final MinecraftServer server;
-@@ -192,6 +194,16 @@
-         this.textFilter = minecraftserver.createTextFilterForPlayer(this);
-     }
- 
-+    // Loom start
-+    public void updateTabListName() {
-+        for (ServerPlayer player : level.getServer().getPlayerList().getPlayers()) {
-+            player.connection.send(new net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket(
-+                    net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket.Action.UPDATE_DISPLAY_NAME,
-+                    this));
-+        }
-+    }
-+    // Loom end
-+
-     private void fudgeSpawnLocation(ServerLevel serverlevel) {
-         BlockPos blockpos = serverlevel.getSharedSpawnPos();
- 
-@@ -306,7 +318,7 @@
+@@ -306,7 +307,7 @@
              compoundtag.putInt("SpawnZ", this.respawnPosition.getZ());
              compoundtag.putBoolean("SpawnForced", this.respawnForced);
              compoundtag.putFloat("SpawnAngle", this.respawnAngle);
@@ -35,7 +17,7 @@
              Logger logger = ServerPlayer.LOGGER;
  
              logger.getClass();
-@@ -1245,6 +1257,7 @@
+@@ -1245,6 +1246,7 @@
          this.canChatColor = serverboundclientinformationpacket.getChatColors();
          this.getEntityData().set(ServerPlayer.DATA_PLAYER_MODE_CUSTOMISATION, (byte) serverboundclientinformationpacket.getModelCustomisation());
          this.getEntityData().set(ServerPlayer.DATA_PLAYER_MAIN_HAND, (byte) (serverboundclientinformationpacket.getMainHand() == HumanoidArm.LEFT ? 0 : 1));
@@ -43,12 +25,12 @@
      }
  
      public ChatVisiblity getChatVisibility() {
-@@ -1331,7 +1344,7 @@
+@@ -1331,7 +1333,7 @@
  
      @Nullable
      public Component getTabListDisplayName() {
 -        return null;
-+        return tabListName;
++        return ((org.loomdev.api.entity.player.Player) getLoomEntity()).getTabListName().map(org.loomdev.loom.util.transformer.TextTransformer::toMinecraft).orElse(null);
      }
  
      public void swing(InteractionHand interactionhand) {

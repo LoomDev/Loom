@@ -9,6 +9,7 @@ import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitlesPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundTabListPacket;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -37,6 +38,7 @@ import java.util.UUID;
 
 public class PlayerImpl extends LivingEntityImpl implements Player {
 
+    private Component tabListName;
     private Component tabListHeader;
     private Component tabListFooter;
 
@@ -174,13 +176,13 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     @NotNull
     public Optional<Component> getTabListName() {
-        return Optional.ofNullable(TextTransformer.toLoom(getMinecraftEntity().tabListName));
+        return Optional.ofNullable(tabListName);
     }
 
     @Override
     public void setTabListName(@NotNull Component name) {
-        getMinecraftEntity().tabListName = TextTransformer.toMinecraft(name);
-        getMinecraftEntity().updateTabListName();
+        tabListName = name;
+        updateTabListName();
     }
 
     @Override
@@ -212,6 +214,14 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
                 TextTransformer.toMinecraft(tabListHeader),
                 TextTransformer.toMinecraft(tabListFooter)
         ));
+    }
+
+    private void updateTabListName() {
+        for (ServerPlayer player : getMinecraftEntity().level.getServer().getPlayerList().getPlayers()) {
+            player.connection.send(new ClientboundPlayerInfoPacket(
+                    ClientboundPlayerInfoPacket.Action.UPDATE_DISPLAY_NAME,
+                    getMinecraftEntity()));
+        }
     }
 
     @Override
