@@ -18,16 +18,24 @@ import org.loomdev.loom.item.ItemStackImpl;
 public class BlockEventImpl extends EventImpl implements BlockEvent, Cancelable {
 
     private final BlockPointer pointer;
+    private final BlockState state;
     private boolean canceled;
 
     public BlockEventImpl(Level level, BlockPos blockPos) {
         this.pointer = new BlockPointerImpl(level, blockPos);
+        this.state = pointer.getBlockState();
     }
 
     @Override
     @NotNull
     public BlockPointer getPointer() {
         return pointer;
+    }
+
+    @Override
+    @NotNull
+    public BlockState getBlockState() {
+        return state;
     }
 
     @Override

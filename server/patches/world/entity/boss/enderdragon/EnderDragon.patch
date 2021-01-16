@@ -4,7 +4,7 @@
  
                      if (!blockstate.isAir() && blockstate.getMaterial() != Material.FIRE) {
                          if (this.level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && !blockstate.is((Tag) BlockTags.DRAGON_IMMUNE)) {
-+                            if (!org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.BlockEventImpl.BreakImpl(level, blockpos, this)).isCanceled()) // Loom :: fire BlockEvent.Break
++                            if (!org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.entity.EntityEventImpl.MobGriefImpl(getLoomEntity(), level, blockpos)).isCanceled()) // Loom :: fire EntityEvent.MobGrief
                              flag1 = this.level.removeBlock(blockpos, false) || flag1;
                          } else {
                              flag = true;

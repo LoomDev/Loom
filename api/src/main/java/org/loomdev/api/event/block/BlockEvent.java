@@ -13,6 +13,9 @@ public interface BlockEvent extends Event  {
     @NotNull
     BlockPointer getPointer();
 
+    @NotNull
+    BlockState getBlockState();
+
     interface Break extends BlockEvent, Cancelable {
 
         @NotNull

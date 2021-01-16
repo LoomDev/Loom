@@ -1,6 +1,7 @@
 package org.loomdev.api.event.entity;
 
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.damage.DamageSource;
 import org.loomdev.api.event.Cancelable;
@@ -39,5 +40,11 @@ public interface EntityEvent extends Event {
         ItemStack getEquipment();
 
         void setEquipment(@NotNull ItemStack itemStack);
+    }
+
+    interface MobGrief extends EntityEvent, Cancelable {
+
+        @NotNull
+        BlockPointer getModifiedPointer();
     }
 }
