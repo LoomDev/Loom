@@ -18,4 +18,20 @@ public interface PlayerEvent extends Event {
 
         void setMessage(@NotNull Component component);
     }
+
+    interface Join extends PlayerEvent {
+
+        @NotNull
+        Component getJoinMessage();
+
+        void setJoinMessage(@NotNull Component component);
+    }
+
+    interface Disconnect extends PlayerEvent {
+
+        @NotNull
+        Component getDisconnectMessage();
+
+        void setDisconnectMessage(@NotNull Component component);
+    }
 }
