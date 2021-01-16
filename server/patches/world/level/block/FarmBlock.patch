@@ -1,0 +1,10 @@
+--- a/net/minecraft/world/level/block/FarmBlock.java
++++ b/net/minecraft/world/level/block/FarmBlock.java
+@@ -63,6 +63,7 @@
+ 
+     public void tick(BlockState blockstate, ServerLevel serverlevel, BlockPos blockpos, Random random) {
+         if (!blockstate.canSurvive(serverlevel, blockpos)) {
++            if (!org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.BlockEventImpl.DryOutImpl(serverlevel, blockpos)).isCanceled()) // Loom :: fire BlockEvent.DryOut
+             turnToDirt(blockstate, serverlevel, blockpos);
+         }
+ 
