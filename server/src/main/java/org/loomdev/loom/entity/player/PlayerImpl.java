@@ -182,7 +182,12 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     public void setTabListName(@NotNull Component name) {
         tabListName = name;
-        updateTabListName();
+        ClientboundPlayerInfoPacket updatePacket = new ClientboundPlayerInfoPacket(
+                ClientboundPlayerInfoPacket.Action.UPDATE_DISPLAY_NAME,
+                getMinecraftEntity());
+        for (ServerPlayer player : getMinecraftEntity().level.getServer().getPlayerList().getPlayers()) {
+            player.connection.send(updatePacket);
+        }
     }
 
     @Override
@@ -214,14 +219,6 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
                 TextTransformer.toMinecraft(tabListHeader),
                 TextTransformer.toMinecraft(tabListFooter)
         ));
-    }
-
-    private void updateTabListName() {
-        for (ServerPlayer player : getMinecraftEntity().level.getServer().getPlayerList().getPlayers()) {
-            player.connection.send(new ClientboundPlayerInfoPacket(
-                    ClientboundPlayerInfoPacket.Action.UPDATE_DISPLAY_NAME,
-                    getMinecraftEntity()));
-        }
     }
 
     @Override
