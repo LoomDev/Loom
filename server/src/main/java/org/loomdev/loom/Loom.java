@@ -8,6 +8,7 @@ import org.loomdev.api.ApiVersion;
 import org.loomdev.api.plugin.PluginMetadata;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
@@ -92,6 +93,15 @@ public class Loom {
             options = parser.parse(args);
         } catch (joptsimple.OptionException ex) {
             System.err.println(ex.getLocalizedMessage());
+        }
+
+        if (options == null || options.has("?")) {
+            try {
+                parser.printHelpOn(System.out);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            System.exit(1);
         }
 
         System.out.println("Starting Minecraft server...");
