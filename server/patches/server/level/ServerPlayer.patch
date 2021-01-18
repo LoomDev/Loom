@@ -25,3 +25,12 @@
      }
  
      public ChatVisiblity getChatVisibility() {
+@@ -1331,7 +1333,7 @@
+ 
+     @Nullable
+     public Component getTabListDisplayName() {
+-        return null;
++        return ((org.loomdev.api.entity.player.Player) getLoomEntity()).getTabListName().map(org.loomdev.loom.util.transformer.TextTransformer::toMinecraft).orElse(null);
+     }
+ 
+     public void swing(InteractionHand interactionhand) {

@@ -9,6 +9,7 @@ import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitlesPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundTabListPacket;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -159,7 +160,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     @NotNull
     public Optional<InetSocketAddress> getRemoteAddress() {
-        if (isConnected()) {
+        if (!isConnected()) {
             return Optional.empty();
         }
 
@@ -180,7 +181,13 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void setTabListName(@NotNull Component name) {
-        this.tabListName = name;
+        tabListName = name;
+        ClientboundPlayerInfoPacket updatePacket = new ClientboundPlayerInfoPacket(
+                ClientboundPlayerInfoPacket.Action.UPDATE_DISPLAY_NAME,
+                getMinecraftEntity());
+        for (ServerPlayer player : getMinecraftEntity().level.getServer().getPlayerList().getPlayers()) {
+            player.connection.send(updatePacket);
+        }
     }
 
     @Override
@@ -192,7 +199,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     public void setTabListHeader(@NotNull Component header) {
         this.tabListHeader = header;
-        updateTablist();
+        updateTabList();
     }
 
     @Override
@@ -204,10 +211,10 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     public void setTabListFooter(@NotNull Component footer) {
         tabListFooter = footer;
-        updateTablist();
+        updateTabList();
     }
 
-    private void updateTablist() {
+    private void updateTabList() {
         getMinecraftEntity().connection.send(new ClientboundTabListPacket(
                 TextTransformer.toMinecraft(tabListHeader),
                 TextTransformer.toMinecraft(tabListFooter)
