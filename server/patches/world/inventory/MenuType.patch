@@ -1,0 +1,26 @@
+--- a/net/minecraft/world/inventory/MenuType.java
++++ b/net/minecraft/world/inventory/MenuType.java
+@@ -30,15 +30,19 @@
+     public static final MenuType<SmokerMenu> SMOKER = register("smoker", SmokerMenu::new);
+     public static final MenuType<CartographyTableMenu> CARTOGRAPHY_TABLE = register("cartography_table", CartographyTableMenu::new);
+     public static final MenuType<StonecutterMenu> STONECUTTER = register("stonecutter", StonecutterMenu::new);
+-    private final MenuType.MenuSupplier<T> constructor;
++    public final MenuSupplier<T> constructor; // Loom :: private -> public (ContainerImpl)
+ 
+-    private static <T extends AbstractContainerMenu> MenuType<T> register(String s, MenuType.MenuSupplier<T> menutype_menusupplier) {
++    private static <T extends AbstractContainerMenu> MenuType<T> register(String s, MenuSupplier<T> menutype_menusupplier) {
+         return (MenuType) Registry.register(Registry.MENU, s, new MenuType<>(menutype_menusupplier));
+     }
+ 
+-    private MenuType(MenuType.MenuSupplier<T> menutype_menusupplier) {
++    private MenuType(MenuSupplier<T> menutype_menusupplier) {
+         this.constructor = menutype_menusupplier;
+     }
+ 
+-    interface MenuSupplier<T extends AbstractContainerMenu> {}
++    // Loom start :: decompile error
++    public interface MenuSupplier<T extends AbstractContainerMenu> {
++        T supply(int id, net.minecraft.world.entity.player.Inventory inventory);
++        // Loom end
++    }
+ }

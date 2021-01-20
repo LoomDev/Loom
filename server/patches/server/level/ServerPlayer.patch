@@ -1,8 +1,11 @@
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -137,6 +137,7 @@
+@@ -135,8 +135,9 @@
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
  
- public class ServerPlayer extends Player implements ContainerListener {
+-public class ServerPlayer extends Player implements ContainerListener {
++public  class ServerPlayer extends Player implements ContainerListener {
  
 +    public java.util.OptionalInt viewDistance = java.util.OptionalInt.empty(); // Loom
      private static final Logger LOGGER = LogManager.getLogger();
@@ -17,7 +20,15 @@
              Logger logger = ServerPlayer.LOGGER;
  
              logger.getClass();
-@@ -1245,6 +1246,7 @@
+@@ -917,6 +918,7 @@
+ 
+             this.nextContainerCounter();
+             AbstractContainerMenu abstractcontainermenu = menuprovider.createMenu(this.containerCounter, this.getInventory(), this);
++            if (org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.container.ContainerEventImpl.OpenImpl(abstractcontainermenu)).isCanceled()) return OptionalInt.empty(); // Loom :: fire ContainerEvent.Open
+ 
+             if (abstractcontainermenu == null) {
+                 if (this.isSpectator()) {
+@@ -1245,6 +1247,7 @@
          this.canChatColor = serverboundclientinformationpacket.getChatColors();
          this.getEntityData().set(ServerPlayer.DATA_PLAYER_MODE_CUSTOMISATION, (byte) serverboundclientinformationpacket.getModelCustomisation());
          this.getEntityData().set(ServerPlayer.DATA_PLAYER_MAIN_HAND, (byte) (serverboundclientinformationpacket.getMainHand() == HumanoidArm.LEFT ? 0 : 1));
@@ -25,7 +36,7 @@
      }
  
      public ChatVisiblity getChatVisibility() {
-@@ -1331,7 +1333,7 @@
+@@ -1331,7 +1334,7 @@
  
      @Nullable
      public Component getTabListDisplayName() {

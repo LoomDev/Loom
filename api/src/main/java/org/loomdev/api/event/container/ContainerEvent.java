@@ -2,32 +2,14 @@ package org.loomdev.api.event.container;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.container.Container;
-import org.loomdev.api.entity.player.Player;
-import org.loomdev.api.event.player.PlayerEvent;
+import org.loomdev.api.event.Cancelable;
+import org.loomdev.api.event.Event;
 
-public class ContainerEvent extends PlayerEvent {
-
-    private final Container container;
-
-    public ContainerEvent(@NotNull Container container, @NotNull Player player) {
-        super(player);
-        this.container = container;
-    }
+public interface ContainerEvent extends Event {
 
     @NotNull
-    public Container getContainer() {
-        return container;
-    }
+    Container getContainer();
 
-    public static class Open extends ContainerEvent {
-
-        public Open(@NotNull Container container, @NotNull Player player) {
-            super(container, player);
-        }
-
-        @Override
-        public boolean isCancelable() {
-            return true;
-        }
+    interface Open extends ContainerEvent, Cancelable {
     }
 }
