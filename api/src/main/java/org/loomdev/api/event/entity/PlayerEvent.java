@@ -42,7 +42,7 @@ public interface PlayerEvent extends Event {
          * Sets the chat message's format.
          *
          * <p>Example usage:</p>
-         * <p><code>event.setFormat((name, message) -> Component.text().append(name).append(Component.text(": ")).append(message).build());</code></p>
+         * <p><code>event.setFormat((name, message) -&gt; Component.text().append(name).append(Component.text(": ")).append(message).build());</code></p>
          *
          * @param format The format.
          */
