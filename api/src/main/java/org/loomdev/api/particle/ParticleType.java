@@ -90,6 +90,8 @@ public interface ParticleType extends Keyed {
     ParticleType SNOWFLAKE = getById("minecraft:snowflake");
     ParticleType VIBRATION = getById("minecraft:vibration");
     ParticleType DUST_COLOR_TRANSITION = getById("minecraft:dust_color_transition");
+    ParticleType GLOW_SQUID_INK = getById("minecraft:glow_squid_ink");
+    ParticleType GLOW = getById("minecraft:glow");
 
     // endregion ParticleTypes
 

@@ -55,7 +55,7 @@
  
      public Entity(EntityType<?> entitytype, Level level) {
          this.id = Entity.ENTITY_COUNTER.incrementAndGet();
-@@ -457,7 +467,7 @@
+@@ -461,7 +471,7 @@
          this.setRemainingFireTicks(0);
      }
  
@@ -64,7 +64,7 @@
          this.discard();
      }
  
-@@ -887,7 +897,7 @@
+@@ -883,7 +893,7 @@
          return 0.0F;
      }
  
@@ -73,7 +73,7 @@
          return false;
      }
  
-@@ -939,7 +949,7 @@
+@@ -935,7 +945,7 @@
      }
  
      public boolean fireImmune() {
@@ -81,8 +81,8 @@
 +        return fireResistantOverride.orElse(this.getType().fireImmune()); // Loom
      }
  
-     public boolean causeFallDamage(float f, float f1) {
-@@ -2228,7 +2238,7 @@
+     public boolean causeFallDamage(float f, float f1, DamageSource damagesource) {
+@@ -2229,7 +2239,7 @@
                      }
  
                      return PortalShape.createPortalInfo(serverlevel, blockutil_foundrectangle, direction_axis, vec3, this.getDimensions(this.getPose()), this.getDeltaMovement(), this.yRot, this.xRot);

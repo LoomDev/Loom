@@ -1084,6 +1084,13 @@ public interface SoundEvent extends Keyed {
     SoundEvent ENTITY_AXOLOTL_SWIM = getById("minecraft:entity.axolotl.swim");
     SoundEvent ITEM_BUCKET_EMPTY_AXOLOTL = getById("minecraft:item.bucket.empty_axolotl");
     SoundEvent ENTITY_AXOLOTL_SPLASH = getById("minecraft:entity.axolotl.splash");
+    SoundEvent ITEM_GLOW_INK_SAC_USE = getById("minecraft:item.glow_ink_sac.use");
+    SoundEvent ENTITY_GLOW_SQUID_AMBIENT = getById("minecraft:entity.glow_squid.ambient");
+    SoundEvent ENTITY_GLOW_SQUID_HURT = getById("minecraft:entity.glow_squid.hurt");
+    SoundEvent ENTITY_GLOW_SQUID_DEATH = getById("minecraft:entity.glow_squid.death");
+    SoundEvent ITEM_INK_SAC_USE = getById("minecraft:item.ink_sac.use");
+    SoundEvent ENTITY_GLOW_SQUID_SQUIRT = getById("minecraft:entity.glow_squid.squirt");
+    SoundEvent ITEM_DYE_USE = getById("minecraft:item.dye.use");
 
     // endregion SoundEvents
 

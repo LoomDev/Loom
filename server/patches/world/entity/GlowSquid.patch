@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/GlowSquid.java
++++ b/net/minecraft/world/entity/GlowSquid.java
+@@ -75,7 +75,7 @@
+         return false;
+     }
+ 
+-    private void setDarkTicks(int i) {
++    public void setDarkTicks(int i) { // Loom :: private -> public (GlowSquidImpl)
+         this.entityData.set(GlowSquid.DATA_DARK_TICKS_REMAINING, i);
+     }
+ 

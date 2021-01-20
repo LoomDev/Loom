@@ -1,6 +1,7 @@
 package org.loomdev.api.entity.decoration;
 
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.item.ItemStack;
 
 import java.util.Arrays;
@@ -26,6 +27,8 @@ public interface ItemFrame extends HangingEntity {
     Rotation getRotation();
 
     void setRotation(@NotNull Rotation rotation);
+
+    boolean isGlowFrame();
 
     enum Rotation {
         DEGREES_0(0),

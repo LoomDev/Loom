@@ -64,4 +64,9 @@ public class ItemFrameImpl extends AbstractHangingEntityImpl implements ItemFram
     public void setRotation(@NotNull Rotation rotation) {
         getMinecraftEntity().setRotation(rotation.ordinal());
     }
+
+    @Override
+    public boolean isGlowFrame() {
+        return getMinecraftEntity().isGlowFrame();
+    }
 }

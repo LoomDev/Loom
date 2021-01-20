@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/vehicle/Boat.java
 +++ b/net/minecraft/world/entity/vehicle/Boat.java
-@@ -385,7 +385,7 @@
+@@ -387,7 +387,7 @@
          this.entityData.set(Boat.DATA_ID_PADDLE_RIGHT, flag1);
      }
  

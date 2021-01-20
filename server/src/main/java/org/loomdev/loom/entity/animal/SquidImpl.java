@@ -12,7 +12,7 @@ public class SquidImpl extends AbstractWaterAnimalImpl implements Squid {
 
     @Override
     @NotNull
-    public EntityType<Squid> getType() {
+    public EntityType<? extends Squid> getType() {
         return EntityType.SQUID;
     }
 

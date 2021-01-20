@@ -1,17 +1,17 @@
 --- a/net/minecraft/world/entity/decoration/ItemFrame.java
 +++ b/net/minecraft/world/entity/decoration/ItemFrame.java
-@@ -41,8 +41,8 @@
+@@ -40,8 +40,8 @@
      private static final Logger LOGGER = LogManager.getLogger();
      private static final EntityDataAccessor<ItemStack> DATA_ITEM = SynchedEntityData.defineId(ItemFrame.class, EntityDataSerializers.ITEM_STACK);
      private static final EntityDataAccessor<Integer> DATA_ROTATION = SynchedEntityData.defineId(ItemFrame.class, EntityDataSerializers.INT);
--    private float dropChance = 1.0F;
+-    private float dropChance;
 -    private boolean fixed;
-+    public float dropChance = 1.0F; // Loom :: private -> public (ItemFrameImpl)
++    public float dropChance; // Loom :: private -> public (ItemFrameImpl)
 +    public boolean fixed; // Loom :: private -> public (ItemFrameImpl)
  
      public ItemFrame(EntityType<? extends ItemFrame> entitytype, Level level) {
          super(entitytype, level);
-@@ -62,7 +62,7 @@
+@@ -67,7 +67,7 @@
          this.getEntityData().define(ItemFrame.DATA_ROTATION, 0);
      }
  

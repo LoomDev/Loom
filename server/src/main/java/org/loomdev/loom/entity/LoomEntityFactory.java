@@ -4,6 +4,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.GlowSquid;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.animal.Bee;
@@ -29,6 +30,7 @@ import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.animal.TropicalFish;
 import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.entity.animal.horse.Donkey;
 import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.entity.animal.horse.Llama;
@@ -113,7 +115,9 @@ import net.minecraft.world.entity.vehicle.MinecartTNT;
 import org.loomdev.loom.entity.animal.BeeImpl;
 import org.loomdev.loom.entity.animal.CatImpl;
 import org.loomdev.loom.entity.animal.ChickenImpl;
+import org.loomdev.loom.entity.animal.GlowSquidImpl;
 import org.loomdev.loom.entity.animal.SquidImpl;
+import org.loomdev.loom.entity.animal.axolotl.AxolotlImpl;
 import org.loomdev.loom.entity.animal.fish.CodImpl;
 import org.loomdev.loom.entity.animal.CowImpl;
 import org.loomdev.loom.entity.animal.DolphinImpl;
@@ -233,6 +237,7 @@ public final class LoomEntityFactory {
         register(AreaEffectCloud.class, AreaEffectCloudImpl.class);
         register(ArmorStand.class, ArmorStandImpl.class);
         register(Arrow.class, ArrowImpl.class);
+        register(Axolotl.class, AxolotlImpl.class);
         register(Bat.class, BatImpl.class);
         register(Bee.class, BeeImpl.class);
         register(Blaze.class, BlazeImpl.class);
@@ -339,6 +344,7 @@ public final class LoomEntityFactory {
         register(ZombieVillager.class, ZombieVillagerImpl.class);
         register(ZombifiedPiglin.class, ZombifiedPiglinImpl.class);
         register(ServerPlayer.class, PlayerImpl.class);
+        register(GlowSquid.class, GlowSquidImpl.class);
     }
 
     private static void register(Class<? extends Entity> mcClass, Class<? extends EntityImpl> loomClass) {

@@ -1055,6 +1055,10 @@ public interface ItemType extends Keyed {
     ItemType SCULK_SENSOR = getById("minecraft:sculk_sensor");
     ItemType AXOLOTL_BUCKET = getById("minecraft:axolotl_bucket");
     ItemType AXOLOTL_SPAWN_EGG = getById("minecraft:axolotl_spawn_egg");
+    ItemType GLOW_SQUID_SPAWN_EGG = getById("minecraft:glow_squid_spawn_egg");
+    ItemType GLOW_ITEM_FRAME = getById("minecraft:glow_item_frame");
+    ItemType GLOW_LICHEN = getById("minecraft:glow_lichen");
+    ItemType GLOW_INK_SAC = getById("minecraft:glow_ink_sac");
 
     // endregion :: ItemTypes
 

@@ -12,6 +12,7 @@ import org.loomdev.api.entity.animal.Chicken;
 import org.loomdev.api.entity.animal.Cow;
 import org.loomdev.api.entity.animal.Dolphin;
 import org.loomdev.api.entity.animal.Fox;
+import org.loomdev.api.entity.animal.GlowSquid;
 import org.loomdev.api.entity.animal.Mooshroom;
 import org.loomdev.api.entity.animal.Ocelot;
 import org.loomdev.api.entity.animal.Panda;
@@ -214,6 +215,8 @@ public interface EntityType<T extends Entity> extends Keyed {
     EntityType<ZombieHorse> ZOMBIE_HORSE = getById("minecraft:zombie_horse");
     EntityType<ZombieVillager> ZOMBIE_VILLAGER = getById("minecraft:zombie_villager");
     EntityType<ZombifiedPiglin> ZOMBIFIED_PIGLIN = getById("minecraft:zombified_piglin");
+    EntityType<ItemFrame> GLOW_ITEM_FRAME = getById("minecraft:glow_item_frame");
+    EntityType<GlowSquid> GLOW_SQUID = getById("minecraft:glow_squid");
 
     // endregion :: EntityTypes
 
