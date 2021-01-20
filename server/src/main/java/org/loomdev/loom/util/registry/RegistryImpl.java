@@ -7,6 +7,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.bossbar.BossBar;
+import org.loomdev.api.container.Container;
+import org.loomdev.api.container.ContainerType;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.SpawnGroup;
 import org.loomdev.api.entity.decoration.Painting;
@@ -31,6 +33,8 @@ import org.loomdev.api.world.event.GameEventType;
 import org.loomdev.api.world.poi.PointOfInterestType;
 import org.loomdev.loom.block.BlockTypeImpl;
 import org.loomdev.loom.bossbar.BossBarImpl;
+import org.loomdev.loom.container.ContainerImpl;
+import org.loomdev.loom.container.ContainerTypeImpl;
 import org.loomdev.loom.entity.EntityTypeImpl;
 import org.loomdev.loom.entity.SpawnGroupImpl;
 import org.loomdev.loom.entity.decoration.PaintingImpl;
@@ -88,6 +92,7 @@ public class RegistryImpl implements Registry {
     private void initBuilders() {
         this.builders.put(ItemStack.class, ItemStackImpl.BuilderImpl::new);
         this.builders.put(BossBar.class, BossBarImpl.BuilderImpl::new);
+        this.builders.put(Container.class, ContainerImpl.BuilderImpl::new);
     }
 
     private void initMcRegistries() {
@@ -105,6 +110,7 @@ public class RegistryImpl implements Registry {
         wrapperSuppliers.put(ParticleType.class, ParticleTypeImpl::new);
         wrapperSuppliers.put(SoundEvent.class, SoundEventImpl::new);
         wrapperSuppliers.put(GameEventType.class, GameEventTypeImpl::new);
+        wrapperSuppliers.put(ContainerType.class, ContainerTypeImpl::new);
 
         // MC Enums
         wrapperSuppliers.put(SpawnGroup.class, SpawnGroupImpl::new);
