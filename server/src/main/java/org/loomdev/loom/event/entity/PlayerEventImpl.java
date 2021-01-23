@@ -26,10 +26,12 @@ public class PlayerEventImpl extends EventImpl implements PlayerEvent {
 
         private Component message;
         private boolean canceled;
+        private Format format;
 
-        public ChatImpl(ServerPlayer player, net.minecraft.network.chat.Component message) {
+        public ChatImpl(ServerPlayer player, Component message) {
             super((Player) player.getLoomEntity());
-            this.message = TextTransformer.toLoom(message);
+            this.message = message;
+            this.format = (name, processedMessage) -> Component.translatable("chat.type.text").args(name, processedMessage);
         }
 
         @Override
@@ -41,6 +43,17 @@ public class PlayerEventImpl extends EventImpl implements PlayerEvent {
         @Override
         public void setMessage(@NotNull Component component) {
             this.message = component;
+        }
+
+        @Override
+        @NotNull
+        public Format getFormat() {
+            return format;
+        }
+
+        @Override
+        public void setFormat(@NotNull Format format) {
+            this.format = format;
         }
 
         @Override

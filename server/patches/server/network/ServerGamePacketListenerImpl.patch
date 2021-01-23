@@ -44,15 +44,18 @@
          this.player.disconnect();
          this.server.getPlayerList().remove(this.player);
          TextFilter textfilter = this.player.getTextFilter();
-@@ -1193,7 +1199,13 @@
+@@ -1191,9 +1197,15 @@
+             if (s.startsWith("/")) {
+                 this.handleCommand(s);
              } else {
-                 TranslatableComponent translatablecomponent = new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s});
+-                TranslatableComponent translatablecomponent = new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s});
++                // Loom start :: fire PlayerEvent.Chat
++                // TranslatableComponent translatablecomponent = new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s});
  
 -                this.server.getPlayerList().broadcastMessage(translatablecomponent, ChatType.CHAT, this.player.getUUID());
-+                // Loom start :: fire PlayerEvent.Chat
-+                org.loomdev.loom.event.LoomEventDispatcher.fireAsync(new org.loomdev.loom.event.entity.PlayerEventImpl.ChatImpl(player, translatablecomponent)).thenAccept(event -> {
++                org.loomdev.loom.event.LoomEventDispatcher.fireAsync(new org.loomdev.loom.event.entity.PlayerEventImpl.ChatImpl(player, net.kyori.adventure.text.Component.text(s))).thenAccept(event -> {
 +                    if (event.isCanceled() || event.getMessage().toString().length() == 0) return;
-+                    var message = org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getMessage());
++                    var message = org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getFormat().apply(player.getLoomEntity().getDisplayName(), event.getMessage()));
 +                    this.server.getPlayerList().broadcastMessage(message, ChatType.CHAT, this.player.getUUID());
 +                });
 +                // Loom end

@@ -38,7 +38,7 @@ public class PluginsCommand extends Command {
             return;
         }
 
-        if (source.hasPermission("loom.command.plugins.admin")) {
+        if (!source.hasPermission("loom.command.plugins.admin")) {
             source.sendMessage(Component.text("Insufficient permissions!").color(ChatColor.RED));
             return;
         }
@@ -97,7 +97,7 @@ public class PluginsCommand extends Command {
                 .filter(plugin -> full || Loom.getPluginManager().isEnabled(plugin.getId()))
                 .forEach(plugin -> plugins.put(plugin.getNameOrId(), plugin));
 
-        Component builder = Component.empty()
+        TextComponent.Builder builder = Component.text()
                 .append(Component.text("Plugins (" + plugins.size() + "): ").color(ChatColor.WHITE));
 
         int index = 0;
@@ -106,9 +106,9 @@ public class PluginsCommand extends Command {
                 builder.append(Component.text(", ").color(ChatColor.WHITE));
             }
 
-            Component pluginBuilder = Component.empty();
+            TextComponent.Builder pluginBuilder = Component.text();
             PluginMetadata metadata = entry.getValue();
-            Component hoverBuilder = Component.empty();
+            TextComponent.Builder hoverBuilder = Component.text();
 
             if (full) {
                 hoverBuilder.append(Component.text("Id: ").color(ChatColor.WHITE)
@@ -156,7 +156,7 @@ public class PluginsCommand extends Command {
             builder.append(pluginBuilder);
         }
 
-        source.sendMessage(builder);
+        source.sendMessage(builder.build());
     }
 
     private TextComponent getHelpText() {

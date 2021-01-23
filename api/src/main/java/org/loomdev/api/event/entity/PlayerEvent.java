@@ -13,10 +13,56 @@ public interface PlayerEvent extends Event {
 
     interface Chat extends PlayerEvent, Cancelable {
 
+        /**
+         * Gets the chat message's content.
+         *
+         * @return The content.
+         */
         @NotNull
         Component getMessage();
 
-        void setMessage(@NotNull Component component);
+        /**
+         * Sets the chat message's content.
+         * @param message The content.
+         */
+        void setMessage(@NotNull Component message);
+
+        /**
+         * Gets the chat message's format.
+         *
+         * <p>Example usage:</p>
+         * <p><code>Component formattedMessage = event.getFormat().apply(event.getPlayer().getDisplayName(), event.getMessage());</code></p>
+         *
+         * @return The format.
+         */
+        @NotNull
+        Format getFormat();
+
+        /**
+         * Sets the chat message's format.
+         *
+         * <p>Example usage:</p>
+         * <p><code>event.setFormat((name, message) -&gt; Component.text().append(name).append(Component.text(": ")).append(message).build());</code></p>
+         *
+         * @param format The format.
+         */
+        void setFormat(@NotNull Format format);
+
+        /**
+         * Represents a chat message format.
+         */
+        @FunctionalInterface
+        interface Format {
+
+            /**
+             * Formats a chat message.
+             *
+             * @param name The display name of the sender.
+             * @param message The sent message.
+             * @return The formatted message.
+             */
+            public Component apply(Component name, Component message);
+        }
     }
 
     interface Join extends PlayerEvent {

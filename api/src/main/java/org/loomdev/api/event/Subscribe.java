@@ -14,6 +14,6 @@ public @interface Subscribe {
 
     EventOrder order() default EventOrder.NORMAL;
 
-    // TODO Event uses getCanceled
+    // TODO Cancelled -> Canceled
     boolean ignoreCancelled() default false;
 }
