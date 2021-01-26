@@ -97,7 +97,7 @@ public void warp(Player player, Location dest) {
     player.teleport(event.getDestination());
 }
 ```
-Now, other plugins can listen to event (and, in this case change, the warp destination):
+Now, other plugins can listen to event (and in this case, change the destination or cancel the warp):
 ```java
 @Subscribe(ignoreCanceled = true)
 public void onWarp(WarpEvent event) {
