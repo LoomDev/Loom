@@ -1,4 +1,4 @@
-# Creating a blank Loom plugin with Maven
+# Creating a blank plugin with Maven
 
 ### Setting up
 1. Follow the setup instructions in [Building](../Building.md).
