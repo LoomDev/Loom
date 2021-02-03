@@ -853,6 +853,36 @@ public interface BlockType extends Keyed {
     BlockType POWDER_SNOW = getById("minecraft:powder_snow");
     BlockType SCULK_SENSOR = getById("minecraft:sculk_sensor");
     BlockType GLOW_LICHEN = getById("minecraft:glow_lichen");
+    BlockType WAXED_WEATHERED_CUT_COPPER_SLAB = getById("minecraft:waxed_weathered_cut_copper_slab");
+    BlockType AZALEA_LEAVES_FLOWERS = getById("minecraft:azalea_leaves_flowers");
+    BlockType HANGING_ROOTS = getById("minecraft:hanging_roots");
+    BlockType SMALL_DRIPLEAF = getById("minecraft:small_dripleaf");
+    BlockType EXPOSED_COPPER_BLOCK = getById("minecraft:exposed_copper_block");
+    BlockType EXPOSED_CUT_COPPER_SLAB = getById("minecraft:exposed_cut_copper_slab");
+    BlockType OXIDIZED_CUT_COPPER = getById("minecraft:oxidized_cut_copper");
+    BlockType MOSS_CARPET = getById("minecraft:moss_carpet");
+    BlockType MOSS_BLOCK = getById("minecraft:moss_block");
+    BlockType WAXED_EXPOSED_COPPER = getById("minecraft:waxed_exposed_copper");
+    BlockType EXPOSED_CUT_COPPER = getById("minecraft:exposed_cut_copper");
+    BlockType OXIDIZED_COPPER_BLOCK = getById("minecraft:oxidized_copper_block");
+    BlockType WAXED_WEATHERED_CUT_COPPER_STAIRS = getById("minecraft:waxed_weathered_cut_copper_stairs");
+    BlockType WAXED_WEATHERED_CUT_COPPER = getById("minecraft:waxed_weathered_cut_copper");
+    BlockType ROOTED_DIRT = getById("minecraft:rooted_dirt");
+    BlockType EXPOSED_CUT_COPPER_STAIRS = getById("minecraft:exposed_cut_copper_stairs");
+    BlockType OXIDIZED_CUT_COPPER_SLAB = getById("minecraft:oxidized_cut_copper_slab");
+    BlockType BIG_DRIPLEAF = getById("minecraft:big_dripleaf");
+    BlockType BIG_DRIPLEAF_STEM = getById("minecraft:big_dripleaf_stem");
+    BlockType WAXED_EXPOSED_CUT_COPPER_SLAB = getById("minecraft:waxed_exposed_cut_copper_slab");
+    BlockType SPORE_BLOSSOM = getById("minecraft:spore_blossom");
+    BlockType WAXED_EXPOSED_CUT_COPPER = getById("minecraft:waxed_exposed_cut_copper");
+    BlockType CAVE_VINES_HEAD = getById("minecraft:cave_vines_head");
+    BlockType FLOWERING_AZALEA = getById("minecraft:flowering_azalea");
+    BlockType OXIDIZED_CUT_COPPER_STAIRS = getById("minecraft:oxidized_cut_copper_stairs");
+    BlockType AZALEA_LEAVES = getById("minecraft:azalea_leaves");
+    BlockType WAXED_EXPOSED_CUT_COPPER_STAIRS = getById("minecraft:waxed_exposed_cut_copper_stairs");
+    BlockType CAVE_VINES_BODY = getById("minecraft:cave_vines_body");
+    BlockType WAXED_WEATHERED_COPPER = getById("minecraft:waxed_weathered_copper");
+    BlockType AZALEA = getById("minecraft:azalea");
 
     // endregion :: BlockTypes
 

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/horse/Llama.java
 +++ b/net/minecraft/world/entity/animal/horse/Llama.java
-@@ -56,9 +56,9 @@
+@@ -57,9 +57,9 @@
  public class Llama extends AbstractChestedHorse implements RangedAttackMob {
  
      private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.WHEAT, Blocks.HAY_BLOCK.asItem());
@@ -12,7 +12,7 @@
      private boolean didSpit;
      @Nullable
      private Llama caravanHead;
-@@ -332,7 +332,7 @@
+@@ -336,7 +336,7 @@
      }
  
      public int getMaxTemper() {
@@ -21,7 +21,7 @@
      }
  
      public boolean canMate(Animal animal) {
-@@ -448,9 +448,11 @@
+@@ -452,9 +452,11 @@
          this.spit(livingentity);
      }
  

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Endermite.java
 +++ b/net/minecraft/world/entity/monster/Endermite.java
-@@ -28,7 +28,9 @@
+@@ -29,7 +29,9 @@
  
  public class Endermite extends Monster {
  
@@ -11,7 +11,7 @@
  
      public Endermite(EntityType<? extends Endermite> entitytype, Level level) {
          super(entitytype, level);
-@@ -108,7 +110,7 @@
+@@ -109,7 +111,7 @@
                  ++this.life;
              }
  

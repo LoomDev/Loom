@@ -30,7 +30,7 @@
  
      protected LivingEntity(EntityType<? extends LivingEntity> entitytype, Level level) {
          super(entitytype, level);
-@@ -1604,7 +1615,7 @@
+@@ -1605,7 +1616,7 @@
  
      }
  
@@ -39,7 +39,7 @@
          this.hurt(DamageSource.OUT_OF_WORLD, 4.0F);
      }
  
-@@ -2409,7 +2420,7 @@
+@@ -2410,7 +2421,7 @@
      }
  
      public boolean isSensitiveToWater() {
@@ -48,7 +48,7 @@
      }
  
      private void updateFallFlying() {
-@@ -2673,7 +2684,7 @@
+@@ -2674,7 +2685,7 @@
  
      }
  
@@ -57,7 +57,7 @@
          byte b0 = (Byte) this.entityData.get(LivingEntity.DATA_LIVING_ENTITY_FLAGS);
          int j;
  
-@@ -2955,7 +2966,7 @@
+@@ -2956,7 +2967,7 @@
      }
  
      public void stopSleeping() {

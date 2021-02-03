@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/net/minecraft/world/entity/monster/EnderMan.java
-@@ -65,7 +65,7 @@
+@@ -66,7 +66,7 @@
      private static final AttributeModifier SPEED_MODIFIER_ATTACKING = new AttributeModifier(EnderMan.SPEED_MODIFIER_ATTACKING_UUID, "Attacking speed boost", 0.15000000596046448D, AttributeModifier.Operation.ADDITION);
      private static final EntityDataAccessor<Optional<BlockState>> DATA_CARRY_STATE = SynchedEntityData.defineId(EnderMan.class, EntityDataSerializers.BLOCK_STATE);
      private static final EntityDataAccessor<Boolean> DATA_CREEPY = SynchedEntityData.defineId(EnderMan.class, EntityDataSerializers.BOOLEAN);
@@ -9,7 +9,7 @@
      private int lastStareSound = Integer.MIN_VALUE;
      private int targetChangeTime;
      private static final IntRange PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
-@@ -224,7 +224,7 @@
+@@ -225,7 +225,7 @@
      }
  
      public boolean isSensitiveToWater() {
@@ -18,19 +18,19 @@
      }
  
      protected void customServerAiStep() {
-@@ -384,6 +384,7 @@
+@@ -385,6 +385,7 @@
              boolean flag = blockhitresult.getBlockPos().equals(blockpos);
  
              if (blockstate.is((Tag) BlockTags.ENDERMAN_HOLDABLE) && flag) {
 +                if (org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.entity.EntityEventImpl.MobGriefImpl(enderman.getLoomEntity(), level, blockpos)).isCanceled()) return; // Loom :: fire EntityEvent.MobGrief
                  level.removeBlock(blockpos, false);
+                 level.gameEvent(this.enderman, GameEvent.BLOCK_DESTROY, blockpos);
                  this.enderman.setCarriedBlock(blockstate.getBlock().defaultBlockState());
-             }
-@@ -418,6 +419,7 @@
+@@ -420,6 +421,7 @@
              if (blockstate2 != null) {
                  blockstate2 = Block.updateFromNeighbourShapes(blockstate2, this.enderman.level, blockpos);
                  if (this.canPlaceBlock(level, blockpos, blockstate2, blockstate, blockstate1, blockpos1)) {
 +                    if (org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.entity.EntityEventImpl.MobGriefImpl(enderman.getLoomEntity(), level, blockpos)).isCanceled()) return; // Loom :: fire EntityEvent.MobGrief
                      level.setBlock(blockpos, blockstate2, 3);
+                     level.gameEvent(this.enderman, GameEvent.BLOCK_PLACE, blockpos);
                      this.enderman.setCarriedBlock((BlockState) null);
-                 }

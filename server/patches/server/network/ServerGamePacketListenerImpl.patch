@@ -29,7 +29,7 @@
                  }
  
                  i = serverboundeditbookpacket.getSlot();
-@@ -1102,7 +1102,13 @@
+@@ -1110,7 +1110,13 @@
      public void onDisconnect(Component component) {
          ServerGamePacketListenerImpl.LOGGER.info("{} lost connection: {}", this.player.getName().getString(), component.getString());
          this.server.invalidateStatus();
@@ -44,7 +44,7 @@
          this.player.disconnect();
          this.server.getPlayerList().remove(this.player);
          TextFilter textfilter = this.player.getTextFilter();
-@@ -1191,9 +1197,15 @@
+@@ -1199,9 +1205,15 @@
              if (s.startsWith("/")) {
                  this.handleCommand(s);
              } else {

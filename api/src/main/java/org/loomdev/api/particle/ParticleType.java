@@ -92,6 +92,8 @@ public interface ParticleType extends Keyed {
     ParticleType DUST_COLOR_TRANSITION = getById("minecraft:dust_color_transition");
     ParticleType GLOW_SQUID_INK = getById("minecraft:glow_squid_ink");
     ParticleType GLOW = getById("minecraft:glow");
+    ParticleType SPORE_BLOSSOM_AIR = getById("minecraft:spore_blossom_air");
+    ParticleType FALLING_SPORE_BLOSSOM = getById("minecraft:falling_spore_blossom");
 
     // endregion ParticleTypes
 

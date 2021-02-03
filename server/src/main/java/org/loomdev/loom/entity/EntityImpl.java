@@ -366,8 +366,8 @@ public abstract class EntityImpl extends CommandSourceImpl implements Entity {
     }
 
     @Override
-    public boolean hasWings() {
-        return getMinecraftEntity().makeFlySound();
+    public boolean isFlappingWings() {
+        return getMinecraftEntity().isFlapping();
     }
 
     @Override
@@ -422,12 +422,12 @@ public abstract class EntityImpl extends CommandSourceImpl implements Entity {
 
     @Override
     public boolean isInsidePowderSnow() {
-        return getMinecraftEntity().bodyIsInPowderSnow;
+        return getMinecraftEntity().isInPowderSnow;
     }
 
     @Override
     public void setInsidePowderSnow(boolean flag) {
-        getMinecraftEntity().setBodyIsInPowderSnow(flag);
+        getMinecraftEntity().setIsInPowderSnow(flag);
     }
 
     @Override

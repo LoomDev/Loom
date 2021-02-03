@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/projectile/AbstractArrow.java
 +++ b/net/minecraft/world/entity/projectile/AbstractArrow.java
-@@ -49,16 +49,17 @@
+@@ -50,16 +50,17 @@
      private static final EntityDataAccessor<Byte> PIERCE_LEVEL = SynchedEntityData.defineId(AbstractArrow.class, EntityDataSerializers.BYTE);
      @Nullable
      private BlockState lastState;
@@ -20,16 +20,16 @@
  
      protected AbstractArrow(EntityType<? extends AbstractArrow> entitytype, Level level) {
          super(entitytype, level);
-@@ -496,7 +497,7 @@
+@@ -497,7 +498,7 @@
          }
      }
  
 -    protected abstract ItemStack getPickupItem();
 +    public abstract ItemStack getPickupItem(); // Loom :: protected -> public (AbstractArrowImpl)
  
-     protected boolean isMovementNoisy() {
-         return false;
-@@ -577,7 +578,7 @@
+     protected Entity.MovementEmission getMovementEmission() {
+         return Entity.MovementEmission.NONE;
+@@ -578,7 +579,7 @@
      }
  
      protected float getWaterInertia() {

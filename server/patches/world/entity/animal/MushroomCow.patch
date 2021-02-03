@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/MushroomCow.java
 +++ b/net/minecraft/world/entity/animal/MushroomCow.java
-@@ -43,9 +43,9 @@
+@@ -44,9 +44,9 @@
  
  public class MushroomCow extends Cow implements Shearable {
  
@@ -13,7 +13,7 @@
      private UUID lastLightningBoltUUID;
  
      public MushroomCow(EntityType<? extends MushroomCow> entitytype, Level level) {
-@@ -249,6 +249,7 @@
+@@ -251,6 +251,7 @@
          return mushroomcow_mushroomtype2;
      }
  
@@ -21,7 +21,7 @@
      public Cow getBreedOffspring(ServerLevel serverlevel, AgeableMob ageablemob) {
          return this.getBreedOffspring(serverlevel, ageablemob);
      }
-@@ -256,12 +257,13 @@
+@@ -258,12 +259,13 @@
      public AgeableMob getBreedOffspring(ServerLevel serverlevel, AgeableMob ageablemob) {
          return this.getBreedOffspring(serverlevel, ageablemob);
      }

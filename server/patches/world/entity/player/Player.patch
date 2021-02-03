@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
-@@ -112,7 +112,7 @@
+@@ -113,7 +113,7 @@
  public abstract class Player extends LivingEntity {
  
      public static final EntityDimensions STANDING_DIMENSIONS = EntityDimensions.scalable(0.6F, 1.8F);
@@ -9,7 +9,7 @@
      private static final EntityDataAccessor<Float> DATA_PLAYER_ABSORPTION_ID = SynchedEntityData.defineId(Player.class, EntityDataSerializers.FLOAT);
      private static final EntityDataAccessor<Integer> DATA_SCORE_ID = SynchedEntityData.defineId(Player.class, EntityDataSerializers.INT);
      protected static final EntityDataAccessor<Byte> DATA_PLAYER_MODE_CUSTOMISATION = SynchedEntityData.defineId(Player.class, EntityDataSerializers.BYTE);
-@@ -137,7 +137,7 @@
+@@ -138,7 +138,7 @@
      public double zCloak;
      private int sleepCounter;
      protected boolean wasUnderwater;
@@ -18,7 +18,7 @@
      public int experienceLevel;
      public int totalExperience;
      public float experienceProgress;
-@@ -1447,6 +1447,7 @@
+@@ -1450,6 +1450,7 @@
              ItemStack itemstack = this.getItemBySlot(EquipmentSlot.CHEST);
  
              if (itemstack.is(Items.ELYTRA) && ElytraItem.isFlyEnabled(itemstack)) {

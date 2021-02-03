@@ -1059,6 +1059,34 @@ public interface ItemType extends Keyed {
     ItemType GLOW_ITEM_FRAME = getById("minecraft:glow_item_frame");
     ItemType GLOW_LICHEN = getById("minecraft:glow_lichen");
     ItemType GLOW_INK_SAC = getById("minecraft:glow_ink_sac");
+    ItemType WAXED_WEATHERED_CUT_COPPER_SLAB = getById("minecraft:waxed_weathered_cut_copper_slab");
+    ItemType AZALEA_LEAVES_FLOWERS = getById("minecraft:azalea_leaves_flowers");
+    ItemType HANGING_ROOTS = getById("minecraft:hanging_roots");
+    ItemType SMALL_DRIPLEAF = getById("minecraft:small_dripleaf");
+    ItemType EXPOSED_COPPER_BLOCK = getById("minecraft:exposed_copper_block");
+    ItemType EXPOSED_CUT_COPPER_SLAB = getById("minecraft:exposed_cut_copper_slab");
+    ItemType GLOW_BERRIES = getById("minecraft:glow_berries");
+    ItemType OXIDIZED_CUT_COPPER = getById("minecraft:oxidized_cut_copper");
+    ItemType MOSS_CARPET = getById("minecraft:moss_carpet");
+    ItemType MOSS_BLOCK = getById("minecraft:moss_block");
+    ItemType WAXED_EXPOSED_COPPER = getById("minecraft:waxed_exposed_copper");
+    ItemType EXPOSED_CUT_COPPER = getById("minecraft:exposed_cut_copper");
+    ItemType OXIDIZED_COPPER_BLOCK = getById("minecraft:oxidized_copper_block");
+    ItemType WAXED_WEATHERED_CUT_COPPER_STAIRS = getById("minecraft:waxed_weathered_cut_copper_stairs");
+    ItemType WAXED_WEATHERED_CUT_COPPER = getById("minecraft:waxed_weathered_cut_copper");
+    ItemType ROOTED_DIRT = getById("minecraft:rooted_dirt");
+    ItemType EXPOSED_CUT_COPPER_STAIRS = getById("minecraft:exposed_cut_copper_stairs");
+    ItemType OXIDIZED_CUT_COPPER_SLAB = getById("minecraft:oxidized_cut_copper_slab");
+    ItemType BIG_DRIPLEAF = getById("minecraft:big_dripleaf");
+    ItemType WAXED_EXPOSED_CUT_COPPER_SLAB = getById("minecraft:waxed_exposed_cut_copper_slab");
+    ItemType SPORE_BLOSSOM = getById("minecraft:spore_blossom");
+    ItemType WAXED_EXPOSED_CUT_COPPER = getById("minecraft:waxed_exposed_cut_copper");
+    ItemType FLOWERING_AZALEA = getById("minecraft:flowering_azalea");
+    ItemType OXIDIZED_CUT_COPPER_STAIRS = getById("minecraft:oxidized_cut_copper_stairs");
+    ItemType AZALEA_LEAVES = getById("minecraft:azalea_leaves");
+    ItemType WAXED_EXPOSED_CUT_COPPER_STAIRS = getById("minecraft:waxed_exposed_cut_copper_stairs");
+    ItemType AZALEA = getById("minecraft:azalea");
+    ItemType WAXED_WEATHERED_COPPER = getById("minecraft:waxed_weathered_copper");
 
     // endregion :: ItemTypes
 

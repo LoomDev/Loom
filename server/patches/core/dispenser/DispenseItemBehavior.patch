@@ -1,10 +1,10 @@
 --- a/net/minecraft/core/dispenser/DispenseItemBehavior.java
 +++ b/net/minecraft/core/dispenser/DispenseItemBehavior.java
-@@ -409,6 +409,7 @@
+@@ -411,6 +411,7 @@
                  BlockState blockstate = serverlevel.getBlockState(blockpos);
  
                  if (BaseFireBlock.canBePlacedAt(serverlevel, blockpos, direction)) {
 +                    // TODO if (!org.loomdev.loom.event.LoomEventDispatcher.onBlockIgnite(serverlevel, blockpos, blocksource.getPos(), org.loomdev.api.event.block.BlockIgniteEvent.Cause.DISPENSER).isCancelled()) // Loom :: fire BlockIgniteEvent
                      serverlevel.setBlockAndUpdate(blockpos, BaseFireBlock.getState(serverlevel, blockpos));
+                     serverlevel.gameEvent((Entity) null, GameEvent.BLOCK_PLACE, blockpos);
                  } else if (!CampfireBlock.canLight(blockstate) && !CandleBlock.canLight(blockstate) && !CandleCakeBlock.canLight(blockstate)) {
-                     if (blockstate.getBlock() instanceof TntBlock) {

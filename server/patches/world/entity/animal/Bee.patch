@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/Bee.java
 +++ b/net/minecraft/world/entity/animal/Bee.java
-@@ -98,14 +98,14 @@
+@@ -99,14 +99,14 @@
      private float rollAmountO;
      private int timeSinceSting;
      private int ticksWithoutNectarSinceExitingHive;
@@ -18,7 +18,7 @@
      private Bee.BeePollinateGoal beePollinateGoal;
      private Bee.BeeGoToHiveGoal goToHiveGoal;
      private Bee.BeeGoToKnownFlowerGoal goToKnownFlowerGoal;
-@@ -440,7 +440,7 @@
+@@ -441,7 +441,7 @@
          return this.getFlag(8);
      }
  
@@ -27,7 +27,7 @@
          if (flag) {
              this.resetTicksWithoutNectarSinceExitingHive();
          }
-@@ -452,7 +452,7 @@
+@@ -453,7 +453,7 @@
          return this.getFlag(4);
      }
  
@@ -36,16 +36,7 @@
          this.setFlag(4, flag);
      }
  
-@@ -544,7 +544,7 @@
- 
-     protected void checkFallDamage(double d0, boolean flag, BlockState blockstate, BlockPos blockpos) {}
- 
--    protected boolean makeFlySound() {
-+    public boolean makeFlySound() { // Loom :: private -> public
-         return true;
-     }
- 
-@@ -577,9 +577,11 @@
+@@ -582,9 +582,11 @@
          return blockpos.closerThan((Vec3i) this.blockPosition(), (double) i);
      }
  

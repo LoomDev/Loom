@@ -153,12 +153,7 @@ public interface Entity extends CommandSource {
 
     void setRotation(float pitch, float yaw);
 
-    /**
-     * Gets whether the entity has wings.
-     *
-     * @return Whether the entity has wings.
-     */
-    boolean hasWings();
+    boolean isFlappingWings();
 
     void emitSound(@NotNull SoundEvent type, float volume, float pitch);
 

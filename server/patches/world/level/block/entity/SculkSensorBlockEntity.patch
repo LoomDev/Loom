@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/entity/SculkSensorBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/SculkSensorBlockEntity.java
-@@ -52,6 +52,11 @@
+@@ -53,6 +53,11 @@
          BlockState blockstate = this.getBlockState();
  
          if (!level.isClientSide() && SculkSensorBlock.canActivate(blockstate)) {

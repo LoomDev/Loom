@@ -18,8 +18,8 @@
          this.entityData.set(Ocelot.DATA_TRUSTING, flag);
          this.reassessTrustingGoals();
      }
-@@ -247,9 +247,11 @@
-         return super.finalizeSpawn(serverlevelaccessor, difficultyinstance, mobspawntype, (SpawnGroupData) spawngroupdata, compoundtag);
+@@ -251,9 +251,11 @@
+         return this.getPose() == Pose.CROUCHING || super.isSteppingCarefully();
      }
  
 +    /* // Loom start :: decompile error
@@ -30,7 +30,7 @@
  
      static class OcelotTemptGoal extends TemptGoal {
  
-@@ -270,9 +272,7 @@
+@@ -274,9 +276,7 @@
          private final Ocelot ocelot;
  
          public OcelotAvoidEntityGoal(Ocelot ocelot, Class<T> oclass, float f, double d0, double d1) {
