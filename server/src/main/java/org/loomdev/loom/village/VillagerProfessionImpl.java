@@ -5,7 +5,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.api.sound.SoundEvent;
@@ -27,7 +26,7 @@ public class VillagerProfessionImpl extends GenericWrapped implements VillagerPr
     @Override
     @NotNull
     public PointOfInterestType getWorkStation() {
-        return Loom.getRegistry().getWrapped(
+        return org.loomdev.api.util.registry.Registry.get().getWrapped(
                 PointOfInterestType.class,
                 Registry.POINT_OF_INTEREST_TYPE.getKey(this.mcVillagerProfession.getJobPoiType()).toString()
         );

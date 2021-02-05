@@ -2,6 +2,7 @@ package org.loomdev.api.scheduler;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.loomdev.api.plugin.metadata.PluginMetadata;
 
 import java.util.Optional;
 import java.util.Set;
@@ -24,9 +25,9 @@ public interface Scheduler {
     Stream<ScheduledTask> getScheduledTasks();
 
     @NotNull
-    Stream<ScheduledTask> getScheduledTasks(@NotNull Object plugin);
+    Stream<ScheduledTask> getScheduledTasks(@NotNull PluginMetadata plugin);
 
-    void unregisterTasks(@NotNull Object plugin);
+    void unregisterTasks(@NotNull PluginMetadata plugin);
 
     void cancelTask(int id, boolean interrupt);
 }

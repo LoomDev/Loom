@@ -2,10 +2,10 @@ package org.loomdev.api.item;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.item.property.ItemProperty;
 import org.loomdev.api.item.property.data.ItemPropertyData;
 import org.loomdev.api.util.builder.BuilderBase;
+import org.loomdev.api.util.registry.Registry;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +23,7 @@ public interface ItemStack {
     ItemStack EMPTY = ItemStack.builder().type(ItemType.AIR).build();
 
     static Builder builder() {
-        return Loom.getRegistry().createBuilder(ItemStack.class);
+        return Registry.get().createBuilder(ItemStack.class);
     }
 
     static Builder builder(ItemType type) {

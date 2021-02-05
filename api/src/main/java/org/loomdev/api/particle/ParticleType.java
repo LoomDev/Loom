@@ -1,7 +1,7 @@
 package org.loomdev.api.particle;
 
-import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.util.registry.Registry;
 
 /**
  * Represents a type of particle.
@@ -103,7 +103,7 @@ public interface ParticleType extends Keyed {
      * @return The particle type if found otherwise null.
      */
     static ParticleType getById(String id) {
-        return Loom.getRegistry().getWrapped(ParticleType.class, id);
+        return Registry.get().getWrapped(ParticleType.class, id);
     }
 
 }

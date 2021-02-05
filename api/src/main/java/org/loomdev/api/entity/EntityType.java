@@ -3,8 +3,6 @@ package org.loomdev.api.entity;
 import com.google.common.collect.ImmutableSet;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.entity.animal.Bee;
 import org.loomdev.api.entity.animal.Cat;
@@ -99,6 +97,7 @@ import org.loomdev.api.entity.vehicle.minecart.RideableMinecart;
 import org.loomdev.api.entity.vehicle.minecart.SpawnerMinecart;
 import org.loomdev.api.entity.vehicle.minecart.TntMinecart;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.util.registry.Registry;
 
 import java.util.Optional;
 
@@ -221,7 +220,7 @@ public interface EntityType<T extends Entity> extends Keyed {
     // endregion :: EntityTypes
 
     static <T extends Entity> EntityType<T> getById(String id) {
-        return Loom.getRegistry().getWrapped(EntityType.class, id);
+        return Registry.get().getWrapped(EntityType.class, id);
     }
 
     /**

@@ -16,7 +16,9 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandManager;
 import org.loomdev.api.command.CommandSource;
-import org.loomdev.api.plugin.PluginMetadata;
+import org.loomdev.api.plugin.PluginState;
+import org.loomdev.api.plugin.exception.IllegalPluginStateException;
+import org.loomdev.api.plugin.metadata.PluginMetadata;
 import org.loomdev.loom.Loom;
 import org.loomdev.loom.command.loom.PluginsCommand;
 import org.loomdev.loom.command.loom.TpsCommand;
@@ -26,7 +28,7 @@ import org.loomdev.loom.server.ServerImpl;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-public class CommandManagerImpl implements CommandManager {
+public class CommandManagerImpl {
 
     private final ServerImpl server;
     private final Map<String, Command> commands;
@@ -37,9 +39,10 @@ public class CommandManagerImpl implements CommandManager {
         this.commands = new HashMap<>();
         this.pluginCommands = ArrayListMultimap.create();
 
-        register(Loom.LOOM_PLUGIN, new PluginsCommand());
-        register(Loom.LOOM_PLUGIN, new TpsCommand(server));
-        register(Loom.LOOM_PLUGIN, new VersionCommand(server));
+        // TODO replace with actual internal loom plugin
+        register(Loom.LOOM_PLUGIN.getId(), new PluginsCommand(server.getPluginManager()));
+        register(Loom.LOOM_PLUGIN.getId(), new TpsCommand(server));
+        register(Loom.LOOM_PLUGIN.getId(), new VersionCommand(server));
     }
 
     @NotNull
@@ -62,23 +65,15 @@ public class CommandManagerImpl implements CommandManager {
         return new CommandSourceImpl(source);
     }
 
-    @Override
-    public void register(@NotNull Object plugin, @NotNull Command command) {
-        server.getPluginManager().fromInstance(plugin)
-                .ifPresent(container -> register(container.getMetadata(), command));
-    }
-
-    @Override
-    public void register(@NotNull PluginMetadata metadata, @NotNull Command command) {
+    public void register(@NotNull String pluginId, @NotNull Command command) {
         String commandName = command.getName().toLowerCase(Locale.ENGLISH).trim();
 
         if (!StringUtils.isAlphanumeric(commandName)) {
             return;
         }
 
-        var pluginId = metadata.getId();
-        registerAlias(metadata.getId(), command, commandName);
-        registerAlias(metadata.getId(), command, pluginId + ":" + commandName);
+        registerAlias(pluginId, command, commandName);
+        registerAlias(pluginId, command, pluginId + ":" + commandName);
 
         for (var alias : command.getAliases()) {
             if (!StringUtils.isAlphanumeric(commandName)) {
@@ -89,8 +84,8 @@ public class CommandManagerImpl implements CommandManager {
                 return;
             }
 
-            registerAlias(metadata.getId(), command, alias);
-            registerAlias(metadata.getId(), command, pluginId + ":" + alias);
+            registerAlias(pluginId, command, alias);
+            registerAlias(pluginId, command, pluginId + ":" + alias);
         }
     }
 
@@ -116,12 +111,6 @@ public class CommandManagerImpl implements CommandManager {
                 .then(arguments));
     }
 
-    @Override
-    public void unregister(@NotNull Object plugin) {
-        server.getPluginManager().fromInstance(plugin).ifPresent(container -> unregister(container.getMetadata()));
-    }
-
-    @Override
     public void unregister(@NotNull PluginMetadata metadata) {
         Collection<String> commands = pluginCommands.get(metadata.getId());
         if (commands != null) {

@@ -1,9 +1,9 @@
 package org.loomdev.loom.scheduler;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.plugin.PluginManager;
-import org.loomdev.api.scheduler.Scheduler;
+import org.loomdev.api.plugin.metadata.PluginMetadata;
 import org.loomdev.api.scheduler.ScheduledTask;
+import org.loomdev.api.scheduler.Scheduler;
 
 import java.util.Optional;
 import java.util.concurrent.*;
@@ -14,7 +14,7 @@ public class SchedulerImpl implements Scheduler {
     private final ExecutorService asyncExecutor;
     private final ConcurrentHashMap<Integer, ScheduledTask> taskQueue;
 
-    public SchedulerImpl(PluginManager pluginManager) {
+    public SchedulerImpl() {
         this.asyncExecutor = new ThreadPoolExecutor(1, Runtime.getRuntime().availableProcessors(), 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
         this.taskQueue = new ConcurrentHashMap<>();
     }
@@ -47,7 +47,7 @@ public class SchedulerImpl implements Scheduler {
 
     @Override
     @NotNull
-    public Stream<ScheduledTask> getScheduledTasks(@NotNull Object plugin) {
+    public Stream<ScheduledTask> getScheduledTasks(@NotNull PluginMetadata plugin) {
         return getScheduledTasks()
                 .filter(task -> task.getPlugin() == plugin);
     }
@@ -61,7 +61,7 @@ public class SchedulerImpl implements Scheduler {
     }
 
     @Override
-    public void unregisterTasks(@NotNull Object plugin) {
+    public void unregisterTasks(@NotNull PluginMetadata plugin) {
         getScheduledTasks(plugin).forEach(task -> cancelTask(task.getTaskId(), true));
     }
 

@@ -9,8 +9,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.Loom;
-import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.damage.DamageSource;
 import org.loomdev.api.item.ItemStack;
@@ -25,9 +23,6 @@ import org.loomdev.loom.util.transformer.TextTransformer;
 import org.loomdev.loom.util.transformer.DamageSourceTransformer;
 import org.loomdev.loom.world.WorldImpl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;

@@ -2,8 +2,8 @@ package org.loomdev.api.item;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.util.registry.Registry;
 
 public interface Enchantment extends Keyed {
 
@@ -211,7 +211,7 @@ public interface Enchantment extends Keyed {
      * @return The enchantment if found, otherwise null.
      */
     static Enchantment getById(String id) {
-        return Loom.getRegistry().getWrapped(Enchantment.class, id);
+        return Registry.get().getWrapped(Enchantment.class, id);
     }
 
     /**

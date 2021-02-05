@@ -3,7 +3,6 @@ package org.loomdev.loom.entity.decoration;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.Painting;
 import org.loomdev.loom.util.registry.GenericWrapped;
@@ -29,7 +28,7 @@ public class PaintingImpl extends AbstractHangingEntityImpl implements Painting 
     @Override
     @NotNull
     public Motive getMotive() {
-        return Loom.getRegistry().getWrapped(Motive.class, Registry.MOTIVE.getKey(getMinecraftEntity().motive).toString());
+        return org.loomdev.api.util.registry.Registry.get().getWrapped(Motive.class, Registry.MOTIVE.getKey(getMinecraftEntity().motive).toString());
     }
 
     @Override

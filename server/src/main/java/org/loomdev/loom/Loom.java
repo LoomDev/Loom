@@ -5,13 +5,15 @@ import joptsimple.OptionSet;
 import net.minecraft.server.Main;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.ApiVersion;
-import org.loomdev.api.plugin.PluginMetadata;
+import org.loomdev.api.plugin.metadata.PluginDependency;
+import org.loomdev.api.plugin.metadata.PluginMetadata;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class Loom {
 
@@ -22,25 +24,43 @@ public class Loom {
         }
 
         @Override
-        public @NotNull ApiVersion getMinimumApiVersion() {
-            return ApiVersion.LATEST;
+        public @NotNull String getName() {
+            return "Loom";
         }
 
         @Override
-        public @NotNull Path getSource() {
+        public @NotNull String getMainClass() {
             return null;
         }
 
         @Override
-        public @NotNull String getMain() {
+        public @NotNull String getVersion() {
             return "";
         }
 
         @Override
-        public State getState() {
-            return State.ENABLED;
+        public @NotNull Optional<String> getDescription() {
+            return Optional.empty();
         }
+
+        @Override
+        public @NotNull String[] getAuthors() {
+            return new String[] { "The Loom Team" };
+        }
+
+        @Override
+        public @NotNull PluginDependency[] getDependencies() {
+            return new PluginDependency[0];
+        }
+
+        @Override
+        public @NotNull ApiVersion getMinimumApiVersion() {
+            return ApiVersion.LATEST;
+        }
+
     };
+
+    public static final Yaml YAML = new Yaml();
 
     public static void main(@NotNull String[] args) {
         OptionParser parser = new OptionParser() {

@@ -2,30 +2,30 @@ package org.loomdev.loom.permissions;
 
 import com.google.common.collect.Maps;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.ApiVersion;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.command.ConsoleCommandSource;
-import org.loomdev.api.permissions.PermissionsEngine;
+import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.permissions.PermissionHandler;
 import org.loomdev.api.permissions.PermissionSubject;
 import org.loomdev.api.permissions.PermissionValue;
-import org.loomdev.api.plugin.PluginMetadata;
-import org.loomdev.loom.Loom;
+import org.loomdev.api.plugin.metadata.PluginMetadata;
+import org.loomdev.loom.entity.player.PlayerImpl;
+import org.loomdev.loom.server.ServerImpl;
 
-import java.nio.file.Path;
 import java.util.HashMap;
 
-public class PermissionsEngineImpl implements PermissionsEngine {
+public class PermissionsEngineImpl {
 
     private final DefaultPermissionHandler defaultPermissionHandler;
     private final HashMap<PluginMetadata, PermissionHandler> permissionHandlers;
+    private final ServerImpl server;
 
-    public PermissionsEngineImpl() {
+    public PermissionsEngineImpl(ServerImpl server) {
+        this.server = server;
         this.defaultPermissionHandler = new DefaultPermissionHandler();
         this.permissionHandlers = Maps.newHashMap();
     }
 
-    @Override
     public void registerPermissionsHandler(@NotNull PluginMetadata metadata, @NotNull PermissionHandler handler) {
         if (permissionHandlers.containsKey(metadata)) {
             return; // TODO throw error?
@@ -33,12 +33,10 @@ public class PermissionsEngineImpl implements PermissionsEngine {
         permissionHandlers.put(metadata, handler);
     }
 
-    @Override
     public void unregisterPermissionsHandler(@NotNull PluginMetadata metadata) {
         permissionHandlers.remove(metadata);
     }
 
-    @Override
     @NotNull
     public PermissionValue getPermission(@NotNull PermissionSubject subject, @NotNull String permission) {
         if (subject instanceof ConsoleCommandSource) {
@@ -51,7 +49,7 @@ public class PermissionsEngineImpl implements PermissionsEngine {
 
         var commandSource = (CommandSource) subject;
         if (commandSource.isOperator()) {
-            return PermissionValue.PERMITTED; // TODO make disableable in config?
+            return PermissionValue.PERMITTED;
         }
 
         return calculatePermission(subject, permission);
@@ -84,4 +82,8 @@ public class PermissionsEngineImpl implements PermissionsEngine {
         return calculatedPermissionValue;
     }
 
+    public boolean isOperator(Player player) {
+        var gameProfile = ((PlayerImpl) player).getMinecraftEntity().getGameProfile();
+        return server.getMinecraftServer().getPlayerList().isOp(gameProfile);
+    }
 }

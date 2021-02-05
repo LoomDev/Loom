@@ -34,15 +34,18 @@
              }
          };
  
-@@ -170,6 +174,7 @@
+@@ -168,8 +172,10 @@
+             SkullBlockEntity.setProfileCache(this.getProfileCache());
+             SkullBlockEntity.setSessionService(this.getSessionService());
              GameProfileCache.setUsesAuthentication(this.usesAuthentication());
++            loomServer.getPluginManager().loadOnServerStart(); // Loom :: load plugins
              DedicatedServer.LOGGER.info("Preparing level \"{}\"", this.getLevelIdName());
              this.loadLevel();
-+            ((org.loomdev.loom.plugin.PluginManagerImpl) this.loomServer.getPluginManager()).enableAll(); // Loom :: enable plugins after world load
++            loomServer.getPluginManager().enableOnServerStart(); // Loom :: enable plugins
              long j = Util.getNanos() - i;
              String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
  
-@@ -553,7 +558,9 @@
+@@ -553,7 +559,9 @@
          return this.settings.getProperties().forceGameMode ? this.worldData.getGameType() : null;
      }
  

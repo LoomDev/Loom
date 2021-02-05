@@ -1,9 +1,9 @@
 package org.loomdev.api.tag;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.util.NamespacedKey;
+import org.loomdev.api.util.registry.Registry;
 
 import java.util.Optional;
 
@@ -106,6 +106,6 @@ public interface BlockTag extends Tag<BlockType> {
     // endregion :: BlockTags
 
     static Optional<BlockTag> getById(@NotNull NamespacedKey key) {
-        return Loom.getRegistry().getTag(BlockType.class, key);
+        return Registry.get().getTag(BlockType.class, key);
     }
 }

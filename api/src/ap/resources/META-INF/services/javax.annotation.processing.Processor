@@ -1,1 +1,2 @@
-org.loomdev.api.plugin.ap.PluginAnnotationProcessor
+org.loomdev.ap.plugin.PluginProcessor
+org.loomdev.ap.plugin.lifecycle.LifecycleProcessor

@@ -57,7 +57,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class RegistryImpl implements Registry {
+public class RegistryImpl extends Registry {
 
     private static final Logger LOGGER = LogManager.getLogger("Registry");
 
@@ -71,6 +71,8 @@ public class RegistryImpl implements Registry {
     private final Map<Class<? extends Keyed>, Map<String, ? extends Keyed>> wrapperCache = Maps.newHashMap();
 
     public RegistryImpl() {
+        Registry.setRegistry(this);
+
         initItemProperties();
         initBuilders();
         initMcRegistries();

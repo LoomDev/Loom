@@ -1,7 +1,7 @@
 package org.loomdev.api.entity.effect;
 
-import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.util.registry.Registry;
 
 public interface StatusEffectType extends Keyed {
 
@@ -48,6 +48,6 @@ public interface StatusEffectType extends Keyed {
      * @return The status effect type if found, otherwise null.
      */
     static StatusEffectType getById(String id) {
-        return Loom.getRegistry().getWrapped(StatusEffectType.class, id);
+        return Registry.get().getWrapped(StatusEffectType.class, id);
     }
 }

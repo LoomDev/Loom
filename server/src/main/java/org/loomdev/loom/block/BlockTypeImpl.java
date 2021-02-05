@@ -4,7 +4,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.item.ItemType;
 
@@ -53,6 +52,6 @@ public class BlockTypeImpl extends GenericWrapped implements BlockType {
     @NotNull
     public ItemType asItem() {
         var resourceLocation = Registry.ITEM.getKey(mcBlock.asItem());
-        return Loom.getRegistry().getWrapped(ItemType.class, resourceLocation.toString());
+        return org.loomdev.api.util.registry.Registry.get().getWrapped(ItemType.class, resourceLocation.toString());
     }
 }

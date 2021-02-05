@@ -5,12 +5,13 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandContext;
 import org.loomdev.api.server.Server;
+import org.loomdev.loom.server.ServerImpl;
 
 public class VersionCommand extends Command {
 
-    private final Server server;
+    private final ServerImpl server;
 
-    public VersionCommand(Server server) {
+    public VersionCommand(ServerImpl server) {
         super("version", "about", "loom");
         setDescription("Displays version information of the server software.");
         setUsage("/about");

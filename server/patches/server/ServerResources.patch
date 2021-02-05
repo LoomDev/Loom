@@ -13,7 +13,7 @@
          this.resources.registerReloadListener(this.itemModifierManager);
          this.resources.registerReloadListener(this.functionLibrary);
          this.resources.registerReloadListener(this.advancements);
-+        if (org.loomdev.api.Loom.getServer() != null) ((org.loomdev.loom.command.CommandManagerImpl) org.loomdev.api.Loom.getCommandManager()).internalReload(); // Loom
++        if (org.loomdev.loom.server.ServerImpl.getInstance() != null) org.loomdev.loom.server.ServerImpl.getInstance().getCommandManager().internalReload(); // Loom
      }
  
      public ServerFunctionLibrary getFunctionLibrary() {

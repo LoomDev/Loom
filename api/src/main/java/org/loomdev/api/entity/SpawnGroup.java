@@ -1,7 +1,7 @@
 package org.loomdev.api.entity;
 
-import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.util.registry.Registry;
 
 public interface SpawnGroup extends Keyed {
 
@@ -19,7 +19,7 @@ public interface SpawnGroup extends Keyed {
     // endregion :: SpawnGroups
 
     static SpawnGroup getById(String id) {
-        return Loom.getRegistry().getWrapped(SpawnGroup.class, id);
+        return Registry.get().getWrapped(SpawnGroup.class, id);
     }
 
     int getCapacity();

@@ -227,6 +227,3 @@ gradle-app.setting
 /tools/dev-server/
 
 /loom-*.jar
-
-#TODO remove
-/tools/decomp/

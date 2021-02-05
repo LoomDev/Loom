@@ -1,9 +1,9 @@
 package org.loomdev.api.world.poi;
 
 import com.google.common.collect.ImmutableSet;
-import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockState;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.util.registry.Registry;
 
 public interface PointOfInterestType extends Keyed {
 
@@ -35,7 +35,7 @@ public interface PointOfInterestType extends Keyed {
     // endregion :: PointOfInterestTypes
 
     static PointOfInterestType getById(String id) {
-        return Loom.getRegistry().getWrapped(PointOfInterestType.class, id);
+        return Registry.get().getWrapped(PointOfInterestType.class, id);
     }
 
     ImmutableSet<BlockState> getBlockStates();

@@ -5,7 +5,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.property.ItemProperty;
@@ -25,7 +24,7 @@ public class EnchantmentsItemProperty implements ItemProperty<EnchantmentData> {
         Map<Enchantment, Integer> enchants = new HashMap<>();
         listTag.forEach(tag -> {
             CompoundTag ct = (CompoundTag) tag;
-            Enchantment enchantment = Loom.getRegistry().getWrapped(Enchantment.class, ct.getString("id"));
+            Enchantment enchantment = org.loomdev.api.util.registry.Registry.get().getWrapped(Enchantment.class, ct.getString("id"));
             int level = ct.getShort("lvl");
             enchants.put(enchantment, level);
         });

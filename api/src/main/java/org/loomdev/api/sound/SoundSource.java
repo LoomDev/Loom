@@ -1,8 +1,8 @@
 package org.loomdev.api.sound;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.util.registry.Registry;
 
 /**
  * Represents a sound source (a sound category).
@@ -25,7 +25,7 @@ public interface SoundSource extends Keyed {
     // endregion SoundCategories
 
     static SoundSource getByName(String name) {
-        return Loom.getRegistry().getWrapped(SoundSource.class, name);
+        return Registry.get().getWrapped(SoundSource.class, name);
     }
 
     @NotNull String getName();

@@ -1,50 +1,41 @@
 package org.loomdev.loom.plugin.loader.injector;
 
-import com.google.inject.Binder;
-import com.google.inject.Module;
-import org.apache.logging.log4j.LogManager;
+import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
 import org.apache.logging.log4j.Logger;
-import org.loomdev.api.command.CommandManager;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.config.Configuration;
-import org.loomdev.api.event.EventManager;
-import org.loomdev.api.permissions.PermissionsEngine;
-import org.loomdev.api.plugin.PluginManager;
-import org.loomdev.api.plugin.PluginMetadata;
-import org.loomdev.api.plugin.annotation.Config;
-import org.loomdev.api.plugin.annotation.PluginDirectory;
-import org.loomdev.api.scheduler.Scheduler;
+import org.loomdev.api.plugin.Config;
+import org.loomdev.api.plugin.DataDirectory;
+import org.loomdev.api.plugin.metadata.PluginMetadata;
 import org.loomdev.api.server.Server;
-import org.loomdev.api.world.WorldManager;
-import org.loomdev.loom.plugin.data.LoomPluginMetadata;
-import org.loomdev.loom.plugin.loader.injector.providers.ConfigProvider;
+import org.loomdev.loom.plugin.loader.injector.providers.ConfigurationProvider;
+import org.loomdev.loom.plugin.loader.injector.providers.PluginLoggerProvider;
 
 import java.nio.file.Path;
 
-public class PluginInjectorModule implements Module {
+public class PluginInjectorModule extends AbstractModule {
 
-    private final Server server;
-    private final LoomPluginMetadata metadata;
-    private final Path basePluginPath;
+    private final PluginMetadata metadata;
+    private final Server scopedServer;
+    private final Path dataDirectory;
+    private final Class<?> mainClass;
 
-    public PluginInjectorModule(Server server,LoomPluginMetadata metadata, Path basePluginPath) {
-        this.server = server;
+    public PluginInjectorModule(@NotNull PluginMetadata metadata, @NotNull Server scopedServer, Path dataDirectory, Class<?> mainClass) {
         this.metadata = metadata;
-        this.basePluginPath = basePluginPath;
+        this.scopedServer = scopedServer;
+        this.dataDirectory = dataDirectory;
+        this.mainClass = mainClass;
     }
 
     @Override
-    public void configure(Binder binder) {
-        binder.bind(Logger.class).toInstance(LogManager.getLogger(this.metadata.getName().orElse(this.metadata.getId())));
-        binder.bind(Server.class).toInstance(this.server);
-        binder.bind(Path.class).annotatedWith(PluginDirectory.class).toInstance(basePluginPath.resolve(metadata.getId()));
+    protected void configure() {
+        bind(new TypeLiteral<Class<?>>() {}).annotatedWith(MainPluginClass.class).toInstance(mainClass);
 
-        binder.bind(PluginMetadata.class).toInstance(this.metadata);
-        binder.bind(PluginManager.class).toInstance(this.server.getPluginManager());
-        binder.bind(EventManager.class).toInstance(this.server.getEventManager());
-        binder.bind(CommandManager.class).toInstance(this.server.getCommandManager());
-        binder.bind(WorldManager.class).toInstance(this.server.getWorldManager());
-        binder.bind(Scheduler.class).toInstance(this.server.getScheduler());
-        binder.bind(PermissionsEngine.class).toInstance(this.server.getPermissionsEngine());
-        binder.bind(Configuration.class).annotatedWith(Config.class).toProvider(ConfigProvider.class);
+        bind(PluginMetadata.class).toInstance(metadata);
+        bind(Server.class).toInstance(scopedServer);
+        bind(Logger.class).toProvider(new PluginLoggerProvider(metadata));
+        bind(Path.class).annotatedWith(DataDirectory.class).toInstance(dataDirectory);
+        bind(Configuration.class).annotatedWith(Config.class).toProvider(ConfigurationProvider.class);
     }
 }

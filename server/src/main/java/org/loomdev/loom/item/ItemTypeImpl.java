@@ -5,7 +5,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.loom.util.registry.GenericWrapped;
@@ -60,7 +59,7 @@ public class ItemTypeImpl extends GenericWrapped implements ItemType {
     @Override
     public ItemType getRecipeRemainder() {
         var resourceLocation = Registry.ITEM.getKey(mcItem.getCraftingRemainingItem());
-        return Loom.getRegistry().getWrapped(ItemType.class, resourceLocation.toString());
+        return org.loomdev.api.util.registry.Registry.get().getWrapped(ItemType.class, resourceLocation.toString());
     }
 
     @Override

@@ -1,7 +1,7 @@
 package org.loomdev.api.scheduler;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
+import org.loomdev.api.plugin.metadata.PluginMetadata;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public interface ScheduledTask {
 
     @NotNull
-    Object getPlugin();
+    PluginMetadata getPlugin();
 
     int getTaskId();
 
@@ -25,11 +25,6 @@ public interface ScheduledTask {
 
     @NotNull
     ExecutionState getExecutionState();
-
-    @NotNull
-    static Builder builder() {
-        return Loom.getServer().getScheduler().createTask();
-    }
 
     interface Builder {
 
@@ -52,7 +47,7 @@ public interface ScheduledTask {
         Builder interval(long delay, TimeUnit timeUnit);
 
         @NotNull
-        ScheduledTask complete(@NotNull Object plugin);
+        ScheduledTask complete(@NotNull PluginMetadata plugin);
     }
 
     enum ExecutionState {

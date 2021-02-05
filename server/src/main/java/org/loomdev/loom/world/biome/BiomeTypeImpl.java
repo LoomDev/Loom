@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.Loom;
 import org.loomdev.api.village.VillagerVariant;
 import org.loomdev.api.world.biome.BiomeType;
 import org.loomdev.loom.util.registry.GenericWrapped;
@@ -24,7 +23,7 @@ public class BiomeTypeImpl extends GenericWrapped implements BiomeType {
 
     @Override
     public @Nullable VillagerVariant getVillagerVariant() {
-        return Loom.getRegistry().getWrapped(
+        return org.loomdev.api.util.registry.Registry.get().getWrapped(
                 VillagerVariant.class,
                 Registry.VILLAGER_TYPE.getKey(VillagerType.byBiome(Optional.of(this.mcBiomeKey))).toString()
         );

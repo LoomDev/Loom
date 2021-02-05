@@ -65,12 +65,6 @@ public interface Server {
     @NotNull
     Path getPluginDirectory();
 
-    /**
-     * Gets the plugin manager.
-     *
-     * @return The plugin manager.
-     */
-    @NotNull
     PluginManager getPluginManager();
 
     /**
@@ -139,14 +133,6 @@ public interface Server {
     int getProtocolVersion();
 
     int getViewDistance();
-
-    /**
-     * Gets the registry.
-     *
-     * @return The registry.
-     */
-    @NotNull
-    Registry getRegistry();
 
     /**
      * Gets the main server thread.

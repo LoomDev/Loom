@@ -2,10 +2,10 @@ package org.loomdev.api.item.property;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.Loom;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.api.item.property.data.*;
+import org.loomdev.api.util.registry.Registry;
 
 public interface ItemProperty<T extends ItemPropertyData<T>> {
 
@@ -15,31 +15,31 @@ public interface ItemProperty<T extends ItemPropertyData<T>> {
      * Change the name of an {@link ItemStack}.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
-    ItemProperty<NameData> Name = Loom.getRegistry().getItemProperty(NameData.class);
+    ItemProperty<NameData> Name = Registry.get().getItemProperty(NameData.class);
 
     /**
      * Change the lore of an {@link ItemStack}.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
-    ItemProperty<LoreData> Lore = Loom.getRegistry().getItemProperty(LoreData.class);
+    ItemProperty<LoreData> Lore = Registry.get().getItemProperty(LoreData.class);
 
     /**
      * Modify the damage properties of an {@link ItemStack}.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
-    ItemProperty<DamageData> Damage = Loom.getRegistry().getItemProperty(DamageData.class);
+    ItemProperty<DamageData> Damage = Registry.get().getItemProperty(DamageData.class);
 
     /**
      * Add, remove, etc. enchantments of an {@link ItemStack}.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
-    ItemProperty<EnchantmentData> Enchantments = Loom.getRegistry().getItemProperty(EnchantmentData.class);
+    ItemProperty<EnchantmentData> Enchantments = Registry.get().getItemProperty(EnchantmentData.class);
 
     /**
      *  Get or modify the repair cost of an {@link ItemStack}.
      *  <p>Can be applied to all repairable Items</p>
      */
-    ItemProperty<RepairableData> Repairable = Loom.getRegistry().getItemProperty(RepairableData.class);
+    ItemProperty<RepairableData> Repairable = Registry.get().getItemProperty(RepairableData.class);
 
     // banner
     // block data

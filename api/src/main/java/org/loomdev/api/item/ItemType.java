@@ -2,9 +2,9 @@ package org.loomdev.api.item;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
 import org.loomdev.api.entity.item.ItemEntity;
+import org.loomdev.api.util.registry.Registry;
 
 /**
  * Represents a type of item used in {@link ItemStack}s and {@link ItemEntity}s.
@@ -1081,7 +1081,7 @@ public interface ItemType extends Keyed {
      * @return The item if found, otherwise null.
      */
     static ItemType getById(String id) {
-        return Loom.getRegistry().getWrapped(ItemType.class, id);
+        return Registry.get().getWrapped(ItemType.class, id);
     }
 
     int getMaxStackSize();

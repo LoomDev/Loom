@@ -1,9 +1,9 @@
 package org.loomdev.api.tag;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.api.util.NamespacedKey;
+import org.loomdev.api.util.registry.Registry;
 
 import java.util.Optional;
 
@@ -73,6 +73,6 @@ public interface ItemTag extends Tag<ItemType> {
     // endregion :: ItemTags
 
     static Optional<ItemTag> getById(@NotNull NamespacedKey key) {
-        return Loom.getRegistry().getTag(ItemType.class, key);
+        return Registry.get().getTag(ItemType.class, key);
     }
 }

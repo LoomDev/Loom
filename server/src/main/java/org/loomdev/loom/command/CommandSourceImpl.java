@@ -1,15 +1,14 @@
 package org.loomdev.loom.command;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.minecraft.Util;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
-import org.loomdev.api.util.ChatColor;
+import org.loomdev.api.permissions.PermissionValue;
 import org.loomdev.api.command.CommandSource;
 import org.loomdev.api.command.CommandSourceConsumable;
 import org.loomdev.api.command.ConsoleCommandSource;
 import org.loomdev.api.entity.player.Player;
+import org.loomdev.loom.server.ServerImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.util.function.Consumer;
@@ -90,7 +89,19 @@ public class CommandSourceImpl implements CommandSource {
     }
 
     @Override
+    public PermissionValue getPermission(String permission) {
+        return ServerImpl.getInstance().getPermissionsEngine().getPermission(this, permission);
+    }
+
+    @Override
+    public boolean hasPermission(String permission) {
+        return getPermission(permission).asBoolean();
+    }
+
+    @Override
     public boolean isOperator() {
-        return isPlayer() && Loom.getPlayerManager().isOperator((Player) this);
+        if (isConsole()) return true;
+
+        return isPlayer() && ServerImpl.getInstance().getPermissionsEngine().isOperator((Player) this);
     }
 }

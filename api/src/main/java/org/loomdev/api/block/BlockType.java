@@ -1,9 +1,9 @@
 package org.loomdev.api.block;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.util.registry.Registry;
 
 public interface BlockType extends Keyed {
 
@@ -877,7 +877,7 @@ public interface BlockType extends Keyed {
      * @return The block if found, otherwise <code>null</code>.
      */
     static BlockType getById(String id) {
-        return Loom.getRegistry().getWrapped(BlockType.class, id);
+        return Registry.get().getWrapped(BlockType.class, id);
     }
 
     float getSlipperiness();

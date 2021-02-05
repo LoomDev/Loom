@@ -1,8 +1,8 @@
 package org.loomdev.api.village;
 
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.util.registry.Registry;
 import org.loomdev.api.world.biome.BiomeType;
 
 public interface VillagerVariant extends Keyed {
@@ -20,7 +20,7 @@ public interface VillagerVariant extends Keyed {
     // endregion :: VillagerVariants
 
     static VillagerVariant getById(String id) {
-        return Loom.getRegistry().getWrapped(VillagerVariant.class, id);
+        return Registry.get().getWrapped(VillagerVariant.class, id);
     }
 
     @Nullable

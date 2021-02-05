@@ -1,8 +1,8 @@
 package org.loomdev.api.tag;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.util.NamespacedKey;
+import org.loomdev.api.util.registry.Registry;
 import org.loomdev.api.world.event.GameEventType;
 
 import java.util.Optional;
@@ -15,6 +15,6 @@ public interface GameEventTag extends Tag<GameEventType> {
     // endregion :: GameEventTags
 
     static Optional<GameEventTag> getById(@NotNull NamespacedKey key) {
-        return Loom.getRegistry().getTag(GameEventType.class, key);
+        return Registry.get().getTag(GameEventType.class, key);
     }
 }

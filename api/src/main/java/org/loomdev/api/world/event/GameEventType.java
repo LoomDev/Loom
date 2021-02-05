@@ -1,7 +1,7 @@
 package org.loomdev.api.world.event;
 
-import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.util.registry.Registry;
 
 public interface GameEventType extends Keyed {
 
@@ -56,7 +56,7 @@ public interface GameEventType extends Keyed {
     // endregion GameEvents
 
     static GameEventType getById(String key) {
-        return Loom.getRegistry().getWrapped(GameEventType.class, key);
+        return Registry.get().getWrapped(GameEventType.class, key);
     }
 
     int getNotificationRadius();

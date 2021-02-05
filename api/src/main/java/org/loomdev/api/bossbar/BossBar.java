@@ -2,11 +2,10 @@ package org.loomdev.api.bossbar;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.util.builder.BuilderBase;
+import org.loomdev.api.util.registry.Registry;
 
-import java.util.Collection;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -17,7 +16,7 @@ import java.util.stream.Stream;
 public interface BossBar {
 
     static Builder builder() {
-        return Loom.getRegistry().createBuilder(BossBar.class);
+        return Registry.get().createBuilder(BossBar.class);
     }
 
     @NotNull UUID getUUID();

@@ -1,8 +1,8 @@
 package org.loomdev.api.entity.decoration;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.util.registry.Registry;
 
 /**
  * Represents a painting entity.
@@ -61,7 +61,7 @@ public interface Painting extends HangingEntity {
          * @return The motive if found, otherwise null.
          */
         static Motive getById(String id) {
-            return Loom.getRegistry().getWrapped(Motive.class, id);
+            return Registry.get().getWrapped(Motive.class, id);
         }
 
         /**

@@ -12,7 +12,7 @@ public enum PermissionValue {
         this.booleanValue = booleanValue;
     }
 
-    boolean asBoolean() {
+    public boolean asBoolean() {
         return this.booleanValue;
     }
 }

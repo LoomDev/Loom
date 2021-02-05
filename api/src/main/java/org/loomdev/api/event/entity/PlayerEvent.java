@@ -61,7 +61,7 @@ public interface PlayerEvent extends Event {
              * @param message The sent message.
              * @return The formatted message.
              */
-            public Component apply(Component name, Component message);
+            Component apply(Component name, Component message);
         }
     }
 

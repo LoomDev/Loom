@@ -3,12 +3,12 @@ package org.loomdev.api.village;
 import com.google.common.collect.ImmutableSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.Loom;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.entity.npc.Villager;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.api.sound.SoundEvent;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.util.registry.Registry;
 import org.loomdev.api.world.poi.PointOfInterestType;
 
 /**
@@ -37,7 +37,7 @@ public interface VillagerProfession extends Keyed {
     // endregion :: VillagerProfessions
 
     static VillagerProfession getById(String id) {
-        return Loom.getRegistry().getWrapped(VillagerProfession.class, id);
+        return Registry.get().getWrapped(VillagerProfession.class, id);
     }
 
     @NotNull

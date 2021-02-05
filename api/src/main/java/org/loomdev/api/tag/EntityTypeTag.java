@@ -1,9 +1,9 @@
 package org.loomdev.api.tag;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.Loom;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.util.NamespacedKey;
+import org.loomdev.api.util.registry.Registry;
 
 import java.util.Optional;
 
@@ -21,6 +21,6 @@ public interface EntityTypeTag extends Tag<EntityType<?>> {
     // endregion :: EntityTypeTags
 
     static Optional<EntityTypeTag> getById(@NotNull NamespacedKey key) {
-        return Loom.getRegistry().getTag(EntityType.class, key);
+        return Registry.get().getTag(EntityType.class, key);
     }
 }

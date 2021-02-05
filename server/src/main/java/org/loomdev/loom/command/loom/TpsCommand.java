@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 public class TpsCommand extends Command {
 
     private static final DecimalFormat FORMAT = new DecimalFormat("########0.0");
-    private final Server server;
+    private final ServerImpl server;
 
     public TpsCommand(ServerImpl server) {
         super("tps", "mspt");

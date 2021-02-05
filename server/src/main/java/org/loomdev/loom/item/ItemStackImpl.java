@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.loomdev.api.Loom;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.ItemType;
@@ -35,7 +34,7 @@ public class ItemStackImpl implements ItemStack {
     @Override
     @NotNull
     public ItemType getType() {
-        var type = Loom.getRegistry().getWrapped(ItemType.class, Registry.ITEM.getKey(mcStack.getItem()).toString());
+        var type = org.loomdev.api.util.registry.Registry.get().getWrapped(ItemType.class, Registry.ITEM.getKey(mcStack.getItem()).toString());
         if (type == null) return ItemType.AIR;
         return type;
     }

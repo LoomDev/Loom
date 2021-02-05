@@ -1,7 +1,7 @@
 package org.loomdev.api.sound;
 
-import org.loomdev.api.Loom;
 import org.loomdev.api.util.registry.Keyed;
+import org.loomdev.api.util.registry.Registry;
 
 /**
  * Represents a sound event (a type of {@link Sound}).
@@ -1164,7 +1164,7 @@ public interface SoundEvent extends Keyed {
      * @return The sound event if found otherwise null.
      */
     static SoundEvent getById(String id) {
-        return Loom.getRegistry().getWrapped(SoundEvent.class, id);
+        return Registry.get().getWrapped(SoundEvent.class, id);
     }
 
 }

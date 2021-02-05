@@ -13,7 +13,7 @@
              this.dragonFight = null;
          }
  
-+        ((org.loomdev.loom.world.WorldManagerImpl) org.loomdev.api.Loom.getServer().getWorldManager()).registerWorld(getLoomWorld()); // Loom
++        ((org.loomdev.loom.world.WorldManagerImpl) org.loomdev.loom.server.ServerImpl.getInstance().getWorldManager()).registerWorld(getLoomWorld()); // Loom
      }
  
      public void setWeatherParameters(int i, int j, boolean flag, boolean flag1) {
