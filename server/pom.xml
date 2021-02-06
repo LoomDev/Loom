@@ -135,32 +135,6 @@
                                     </excludes>
                                 </filter>
                             </filters>
-                            <relocations>
-                                <relocation>
-                                    <pattern>jline</pattern>
-                                    <shadedPattern>org.loomdev.loom.lib.jline</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>it.unimi</pattern>
-                                    <shadedPattern>org.loomdev.loom.lib.it.unimi</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.apache.commons.codec</pattern>
-                                    <shadedPattern>org.loomdev.loom.lib.org.apache.commons.codec</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.apache.commons.io</pattern>
-                                    <shadedPattern>org.loomdev.loom.lib.org.apache.commons.io</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.apache.commons.lang3</pattern>
-                                    <shadedPattern>org.loomdev.loom.lib.org.apache.commons.lang3</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.objectweb.asm</pattern>
-                                    <shadedPattern>org.loomdev.loom.lib.org.objectweb.asm</shadedPattern>
-                                </relocation>
-                            </relocations>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>META-INF/services/java.sql.Driver</resource>
