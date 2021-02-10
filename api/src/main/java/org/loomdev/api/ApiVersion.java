@@ -25,7 +25,8 @@ public enum ApiVersion {
     v20w51A("20w51a", ReleaseType.SNAPSHOT),
     v21w03A("21w03a", ReleaseType.SNAPSHOT),
     v21w05A("21w05a", ReleaseType.SNAPSHOT),
-    v21w05B("21w05b", ReleaseType.SNAPSHOT);
+    v21w05B("21w05b", ReleaseType.SNAPSHOT),
+    v21w06A("21w06a", ReleaseType.SNAPSHOT);
 
     public static final ApiVersion LATEST = values()[ApiVersion.values().length - 1];
     public static final ApiVersion LATEST_SNAPSHOT = getLatestByType(ReleaseType.SNAPSHOT);
