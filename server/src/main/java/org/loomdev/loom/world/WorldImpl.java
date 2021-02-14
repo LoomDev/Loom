@@ -8,6 +8,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.LevelData;
+import net.minecraft.world.level.storage.ServerLevelData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.block.BlockPointer;
@@ -18,6 +20,7 @@ import org.loomdev.api.math.vector.Vector3i;
 import org.loomdev.api.particle.Particle;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.NamespacedKey;
+import org.loomdev.api.util.Weather;
 import org.loomdev.api.world.Chunk;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
@@ -130,6 +133,51 @@ public class WorldImpl implements World {
     public Stream<Player> getPlayers() {
         return getMinecraftWorld().players().stream()
                 .map(e -> (PlayerImpl) e.getLoomEntity());
+    }
+
+    @Override
+    @NotNull
+    public Weather getWeather() {
+        var levelData = getMinecraftWorld().getLevelData();
+
+        if (levelData.isThundering())
+            return Weather.THUNDER;
+
+        if (levelData.isRaining())
+            return Weather.RAIN;
+
+        return Weather.CLEAR;
+    }
+
+    @Override
+    public int getWeatherTime(@NotNull Weather weather) {
+        var levelData = (ServerLevelData) getMinecraftWorld().getLevelData();
+        switch (weather) {
+            case CLEAR:
+                return levelData.getClearWeatherTime();
+            case RAIN:
+                return levelData.getRainTime();
+            case THUNDER:
+                return levelData.getThunderTime();
+        }
+        return -1;
+    }
+
+    @Override
+    public void setWeather(@NotNull Weather weather) {
+        // 6000 is the default amount used in the vanilla weather command
+        setWeather(weather, 6000);
+    }
+
+    @Override
+    public void setWeather(@NotNull Weather weather, int ticks) {
+        var clearTicks = weather == Weather.CLEAR ? ticks : 0;
+        var weatherTicks = weather != Weather.CLEAR ? ticks : 0;
+        var rain = weather != Weather.CLEAR;
+        var thunder = weather == Weather.THUNDER;
+
+        var level = (ServerLevel) getMinecraftWorld();
+        level.setWeatherParameters(clearTicks, weatherTicks, rain, thunder);
     }
 
     @Override

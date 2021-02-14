@@ -11,6 +11,7 @@ import org.loomdev.api.math.vector.Vector3i;
 import org.loomdev.api.particle.Particle;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.NamespacedKey;
+import org.loomdev.api.util.Weather;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -47,6 +48,15 @@ public interface World { // TODO rename to Level???
     @NotNull
     Stream<Player> getPlayers();
 
+    @NotNull
+    Weather getWeather();
+
+    int getWeatherTime(@NotNull Weather weather);
+
+    void setWeather(@NotNull Weather weather);
+
+    void setWeather(@NotNull Weather weather, int ticks);
+
     long getTime();
 
     void setTime(long ticks);
@@ -60,7 +70,6 @@ public interface World { // TODO rename to Level???
     void setAbsoluteTime(long ticks);
 
     enum UpdateType {
-
         NOTIFY,
         OBSERVER_IGNORED,
         NO_PLACE // TODO figure out all possible update types

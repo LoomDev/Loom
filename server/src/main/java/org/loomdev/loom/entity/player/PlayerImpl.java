@@ -4,10 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.ChatType;
-import net.minecraft.network.protocol.game.ClientboundSetTitlesPacket;
-import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
-import net.minecraft.network.protocol.game.ClientboundTabListPacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -19,9 +16,11 @@ import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.math.MathHelper;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.GameMode;
+import org.loomdev.api.util.Weather;
 import org.loomdev.loom.entity.LivingEntityImpl;
 import org.loomdev.loom.server.ServerImpl;
 import org.loomdev.loom.util.transformer.TextTransformer;
+import org.loomdev.loom.world.WorldImpl;
 
 import java.net.InetSocketAddress;
 import java.util.Optional;
@@ -31,6 +30,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     private Component tabListName;
     private Component tabListHeader;
     private Component tabListFooter;
+    private Weather weather;
 
     public PlayerImpl(ServerPlayer entity) {
         super(entity);
@@ -231,5 +231,57 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     public void setGameMode(@NotNull GameMode gameMode) {
         getMinecraftEntity().setGameMode(GameType.byId(gameMode.ordinal()));
+    }
+
+    @Override
+    public @NotNull Optional<Weather> getWeather() {
+        return Optional.ofNullable(weather);
+    }
+
+    @Override
+    public void setWeather(@NotNull Weather weather) {
+        this.weather = weather;
+        this.updateWeather();
+    }
+
+    @Override
+    public void resetWeather() {
+        this.weather = null;
+
+        var world = getWorld();
+        var level = ((WorldImpl) world).getMinecraftWorld();
+
+        switch (world.getWeather()) {
+            case CLEAR:
+                getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.STOP_RAINING, 0f));
+                getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.THUNDER_LEVEL_CHANGE, 0f));
+                getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.RAIN_LEVEL_CHANGE, 0f));
+                break;
+            case THUNDER:
+                getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.THUNDER_LEVEL_CHANGE, level.getThunderLevel(1f)));
+            case RAIN:
+                getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.START_RAINING, 0f));
+                getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.RAIN_LEVEL_CHANGE, level.getRainLevel(1f)));
+                break;
+        }
+    }
+
+    private void updateWeather() {
+        if (this.weather == null)
+            return;
+
+        switch (this.weather) {
+            case CLEAR:
+                getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.STOP_RAINING, 0f));
+                getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.THUNDER_LEVEL_CHANGE, 0f));
+                getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.RAIN_LEVEL_CHANGE, 0f));
+                break;
+            case THUNDER:
+                getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.THUNDER_LEVEL_CHANGE, .5f)); // TODO? random level (between 0-1)?
+            case RAIN:
+                getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.START_RAINING, 0f));
+                getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.RAIN_LEVEL_CHANGE, .5f)); // TODO? random level (between 0-1)?
+                break;
+        }
     }
 }
