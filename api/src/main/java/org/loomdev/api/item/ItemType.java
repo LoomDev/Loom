@@ -1071,6 +1071,23 @@ public interface ItemType extends Keyed {
     ItemType WEATHERED_CUT_COPPER = getById("minecraft:weathered_cut_copper");
     ItemType WAXED_WEATHERED_COPPER = getById("minecraft:waxed_weathered_copper");
     ItemType COPPER_BLOCK = getById("minecraft:copper_block");
+    ItemType POLISHED_GRIMSTONE_WALL = getById("minecraft:polished_grimstone_wall");
+    ItemType POLISHED_GRIMSTONE = getById("minecraft:polished_grimstone");
+    ItemType GRIMSTONE_WALL = getById("minecraft:grimstone_wall");
+    ItemType GRIMSTONE_BRICK_STAIRS = getById("minecraft:grimstone_brick_stairs");
+    ItemType GRIMSTONE_BRICKS = getById("minecraft:grimstone_bricks");
+    ItemType GRIMSTONE_TILES = getById("minecraft:grimstone_tiles");
+    ItemType GRIMSTONE_TILE_STAIRS = getById("minecraft:grimstone_tile_stairs");
+    ItemType GRIMSTONE_BRICK_WALL = getById("minecraft:grimstone_brick_wall");
+    ItemType POLISHED_GRIMSTONE_STAIRS = getById("minecraft:polished_grimstone_stairs");
+    ItemType GRIMSTONE_TILE_SLAB = getById("minecraft:grimstone_tile_slab");
+    ItemType GRIMSTONE_SLAB = getById("minecraft:grimstone_slab");
+    ItemType POLISHED_GRIMSTONE_SLAB = getById("minecraft:polished_grimstone_slab");
+    ItemType CHISELED_GRIMSTONE = getById("minecraft:chiseled_grimstone");
+    ItemType GRIMSTONE = getById("minecraft:grimstone");
+    ItemType GRIMSTONE_BRICK_SLAB = getById("minecraft:grimstone_brick_slab");
+    ItemType GRIMSTONE_TILE_WALL = getById("minecraft:grimstone_tile_wall");
+    ItemType GRIMSTONE_STAIRS = getById("minecraft:grimstone_stairs");
 
     // endregion :: ItemTypes
 

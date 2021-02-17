@@ -65,6 +65,11 @@ public class PlayerEventImpl extends EventImpl implements PlayerEvent {
         public void setCanceled(boolean canceled) {
             this.canceled = canceled;
         }
+
+        @NotNull
+        public net.minecraft.network.chat.Component getMinecraftComponent() {
+            return TextTransformer.toMinecraft(getFormat().apply(getPlayer().getDisplayName(), getMessage()));
+        }
     }
 
     public static class JoinImpl extends PlayerEventImpl implements PlayerEvent.Join {

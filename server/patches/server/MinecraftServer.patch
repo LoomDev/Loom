@@ -157,7 +157,7 @@
          }, this).thenCompose((immutablelist) -> {
              return ServerResources.loadResources(immutablelist, this.registryHolder, this.isDedicatedServer() ? Commands.CommandSelection.DEDICATED : Commands.CommandSelection.INTEGRATED, this.getFunctionCompilationLevel(), this.executor, this);
          }).thenAcceptAsync((serverresources) -> {
-@@ -1741,6 +1769,7 @@
+@@ -1740,6 +1768,7 @@
          return null;
      }
  
@@ -165,7 +165,7 @@
      public void doRunTask(Runnable runnable) {
          this.doRunTask((TickTask) runnable);
      }
-@@ -1752,4 +1781,5 @@
+@@ -1751,4 +1780,5 @@
      public Runnable wrapRunnable(Runnable runnable) {
          return this.wrapRunnable(runnable);
      }

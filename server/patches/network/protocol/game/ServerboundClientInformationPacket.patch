@@ -9,8 +9,8 @@
      private ChatVisiblity chatVisibility;
      private boolean chatColors;
      private int modelCustomisation;
-@@ -56,7 +56,9 @@
-         return this.mainHand;
+@@ -63,7 +63,9 @@
+         return this.textFilteringEnabled;
      }
  
 +    /* // Loom start :: decompile error

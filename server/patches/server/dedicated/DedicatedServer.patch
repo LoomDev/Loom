@@ -10,7 +10,7 @@
 +        super(optionSet, thread, registryaccess_registryholder, levelstoragesource_levelstorageaccess, worlddata, packrepository, Proxy.NO_PROXY, datafixer, serverresources, minecraftsessionservice, gameprofilerepository, gameprofilecache, chunkprogresslistenerfactory); // Loom
          this.settings = dedicatedserversettings;
          this.rconConsoleSource = new RconConsoleSource(this);
-         this.textFilterClient = null;
+         this.textFilterClient = TextFilterClient.createFromConfig(dedicatedserversettings.getProperties().textFilteringConfig);
 @@ -84,7 +84,10 @@
      public boolean initServer() throws IOException {
          Thread thread = new Thread("Server console handler") {
@@ -45,7 +45,7 @@
              long j = Util.getNanos() - i;
              String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
  
-@@ -553,7 +559,9 @@
+@@ -552,7 +558,9 @@
          return this.settings.getProperties().forceGameMode ? this.worldData.getGameType() : null;
      }
  

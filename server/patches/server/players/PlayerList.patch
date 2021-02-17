@@ -14,23 +14,23 @@
          servergamepacketlistenerimpl.teleport(serverplayer.getX(), serverplayer.getY(), serverplayer.getZ(), serverplayer.yRot, serverplayer.xRot);
          this.players.add(serverplayer);
          this.playersByUUID.put(serverplayer.getUUID(), serverplayer);
-@@ -540,6 +545,7 @@
+@@ -544,6 +549,7 @@
+         while (iterator.hasNext()) {
+             ServerPlayer serverplayer = (ServerPlayer) iterator.next();
  
-     public void broadcastAll(Packet<?> packet) {
-         for (int i = 0; i < this.players.size(); ++i) {
-+            if (org.loomdev.loom.entity.player.PlayerPacketFilter.shouldSend(this.players.get(i), packet)) // Loom :: player packet filter
-             ((ServerPlayer) this.players.get(i)).connection.send(packet);
++            if (org.loomdev.loom.entity.player.PlayerPacketFilter.shouldSend(serverplayer, packet)) // Loom :: player packet filter
+             serverplayer.connection.send(packet);
          }
  
-@@ -550,6 +556,7 @@
-             ServerPlayer serverplayer = (ServerPlayer) this.players.get(i);
+@@ -556,6 +562,7 @@
+             ServerPlayer serverplayer = (ServerPlayer) iterator.next();
  
              if (serverplayer.level.dimension() == resourcekey) {
 +                if (org.loomdev.loom.entity.player.PlayerPacketFilter.shouldSend(serverplayer, packet)) // Loom :: player packet filter
                  serverplayer.connection.send(packet);
              }
          }
-@@ -621,7 +628,7 @@
+@@ -627,7 +634,7 @@
      }
  
      public void deop(GameProfile gameprofile) {

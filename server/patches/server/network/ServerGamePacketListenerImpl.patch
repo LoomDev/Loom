@@ -1,15 +1,6 @@
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -321,7 +321,7 @@
-         TextFilter textfilter = this.player.getTextFilter();
- 
-         if (textfilter != null) {
--            ((CompletableFuture) bifunction.apply(textfilter, t0)).thenAcceptAsync((optional) -> {
-+            (bifunction.apply(textfilter, t0)).thenAcceptAsync((optional) -> { // Loom :: decompile error
-                 optional.ifPresent(consumer1);
-             }, blockableeventloop);
-         } else {
-@@ -447,7 +447,7 @@
+@@ -435,7 +435,7 @@
  
      public void handleRecipeBookSeenRecipePacket(ServerboundRecipeBookSeenRecipePacket serverboundrecipebookseenrecipepacket) {
          PacketUtils.ensureRunningOnSameThread(serverboundrecipebookseenrecipepacket, this, this.player.getLevel());
@@ -18,18 +9,7 @@
          ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
  
          optional.ifPresent(serverrecipebook::removeHighlight);
-@@ -730,8 +730,8 @@
- 
-                 int i;
- 
--                for (i = 0; i < listtag.size(); ++i) {
--                    list.add(listtag.getString(i));
-+                for (int j = 0; j < listtag.size(); ++j) { // Loom :: decompile error
-+                    list.add(listtag.getString(j)); // Loom :: decompile error
-                 }
- 
-                 i = serverboundeditbookpacket.getSlot();
-@@ -1110,7 +1110,13 @@
+@@ -1122,7 +1122,13 @@
      public void onDisconnect(Component component) {
          ServerGamePacketListenerImpl.LOGGER.info("{} lost connection: {}", this.player.getName().getString(), component.getString());
          this.server.invalidateStatus();
@@ -43,21 +23,21 @@
 +        // Loom end
          this.player.disconnect();
          this.server.getPlayerList().remove(this.player);
-         TextFilter textfilter = this.player.getTextFilter();
-@@ -1199,9 +1205,15 @@
-             if (s.startsWith("/")) {
-                 this.handleCommand(s);
-             } else {
--                TranslatableComponent translatablecomponent = new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s});
-+                // Loom start :: fire PlayerEvent.Chat
-+                // TranslatableComponent translatablecomponent = new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s});
+         this.player.getTextFilter().leave();
+@@ -1198,9 +1204,17 @@
+                 TranslatableComponent translatablecomponent = s1.isEmpty() ? null : new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s1});
+                 TranslatableComponent translatablecomponent1 = new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s});
  
--                this.server.getPlayerList().broadcastMessage(translatablecomponent, ChatType.CHAT, this.player.getUUID());
++                // Loom start :: fire PlayerEvent.Chat
 +                org.loomdev.loom.event.LoomEventDispatcher.fireAsync(new org.loomdev.loom.event.entity.PlayerEventImpl.ChatImpl(player, net.kyori.adventure.text.Component.text(s))).thenAccept(event -> {
 +                    if (event.isCanceled() || event.getMessage().toString().length() == 0) return;
-+                    var message = org.loomdev.loom.util.transformer.TextTransformer.toMinecraft(event.getFormat().apply(player.getLoomEntity().getDisplayName(), event.getMessage()));
-+                    this.server.getPlayerList().broadcastMessage(message, ChatType.CHAT, this.player.getUUID());
++                    this.server.getPlayerList().broadcastMessage(event.getMinecraftComponent(), ChatType.CHAT, this.player.getUUID()); // TODO implement filtering
 +                });
++                /*
+                 this.server.getPlayerList().broadcastMessage(translatablecomponent1, (serverplayer) -> {
+                     return this.player.shouldFilterMessageTo(serverplayer) ? translatablecomponent : translatablecomponent1;
+                 }, ChatType.CHAT, this.player.getUUID());
++                 */
 +                // Loom end
              }
  
