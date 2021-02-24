@@ -142,9 +142,9 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void sendTitle(@NotNull Component title, @NotNull Component subtitle, int fadeIn, int stay, int fadeOut) {
-        getMinecraftEntity().connection.send(new ClientboundSetTitlesPacket(ClientboundSetTitlesPacket.Type.TIMES, null, fadeIn, stay, fadeOut));
-        getMinecraftEntity().connection.send(new ClientboundSetTitlesPacket(ClientboundSetTitlesPacket.Type.TITLE, TextTransformer.toMinecraft(title), 0, 0, 0));
-        getMinecraftEntity().connection.send(new ClientboundSetTitlesPacket(ClientboundSetTitlesPacket.Type.SUBTITLE, TextTransformer.toMinecraft(subtitle), 0, 0, 0));
+        getMinecraftEntity().connection.send(new ClientboundSetTitlesAnimationPacket(fadeIn, stay, fadeOut));
+        getMinecraftEntity().connection.send(new ClientboundSetTitleTextPacket(TextTransformer.toMinecraft(title)));
+        getMinecraftEntity().connection.send(new ClientboundSetSubtitleTextPacket(TextTransformer.toMinecraft(subtitle)));
     }
 
     @Override

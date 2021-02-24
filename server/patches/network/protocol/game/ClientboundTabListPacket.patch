@@ -1,8 +1,8 @@
 --- a/net/minecraft/network/protocol/game/ClientboundTabListPacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundTabListPacket.java
-@@ -13,6 +13,13 @@
- 
-     public ClientboundTabListPacket() {}
+@@ -15,6 +15,13 @@
+         this.footer = friendlybytebuf.readComponent();
+     }
  
 +    // Loom start :: (PlayerImpl)
 +    public ClientboundTabListPacket(Component header, Component footer) {
@@ -11,10 +11,10 @@
 +    }
 +    // Loom end
 +
-     public void read(FriendlyByteBuf friendlybytebuf) throws IOException {
-         this.header = friendlybytebuf.readComponent();
-         this.footer = friendlybytebuf.readComponent();
-@@ -27,7 +34,9 @@
+     public void write(FriendlyByteBuf friendlybytebuf) {
+         friendlybytebuf.writeComponent(this.header);
+         friendlybytebuf.writeComponent(this.footer);
+@@ -24,7 +31,9 @@
          clientgamepacketlistener.handleTabListCustomisation(this);
      }
  

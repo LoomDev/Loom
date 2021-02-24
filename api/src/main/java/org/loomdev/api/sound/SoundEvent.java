@@ -1154,6 +1154,26 @@ public interface SoundEvent extends Keyed {
     SoundEvent BLOCK_BIG_DRIPLEAF_FALL = getById("minecraft:block.big_dripleaf.fall");
     SoundEvent BLOCK_SPORE_BLOSSOM_FALL = getById("minecraft:block.spore_blossom.fall");
     SoundEvent BLOCK_CAVE_VINES_PICK_BERRIES = getById("minecraft:block.cave_vines.pick_berries");
+    SoundEvent BLOCK_DEEPSLATE_BRICKS_BREAK = getById("minecraft:block.deepslate_bricks.break");
+    SoundEvent BLOCK_DEEPSLATE_TILES_PLACE = getById("minecraft:block.deepslate_tiles.place");
+    SoundEvent BLOCK_DEEPSLATE_BRICKS_FALL = getById("minecraft:block.deepslate_bricks.fall");
+    SoundEvent BLOCK_POLISHED_DEEPSLATE_STEP = getById("minecraft:block.polished_deepslate.step");
+    SoundEvent BLOCK_DEEPSLATE_BRICKS_PLACE = getById("minecraft:block.deepslate_bricks.place");
+    SoundEvent BLOCK_DEEPSLATE_FALL = getById("minecraft:block.deepslate.fall");
+    SoundEvent BLOCK_DEEPSLATE_TILES_BREAK = getById("minecraft:block.deepslate_tiles.break");
+    SoundEvent BLOCK_DEEPSLATE_STEP = getById("minecraft:block.deepslate.step");
+    SoundEvent BLOCK_DEEPSLATE_TILES_FALL = getById("minecraft:block.deepslate_tiles.fall");
+    SoundEvent BLOCK_DEEPSLATE_TILES_HIT = getById("minecraft:block.deepslate_tiles.hit");
+    SoundEvent BLOCK_DEEPSLATE_HIT = getById("minecraft:block.deepslate.hit");
+    SoundEvent BLOCK_DEEPSLATE_TILES_STEP = getById("minecraft:block.deepslate_tiles.step");
+    SoundEvent BLOCK_POLISHED_DEEPSLATE_HIT = getById("minecraft:block.polished_deepslate.hit");
+    SoundEvent BLOCK_DEEPSLATE_PLACE = getById("minecraft:block.deepslate.place");
+    SoundEvent BLOCK_DEEPSLATE_BRICKS_STEP = getById("minecraft:block.deepslate_bricks.step");
+    SoundEvent BLOCK_POLISHED_DEEPSLATE_FALL = getById("minecraft:block.polished_deepslate.fall");
+    SoundEvent BLOCK_DEEPSLATE_BREAK = getById("minecraft:block.deepslate.break");
+    SoundEvent BLOCK_POLISHED_DEEPSLATE_PLACE = getById("minecraft:block.polished_deepslate.place");
+    SoundEvent BLOCK_DEEPSLATE_BRICKS_HIT = getById("minecraft:block.deepslate_bricks.hit");
+    SoundEvent BLOCK_POLISHED_DEEPSLATE_BREAK = getById("minecraft:block.polished_deepslate.break");
 
     // endregion SoundEvents
 

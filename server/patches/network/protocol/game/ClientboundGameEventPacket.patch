@@ -1,15 +1,15 @@
 --- a/net/minecraft/network/protocol/game/ClientboundGameEventPacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundGameEventPacket.java
-@@ -21,7 +21,7 @@
+@@ -20,7 +20,7 @@
      public static final ClientboundGameEventPacket.Type PUFFER_FISH_STING = new ClientboundGameEventPacket.Type(9);
      public static final ClientboundGameEventPacket.Type GUARDIAN_ELDER_EFFECT = new ClientboundGameEventPacket.Type(10);
      public static final ClientboundGameEventPacket.Type IMMEDIATE_RESPAWN = new ClientboundGameEventPacket.Type(11);
--    private ClientboundGameEventPacket.Type event;
-+    public ClientboundGameEventPacket.Type event; // Loom :: private -> public (PlayerPacketFilter)
-     private float param;
+-    private final ClientboundGameEventPacket.Type event;
++    public final ClientboundGameEventPacket.Type event; // Loom :: private -> public (PlayerPacketFilter)
+     private final float param;
  
-     public ClientboundGameEventPacket() {}
-@@ -45,9 +45,7 @@
+     public ClientboundGameEventPacket(ClientboundGameEventPacket.Type clientboundgameeventpacket_type, float f) {
+@@ -42,9 +42,7 @@
          clientgamepacketlistener.handleGameEvent(this);
      }
  

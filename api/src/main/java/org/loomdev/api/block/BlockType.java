@@ -867,23 +867,30 @@ public interface BlockType extends Keyed {
     BlockType WEATHERED_CUT_COPPER = getById("minecraft:weathered_cut_copper");
     BlockType WAXED_WEATHERED_COPPER = getById("minecraft:waxed_weathered_copper");
     BlockType COPPER_BLOCK = getById("minecraft:copper_block");
-    BlockType POLISHED_GRIMSTONE_WALL = getById("minecraft:polished_grimstone_wall");
-    BlockType POLISHED_GRIMSTONE = getById("minecraft:polished_grimstone");
-    BlockType GRIMSTONE_WALL = getById("minecraft:grimstone_wall");
-    BlockType GRIMSTONE_BRICK_STAIRS = getById("minecraft:grimstone_brick_stairs");
-    BlockType GRIMSTONE_TILES = getById("minecraft:grimstone_tiles");
-    BlockType GRIMSTONE_BRICKS = getById("minecraft:grimstone_bricks");
-    BlockType GRIMSTONE_TILE_STAIRS = getById("minecraft:grimstone_tile_stairs");
-    BlockType POLISHED_GRIMSTONE_STAIRS = getById("minecraft:polished_grimstone_stairs");
-    BlockType GRIMSTONE_TILE_SLAB = getById("minecraft:grimstone_tile_slab");
-    BlockType GRIMSTONE_BRICK_WALL = getById("minecraft:grimstone_brick_wall");
-    BlockType GRIMSTONE_SLAB = getById("minecraft:grimstone_slab");
-    BlockType POLISHED_GRIMSTONE_SLAB = getById("minecraft:polished_grimstone_slab");
-    BlockType CHISELED_GRIMSTONE = getById("minecraft:chiseled_grimstone");
-    BlockType GRIMSTONE = getById("minecraft:grimstone");
-    BlockType GRIMSTONE_BRICK_SLAB = getById("minecraft:grimstone_brick_slab");
-    BlockType GRIMSTONE_TILE_WALL = getById("minecraft:grimstone_tile_wall");
-    BlockType GRIMSTONE_STAIRS = getById("minecraft:grimstone_stairs");
+    BlockType POLISHED_DEEPSLATE_SLAB = getById("minecraft:polished_deepslate_slab");
+    BlockType DEEPSLATE_TILE_STAIRS = getById("minecraft:deepslate_tile_stairs");
+    BlockType DEEPSLATE_BRICK_WALL = getById("minecraft:deepslate_brick_wall");
+    BlockType COBBLED_DEEPSLATE_SLAB = getById("minecraft:cobbled_deepslate_slab");
+    BlockType CHISELED_DEEPSLATE = getById("minecraft:chiseled_deepslate");
+    BlockType DEEPSLATE = getById("minecraft:deepslate");
+    BlockType COBBLED_DEEPSLATE = getById("minecraft:cobbled_deepslate");
+    BlockType COBBLED_DEEPSLATE_STAIRS = getById("minecraft:cobbled_deepslate_stairs");
+    BlockType DEEPSLATE_REDSTONE_ORE = getById("minecraft:deepslate_redstone_ore");
+    BlockType DEEPSLATE_BRICK_STAIRS = getById("minecraft:deepslate_brick_stairs");
+    BlockType DEEPSLATE_TILE_WALL = getById("minecraft:deepslate_tile_wall");
+    BlockType POLISHED_DEEPSLATE_WALL = getById("minecraft:polished_deepslate_wall");
+    BlockType POLISHED_DEEPSLATE = getById("minecraft:polished_deepslate");
+    BlockType DEEPSLATE_TILES = getById("minecraft:deepslate_tiles");
+    BlockType DEEPSLATE_BRICK_SLAB = getById("minecraft:deepslate_brick_slab");
+    BlockType DEEPSLATE_IRON_ORE = getById("minecraft:deepslate_iron_ore");
+    BlockType DEEPSLATE_LAPIS_ORE = getById("minecraft:deepslate_lapis_ore");
+    BlockType COBBLED_DEEPSLATE_WALL = getById("minecraft:cobbled_deepslate_wall");
+    BlockType DEEPSLATE_DIAMOND_ORE = getById("minecraft:deepslate_diamond_ore");
+    BlockType DEEPSLATE_TILE_SLAB = getById("minecraft:deepslate_tile_slab");
+    BlockType SMOOTH_BASALT = getById("minecraft:smooth_basalt");
+    BlockType POLISHED_DEEPSLATE_STAIRS = getById("minecraft:polished_deepslate_stairs");
+    BlockType DEEPSLATE_BRICKS = getById("minecraft:deepslate_bricks");
+    BlockType DEEPSLATE_GOLD_ORE = getById("minecraft:deepslate_gold_ore");
 
     // endregion :: BlockTypes
 
