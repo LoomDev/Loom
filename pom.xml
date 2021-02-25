@@ -5,7 +5,7 @@
     <groupId>org.loomdev</groupId>
     <artifactId>loom-root</artifactId>
     <packaging>pom</packaging>
-    <version>21w08a</version>
+    <version>21w08b</version>
 
     <modules>
         <module>api</module>
