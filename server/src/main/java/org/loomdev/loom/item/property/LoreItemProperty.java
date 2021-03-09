@@ -17,13 +17,16 @@ import java.util.List;
 
 public class LoreItemProperty implements ItemProperty<LoreData> {
 
+    private static final String TAG_DISPLAY = "display";
+    private static final String TAG_LORE = "Lore";
+
     @Override
     public LoreData get(@NotNull ItemStack itemStack) {
         var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
-        var compoundtag = mcStack.getTagElement("display");
+        var compoundtag = mcStack.getTagElement(TAG_DISPLAY);
 
-        if (compoundtag != null && compoundtag.contains("Lore")) {
-            ListTag listTag = compoundtag.getList("Lore", 8); // 8 == StringTag as type
+        if (compoundtag != null && compoundtag.contains(TAG_LORE)) {
+            ListTag listTag = compoundtag.getList(TAG_LORE, 8); // 8 == StringTag as type
             List<Component> lore = new ArrayList<>();
 
             for (int index = 0; index < listTag.size(); index++) {
@@ -44,17 +47,17 @@ public class LoreItemProperty implements ItemProperty<LoreData> {
     @Override
     public void apply(@NotNull ItemStack itemStack, @NotNull LoreData loreData) {
         var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
-        var compoundTag = mcStack.getOrCreateTagElement("display");
+        var compoundTag = mcStack.getOrCreateTagElement(TAG_DISPLAY);
 
         if (loreData.getLore().isEmpty()) {
-            compoundTag.remove("Lore");
+            compoundTag.remove(TAG_LORE);
         } else {
             ListTag listTag = new ListTag();
             for (Component component : loreData.getLore()) {
                 listTag.add(StringTag.valueOf(GsonComponentSerializer.gson().serialize(component)));
             }
 
-            compoundTag.put("Lore", listTag);
+            compoundTag.put(TAG_LORE, listTag);
         }
     }
 

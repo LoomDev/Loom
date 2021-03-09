@@ -7,6 +7,7 @@ import org.loomdev.api.item.ItemType;
 import org.loomdev.api.item.property.data.*;
 import org.loomdev.api.util.registry.Registry;
 
+@SuppressWarnings("ConstantConditions")
 public interface ItemProperty<T extends ItemPropertyData<T>> {
 
     // region ItemProperties
@@ -15,30 +16,35 @@ public interface ItemProperty<T extends ItemPropertyData<T>> {
      * Change the name of an {@link ItemStack}.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
+    @NotNull
     ItemProperty<NameData> Name = Registry.get().getItemProperty(NameData.class);
 
     /**
      * Change the lore of an {@link ItemStack}.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
+    @NotNull
     ItemProperty<LoreData> Lore = Registry.get().getItemProperty(LoreData.class);
 
     /**
      * Modify the damage properties of an {@link ItemStack}.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
+    @NotNull
     ItemProperty<DamageData> Damage = Registry.get().getItemProperty(DamageData.class);
 
     /**
      * Add, remove, etc. enchantments of an {@link ItemStack}.
      * <p>Can be applied to all {@link ItemType}s.</p>
      */
+    @NotNull
     ItemProperty<EnchantmentData> Enchantments = Registry.get().getItemProperty(EnchantmentData.class);
 
     /**
      *  Get or modify the repair cost of an {@link ItemStack}.
      *  <p>Can be applied to all repairable Items</p>
      */
+    @NotNull
     ItemProperty<RepairableData> Repairable = Registry.get().getItemProperty(RepairableData.class);
 
     // banner

@@ -4,9 +4,12 @@ import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.EnchantedBookItem;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
+import org.loomdev.api.item.ItemType;
 import org.loomdev.api.item.property.ItemProperty;
 import org.loomdev.api.item.property.data.EnchantmentData;
 import org.loomdev.loom.item.ItemStackImpl;
@@ -21,6 +24,10 @@ public class EnchantmentsItemProperty implements ItemProperty<EnchantmentData> {
     public EnchantmentData get(@NotNull ItemStack itemStack) {
         var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
         ListTag listTag = mcStack.getEnchantmentTags();
+        if (itemStack.getType() == ItemType.ENCHANTED_BOOK) {
+            listTag = EnchantedBookItem.getEnchantments(mcStack);
+        }
+
         Map<Enchantment, Integer> enchants = new HashMap<>();
         listTag.forEach(tag -> {
             CompoundTag ct = (CompoundTag) tag;
@@ -34,12 +41,19 @@ public class EnchantmentsItemProperty implements ItemProperty<EnchantmentData> {
     @Override
     public void apply(@NotNull ItemStack itemStack, @NotNull EnchantmentData enchantmentData) {
         var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
-        CompoundTag compoundTag = mcStack.getOrCreateTag();
-        compoundTag.remove("Enchantments"); // remove all
+        if (itemStack.getType() == ItemType.ENCHANTED_BOOK) {
+            mcStack.removeTagKey("StoredEnchantments");
+        } else {
+            mcStack.removeTagKey("Enchantments");
+        }
 
         for (Map.Entry<Enchantment, Integer> enchantments : enchantmentData.getEnchantments().entrySet()) {
             var mcEnchantment = Registry.ENCHANTMENT.get(new ResourceLocation(enchantments.getKey().getKey().getKey()));
-            mcStack.enchant(mcEnchantment, enchantments.getValue());
+            if (itemStack.getType() == ItemType.ENCHANTED_BOOK) {
+                EnchantedBookItem.addEnchantment(mcStack, new EnchantmentInstance(mcEnchantment, enchantments.getValue()));
+            } else {
+                mcStack.enchant(mcEnchantment, enchantments.getValue());
+            }
         }
     }
 

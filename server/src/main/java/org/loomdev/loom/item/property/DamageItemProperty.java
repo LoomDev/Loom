@@ -10,11 +10,14 @@ import org.loomdev.loom.item.property.data.DamageDataImpl;
 
 public class DamageItemProperty implements ItemProperty<DamageData> {
 
+    private static final String TAG_DAMAGE = "Damage";
+    private static final String TAG_UNBREAKABLE = "Unbreakable";
+
     @Override
     public DamageData get(@NotNull ItemStack itemStack) {
         var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
         CompoundTag tag = mcStack.getTag();
-        boolean unbreakable = tag != null && tag.getBoolean("Unbreakable"); // Tag should never be null.
+        boolean unbreakable = tag != null && tag.getBoolean(TAG_UNBREAKABLE); // Tag should never be null.
         return new DamageDataImpl(mcStack.getDamageValue(), mcStack.getMaxDamage(), unbreakable);
     }
 
@@ -23,11 +26,17 @@ public class DamageItemProperty implements ItemProperty<DamageData> {
         var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
         CompoundTag compoundTag = mcStack.getOrCreateTag();
 
-        mcStack.setDamageValue(damageData.getDamage());
+
+        if (damageData.getDamage() > 0) {
+            mcStack.setDamageValue(damageData.getDamage());
+        } else {
+            mcStack.removeTagKey(TAG_DAMAGE);
+        }
+
         if (damageData.isUnbreakable()) {
-            mcStack.getOrCreateTag().putBoolean("Unbreakable", true);
-        } else if (compoundTag.contains("Unbreakable")) {
-            compoundTag.remove("Unbreakable");
+            mcStack.getOrCreateTag().putBoolean(TAG_UNBREAKABLE, true);
+        } else {
+            mcStack.removeTagKey(TAG_UNBREAKABLE);
         }
     }
 

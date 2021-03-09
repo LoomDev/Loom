@@ -12,17 +12,16 @@ import org.loomdev.loom.util.nbt.NbtType;
 
 public class RepairableItemProperty implements ItemProperty<RepairableData> {
 
-    private static final String REPAIR_COST = "RepairCost";
+    private static final String TAG_REPAIR_COST = "RepairCost";
 
     @Override
     public @Nullable RepairableData get(@NotNull ItemStack itemStack) {
         var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
-
         CompoundTag tag = mcStack.getTag();
-        if (tag == null || !tag.contains(REPAIR_COST, NbtType.INT)) {
-            return new RepairableDataImpl(0);
-        }
 
+        if (tag == null || !tag.contains(TAG_REPAIR_COST, NbtType.INT)) {
+            return new RepairableDataImpl();
+        }
         return new RepairableDataImpl(mcStack.getBaseRepairCost());
     }
 
@@ -30,7 +29,9 @@ public class RepairableItemProperty implements ItemProperty<RepairableData> {
     public void apply(@NotNull ItemStack itemStack, @NotNull RepairableData repairableData) {
         var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
 
-        if (repairableData.hasRepairCost()) {
+        if (!repairableData.hasRepairCost()) {
+            mcStack.removeTagKey(TAG_REPAIR_COST);
+        } else {
             mcStack.setRepairCost(repairableData.getRepairCost());
         }
     }

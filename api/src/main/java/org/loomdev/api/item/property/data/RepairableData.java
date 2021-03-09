@@ -6,6 +6,8 @@ public interface RepairableData extends ItemPropertyData<RepairableData> {
 
     void setRepairCost(int cost);
 
+    void clearRepairCost();
+
     boolean hasRepairCost();
 
 }

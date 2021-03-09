@@ -21,6 +21,7 @@ import org.loomdev.api.plugin.exception.IllegalPluginStateException;
 import org.loomdev.api.plugin.metadata.PluginMetadata;
 import org.loomdev.loom.Loom;
 import org.loomdev.loom.command.loom.PluginsCommand;
+import org.loomdev.loom.command.loom.TestCommand;
 import org.loomdev.loom.command.loom.TpsCommand;
 import org.loomdev.loom.command.loom.VersionCommand;
 import org.loomdev.loom.server.ServerImpl;
@@ -43,6 +44,7 @@ public class CommandManagerImpl {
         register(Loom.LOOM_PLUGIN.getId(), new PluginsCommand(server.getPluginManager()));
         register(Loom.LOOM_PLUGIN.getId(), new TpsCommand(server));
         register(Loom.LOOM_PLUGIN.getId(), new VersionCommand(server));
+        register(Loom.LOOM_PLUGIN.getId(), new TestCommand());
     }
 
     @NotNull

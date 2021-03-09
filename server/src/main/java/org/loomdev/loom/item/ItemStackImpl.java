@@ -79,6 +79,7 @@ public class ItemStackImpl implements ItemStack {
     @Override
     public <T extends ItemPropertyData<T>> void setProperty(@NotNull ItemProperty<T> itemProperty, @NotNull T data) {
         itemProperty.apply(this, data);
+        // TODO check if nbt tag is empty, if so remove it?
     }
 
     @Override

@@ -2,6 +2,7 @@ package org.loomdev.loom.item.property.data;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.item.property.data.LoreData;
 
 import java.util.ArrayList;
@@ -26,7 +27,10 @@ public class LoreDataImpl implements LoreData {
     }
 
     @Override
-    public void setLore(@NotNull List<Component> lore) {
+    public void setLore(@Nullable List<Component> lore) {
+        if (lore == null) {
+            lore = new ArrayList<>();
+        }
         this.lore = lore;
     }
 
@@ -40,5 +44,10 @@ public class LoreDataImpl implements LoreData {
         if (index >= 0 && index < lore.size()) {
             lore.remove(index);
         }
+    }
+
+    @Override
+    public void removeLore() {
+        this.lore.clear();
     }
 }

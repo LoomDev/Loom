@@ -3,6 +3,7 @@ package org.loomdev.api.item.property.data;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.item.ItemStack;
 
 import java.util.Arrays;
@@ -25,7 +26,7 @@ public interface LoreData extends ItemPropertyData<LoreData> {
      *
      * @param components The new lore of the {@link ItemStack}.
      */
-    void setLore(@NotNull List<Component> components);
+    void setLore(@Nullable List<Component> components);
 
     /**
      * Append extra lore to the current lore.
@@ -49,4 +50,9 @@ public interface LoreData extends ItemPropertyData<LoreData> {
      * @param lineIndex The index of the line th remove.
      */
     void removeLoreLine(int lineIndex);
+
+    /**
+     * Remove all lore.
+     */
+    void removeLore();
 }
