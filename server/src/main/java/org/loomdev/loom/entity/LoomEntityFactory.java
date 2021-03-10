@@ -42,10 +42,7 @@ import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
-import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraft.world.entity.decoration.ItemFrame;
-import net.minecraft.world.entity.decoration.LeashFenceKnotEntity;
-import net.minecraft.world.entity.decoration.Painting;
+import net.minecraft.world.entity.decoration.*;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
@@ -345,6 +342,7 @@ public final class LoomEntityFactory {
         register(ZombifiedPiglin.class, ZombifiedPiglinImpl.class);
         register(ServerPlayer.class, PlayerImpl.class);
         register(GlowSquid.class, GlowSquidImpl.class);
+        register(GlowItemFrame.class, GlowItemFrameImpl.class);
     }
 
     private static void register(Class<? extends Entity> mcClass, Class<? extends EntityImpl> loomClass) {
