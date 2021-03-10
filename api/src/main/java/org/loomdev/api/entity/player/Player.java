@@ -57,8 +57,6 @@ public interface Player extends LivingEntity {
      */
     int getViewDistance();
 
-    void updateInventory();
-
     /**
      * Sends an action bar to the player that will appear above the hotbar.
      *

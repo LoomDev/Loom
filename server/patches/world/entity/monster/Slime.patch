@@ -9,7 +9,7 @@
      public float targetSquish;
      public float squish;
      public float oSquish;
-@@ -178,9 +178,11 @@
+@@ -174,9 +174,11 @@
          super.onSyncedDataUpdated(entitydataaccessor);
      }
  

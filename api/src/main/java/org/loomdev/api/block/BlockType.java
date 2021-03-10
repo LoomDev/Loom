@@ -891,6 +891,13 @@ public interface BlockType extends Keyed {
     BlockType POLISHED_DEEPSLATE_STAIRS = getById("minecraft:polished_deepslate_stairs");
     BlockType DEEPSLATE_BRICKS = getById("minecraft:deepslate_bricks");
     BlockType DEEPSLATE_GOLD_ORE = getById("minecraft:deepslate_gold_ore");
+    BlockType CRACKED_DEEPSLATE_BRICKS = getById("minecraft:cracked_deepslate_bricks");
+    BlockType CRACKED_DEEPSLATE_TILES = getById("minecraft:cracked_deepslate_tiles");
+    BlockType DEEPSLATE_COAL_ORE = getById("minecraft:deepslate_coal_ore");
+    BlockType DEEPSLATE_COPPER_ORE = getById("minecraft:deepslate_copper_ore");
+    BlockType INFESTED_DEEPSLATE = getById("minecraft:infested_deepslate");
+    BlockType DEEPSLATE_EMERALD_ORE = getById("minecraft:deepslate_emerald_ore");
+
 
     // endregion :: BlockTypes
 

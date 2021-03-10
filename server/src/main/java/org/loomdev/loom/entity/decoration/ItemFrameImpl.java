@@ -1,5 +1,6 @@
 package org.loomdev.loom.entity.decoration;
 
+import net.minecraft.world.entity.decoration.GlowItemFrame;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.ItemFrame;
@@ -14,7 +15,7 @@ public class ItemFrameImpl extends AbstractHangingEntityImpl implements ItemFram
 
     @Override
     @NotNull
-    public EntityType<ItemFrame> getType() {
+    public EntityType<? extends ItemFrame> getType() {
         return EntityType.ITEM_FRAME;
     }
 
@@ -67,6 +68,6 @@ public class ItemFrameImpl extends AbstractHangingEntityImpl implements ItemFram
 
     @Override
     public boolean isGlowFrame() {
-        return getMinecraftEntity().isGlowFrame();
+        return getMinecraftEntity() instanceof GlowItemFrame;
     }
 }

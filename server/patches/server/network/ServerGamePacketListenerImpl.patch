@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -436,7 +436,7 @@
+@@ -432,7 +432,7 @@
  
      public void handleRecipeBookSeenRecipePacket(ServerboundRecipeBookSeenRecipePacket serverboundrecipebookseenrecipepacket) {
          PacketUtils.ensureRunningOnSameThread(serverboundrecipebookseenrecipepacket, this, this.player.getLevel());
@@ -9,7 +9,7 @@
          ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
  
          optional.ifPresent(serverrecipebook::removeHighlight);
-@@ -1123,7 +1123,13 @@
+@@ -1119,7 +1119,13 @@
      public void onDisconnect(Component component) {
          ServerGamePacketListenerImpl.LOGGER.info("{} lost connection: {}", this.player.getName().getString(), component.getString());
          this.server.invalidateStatus();
@@ -24,7 +24,7 @@
          this.player.disconnect();
          this.server.getPlayerList().remove(this.player);
          this.player.getTextFilter().leave();
-@@ -1199,9 +1205,17 @@
+@@ -1195,9 +1201,17 @@
                  TranslatableComponent translatablecomponent = s1.isEmpty() ? null : new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s1});
                  TranslatableComponent translatablecomponent1 = new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s});
  

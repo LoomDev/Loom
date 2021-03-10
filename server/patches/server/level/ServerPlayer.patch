@@ -1,14 +1,14 @@
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -139,6 +139,7 @@
+@@ -141,6 +141,7 @@
  
- public class ServerPlayer extends Player implements ContainerListener {
+ public class ServerPlayer extends Player {
  
 +    public java.util.OptionalInt viewDistance = java.util.OptionalInt.empty(); // Loom
      private static final Logger LOGGER = LogManager.getLogger();
      public ServerGamePacketListenerImpl connection;
      public final MinecraftServer server;
-@@ -314,7 +315,7 @@
+@@ -360,7 +361,7 @@
              compoundtag.putInt("SpawnZ", this.respawnPosition.getZ());
              compoundtag.putBoolean("SpawnForced", this.respawnForced);
              compoundtag.putFloat("SpawnAngle", this.respawnAngle);
@@ -17,7 +17,7 @@
              Logger logger = ServerPlayer.LOGGER;
  
              logger.getClass();
-@@ -1265,6 +1266,7 @@
+@@ -1287,6 +1288,7 @@
          this.textFilteringEnabled = serverboundclientinformationpacket.isTextFilteringEnabled();
          this.getEntityData().set(ServerPlayer.DATA_PLAYER_MODE_CUSTOMISATION, (byte) serverboundclientinformationpacket.getModelCustomisation());
          this.getEntityData().set(ServerPlayer.DATA_PLAYER_MAIN_HAND, (byte) (serverboundclientinformationpacket.getMainHand() == HumanoidArm.LEFT ? 0 : 1));
@@ -25,7 +25,7 @@
      }
  
      public ChatVisiblity getChatVisibility() {
-@@ -1363,7 +1365,7 @@
+@@ -1385,7 +1387,7 @@
  
      @Nullable
      public Component getTabListDisplayName() {

@@ -1,7 +1,7 @@
 --- a/net/minecraft/world/entity/GlowSquid.java
 +++ b/net/minecraft/world/entity/GlowSquid.java
-@@ -75,7 +75,7 @@
-         return false;
+@@ -76,7 +76,7 @@
+         return flag;
      }
  
 -    private void setDarkTicks(int i) {

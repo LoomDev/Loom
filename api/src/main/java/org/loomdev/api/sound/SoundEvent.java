@@ -1174,6 +1174,11 @@ public interface SoundEvent extends Keyed {
     SoundEvent BLOCK_POLISHED_DEEPSLATE_PLACE = getById("minecraft:block.polished_deepslate.place");
     SoundEvent BLOCK_DEEPSLATE_BRICKS_HIT = getById("minecraft:block.deepslate_bricks.hit");
     SoundEvent BLOCK_POLISHED_DEEPSLATE_BREAK = getById("minecraft:block.polished_deepslate.break");
+    SoundEvent ENTITY_GLOW_ITEM_FRAME_REMOVE_ITEM = getById("minecraft:entity.glow_item_frame.remove_item");
+    SoundEvent ENTITY_GLOW_ITEM_FRAME_PLACE = getById("minecraft:entity.glow_item_frame.place");
+    SoundEvent ENTITY_GLOW_ITEM_FRAME_ADD_ITEM = getById("minecraft:entity.glow_item_frame.add_item");
+    SoundEvent ENTITY_GLOW_ITEM_FRAME_ROTATE_ITEM = getById("minecraft:entity.glow_item_frame.rotate_item");
+    SoundEvent ENTITY_GLOW_ITEM_FRAME_BREAK = getById("minecraft:entity.glow_item_frame.break");
 
     // endregion SoundEvents
 

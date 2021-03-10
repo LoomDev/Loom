@@ -101,11 +101,6 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public void updateInventory() {
-        getMinecraftEntity().refreshContainer(getMinecraftEntity().containerMenu);
-    }
-
-    @Override
     public void sendActionBar(@NotNull String message) {
         sendActionBar(Component.text(message));
     }
