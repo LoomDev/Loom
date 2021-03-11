@@ -13,6 +13,9 @@ import org.loomdev.loom.util.transformer.TextTransformer;
 
 public class NameItemProperty implements ItemProperty<NameData> {
 
+    private static final String TAG_DISPLAY = "display";
+    private static final String TAG_NAME = "Name";
+
     @Override
     public NameData get(@NotNull ItemStack itemStack) {
         var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
@@ -20,9 +23,9 @@ public class NameItemProperty implements ItemProperty<NameData> {
         Component customName = null;
         Component hoverText = TextTransformer.toLoom(mcStack.getHoverName());
 
-        CompoundTag displayTag = mcStack.getTagElement("display");
-        if (displayTag != null && displayTag.contains("Name", 8)) {
-            customName = GsonComponentSerializer.gson().deserialize(displayTag.getString("Name"));
+        CompoundTag displayTag = mcStack.getTagElement(TAG_DISPLAY);
+        if (displayTag != null && displayTag.contains(TAG_NAME, 8)) {
+            customName = GsonComponentSerializer.gson().deserialize(displayTag.getString(TAG_NAME));
         }
 
         return new NameDataImpl(itemName, customName, hoverText);
