@@ -47,6 +47,9 @@ public interface ItemProperty<T extends ItemPropertyData<T>> {
     @NotNull
     ItemProperty<RepairableData> Repairable = Registry.get().getItemProperty(RepairableData.class);
 
+    @NotNull
+    ItemProperty<LeatherDyeData> LeatherDye = Registry.get().getItemProperty(LeatherDyeData.class);
+
     // banner
     // block data
     // block state

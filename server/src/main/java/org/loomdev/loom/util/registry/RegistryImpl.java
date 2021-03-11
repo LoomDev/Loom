@@ -85,6 +85,7 @@ public class RegistryImpl extends Registry {
         this.registerItemProperty(DamageData.class, DamageItemProperty::new);
         this.registerItemProperty(EnchantmentData.class, EnchantmentsItemProperty::new);
         this.registerItemProperty(RepairableData.class, RepairableItemProperty::new);
+        this.registerItemProperty(LeatherDyeData.class, LeatherDyeProperty::new);
     }
 
     private void initBuilders() {

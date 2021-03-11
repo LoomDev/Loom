@@ -60,7 +60,7 @@ public class Color {
     }
 
     public int asRgb() {
-        return getRed() << 16 | getGreen() << 8 | getBlue() << 0;
+        return getRed() << 16 | getGreen() << 8 | getBlue();
     }
 
     public String asHex() {
