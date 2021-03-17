@@ -1,15 +1,15 @@
 --- a/net/minecraft/world/level/block/ChangeOverTimeBlock.java
 +++ b/net/minecraft/world/level/block/ChangeOverTimeBlock.java
-@@ -65,7 +65,11 @@
-         float f1 = f * f * this.getChanceModifier();
+@@ -67,7 +67,11 @@
  
          if (random.nextFloat() < f1) {
--            serverlevel.setBlockAndUpdate(blockpos, this.getChangeTo(blockstate));
-+            // Loom start :: fire BlockEvent.ChangeOverTime
-+            var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.BlockEventImpl.ChangeOverTimeImpl(serverlevel, blockpos, getChangeTo(blockstate)));
-+            if (event.isCanceled()) return;
-+            serverlevel.setBlockAndUpdate(blockpos, event.getMinecraftState());
-+            // Loom end
+             this.getNext(blockstate).ifPresent((blockstate2) -> {
+-                serverlevel.setBlockAndUpdate(blockpos, blockstate2);
++                // Loom start :: fire BlockEvent.ChangeOverTime
++                var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.BlockEventImpl.ChangeOverTimeImpl(serverlevel, blockpos, blockstate2));
++                if (event.isCanceled()) return;
++                serverlevel.setBlockAndUpdate(blockpos, event.getMinecraftState());
++                // Loom end
+             });
          }
  
-     }

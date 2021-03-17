@@ -25,7 +25,7 @@
      public float walkDistO;
      public float walkDist;
      public float moveDist;
-@@ -166,7 +175,7 @@
+@@ -165,7 +174,7 @@
      protected Tag<Fluid> fluidOnEyes;
      public int invulnerableTime;
      protected boolean firstTick;
@@ -34,7 +34,7 @@
      protected static final EntityDataAccessor<Byte> DATA_SHARED_FLAGS_ID = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.BYTE);
      private static final EntityDataAccessor<Integer> DATA_AIR_SUPPLY_ID = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.INT);
      private static final EntityDataAccessor<Optional<Component>> DATA_CUSTOM_NAME = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.OPTIONAL_COMPONENT);
-@@ -179,7 +188,7 @@
+@@ -178,7 +187,7 @@
      private Vec3 packetCoordinates;
      public boolean noCulling;
      public boolean hasImpulse;
@@ -43,7 +43,7 @@
      protected boolean isInsidePortal;
      protected int portalTime;
      protected BlockPos portalEntrancePos;
-@@ -197,6 +206,7 @@
+@@ -196,6 +205,7 @@
      public boolean wasOnFire;
      private float crystalSoundIntensity;
      private int lastCrystalSoundPlayTick;
@@ -51,7 +51,7 @@
  
      public Entity(EntityType<?> entitytype, Level level) {
          this.id = Entity.ENTITY_COUNTER.incrementAndGet();
-@@ -478,7 +488,7 @@
+@@ -477,7 +487,7 @@
          this.setRemainingFireTicks(0);
      }
  
@@ -60,7 +60,7 @@
          this.discard();
      }
  
-@@ -931,7 +941,7 @@
+@@ -930,7 +940,7 @@
  
      protected void onFlap() {}
  
@@ -69,7 +69,7 @@
          return false;
      }
  
-@@ -983,7 +993,7 @@
+@@ -982,7 +992,7 @@
      }
  
      public boolean fireImmune() {
@@ -78,7 +78,7 @@
      }
  
      public boolean causeFallDamage(float f, float f1, DamageSource damagesource) {
-@@ -2271,7 +2281,7 @@
+@@ -2268,7 +2278,7 @@
                      }
  
                      return PortalShape.createPortalInfo(serverlevel, blockutil_foundrectangle, direction_axis, vec3, this.getDimensions(this.getPose()), this.getDeltaMovement(), this.yRot, this.xRot);

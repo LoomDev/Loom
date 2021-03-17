@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/LightningBolt.java
 +++ b/net/minecraft/world/entity/LightningBolt.java
-@@ -29,9 +29,9 @@
+@@ -33,9 +33,9 @@
      private int life;
      public long seed;
      private int flashes;
@@ -12,7 +12,7 @@
  
      public LightningBolt(EntityType<? extends LightningBolt> entitytype, Level level) {
          super(entitytype, level);
-@@ -118,6 +118,7 @@
+@@ -123,6 +123,7 @@
              BlockState blockstate = BaseFireBlock.getState(this.level, blockpos);
  
              if (this.level.getBlockState(blockpos).isAir() && blockstate.canSurvive(this.level, blockpos)) {
@@ -20,7 +20,7 @@
                  this.level.setBlockAndUpdate(blockpos, blockstate);
              }
  
-@@ -126,6 +127,7 @@
+@@ -131,6 +132,7 @@
  
                  blockstate = BaseFireBlock.getState(this.level, blockpos1);
                  if (this.level.getBlockState(blockpos1).isAir() && blockstate.canSurvive(this.level, blockpos1)) {
@@ -28,3 +28,14 @@
                      this.level.setBlockAndUpdate(blockpos1, blockstate);
                  }
              }
+@@ -195,8 +197,9 @@
+             blockstate = level.getBlockState(blockpos1);
+         } while (!(blockstate.getBlock() instanceof WeatheringCopper));
+ 
++        final BlockPos finalPos = blockpos1; // Loom - decompile error
+         WeatheringCopper.getPrevious(blockstate).ifPresent((blockstate1) -> {
+-            level.setBlockAndUpdate(blockpos1, blockstate1);
++            level.setBlockAndUpdate(finalPos, blockstate1); // Loom - decompile error
+         });
+         level.levelEvent(3002, blockpos1, -1);
+         return Optional.of(blockpos1);

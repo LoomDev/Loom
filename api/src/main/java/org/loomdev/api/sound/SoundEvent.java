@@ -1179,6 +1179,9 @@ public interface SoundEvent extends Keyed {
     SoundEvent ENTITY_GLOW_ITEM_FRAME_ADD_ITEM = getById("minecraft:entity.glow_item_frame.add_item");
     SoundEvent ENTITY_GLOW_ITEM_FRAME_ROTATE_ITEM = getById("minecraft:entity.glow_item_frame.rotate_item");
     SoundEvent ENTITY_GLOW_ITEM_FRAME_BREAK = getById("minecraft:entity.glow_item_frame.break");
+    SoundEvent ITEM_AXE_WAX_OFF = getById("minecraft:item.axe.wax_off");
+    SoundEvent ITEM_HONEYCOMB_WAX_ON = getById("minecraft:item.honeycomb.wax_on");
+    SoundEvent ITEM_AXE_SCRAPE = getById("minecraft:item.axe.scrape");
 
     // endregion SoundEvents
 

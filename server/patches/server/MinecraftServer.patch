@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -220,6 +220,10 @@
+@@ -221,6 +221,10 @@
      private ServerResources resources;
      private final StructureManager structureManager;
      protected final WorldData worldData;
@@ -11,7 +11,7 @@
  
      public static <S extends MinecraftServer> S spin(Function<Thread, S> function) {
          AtomicReference<S> atomicreference = new AtomicReference();
-@@ -230,14 +234,14 @@
+@@ -231,14 +235,14 @@
          thread.setUncaughtExceptionHandler((thread1, throwable) -> {
              MinecraftServer.LOGGER.error(throwable);
          });
@@ -28,7 +28,7 @@
          super("Server");
          this.continousProfiler = new ContinuousProfiler(Util.timeSource, this::getTickCount);
          this.profiler = InactiveProfiler.INSTANCE;
-@@ -270,6 +274,7 @@
+@@ -271,6 +275,7 @@
          this.structureManager = new StructureManager(serverresources.getResourceManager(), levelstoragesource_levelstorageaccess, datafixer);
          this.serverThread = thread;
          this.executor = Util.backgroundExecutor();
@@ -36,7 +36,7 @@
      }
  
      private void readScoreboard(DimensionDataStorage dimensiondatastorage) {
-@@ -575,6 +580,7 @@
+@@ -576,6 +581,7 @@
      }
  
      protected void stopServer() {
@@ -44,7 +44,7 @@
          MinecraftServer.LOGGER.info("Stopping server");
          if (this.getConnection() != null) {
              this.getConnection().stop();
-@@ -624,6 +630,12 @@
+@@ -625,6 +631,12 @@
              MinecraftServer.LOGGER.error("Failed to unlock level {}", this.storageSource.getLevelId(), ioexception1);
          }
  
@@ -57,7 +57,7 @@
      }
  
      public String getLocalIp() {
-@@ -658,10 +670,13 @@
+@@ -659,10 +671,13 @@
                  this.status.setVersion(new ServerStatus.Version(SharedConstants.getCurrentVersion().getName(), SharedConstants.getCurrentVersion().getProtocolVersion()));
                  this.updateStatusIcon(this.status);
  
@@ -73,7 +73,7 @@
                          long j = i / 50L;
  
                          MinecraftServer.LOGGER.warn("Can't keep up! Is the server overloaded? Running {}ms or {} ticks behind", i, j);
-@@ -669,6 +684,14 @@
+@@ -670,6 +685,14 @@
                          this.lastOverloadWarning = this.nextTickTime;
                      }
  
@@ -88,7 +88,7 @@
                      this.nextTickTime += 50L;
                      SingleTickProfiler singletickprofiler = SingleTickProfiler.createTickProfiler("Server");
  
-@@ -812,6 +835,7 @@
+@@ -813,6 +836,7 @@
          long i = Util.getNanos();
  
          ++this.tickCount;
@@ -96,7 +96,7 @@
          this.tickChildren(booleansupplier);
          if (i - this.lastServerStatus >= 5000000000L) {
              this.lastServerStatus = i;
-@@ -846,17 +870,20 @@
+@@ -847,17 +871,20 @@
          }
  
          this.profiler.pop();
@@ -117,7 +117,7 @@
          this.profiler.push("commandFunctions");
          this.getFunctions().tick();
          this.profiler.popPush("levels");
-@@ -877,6 +904,7 @@
+@@ -878,6 +905,7 @@
              this.profiler.push("tick");
  
              try {
@@ -125,7 +125,7 @@
                  serverlevel.tick(booleansupplier);
              } catch (Throwable throwable) {
                  CrashReport crashreport = CrashReport.forThrowable(throwable, "Exception ticking world");
-@@ -956,7 +984,7 @@
+@@ -957,7 +985,7 @@
      }
  
      public String getServerModName() {
@@ -134,7 +134,7 @@
      }
  
      public CrashReport fillReport(CrashReport crashreport) {
-@@ -997,7 +1025,7 @@
+@@ -998,7 +1026,7 @@
      public abstract Optional<String> getModdedStatus();
  
      public void sendMessage(Component component, UUID uuid) {
@@ -143,7 +143,7 @@
      }
  
      public KeyPair getKeyPair() {
-@@ -1295,11 +1323,11 @@
+@@ -1296,11 +1324,11 @@
  
      public CompletableFuture<Void> reloadResources(Collection<String> collection) {
          CompletableFuture<Void> completablefuture = CompletableFuture.supplyAsync(() -> {
@@ -157,15 +157,15 @@
          }, this).thenCompose((immutablelist) -> {
              return ServerResources.loadResources(immutablelist, this.registryHolder, this.isDedicatedServer() ? Commands.CommandSelection.DEDICATED : Commands.CommandSelection.INTEGRATED, this.getFunctionCompilationLevel(), this.executor, this);
          }).thenAcceptAsync((serverresources) -> {
-@@ -1740,6 +1768,7 @@
-         return null;
+@@ -1745,6 +1773,7 @@
+         return this.resources.getResourceManager();
      }
  
 +    /* // Loom start :: decompile error
      public void doRunTask(Runnable runnable) {
          this.doRunTask((TickTask) runnable);
      }
-@@ -1751,4 +1780,5 @@
+@@ -1756,4 +1785,5 @@
      public Runnable wrapRunnable(Runnable runnable) {
          return this.wrapRunnable(runnable);
      }
