@@ -36,6 +36,15 @@ public class InternalPluginManager {
         this.scanner = new PluginScanner(pluginFolder);
 
         this.plugins = new PluginList();
+
+        var pluginFolderFile = pluginFolder.toFile();
+        if (!pluginFolderFile.exists()) {
+            var success = pluginFolderFile.mkdirs();
+            if (!success) {
+                LOGGER.error("Unable to create plugin folder. ({})", pluginFolder.getFileName());
+                server.halt();
+            }
+        }
     }
 
     public void loadOnServerStart() {

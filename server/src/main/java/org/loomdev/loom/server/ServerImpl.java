@@ -175,4 +175,8 @@ public class ServerImpl {
     public MinecraftServer getMinecraftServer() {
         return minecraftServer;
     }
+
+    public void halt() {
+        getMinecraftServer().halt(false);
+    }
 }
