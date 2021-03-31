@@ -1,6 +1,6 @@
---- a/net/minecraft/world/level/block/BuddingAmethystBlock.java
-+++ b/net/minecraft/world/level/block/BuddingAmethystBlock.java
-@@ -41,7 +41,11 @@
+--- a/net/minecraft//world/level/block/BuddingAmethystBlock.java
++++ b/net/minecraft//world/level/block/BuddingAmethystBlock.java
+@@ -42,7 +42,11 @@
              if (block != null) {
                  BlockState blockstate2 = (BlockState) ((BlockState) block.defaultBlockState().setValue(AmethystClusterBlock.FACING, direction)).setValue(AmethystClusterBlock.WATERLOGGED, blockstate1.getFluidState().getType() == Fluids.WATER);
  

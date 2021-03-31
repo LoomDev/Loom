@@ -1,6 +1,6 @@
---- a/net/minecraft/world/inventory/AbstractFurnaceMenu.java
-+++ b/net/minecraft/world/inventory/AbstractFurnaceMenu.java
-@@ -142,7 +142,7 @@
+--- a/net/minecraft//world/inventory/AbstractFurnaceMenu.java
++++ b/net/minecraft//world/inventory/AbstractFurnaceMenu.java
+@@ -151,7 +151,7 @@
          return this.level.getRecipeManager().getRecipeFor(this.recipeType, new SimpleContainer(new ItemStack[]{itemstack}), this.level).isPresent();
      }
  

@@ -98,6 +98,7 @@ public interface ParticleType extends Keyed {
     ParticleType WAX_OFF = getById("minecraft:wax_off");
     ParticleType ELECTRIC_SPARK = getById("minecraft:electric_spark");
     ParticleType SCRAPE = getById("minecraft:scrape");
+    ParticleType LIGHT = getById("minecraft:light");
 
     // endregion ParticleTypes
 

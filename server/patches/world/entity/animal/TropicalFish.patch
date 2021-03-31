@@ -1,15 +1,6 @@
---- a/net/minecraft/world/entity/animal/TropicalFish.java
-+++ b/net/minecraft/world/entity/animal/TropicalFish.java
-@@ -71,7 +71,7 @@
-         compoundtag.putInt("BucketVariantTag", this.getVariant());
-     }
- 
--    protected ItemStack getBucketItemStack() {
-+    public ItemStack getBucketItemStack() { // Loom :: protected -> public (AbstractFishImpl)
-         return new ItemStack(Items.TROPICAL_FISH_BUCKET);
-     }
- 
-@@ -152,7 +152,7 @@
+--- a/net/minecraft//world/entity/animal/TropicalFish.java
++++ b/net/minecraft//world/entity/animal/TropicalFish.java
+@@ -218,7 +218,7 @@
          }
      }
  

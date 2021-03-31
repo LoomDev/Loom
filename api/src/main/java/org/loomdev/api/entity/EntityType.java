@@ -11,6 +11,7 @@ import org.loomdev.api.entity.animal.Cow;
 import org.loomdev.api.entity.animal.Dolphin;
 import org.loomdev.api.entity.animal.Fox;
 import org.loomdev.api.entity.animal.GlowSquid;
+import org.loomdev.api.entity.animal.Goat;
 import org.loomdev.api.entity.animal.Mooshroom;
 import org.loomdev.api.entity.animal.Ocelot;
 import org.loomdev.api.entity.animal.Panda;
@@ -145,6 +146,7 @@ public interface EntityType<T extends Entity> extends Keyed {
     EntityType<FurnaceMinecart> FURNACE_MINECART = getById("minecraft:furnace_minecart");
     EntityType<Ghast> GHAST = getById("minecraft:ghast");
     EntityType<Giant> GIANT = getById("minecraft:giant");
+    EntityType<Goat> GOAT = getById("minecraft:goat");
     EntityType<Guardian> GUARDIAN = getById("minecraft:guardian");
     EntityType<Hoglin> HOGLIN = getById("minecraft:hoglin");
     EntityType<HopperMinecart> HOPPER_MINECART = getById("minecraft:hopper_minecart");

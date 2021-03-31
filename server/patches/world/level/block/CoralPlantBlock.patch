@@ -1,6 +1,6 @@
---- a/net/minecraft/world/level/block/CoralPlantBlock.java
-+++ b/net/minecraft/world/level/block/CoralPlantBlock.java
-@@ -29,7 +29,12 @@
+--- a/net/minecraft//world/level/block/CoralPlantBlock.java
++++ b/net/minecraft//world/level/block/CoralPlantBlock.java
+@@ -30,7 +30,12 @@
  
      public void tick(BlockState blockstate, ServerLevel serverlevel, BlockPos blockpos, Random random) {
          if (!scanForWater(blockstate, serverlevel, blockpos)) {

@@ -1,6 +1,6 @@
---- a/net/minecraft/world/level/block/WetSpongeBlock.java
-+++ b/net/minecraft/world/level/block/WetSpongeBlock.java
-@@ -16,6 +16,7 @@
+--- a/net/minecraft//world/level/block/WetSpongeBlock.java
++++ b/net/minecraft//world/level/block/WetSpongeBlock.java
+@@ -19,6 +19,7 @@
  
      public void onPlace(BlockState blockstate, Level level, BlockPos blockpos, BlockState blockstate1, boolean flag) {
          if (level.dimensionType().ultraWarm()) {

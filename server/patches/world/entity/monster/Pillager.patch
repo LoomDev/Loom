@@ -1,11 +1,11 @@
---- a/net/minecraft/world/entity/monster/Pillager.java
-+++ b/net/minecraft/world/entity/monster/Pillager.java
-@@ -54,7 +54,7 @@
+--- a/net/minecraft//world/entity/monster/Pillager.java
++++ b/net/minecraft//world/entity/monster/Pillager.java
+@@ -56,7 +56,7 @@
  
- public class Pillager extends AbstractIllager implements CrossbowAttackMob {
+ public class Pillager extends AbstractIllager implements CrossbowAttackMob, InventoryCarrier {
  
 -    private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(Pillager.class, EntityDataSerializers.BOOLEAN);
 +    public static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(Pillager.class, EntityDataSerializers.BOOLEAN); // Loom :: private -> public (PillagerImpl)
-     private final SimpleContainer inventory = new SimpleContainer(5);
- 
-     public Pillager(EntityType<? extends Pillager> entitytype, Level level) {
+     private static final int INVENTORY_SIZE = 5;
+     private static final int SLOT_OFFSET = 300;
+     private static final float CROSSBOW_POWER = 1.6F;

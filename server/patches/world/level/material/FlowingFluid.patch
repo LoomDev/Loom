@@ -1,6 +1,6 @@
---- a/net/minecraft/world/level/material/FlowingFluid.java
-+++ b/net/minecraft/world/level/material/FlowingFluid.java
-@@ -433,13 +433,23 @@
+--- a/net/minecraft//world/level/material/FlowingFluid.java
++++ b/net/minecraft//world/level/material/FlowingFluid.java
+@@ -434,13 +434,23 @@
              FluidState fluidstate1 = this.getNewLiquid(level, blockpos, level.getBlockState(blockpos));
              int i = this.getSpreadDelay(level, blockpos, fluidstate, fluidstate1);
  

@@ -1,8 +1,8 @@
---- a/net/minecraft/world/entity/projectile/Fireball.java
-+++ b/net/minecraft/world/entity/projectile/Fireball.java
+--- a/net/minecraft//world/entity/projectile/Fireball.java
++++ b/net/minecraft//world/entity/projectile/Fireball.java
 @@ -13,7 +13,7 @@
  
- public abstract class Fireball extends AbstractHurtingProjectile {
+ public abstract class Fireball extends AbstractHurtingProjectile implements ItemSupplier {
  
 -    private static final EntityDataAccessor<ItemStack> DATA_ITEM_STACK = SynchedEntityData.defineId(Fireball.class, EntityDataSerializers.ITEM_STACK);
 +    public static final EntityDataAccessor<ItemStack> DATA_ITEM_STACK = SynchedEntityData.defineId(Fireball.class, EntityDataSerializers.ITEM_STACK); // Loom :: private -> public (FireballImpl)

@@ -1,6 +1,6 @@
---- a/net/minecraft/world/level/block/Block.java
-+++ b/net/minecraft/world/level/block/Block.java
-@@ -65,9 +65,7 @@
+--- a/net/minecraft//world/level/block/Block.java
++++ b/net/minecraft//world/level/block/Block.java
+@@ -70,9 +70,7 @@
              return !Shapes.joinIsNotEmpty(Shapes.block(), voxelshape, BooleanOp.NOT_SAME);
          }
  
@@ -9,9 +9,9 @@
 -        }
 +        // Loom :: decompile error
      });
-     protected final StateDefinition<Block, BlockState> stateDefinition;
-     private BlockState defaultBlockState;
-@@ -260,7 +258,11 @@
+     public static final int UPDATE_NEIGHBORS = 1;
+     public static final int UPDATE_CLIENTS = 2;
+@@ -326,7 +324,11 @@
              double d0 = (double) (level.random.nextFloat() * 0.5F) + 0.25D;
              double d1 = (double) (level.random.nextFloat() * 0.5F) + 0.25D;
              double d2 = (double) (level.random.nextFloat() * 0.5F) + 0.25D;
@@ -24,7 +24,7 @@
  
              itementity.setDefaultPickUpDelay();
              level.addFreshEntity(itementity);
-@@ -269,7 +271,11 @@
+@@ -335,7 +337,11 @@
  
      protected void popExperience(ServerLevel serverlevel, BlockPos blockpos, int i) {
          if (serverlevel.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {

@@ -1,6 +1,6 @@
---- a/net/minecraft/world/entity/animal/SnowGolem.java
-+++ b/net/minecraft/world/entity/animal/SnowGolem.java
-@@ -80,7 +80,7 @@
+--- a/net/minecraft//world/entity/animal/SnowGolem.java
++++ b/net/minecraft//world/entity/animal/SnowGolem.java
+@@ -83,7 +83,7 @@
      }
  
      public boolean isSensitiveToWater() {

@@ -1,6 +1,6 @@
---- a/net/minecraft/world/entity/npc/Villager.java
-+++ b/net/minecraft/world/entity/npc/Villager.java
-@@ -129,7 +129,7 @@
+--- a/net/minecraft//world/entity/npc/Villager.java
++++ b/net/minecraft//world/entity/npc/Villager.java
+@@ -143,7 +143,7 @@
      }
  
      public Brain<Villager> getBrain() {
@@ -9,7 +9,7 @@
      }
  
      protected Brain.Provider<Villager> brainProvider() {
-@@ -441,7 +441,7 @@
+@@ -455,7 +455,7 @@
  
      public void addAdditionalSaveData(CompoundTag compoundtag) {
          super.addAdditionalSaveData(compoundtag);
@@ -18,7 +18,7 @@
          Logger logger = Villager.LOGGER;
  
          logger.getClass();
-@@ -687,7 +687,7 @@
+@@ -709,7 +709,7 @@
          this.updateTrades();
      }
  
@@ -27,7 +27,7 @@
          return new TranslatableComponent(this.getType().getDescriptionId() + '.' + Registry.VILLAGER_PROFESSION.getKey(this.getVillagerData().getProfession()).getPath());
      }
  
-@@ -944,14 +944,14 @@
+@@ -981,14 +981,14 @@
  
      public void startSleeping(BlockPos blockpos) {
          super.startSleeping(blockpos);
@@ -44,7 +44,7 @@
      }
  
      private boolean golemSpawnConditionsMet(long i) {
-@@ -960,7 +960,9 @@
+@@ -997,7 +997,9 @@
          return optional.isPresent() ? i - (Long) optional.get() < 24000L : false;
      }
  

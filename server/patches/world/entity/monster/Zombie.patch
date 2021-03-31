@@ -1,6 +1,6 @@
---- a/net/minecraft/world/entity/monster/Zombie.java
-+++ b/net/minecraft/world/entity/monster/Zombie.java
-@@ -79,7 +79,7 @@
+--- a/net/minecraft//world/entity/monster/Zombie.java
++++ b/net/minecraft//world/entity/monster/Zombie.java
+@@ -84,7 +84,7 @@
      private final BreakDoorGoal breakDoorGoal;
      private boolean canBreakDoors;
      private int inWaterTime;
@@ -9,7 +9,7 @@
  
      public Zombie(EntityType<? extends Zombie> entitytype, Level level) {
          super(entitytype, level);
-@@ -241,7 +241,7 @@
+@@ -246,7 +246,7 @@
          this.getEntityData().set(Zombie.DATA_DROWNED_CONVERSION_ID, true);
      }
  

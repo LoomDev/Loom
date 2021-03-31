@@ -1101,6 +1101,8 @@ public interface ItemType extends Keyed {
     ItemType DEEPSLATE_COPPER_ORE = getById("minecraft:deepslate_copper_ore");
     ItemType INFESTED_DEEPSLATE = getById("minecraft:infested_deepslate");
     ItemType DEEPSLATE_EMERALD_ORE = getById("minecraft:deepslate_emerald_ore");
+    ItemType GOAT_SPAWN_EGG = getById("minecraft:goat_spawn_egg");
+    ItemType LIGHT = getById("minecraft:light");
 
     // endregion :: ItemTypes
 

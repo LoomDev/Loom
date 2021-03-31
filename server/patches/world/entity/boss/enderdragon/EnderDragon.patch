@@ -1,6 +1,6 @@
---- a/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-+++ b/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-@@ -447,6 +447,7 @@
+--- a/net/minecraft//world/entity/boss/enderdragon/EnderDragon.java
++++ b/net/minecraft//world/entity/boss/enderdragon/EnderDragon.java
+@@ -451,6 +451,7 @@
  
                      if (!blockstate.isAir() && blockstate.getMaterial() != Material.FIRE) {
                          if (this.level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && !blockstate.is((Tag) BlockTags.DRAGON_IMMUNE)) {

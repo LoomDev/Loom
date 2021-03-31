@@ -1,5 +1,5 @@
---- a/net/minecraft/network/protocol/status/ServerStatus.java
-+++ b/net/minecraft/network/protocol/status/ServerStatus.java
+--- a/net/minecraft//network/protocol/status/ServerStatus.java
++++ b/net/minecraft//network/protocol/status/ServerStatus.java
 @@ -14,7 +14,7 @@
  import net.minecraft.network.chat.Component;
  import net.minecraft.util.GsonHelper;
@@ -7,9 +7,9 @@
 -public class ServerStatus {
 +public class ServerStatus implements Cloneable { // Loom
  
-     private Component description;
-     private ServerStatus.Players players;
-@@ -104,6 +104,7 @@
+     public static final int FAVICON_WIDTH = 64;
+     public static final int FAVICON_HEIGHT = 64;
+@@ -106,6 +106,7 @@
              return jsonobject;
          }
  
@@ -17,7 +17,7 @@
          public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
              return this.serialize((ServerStatus) object, type, jsonserializationcontext);
          }
-@@ -111,12 +112,13 @@
+@@ -113,12 +114,13 @@
          public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
              return this.deserialize(jsonelement, type, jsondeserializationcontext);
          }
@@ -33,7 +33,7 @@
  
          public Version(String s, int i) {
              this.name = s;
-@@ -149,6 +151,7 @@
+@@ -151,6 +153,7 @@
                  return jsonobject;
              }
  
@@ -41,7 +41,7 @@
              public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
                  return this.serialize((ServerStatus.Version) object, type, jsonserializationcontext);
              }
-@@ -156,13 +159,14 @@
+@@ -158,13 +161,14 @@
              public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
                  return this.deserialize(jsonelement, type, jsondeserializationcontext);
              }
@@ -58,7 +58,7 @@
          private GameProfile[] sample;
  
          public Players(int i, int j) {
-@@ -237,6 +241,7 @@
+@@ -239,6 +243,7 @@
                  return jsonobject;
              }
  
@@ -66,7 +66,7 @@
              public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
                  return this.serialize((ServerStatus.Players) object, type, jsonserializationcontext);
              }
-@@ -244,6 +249,14 @@
+@@ -246,6 +251,14 @@
              public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
                  return this.deserialize(jsonelement, type, jsondeserializationcontext);
              }

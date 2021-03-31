@@ -1,5 +1,5 @@
---- a/net/minecraft/world/entity/monster/SpellcasterIllager.java
-+++ b/net/minecraft/world/entity/monster/SpellcasterIllager.java
+--- a/net/minecraft//world/entity/monster/SpellcasterIllager.java
++++ b/net/minecraft//world/entity/monster/SpellcasterIllager.java
 @@ -18,7 +18,7 @@
  
      private static final EntityDataAccessor<Byte> DATA_SPELL_CASTING_ID = SynchedEntityData.defineId(SpellcasterIllager.class, EntityDataSerializers.BYTE);
@@ -9,7 +9,7 @@
  
      protected SpellcasterIllager(EntityType<? extends SpellcasterIllager> entitytype, Level level) {
          super(entitytype, level);
-@@ -88,7 +88,7 @@
+@@ -92,7 +92,7 @@
  
          NONE(0, 0.0D, 0.0D, 0.0D), SUMMON_VEX(1, 0.7D, 0.7D, 0.8D), FANGS(2, 0.4D, 0.3D, 0.35D), WOLOLO(3, 0.7D, 0.5D, 0.2D), DISAPPEAR(4, 0.3D, 0.3D, 0.8D), BLINDNESS(5, 0.1D, 0.1D, 0.2D);
  

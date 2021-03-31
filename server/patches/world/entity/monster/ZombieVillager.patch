@@ -1,8 +1,8 @@
---- a/net/minecraft/world/entity/monster/ZombieVillager.java
-+++ b/net/minecraft/world/entity/monster/ZombieVillager.java
-@@ -51,10 +51,10 @@
-     private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombieVillager.class, EntityDataSerializers.BOOLEAN);
-     private static final EntityDataAccessor<VillagerData> DATA_VILLAGER_DATA = SynchedEntityData.defineId(ZombieVillager.class, EntityDataSerializers.VILLAGER_DATA);
+--- a/net/minecraft//world/entity/monster/ZombieVillager.java
++++ b/net/minecraft//world/entity/monster/ZombieVillager.java
+@@ -55,10 +55,10 @@
+     private static final int MAX_SPECIAL_BLOCKS_COUNT = 14;
+     private static final int SPECIAL_BLOCK_RADIUS = 4;
      private int villagerConversionTime;
 -    private UUID conversionStarter;
 +    public UUID conversionStarter; // Loom :: private -> public (ZombieVillagerImpl)
@@ -13,7 +13,7 @@
  
      public ZombieVillager(EntityType<? extends ZombieVillager> entitytype, Level level) {
          super(entitytype, level);
-@@ -69,7 +69,7 @@
+@@ -73,7 +73,7 @@
  
      public void addAdditionalSaveData(CompoundTag compoundtag) {
          super.addAdditionalSaveData(compoundtag);

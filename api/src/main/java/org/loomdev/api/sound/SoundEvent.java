@@ -1182,6 +1182,17 @@ public interface SoundEvent extends Keyed {
     SoundEvent ITEM_AXE_WAX_OFF = getById("minecraft:item.axe.wax_off");
     SoundEvent ITEM_HONEYCOMB_WAX_ON = getById("minecraft:item.honeycomb.wax_on");
     SoundEvent ITEM_AXE_SCRAPE = getById("minecraft:item.axe.scrape");
+    SoundEvent ENTITY_GOAT_SCREAMING_AMBIENT = getById("minecraft:entity.goat.screaming.ambient");
+    SoundEvent ENTITY_GOAT_SCREAMING_MILK = getById("minecraft:entity.goat.screaming.milk");
+    SoundEvent ENTITY_GOAT_PREPARE_RAM = getById("minecraft:entity.goat.prepare_ram");
+    SoundEvent ENTITY_GOAT_STEP = getById("minecraft:entity.goat.step");
+    SoundEvent ENTITY_GOAT_SCREAMING_DEATH = getById("minecraft:entity.goat.screaming.death");
+    SoundEvent ENTITY_GOAT_SCREAMING_HURT = getById("minecraft:entity.goat.screaming.hurt");
+    SoundEvent ENTITY_GOAT_SCREAMING_RAM = getById("minecraft:entity.goat.screaming.ram");
+    SoundEvent ENTITY_GOAT_DEATH = getById("minecraft:entity.goat.death");
+    SoundEvent ENTITY_GOAT_HURT = getById("minecraft:entity.goat.hurt");
+    SoundEvent ENTITY_GOAT_MILK = getById("minecraft:entity.goat.milk");
+    SoundEvent ENTITY_GOAT_AMBIENT = getById("minecraft:entity.goat.ambient");
 
     // endregion SoundEvents
 

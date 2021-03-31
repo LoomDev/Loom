@@ -1,15 +1,15 @@
---- a/net/minecraft/world/entity/monster/Slime.java
-+++ b/net/minecraft/world/entity/monster/Slime.java
+--- a/net/minecraft//world/entity/monster/Slime.java
++++ b/net/minecraft//world/entity/monster/Slime.java
 @@ -47,7 +47,7 @@
  
  public class Slime extends Mob implements Enemy {
  
 -    private static final EntityDataAccessor<Integer> ID_SIZE = SynchedEntityData.defineId(Slime.class, EntityDataSerializers.INT);
 +    public static final EntityDataAccessor<Integer> ID_SIZE = SynchedEntityData.defineId(Slime.class, EntityDataSerializers.INT); // Loom :: private -> public
+     public static final int MIN_SIZE = 1;
+     public static final int MAX_SIZE = 127;
      public float targetSquish;
-     public float squish;
-     public float oSquish;
-@@ -174,9 +174,11 @@
+@@ -176,9 +176,11 @@
          super.onSyncedDataUpdated(entitydataaccessor);
      }
  

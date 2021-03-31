@@ -1,14 +1,14 @@
---- a/net/minecraft/world/entity/item/PrimedTnt.java
-+++ b/net/minecraft/world/entity/item/PrimedTnt.java
-@@ -22,6 +22,7 @@
-     private static final EntityDataAccessor<Integer> DATA_FUSE_ID = SynchedEntityData.defineId(PrimedTnt.class, EntityDataSerializers.INT);
+--- a/net/minecraft//world/entity/item/PrimedTnt.java
++++ b/net/minecraft//world/entity/item/PrimedTnt.java
+@@ -23,6 +23,7 @@
+     private static final int DEFAULT_FUSE_TIME = 80;
      @Nullable
      private LivingEntity owner;
 +    public float explosionPower = 4.0F; // Loom :: (PrimedTntImpl)
  
      public PrimedTnt(EntityType<? extends PrimedTnt> entitytype, Level level) {
          super(entitytype, level);
-@@ -82,7 +83,7 @@
+@@ -83,7 +84,7 @@
      }
  
      private void explode() {

@@ -1,6 +1,6 @@
---- a/net/minecraft/world/level/block/ChangeOverTimeBlock.java
-+++ b/net/minecraft/world/level/block/ChangeOverTimeBlock.java
-@@ -67,7 +67,11 @@
+--- a/net/minecraft//world/level/block/ChangeOverTimeBlock.java
++++ b/net/minecraft//world/level/block/ChangeOverTimeBlock.java
+@@ -69,7 +69,11 @@
  
          if (random.nextFloat() < f1) {
              this.getNext(blockstate).ifPresent((blockstate2) -> {

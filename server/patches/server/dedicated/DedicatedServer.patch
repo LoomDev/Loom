@@ -1,6 +1,6 @@
---- a/net/minecraft/server/dedicated/DedicatedServer.java
-+++ b/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -74,8 +74,8 @@
+--- a/net/minecraft//server/dedicated/DedicatedServer.java
++++ b/net/minecraft//server/dedicated/DedicatedServer.java
+@@ -76,8 +76,8 @@
      @Nullable
      private final TextFilterClient textFilterClient;
  
@@ -11,7 +11,7 @@
          this.settings = dedicatedserversettings;
          this.rconConsoleSource = new RconConsoleSource(this);
          this.textFilterClient = TextFilterClient.createFromConfig(dedicatedserversettings.getProperties().textFilteringConfig);
-@@ -84,7 +84,10 @@
+@@ -86,7 +86,10 @@
      public boolean initServer() throws IOException {
          Thread thread = new Thread("Server console handler") {
              public void run() {
@@ -23,7 +23,7 @@
  
                  String s;
  
-@@ -94,8 +97,9 @@
+@@ -96,8 +99,9 @@
                      }
                  } catch (IOException ioexception) {
                      DedicatedServer.LOGGER.error("Exception handling console input", ioexception);
@@ -34,7 +34,7 @@
              }
          };
  
-@@ -168,8 +172,10 @@
+@@ -170,8 +174,10 @@
              SkullBlockEntity.setProfileCache(this.getProfileCache());
              SkullBlockEntity.setSessionService(this.getSessionService());
              GameProfileCache.setUsesAuthentication(this.usesAuthentication());
@@ -45,7 +45,7 @@
              long j = Util.getNanos() - i;
              String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
  
-@@ -552,7 +558,9 @@
+@@ -558,7 +564,9 @@
          return this.settings.getProperties().forceGameMode ? this.worldData.getGameType() : null;
      }
  

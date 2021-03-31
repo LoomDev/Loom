@@ -1,14 +1,14 @@
---- a/net/minecraft/world/level/Explosion.java
-+++ b/net/minecraft/world/level/Explosion.java
-@@ -45,16 +45,16 @@
- public class Explosion {
+--- a/net/minecraft//world/level/Explosion.java
++++ b/net/minecraft//world/level/Explosion.java
+@@ -46,16 +46,16 @@
  
      private static final ExplosionDamageCalculator EXPLOSION_DAMAGE_CALCULATOR = new ExplosionDamageCalculator();
+     private static final int MAX_DROPS_PER_COMBINED_STACK = 16;
 -    private final boolean fire;
 -    private final Explosion.BlockInteraction blockInteraction;
 +    public boolean fire; // Loom :: private -> public, non-final (ExplosionImpl)
 +    public Explosion.BlockInteraction blockInteraction; // Loom :: private -> public, non-final (ExplosionImpl)
-     private final Random random = new Random();
+     private final Random random;
 -    private final Level level;
 -    private final double x;
 -    private final double y;
@@ -20,11 +20,11 @@
      @Nullable
      private final Entity source;
 -    private final float radius;
-+    public float radius; // Loom :: private -> public (ExplosionImpl)
++    public float radius; // Loom :: private -> public, non-final (ExplosionImpl)
      private final DamageSource damageSource;
      private final ExplosionDamageCalculator damageCalculator;
-     private final List<BlockPos> toBlow = Lists.newArrayList();
-@@ -114,6 +114,7 @@
+     private final List<BlockPos> toBlow;
+@@ -135,6 +135,7 @@
  
      public void explode() {
          this.level.gameEvent(this.source, GameEvent.EXPLODE, new BlockPos(this.x, this.y, this.z));
@@ -32,7 +32,7 @@
          Set<BlockPos> set = Sets.newHashSet();
          boolean flag = true;
  
-@@ -232,7 +233,15 @@
+@@ -253,7 +254,15 @@
              ObjectArrayList<Pair<ItemStack, BlockPos>> objectarraylist = new ObjectArrayList();
  
              Collections.shuffle(this.toBlow, this.level.random);
@@ -49,7 +49,7 @@
  
              while (iterator.hasNext()) {
                  BlockPos blockpos = (BlockPos) iterator.next();
-@@ -278,11 +287,13 @@
+@@ -299,11 +308,13 @@
                  BlockPos blockpos2 = (BlockPos) iterator1.next();
  
                  if (this.random.nextInt(3) == 0 && this.level.getBlockState(blockpos2).isAir() && this.level.getBlockState(blockpos2.below()).isSolidRender(this.level, blockpos2.below())) {

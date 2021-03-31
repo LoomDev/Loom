@@ -1,13 +1,15 @@
---- a/net/minecraft/world/entity/animal/Bee.java
-+++ b/net/minecraft/world/entity/animal/Bee.java
-@@ -99,14 +99,14 @@
+--- a/net/minecraft//world/entity/animal/Bee.java
++++ b/net/minecraft//world/entity/animal/Bee.java
+@@ -123,16 +123,16 @@
      private float rollAmountO;
      private int timeSinceSting;
      private int ticksWithoutNectarSinceExitingHive;
 -    private int stayOutOfHiveCountdown;
 +    public int stayOutOfHiveCountdown; // Loom :: private -> public (BeeImpl)
      private int numCropsGrownSincePollination;
+     private static final int COOLDOWN_BEFORE_LOCATING_NEW_HIVE = 200;
      private int remainingCooldownBeforeLocatingNewHive;
+     private static final int COOLDOWN_BEFORE_LOCATING_NEW_FLOWER = 200;
 -    private int remainingCooldownBeforeLocatingNewFlower;
 +    public int remainingCooldownBeforeLocatingNewFlower; // Loom :: private -> public (BeeImpl)
      @Nullable
@@ -18,7 +20,7 @@
      private Bee.BeePollinateGoal beePollinateGoal;
      private Bee.BeeGoToHiveGoal goToHiveGoal;
      private Bee.BeeGoToKnownFlowerGoal goToKnownFlowerGoal;
-@@ -441,7 +441,7 @@
+@@ -488,7 +488,7 @@
          return this.getFlag(8);
      }
  
@@ -27,7 +29,7 @@
          if (flag) {
              this.resetTicksWithoutNectarSinceExitingHive();
          }
-@@ -453,7 +453,7 @@
+@@ -500,7 +500,7 @@
          return this.getFlag(4);
      }
  
@@ -36,7 +38,7 @@
          this.setFlag(4, flag);
      }
  
-@@ -582,9 +582,11 @@
+@@ -633,9 +633,11 @@
          return blockpos.closerThan((Vec3i) this.blockPosition(), (double) i);
      }
  

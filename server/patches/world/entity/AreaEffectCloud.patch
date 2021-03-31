@@ -1,8 +1,8 @@
---- a/net/minecraft/world/entity/AreaEffectCloud.java
-+++ b/net/minecraft/world/entity/AreaEffectCloud.java
-@@ -40,15 +40,15 @@
-     private static final EntityDataAccessor<Boolean> DATA_WAITING = SynchedEntityData.defineId(AreaEffectCloud.class, EntityDataSerializers.BOOLEAN);
+--- a/net/minecraft//world/entity/AreaEffectCloud.java
++++ b/net/minecraft//world/entity/AreaEffectCloud.java
+@@ -42,15 +42,15 @@
      private static final EntityDataAccessor<ParticleOptions> DATA_PARTICLE = SynchedEntityData.defineId(AreaEffectCloud.class, EntityDataSerializers.PARTICLE);
+     private static final float MAX_RADIUS = 32.0F;
      private Potion potion;
 -    private final List<MobEffectInstance> effects;
 -    private final Map<Entity, Integer> victims;
@@ -21,7 +21,7 @@
      @Nullable
      private LivingEntity owner;
      @Nullable
-@@ -140,7 +140,7 @@
+@@ -142,7 +142,7 @@
          this.getEntityData().set(AreaEffectCloud.DATA_PARTICLE, particleoptions);
      }
  

@@ -1,6 +1,6 @@
---- a/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-+++ b/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-@@ -32,7 +32,7 @@
+--- a/net/minecraft//world/entity/projectile/FireworkRocketEntity.java
++++ b/net/minecraft//world/entity/projectile/FireworkRocketEntity.java
+@@ -33,7 +33,7 @@
  
      private static final EntityDataAccessor<ItemStack> DATA_ID_FIREWORKS_ITEM = SynchedEntityData.defineId(FireworkRocketEntity.class, EntityDataSerializers.ITEM_STACK);
      private static final EntityDataAccessor<OptionalInt> DATA_ATTACHED_TO_TARGET = SynchedEntityData.defineId(FireworkRocketEntity.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
@@ -9,7 +9,7 @@
      private int life;
      private int lifetime;
      private LivingEntity attachedToEntity;
-@@ -147,7 +147,7 @@
+@@ -156,7 +156,7 @@
  
      }
  

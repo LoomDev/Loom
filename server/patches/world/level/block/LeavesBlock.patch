@@ -1,6 +1,6 @@
---- a/net/minecraft/world/level/block/LeavesBlock.java
-+++ b/net/minecraft/world/level/block/LeavesBlock.java
-@@ -38,6 +38,7 @@
+--- a/net/minecraft//world/level/block/LeavesBlock.java
++++ b/net/minecraft//world/level/block/LeavesBlock.java
+@@ -42,6 +42,7 @@
  
      public void randomTick(BlockState blockstate, ServerLevel serverlevel, BlockPos blockpos, Random random) {
          if (!(Boolean) blockstate.getValue(LeavesBlock.PERSISTENT) && (Integer) blockstate.getValue(LeavesBlock.DISTANCE) == 7) {

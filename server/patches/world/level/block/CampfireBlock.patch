@@ -1,6 +1,6 @@
---- a/net/minecraft/world/level/block/CampfireBlock.java
-+++ b/net/minecraft/world/level/block/CampfireBlock.java
-@@ -180,6 +180,7 @@
+--- a/net/minecraft//world/level/block/CampfireBlock.java
++++ b/net/minecraft//world/level/block/CampfireBlock.java
+@@ -196,6 +196,7 @@
              if (flag && !(Boolean) blockstate.getValue(CampfireBlock.LIT) && !(Boolean) blockstate.getValue(CampfireBlock.WATERLOGGED)) {
                  BlockPos blockpos = blockhitresult.getBlockPos();
  

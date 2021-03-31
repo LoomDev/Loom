@@ -1,6 +1,6 @@
---- a/net/minecraft/world/level/block/FarmBlock.java
-+++ b/net/minecraft/world/level/block/FarmBlock.java
-@@ -63,6 +63,7 @@
+--- a/net/minecraft//world/level/block/FarmBlock.java
++++ b/net/minecraft//world/level/block/FarmBlock.java
+@@ -64,6 +64,7 @@
  
      public void tick(BlockState blockstate, ServerLevel serverlevel, BlockPos blockpos, Random random) {
          if (!blockstate.canSurvive(serverlevel, blockpos)) {

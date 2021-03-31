@@ -899,7 +899,7 @@ public interface BlockType extends Keyed {
     BlockType DEEPSLATE_EMERALD_ORE = getById("minecraft:deepslate_emerald_ore");
     BlockType CAVE_VINES = getById("minecraft:cave_vines");
     BlockType CAVE_VINES_PLANT = getById("minecraft:cave_vines_plant");
-
+    BlockType LIGHT = getById("minecraft:light");
 
     // endregion :: BlockTypes
 

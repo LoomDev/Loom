@@ -1,6 +1,6 @@
---- a/net/minecraft/world/entity/LivingEntity.java
-+++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -114,6 +114,16 @@
+--- a/net/minecraft//world/entity/LivingEntity.java
++++ b/net/minecraft//world/entity/LivingEntity.java
+@@ -116,6 +116,16 @@
  
  public abstract class LivingEntity extends Entity {
  
@@ -17,7 +17,7 @@
      private static final UUID SPEED_MODIFIER_SPRINTING_UUID = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
      private static final UUID SPEED_MODIFIER_SOUL_SPEED_UUID = UUID.fromString("87f46a96-686f-4796-b035-22e16ee9e038");
      private static final UUID SPEED_MODIFIER_POWDER_SNOW_UUID = UUID.fromString("1eaf83ff-7207-4596-b37a-d7a07b3ec4ce");
-@@ -195,10 +205,11 @@
+@@ -217,10 +227,11 @@
      @Nullable
      private DamageSource lastDamageSource;
      private long lastDamageStamp;
@@ -30,8 +30,8 @@
  
      protected LivingEntity(EntityType<? extends LivingEntity> entitytype, Level level) {
          super(entitytype, level);
-@@ -1605,7 +1616,7 @@
- 
+@@ -1820,7 +1831,7 @@
+         this.setItemSlot(EquipmentSlot.MAINHAND, itemstack);
      }
  
 -    protected void outOfWorld() {
@@ -39,7 +39,7 @@
          this.hurt(DamageSource.OUT_OF_WORLD, 4.0F);
      }
  
-@@ -2410,7 +2421,7 @@
+@@ -2644,7 +2655,7 @@
      }
  
      public boolean isSensitiveToWater() {
@@ -48,7 +48,7 @@
      }
  
      private void updateFallFlying() {
-@@ -2674,7 +2685,7 @@
+@@ -2932,7 +2943,7 @@
  
      }
  
@@ -57,7 +57,7 @@
          byte b0 = (Byte) this.entityData.get(LivingEntity.DATA_LIVING_ENTITY_FLAGS);
          int j;
  
-@@ -2956,7 +2967,7 @@
+@@ -3220,7 +3231,7 @@
      }
  
      public void stopSleeping() {
@@ -66,3 +66,12 @@
          Level level = this.level;
  
          this.level.getClass();
+@@ -3252,7 +3263,7 @@
+ 
+     @Nullable
+     public Direction getBedOrientation() {
+-        BlockPos blockpos = (BlockPos) this.getSleepingPos().orElse((Object) null);
++        BlockPos blockpos = (BlockPos) this.getSleepingPos().orElse(null); // Loom :: decompile error
+ 
+         return blockpos != null ? BedBlock.getBedOrientation(this.level, blockpos) : null;
+     }

@@ -1,6 +1,6 @@
---- a/net/minecraft/world/entity/npc/AbstractVillager.java
-+++ b/net/minecraft/world/entity/npc/AbstractVillager.java
-@@ -39,7 +39,7 @@
+--- a/net/minecraft//world/entity/npc/AbstractVillager.java
++++ b/net/minecraft//world/entity/npc/AbstractVillager.java
+@@ -45,7 +45,7 @@
      @Nullable
      private Player tradingPlayer;
      @Nullable
@@ -9,3 +9,13 @@
      private final SimpleContainer inventory = new SimpleContainer(8);
  
      public AbstractVillager(EntityType<? extends AbstractVillager> entitytype, Level level) {
+@@ -245,7 +245,9 @@
+         return this.getPosition(f).add(vec3.yRot(-f1));
+     }
+ 
++    /* // Loom start :: decompile error
+     public Container getInventory() {
+         return this.getInventory();
+     }
++     */ // Loom end
+ }

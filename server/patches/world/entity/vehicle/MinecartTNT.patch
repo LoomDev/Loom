@@ -1,16 +1,16 @@
---- a/net/minecraft/world/entity/vehicle/MinecartTNT.java
-+++ b/net/minecraft/world/entity/vehicle/MinecartTNT.java
-@@ -23,7 +23,8 @@
- 
+--- a/net/minecraft//world/entity/vehicle/MinecartTNT.java
++++ b/net/minecraft//world/entity/vehicle/MinecartTNT.java
+@@ -24,7 +24,8 @@
  public class MinecartTNT extends AbstractMinecart {
  
+     private static final byte EVENT_PRIME = 10;
 -    private int fuse = -1;
 +    public int fuse = -1; // Loom :: private -> public (TntMinecartImpl)
 +    public float loomExplosionPower = -1F; // Loom :: (TntMinecartImpl)
  
      public MinecartTNT(EntityType<? extends MinecartTNT> entitytype, Level level) {
          super(entitytype, level);
-@@ -100,7 +101,7 @@
+@@ -101,7 +102,7 @@
                  d1 = 5.0D;
              }
  

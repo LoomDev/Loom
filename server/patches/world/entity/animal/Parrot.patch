@@ -1,5 +1,5 @@
---- a/net/minecraft/world/entity/animal/Parrot.java
-+++ b/net/minecraft/world/entity/animal/Parrot.java
+--- a/net/minecraft//world/entity/animal/Parrot.java
++++ b/net/minecraft//world/entity/animal/Parrot.java
 @@ -71,9 +71,11 @@
              return mob != null && Parrot.MOB_SOUND_MAP.containsKey(mob.getType());
          }
@@ -12,7 +12,7 @@
      };
      private static final Item POISONOUS_FOOD = Items.COOKIE;
      private static final Set<Item> TAME_FOOD = Sets.newHashSet(new Item[]{Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS});
-@@ -133,7 +135,7 @@
+@@ -134,7 +136,7 @@
      public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverlevelaccessor, DifficultyInstance difficultyinstance, MobSpawnType mobspawntype, @Nullable SpawnGroupData spawngroupdata, @Nullable CompoundTag compoundtag) {
          this.setVariant(this.random.nextInt(5));
          if (spawngroupdata == null) {
@@ -21,7 +21,7 @@
          }
  
          return super.finalizeSpawn(serverlevelaccessor, difficultyinstance, mobspawntype, (SpawnGroupData) spawngroupdata, compoundtag);
-@@ -329,7 +331,7 @@
+@@ -339,7 +341,7 @@
          this.playSound(SoundEvents.PARROT_STEP, 0.15F, 1.0F);
      }
  

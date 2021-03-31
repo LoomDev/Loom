@@ -1,6 +1,6 @@
---- a/net/minecraft/world/entity/animal/Fox.java
-+++ b/net/minecraft/world/entity/animal/Fox.java
-@@ -320,19 +320,19 @@
+--- a/net/minecraft//world/entity/animal/Fox.java
++++ b/net/minecraft//world/entity/animal/Fox.java
+@@ -347,19 +347,19 @@
          return Fox.Type.byId((Integer) this.entityData.get(Fox.DATA_TYPE_ID));
      }
  
@@ -25,7 +25,7 @@
          if (((Optional) this.entityData.get(Fox.DATA_TRUSTED_ID_0)).isPresent()) {
              this.entityData.set(Fox.DATA_TRUSTED_ID_1, Optional.ofNullable(uuid));
          } else {
-@@ -408,7 +408,7 @@
+@@ -435,7 +435,7 @@
          return this.getFlag(32);
      }
  
@@ -34,8 +34,8 @@
          this.setFlag(32, flag);
      }
  
-@@ -654,9 +654,11 @@
-         return true;
+@@ -697,9 +697,11 @@
+         return new Vec3(0.0D, (double) (0.55F * this.getEyeHeight()), (double) (this.getBbWidth() * 0.4F));
      }
  
 +    /* // Loom start :: decompile error
@@ -46,7 +46,7 @@
  
      class FoxLookAtPlayerGoal extends LookAtPlayerGoal {
  
-@@ -1110,9 +1112,7 @@
+@@ -1155,9 +1157,7 @@
              return livingentity instanceof Fox ? false : (!(livingentity instanceof Chicken) && !(livingentity instanceof Rabbit) && !(livingentity instanceof Monster) ? (livingentity instanceof TamableAnimal ? !((TamableAnimal) livingentity).isTame() : (livingentity instanceof Player && (livingentity.isSpectator() || ((Player) livingentity).isCreative()) ? false : (Fox.this.trusts(livingentity.getUUID()) ? false : !livingentity.isSleeping() && !livingentity.isDiscrete()))) : true);
          }
  

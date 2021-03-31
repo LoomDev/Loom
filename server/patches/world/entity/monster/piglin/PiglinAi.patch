@@ -1,6 +1,6 @@
---- a/net/minecraft/world/entity/monster/piglin/PiglinAi.java
-+++ b/net/minecraft/world/entity/monster/piglin/PiglinAi.java
-@@ -155,10 +155,10 @@
+--- a/net/minecraft//world/entity/monster/piglin/PiglinAi.java
++++ b/net/minecraft//world/entity/monster/piglin/PiglinAi.java
+@@ -186,10 +186,10 @@
  
      protected static void updateActivity(Piglin piglin) {
          Brain<Piglin> brain = piglin.getBrain();
@@ -13,7 +13,7 @@
  
          if (activity != activity1) {
              getSoundForCurrentActivity(piglin).ifPresent(piglin::playSound);
-@@ -235,7 +235,7 @@
+@@ -266,7 +266,7 @@
          return itemstack1;
      }
  
@@ -22,7 +22,7 @@
          ItemStack itemstack = piglin.getItemInHand(InteractionHand.OFF_HAND);
  
          piglin.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
-@@ -343,7 +343,7 @@
+@@ -374,7 +374,7 @@
          }
      }
  
@@ -31,7 +31,7 @@
          return itemstack.is((Tag) ItemTags.PIGLIN_LOVED);
      }
  
-@@ -510,7 +510,7 @@
+@@ -541,7 +541,7 @@
          return !brain.hasMemoryValue(MemoryModuleType.AVOID_TARGET) ? false : ((LivingEntity) brain.getMemory(MemoryModuleType.AVOID_TARGET).get()).closerThan(piglin, 12.0D);
      }
  

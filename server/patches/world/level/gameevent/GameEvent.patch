@@ -1,9 +1,9 @@
---- a/net/minecraft/world/level/gameevent/GameEvent.java
-+++ b/net/minecraft/world/level/gameevent/GameEvent.java
-@@ -49,7 +49,7 @@
-     public static final GameEvent STEP = register("step");
+--- a/net/minecraft//world/level/gameevent/GameEvent.java
++++ b/net/minecraft//world/level/gameevent/GameEvent.java
+@@ -50,7 +50,7 @@
      public static final GameEvent SWIM = register("swim");
      public static final GameEvent WOLF_SHAKING = register("wolf_shaking");
+     public static final int DEFAULT_NOTIFICATION_RADIUS = 16;
 -    private final String name;
 +    public final String name; // Loom :: private -> public (SculkSensorEvent)
      private final int notificationRadius;

@@ -1,6 +1,6 @@
---- a/net/minecraft/world/level/chunk/LevelChunk.java
-+++ b/net/minecraft/world/level/chunk/LevelChunk.java
-@@ -60,6 +60,15 @@
+--- a/net/minecraft//world/level/chunk/LevelChunk.java
++++ b/net/minecraft//world/level/chunk/LevelChunk.java
+@@ -62,6 +62,15 @@
  
  public class LevelChunk implements ChunkAccess {
  
@@ -16,7 +16,7 @@
      private static final Logger LOGGER = LogManager.getLogger();
      private static final TickingBlockEntity NULL_TICKER = new TickingBlockEntity() {
          public void tick() {}
-@@ -682,7 +691,7 @@
+@@ -757,7 +766,7 @@
      public void unpackTicks() {
          if (this.blockTicks instanceof ProtoTickList) {
              ((ProtoTickList) this.blockTicks).copyOut(this.level.getBlockTicks(), (blockpos) -> {
@@ -25,7 +25,7 @@
              });
              this.blockTicks = EmptyTickList.empty();
          } else if (this.blockTicks instanceof ChunkTickList) {
-@@ -692,7 +701,7 @@
+@@ -767,7 +776,7 @@
  
          if (this.liquidTicks instanceof ProtoTickList) {
              ((ProtoTickList) this.liquidTicks).copyOut(this.level.getLiquidTicks(), (blockpos) -> {
@@ -34,7 +34,7 @@
              });
              this.liquidTicks = EmptyTickList.empty();
          } else if (this.liquidTicks instanceof ChunkTickList) {
-@@ -703,12 +712,12 @@
+@@ -778,12 +787,12 @@
      }
  
      public void packTicks(ServerLevel serverlevel) {
@@ -49,7 +49,7 @@
              this.liquidTicks = new ChunkTickList<>(Registry.FLUID::getKey, serverlevel.getLiquidTicks().fetchTicksInChunk(this.chunkPos, true, false), serverlevel.getGameTime());
              this.setUnsaved(true);
          }
-@@ -774,7 +783,7 @@
+@@ -849,7 +858,7 @@
  
      private <T extends BlockEntity> void updateBlockEntityTicker(T t0) {
          BlockState blockstate = t0.getBlockState();
@@ -58,7 +58,7 @@
  
          if (blockentityticker == null) {
              this.removeBlockEntityTicker(t0.getBlockPos());
-@@ -901,7 +910,7 @@
+@@ -976,7 +985,7 @@
          }
  
          BoundTickingBlockEntity(BlockEntity blockentity, BlockEntityTicker blockentityticker, Object object) {

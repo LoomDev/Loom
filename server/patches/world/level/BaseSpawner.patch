@@ -1,7 +1,7 @@
---- a/net/minecraft/world/level/BaseSpawner.java
-+++ b/net/minecraft/world/level/BaseSpawner.java
-@@ -47,7 +47,7 @@
-     public BaseSpawner() {}
+--- a/net/minecraft//world/level/BaseSpawner.java
++++ b/net/minecraft//world/level/BaseSpawner.java
+@@ -60,7 +60,7 @@
+     }
  
      @Nullable
 -    private ResourceLocation getEntityId(@Nullable Level level, BlockPos blockpos) {

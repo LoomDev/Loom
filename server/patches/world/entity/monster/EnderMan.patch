@@ -1,15 +1,15 @@
---- a/net/minecraft/world/entity/monster/EnderMan.java
-+++ b/net/minecraft/world/entity/monster/EnderMan.java
-@@ -66,7 +66,7 @@
-     private static final AttributeModifier SPEED_MODIFIER_ATTACKING = new AttributeModifier(EnderMan.SPEED_MODIFIER_ATTACKING_UUID, "Attacking speed boost", 0.15000000596046448D, AttributeModifier.Operation.ADDITION);
+--- a/net/minecraft//world/entity/monster/EnderMan.java
++++ b/net/minecraft//world/entity/monster/EnderMan.java
+@@ -68,7 +68,7 @@
+     private static final int MIN_DEAGGRESSION_TIME = 600;
      private static final EntityDataAccessor<Optional<BlockState>> DATA_CARRY_STATE = SynchedEntityData.defineId(EnderMan.class, EntityDataSerializers.BLOCK_STATE);
      private static final EntityDataAccessor<Boolean> DATA_CREEPY = SynchedEntityData.defineId(EnderMan.class, EntityDataSerializers.BOOLEAN);
 -    private static final EntityDataAccessor<Boolean> DATA_STARED_AT = SynchedEntityData.defineId(EnderMan.class, EntityDataSerializers.BOOLEAN);
 +    public static final EntityDataAccessor<Boolean> DATA_STARED_AT = SynchedEntityData.defineId(EnderMan.class, EntityDataSerializers.BOOLEAN); // Loom :: private -> public (EndermanImpl)
      private int lastStareSound = Integer.MIN_VALUE;
      private int targetChangeTime;
-     private static final IntRange PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
-@@ -225,7 +225,7 @@
+     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+@@ -227,7 +227,7 @@
      }
  
      public boolean isSensitiveToWater() {
@@ -18,7 +18,7 @@
      }
  
      protected void customServerAiStep() {
-@@ -385,6 +385,7 @@
+@@ -387,6 +387,7 @@
              boolean flag = blockhitresult.getBlockPos().equals(blockpos);
  
              if (blockstate.is((Tag) BlockTags.ENDERMAN_HOLDABLE) && flag) {
@@ -26,7 +26,7 @@
                  level.removeBlock(blockpos, false);
                  level.gameEvent(this.enderman, GameEvent.BLOCK_DESTROY, blockpos);
                  this.enderman.setCarriedBlock(blockstate.getBlock().defaultBlockState());
-@@ -420,6 +421,7 @@
+@@ -422,6 +423,7 @@
              if (blockstate2 != null) {
                  blockstate2 = Block.updateFromNeighbourShapes(blockstate2, this.enderman.level, blockpos);
                  if (this.canPlaceBlock(level, blockpos, blockstate2, blockstate, blockstate1, blockpos1)) {

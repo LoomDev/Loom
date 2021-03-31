@@ -1,11 +1,11 @@
---- a/net/minecraft/world/entity/monster/hoglin/Hoglin.java
-+++ b/net/minecraft/world/entity/monster/hoglin/Hoglin.java
-@@ -48,12 +48,13 @@
- 
- public class Hoglin extends Animal implements Enemy, HoglinBase {
- 
-+    public static final int CONVERSION_TIME = 300; // Loom :: (HoglinImpl)
-     private static final EntityDataAccessor<Boolean> DATA_IMMUNE_TO_ZOMBIFICATION = SynchedEntityData.defineId(Hoglin.class, EntityDataSerializers.BOOLEAN);
+--- a/net/minecraft//world/entity/monster/hoglin/Hoglin.java
++++ b/net/minecraft//world/entity/monster/hoglin/Hoglin.java
+@@ -56,12 +56,12 @@
+     private static final float KNOCKBACK_RESISTANCE = 0.6F;
+     private static final int ATTACK_DAMAGE = 6;
+     private static final float BABY_ATTACK_DAMAGE = 0.5F;
+-    private static final int CONVERSION_TIME = 300;
++    public static final int CONVERSION_TIME = 300; // Loom :: private -> public (HoglinImpl)
      private int attackAnimationRemainingTicks;
 -    private int timeInOverworld;
 +    public int timeInOverworld; // Loom :: private -> public (HoglinImpl)
@@ -16,7 +16,7 @@
  
      public Hoglin(EntityType<? extends Hoglin> entitytype, Level level) {
          super(entitytype, level);
-@@ -110,7 +111,7 @@
+@@ -118,7 +118,7 @@
      }
  
      public Brain<Hoglin> getBrain() {
@@ -25,7 +25,7 @@
      }
  
      protected void customServerAiStep() {
-@@ -120,7 +121,7 @@
+@@ -128,7 +128,7 @@
          HoglinAi.updateActivity(this);
          if (this.isConverting()) {
              ++this.timeInOverworld;
@@ -34,7 +34,7 @@
                  this.playSound(SoundEvents.HOGLIN_CONVERTED_TO_ZOMBIFIED);
                  this.finishConversion((ServerLevel) this.level);
              }
-@@ -192,7 +193,7 @@
+@@ -214,7 +214,7 @@
          return this.xpReward;
      }
  
@@ -43,7 +43,7 @@
          Zoglin zoglin = (Zoglin) this.convertTo(EntityType.ZOGLIN, true);
  
          if (zoglin != null) {
-@@ -238,7 +239,7 @@
+@@ -260,7 +260,7 @@
          this.getEntityData().set(Hoglin.DATA_IMMUNE_TO_ZOMBIFICATION, flag);
      }
  
@@ -52,7 +52,7 @@
          return (Boolean) this.getEntityData().get(Hoglin.DATA_IMMUNE_TO_ZOMBIFICATION);
      }
  
-@@ -246,7 +247,7 @@
+@@ -268,7 +268,7 @@
          return !this.level.dimensionType().piglinSafe() && !this.isImmuneToZombification() && !this.isNoAi();
      }
  
@@ -61,7 +61,7 @@
          this.cannotBeHunted = flag;
      }
  
-@@ -274,7 +275,7 @@
+@@ -296,7 +296,7 @@
      }
  
      protected SoundEvent getAmbientSound() {

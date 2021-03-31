@@ -1,15 +1,15 @@
---- a/net/minecraft/network/protocol/game/ServerboundClientInformationPacket.java
-+++ b/net/minecraft/network/protocol/game/ServerboundClientInformationPacket.java
-@@ -9,7 +9,7 @@
- public class ServerboundClientInformationPacket implements Packet<ServerGamePacketListener> {
+--- a/net/minecraft//network/protocol/game/ServerboundClientInformationPacket.java
++++ b/net/minecraft//network/protocol/game/ServerboundClientInformationPacket.java
+@@ -10,7 +10,7 @@
  
+     public static final int MAX_LANGUAGE_LENGTH = 16;
      private final String language;
 -    private final int viewDistance;
 +    public final int viewDistance; // Loom :: private -> public
      private final ChatVisiblity chatVisibility;
      private final boolean chatColors;
      private final int modelCustomisation;
-@@ -60,7 +60,9 @@
+@@ -79,7 +79,9 @@
          return this.textFilteringEnabled;
      }
  

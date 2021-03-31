@@ -1,7 +1,7 @@
---- a/net/minecraft/world/entity/projectile/AbstractArrow.java
-+++ b/net/minecraft/world/entity/projectile/AbstractArrow.java
-@@ -50,16 +50,17 @@
-     private static final EntityDataAccessor<Byte> PIERCE_LEVEL = SynchedEntityData.defineId(AbstractArrow.class, EntityDataSerializers.BYTE);
+--- a/net/minecraft//world/entity/projectile/AbstractArrow.java
++++ b/net/minecraft//world/entity/projectile/AbstractArrow.java
+@@ -54,16 +54,17 @@
+     private static final int FLAG_CROSSBOW = 4;
      @Nullable
      private BlockState lastState;
 -    protected boolean inGround;
@@ -20,7 +20,7 @@
  
      protected AbstractArrow(EntityType<? extends AbstractArrow> entitytype, Level level) {
          super(entitytype, level);
-@@ -497,7 +498,7 @@
+@@ -522,7 +523,7 @@
          }
      }
  
@@ -29,7 +29,7 @@
  
      protected Entity.MovementEmission getMovementEmission() {
          return Entity.MovementEmission.NONE;
-@@ -578,7 +579,7 @@
+@@ -607,7 +608,7 @@
      }
  
      protected float getWaterInertia() {

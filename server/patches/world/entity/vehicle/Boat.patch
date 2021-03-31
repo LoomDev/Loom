@@ -1,7 +1,7 @@
---- a/net/minecraft/world/entity/vehicle/Boat.java
-+++ b/net/minecraft/world/entity/vehicle/Boat.java
-@@ -387,7 +387,7 @@
-         this.entityData.set(Boat.DATA_ID_PADDLE_RIGHT, flag1);
+--- a/net/minecraft//world/entity/vehicle/Boat.java
++++ b/net/minecraft//world/entity/vehicle/Boat.java
+@@ -413,7 +413,7 @@
+         return this.getPaddleState(i) ? (float) Mth.clampedLerp((double) this.paddlePositions[i] - 0.39269909262657166D, (double) this.paddlePositions[i], (double) f) : 0.0F;
      }
  
 -    private Boat.Status getStatus() {

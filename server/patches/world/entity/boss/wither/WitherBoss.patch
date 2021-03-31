@@ -1,6 +1,6 @@
---- a/net/minecraft/world/entity/boss/wither/WitherBoss.java
-+++ b/net/minecraft/world/entity/boss/wither/WitherBoss.java
-@@ -67,7 +67,7 @@
+--- a/net/minecraft//world/entity/boss/wither/WitherBoss.java
++++ b/net/minecraft//world/entity/boss/wither/WitherBoss.java
+@@ -69,7 +69,7 @@
      private final int[] nextHeadUpdate = new int[2];
      private final int[] idleHeadUpdates = new int[2];
      private int destroyBlocksTick;

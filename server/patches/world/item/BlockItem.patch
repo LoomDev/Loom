@@ -1,6 +1,6 @@
---- a/net/minecraft/world/item/BlockItem.java
-+++ b/net/minecraft/world/item/BlockItem.java
-@@ -55,6 +55,13 @@
+--- a/net/minecraft//world/item/BlockItem.java
++++ b/net/minecraft//world/item/BlockItem.java
+@@ -59,6 +59,13 @@
                  return InteractionResult.FAIL;
              } else {
                  BlockState blockstate = this.getPlacementState(blockplacecontext1);
@@ -14,7 +14,7 @@
  
                  if (blockstate == null) {
                      return InteractionResult.FAIL;
-@@ -223,7 +230,7 @@
+@@ -232,7 +239,7 @@
  
              if (compoundtag != null) {
                  ListTag listtag = compoundtag.getCompound("BlockEntityTag").getList("Items", 10);

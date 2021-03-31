@@ -1,14 +1,14 @@
---- a/net/minecraft/world/entity/animal/horse/AbstractHorse.java
-+++ b/net/minecraft/world/entity/animal/horse/AbstractHorse.java
-@@ -71,6 +71,7 @@
+--- a/net/minecraft//world/entity/animal/horse/AbstractHorse.java
++++ b/net/minecraft//world/entity/animal/horse/AbstractHorse.java
+@@ -72,6 +72,7 @@
  
  public abstract class AbstractHorse extends Animal implements ContainerListener, PlayerRideableJumping, Saddleable {
  
-+    public java.util.OptionalInt maxTemperOverride = java.util.OptionalInt.empty(); // Loom
-     private static final Predicate<LivingEntity> PARENT_HORSE_SELECTOR = (livingentity) -> {
-         return livingentity instanceof AbstractHorse && ((AbstractHorse) livingentity).isBred();
-     };
-@@ -381,7 +382,7 @@
++    public java.util.OptionalInt maxTemperOverride = java.util.OptionalInt.empty(); // Loom :: (AbstractHorseImpl)
+     public static final int EQUIPMENT_SLOT_OFFSET = 400;
+     public static final int CHEST_SLOT_OFFSET = 499;
+     public static final int INVENTORY_SLOT_OFFSET = 500;
+@@ -394,7 +395,7 @@
      }
  
      public int getMaxTemper() {

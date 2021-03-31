@@ -1,6 +1,6 @@
---- a/net/minecraft/world/entity/boss/enderdragon/EndCrystal.java
-+++ b/net/minecraft/world/entity/boss/enderdragon/EndCrystal.java
-@@ -51,6 +51,7 @@
+--- a/net/minecraft//world/entity/boss/enderdragon/EndCrystal.java
++++ b/net/minecraft//world/entity/boss/enderdragon/EndCrystal.java
+@@ -53,6 +53,7 @@
              BlockPos blockpos = this.blockPosition();
  
              if (((ServerLevel) this.level).dragonFight() != null && this.level.getBlockState(blockpos).isAir()) {

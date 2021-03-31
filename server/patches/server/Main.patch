@@ -1,16 +1,16 @@
---- a/net/minecraft/server/Main.java
-+++ b/net/minecraft/server/Main.java
-@@ -61,7 +61,8 @@
- 
+--- a/net/minecraft//server/Main.java
++++ b/net/minecraft//server/Main.java
+@@ -63,7 +63,8 @@
      public Main() {}
  
+     @DontObfuscate
 -    public static void main(String[] astring) {
 +    public static void main(final OptionSet optionSet) { // Loom :: args -> OptionSet
 +        /* // Loom start :: replace all
          OptionParser optionparser = new OptionParser();
          OptionSpec<Void> optionspec = optionparser.accepts("nogui");
          OptionSpec<Void> optionspec1 = optionparser.accepts("initSettings", "Initializes 'server.properties' and 'eula.txt', then quits");
-@@ -78,27 +79,28 @@
+@@ -80,27 +81,28 @@
          OptionSpec<String> optionspec12 = optionparser.accepts("serverId").withRequiredArg();
          NonOptionArgumentSpec nonoptionargumentspec = optionparser.nonOptions();
  
@@ -42,7 +42,7 @@
                  Main.LOGGER.info("Initialized '{}' and '{}'", path.toAbsolutePath(), path1.toAbsolutePath());
                  return;
              }
-@@ -108,12 +110,12 @@
+@@ -110,12 +112,12 @@
                  return;
              }
  
@@ -57,7 +57,7 @@
              LevelStorageSource levelstoragesource = LevelStorageSource.createDefault(file.toPath());
              LevelStorageSource.LevelStorageAccess levelstoragesource_levelstorageaccess = levelstoragesource.createAccess(s);
  
-@@ -126,7 +128,7 @@
+@@ -128,7 +130,7 @@
              }
  
              DataPackConfig datapackconfig = levelstoragesource_levelstorageaccess.getDataPacks();
@@ -66,7 +66,7 @@
  
              if (flag) {
                  Main.LOGGER.warn("Safe mode active, only vanilla datapack will be loaded");
-@@ -154,34 +156,31 @@
+@@ -156,34 +158,31 @@
                  LevelSettings levelsettings;
                  WorldGenSettings worldgensettings;
  
