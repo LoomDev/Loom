@@ -16,7 +16,7 @@
 -        if (serverboundresourcepackpacket.getAction() == ServerboundResourcePackPacket.Action.DECLINED && this.server.isResourcePackRequired()) {
 +        ((org.loomdev.loom.entity.player.PlayerImpl) player.getLoomEntity()).setLastResourcePackStatus(serverboundresourcepackpacket.getAction());
 +        // Loom start :: fire PlayerEvent.ResourcePackStatus
-+        var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.entity.PlayerEventImpl.ResourcePackStatus(player, serverboundresourcepackpacket.getAction(), this.server.isResourcePackRequired()));
++        var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.entity.PlayerEventImpl.ResourcePackStatusImpl(player, serverboundresourcepackpacket.getAction(), this.server.isResourcePackRequired()));
 +        if (serverboundresourcepackpacket.getAction() == ServerboundResourcePackPacket.Action.DECLINED && event.isRequired()) {
 +        // Loom end
              ServerGamePacketListenerImpl.LOGGER.info("Disconnecting {} due to resource pack rejection", this.player.getName());

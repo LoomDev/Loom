@@ -116,12 +116,12 @@ public class PlayerEventImpl extends EventImpl implements PlayerEvent {
         }
     }
 
-    public static class ResourcePackStatus extends PlayerEventImpl implements PlayerEvent.ResourcePackStatus {
+    public static class ResourcePackStatusImpl extends PlayerEventImpl implements PlayerEvent.ResourcePackStatus {
 
         private final org.loomdev.api.util.ResourcePackStatus status;
         private boolean required;
 
-        public ResourcePackStatus(ServerPlayer player, ServerboundResourcePackPacket.Action action, boolean resourcePackRequired) {
+        public ResourcePackStatusImpl(ServerPlayer player, ServerboundResourcePackPacket.Action action, boolean resourcePackRequired) {
             super((Player) player.getLoomEntity());
             this.status = ResourcePackActionTransformer.toLoom(action);
             this.required = resourcePackRequired;
