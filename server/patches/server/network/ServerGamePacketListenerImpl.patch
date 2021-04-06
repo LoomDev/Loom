@@ -1,5 +1,5 @@
---- a/net/minecraft//server/network/ServerGamePacketListenerImpl.java
-+++ b/net/minecraft//server/network/ServerGamePacketListenerImpl.java
+--- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -437,7 +437,7 @@
  
      public void handleRecipeBookSeenRecipePacket(ServerboundRecipeBookSeenRecipePacket serverboundrecipebookseenrecipepacket) {
@@ -9,7 +9,20 @@
          ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
  
          optional.ifPresent(serverrecipebook::removeHighlight);
-@@ -1125,7 +1125,13 @@
+@@ -1105,7 +1105,11 @@
+ 
+     public void handleResourcePackResponse(ServerboundResourcePackPacket serverboundresourcepackpacket) {
+         PacketUtils.ensureRunningOnSameThread(serverboundresourcepackpacket, this, this.player.getLevel());
+-        if (serverboundresourcepackpacket.getAction() == ServerboundResourcePackPacket.Action.DECLINED && this.server.isResourcePackRequired()) {
++        ((org.loomdev.loom.entity.player.PlayerImpl) player.getLoomEntity()).setLastResourcePackStatus(serverboundresourcepackpacket.getAction());
++        // Loom start :: fire PlayerEvent.ResourcePackStatus
++        var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.entity.PlayerEventImpl.ResourcePackStatus(player, serverboundresourcepackpacket.getAction(), this.server.isResourcePackRequired()));
++        if (serverboundresourcepackpacket.getAction() == ServerboundResourcePackPacket.Action.DECLINED && event.isRequired()) {
++        // Loom end
+             ServerGamePacketListenerImpl.LOGGER.info("Disconnecting {} due to resource pack rejection", this.player.getName());
+             this.disconnect(new TranslatableComponent("multiplayer.requiredTexturePrompt.disconnect"));
+         }
+@@ -1125,7 +1129,13 @@
      public void onDisconnect(Component component) {
          ServerGamePacketListenerImpl.LOGGER.info("{} lost connection: {}", this.player.getName().getString(), component.getString());
          this.server.invalidateStatus();
@@ -24,7 +37,7 @@
          this.player.disconnect();
          this.server.getPlayerList().remove(this.player);
          this.player.getTextFilter().leave();
-@@ -1201,9 +1207,17 @@
+@@ -1201,9 +1211,17 @@
                  TranslatableComponent translatablecomponent = s1.isEmpty() ? null : new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s1});
                  TranslatableComponent translatablecomponent1 = new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s});
  

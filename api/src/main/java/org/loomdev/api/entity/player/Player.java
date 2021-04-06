@@ -2,9 +2,11 @@ package org.loomdev.api.entity.player;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.LivingEntity;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.GameMode;
+import org.loomdev.api.util.ResourcePackStatus;
 import org.loomdev.api.util.Weather;
 
 import java.net.InetSocketAddress;
@@ -167,4 +169,32 @@ public interface Player extends LivingEntity {
     void setWeather(@NotNull Weather weather);
 
     void resetWeather();
+
+    /**
+     * Sends a request to a user to download a resource pack.
+     *
+     * @param url The url to the resource pack file.
+     * @param sha1Hash The SHA1 hash of the resource pack file.
+     * @throws IllegalArgumentException get thrown if the sha1Hash is longer than 40.
+     */
+    void sendResourcePack(@NotNull String url, @Nullable String sha1Hash) throws IllegalArgumentException;
+
+    /**
+     * Sends a request to a user to download a resource pack.
+     *
+     * @param url The url to the resource pack file.
+     * @param sha1Hash The SHA1 hash of the resource pack file.
+     * @param required Whether the resource pack is required to stay connected to the server.
+     * @throws IllegalArgumentException get thrown if the sha1Hash is longer than 40.
+     */
+    void sendResourcePack(@NotNull String url, @Nullable String sha1Hash, boolean required) throws IllegalArgumentException;
+
+    /**
+     * Gets the last know resource pack status.
+     *
+     * @return The last known resource pack status send by the user. Returns {@link ResourcePackStatus#UNKNOWN} if no status has been sent yet.
+     */
+    @NotNull
+    ResourcePackStatus getLastResourcePackStatus();
+
 }

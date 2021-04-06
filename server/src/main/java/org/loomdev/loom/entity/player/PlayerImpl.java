@@ -11,14 +11,17 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.GameType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.math.MathHelper;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.GameMode;
+import org.loomdev.api.util.ResourcePackStatus;
 import org.loomdev.api.util.Weather;
 import org.loomdev.loom.entity.LivingEntityImpl;
 import org.loomdev.loom.server.ServerImpl;
+import org.loomdev.loom.util.transformer.ResourcePackActionTransformer;
 import org.loomdev.loom.util.transformer.TextTransformer;
 import org.loomdev.loom.world.WorldImpl;
 
@@ -31,9 +34,11 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     private Component tabListHeader;
     private Component tabListFooter;
     private Weather weather;
+    private ResourcePackStatus status;
 
     public PlayerImpl(ServerPlayer entity) {
         super(entity);
+        this.status = ResourcePackStatus.UNKNOWN;
     }
 
     @Override
@@ -278,5 +283,26 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
                 getMinecraftEntity().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.RAIN_LEVEL_CHANGE, .5f)); // TODO? random level (between 0-1)?
                 break;
         }
+    }
+
+    @Override
+    public void sendResourcePack(@NotNull String url, @Nullable String sha1Hash) {
+        sendResourcePack(url, sha1Hash, false);
+    }
+
+    @Override
+    public void sendResourcePack(@NotNull String url, @Nullable String sha1Hash, boolean required) throws IllegalArgumentException {
+        var resourcePackPacket = new ClientboundResourcePackPacket(url, sha1Hash == null ? "" : sha1Hash, required);
+        getMinecraftEntity().connection.send(resourcePackPacket);
+    }
+
+    @Override
+    @NotNull
+    public ResourcePackStatus getLastResourcePackStatus() {
+        return status;
+    }
+
+    public void setLastResourcePackStatus(ServerboundResourcePackPacket.Action action) {
+        this.status = ResourcePackActionTransformer.toLoom(action);
     }
 }

@@ -80,4 +80,13 @@ public interface PlayerEvent extends Event {
 
         void setDisconnectMessage(@NotNull Component component);
     }
+
+    interface ResourcePackStatus extends PlayerEvent {
+        @NotNull
+        org.loomdev.api.util.ResourcePackStatus getStatus();
+
+        boolean isRequired();
+
+        void setRequired(boolean required);
+    }
 }
