@@ -21,4 +21,14 @@ public class GoatImpl extends AnimalImpl implements Goat {
     public net.minecraft.world.entity.animal.goat.Goat getMinecraftEntity() {
         return (net.minecraft.world.entity.animal.goat.Goat) super.getMinecraftEntity();
     }
+
+    @Override
+    public boolean isScreamingGoat() {
+        return getMinecraftEntity().getIsScreaming();
+    }
+
+    @Override
+    public void setScreamingGoat(boolean flag) {
+        getMinecraftEntity().isScreamingGoat = flag;
+    }
 }
