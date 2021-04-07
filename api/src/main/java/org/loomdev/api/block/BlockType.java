@@ -900,6 +900,10 @@ public interface BlockType extends Keyed {
     BlockType CAVE_VINES = getById("minecraft:cave_vines");
     BlockType CAVE_VINES_PLANT = getById("minecraft:cave_vines_plant");
     BlockType LIGHT = getById("minecraft:light");
+    BlockType WAXED_OXIDIZED_CUT_COPPER_SLAB = getById("minecraft:waxed_oxidized_cut_copper_slab");
+    BlockType WAXED_OXIDIZED_COPPER = getById("minecraft:waxed_oxidized_copper");
+    BlockType WAXED_OXIDIZED_CUT_COPPER_STAIRS = getById("minecraft:waxed_oxidized_cut_copper_stairs");
+    BlockType WAXED_OXIDIZED_CUT_COPPER = getById("minecraft:waxed_oxidized_cut_copper");
 
     // endregion :: BlockTypes
 

@@ -1,5 +1,5 @@
---- a/net/minecraft//world/entity/Entity.java
-+++ b/net/minecraft//world/entity/Entity.java
+--- a/net/minecraft/world/entity/Entity.java
++++ b/net/minecraft/world/entity/Entity.java
 @@ -116,6 +116,15 @@
  
  public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -51,7 +51,7 @@
  
      public Entity(EntityType<?> entitytype, Level level) {
          this.id = Entity.ENTITY_COUNTER.incrementAndGet();
-@@ -538,7 +548,7 @@
+@@ -540,7 +550,7 @@
          this.setRemainingFireTicks(0);
      }
  
@@ -60,7 +60,7 @@
          this.discard();
      }
  
-@@ -991,7 +1001,7 @@
+@@ -993,7 +1003,7 @@
  
      protected void onFlap() {}
  
@@ -69,7 +69,7 @@
          return false;
      }
  
-@@ -1043,7 +1053,7 @@
+@@ -1045,7 +1055,7 @@
      }
  
      public boolean fireImmune() {
@@ -78,7 +78,7 @@
      }
  
      public boolean causeFallDamage(float f, float f1, DamageSource damagesource) {
-@@ -2408,7 +2418,7 @@
+@@ -2410,7 +2420,7 @@
                      }
  
                      return PortalShape.createPortalInfo(serverlevel, blockutil_foundrectangle, direction_axis, vec3, this.getDimensions(this.getPose()), this.getDeltaMovement(), this.yRot, this.xRot);

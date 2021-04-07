@@ -1,5 +1,5 @@
---- a/net/minecraft//world/entity/projectile/FireworkRocketEntity.java
-+++ b/net/minecraft//world/entity/projectile/FireworkRocketEntity.java
+--- a/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
++++ b/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
 @@ -33,7 +33,7 @@
  
      private static final EntityDataAccessor<ItemStack> DATA_ID_FIREWORKS_ITEM = SynchedEntityData.defineId(FireworkRocketEntity.class, EntityDataSerializers.ITEM_STACK);
@@ -8,8 +8,8 @@
 +    public static final EntityDataAccessor<Boolean> DATA_SHOT_AT_ANGLE = SynchedEntityData.defineId(FireworkRocketEntity.class, EntityDataSerializers.BOOLEAN); // Loom :: private -> public
      private int life;
      private int lifetime;
-     private LivingEntity attachedToEntity;
-@@ -156,7 +156,7 @@
+     @Nullable
+@@ -157,7 +157,7 @@
  
      }
  

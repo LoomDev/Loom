@@ -1103,6 +1103,13 @@ public interface ItemType extends Keyed {
     ItemType DEEPSLATE_EMERALD_ORE = getById("minecraft:deepslate_emerald_ore");
     ItemType GOAT_SPAWN_EGG = getById("minecraft:goat_spawn_egg");
     ItemType LIGHT = getById("minecraft:light");
+    ItemType RAW_COPPER = getById("minecraft:raw_copper");
+    ItemType RAW_GOLD = getById("minecraft:raw_gold");
+    ItemType RAW_IRON = getById("minecraft:raw_iron");
+    ItemType WAXED_OXIDIZED_CUT_COPPER_SLAB = getById("minecraft:waxed_oxidized_cut_copper_slab");
+    ItemType WAXED_OXIDIZED_COPPER = getById("minecraft:waxed_oxidized_copper");
+    ItemType WAXED_OXIDIZED_CUT_COPPER_STAIRS = getById("minecraft:waxed_oxidized_cut_copper_stairs");
+    ItemType WAXED_OXIDIZED_CUT_COPPER = getById("minecraft:waxed_oxidized_cut_copper");
 
     // endregion :: ItemTypes
 

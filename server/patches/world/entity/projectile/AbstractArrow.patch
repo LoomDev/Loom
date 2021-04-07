@@ -1,6 +1,6 @@
---- a/net/minecraft//world/entity/projectile/AbstractArrow.java
-+++ b/net/minecraft//world/entity/projectile/AbstractArrow.java
-@@ -54,16 +54,17 @@
+--- a/net/minecraft/world/entity/projectile/AbstractArrow.java
++++ b/net/minecraft/world/entity/projectile/AbstractArrow.java
+@@ -54,18 +54,19 @@
      private static final int FLAG_CROSSBOW = 4;
      @Nullable
      private BlockState lastState;
@@ -14,13 +14,15 @@
 -    private int knockback;
 +    public int knockback; // Loom :: private -> public (AbstractArrowImpl)
      private SoundEvent soundEvent;
+     @Nullable
      private IntOpenHashSet piercingIgnoreEntityIds;
+     @Nullable
      private List<Entity> piercedAndKilledEntities;
 +    public float waterInertia = 0.6F; // Loom :: (AbstractArrowImpl)
  
      protected AbstractArrow(EntityType<? extends AbstractArrow> entitytype, Level level) {
          super(entitytype, level);
-@@ -522,7 +523,7 @@
+@@ -524,7 +525,7 @@
          }
      }
  
@@ -29,7 +31,7 @@
  
      protected Entity.MovementEmission getMovementEmission() {
          return Entity.MovementEmission.NONE;
-@@ -607,7 +608,7 @@
+@@ -609,7 +610,7 @@
      }
  
      protected float getWaterInertia() {
