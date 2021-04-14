@@ -24,11 +24,11 @@ public class GoatImpl extends AnimalImpl implements Goat {
 
     @Override
     public boolean isScreamingGoat() {
-        return getMinecraftEntity().getIsScreaming();
+        return getMinecraftEntity().isScreamingGoat();
     }
 
     @Override
     public void setScreamingGoat(boolean flag) {
-        getMinecraftEntity().isScreamingGoat = flag;
+        getMinecraftEntity().setScreamingGoat(flag);
     }
 }

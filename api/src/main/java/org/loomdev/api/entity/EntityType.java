@@ -47,6 +47,7 @@ import org.loomdev.api.entity.item.ItemEntity;
 import org.loomdev.api.entity.item.PrimedTnt;
 import org.loomdev.api.entity.misc.ExperienceOrb;
 import org.loomdev.api.entity.misc.LightningBolt;
+import org.loomdev.api.entity.misc.Marker;
 import org.loomdev.api.entity.monster.Blaze;
 import org.loomdev.api.entity.monster.CaveSpider;
 import org.loomdev.api.entity.monster.Creeper;
@@ -218,6 +219,7 @@ public interface EntityType<T extends Entity> extends Keyed {
     EntityType<ZombifiedPiglin> ZOMBIFIED_PIGLIN = getById("minecraft:zombified_piglin");
     EntityType<GlowItemFrame> GLOW_ITEM_FRAME = getById("minecraft:glow_item_frame");
     EntityType<GlowSquid> GLOW_SQUID = getById("minecraft:glow_squid");
+    EntityType<Marker> MARKER = getById("minecraft:marker");
 
     // endregion :: EntityTypes
 

@@ -157,15 +157,15 @@
          }, this).thenCompose((immutablelist) -> {
              return ServerResources.loadResources(immutablelist, this.registryHolder, this.isDedicatedServer() ? Commands.CommandSelection.DEDICATED : Commands.CommandSelection.INTEGRATED, this.getFunctionCompilationLevel(), this.executor, this);
          }).thenAcceptAsync((serverresources) -> {
-@@ -1812,6 +1840,7 @@
-         return this.resources.getResourceManager();
+@@ -1817,6 +1845,7 @@
+         return null;
      }
  
 +    /* // Loom start :: decompile error
      public void doRunTask(Runnable runnable) {
          this.doRunTask((TickTask) runnable);
      }
-@@ -1823,4 +1852,5 @@
+@@ -1828,4 +1857,5 @@
      public Runnable wrapRunnable(Runnable runnable) {
          return this.wrapRunnable(runnable);
      }

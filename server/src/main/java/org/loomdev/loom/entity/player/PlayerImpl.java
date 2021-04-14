@@ -286,14 +286,19 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public void sendResourcePack(@NotNull String url, @Nullable String sha1Hash) {
-        sendResourcePack(url, sha1Hash, false);
+    public void sendResourcePack() {
+        var server = getMinecraftEntity().server;
+        getMinecraftEntity().sendTexturePack(server.getResourcePack(), server.getResourcePackHash(), server.isResourcePackRequired(), server.getResourcePackPrompt());
     }
 
     @Override
-    public void sendResourcePack(@NotNull String url, @Nullable String sha1Hash, boolean required) throws IllegalArgumentException {
-        var resourcePackPacket = new ClientboundResourcePackPacket(url, sha1Hash == null ? "" : sha1Hash, required);
-        getMinecraftEntity().connection.send(resourcePackPacket);
+    public void sendResourcePack(@NotNull String url, @Nullable String sha1Hash) {
+        sendResourcePack(url, sha1Hash, false, null);
+    }
+
+    @Override
+    public void sendResourcePack(@NotNull String url, @Nullable String sha1Hash, boolean required, @Nullable Component prompt) throws IllegalArgumentException {
+        getMinecraftEntity().sendTexturePack(url, sha1Hash == null ? "" : sha1Hash, required, TextTransformer.toMinecraft(prompt));
     }
 
     @Override

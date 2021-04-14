@@ -1193,6 +1193,14 @@ public interface SoundEvent extends Keyed {
     SoundEvent ENTITY_GOAT_HURT = getById("minecraft:entity.goat.hurt");
     SoundEvent ENTITY_GOAT_MILK = getById("minecraft:entity.goat.milk");
     SoundEvent ENTITY_GOAT_AMBIENT = getById("minecraft:entity.goat.ambient");
+    SoundEvent ITEM_BONE_MEAL_USE = getById("minecraft:item.bone_meal.use");
+    SoundEvent ENTITY_GOAT_SCREAMING_PREPARE_RAM = getById("minecraft:entity.goat.screaming.prepare_ram");
+    SoundEvent ENTITY_GOAT_LONG_JUMP = getById("minecraft:entity.goat.long_jump");
+    SoundEvent ENTITY_GOAT_SCREAMING_EAT = getById("minecraft:entity.goat.screaming.eat");
+    SoundEvent ENTITY_GOAT_SCREAMING_LONG_JUMP = getById("minecraft:entity.goat.screaming.long_jump");
+    SoundEvent ENTITY_GOAT_EAT = getById("minecraft:entity.goat.eat");
+    SoundEvent ENTITY_GOAT_RAM_IMPACT = getById("minecraft:entity.goat.ram_impact");
+    SoundEvent ENTITY_GOAT_SCREAMING_RAM_IMPACT = getById("minecraft:entity.goat.screaming.ram_impact");
 
     // endregion SoundEvents
 

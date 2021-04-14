@@ -1110,6 +1110,9 @@ public interface ItemType extends Keyed {
     ItemType WAXED_OXIDIZED_COPPER = getById("minecraft:waxed_oxidized_copper");
     ItemType WAXED_OXIDIZED_CUT_COPPER_STAIRS = getById("minecraft:waxed_oxidized_cut_copper_stairs");
     ItemType WAXED_OXIDIZED_CUT_COPPER = getById("minecraft:waxed_oxidized_cut_copper");
+    ItemType RAW_IRON_BLOCK = getById("minecraft:raw_iron_block");
+    ItemType RAW_COPPER_BLOCK = getById("minecraft:raw_copper_block");
+    ItemType RAW_GOLD_BLOCK = getById("minecraft:raw_gold_block");
 
     // endregion :: ItemTypes
 

@@ -1,15 +1,6 @@
 --- a/net/minecraft//world/entity/animal/goat/Goat.java
 +++ b/net/minecraft//world/entity/animal/goat/Goat.java
-@@ -42,7 +42,7 @@
-     protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.LOOK_TARGET, MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModuleType.WALK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.PATH, MemoryModuleType.ATE_RECENTLY, MemoryModuleType.BREED_TARGET, MemoryModuleType.LONG_JUMP_COOLDOWN_TICKS, MemoryModuleType.LONG_JUMP_MID_JUMP, MemoryModuleType.TEMPTING_PLAYER, MemoryModuleType.TEMPTATION_COOLDOWN_TICKS, MemoryModuleType.IS_TEMPTED, new MemoryModuleType[0]);
-     public static final int GOAT_FALL_DAMAGE_REDUCTION = 10;
-     public static final double GOAT_SCREAMING_CHANCE = 0.02D;
--    private boolean isScreamingGoat;
-+    public boolean isScreamingGoat; // Loom :: public accessor (GoatImpl)
- 
-     public Goat(EntityType<? extends Goat> entitytype, Level level) {
-         super(entitytype, level);
-@@ -93,7 +93,7 @@
+@@ -116,7 +116,7 @@
      }
  
      public Brain<Goat> getBrain() {
@@ -18,12 +9,15 @@
      }
  
      protected void customServerAiStep() {
-@@ -152,8 +152,4 @@
-     public boolean getIsScreaming() {
-         return this.isScreamingGoat;
+@@ -225,9 +225,11 @@
+         return new Goat.GoatPathNavigation(this, level);
      }
--
--    public AgeableMob getBreedOffspring(ServerLevel serverlevel, AgeableMob ageablemob) {
--        return this.getBreedOffspring(serverlevel, ageablemob);
--    }
- }
+ 
++    /* // Loom start :: decompile error
+     public AgeableMob getBreedOffspring(ServerLevel serverlevel, AgeableMob ageablemob) {
+         return this.getBreedOffspring(serverlevel, ageablemob);
+     }
++     */ // Loom end
+ 
+     static class GoatNodeEvaluator extends WalkNodeEvaluator {
+ 

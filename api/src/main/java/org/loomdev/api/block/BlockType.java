@@ -904,6 +904,9 @@ public interface BlockType extends Keyed {
     BlockType WAXED_OXIDIZED_COPPER = getById("minecraft:waxed_oxidized_copper");
     BlockType WAXED_OXIDIZED_CUT_COPPER_STAIRS = getById("minecraft:waxed_oxidized_cut_copper_stairs");
     BlockType WAXED_OXIDIZED_CUT_COPPER = getById("minecraft:waxed_oxidized_cut_copper");
+    BlockType RAW_IRON_BLOCK = getById("minecraft:raw_iron_block");
+    BlockType RAW_COPPER_BLOCK = getById("minecraft:raw_copper_block");
+    BlockType RAW_GOLD_BLOCK = getById("minecraft:raw_gold_block");
 
     // endregion :: BlockTypes
 

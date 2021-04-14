@@ -171,6 +171,12 @@ public interface Player extends LivingEntity {
     void resetWeather();
 
     /**
+     * Sends a request to the player to download the resource pack configured in the
+     * server's properties file.
+     */
+    void sendResourcePack();
+
+    /**
      * Sends a request to a user to download a resource pack.
      *
      * @param url The url to the resource pack file.
@@ -185,9 +191,10 @@ public interface Player extends LivingEntity {
      * @param url The url to the resource pack file.
      * @param sha1Hash The SHA1 hash of the resource pack file.
      * @param required Whether the resource pack is required to stay connected to the server.
+     * @param prompt Additional message to be shown on resource pack prompt.
      * @throws IllegalArgumentException get thrown if the sha1Hash is longer than 40.
      */
-    void sendResourcePack(@NotNull String url, @Nullable String sha1Hash, boolean required) throws IllegalArgumentException;
+    void sendResourcePack(@NotNull String url, @Nullable String sha1Hash, boolean required, @Nullable Component prompt) throws IllegalArgumentException;
 
     /**
      * Gets the last know resource pack status.
