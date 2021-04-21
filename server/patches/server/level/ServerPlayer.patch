@@ -1,6 +1,6 @@
 --- a/net/minecraft//server/level/ServerPlayer.java
 +++ b/net/minecraft//server/level/ServerPlayer.java
-@@ -141,6 +141,7 @@
+@@ -142,6 +142,7 @@
  
  public class ServerPlayer extends Player {
  
@@ -8,7 +8,7 @@
      private static final Logger LOGGER = LogManager.getLogger();
      private static final int NEUTRAL_MOB_DEATH_NOTIFICATION_RADII_XZ = 32;
      private static final int NEUTRAL_MOB_DEATH_NOTIFICATION_RADII_Y = 10;
-@@ -362,7 +363,7 @@
+@@ -365,7 +366,7 @@
              compoundtag.putInt("SpawnZ", this.respawnPosition.getZ());
              compoundtag.putBoolean("SpawnForced", this.respawnForced);
              compoundtag.putFloat("SpawnAngle", this.respawnAngle);
@@ -17,7 +17,7 @@
              Logger logger = ServerPlayer.LOGGER;
  
              logger.getClass();
-@@ -1289,6 +1290,7 @@
+@@ -1293,6 +1294,7 @@
          this.textFilteringEnabled = serverboundclientinformationpacket.isTextFilteringEnabled();
          this.getEntityData().set(ServerPlayer.DATA_PLAYER_MODE_CUSTOMISATION, (byte) serverboundclientinformationpacket.getModelCustomisation());
          this.getEntityData().set(ServerPlayer.DATA_PLAYER_MAIN_HAND, (byte) (serverboundclientinformationpacket.getMainHand() == HumanoidArm.LEFT ? 0 : 1));
@@ -25,7 +25,7 @@
      }
  
      public boolean canChatInColor() {
-@@ -1391,7 +1393,7 @@
+@@ -1395,7 +1397,7 @@
  
      @Nullable
      public Component getTabListDisplayName() {

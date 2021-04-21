@@ -256,12 +256,12 @@ public abstract class EntityImpl extends CommandSourceImpl implements Entity {
 
     @Override
     public boolean isGlowing() {
-        return getMinecraftEntity().isGlowing();
+        return getMinecraftEntity().hasGlowingTag();
     }
 
     @Override
     public void setGlowing(boolean glowing) {
-        getMinecraftEntity().setGlowing(glowing);
+        getMinecraftEntity().setGlowingTag(glowing);
     }
 
     @Override

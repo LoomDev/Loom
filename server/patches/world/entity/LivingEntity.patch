@@ -30,7 +30,7 @@
  
      protected LivingEntity(EntityType<? extends LivingEntity> entitytype, Level level) {
          super(entitytype, level);
-@@ -1820,7 +1831,7 @@
+@@ -1830,7 +1841,7 @@
          this.setItemSlot(EquipmentSlot.MAINHAND, itemstack);
      }
  
