@@ -1,5 +1,5 @@
---- a/net/minecraft//server/MinecraftServer.java
-+++ b/net/minecraft//server/MinecraftServer.java
+--- a/net/minecraft/server/MinecraftServer.java
++++ b/net/minecraft/server/MinecraftServer.java
 @@ -241,6 +241,10 @@
      private ServerResources resources;
      private final StructureManager structureManager;

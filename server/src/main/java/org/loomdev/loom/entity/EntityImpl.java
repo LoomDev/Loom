@@ -106,8 +106,8 @@ public abstract class EntityImpl extends CommandSourceImpl implements Entity {
                 getMinecraftEntity().getX(),
                 getMinecraftEntity().getY(),
                 getMinecraftEntity().getZ(),
-                getMinecraftEntity().xRot,
-                getMinecraftEntity().yRot
+                getMinecraftEntity().getXRot(),
+                getMinecraftEntity().getYRot()
         );
     }
 
@@ -356,8 +356,8 @@ public abstract class EntityImpl extends CommandSourceImpl implements Entity {
 
     @Override
     public void setRotation(float pitch, float yaw) {
-        getMinecraftEntity().xRot = pitch;
-        getMinecraftEntity().yRot = yaw;
+        getMinecraftEntity().setXRot(pitch);
+        getMinecraftEntity().setYRot(yaw);
     }
 
     @Override

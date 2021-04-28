@@ -1,5 +1,5 @@
---- a/net/minecraft//world/entity/animal/axolotl/Axolotl.java
-+++ b/net/minecraft//world/entity/animal/axolotl/Axolotl.java
+--- a/net/minecraft/world/entity/animal/axolotl/Axolotl.java
++++ b/net/minecraft/world/entity/animal/axolotl/Axolotl.java
 @@ -68,7 +68,7 @@
          return livingentity.getType() == EntityType.AXOLOTL && !((Axolotl) livingentity).isPlayingDead();
      };

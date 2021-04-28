@@ -1,5 +1,5 @@
---- a/net/minecraft//world/entity/animal/goat/Goat.java
-+++ b/net/minecraft//world/entity/animal/goat/Goat.java
+--- a/net/minecraft/world/entity/animal/goat/Goat.java
++++ b/net/minecraft/world/entity/animal/goat/Goat.java
 @@ -116,7 +116,7 @@
      }
  

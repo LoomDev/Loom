@@ -1,5 +1,5 @@
---- a/net/minecraft//world/entity/player/Player.java
-+++ b/net/minecraft//world/entity/player/Player.java
+--- a/net/minecraft/world/entity/player/Player.java
++++ b/net/minecraft/world/entity/player/Player.java
 @@ -124,7 +124,7 @@
      public static final float SWIMMING_BB_HEIGHT = 0.6F;
      public static final float DEFAULT_EYE_HEIGHT = 1.62F;

@@ -1,5 +1,5 @@
---- a/net/minecraft//world/entity/monster/hoglin/Hoglin.java
-+++ b/net/minecraft//world/entity/monster/hoglin/Hoglin.java
+--- a/net/minecraft/world/entity/monster/hoglin/Hoglin.java
++++ b/net/minecraft/world/entity/monster/hoglin/Hoglin.java
 @@ -56,12 +56,12 @@
      private static final float KNOCKBACK_RESISTANCE = 0.6F;
      private static final int ATTACK_DAMAGE = 6;

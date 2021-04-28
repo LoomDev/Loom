@@ -1,5 +1,5 @@
---- a/net/minecraft//world/level/Explosion.java
-+++ b/net/minecraft//world/level/Explosion.java
+--- a/net/minecraft/world/level/Explosion.java
++++ b/net/minecraft/world/level/Explosion.java
 @@ -46,16 +46,16 @@
  
      private static final ExplosionDamageCalculator EXPLOSION_DAMAGE_CALCULATOR = new ExplosionDamageCalculator();

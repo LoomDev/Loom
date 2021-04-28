@@ -1,5 +1,5 @@
---- a/net/minecraft//server/dedicated/DedicatedServer.java
-+++ b/net/minecraft//server/dedicated/DedicatedServer.java
+--- a/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -79,8 +79,8 @@
      @Nullable
      private final Component resourcePackPrompt;
