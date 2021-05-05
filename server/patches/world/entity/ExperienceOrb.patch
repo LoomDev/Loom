@@ -1,6 +1,6 @@
---- a/net/minecraft//world/entity/ExperienceOrb.java
-+++ b/net/minecraft//world/entity/ExperienceOrb.java
-@@ -28,11 +28,11 @@
+--- a/net/minecraft/world/entity/ExperienceOrb.java
++++ b/net/minecraft/world/entity/ExperienceOrb.java
+@@ -27,11 +27,11 @@
      private static final int MAX_FOLLOW_DIST = 8;
      private static final int ORB_GROUPS_PER_AREA = 40;
      private static final double ORB_MERGE_DISTANCE = 0.5D;

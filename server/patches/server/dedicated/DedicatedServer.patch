@@ -45,7 +45,7 @@
              long j = Util.getNanos() - i;
              String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
  
-@@ -582,7 +588,9 @@
+@@ -581,7 +587,9 @@
          return this.resourcePackPrompt;
      }
  

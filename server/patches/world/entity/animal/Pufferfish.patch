@@ -1,11 +1,11 @@
---- a/net/minecraft//world/entity/animal/Pufferfish.java
-+++ b/net/minecraft//world/entity/animal/Pufferfish.java
-@@ -30,7 +30,7 @@
+--- a/net/minecraft/world/entity/animal/Pufferfish.java
++++ b/net/minecraft/world/entity/animal/Pufferfish.java
+@@ -31,7 +31,7 @@
  
      private static final EntityDataAccessor<Integer> PUFF_STATE = SynchedEntityData.defineId(Pufferfish.class, EntityDataSerializers.INT);
      private int inflateCounter;
 -    private int deflateTimer;
 +    public int deflateTimer; // Loom :: private -> public (PufferfishImpl)
-     private static final Predicate<LivingEntity> NO_SPECTATORS_AND_NO_WATER_MOB = (livingentity) -> {
-         return livingentity == null ? false : (livingentity instanceof Player && (livingentity.isSpectator() || ((Player) livingentity).isCreative()) ? false : livingentity.getMobType() != MobType.WATER);
+     private static final Predicate<LivingEntity> NO_CREATIVE_OR_WATER_MOB = (livingentity) -> {
+         return livingentity instanceof Player && ((Player) livingentity).isCreative() ? false : livingentity.getMobType() != MobType.WATER;
      };

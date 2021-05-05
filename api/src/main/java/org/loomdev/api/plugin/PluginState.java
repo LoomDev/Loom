@@ -30,7 +30,6 @@ public enum PluginState {
                         || state == PluginState.INVALID;
 
             case LOADED:
-            case DISABLED:
                 return state == PluginState.ENABLING
                         || state == PluginState.INVALID;
 
@@ -46,6 +45,7 @@ public enum PluginState {
                 return state == PluginState.DISABLED
                         || state == PluginState.INVALID;
 
+            case DISABLED:
             case INVALID:
                 return state == PluginState.INVALID
                         || state == PluginState.LOADING;

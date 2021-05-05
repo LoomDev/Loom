@@ -5,7 +5,7 @@
     <parent>
         <artifactId>loom-root</artifactId>
         <groupId>org.loomdev</groupId>
-        <version>21w17a</version>
+        <version>21w18a</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
