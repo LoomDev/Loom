@@ -204,4 +204,8 @@ public interface Player extends LivingEntity {
     @NotNull
     ResourcePackStatus getLastResourcePackStatus();
 
+    void kick();
+
+    void kick(@NotNull Component reason);
+
 }

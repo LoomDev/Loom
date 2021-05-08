@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,11 +35,11 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     private Component tabListHeader;
     private Component tabListFooter;
     private Weather weather;
-    private ResourcePackStatus status;
+    private ResourcePackStatus resourcePackStatus;
 
     public PlayerImpl(ServerPlayer entity) {
         super(entity);
-        this.status = ResourcePackStatus.UNKNOWN;
+        this.resourcePackStatus = ResourcePackStatus.UNKNOWN;
     }
 
     @Override
@@ -304,10 +305,20 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     @NotNull
     public ResourcePackStatus getLastResourcePackStatus() {
-        return status;
+        return resourcePackStatus;
+    }
+
+    @Override
+    public void kick() {
+        getMinecraftEntity().connection.disconnect(TextComponent.EMPTY);
+    }
+
+    @Override
+    public void kick(@NotNull Component reason) {
+        getMinecraftEntity().connection.disconnect(TextTransformer.toMinecraft(reason));
     }
 
     public void setLastResourcePackStatus(ServerboundResourcePackPacket.Action action) {
-        this.status = ResourcePackActionTransformer.toLoom(action);
+        this.resourcePackStatus = ResourcePackActionTransformer.toLoom(action);
     }
 }
