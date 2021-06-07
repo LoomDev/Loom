@@ -44,9 +44,10 @@ showHelp () {
     echo "  p, patch                | Apply all Loom patches. (Required a set up repository)"
     echo "  rb, rebuild             | Create/update patches base on your current project source."
     echo "  jar                     | Create a distributable server jar for Loom."
+    echo "  ab, autobuild           | Does everything for you."
     # echo "  switchVersion <version> | Switch the Minecraft version you are targeting"
     echo ""
-    echo "Selected version: $mcVersion"
+    echo "Selected Minecraft version: $mcVersion"
     echo ""
 }
 
@@ -113,6 +114,7 @@ case "$1" in
     "p" | "patch") applyPatches ;;
     "rb" | "rebuild") rebuildPatches ;;
     "jar") buildJar ;;
+    "ab" || "autobuild") setupRepository; applyPatches; buildJar;;
     *) showHelp ;;
 esac
 
