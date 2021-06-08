@@ -1,255 +1,84 @@
 package org.loomdev.loom.command.loom;
 
-import com.google.common.collect.ImmutableList;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
-import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.command.Command;
-import org.loomdev.api.command.CommandContext;
-import org.loomdev.api.command.CommandSource;
-import org.loomdev.api.plugin.PluginState;
-import org.loomdev.api.plugin.exception.PluginNotFoundException;
-import org.loomdev.api.util.ChatColor;
-import org.loomdev.loom.plugin.InternalPluginManager;
-import org.loomdev.loom.plugin.PluginContainer;
-import org.loomdev.api.plugin.exception.IllegalPluginStateChangeException;
 
-import java.util.List;
+import org.loomdev.api.command.ArgumentCommandNode;
+import org.loomdev.api.command.CommandContext;
+import org.loomdev.api.command.LiteralCommandNode;
+import org.loomdev.api.command.Suggestion;
+import org.loomdev.api.plugin.exception.IllegalPluginStateChangeException;
+import org.loomdev.api.plugin.exception.PluginNotFoundException;
+import org.loomdev.loom.plugin.InternalPluginManager;
+
+import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class PluginsCommand extends Command {
+public class PluginsCommand {
 
-    private final InternalPluginManager pluginManager;
+    public static void register(InternalPluginManager pluginManager) {
+        LiteralCommandNode.builder("plugins")
+                .requiresPermission("loom.command.plugins")
+                .alias("pl")
 
-    public PluginsCommand(InternalPluginManager pluginManager) {
-        super("plugins", "pl");
-        this.pluginManager = pluginManager;
+                .then(LiteralCommandNode.builder("help")
+                        .executesVoid(PluginsCommand::sendHelpText))
 
-        setDescription("Shows a list of plugins installed on this server.");
-        setUsage("/plugins");
-        setPermission("loom.command.plugins");
+                .then(LiteralCommandNode.builder("reload")
+                        .requiresPermission("loom.command.plugins.reload")
+
+                        .then(ArgumentCommandNode.builder("plugin")
+                                .ofString()
+                                .suggester((ctx) -> suggestNames(pluginManager))
+                        .executesBoolean((ctx) -> {
+                            if(ctx.hasValue("plugin")) {
+                                return reloadPlugin(pluginManager, ctx, ctx.getValue("plugin"));
+                            }
+                            else {
+                                return reloadPlugins(pluginManager, ctx);
+                            }
+                        }))
+
+                .then(LiteralCommandNode.builder("enable")
+                        .requiresPermission("loom.command.plugins.enable")
+                        .then(ArgumentCommandNode.builder("plugin")
+                                .required()
+                                .executesBoolean((ctx) -> enablePlugin(pluginManager, ctx, ctx.getValue("plugin"))))
+
+                        )
+                
+                .then(LiteralCommandNode.builder("disable")
+                        .requiresPermission("loom.command.plugins.disable")
+                        .then(ArgumentCommandNode.builder("plugin")
+                                .required()
+                                .executesBoolean((ctx) -> disablePlugin(pluginManager, ctx, ctx.getValue("plugin"))))
+
+                        ));
+        
     }
 
-    @Override
-    public void execute(@NotNull CommandContext context) {
-        var source = context.getSource();
-        var args = context.getArguments();
-
-        var isAdmin = source.hasPermission("loom.command.plugins.admin");
-        if (!isAdmin || args.length == 0) {
-            sendList(source);
-            return;
-        }
-
-        if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
-            sendHelpText(source);
-            return;
-        }
-
-        if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            reloadPlugins(source);
-            return;
-        }
-
-        if (args.length == 2) {
-            var pluginId = args[1];
-
-            if (args[0].equalsIgnoreCase("disable")) {
-                disablePlugin(source, pluginId);
-                return;
-            } else if (args[0].equalsIgnoreCase("enable")) {
-                enablePlugin(source, pluginId);
-                return;
-            } else if (args[0].equalsIgnoreCase("reload")) {
-                reloadPlugin(source, pluginId);
-                return;
-            }
-        }
-
-        var usageMessage = Component.text()
-                .append(Component.text("Invalid usage! Use").color(NamedTextColor.RED))
-                .append(Component.text(" /plugins help ").color(NamedTextColor.GOLD))
-                .append(Component.text("for usage details.").color(NamedTextColor.RED))
-                .build();
-        source.sendMessage(usageMessage);
+    private static Collection<Suggestion> suggestNames(InternalPluginManager pluginManager) {
+        return pluginManager.getPlugins().getAllMetadata().map((plugin) -> {
+            return new Suggestion(plugin.getId(), plugin.toString());
+        }).collect(Collectors.toList());
     }
 
-    @Override
-    @NotNull
-    public List<String> suggest(@NotNull CommandContext context) {
-        var source = context.getSource();
-        var isAdmin = source.hasPermission("loom.command.plugins.admin");
-
-        if (!isAdmin) {
-            return ImmutableList.of();
-        }
-
-        var args = context.getArguments();
-        if (args.length == 0) {
-            return ImmutableList.of("help", "reload", "enable", "disable");
-        }
-
-        if (args.length == 1) {
-            return ImmutableList.copyOf(pluginManager.getPlugins().getAllPluginIds());
-        }
-
-        return ImmutableList.of();
-    }
-
-    // region Plugin list
-
-    private void sendList(CommandSource source) {
-        boolean isAdmin = source.hasPermission("loom.command.plugins.admin");
-
-        var plugins = pluginManager.getPlugins()
-                .all()
-                .filter(container -> isAdmin || container.getState() == PluginState.ENABLED)
-                .map(container -> getPlugin(container, isAdmin))
-                .collect(Collectors.toList());
-
-        var message = Component.join(
-                Component.newline(),
-                Component.text("Plugins (" + plugins.size() + "): ").color(ChatColor.WHITE),
-                Component.join(Component.text(", "), plugins)
-        );
-
-        source.sendMessage(message);
-    }
-
-    private Component getPlugin(PluginContainer container, boolean isAdmin) {
-        var metadata = container.getMetadata();
-
-        var hoverTextBuilder = Component.text();
-
-        if (isAdmin) {
-            hoverTextBuilder.append(getHoverField("Id: ", metadata.getId()));
-            hoverTextBuilder.append(Component.newline());
-        }
-
-        hoverTextBuilder.append(getHoverField("Name: ", metadata.getName()));
-
-        metadata.getDescription().ifPresent(description -> {
-            hoverTextBuilder.append(Component.newline());
-            hoverTextBuilder.append(getHoverField("Description: ", description));
-        });
-
-        hoverTextBuilder.append(Component.newline());
-        hoverTextBuilder.append(getHoverField("Version: ", metadata.getVersion()));
-
-        if (metadata.getAuthors().length > 0) {
-            hoverTextBuilder.append(Component.newline());
-            hoverTextBuilder.append(getHoverField("Authors: ", String.join(", ", metadata.getAuthors())));
-        }
-
-        var state = container.getState();
-        var stateColor = isAdmin ? state.getColor() : NamedTextColor.GREEN;
-
-        if (isAdmin) {
-            hoverTextBuilder.append(Component.newline());
-            hoverTextBuilder.append(getHoverField("State: ", state.name().toLowerCase(), stateColor));
-        }
-
-        var hoverEvent = HoverEvent.showText(hoverTextBuilder.asComponent());
-        var pluginName = Component.text(metadata.getName())
-                .color(stateColor);
-
-        if (isAdmin) {
-            String commandSuggestion = null;
-            if (state == PluginState.DISABLED || state == PluginState.INVALID) {
-                commandSuggestion = "/pl enable " + metadata.getId();
-            } else if (state == PluginState.ENABLED) {
-                commandSuggestion = "/pl disable " + metadata.getId();
-            }
-
-            if (commandSuggestion != null) {
-                var clickEvent = ClickEvent.suggestCommand(commandSuggestion);
-                pluginName = pluginName.clickEvent(clickEvent);
-            }
-        }
-
-        return pluginName.hoverEvent(hoverEvent);
-    }
-
-    private Component getHoverField(String label, String value) {
-        return getHoverField(label, value, NamedTextColor.GREEN);
-    }
-
-    private Component getHoverField(String label, String value, TextColor color) {
-        var labelComponent = Component.text(label).color(ChatColor.WHITE);
-        var valueComponent = Component.text(value).color(color);
-
-        return labelComponent
-                .append(valueComponent);
-    }
-
-    // endregion Plugin list
-
-    public void reloadPlugins(CommandSource source) {
+    private static boolean reloadPlugins(InternalPluginManager pluginManager, CommandContext ctx) {
         try {
             pluginManager.reloadAll();
             var message = Component.text("Reloaded all plugins").color(NamedTextColor.GREEN);
-            source.sendMessage(message);
+            ctx.getSource().sendMessage(message);
+            return true;
         } catch (Exception e) {
-            source.sendMessage(getExceptionMessage(e));
+            ctx.getSource().sendMessage(getExceptionMessage(e));
             e.printStackTrace();
         }
-    }
-
-    public void disablePlugin(CommandSource source, String pluginId) {
-        try {
-            pluginManager.disable(pluginId);
-            source.sendMessage(Component.text("Plugin '" + pluginId + "' disabled.").color(NamedTextColor.GREEN));
-        } catch (PluginNotFoundException e) {
-            source.sendMessage(getNotFoundText(e.getPluginId()));
-        } catch (IllegalPluginStateChangeException exception) {
-            var message = Component.text("Plugin already disabled. (state: " + exception.getFrom() + ")")
-                    .color(NamedTextColor.RED);
-            source.sendMessage(message);
-        } catch (Exception e) {
-            source.sendMessage(getExceptionMessage(e));
-            e.printStackTrace();
-        }
-    }
-
-    public void enablePlugin(CommandSource source, String pluginId) {
-        try {
-            pluginManager.enable(pluginId);
-            source.sendMessage(Component.text("Plugin '" + pluginId + "' enabled.").color(NamedTextColor.GREEN));
-        } catch (PluginNotFoundException e) {
-            source.sendMessage(getNotFoundText(e.getPluginId()));
-        } catch (IllegalPluginStateChangeException exception) {
-            var message = Component.text("Plugin already enabled. (state: " + exception.getFrom() + ")")
-                    .color(NamedTextColor.RED);
-            source.sendMessage(message);
-        } catch (Exception e) {
-            source.sendMessage(getExceptionMessage(e));
-            e.printStackTrace();
-        }
-    }
-
-    public void reloadPlugin(CommandSource source, String pluginId) {
-        try {
-            var failedToDisable = pluginManager.reload(pluginId);
-            if (failedToDisable) {
-                source.sendMessage(Component.text("An error occurred when reloading '" + pluginId + "'. Please check the console for more information.").color(NamedTextColor.RED));
-                return;
-            }
-
-            source.sendMessage(Component.text("Plugin '" + pluginId + "' reloaded.").color(NamedTextColor.GREEN));
-        } catch (PluginNotFoundException e) {
-            source.sendMessage(getNotFoundText(e.getPluginId()));
-        } catch (Exception e) {
-            source.sendMessage(getExceptionMessage(e));
-            e.printStackTrace();
-        }
+        return false;
     }
 
     // region Help Text
 
-    private void sendHelpText(CommandSource source) {
+    private static void sendHelpText(CommandContext ctx) {
         var helpText = Component.join(
                 Component.newline(),
                 getHelpTextLine("/pl", "Shows a list of all plugins."),
@@ -259,24 +88,80 @@ public class PluginsCommand extends Command {
                 getHelpTextLine("/pl reload <plugin-id>", "Reload an enabled plugin.")
         );
 
-        source.sendMessage(helpText);
+        ctx.getSource().sendMessage(helpText);
     }
 
-    private Component getHelpTextLine(String command, String description) {
-        return Component.text(command).color(ChatColor.GOLD)
-                .append(Component.text(" - ").color(ChatColor.GRAY))
-                .append(Component.text(description).color(ChatColor.GRAY));
+    private static boolean reloadPlugin(InternalPluginManager pluginManager, CommandContext ctx, String pluginId) {
+        try {
+            var failedToDisable = pluginManager.reload(pluginId);
+            if (failedToDisable) {
+                ctx.getSource().sendMessage(Component.text("An error occurred when reloading '" + pluginId + "'. Please check the console for more information.").color(NamedTextColor.RED));
+                return false;
+            }
+
+            ctx.getSource().sendMessage(Component.text("Plugin '" + pluginId + "' reloaded.").color(NamedTextColor.GREEN));
+            return true;
+        } catch (PluginNotFoundException e) {
+            ctx.getSource().sendMessage(getNotFoundText(e.getPluginId()));
+        } catch (Exception e) {
+            ctx.getSource().sendMessage(getExceptionMessage(e));
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private static Component getHelpTextLine(String command, String description) {
+        return Component.text(command).color(NamedTextColor.GOLD)
+                .append(Component.text(" - ").color(NamedTextColor.GRAY))
+                .append(Component.text(description).color(NamedTextColor.GRAY));
     }
 
     // endregion Help Text
 
-    private Component getNotFoundText(String pluginId) {
+    private static Component getNotFoundText(String pluginId) {
         return Component.text("Plugin '" + pluginId + "' could not be found.")
                 .color(NamedTextColor.RED);
     }
 
-    private Component getExceptionMessage(Exception e) {
+    private static Component getExceptionMessage(Exception e) {
         return Component.text("Something went wrong! Please check the console for more information. (" + e.getClass().getSimpleName() +")")
                 .color(NamedTextColor.RED);
     }
+    
+    public static boolean disablePlugin(InternalPluginManager pluginManager, CommandContext ctx, String pluginId) {
+        try {
+            pluginManager.disable(pluginId);
+            ctx.getSource().sendMessage(Component.text("Plugin '" + pluginId + "' disabled.").color(NamedTextColor.GREEN));
+            return true;
+        } catch (PluginNotFoundException e) {
+            ctx.getSource().sendMessage(getNotFoundText(e.getPluginId()));
+        } catch (IllegalPluginStateChangeException exception) {
+            var message = Component.text("Plugin already disabled. (state: " + exception.getFrom() + ")")
+                    .color(NamedTextColor.RED);
+            ctx.getSource().sendMessage(message);
+        } catch (Exception e) {
+            ctx.getSource().sendMessage(getExceptionMessage(e));
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private static boolean enablePlugin(InternalPluginManager pluginManager, CommandContext ctx, String pluginId) {
+        try {
+            pluginManager.enable(pluginId);
+            ctx.getSource().sendMessage(Component.text("Plugin '" + pluginId + "' enabled.").color(NamedTextColor.GREEN));
+            return true;
+        } catch (PluginNotFoundException e) {
+            ctx.getSource().sendMessage(getNotFoundText(e.getPluginId()));
+        } catch (IllegalPluginStateChangeException exception) {
+            var message = Component.text("Plugin already enabled. (state: " + exception.getFrom() + ")")
+                    .color(NamedTextColor.RED);
+            ctx.getSource().sendMessage(message);
+        } catch (Exception e) {
+            ctx.getSource().sendMessage(getExceptionMessage(e));
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
 }

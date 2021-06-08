@@ -4,7 +4,9 @@ public interface PermissionSubject {
 
     PermissionValue getPermission(String permission);
 
-    boolean hasPermission(String permission);
+    default boolean hasPermission(String permission) {
+        return getPermission(permission).asBoolean();
+    }
 
     boolean isOperator();
 

@@ -1,7 +1,6 @@
 package org.loomdev.api.util;
 
 import com.google.common.base.Preconditions;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 
 /**

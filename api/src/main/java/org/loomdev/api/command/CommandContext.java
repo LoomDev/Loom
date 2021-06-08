@@ -1,24 +1,20 @@
 package org.loomdev.api.command;
 
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a command context containing the {@link CommandSource},
- * alias (the alias that was used to execute the command) and arguments.
+ * Represents a command context containing the {@link CommandSource}.
  */
 public interface CommandContext {
 
-    @NotNull
-    CommandSource getSource();
+    @NotNull CommandSource getSource();
 
-    /**
-     * Gets the alias that was used to execute the command.
-     *
-     * @return The alias.
-     */
-    @NotNull
-    String getAlias();
+    @Nullable <V> V getValue(String arg);
 
-    @NotNull
-    String[] getArguments();
+    default boolean hasValue(String arg) {
+        return getValue(arg) != null;
+    }
+
 }

@@ -3,6 +3,7 @@ package org.loomdev.loom.command;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandManager;
+import org.loomdev.api.command.CommandNode;
 import org.loomdev.api.plugin.PluginState;
 import org.loomdev.api.plugin.exception.IllegalPluginStateException;
 import org.loomdev.api.plugin.metadata.PluginMetadata;
@@ -34,7 +35,7 @@ public class ProxiedCommandManager implements CommandManager {
     }
 
     @Override
-    public void registerCommand(@NotNull Command command) throws IllegalPluginStateException {
+    public void registerCommand(@NotNull CommandNode command) throws IllegalPluginStateException {
         checkState();
         this.internalCommandManager.register(metadata.getId(), command);
     }
