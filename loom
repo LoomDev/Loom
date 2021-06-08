@@ -114,7 +114,7 @@ case "$1" in
     "p" | "patch") applyPatches ;;
     "rb" | "rebuild") rebuildPatches ;;
     "jar") buildJar ;;
-    "ab" || "autobuild") setupRepository; applyPatches; buildJar;;
+    "ab" | "autobuild") setupRepository; applyPatches; buildJar;;
     *) showHelp ;;
 esac
 
