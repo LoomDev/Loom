@@ -1,24 +1,47 @@
 package org.loomdev.api.command;
 
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.command.tree.argument.ArgumentCommandNode;
 
 /**
- * Represents a command context containing the {@link CommandSource},
- * alias (the alias that was used to execute the command) and arguments.
+ * Represents the context in which a command is executed.
+ * Contains the {@link CommandSource}.
  */
 public interface CommandContext {
 
-    @NotNull
-    CommandSource getSource();
+    @NotNull CommandSource getSource();
 
     /**
-     * Gets the alias that was used to execute the command.
-     *
-     * @return The alias.
+     * Gets the value of an argument.
+     * @param <V> The argument type.
+     * @param arg The argument identifier.
+     * @param type The type of argument.
+     * @return The value.
+     * @see ArgumentCommandNode.Builder#id(String)
      */
-    @NotNull
-    String getAlias();
+    @Nullable
+    <V> V getValue(String arg, Class<V> type);
 
-    @NotNull
-    String[] getArguments();
+    /**
+     * Gets the value of an argument.
+     * @param <V> The argument type.
+     * @param arg The argument identifier.
+     * @return The value.
+     * @see ArgumentCommandNode.Builder#id(String)
+     */
+    default <V> V getValue(String arg) {
+        return (V) getValue(arg, Object.class);
+    }
+
+    /**
+     * Gets whether the command has a value.
+     * @param arg The argument identifier.
+     * @return <code>true</code> if the command has a value.
+     */
+    default boolean hasValue(String arg) {
+        return getValue(arg, Object.class) != null;
+    }
+
 }

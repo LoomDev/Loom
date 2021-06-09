@@ -1,12 +1,15 @@
 package org.loomdev.loom.util.registry;
 
 import com.google.common.collect.Maps;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.block.BlockType;
 import org.loomdev.api.bossbar.BossBar;
+import org.loomdev.api.command.CommandSyntaxExeception;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.SpawnGroup;
 import org.loomdev.api.entity.decoration.Painting;
@@ -183,5 +186,11 @@ public class RegistryImpl extends Registry {
         T wrappedObject = (T) wrapperSuppliers.get(type).get(key);
         typeCache.put(key, wrappedObject);
         return wrappedObject;
+    }
+
+    @Override
+    @NotNull
+    public CommandSyntaxExeception createCommandSyntaxException(String message, String input, int cursor) {
+        return new CommandSyntaxExceptionImpl(new CommandSyntaxException(null, message, input, cursor));
     }
 }

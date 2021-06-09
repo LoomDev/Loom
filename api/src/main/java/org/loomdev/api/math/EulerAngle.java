@@ -1,7 +1,7 @@
 package org.loomdev.api.math;
 
 /**
- * Represents a rotation of pitch, yaw and roll (pitch is on the X axis, yaw on the Y axis and roll on the Z axis).
+ * Represents a rotation of pitch, yaw and roll (pitch is on the Y axis, yaw on the X axis and roll on the Z axis).
  */
 public class EulerAngle {
 
@@ -13,7 +13,6 @@ public class EulerAngle {
         this.pitch = !Float.isInfinite(pitch) && !Float.isNaN(pitch) ? pitch % 360.0F : 0.0F;
         this.yaw = !Float.isInfinite(yaw) && !Float.isNaN(yaw) ? yaw % 360.0F : 0.0F;
         this.roll = !Float.isInfinite(roll) && !Float.isNaN(roll) ? roll % 360.0F : 0.0F;
-
     }
 
     public static EulerAngle of(float pitch, float yaw, float roll) {
