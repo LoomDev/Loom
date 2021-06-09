@@ -1,6 +1,5 @@
 package org.loomdev.loom.util;
 
-import org.loomdev.loom.util.transformer.TextTransformer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -9,6 +8,10 @@ import net.minecraft.network.chat.TextColor;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
+
+import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.NotNull;
 
 public class ChatToLegacyConverter {
 
@@ -20,7 +23,8 @@ public class ChatToLegacyConverter {
      * @return The legacy string.
      * @see https://minecraft.gamepedia.com/Formatting_codes
      */
-    public static String toLegacy(Component component) {
+    @NotNull
+    public static String toLegacy(@Nullable Component component) {
         if (component == null) {
             return "";
         }

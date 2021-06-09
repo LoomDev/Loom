@@ -2,6 +2,7 @@ package org.loomdev.api.util.registry;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.loomdev.api.command.CommandSyntaxExeception;
 import org.loomdev.api.item.property.ItemProperty;
 import org.loomdev.api.item.property.data.ItemPropertyData;
 import org.loomdev.api.tag.Tag;
@@ -40,4 +41,7 @@ public abstract class Registry {
     // TODO should use NamespacedKey.
     @Nullable
     public abstract <T extends Keyed> T getWrapped(@NotNull Class<T> type, @NotNull String key);
+
+    @NotNull
+    public abstract CommandSyntaxExeception createCommandSyntaxException(String text, String input, int cursor);
 }

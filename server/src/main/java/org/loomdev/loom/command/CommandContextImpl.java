@@ -4,33 +4,27 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.CommandContext;
 import org.loomdev.api.command.CommandSource;
 
+import net.minecraft.commands.CommandSourceStack;
+
 public class CommandContextImpl implements CommandContext {
 
     private final CommandSource source;
-    private final String alias;
-    private final String[] arguments;
+    private final com.mojang.brigadier.context.CommandContext<CommandSourceStack> context;
 
-    public CommandContextImpl(CommandSource source, String alias, String[] arguments) {
+    public CommandContextImpl(CommandSource source, com.mojang.brigadier.context.CommandContext<CommandSourceStack> context) {
         this.source = source;
-        this.alias = alias;
-        this.arguments = arguments;
+        this.context = context;
     }
 
-    @NotNull
     @Override
+    public <V> V getValue(String arg, Class<V> type) {
+        return context.getArgument(arg, type);
+    }
+
+    @Override
+    @NotNull
     public CommandSource getSource() {
         return source;
     }
 
-    @Override
-    @NotNull
-    public String getAlias() {
-        return alias;
-    }
-
-    @Override
-    @NotNull
-    public String[] getArguments() {
-        return arguments;
-    }
 }

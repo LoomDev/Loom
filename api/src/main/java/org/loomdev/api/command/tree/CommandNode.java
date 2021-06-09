@@ -1,9 +1,13 @@
-package org.loomdev.api.command;
+package org.loomdev.api.command.tree;
 
 import java.util.Collection;
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.NotNull;
+import org.loomdev.api.command.CommandContext;
+import org.loomdev.api.command.CommandExecutor;
+import org.loomdev.api.command.CommandExecutor.BooleanCommandExecutor;
+import org.loomdev.api.command.CommandExecutor.VoidCommandExecutor;
 import org.loomdev.api.permissions.PermissionSubject;
 
 /**
@@ -21,24 +25,12 @@ public interface CommandNode {
     
     @NotNull Collection<CommandNode> getChildren();
 
-    /**
-     * Adds a child node.
-     * @param node The node.
-     */
-    void addChild(@NotNull CommandNode node);
-
-    /**
-     * Removes a child node.
-     * @param node The node.
-     */
-    void removeChild(@NotNull CommandNode node);
-
     interface Builder<N extends CommandNode, B extends Builder<N, B>> {
 
         /**
-         * Sets the id of the argument.
+         * Sets the identifier of the argument.
          * Used in {@link CommandContext#getValue(String)}
-         * @param id The id.
+         * @param id The identifier.
          * @return The builder.
          */
         B id(@NotNull String id);
@@ -103,14 +95,14 @@ public interface CommandNode {
         B requires(Predicate<CommandContext> predicate);
 
         /**
-         * Creates an command redirecting to this.
+         * Creates a command redirecting to this.
          * @param alias The command name.
          * @return The builder.
          */
         B alias(String alias);
 
         /**
-         * Creates commands redirecting to this.
+         * Creates multiple commands redirecting to this.
          * @param alias The command names.
          * @return The builder.
          */

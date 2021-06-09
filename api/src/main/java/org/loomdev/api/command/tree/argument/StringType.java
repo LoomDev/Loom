@@ -1,4 +1,4 @@
-package org.loomdev.api.command;
+package org.loomdev.api.command.tree.argument;
 
 /**
  * Represents a method of reading a string argument.
@@ -12,7 +12,7 @@ public enum StringType {
     /**
      * A quoted string, to allow multiple words.
      * A backslash can be used for escaping.
-     * When the string is ended, more arguments may follow.
+     * When the string ends, more arguments may follow.
      */
     QUOTED,
     /**

@@ -3,7 +3,7 @@ package org.loomdev.loom.command;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.Command;
 import org.loomdev.api.command.CommandManager;
-import org.loomdev.api.command.CommandNode;
+import org.loomdev.api.command.tree.CommandNode;
 import org.loomdev.api.plugin.PluginState;
 import org.loomdev.api.plugin.exception.IllegalPluginStateException;
 import org.loomdev.api.plugin.metadata.PluginMetadata;

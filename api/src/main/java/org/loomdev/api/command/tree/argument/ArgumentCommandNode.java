@@ -1,16 +1,16 @@
-package org.loomdev.api.command;
+package org.loomdev.api.command.tree.argument;
 
-import java.util.Collection;
 
 import org.jetbrains.annotations.NotNull;
-import org.loomdev.api.block.BlockState;
-import org.loomdev.api.entity.EntityType;
-import org.loomdev.api.item.ItemStack;
+import org.loomdev.api.block.BlockType;
+import org.loomdev.api.command.CommandReader;
+import org.loomdev.api.command.CommandSyntaxExeception;
+import org.loomdev.api.command.tree.CommandNode;
+import org.loomdev.api.command.tree.CommandNode.Builder;
+import org.loomdev.api.util.InvalidNamespacedKeyException;
 import org.loomdev.api.util.NamespacedKey;
 import org.loomdev.api.util.builder.BuilderBase;
 import org.loomdev.api.util.registry.Registry;
-import org.loomdev.api.world.Location;
-import org.loomdev.api.world.World;
 
 public interface ArgumentCommandNode extends CommandNode {
 
@@ -27,7 +27,7 @@ public interface ArgumentCommandNode extends CommandNode {
     public interface Builder
             extends CommandNode.Builder<ArgumentCommandNode, Builder>, BuilderBase<ArgumentCommandNode, Builder> {
 
-        public Builder required();
+        Builder required();
 
         Builder ofBoolean();
 
@@ -65,60 +65,38 @@ public interface ArgumentCommandNode extends CommandNode {
          */
         Builder ofString(StringType type);
 
-        // TODO add selector api
-        // Builder ofSelector();
-
         /**
-         * Sets the argument to a {@link Location}.
+         * Sets the argument to a plugin ID.
          * @return The builder.
          */
-        Builder ofLocation();
-
-        /**
-         * Sets the argument to a {@link BlockState}.
-         * @return The builder.
-         */
-        Builder ofBlockState();
-
-        /**
-         * Sets the argument to a {@link ItemStack}.
-         * @return The builder.
-         */
-        Builder ofItemStack();
-
-        /**
-         * Sets the argument to a {@link EntityType}.
-         * @return The builder.
-         */
-        Builder ofEntityType();
+        Builder ofPlugin();
 
         /**
          * Sets the argument to a {@link NamespacedKey}.
          * @return The builder.
          */
-        Builder ofNamespacedKey();
-
-        /**
-         * Sets the argument to a {@link World}.
-         * @return The builder.
-         */
-        Builder ofWorld();
-
-        /**
-         * Sets the suggester (completer) for the command.
-         * @param suggester The suggester.
-         * @return The builder.
-         */
-        Builder suggester(Suggester suggester);
-
-        /**
-         * Sets the suggester (completer) for the command.
-         * @param suggester The suggester (as a list).
-         * @return The builder.
-         */
-        default Builder suggester(Collection<Suggestion> suggester) {
-            return suggester((ctx) -> suggester);
+        default Builder ofNamespacedKey() {
+            return of(new CustomArgumentType<NamespacedKey>() {
+                
+                @Override
+                public NamespacedKey read(CommandReader reader) {
+                    String id = reader.getRead();
+                    try {
+                        return NamespacedKey.of(id);
+                    } catch (InvalidNamespacedKeyException error) {
+                        throw CommandSyntaxExeception.create(error.getMessage(), reader.getString(), reader.getCursor());
+                    }
+                }
+                
+            });
         }
+
+        /**
+         * Sets the argument to a custom one.
+         * @param type The argument type.
+         * @return The builder.
+         */
+        Builder of(CustomArgumentType<?> type);
 
     }
 

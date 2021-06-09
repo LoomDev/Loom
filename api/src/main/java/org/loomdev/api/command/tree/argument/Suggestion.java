@@ -1,4 +1,4 @@
-package org.loomdev.api.command;
+package org.loomdev.api.command.tree.argument;
 
 import java.util.Objects;
 

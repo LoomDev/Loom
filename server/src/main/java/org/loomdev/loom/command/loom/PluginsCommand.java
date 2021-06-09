@@ -3,16 +3,19 @@ package org.loomdev.loom.command.loom;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
-import org.loomdev.api.command.ArgumentCommandNode;
+import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.command.CommandContext;
-import org.loomdev.api.command.LiteralCommandNode;
-import org.loomdev.api.command.Suggestion;
+import org.loomdev.api.command.CommandReader;
+import org.loomdev.api.command.tree.LiteralCommandNode;
+import org.loomdev.api.command.tree.argument.ArgumentCommandNode;
+import org.loomdev.api.command.tree.argument.CustomArgumentType;
+import org.loomdev.api.command.tree.argument.Suggestions;
+import org.loomdev.api.command.tree.argument.Suggestions.Builder;
 import org.loomdev.api.plugin.exception.IllegalPluginStateChangeException;
 import org.loomdev.api.plugin.exception.PluginNotFoundException;
 import org.loomdev.loom.plugin.InternalPluginManager;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.concurrent.CompletableFuture;
 
 public class PluginsCommand {
 
@@ -29,7 +32,25 @@ public class PluginsCommand {
 
                         .then(ArgumentCommandNode.builder("plugin")
                                 .ofString()
-                                .suggester((ctx) -> suggestNames(pluginManager))
+                                .of(new CustomArgumentType<String>() {
+
+                                    @Override
+                                    public String read(CommandReader reader) {
+                                        return reader.readUnquotedString();
+                                    }
+
+                                    @Override
+                                    @NotNull
+                                    public CompletableFuture<Suggestions> suggest(CommandContext ctx,
+                                            Builder builder) {
+                                        pluginManager.getPlugins().getAllMetadata().forEach((meta) -> {
+                                            if(meta.getId().toLowerCase().startsWith(builder.getRemaining().toLowerCase())) {
+                                                builder.suggest(meta.getId(), meta.toString());
+                                            }
+                                        });
+                                        return builder.buildFuture();
+                                    }
+                                })
                         .executesBoolean((ctx) -> {
                             if(ctx.hasValue("plugin")) {
                                 return reloadPlugin(pluginManager, ctx, ctx.getValue("plugin"));
@@ -55,12 +76,6 @@ public class PluginsCommand {
 
                         ));
         
-    }
-
-    private static Collection<Suggestion> suggestNames(InternalPluginManager pluginManager) {
-        return pluginManager.getPlugins().getAllMetadata().map((plugin) -> {
-            return new Suggestion(plugin.getId(), plugin.toString());
-        }).collect(Collectors.toList());
     }
 
     private static boolean reloadPlugins(InternalPluginManager pluginManager, CommandContext ctx) {

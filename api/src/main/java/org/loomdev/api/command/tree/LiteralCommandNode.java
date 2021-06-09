@@ -1,4 +1,4 @@
-package org.loomdev.api.command;
+package org.loomdev.api.command.tree;
 
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.util.builder.BuilderBase;
@@ -13,7 +13,7 @@ public interface LiteralCommandNode extends CommandNode {
     static Builder builder(@NotNull String literal) {
         return builder().literal(literal);
     }
-    
+
     @NotNull String getLiteral();
 
     interface Builder extends CommandNode.Builder<LiteralCommandNode, Builder>, BuilderBase<LiteralCommandNode, Builder> {
