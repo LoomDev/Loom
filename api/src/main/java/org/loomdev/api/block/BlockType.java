@@ -824,7 +824,7 @@ public interface BlockType extends Keyed {
     BlockType POWDER_SNOW = getById("minecraft:powder_snow");
     BlockType SCULK_SENSOR = getById("minecraft:sculk_sensor");
     BlockType GLOW_LICHEN = getById("minecraft:glow_lichen");
-    BlockType AZALEA_LEAVES_FLOWERS = getById("minecraft:azalea_leaves_flowers");
+    BlockType FLOWERING_AZALEA_LEAVES = getById("minecraft:flowering_azalea_leaves");
     BlockType HANGING_ROOTS = getById("minecraft:hanging_roots");
     BlockType SMALL_DRIPLEAF = getById("minecraft:small_dripleaf");
     BlockType MOSS_CARPET = getById("minecraft:moss_carpet");
@@ -907,6 +907,8 @@ public interface BlockType extends Keyed {
     BlockType RAW_IRON_BLOCK = getById("minecraft:raw_iron_block");
     BlockType RAW_COPPER_BLOCK = getById("minecraft:raw_copper_block");
     BlockType RAW_GOLD_BLOCK = getById("minecraft:raw_gold_block");
+    BlockType POTTED_AZALEA_BUSH = getById("minecraft:potted_azalea_bush");
+    BlockType POTTED_FLOWERING_AZALEA_BUSH = getById("minecraft:potted_flowering_azalea_bush");
 
     // endregion :: BlockTypes
 

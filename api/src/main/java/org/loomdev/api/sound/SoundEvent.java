@@ -88,7 +88,7 @@ public interface SoundEvent extends Keyed {
     SoundEvent BLOCK_NOTE_BLOCK_IRON_XYLOPHONE = getById("minecraft:block.note_block.iron_xylophone");
     SoundEvent ENTITY_CHICKEN_EGG = getById("minecraft:entity.chicken.egg");
     SoundEvent ENTITY_STRIDER_EAT = getById("minecraft:entity.strider.eat");
-    SoundEvent ITEM_SWEET_BERRIES_PICK_FROM_BUSH = getById("minecraft:item.sweet_berries.pick_from_bush");
+    SoundEvent BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES = getById("minecraft:block.sweet_berry_bush.pick_berries");
     SoundEvent ENTITY_ZOMBIE_HORSE_HURT = getById("minecraft:entity.zombie_horse.hurt");
     SoundEvent BLOCK_CORAL_BLOCK_STEP = getById("minecraft:block.coral_block.step");
     SoundEvent ENTITY_SKELETON_HORSE_GALLOP_WATER = getById("minecraft:entity.skeleton_horse.gallop_water");

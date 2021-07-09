@@ -1029,7 +1029,7 @@ public interface ItemType extends Keyed {
     ItemType GLOW_ITEM_FRAME = getById("minecraft:glow_item_frame");
     ItemType GLOW_LICHEN = getById("minecraft:glow_lichen");
     ItemType GLOW_INK_SAC = getById("minecraft:glow_ink_sac");
-    ItemType AZALEA_LEAVES_FLOWERS = getById("minecraft:azalea_leaves_flowers");
+    ItemType FLOWERING_AZALEA_LEAVES = getById("minecraft:flowering_azalea_leaves");
     ItemType HANGING_ROOTS = getById("minecraft:hanging_roots");
     ItemType SMALL_DRIPLEAF = getById("minecraft:small_dripleaf");
     ItemType GLOW_BERRIES = getById("minecraft:glow_berries");
