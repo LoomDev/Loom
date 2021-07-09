@@ -1,6 +1,6 @@
 --- a/net/minecraft//world/entity/animal/TropicalFish.java
 +++ b/net/minecraft//world/entity/animal/TropicalFish.java
-@@ -199,7 +199,7 @@
+@@ -195,7 +195,7 @@
          }
      }
  

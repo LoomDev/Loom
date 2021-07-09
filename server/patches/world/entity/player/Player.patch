@@ -18,7 +18,7 @@
      public int experienceLevel;
      public int totalExperience;
      public float experienceProgress;
-@@ -1496,6 +1496,7 @@
+@@ -1492,6 +1492,7 @@
              ItemStack itemstack = this.getItemBySlot(EquipmentSlot.CHEST);
  
              if (itemstack.is(Items.ELYTRA) && ElytraItem.isFlyEnabled(itemstack)) {

@@ -1,6 +1,6 @@
 --- a/net/minecraft//server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft//server/network/ServerGamePacketListenerImpl.java
-@@ -439,7 +439,7 @@
+@@ -438,7 +438,7 @@
  
      public void handleRecipeBookSeenRecipePacket(ServerboundRecipeBookSeenRecipePacket serverboundrecipebookseenrecipepacket) {
          PacketUtils.ensureRunningOnSameThread(serverboundrecipebookseenrecipepacket, this, this.player.getLevel());
@@ -9,7 +9,7 @@
          ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
  
          Objects.requireNonNull(serverrecipebook);
-@@ -776,7 +776,7 @@
+@@ -763,7 +763,7 @@
          ListTag listtag = new ListTag();
  
          if (this.player.isTextFilteringEnabled()) {
@@ -18,7 +18,7 @@
                  return StringTag.valueOf((String) unaryoperator.apply(textfilter_filteredtext.getFiltered()));
              });
  
-@@ -1111,7 +1111,11 @@
+@@ -1098,7 +1098,11 @@
  
      public void handleResourcePackResponse(ServerboundResourcePackPacket serverboundresourcepackpacket) {
          PacketUtils.ensureRunningOnSameThread(serverboundresourcepackpacket, this, this.player.getLevel());
@@ -31,7 +31,7 @@
              ServerGamePacketListenerImpl.LOGGER.info("Disconnecting {} due to resource pack rejection", this.player.getName());
              this.disconnect(new TranslatableComponent("multiplayer.requiredTexturePrompt.disconnect"));
          }
-@@ -1133,7 +1137,13 @@
+@@ -1120,7 +1124,13 @@
      public void onDisconnect(Component component) {
          ServerGamePacketListenerImpl.LOGGER.info("{} lost connection: {}", this.player.getName().getString(), component.getString());
          this.server.invalidateStatus();
@@ -46,7 +46,7 @@
          this.player.disconnect();
          this.server.getPlayerList().remove(this.player);
          this.player.getTextFilter().leave();
-@@ -1209,9 +1219,17 @@
+@@ -1196,9 +1206,17 @@
                  TranslatableComponent translatablecomponent = s1.isEmpty() ? null : new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s1});
                  TranslatableComponent translatablecomponent1 = new TranslatableComponent("chat.type.text", new Object[]{this.player.getDisplayName(), s});
  

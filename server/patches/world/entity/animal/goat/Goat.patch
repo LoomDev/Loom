@@ -1,6 +1,6 @@
 --- a/net/minecraft//world/entity/animal/goat/Goat.java
 +++ b/net/minecraft//world/entity/animal/goat/Goat.java
-@@ -112,7 +112,7 @@
+@@ -125,7 +125,7 @@
      }
  
      public Brain<Goat> getBrain() {
@@ -9,7 +9,7 @@
      }
  
      protected void customServerAiStep() {
-@@ -229,9 +229,11 @@
+@@ -242,9 +242,11 @@
          return new Goat.GoatPathNavigation(this, level);
      }
  

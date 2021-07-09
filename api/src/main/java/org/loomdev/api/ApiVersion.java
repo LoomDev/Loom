@@ -38,7 +38,8 @@ public enum ApiVersion {
     V21W16A("21w16a", ReleaseType.SNAPSHOT),
     V21W17A("21w17a", ReleaseType.SNAPSHOT),
     V21W18A("21w18a", ReleaseType.SNAPSHOT),
-    V1_17R1("1.17-R1", ReleaseType.RELEASE);
+    V1_17R1("1.17-R1", ReleaseType.RELEASE),
+    V1_17_1R1("1.17.1-R1", ReleaseType.RELEASE);
 
     public static final ApiVersion LATEST = values()[ApiVersion.values().length - 1];
     public static final ApiVersion LATEST_SNAPSHOT = getLatestByType(ReleaseType.SNAPSHOT);

@@ -30,7 +30,7 @@
  
      protected LivingEntity(EntityType<? extends LivingEntity> entitytype, Level level) {
          super(entitytype, level);
-@@ -1848,7 +1859,7 @@
+@@ -1852,7 +1863,7 @@
          this.setItemSlot(EquipmentSlot.MAINHAND, itemstack);
      }
  
@@ -39,7 +39,7 @@
          this.hurt(DamageSource.OUT_OF_WORLD, 4.0F);
      }
  
-@@ -2675,7 +2686,7 @@
+@@ -2678,7 +2689,7 @@
      }
  
      public boolean isSensitiveToWater() {
@@ -48,7 +48,7 @@
      }
  
      private void updateFallFlying() {
-@@ -2972,7 +2983,7 @@
+@@ -2975,7 +2986,7 @@
  
      }
  
@@ -57,7 +57,7 @@
          byte b0 = (Byte) this.entityData.get(LivingEntity.DATA_LIVING_ENTITY_FLAGS);
          int j;
  
-@@ -3260,7 +3271,7 @@
+@@ -3263,7 +3274,7 @@
      }
  
      public void stopSleeping() {
@@ -66,7 +66,7 @@
          Level level = this.level;
  
          java.util.Objects.requireNonNull(this.level);
-@@ -3292,7 +3303,7 @@
+@@ -3295,7 +3306,7 @@
  
      @Nullable
      public Direction getBedOrientation() {

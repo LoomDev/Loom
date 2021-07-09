@@ -1,6 +1,6 @@
 --- a/net/minecraft//world/item/ItemStack.java
 +++ b/net/minecraft//world/item/ItemStack.java
-@@ -109,7 +109,7 @@
+@@ -107,7 +107,7 @@
      private int count;
      private int popTime;
      @Deprecated
@@ -9,7 +9,7 @@
      private CompoundTag tag;
      private boolean emptyCacheFlag;
      private Entity entityRepresentation;
-@@ -141,7 +141,7 @@
+@@ -139,7 +139,7 @@
          this.updateEmptyCacheFlag();
      }
  

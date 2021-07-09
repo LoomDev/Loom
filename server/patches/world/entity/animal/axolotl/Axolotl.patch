@@ -9,7 +9,7 @@
      private static final EntityDataAccessor<Integer> DATA_VARIANT = SynchedEntityData.defineId(Axolotl.class, EntityDataSerializers.INT);
      private static final EntityDataAccessor<Boolean> DATA_PLAYING_DEAD = SynchedEntityData.defineId(Axolotl.class, EntityDataSerializers.BOOLEAN);
      private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(Axolotl.class, EntityDataSerializers.BOOLEAN);
-@@ -185,7 +185,7 @@
+@@ -181,7 +181,7 @@
          return Axolotl.Variant.BY_ID[(Integer) this.entityData.get(Axolotl.DATA_VARIANT)];
      }
  
@@ -18,7 +18,7 @@
          this.entityData.set(Axolotl.DATA_VARIANT, axolotl_variant.getId());
      }
  
-@@ -430,7 +430,7 @@
+@@ -426,7 +426,7 @@
      }
  
      public Brain<Axolotl> getBrain() {
