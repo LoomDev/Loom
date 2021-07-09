@@ -11,7 +11,7 @@ import javax.tools.Diagnostic;
 import java.util.Set;
 
 @SupportedAnnotationTypes("org.loomdev.api.plugin.lifecycle.LifecycleHook")
-@SupportedSourceVersion(SourceVersion.RELEASE_11)
+@SupportedSourceVersion(SourceVersion.RELEASE_16)
 public class LifecycleProcessor extends AbstractProcessor {
 
     private static final String LifecycleEventCanonicalName = LifecycleEvent.class.getCanonicalName();

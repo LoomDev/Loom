@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 @SupportedAnnotationTypes("org.loomdev.api.plugin.Plugin")
-@SupportedSourceVersion(SourceVersion.RELEASE_11)
+@SupportedSourceVersion(SourceVersion.RELEASE_16)
 public class PluginProcessor extends AbstractProcessor {
 
     private static final Pattern PLUGIN_ID_REGEX = Pattern.compile("^[a-z0-9_-]*$");
