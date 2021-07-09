@@ -9,6 +9,15 @@
          ServerRecipeBook serverrecipebook = this.player.getRecipeBook();
  
          Objects.requireNonNull(serverrecipebook);
+@@ -713,7 +713,7 @@
+ 
+             Objects.requireNonNull(list);
+             optional.ifPresent(list::add);
+-            Stream stream = serverboundeditbookpacket.getPages().stream().limit(100L);
++            Stream<String> stream = serverboundeditbookpacket.getPages().stream().limit(100L); // Loom :: decompile error
+ 
+             Objects.requireNonNull(list);
+             stream.forEach(list::add);
 @@ -763,7 +763,7 @@
          ListTag listtag = new ListTag();
  
