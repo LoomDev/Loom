@@ -91,8 +91,6 @@ public interface LivingEntity extends Damageable {
 
     void resetSensitiveToWater();
 
-    boolean canSee(@NotNull Entity entity);
-
     float getHeadYaw();
 
     void setHeadYaw(float yaw);

@@ -1,6 +1,6 @@
---- a/net/minecraft/server/dedicated/DedicatedServer.java
-+++ b/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -79,8 +79,8 @@
+--- a/net/minecraft//server/dedicated/DedicatedServer.java
++++ b/net/minecraft//server/dedicated/DedicatedServer.java
+@@ -82,8 +82,8 @@
      @Nullable
      private final Component resourcePackPrompt;
  
@@ -11,7 +11,7 @@
          this.settings = dedicatedserversettings;
          this.rconConsoleSource = new RconConsoleSource(this);
          this.textFilterClient = TextFilterClient.createFromConfig(dedicatedserversettings.getProperties().textFilteringConfig);
-@@ -90,7 +90,10 @@
+@@ -93,7 +93,10 @@
      public boolean initServer() throws IOException {
          Thread thread = new Thread("Server console handler") {
              public void run() {
@@ -23,7 +23,7 @@
  
                  String s;
  
-@@ -100,8 +103,9 @@
+@@ -103,8 +106,9 @@
                      }
                  } catch (IOException ioexception) {
                      DedicatedServer.LOGGER.error("Exception handling console input", ioexception);
@@ -34,7 +34,7 @@
              }
          };
  
-@@ -174,8 +178,10 @@
+@@ -177,8 +181,10 @@
              SkullBlockEntity.setProfileCache(this.getProfileCache());
              SkullBlockEntity.setSessionService(this.getSessionService());
              GameProfileCache.setUsesAuthentication(this.usesAuthentication());
@@ -45,7 +45,7 @@
              long j = Util.getNanos() - i;
              String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
  
-@@ -581,7 +587,9 @@
+@@ -618,7 +624,9 @@
          return this.resourcePackPrompt;
      }
  

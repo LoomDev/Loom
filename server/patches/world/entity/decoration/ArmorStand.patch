@@ -15,7 +15,7 @@
  
      public ArmorStand(EntityType<? extends ArmorStand> entitytype, Level level) {
          super(entitytype, level);
-@@ -645,7 +645,7 @@
+@@ -646,7 +646,7 @@
          return this.isMarker() ? PushReaction.IGNORE : super.getPistonPushReaction();
      }
  
@@ -24,7 +24,7 @@
          this.entityData.set(ArmorStand.DATA_CLIENT_FLAGS, this.setBit((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS), 1, flag));
      }
  
-@@ -653,7 +653,7 @@
+@@ -654,7 +654,7 @@
          return ((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS) & 1) != 0;
      }
  
@@ -33,7 +33,7 @@
          this.entityData.set(ArmorStand.DATA_CLIENT_FLAGS, this.setBit((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS), 4, flag));
      }
  
-@@ -661,7 +661,7 @@
+@@ -662,7 +662,7 @@
          return ((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS) & 4) != 0;
      }
  
@@ -42,7 +42,7 @@
          this.entityData.set(ArmorStand.DATA_CLIENT_FLAGS, this.setBit((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS), 8, flag));
      }
  
-@@ -669,7 +669,7 @@
+@@ -670,7 +670,7 @@
          return ((Byte) this.entityData.get(ArmorStand.DATA_CLIENT_FLAGS) & 8) != 0;
      }
  

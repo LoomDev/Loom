@@ -1,17 +1,17 @@
---- a/net/minecraft/server/MinecraftServer.java
-+++ b/net/minecraft/server/MinecraftServer.java
-@@ -242,6 +242,10 @@
-     private ServerResources resources;
-     private final StructureManager structureManager;
-     protected final WorldData worldData;
+--- a/net/minecraft//server/MinecraftServer.java
++++ b/net/minecraft//server/MinecraftServer.java
+@@ -166,6 +166,10 @@
+ 
+ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTask> implements SnooperPopulator, CommandSource, AutoCloseable {
+ 
 +    // Loom start
 +    public org.loomdev.loom.server.ServerImpl loomServer;
-+    public static int currentTick;
++    public int currentTick;
 +    // Loom end
- 
-     public static <S extends MinecraftServer> S spin(Function<Thread, S> function) {
-         AtomicReference<S> atomicreference = new AtomicReference();
-@@ -252,14 +256,14 @@
+     static final Logger LOGGER = LogManager.getLogger();
+     private static final float AVERAGE_TICK_TIME_SMOOTHING = 0.8F;
+     private static final int TICK_STATS_SPAN = 100;
+@@ -265,14 +269,14 @@
          thread.setUncaughtExceptionHandler((thread1, throwable) -> {
              MinecraftServer.LOGGER.error(throwable);
          });
@@ -23,12 +23,12 @@
          return s0;
      }
  
--    public MinecraftServer(Thread thread, RegistryAccess.RegistryHolder registryaccess_registryholder, LevelStorageSource.LevelStorageAccess levelstoragesource_levelstorageaccess, WorldData worlddata, PackRepository packrepository, Proxy proxy, DataFixer datafixer, ServerResources serverresources, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, GameProfileCache gameprofilecache, ChunkProgressListenerFactory chunkprogresslistenerfactory) {
-+    public MinecraftServer(joptsimple.OptionSet optionSet, Thread thread, RegistryAccess.RegistryHolder registryaccess_registryholder, LevelStorageSource.LevelStorageAccess levelstoragesource_levelstorageaccess, WorldData worlddata, PackRepository packrepository, Proxy proxy, DataFixer datafixer, ServerResources serverresources, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, GameProfileCache gameprofilecache, ChunkProgressListenerFactory chunkprogresslistenerfactory) { // Loom
+-    public MinecraftServer(Thread thread, RegistryAccess.RegistryHolder registryaccess_registryholder, LevelStorageSource.LevelStorageAccess levelstoragesource_levelstorageaccess, WorldData worlddata, PackRepository packrepository, Proxy proxy, DataFixer datafixer, ServerResources serverresources, @Nullable MinecraftSessionService minecraftsessionservice, @Nullable GameProfileRepository gameprofilerepository, @Nullable GameProfileCache gameprofilecache, ChunkProgressListenerFactory chunkprogresslistenerfactory) {
++    public MinecraftServer(joptsimple.OptionSet optionSet, Thread thread, RegistryAccess.RegistryHolder registryaccess_registryholder, LevelStorageSource.LevelStorageAccess levelstoragesource_levelstorageaccess, WorldData worlddata, PackRepository packrepository, Proxy proxy, DataFixer datafixer, ServerResources serverresources, @Nullable MinecraftSessionService minecraftsessionservice, @Nullable GameProfileRepository gameprofilerepository, @Nullable GameProfileCache gameprofilecache, ChunkProgressListenerFactory chunkprogresslistenerfactory) { // Loom
          super("Server");
-         this.continousProfiler = new ContinuousProfiler(Util.timeSource, this::getTickCount);
-         this.profiler = InactiveProfiler.INSTANCE;
-@@ -292,6 +296,7 @@
+         this.metricsRecorder = InactiveMetricsRecorder.INSTANCE;
+         this.profiler = this.metricsRecorder.getProfiler();
+@@ -314,13 +318,14 @@
          this.structureManager = new StructureManager(serverresources.getResourceManager(), levelstoragesource_levelstorageaccess, datafixer);
          this.serverThread = thread;
          this.executor = Util.backgroundExecutor();
@@ -36,15 +36,23 @@
      }
  
      private void readScoreboard(DimensionDataStorage dimensiondatastorage) {
-@@ -601,6 +606,7 @@
-     }
+         ServerScoreboard serverscoreboard = this.getScoreboard();
  
-     protected void stopServer() {
-+        loomServer.shutdown(); // Loom
+         Objects.requireNonNull(serverscoreboard);
+-        Function function = serverscoreboard::createData;
++        Function<net.minecraft.nbt.CompoundTag, net.minecraft.world.scores.ScoreboardSaveData> function = serverscoreboard::createData; // Loom :: decompile error
+         ServerScoreboard serverscoreboard1 = this.getScoreboard();
+ 
+         Objects.requireNonNull(serverscoreboard1);
+@@ -631,6 +636,7 @@
+ 
+     public void stopServer() {
          MinecraftServer.LOGGER.info("Stopping server");
++        loomServer.shutdown(); // Loom
          if (this.getConnection() != null) {
              this.getConnection().stop();
-@@ -650,6 +656,12 @@
+         }
+@@ -679,6 +685,12 @@
              MinecraftServer.LOGGER.error("Failed to unlock level {}", this.storageSource.getLevelId(), ioexception1);
          }
  
@@ -57,13 +65,12 @@
      }
  
      public String getLocalIp() {
-@@ -684,10 +696,13 @@
+@@ -713,10 +725,12 @@
                  this.status.setVersion(new ServerStatus.Version(SharedConstants.getCurrentVersion().getName(), SharedConstants.getCurrentVersion().getProtocolVersion()));
                  this.updateStatusIcon(this.status);
  
 +                // Loom start :: tick loop improvements
 +                long start = System.nanoTime(), currentTime, tickSection = start;
-+                long lastTick = start - org.loomdev.loom.monitoring.LoomTps.TICK_TIME;
                  while (this.running) {
 -                    long i = Util.getMillis() - this.nextTickTime;
 +                    long i = ((currentTime = System.nanoTime()) / (1000L * 1000L)) - this.nextTickTime;
@@ -73,59 +80,67 @@
                          long j = i / 50L;
  
                          MinecraftServer.LOGGER.warn("Can't keep up! Is the server overloaded? Running {}ms or {} ticks behind", i, j);
-@@ -695,6 +710,14 @@
-                         this.lastOverloadWarning = this.nextTickTime;
+@@ -729,6 +743,13 @@
+                         this.debugCommandProfiler = new MinecraftServer.TimeProfiler(Util.getNanos(), this.tickCount);
                      }
  
-+                    if (++MinecraftServer.currentTick % org.loomdev.loom.monitoring.LoomTps.SAMPLE_INTERVAL == 0) {
++                    if (++currentTick % org.loomdev.loom.monitoring.LoomTps.SAMPLE_INTERVAL == 0) {
 +                        long diff = currentTime - tickSection;
 +                        ((org.loomdev.loom.monitoring.LoomTps) this.loomServer.getTps()).add(diff);
 +                        tickSection = currentTime;
 +                    }
 +
-+                    lastTick = currentTime;
 +                    // Loom end
                      this.nextTickTime += 50L;
-                     SingleTickProfiler singletickprofiler = SingleTickProfiler.createTickProfiler("Server");
+                     this.startMetricsRecordingTick();
+                     this.profiler.push("tick");
+@@ -827,7 +848,7 @@
+         }
+     }
  
-@@ -848,6 +871,7 @@
+-    protected void doRunTask(TickTask ticktask) {
++    public void doRunTask(TickTask ticktask) { // Loom :: decompile error
+         this.getProfiler().incrementCounter("runTask");
+         super.doRunTask(ticktask);
+     }
+@@ -881,6 +902,7 @@
          long i = Util.getNanos();
  
          ++this.tickCount;
-+        org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.server.TickEventImpl.PreImpl(tickCount)); // Loom :: fire TickEvent.Pre
++        org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.server.TickEventImpl.PreImpl(getTickCount())); // Loom :: fire TickEvent.Pre
          this.tickChildren(booleansupplier);
          if (i - this.lastServerStatus >= 5000000000L) {
              this.lastServerStatus = i;
-@@ -882,17 +906,20 @@
+@@ -915,17 +937,20 @@
          }
  
          this.profiler.pop();
-+        org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.server.TickEventImpl.PostImpl(tickCount)); // Loom :: fire TickEvent.Post
++        org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.server.TickEventImpl.PostImpl(getTickCount())); // Loom :: fire TickEvent.Post
          this.profiler.push("tallying");
          long l = this.tickTimes[this.tickCount % 100] = Util.getNanos() - i;
  
          this.averageTickTime = this.averageTickTime * 0.8F + (float) l / 1000000.0F * 0.19999999F;
          long i1 = Util.getNanos();
  
-+        ((org.loomdev.loom.monitoring.LoomTickTimes) this.loomServer.getTickTimes()).addTickTimes(this.tickCount, l); // Loom :: monitor tick times
++        ((org.loomdev.loom.monitoring.LoomTickTimes) this.loomServer.getTickTimes()).addTickTimes(getTickCount(), l); // Loom
          this.frameTimer.logFrameDuration(i1 - i);
          this.profiler.pop();
      }
  
-     protected void tickChildren(BooleanSupplier booleansupplier) {
+     public void tickChildren(BooleanSupplier booleansupplier) {
 +        this.loomServer.getScheduler().serverTick(); // Loom :: pulse scheduler
          this.profiler.push("commandFunctions");
          this.getFunctions().tick();
          this.profiler.popPush("levels");
-@@ -913,6 +940,7 @@
+@@ -946,6 +971,7 @@
              this.profiler.push("tick");
  
              try {
-+                org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.server.TickEventImpl.WorldImpl(tickCount, serverlevel)); // Loom :: fire TickEvent.World
++                org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.server.TickEventImpl.WorldImpl(getTickCount(), serverlevel)); // Loom :: fire TickEvent.World
                  serverlevel.tick(booleansupplier);
              } catch (Throwable throwable) {
                  CrashReport crashreport = CrashReport.forThrowable(throwable, "Exception ticking world");
-@@ -997,7 +1025,7 @@
+@@ -1030,7 +1056,7 @@
  
      @DontObfuscate
      public String getServerModName() {
@@ -133,8 +148,8 @@
 +        return loomServer.getImplementationName(); // Loom :: display server brand
      }
  
-     public void fillReport(CrashReportCategory crashreportcategory) {
-@@ -1037,7 +1065,7 @@
+     public SystemReport fillSystemReport(SystemReport systemreport) {
+@@ -1075,7 +1101,7 @@
      public abstract Optional<String> getModdedStatus();
  
      public void sendMessage(Component component, UUID uuid) {
@@ -143,7 +158,7 @@
      }
  
      public KeyPair getKeyPair() {
-@@ -1358,11 +1386,11 @@
+@@ -1396,11 +1422,11 @@
  
      public CompletableFuture<Void> reloadResources(Collection<String> collection) {
          CompletableFuture<Void> completablefuture = CompletableFuture.supplyAsync(() -> {
@@ -151,23 +166,25 @@
 +            Stream<String> stream = collection.stream(); // Loom :: decompile error
              PackRepository packrepository = this.packRepository;
  
-             this.packRepository.getClass();
+             Objects.requireNonNull(this.packRepository);
 -            return (ImmutableList) stream.map(packrepository::getPack).filter(Objects::nonNull).map(Pack::open).collect(ImmutableList.toImmutableList());
 +            return stream.map(packrepository::getPack).filter(Objects::nonNull).map(Pack::open).collect(ImmutableList.toImmutableList()); // Loom :: decompile error
          }, this).thenCompose((immutablelist) -> {
              return ServerResources.loadResources(immutablelist, this.registryHolder, this.isDedicatedServer() ? Commands.CommandSelection.DEDICATED : Commands.CommandSelection.INTEGRATED, this.getFunctionCompilationLevel(), this.executor, this);
          }).thenAcceptAsync((serverresources) -> {
-@@ -1818,6 +1846,7 @@
-         return null;
+@@ -1853,6 +1879,7 @@
+         }
      }
  
 +    /* // Loom start :: decompile error
      public void doRunTask(Runnable runnable) {
          this.doRunTask((TickTask) runnable);
      }
-@@ -1829,4 +1858,5 @@
+@@ -1864,6 +1891,7 @@
      public Runnable wrapRunnable(Runnable runnable) {
          return this.wrapRunnable(runnable);
      }
 +     */ // Loom end
- }
+ 
+     private static class TimeProfiler {
+ 

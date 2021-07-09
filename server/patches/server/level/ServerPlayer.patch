@@ -1,6 +1,6 @@
---- a/net/minecraft/server/level/ServerPlayer.java
-+++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -139,6 +139,7 @@
+--- a/net/minecraft//server/level/ServerPlayer.java
++++ b/net/minecraft//server/level/ServerPlayer.java
+@@ -140,6 +140,7 @@
  
  public class ServerPlayer extends Player {
  
@@ -16,8 +16,17 @@
 +            DataResult<net.minecraft.nbt.Tag> dataresult = ResourceLocation.CODEC.encodeStart(NbtOps.INSTANCE, this.respawnDimension.location()); // Loom :: decompile error
              Logger logger = ServerPlayer.LOGGER;
  
-             logger.getClass();
-@@ -1283,6 +1284,7 @@
+             Objects.requireNonNull(logger);
+@@ -1079,7 +1080,7 @@
+ 
+         for (int j = 0; j < i; ++j) {
+             ResourceLocation resourcelocation = aresourcelocation1[j];
+-            Optional optional = this.server.getRecipeManager().byKey(resourcelocation);
++            Optional<? extends Recipe<?>> optional = this.server.getRecipeManager().byKey(resourcelocation); // Loom :: decompile error
+ 
+             Objects.requireNonNull(list);
+             optional.ifPresent(list::add);
+@@ -1285,6 +1286,7 @@
          this.textFilteringEnabled = serverboundclientinformationpacket.isTextFilteringEnabled();
          this.getEntityData().set(ServerPlayer.DATA_PLAYER_MODE_CUSTOMISATION, (byte) serverboundclientinformationpacket.getModelCustomisation());
          this.getEntityData().set(ServerPlayer.DATA_PLAYER_MAIN_HAND, (byte) (serverboundclientinformationpacket.getMainHand() == HumanoidArm.LEFT ? 0 : 1));
@@ -25,7 +34,7 @@
      }
  
      public boolean canChatInColor() {
-@@ -1372,7 +1374,7 @@
+@@ -1374,7 +1376,7 @@
  
      @Nullable
      public Component getTabListDisplayName() {

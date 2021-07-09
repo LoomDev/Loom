@@ -1,6 +1,6 @@
---- a/net/minecraft/world/entity/monster/Blaze.java
-+++ b/net/minecraft/world/entity/monster/Blaze.java
-@@ -96,7 +96,7 @@
+--- a/net/minecraft//world/entity/monster/Blaze.java
++++ b/net/minecraft//world/entity/monster/Blaze.java
+@@ -95,7 +95,7 @@
      }
  
      public boolean isSensitiveToWater() {
@@ -9,7 +9,7 @@
      }
  
      protected void customServerAiStep() {
-@@ -126,11 +126,11 @@
+@@ -125,11 +125,11 @@
          return this.isCharged();
      }
  
@@ -18,8 +18,8 @@
          return ((Byte) this.entityData.get(Blaze.DATA_FLAGS_ID) & 1) != 0;
      }
  
--    private void setCharged(boolean flag) {
-+    public void setCharged(boolean flag) { // Loom :: private -> public (BlazeImpl)
+-    void setCharged(boolean flag) {
++    public void setCharged(boolean flag) { // Loom :: package-private -> public (BlazeImpl)
          byte b0 = (Byte) this.entityData.get(Blaze.DATA_FLAGS_ID);
  
          if (flag) {

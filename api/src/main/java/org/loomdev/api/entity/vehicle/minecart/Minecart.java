@@ -1,10 +1,10 @@
 package org.loomdev.api.entity.vehicle.minecart;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.block.BlockState;
 import org.loomdev.api.entity.Entity;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 /**

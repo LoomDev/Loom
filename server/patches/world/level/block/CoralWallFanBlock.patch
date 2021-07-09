@@ -1,12 +1,12 @@
---- a/net/minecraft/world/level/block/CoralWallFanBlock.java
-+++ b/net/minecraft/world/level/block/CoralWallFanBlock.java
+--- a/net/minecraft//world/level/block/CoralWallFanBlock.java
++++ b/net/minecraft//world/level/block/CoralWallFanBlock.java
 @@ -25,7 +25,12 @@
  
      public void tick(BlockState blockstate, ServerLevel serverlevel, BlockPos blockpos, Random random) {
          if (!scanForWater(blockstate, serverlevel, blockpos)) {
--            serverlevel.setBlock(blockpos, (BlockState) ((BlockState) this.deadBlock.defaultBlockState().setValue(CoralWallFanBlock.WATERLOGGED, false)).setValue(CoralWallFanBlock.FACING, blockstate.getValue(CoralWallFanBlock.FACING)), 2);
+-            serverlevel.setBlock(blockpos, (BlockState) ((BlockState) this.deadBlock.defaultBlockState().setValue(CoralWallFanBlock.WATERLOGGED, false)).setValue(CoralWallFanBlock.FACING, (Direction) blockstate.getValue(CoralWallFanBlock.FACING)), 2);
 +            // Loom start :: fire PlantEvent.Die
-+            var newState = (this.deadBlock.defaultBlockState().setValue(CoralWallFanBlock.WATERLOGGED, false)).setValue(CoralWallFanBlock.FACING, blockstate.getValue(CoralWallFanBlock.FACING));
++            var newState = this.deadBlock.defaultBlockState().setValue(CoralWallFanBlock.WATERLOGGED, false).setValue(CoralWallFanBlock.FACING, blockstate.getValue(CoralWallFanBlock.FACING));
 +            var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.PlantEventImpl.DieImpl(serverlevel, blockpos, newState));
 +            if (event.isCanceled()) return;
 +            serverlevel.setBlock(blockpos, event.getMinecraftState(), 2);

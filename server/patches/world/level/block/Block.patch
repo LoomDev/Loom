@@ -1,30 +1,38 @@
 --- a/net/minecraft//world/level/block/Block.java
 +++ b/net/minecraft//world/level/block/Block.java
-@@ -70,9 +70,7 @@
+@@ -33,7 +33,6 @@
+ import net.minecraft.world.entity.ExperienceOrb;
+ import net.minecraft.world.entity.LivingEntity;
+ import net.minecraft.world.entity.item.ItemEntity;
+-import net.minecraft.world.entity.monster.piglin.PiglinAi;
+ import net.minecraft.world.entity.player.Player;
+ import net.minecraft.world.item.BlockItem;
+ import net.minecraft.world.item.CreativeModeTab;
+@@ -73,9 +72,11 @@
              return !Shapes.joinIsNotEmpty(Shapes.block(), voxelshape, BooleanOp.NOT_SAME);
          }
  
--        public Object load(Object object) throws Exception {
--            return this.load((VoxelShape) object);
--        }
-+        // Loom :: decompile error
++        /* // Loom start :: decompile error
+         public Object load(Object object) throws Exception {
+             return this.load((VoxelShape) object);
+         }
++         */ // Loom end
      });
      public static final int UPDATE_NEIGHBORS = 1;
      public static final int UPDATE_CLIENTS = 2;
-@@ -326,7 +324,11 @@
-             double d0 = (double) (level.random.nextFloat() * 0.5F) + 0.25D;
-             double d1 = (double) (level.random.nextFloat() * 0.5F) + 0.25D;
-             double d2 = (double) (level.random.nextFloat() * 0.5F) + 0.25D;
--            ItemEntity itementity = new ItemEntity(level, (double) blockpos.getX() + d0, (double) blockpos.getY() + d1, (double) blockpos.getZ() + d2, itemstack);
+@@ -355,6 +356,11 @@
+     private static void popResource(Level level, Supplier<ItemEntity> supplier, ItemStack itemstack) {
+         if (!level.isClientSide && !itemstack.isEmpty() && level.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
+             ItemEntity itementity = (ItemEntity) supplier.get();
 +            // Loom start :: fire BlockEvent.DropItem
-+            var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.BlockEventImpl.DropItemImpl(level, blockpos, itemstack));
++            var event = org.loomdev.loom.event.LoomEventDispatcher.fire(new org.loomdev.loom.event.block.BlockEventImpl.DropItemImpl(level, itementity.getOnPos(), itemstack));
 +            if (event.isCanceled()) return;
-+            ItemEntity itementity = new ItemEntity(level, (double) blockpos.getX() + d0, (double) blockpos.getY() + d1, (double) blockpos.getZ() + d2, event.getMinecraftItemStack());
++            itementity.setItem(event.getMinecraftItemStack());
 +            // Loom end
  
              itementity.setDefaultPickUpDelay();
              level.addFreshEntity(itementity);
-@@ -335,7 +337,11 @@
+@@ -363,7 +369,11 @@
  
      protected void popExperience(ServerLevel serverlevel, BlockPos blockpos, int i) {
          if (serverlevel.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
@@ -37,3 +45,12 @@
          }
  
      }
+@@ -440,7 +450,7 @@
+     public void playerWillDestroy(Level level, BlockPos blockpos, BlockState blockstate, Player player) {
+         this.spawnDestroyParticles(level, player, blockpos, blockstate);
+         if (blockstate.is((Tag) BlockTags.GUARDED_BY_PIGLINS)) {
+-            PiglinAi.angerNearbyPiglins(player, false);
++            net.minecraft.world.entity.monster.piglin.PiglinAi.angerNearbyPiglins(player, false); // Loom :: decompile error
+         }
+ 
+         level.gameEvent(player, GameEvent.BLOCK_DESTROY, blockpos);

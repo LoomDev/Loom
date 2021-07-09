@@ -1,6 +1,6 @@
 --- a/net/minecraft//world/entity/item/FallingBlockEntity.java
 +++ b/net/minecraft//world/entity/item/FallingBlockEntity.java
-@@ -44,7 +44,7 @@
+@@ -46,7 +46,7 @@
  
  public class FallingBlockEntity extends Entity {
  
@@ -9,7 +9,7 @@
      public int time;
      public boolean dropItem;
      private boolean cancelDrop;
-@@ -218,7 +218,7 @@
+@@ -231,7 +231,7 @@
              if (i < 0) {
                  return false;
              } else {

@@ -1,5 +1,5 @@
---- a/net/minecraft/world/level/block/state/BlockBehaviour.java
-+++ b/net/minecraft/world/level/block/state/BlockBehaviour.java
+--- a/net/minecraft//world/level/block/state/BlockBehaviour.java
++++ b/net/minecraft//world/level/block/state/BlockBehaviour.java
 @@ -68,7 +68,7 @@
  
      protected static final Direction[] UPDATE_SHAPE_ORDER = new Direction[]{Direction.WEST, Direction.EAST, Direction.NORTH, Direction.SOUTH, Direction.DOWN, Direction.UP};
@@ -18,12 +18,12 @@
      @Nullable
      protected ResourceLocation drops;
  
-@@ -835,7 +835,7 @@
-         private float speedFactor;
-         private float jumpFactor;
-         private ResourceLocation drops;
--        private boolean canOcclude;
-+        public boolean canOcclude; // Loom :: protected -> public (BlockTypeImpl)
-         private boolean isAir;
-         private BlockBehaviour.StateArgumentPredicate<EntityType<?>> isValidSpawn;
-         private BlockBehaviour.StatePredicate isRedstoneConductor;
+@@ -370,7 +370,7 @@
+         float speedFactor;
+         float jumpFactor;
+         ResourceLocation drops;
+-        boolean canOcclude;
++        public boolean canOcclude; // Loom :: package-private -> public (BlockTypeImpl)
+         boolean isAir;
+         BlockBehaviour.StateArgumentPredicate<EntityType<?>> isValidSpawn;
+         BlockBehaviour.StatePredicate isRedstoneConductor;

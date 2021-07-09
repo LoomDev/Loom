@@ -1,15 +1,50 @@
 --- a/net/minecraft//server/level/ServerLevel.java
 +++ b/net/minecraft//server/level/ServerLevel.java
-@@ -158,7 +158,7 @@
-     private final List<ServerPlayer> players = Lists.newArrayList();
+@@ -159,7 +159,7 @@
+     final List<ServerPlayer> players;
      private final ServerChunkCache chunkSource;
      private final MinecraftServer server;
 -    private final ServerLevelData serverLevelData;
 +    public final ServerLevelData serverLevelData; // Loom :: private -> public (WorldImpl)
-     private final EntityTickList entityTickList = new EntityTickList();
+     final EntityTickList entityTickList;
      private final PersistentEntitySectionManager<Entity> entityManager;
      public boolean noSave;
-@@ -440,6 +440,7 @@
+@@ -180,23 +180,25 @@
+     private final boolean tickTime;
+ 
+     public ServerLevel(MinecraftServer minecraftserver, Executor executor, LevelStorageSource.LevelStorageAccess levelstoragesource_levelstorageaccess, ServerLevelData serverleveldata, ResourceKey<Level> resourcekey, DimensionType dimensiontype, ChunkProgressListener chunkprogresslistener, ChunkGenerator chunkgenerator, boolean flag, long i, List<CustomSpawner> list, boolean flag1) {
+-        Objects.requireNonNull(minecraftserver);
++        // Loom start :: decompile error
++        // Objects.requireNonNull(minecraftserver);
+         super(serverleveldata, resourcekey, dimensiontype, minecraftserver::getProfiler, false, flag, i);
+         this.players = Lists.newArrayList();
+         this.entityTickList = new EntityTickList();
+-        Predicate predicate = (block) -> {
++        Predicate<Block> predicate = (block) -> {
+             return block == null || block.defaultBlockState().isAir();
+         };
+-        DefaultedRegistry defaultedregistry = Registry.BLOCK;
++        // DefaultedRegistry defaultedregistry = Registry.BLOCK;
+ 
+-        Objects.requireNonNull(defaultedregistry);
+-        this.blockTicks = new ServerTickList<>(this, predicate, defaultedregistry::getKey, this::tickBlock);
+-        predicate = (fluid) -> {
++        // Objects.requireNonNull(defaultedregistry);
++        this.blockTicks = new ServerTickList<>(this, predicate, Registry.BLOCK::getKey, this::tickBlock);
++        Predicate<Fluid> predicate1 = (fluid) -> {
+             return fluid == null || fluid == Fluids.EMPTY;
+         };
+-        defaultedregistry = Registry.FLUID;
+-        Objects.requireNonNull(defaultedregistry);
+-        this.liquidTicks = new ServerTickList<>(this, predicate, defaultedregistry::getKey, this::tickLiquid);
++        // defaultedregistry = Registry.FLUID;
++        // Objects.requireNonNull(defaultedregistry);
++        this.liquidTicks = new ServerTickList<>(this, predicate1, Registry.FLUID::getKey, this::tickLiquid);
++        // Loom end
+         this.navigatingMobs = new ObjectOpenHashSet();
+         this.blockEvents = new ObjectLinkedOpenHashSet();
+         this.dragonParts = new Int2ObjectOpenHashMap();
+@@ -451,6 +453,7 @@
              customspawner.tick(this, flag, flag1);
          }
  
@@ -17,7 +52,7 @@
      }
  
      private boolean shouldDiscardEntity(Entity entity) {
-@@ -448,7 +449,7 @@
+@@ -459,7 +462,7 @@
  
      private void wakeUpAllPlayers() {
          this.sleepStatus.removeAllSleepers();
@@ -26,7 +61,7 @@
              serverplayer.stopSleepInBed(false, false);
          });
      }
-@@ -827,7 +828,7 @@
+@@ -838,7 +841,7 @@
      }
  
      public boolean tryAddFreshEntityWithPassengers(Entity entity) {
@@ -34,8 +69,8 @@
 +        Stream<UUID> stream = entity.getSelfAndPassengers().map(Entity::getUUID); // Loom :: decompile error
          PersistentEntitySectionManager persistententitysectionmanager = this.entityManager;
  
-         this.entityManager.getClass();
-@@ -923,7 +924,7 @@
+         Objects.requireNonNull(this.entityManager);
+@@ -934,7 +937,7 @@
  
          explosion.explode();
          explosion.finalizeExplosion(false);
@@ -44,7 +79,7 @@
              explosion.clearToBlow();
          }
  
-@@ -1456,7 +1457,7 @@
+@@ -1449,7 +1452,7 @@
      private static <T> String getTypeCount(Iterable<T> iterable, Function<T, String> function) {
          try {
              Object2IntOpenHashMap<String> object2intopenhashmap = new Object2IntOpenHashMap();
@@ -53,32 +88,32 @@
  
              while (iterator.hasNext()) {
                  T t0 = iterator.next();
-@@ -1465,7 +1466,7 @@
+@@ -1458,7 +1461,7 @@
                  object2intopenhashmap.addTo(s, 1);
              }
  
 -            return (String) object2intopenhashmap.object2IntEntrySet().stream().sorted(Comparator.comparing(Entry::getIntValue).reversed()).limit(5L).map((entry) -> {
 +            return (String) object2intopenhashmap.object2IntEntrySet().stream().sorted(Comparator.comparing(Entry::getIntValue)).sorted(java.util.Collections.reverseOrder()).limit(5L).map((entry) -> { // Loom :: decompile error
-                 return (String) entry.getKey() + ":" + entry.getIntValue();
-             }).collect(Collectors.joining(","));
-         } catch (Exception exception) {
-@@ -1508,6 +1509,7 @@
-         return "Chunks[S] W: " + this.chunkSource.gatherStats() + " E: " + this.entityManager.gatherStats();
+                 String s1 = (String) entry.getKey();
+ 
+                 return s1 + ":" + entry.getIntValue();
+@@ -1523,6 +1526,7 @@
+         return this.entityManager.isPositionTicking(chunkpos);
      }
  
 +    /* // Loom start :: decompile error
      public Scoreboard getScoreboard() {
          return this.getScoreboard();
      }
-@@ -1523,6 +1525,7 @@
+@@ -1538,6 +1542,7 @@
      public TickList getBlockTicks() {
          return this.getBlockTicks();
      }
 +     */ // Loom end
  
-     final class EntityCallbacks implements LevelCallback<Entity> {
+     private final class EntityCallbacks implements LevelCallback<Entity> {
  
-@@ -1598,6 +1601,7 @@
+@@ -1613,6 +1618,7 @@
  
          }
  
@@ -86,9 +121,9 @@
          public void onTrackingEnd(Object object) {
              this.onTrackingEnd((Entity) object);
          }
-@@ -1625,5 +1629,6 @@
-         EntityCallbacks(Object object) {
-             this();
+@@ -1636,5 +1642,6 @@
+         public void onCreated(Object object) {
+             this.onCreated((Entity) object);
          }
 +         */ // Loom end
      }

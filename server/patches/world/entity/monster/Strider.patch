@@ -19,5 +19,5 @@
      }
 +     */ // Loom end
  
-     static class StriderGoToLavaGoal extends MoveToBlockGoal {
+     private static class StriderGoToLavaGoal extends MoveToBlockGoal {
  

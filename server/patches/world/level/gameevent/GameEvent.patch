@@ -5,7 +5,7 @@
      public static final GameEvent WOLF_SHAKING = register("wolf_shaking");
      public static final int DEFAULT_NOTIFICATION_RADIUS = 16;
 -    private final String name;
-+    public final String name; // Loom :: private -> public (SculkSensorEvent)
++    public final String name; // Loom :: private -> public (SculkSensorEventImpl)
      private final int notificationRadius;
  
      public GameEvent(String s, int i) {

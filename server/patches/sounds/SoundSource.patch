@@ -1,5 +1,5 @@
---- a/net/minecraft/sounds/SoundSource.java
-+++ b/net/minecraft/sounds/SoundSource.java
+--- a/net/minecraft//sounds/SoundSource.java
++++ b/net/minecraft//sounds/SoundSource.java
 @@ -1,5 +1,9 @@
  package net.minecraft.sounds;
  
@@ -10,9 +10,9 @@
  public enum SoundSource {
  
      MASTER("master"), MUSIC("music"), RECORDS("record"), WEATHER("weather"), BLOCKS("block"), HOSTILE("hostile"), NEUTRAL("neutral"), PLAYERS("player"), AMBIENT("ambient"), VOICE("voice");
-@@ -13,4 +17,11 @@
-     public String getName() {
-         return this.name;
+@@ -17,4 +21,11 @@
+     private static SoundSource[] $values() {
+         return new SoundSource[]{SoundSource.MASTER, SoundSource.MUSIC, SoundSource.RECORDS, SoundSource.WEATHER, SoundSource.BLOCKS, SoundSource.HOSTILE, SoundSource.NEUTRAL, SoundSource.PLAYERS, SoundSource.AMBIENT, SoundSource.VOICE};
      }
 +
 +    // Loom start

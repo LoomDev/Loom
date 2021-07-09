@@ -1,22 +1,26 @@
---- a/net/minecraft/world/entity/Entity.java
-+++ b/net/minecraft/world/entity/Entity.java
-@@ -116,6 +116,15 @@
+--- a/net/minecraft//world/entity/Entity.java
++++ b/net/minecraft//world/entity/Entity.java
+@@ -117,6 +117,19 @@
  
  public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
 +    // Loom start
++    public Optional<Boolean> fireResistantOverride = Optional.empty();
++    @Nullable
 +    private org.loomdev.loom.entity.EntityImpl entityImpl;
++
 +    public org.loomdev.loom.entity.EntityImpl getLoomEntity() {
-+        if (entityImpl == null) {
-+            entityImpl = org.loomdev.loom.entity.LoomEntityFactory.getLoomEntity(this);
++        if (entityImpl != null) {
++            return entityImpl;
 +        }
-+        return entityImpl;
++
++        return entityImpl = org.loomdev.loom.entity.LoomEntityFactory.getLoomEntity(this);
 +    }
 +    // Loom end
      protected static final Logger LOGGER = LogManager.getLogger();
      public static final String ID_TAG = "id";
      public static final String PASSENGERS_TAG = "Passengers";
-@@ -159,7 +168,7 @@
+@@ -160,7 +173,7 @@
      public boolean hurtMarked;
      protected Vec3 stuckSpeedMultiplier;
      @Nullable
@@ -25,7 +29,7 @@
      public static final float DEFAULT_BB_WIDTH = 0.6F;
      public static final float DEFAULT_BB_HEIGHT = 1.8F;
      public float walkDistO;
-@@ -183,7 +192,7 @@
+@@ -184,7 +197,7 @@
      protected Tag<Fluid> fluidOnEyes;
      public int invulnerableTime;
      protected boolean firstTick;
@@ -34,7 +38,7 @@
      protected static final EntityDataAccessor<Byte> DATA_SHARED_FLAGS_ID = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.BYTE);
      protected static final int FLAG_ONFIRE = 0;
      private static final int FLAG_SHIFT_KEY_DOWN = 1;
-@@ -203,7 +212,7 @@
+@@ -204,7 +217,7 @@
      private Vec3 packetCoordinates;
      public boolean noCulling;
      public boolean hasImpulse;
@@ -43,24 +47,7 @@
      protected boolean isInsidePortal;
      protected int portalTime;
      protected BlockPos portalEntrancePos;
-@@ -221,6 +230,7 @@
-     public boolean wasOnFire;
-     private float crystalSoundIntensity;
-     private int lastCrystalSoundPlayTick;
-+    public Optional<Boolean> fireResistantOverride = Optional.empty(); // Loom
- 
-     public Entity(EntityType<?> entitytype, Level level) {
-         this.id = Entity.ENTITY_COUNTER.incrementAndGet();
-@@ -539,7 +549,7 @@
-         this.setRemainingFireTicks(0);
-     }
- 
--    protected void outOfWorld() {
-+    public void outOfWorld() { // Loom :: protected -> public
-         this.discard();
-     }
- 
-@@ -994,7 +1004,7 @@
+@@ -1000,7 +1013,7 @@
  
      protected void onFlap() {}
  
@@ -69,7 +56,7 @@
          return false;
      }
  
-@@ -1046,7 +1056,7 @@
+@@ -1052,7 +1065,7 @@
      }
  
      public boolean fireImmune() {
@@ -78,7 +65,7 @@
      }
  
      public boolean causeFallDamage(float f, float f1, DamageSource damagesource) {
-@@ -2412,7 +2422,7 @@
+@@ -2428,7 +2441,7 @@
                      }
  
                      return PortalShape.createPortalInfo(serverlevel, blockutil_foundrectangle, direction_axis, vec3, this.getDimensions(this.getPose()), this.getDeltaMovement(), this.getYRot(), this.getXRot());

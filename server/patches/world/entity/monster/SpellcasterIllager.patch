@@ -9,12 +9,17 @@
  
      protected SpellcasterIllager(EntityType<? extends SpellcasterIllager> entitytype, Level level) {
          super(entitytype, level);
-@@ -92,7 +92,7 @@
+@@ -88,11 +88,11 @@
+ 
+     protected abstract SoundEvent getCastingSoundEvent();
+ 
+-    protected static enum IllagerSpell {
++    public static enum IllagerSpell { // Loom :: protected -> public
  
          NONE(0, 0.0D, 0.0D, 0.0D), SUMMON_VEX(1, 0.7D, 0.7D, 0.8D), FANGS(2, 0.4D, 0.3D, 0.35D), WOLOLO(3, 0.7D, 0.5D, 0.2D), DISAPPEAR(4, 0.3D, 0.3D, 0.8D), BLINDNESS(5, 0.1D, 0.1D, 0.2D);
  
--        private final int id;
-+        public final int id; // Loom :: private -> public
-         private final double[] spellColor;
+-        final int id;
++        public final int id; // Loom :: package-private -> public
+         final double[] spellColor;
  
          private IllagerSpell(int i, double d0, double d1, double d2) {

@@ -1,6 +1,6 @@
 --- a/net/minecraft//world/entity/animal/Fox.java
 +++ b/net/minecraft//world/entity/animal/Fox.java
-@@ -347,19 +347,19 @@
+@@ -347,11 +347,11 @@
          return Fox.Type.byId((Integer) this.entityData.get(Fox.DATA_TYPE_ID));
      }
  
@@ -9,19 +9,17 @@
          this.entityData.set(Fox.DATA_TYPE_ID, fox_type.getId());
      }
  
--    private List<UUID> getTrustedUUIDs() {
-+    public List<UUID> getTrustedUUIDs() { // Loom :: private -> public (FoxImpl)
+-    List<UUID> getTrustedUUIDs() {
++    public List<UUID> getTrustedUUIDs() { // Loom :: package-private -> public (FoxImpl)
          List<UUID> list = Lists.newArrayList();
  
--        list.add(((Optional) this.entityData.get(Fox.DATA_TRUSTED_ID_0)).orElse((Object) null));
--        list.add(((Optional) this.entityData.get(Fox.DATA_TRUSTED_ID_1)).orElse((Object) null));
-+        list.add((this.entityData.get(Fox.DATA_TRUSTED_ID_0)).orElse(null)); // Loom :: decompile error
-+        list.add((this.entityData.get(Fox.DATA_TRUSTED_ID_1)).orElse(null)); // Loom :: decompile error
+         list.add((UUID) ((Optional) this.entityData.get(Fox.DATA_TRUSTED_ID_0)).orElse((Object) null));
+@@ -359,7 +359,7 @@
          return list;
      }
  
--    private void addTrustedUUID(@Nullable UUID uuid) {
-+    public void addTrustedUUID(@Nullable UUID uuid) { // Loom :: private -> public (FoxImpl)
+-    void addTrustedUUID(@Nullable UUID uuid) {
++    public void addTrustedUUID(@Nullable UUID uuid) { // Loom :: package-private -> public (FoxImpl)
          if (((Optional) this.entityData.get(Fox.DATA_TRUSTED_ID_0)).isPresent()) {
              this.entityData.set(Fox.DATA_TRUSTED_ID_1, Optional.ofNullable(uuid));
          } else {
@@ -29,8 +27,8 @@
          return this.getFlag(32);
      }
  
--    private void setSleeping(boolean flag) {
-+    public void setSleeping(boolean flag) { // Loom :: private -> public
+-    void setSleeping(boolean flag) {
++    public void setSleeping(boolean flag) { // Loom :: package-private -> public
          this.setFlag(32, flag);
      }
  
@@ -44,9 +42,9 @@
      }
 +     */ // Loom end
  
-     class FoxLookAtPlayerGoal extends LookAtPlayerGoal {
+     public class FoxLookControl extends LookControl {
  
-@@ -1155,9 +1157,7 @@
+@@ -1471,8 +1473,6 @@
              return livingentity instanceof Fox ? false : (!(livingentity instanceof Chicken) && !(livingentity instanceof Rabbit) && !(livingentity instanceof Monster) ? (livingentity instanceof TamableAnimal ? !((TamableAnimal) livingentity).isTame() : (livingentity instanceof Player && (livingentity.isSpectator() || ((Player) livingentity).isCreative()) ? false : (Fox.this.trusts(livingentity.getUUID()) ? false : !livingentity.isSleeping() && !livingentity.isDiscrete()))) : true);
          }
  
@@ -55,5 +53,4 @@
 -        }
 +        // Loom :: decompile error
      }
- 
-     class SeekShelterGoal extends FleeSunGoal {
+ }

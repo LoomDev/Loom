@@ -32,8 +32,8 @@
  
          RED("red", Blocks.RED_MUSHROOM.defaultBlockState()), BROWN("brown", Blocks.BROWN_MUSHROOM.defaultBlockState());
  
--        private final String type;
-+        public final String type; // Loom :: private -> public
-         private final BlockState blockState;
+-        final String type;
++        public final String type; // Loom :: package-private -> public
+         final BlockState blockState;
  
          private MushroomType(String s, BlockState blockstate) {

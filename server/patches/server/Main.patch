@@ -1,5 +1,5 @@
---- a/net/minecraft/server/Main.java
-+++ b/net/minecraft/server/Main.java
+--- a/net/minecraft//server/Main.java
++++ b/net/minecraft//server/Main.java
 @@ -64,8 +64,9 @@
      public Main() {}
  
@@ -11,18 +11,11 @@
          OptionParser optionparser = new OptionParser();
          OptionSpec<Void> optionspec = optionparser.accepts("nogui");
          OptionSpec<Void> optionspec1 = optionparser.accepts("initSettings", "Initializes 'server.properties' and 'eula.txt', then quits");
-@@ -82,27 +83,28 @@
-         OptionSpec<String> optionspec12 = optionparser.accepts("serverId").withRequiredArg();
-         NonOptionArgumentSpec nonoptionargumentspec = optionparser.nonOptions();
- 
--        try {
-             OptionSet optionset = optionparser.parse(astring);
- 
-             if (optionset.has(optionspec7)) {
+@@ -89,20 +90,22 @@
                  optionparser.printHelpOn(System.err);
                  return;
              }
-+        */ // Loom end
++         */
  
 +        try {
              CrashReport.preload();
@@ -31,34 +24,34 @@
              Util.startTimerHackThread();
              RegistryAccess.RegistryHolder registryaccess_registryholder = RegistryAccess.builtin();
 -            Path path = Paths.get("server.properties");
-+            Path path = ((File) optionSet.valueOf("config")).toPath(); // Loom
-             DedicatedServerSettings dedicatedserversettings = new DedicatedServerSettings(registryaccess_registryholder, path);
++            Path path = ((File) optionSet.valueOf("config")).toPath();
+             DedicatedServerSettings dedicatedserversettings = new DedicatedServerSettings(path);
  
              dedicatedserversettings.forceSave();
              Path path1 = Paths.get("eula.txt");
              Eula eula = new Eula(path1);
  
 -            if (optionset.has(optionspec1)) {
-+            if (optionSet.has("initSettings")) { // Loom
++            if (optionSet.has("initSettings")) {
                  Main.LOGGER.info("Initialized '{}' and '{}'", path.toAbsolutePath(), path1.toAbsolutePath());
                  return;
              }
-@@ -112,12 +114,12 @@
+@@ -112,12 +115,12 @@
                  return;
              }
  
 -            File file = new File((String) optionset.valueOf(optionspec9));
-+            File file = (File) optionSet.valueOf("universe"); // Loom
++            File file = (File) optionSet.valueOf("universe");
              YggdrasilAuthenticationService yggdrasilauthenticationservice = new YggdrasilAuthenticationService(Proxy.NO_PROXY);
              MinecraftSessionService minecraftsessionservice = yggdrasilauthenticationservice.createMinecraftSessionService();
              GameProfileRepository gameprofilerepository = yggdrasilauthenticationservice.createProfileRepository();
              GameProfileCache gameprofilecache = new GameProfileCache(gameprofilerepository, new File(file, MinecraftServer.USERID_CACHE_FILE.getName()));
--            String s = (String) Optional.ofNullable(optionset.valueOf(optionspec10)).orElse(dedicatedserversettings.getProperties().levelName);
-+            String s = (String) Optional.ofNullable(optionSet.valueOf("world")).orElse(dedicatedserversettings.getProperties().levelName); // Loom
+-            String s = (String) Optional.ofNullable((String) optionset.valueOf(optionspec10)).orElse(dedicatedserversettings.getProperties().levelName);
++            String s = (String) Optional.ofNullable(optionSet.valueOf("world")).orElse(dedicatedserversettings.getProperties().levelName);
              LevelStorageSource levelstoragesource = LevelStorageSource.createDefault(file.toPath());
              LevelStorageSource.LevelStorageAccess levelstoragesource_levelstorageaccess = levelstoragesource.createAccess(s);
  
-@@ -130,7 +132,7 @@
+@@ -130,7 +133,7 @@
              }
  
              DataPackConfig datapackconfig = levelstoragesource_levelstorageaccess.getDataPacks();
@@ -67,20 +60,20 @@
  
              if (flag) {
                  Main.LOGGER.warn("Safe mode active, only vanilla datapack will be loaded");
-@@ -158,34 +160,31 @@
+@@ -160,34 +163,38 @@
                  LevelSettings levelsettings;
                  WorldGenSettings worldgensettings;
  
 -                if (optionset.has(optionspec2)) {
-+                if (optionSet.has("demo")) { // Loom
++                if (optionSet.has("demo")) {
                      levelsettings = MinecraftServer.DEMO_SETTINGS;
                      worldgensettings = WorldGenSettings.demoSettings(registryaccess_registryholder);
                  } else {
                      DedicatedServerProperties dedicatedserverproperties = dedicatedserversettings.getProperties();
  
                      levelsettings = new LevelSettings(dedicatedserverproperties.levelName, dedicatedserverproperties.gamemode, dedicatedserverproperties.hardcore, dedicatedserverproperties.difficulty, false, new GameRules(), datapackconfig1);
--                    worldgensettings = optionset.has(optionspec3) ? dedicatedserverproperties.worldGenSettings.withBonusChest() : dedicatedserverproperties.worldGenSettings;
-+                    worldgensettings =  dedicatedserverproperties.worldGenSettings; // Loom
+-                    worldgensettings = optionset.has(optionspec3) ? dedicatedserverproperties.getWorldGenSettings(registryaccess_registryholder).withBonusChest() : dedicatedserverproperties.getWorldGenSettings(registryaccess_registryholder);
++                    worldgensettings =  dedicatedserverproperties.getWorldGenSettings(registryaccess_registryholder);
                  }
  
                  object = new PrimaryLevelData(levelsettings, worldgensettings, Lifecycle.stable());
@@ -88,24 +81,27 @@
  
 -            if (optionset.has(optionspec4)) {
 -                forceUpgrade(levelstoragesource_levelstorageaccess, DataFixers.getDataFixer(), optionset.has(optionspec5), () -> {
-+            if (optionSet.has("forceUpgrade")) { // Loom
++            if (optionSet.has("forceUpgrade")) {
 +                forceUpgrade(levelstoragesource_levelstorageaccess, DataFixers.getDataFixer(), optionSet.has("eraseCache"), () -> {
                      return true;
                  }, ((WorldData) object).worldGenSettings().levels());
              }
  
              levelstoragesource_levelstorageaccess.saveDataTag(registryaccess_registryholder, (WorldData) object);
-+            final WorldData finalWorldData = (WorldData) object; // Loom :: decompile error
++            final WorldData worldData = (WorldData) object;
              final DedicatedServer dedicatedserver = (DedicatedServer) MinecraftServer.spin((thread) -> {
 -                DedicatedServer dedicatedserver1 = new DedicatedServer(thread, registryaccess_registryholder, levelstoragesource_levelstorageaccess, packrepository, serverresources, object, dedicatedserversettings, DataFixers.getDataFixer(), minecraftsessionservice, gameprofilerepository, gameprofilecache, LoggerChunkProgressListener::new);
-+                DedicatedServer dedicatedserver1 = new DedicatedServer(optionSet, thread, registryaccess_registryholder, levelstoragesource_levelstorageaccess, packrepository, serverresources, finalWorldData, dedicatedserversettings, DataFixers.getDataFixer(), minecraftsessionservice, gameprofilerepository, gameprofilecache, LoggerChunkProgressListener::new); // Loom
++                DedicatedServer dedicatedserver1 = new DedicatedServer(optionSet, thread, registryaccess_registryholder, levelstoragesource_levelstorageaccess, packrepository, serverresources, worldData, dedicatedserversettings, DataFixers.getDataFixer(), minecraftsessionservice, gameprofilerepository, gameprofilecache, LoggerChunkProgressListener::new);
  
--                dedicatedserver1.setSingleplayerName((String) optionset.valueOf(optionspec8));
--                dedicatedserver1.setPort((Integer) optionset.valueOf(optionspec11));
--                dedicatedserver1.setDemo(optionset.has(optionspec2));
--                dedicatedserver1.setId((String) optionset.valueOf(optionspec12));
++                /*
+                 dedicatedserver1.setSingleplayerName((String) optionset.valueOf(optionspec8));
+                 dedicatedserver1.setPort((Integer) optionset.valueOf(optionspec11));
+                 dedicatedserver1.setDemo(optionset.has(optionspec2));
+                 dedicatedserver1.setId((String) optionset.valueOf(optionspec12));
 -                boolean flag1 = !optionset.has(optionspec) && !optionset.valuesOf(nonoptionargumentspec).contains("nogui");
-+                boolean flag1 = !optionSet.has("nogui") && !optionSet.nonOptionArguments().contains("nogui"); // Loom
++                 */
++                boolean flag1 = !optionSet.has("nogui") && !optionSet.nonOptionArguments().contains("nogui");
++                // Loom end
  
                  if (flag1 && !GraphicsEnvironment.isHeadless()) {
                      dedicatedserver1.showGui();

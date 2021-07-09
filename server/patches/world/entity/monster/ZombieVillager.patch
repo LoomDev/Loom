@@ -1,6 +1,6 @@
 --- a/net/minecraft//world/entity/monster/ZombieVillager.java
 +++ b/net/minecraft//world/entity/monster/ZombieVillager.java
-@@ -55,10 +55,10 @@
+@@ -56,10 +56,10 @@
      private static final int MAX_SPECIAL_BLOCKS_COUNT = 14;
      private static final int SPECIAL_BLOCK_RADIUS = 4;
      private int villagerConversionTime;
@@ -13,7 +13,7 @@
  
      public ZombieVillager(EntityType<? extends ZombieVillager> entitytype, Level level) {
          super(entitytype, level);
-@@ -73,7 +73,7 @@
+@@ -74,7 +74,7 @@
  
      public void addAdditionalSaveData(CompoundTag compoundtag) {
          super.addAdditionalSaveData(compoundtag);
@@ -21,4 +21,4 @@
 +        DataResult<Tag> dataresult = VillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getVillagerData()); // Loom :: decompile error
          Logger logger = ZombieVillager.LOGGER;
  
-         logger.getClass();
+         Objects.requireNonNull(logger);

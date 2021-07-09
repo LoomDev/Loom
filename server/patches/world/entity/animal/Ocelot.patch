@@ -1,6 +1,6 @@
 --- a/net/minecraft//world/entity/animal/Ocelot.java
 +++ b/net/minecraft//world/entity/animal/Ocelot.java
-@@ -57,7 +57,7 @@
+@@ -58,7 +58,7 @@
      public static final double WALK_SPEED_MOD = 0.8D;
      public static final double SPRINT_SPEED_MOD = 1.33D;
      private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.COD, Items.SALMON);
@@ -9,7 +9,7 @@
      private Ocelot.OcelotAvoidEntityGoal<Player> ocelotAvoidPlayersGoal;
      private Ocelot.OcelotTemptGoal temptGoal;
  
-@@ -70,7 +70,7 @@
+@@ -71,7 +71,7 @@
          return (Boolean) this.entityData.get(Ocelot.DATA_TRUSTING);
      }
  
@@ -18,7 +18,7 @@
          this.entityData.set(Ocelot.DATA_TRUSTING, flag);
          this.reassessTrustingGoals();
      }
-@@ -270,9 +270,11 @@
+@@ -271,9 +271,11 @@
          return this.getPose() == Pose.CROUCHING || super.isSteppingCarefully();
      }
  
@@ -28,16 +28,21 @@
      }
 +     */ // Loom end
  
-     static class OcelotTemptGoal extends TemptGoal {
+     private static class OcelotTemptGoal extends TemptGoal {
  
-@@ -293,9 +295,7 @@
+@@ -294,10 +296,12 @@
          private final Ocelot ocelot;
  
          public OcelotAvoidEntityGoal(Ocelot ocelot, Class<T> oclass, float f, double d0, double d1) {
 -            Predicate predicate = EntitySelector.NO_CREATIVE_OR_SPECTATOR;
--
++            // Loom start :: decompile error
++            // Predicate predicate = EntitySelector.NO_CREATIVE_OR_SPECTATOR;
+ 
+-            Objects.requireNonNull(predicate);
 -            super(ocelot, oclass, f, d0, d1, predicate::test);
-+            super(ocelot, oclass, f, d0, d1, EntitySelector.NO_CREATIVE_OR_SPECTATOR::test); // Loom :: decompile error
++            // Objects.requireNonNull(predicate);
++            super(ocelot, oclass, f, d0, d1, EntitySelector.NO_CREATIVE_OR_SPECTATOR::test);
++            // Loom end
              this.ocelot = ocelot;
          }
  

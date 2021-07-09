@@ -1,35 +1,35 @@
 --- a/net/minecraft//world/entity/animal/Bee.java
 +++ b/net/minecraft//world/entity/animal/Bee.java
-@@ -123,16 +123,16 @@
+@@ -125,16 +125,16 @@
      private float rollAmountO;
      private int timeSinceSting;
-     private int ticksWithoutNectarSinceExitingHive;
+     int ticksWithoutNectarSinceExitingHive;
 -    private int stayOutOfHiveCountdown;
 +    public int stayOutOfHiveCountdown; // Loom :: private -> public (BeeImpl)
      private int numCropsGrownSincePollination;
      private static final int COOLDOWN_BEFORE_LOCATING_NEW_HIVE = 200;
-     private int remainingCooldownBeforeLocatingNewHive;
+     int remainingCooldownBeforeLocatingNewHive;
      private static final int COOLDOWN_BEFORE_LOCATING_NEW_FLOWER = 200;
--    private int remainingCooldownBeforeLocatingNewFlower;
-+    public int remainingCooldownBeforeLocatingNewFlower; // Loom :: private -> public (BeeImpl)
+-    int remainingCooldownBeforeLocatingNewFlower;
++    public int remainingCooldownBeforeLocatingNewFlower; // Loom :: package-private -> public (BeeImpl)
      @Nullable
-     private BlockPos savedFlowerPos;
+     BlockPos savedFlowerPos;
      @Nullable
--    private BlockPos hivePos;
-+    public BlockPos hivePos; // Loom :: private -> public (BeeImpl)
-     private Bee.BeePollinateGoal beePollinateGoal;
-     private Bee.BeeGoToHiveGoal goToHiveGoal;
+-    BlockPos hivePos;
++    public BlockPos hivePos; // Loom :: package-private -> public (BeeImpl)
+     Bee.BeePollinateGoal beePollinateGoal;
+     Bee.BeeGoToHiveGoal goToHiveGoal;
      private Bee.BeeGoToKnownFlowerGoal goToKnownFlowerGoal;
-@@ -488,7 +488,7 @@
+@@ -490,7 +490,7 @@
          return this.getFlag(8);
      }
  
--    private void setHasNectar(boolean flag) {
-+    public void setHasNectar(boolean flag) { // Loom :: private -> public
+-    void setHasNectar(boolean flag) {
++    public void setHasNectar(boolean flag) { // Loom :: package-private -> public
          if (flag) {
              this.resetTicksWithoutNectarSinceExitingHive();
          }
-@@ -500,7 +500,7 @@
+@@ -502,7 +502,7 @@
          return this.getFlag(4);
      }
  
@@ -38,7 +38,7 @@
          this.setFlag(4, flag);
      }
  
-@@ -633,9 +633,11 @@
+@@ -635,9 +635,11 @@
          return blockpos.closerThan((Vec3i) this.blockPosition(), (double) i);
      }
  
@@ -48,5 +48,14 @@
      }
 +     */ // Loom end
  
-     class BeeEnterHiveGoal extends Bee.BaseBeeGoal {
+     private class BeePollinateGoal extends Bee.BaseBeeGoal {
+ 
+@@ -1251,7 +1253,7 @@
+     private static class BeeBecomeAngryTargetGoal extends NearestAttackableTargetGoal<Player> {
+ 
+         BeeBecomeAngryTargetGoal(Bee bee) {
+-            Objects.requireNonNull(bee);
++            // Objects.requireNonNull(bee); // Loom :: decompile error
+             super(bee, Player.class, 10, true, false, bee::isAngryAt);
+         }
  

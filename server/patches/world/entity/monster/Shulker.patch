@@ -1,6 +1,6 @@
 --- a/net/minecraft//world/entity/monster/Shulker.java
 +++ b/net/minecraft//world/entity/monster/Shulker.java
-@@ -59,7 +59,7 @@
+@@ -63,7 +63,7 @@
      private static final AttributeModifier COVERED_ARMOR_MODIFIER = new AttributeModifier(Shulker.COVERED_ARMOR_MODIFIER_UUID, "Covered armor bonus", 20.0D, AttributeModifier.Operation.ADDITION);
      protected static final EntityDataAccessor<Direction> DATA_ATTACH_FACE_ID = SynchedEntityData.defineId(Shulker.class, EntityDataSerializers.DIRECTION);
      protected static final EntityDataAccessor<Byte> DATA_PEEK_ID = SynchedEntityData.defineId(Shulker.class, EntityDataSerializers.BYTE);

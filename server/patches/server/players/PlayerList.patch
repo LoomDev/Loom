@@ -1,6 +1,6 @@
---- a/net/minecraft/server/players/PlayerList.java
-+++ b/net/minecraft/server/players/PlayerList.java
-@@ -198,7 +198,12 @@
+--- a/net/minecraft//server/players/PlayerList.java
++++ b/net/minecraft//server/players/PlayerList.java
+@@ -199,7 +199,12 @@
              translatablecomponent = new TranslatableComponent("multiplayer.player.joined.renamed", new Object[]{serverplayer.getDisplayName(), s});
          }
  
@@ -14,7 +14,7 @@
          servergamepacketlistenerimpl.teleport(serverplayer.getX(), serverplayer.getY(), serverplayer.getZ(), serverplayer.getYRot(), serverplayer.getXRot());
          this.players.add(serverplayer);
          this.playersByUUID.put(serverplayer.getUUID(), serverplayer);
-@@ -551,6 +556,7 @@
+@@ -552,6 +557,7 @@
          while (iterator.hasNext()) {
              ServerPlayer serverplayer = (ServerPlayer) iterator.next();
  
@@ -22,7 +22,7 @@
              serverplayer.connection.send(packet);
          }
  
-@@ -563,6 +569,7 @@
+@@ -564,6 +570,7 @@
              ServerPlayer serverplayer = (ServerPlayer) iterator.next();
  
              if (serverplayer.level.dimension() == resourcekey) {
@@ -30,7 +30,7 @@
                  serverplayer.connection.send(packet);
              }
          }
-@@ -634,7 +641,7 @@
+@@ -635,7 +642,7 @@
      }
  
      public void deop(GameProfile gameprofile) {

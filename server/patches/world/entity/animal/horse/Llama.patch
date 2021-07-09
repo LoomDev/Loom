@@ -1,17 +1,14 @@
 --- a/net/minecraft//world/entity/animal/horse/Llama.java
 +++ b/net/minecraft//world/entity/animal/horse/Llama.java
-@@ -60,9 +60,9 @@
+@@ -60,7 +60,7 @@
      private static final int MAX_STRENGTH = 5;
      private static final int VARIANTS = 4;
      private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.WHEAT, Blocks.HAY_BLOCK.asItem());
 -    private static final EntityDataAccessor<Integer> DATA_STRENGTH_ID = SynchedEntityData.defineId(Llama.class, EntityDataSerializers.INT);
-+    public static final EntityDataAccessor<Integer> DATA_STRENGTH_ID = SynchedEntityData.defineId(Llama.class, EntityDataSerializers.INT); // Loom :: private -> public
++    public static final EntityDataAccessor<Integer> DATA_STRENGTH_ID = SynchedEntityData.defineId(Llama.class, EntityDataSerializers.INT); // Loom :: private -> public (LlamaImpl)
      private static final EntityDataAccessor<Integer> DATA_SWAG_ID = SynchedEntityData.defineId(Llama.class, EntityDataSerializers.INT);
--    private static final EntityDataAccessor<Integer> DATA_VARIANT_ID = SynchedEntityData.defineId(Llama.class, EntityDataSerializers.INT);
-+    public static final EntityDataAccessor<Integer> DATA_VARIANT_ID = SynchedEntityData.defineId(Llama.class, EntityDataSerializers.INT); // Loom :: private -> public
-     private boolean didSpit;
-     @Nullable
-     private Llama caravanHead;
+     private static final EntityDataAccessor<Integer> DATA_VARIANT_ID = SynchedEntityData.defineId(Llama.class, EntityDataSerializers.INT);
+     boolean didSpit;
 @@ -343,7 +343,7 @@
      }
  
@@ -31,5 +28,5 @@
      }
 +     */ // Loom end
  
-     static class LlamaAttackWolfGoal extends NearestAttackableTargetGoal<Wolf> {
+     private static class LlamaHurtByTargetGoal extends HurtByTargetGoal {
  

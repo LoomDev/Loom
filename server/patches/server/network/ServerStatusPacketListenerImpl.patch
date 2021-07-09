@@ -1,13 +1,17 @@
---- a/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
-+++ b/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
-@@ -32,8 +32,14 @@
+--- a/net/minecraft//server/network/ServerStatusPacketListenerImpl.java
++++ b/net/minecraft//server/network/ServerStatusPacketListenerImpl.java
+@@ -32,8 +32,18 @@
          if (this.hasRequestedStatus) {
              this.connection.disconnect(ServerStatusPacketListenerImpl.DISCONNECT_REASON);
          } else {
 +            // Loom start :: fire StatusPingEvent
 +            try {
 +                org.loomdev.loom.event.LoomEventDispatcher.fireAsync(new org.loomdev.loom.event.server.connection.StatusPingEventImpl(connection, (net.minecraft.network.protocol.status.ServerStatus) server.getStatus().clone())).thenAccept(event -> {
-+                    if (!event.isCanceled()) this.connection.send(new ClientboundStatusResponsePacket(event.getMinecraftStatus()));
++                    if (event.isCanceled()) {
++                        return;
++                    }
++
++                    this.connection.send(new ClientboundStatusResponsePacket(event.getMinecraftStatus()));
 +                });
 +            } catch (CloneNotSupportedException ignored) { }
 +            // Loom end

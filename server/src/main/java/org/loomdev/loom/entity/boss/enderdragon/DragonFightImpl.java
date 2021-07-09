@@ -12,7 +12,7 @@ public class DragonFightImpl implements DragonFight {
 
     private final EnderDragonImpl enderDragon;
     private final EndDragonFight fight;
-    private BossBarImpl bossBar;
+    private final BossBarImpl bossBar;
 
     public DragonFightImpl(EnderDragonImpl enderDragon, EndDragonFight fight) {
         this.enderDragon = enderDragon;
@@ -35,7 +35,7 @@ public class DragonFightImpl implements DragonFight {
     @Override
     public Location getEndPortalLocation() {
         var bp = fight.portalLocation;
-        return new Location(null, bp.getX(), bp.getY(), bp.getZ()); // TODO world
+        return new Location(fight.level.getLoomWorld(), bp.getX(), bp.getY(), bp.getZ());
     }
 
     @Override

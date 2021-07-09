@@ -1,14 +1,16 @@
 --- a/net/minecraft//world/level/dimension/end/EndDragonFight.java
 +++ b/net/minecraft//world/level/dimension/end/EndDragonFight.java
-@@ -68,7 +68,7 @@
+@@ -68,8 +68,8 @@
      private static final int GATEWAY_DISTANCE = 96;
      public static final int DRAGON_SPAWN_Y = 128;
      private static final Predicate<Entity> VALID_PLAYER = EntitySelector.ENTITY_STILL_ALIVE.and(EntitySelector.withinDistance(0.0D, 128.0D, 0.0D, 192.0D));
 -    private final ServerBossEvent dragonEvent;
+-    private final ServerLevel level;
 +    public final ServerBossEvent dragonEvent; // Loom :: private -> public (DragonFightImpl)
-     private final ServerLevel level;
++    public final ServerLevel level; // Loom :: private -> public (DragonFightImpl)
      private final List<Integer> gateways;
      private final BlockPattern exitPortalPattern;
+     private int ticksSinceDragonSeen;
 @@ -80,8 +80,8 @@
      private boolean previouslyKilled;
      private UUID dragonUUID;
@@ -16,25 +18,25 @@
 -    private BlockPos portalLocation;
 -    private DragonRespawnAnimation respawnStage;
 +    public BlockPos portalLocation; // Loom :: private -> public (DragonFightImpl)
-+    public DragonRespawnAnimation respawnStage; // Loom :: private -> public
++    public DragonRespawnAnimation respawnStage; // Loom :: private -> public (DragonFightImpl)
      private int respawnTime;
      private List<EndCrystal> respawnCrystals;
  
-@@ -242,7 +242,7 @@
+@@ -247,7 +247,7 @@
  
      }
  
 -    protected void setRespawnStage(DragonRespawnAnimation dragonrespawnanimation) {
-+    public void setRespawnStage(DragonRespawnAnimation dragonrespawnanimation) { // Loom :: protected -> public
++    public void setRespawnStage(DragonRespawnAnimation dragonrespawnanimation) { // Loom :: protected -> public (DragonFightImpl)
          if (this.respawnStage == null) {
              throw new IllegalStateException("Dragon respawn isn't in progress, can't skip ahead in the animation.");
          } else {
-@@ -427,7 +427,7 @@
+@@ -432,7 +432,7 @@
          Features.END_GATEWAY_DELAYED.place(this.level, this.level.getChunkSource().getGenerator(), new Random(), blockpos);
      }
  
 -    private void spawnExitPortal(boolean flag) {
-+    public void spawnExitPortal(boolean flag) { // Loom :: private -> public
++    public void spawnExitPortal(boolean flag) { // Loom :: private -> public (DragonFightImpl)
          EndPodiumFeature endpodiumfeature = new EndPodiumFeature(flag);
  
          if (this.portalLocation == null) {

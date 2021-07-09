@@ -4,8 +4,8 @@
          return (Boolean) this.entityData.get(Guardian.DATA_ID_MOVING);
      }
  
--    private void setMoving(boolean flag) {
-+    public void setMoving(boolean flag) { // Loom :: private -> public (GuardianImpl)
+-    void setMoving(boolean flag) {
++    public void setMoving(boolean flag) { // Loom :: package-private -> public (GuardianImpl)
          this.entityData.set(Guardian.DATA_ID_MOVING, flag);
      }
  
@@ -13,13 +13,13 @@
          return 80;
      }
  
--    private void setActiveAttackTarget(int i) {
-+    public void setActiveAttackTarget(int i) { // Loom :: private -> public (GuardianImpl)
+-    void setActiveAttackTarget(int i) {
++    public void setActiveAttackTarget(int i) { // Loom :: package-private -> public (GuardianImpl)
          this.entityData.set(Guardian.DATA_ID_ATTACK_TARGET, i);
      }
  
 @@ -465,8 +465,6 @@
-             return (livingentity instanceof Player || livingentity instanceof Squid || livingentity != null && Axolotl.NOT_PLAYING_DEAD_SELECTOR.test(livingentity)) && livingentity.distanceToSqr((Entity) this.guardian) > 9.0D;
+             return (livingentity instanceof Player || livingentity instanceof Squid || livingentity instanceof Axolotl) && livingentity.distanceToSqr((Entity) this.guardian) > 9.0D;
          }
  
 -        public boolean test(@Nullable Object object) {

@@ -1,9 +1,9 @@
 package org.loomdev.api.entity.projectile;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.Entity;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 /**

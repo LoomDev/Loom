@@ -9,56 +9,18 @@
  
      public static final int FAVICON_WIDTH = 64;
      public static final int FAVICON_HEIGHT = 64;
-@@ -106,6 +106,7 @@
-             return jsonobject;
-         }
- 
-+        /* // Loom start :: decompile error
-         public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
-             return this.serialize((ServerStatus) object, type, jsonserializationcontext);
-         }
-@@ -113,12 +114,13 @@
-         public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-             return this.deserialize(jsonelement, type, jsondeserializationcontext);
-         }
-+         */ // Loom end
-     }
- 
-     public static class Version {
- 
--        private final String name;
--        private final int protocol;
-+        public String name; // Loom :: private -> public, non-final (StatusPingEventImpl)
-+        public int protocol; // Loom :: private -> public, non-final (StatusPingEventImpl)
- 
-         public Version(String s, int i) {
-             this.name = s;
-@@ -151,6 +153,7 @@
-                 return jsonobject;
-             }
- 
-+            /* // Loom start :: decompile error
-             public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
-                 return this.serialize((ServerStatus.Version) object, type, jsonserializationcontext);
-             }
-@@ -158,13 +161,14 @@
-             public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-                 return this.deserialize(jsonelement, type, jsondeserializationcontext);
-             }
-+             */ // Loom end
-         }
-     }
+@@ -59,8 +59,8 @@
  
      public static class Players {
  
 -        private final int maxPlayers;
 -        private final int numPlayers;
-+        public int maxPlayers; // Loom :: private -> public, non-final (StatusPingEventImpl)
-+        public int numPlayers; // Loom :: private -> public, non-final (StatusPingEventImpl)
++        public int maxPlayers; // Loom :: private, final -> public (StatusPingEventImpl)
++        public int numPlayers; // Loom :: private, final -> public (StatusPingEventImpl)
          private GameProfile[] sample;
  
          public Players(int i, int j) {
-@@ -239,6 +243,7 @@
+@@ -135,6 +135,7 @@
                  return jsonobject;
              }
  
@@ -66,12 +28,52 @@
              public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
                  return this.serialize((ServerStatus.Players) object, type, jsonserializationcontext);
              }
-@@ -246,6 +251,14 @@
+@@ -142,13 +143,14 @@
              public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
                  return this.deserialize(jsonelement, type, jsondeserializationcontext);
              }
 +             */ // Loom end
          }
+     }
+ 
+     public static class Version {
+ 
+-        private final String name;
+-        private final int protocol;
++        public String name; // Loom :: private, final -> public (StatusPingEventImpl)
++        public int protocol; // Loom :: private, final -> public (StatusPingEventImpl)
+ 
+         public Version(String s, int i) {
+             this.name = s;
+@@ -181,6 +183,7 @@
+                 return jsonobject;
+             }
+ 
++            /* // Loom start :: decompile error
+             public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
+                 return this.serialize((ServerStatus.Version) object, type, jsonserializationcontext);
+             }
+@@ -188,6 +191,7 @@
+             public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
+                 return this.deserialize(jsonelement, type, jsondeserializationcontext);
+             }
++             */ // Loom end
+         }
+     }
+ 
+@@ -240,6 +244,7 @@
+             return jsonobject;
+         }
+ 
++        /* // Loom start :: decompile error
+         public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
+             return this.serialize((ServerStatus) object, type, jsonserializationcontext);
+         }
+@@ -247,5 +252,13 @@
+         public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
+             return this.deserialize(jsonelement, type, jsondeserializationcontext);
+         }
++         */ // Loom end
      }
 +
 +    // Loom start

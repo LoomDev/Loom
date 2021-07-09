@@ -138,7 +138,7 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
 
     @Override
     public boolean hasLineOfSight(@NotNull Entity entity) {
-        return getMinecraftEntity().canSee(((EntityImpl) entity).getMinecraftEntity());
+        return getMinecraftEntity().hasLineOfSight(((EntityImpl) entity).getMinecraftEntity());
     }
 
     @Override
@@ -227,11 +227,6 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
     @Override
     public void resetSensitiveToWater() {
         getMinecraftEntity().sensitiveToWaterOverride = Optional.empty();
-    }
-
-    @Override
-    public boolean canSee(@NotNull Entity entity) {
-        return getMinecraftEntity().canSee(((EntityImpl) entity).getMinecraftEntity());
     }
 
     @Override

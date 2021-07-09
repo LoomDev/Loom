@@ -1,6 +1,6 @@
 --- a/net/minecraft//world/entity/Mob.java
 +++ b/net/minecraft//world/entity/Mob.java
-@@ -100,7 +100,7 @@
+@@ -99,7 +99,7 @@
      private final NonNullList<ItemStack> armorItems;
      protected final float[] armorDropChances;
      private boolean canPickUpLoot;
