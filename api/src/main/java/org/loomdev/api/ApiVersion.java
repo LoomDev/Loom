@@ -1,5 +1,7 @@
 package org.loomdev.api;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
@@ -56,24 +58,14 @@ public enum ApiVersion {
         this.releaseType = releaseType;
     }
 
+    @NotNull
     public String getName() {
         return name;
     }
 
-    public boolean isSnapshot() {
-        return releaseType == ReleaseType.SNAPSHOT;
-    }
-
-    public boolean isPreRelease() {
-        return releaseType == ReleaseType.PRE_RELEASE;
-    }
-
-    public boolean isReleaseCandidate() {
-        return releaseType == ReleaseType.RELEASE_CANDIDATE;
-    }
-
-    public boolean isRelease() {
-        return releaseType == ReleaseType.RELEASE;
+    @NotNull
+    public ReleaseType getReleaseType() {
+        return releaseType;
     }
 
     public boolean isLatest() {
