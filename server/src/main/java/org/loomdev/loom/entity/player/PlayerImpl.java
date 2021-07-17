@@ -22,8 +22,7 @@ import org.loomdev.api.util.ResourcePackStatus;
 import org.loomdev.api.util.Weather;
 import org.loomdev.loom.entity.LivingEntityImpl;
 import org.loomdev.loom.server.ServerImpl;
-import org.loomdev.loom.util.transformer.ResourcePackActionTransformer;
-import org.loomdev.loom.util.transformer.TextTransformer;
+import org.loomdev.loom.transformer.Transformer;
 import org.loomdev.loom.world.WorldImpl;
 
 import java.net.InetSocketAddress;
@@ -113,7 +112,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void sendActionBar(@NotNull Component message) {
-        getMinecraftEntity().sendMessage(TextTransformer.toMinecraft(message), ChatType.GAME_INFO, Util.NIL_UUID);
+        getMinecraftEntity().sendMessage(Transformer.COMPONENT.toMinecraft(message), ChatType.GAME_INFO, Util.NIL_UUID);
     }
 
     @Override
@@ -123,7 +122,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void sendMessage(@NotNull Component component) {
-        getMinecraftEntity().sendMessage(TextTransformer.toMinecraft(component), Util.NIL_UUID);
+        getMinecraftEntity().sendMessage(Transformer.COMPONENT.toMinecraft(component), Util.NIL_UUID);
     }
 
     @Override
@@ -144,8 +143,8 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @Override
     public void sendTitle(@NotNull Component title, @NotNull Component subtitle, int fadeIn, int stay, int fadeOut) {
         getMinecraftEntity().connection.send(new ClientboundSetTitlesAnimationPacket(fadeIn, stay, fadeOut));
-        getMinecraftEntity().connection.send(new ClientboundSetTitleTextPacket(TextTransformer.toMinecraft(title)));
-        getMinecraftEntity().connection.send(new ClientboundSetSubtitleTextPacket(TextTransformer.toMinecraft(subtitle)));
+        getMinecraftEntity().connection.send(new ClientboundSetTitleTextPacket(Transformer.COMPONENT.toMinecraft(title)));
+        getMinecraftEntity().connection.send(new ClientboundSetSubtitleTextPacket(Transformer.COMPONENT.toMinecraft(subtitle)));
     }
 
     @Override
@@ -207,15 +206,16 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     private void updateTabList() {
         getMinecraftEntity().connection.send(new ClientboundTabListPacket(
-                TextTransformer.toMinecraft(tabListHeader),
-                TextTransformer.toMinecraft(tabListFooter)
+                Transformer.COMPONENT.toMinecraft(tabListHeader),
+                Transformer.COMPONENT.toMinecraft(tabListFooter)
         ));
     }
 
     @Override
     public void playSound(@NotNull Sound sound) {
+        var mcSound = Registry.SOUND_EVENT.get(Transformer.NAMESPACED_KEY.toMinecraft(sound.getSoundEffect().getKey()));
         getMinecraftEntity().connection.send(new ClientboundSoundEntityPacket(
-                Registry.SOUND_EVENT.get(new ResourceLocation(sound.getSoundEffect().getKey().toString())),
+                mcSound,
                 SoundSource.getByName(sound.getSoundCategory().getName()),
                 getMinecraftEntity(),
                 sound.getVolume(),
@@ -299,7 +299,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void sendResourcePack(@NotNull String url, @Nullable String sha1Hash, boolean required, @Nullable Component prompt) throws IllegalArgumentException {
-        getMinecraftEntity().sendTexturePack(url, sha1Hash == null ? "" : sha1Hash, required, TextTransformer.toMinecraft(prompt));
+        getMinecraftEntity().sendTexturePack(url, sha1Hash == null ? "" : sha1Hash, required, Transformer.COMPONENT.toMinecraft(prompt));
     }
 
     @Override
@@ -315,10 +315,10 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     @Override
     public void kick(@NotNull Component reason) {
-        getMinecraftEntity().connection.disconnect(TextTransformer.toMinecraft(reason));
+        getMinecraftEntity().connection.disconnect(Transformer.COMPONENT.toMinecraft(reason));
     }
 
     public void setLastResourcePackStatus(ServerboundResourcePackPacket.Action action) {
-        this.resourcePackStatus = ResourcePackActionTransformer.toLoom(action);
+        this.resourcePackStatus = Transformer.RESOURCE_PACK_STATUS.toLoom(action);
     }
 }

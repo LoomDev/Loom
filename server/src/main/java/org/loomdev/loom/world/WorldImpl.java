@@ -3,15 +3,12 @@ package org.loomdev.loom.world;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.protocol.game.ClientboundSetTimePacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.LevelData;
 import net.minecraft.world.level.storage.ServerLevelData;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
@@ -28,13 +25,9 @@ import org.loomdev.loom.block.BlockPointerImpl;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.event.LoomEventDispatcher;
 import org.loomdev.loom.event.world.WorldEventImpl;
-import org.loomdev.loom.util.transformer.ParticleTransformer;
+import org.loomdev.loom.transformer.Transformer;
 
-import java.lang.ref.WeakReference;
-import java.util.Collection;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class WorldImpl implements World {
@@ -92,7 +85,8 @@ public class WorldImpl implements World {
     @Override
     @NotNull
     public <T extends Entity> Optional<T> spawnEntity(@NotNull EntityType<T> type, @NotNull Location location) {
-        return Optional.ofNullable(Registry.ENTITY_TYPE.get(new ResourceLocation(type.getKey().toString())).create(getMinecraftWorld()))
+        var mcType = Registry.ENTITY_TYPE.get(Transformer.NAMESPACED_KEY.toMinecraft(type.getKey()));
+        return Optional.ofNullable(mcType.create(getMinecraftWorld()))
                 .map(entity -> {
                     entity.moveTo(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
                     getMinecraftWorld().addFreshEntity(entity);
@@ -103,7 +97,7 @@ public class WorldImpl implements World {
     @Override
     public void spawnParticle(@NotNull Particle particle, @NotNull Location location) {
         ((ServerLevel) getMinecraftWorld()).sendParticles(
-                ParticleTransformer.toMinecraft(particle),
+                Transformer.PARTICLE.toMinecraft(particle),
                 location.getX(),
                 location.getY(),
                 location.getZ(),
@@ -118,14 +112,10 @@ public class WorldImpl implements World {
     @Override
     public void playSound(@NotNull Sound sound, @NotNull Location location) {
         var pos = new BlockPos(location.getX(), location.getY(), location.getZ());
-        getMinecraftWorld().playSound(
-                null,
-                pos,
-                Registry.SOUND_EVENT.get(new ResourceLocation(sound.getSoundEffect().getKey().toString())),
-                SoundSource.getByName(sound.getSoundCategory().getName()),
-                sound.getVolume(),
-                sound.getPitch()
-        );
+        var mcSound = Registry.SOUND_EVENT.get(Transformer.NAMESPACED_KEY.toMinecraft(sound.getSoundEffect().getKey()));
+        var source = SoundSource.getByName(sound.getSoundCategory().getName());
+
+        getMinecraftWorld().playSound(null, pos, mcSound, source, sound.getVolume(), sound.getPitch());
     }
 
     @Override

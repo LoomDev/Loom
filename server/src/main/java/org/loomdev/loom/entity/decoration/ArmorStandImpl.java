@@ -5,7 +5,8 @@ import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.ArmorStand;
 import org.loomdev.api.math.EulerAngle;
 import org.loomdev.loom.entity.LivingEntityImpl;
-import org.loomdev.loom.util.transformer.EulerAngleTransformer;
+
+import static org.loomdev.loom.transformer.Transformer.EULER_ANGLE;
 
 public class ArmorStandImpl extends LivingEntityImpl implements ArmorStand {
 
@@ -26,63 +27,69 @@ public class ArmorStandImpl extends LivingEntityImpl implements ArmorStand {
     }
 
     @Override
-    public @NotNull EulerAngle getBodyPose() {
-        return EulerAngleTransformer.toLoom(getMinecraftEntity().getBodyPose());
+    @NotNull
+    public EulerAngle getBodyPose() {
+        return EULER_ANGLE.toLoom(getMinecraftEntity().getBodyPose());
     }
 
     @Override
     public void setBodyPose(@NotNull EulerAngle eulerAngle) {
-        getMinecraftEntity().setBodyPose(EulerAngleTransformer.toMinecraft(eulerAngle));
+        getMinecraftEntity().setBodyPose(EULER_ANGLE.toMinecraft(eulerAngle));
     }
 
     @Override
-    public @NotNull EulerAngle getLeftArmPose() {
-        return EulerAngleTransformer.toLoom(getMinecraftEntity().leftArmPose);
+    @NotNull
+    public EulerAngle getLeftArmPose() {
+        return EULER_ANGLE.toLoom(getMinecraftEntity().leftArmPose);
     }
 
     @Override
     public void setLeftArmPose(@NotNull EulerAngle eulerAngle) {
-        getMinecraftEntity().setLeftArmPose(EulerAngleTransformer.toMinecraft(eulerAngle));
+        getMinecraftEntity().setLeftArmPose(EULER_ANGLE.toMinecraft(eulerAngle));
     }
 
     @Override
-    public @NotNull EulerAngle getRightArmPose() {
-        return EulerAngleTransformer.toLoom(getMinecraftEntity().rightArmPose);
+    @NotNull
+    public EulerAngle getRightArmPose() {
+        return EULER_ANGLE.toLoom(getMinecraftEntity().rightArmPose);
     }
 
     @Override
     public void setRightArmPose(@NotNull EulerAngle eulerAngle) {
-        getMinecraftEntity().setRightArmPose(EulerAngleTransformer.toMinecraft(eulerAngle));
+        getMinecraftEntity().setRightArmPose(EULER_ANGLE.toMinecraft(eulerAngle));
     }
 
     @Override
-    public @NotNull EulerAngle getLeftLegPose() {
-        return EulerAngleTransformer.toLoom(getMinecraftEntity().leftLegPose);
+    @NotNull
+    public EulerAngle getLeftLegPose() {
+        return EULER_ANGLE.toLoom(getMinecraftEntity().leftLegPose);
     }
 
     @Override
     public void setLeftLegPose(@NotNull EulerAngle eulerAngle) {
-        getMinecraftEntity().setLeftLegPose(EulerAngleTransformer.toMinecraft(eulerAngle));
+        getMinecraftEntity().setLeftLegPose(EULER_ANGLE.toMinecraft(eulerAngle));
     }
 
     @Override
-    public @NotNull EulerAngle getRightLegPose() {
-        return EulerAngleTransformer.toLoom(getMinecraftEntity().rightLegPose);
+    @NotNull
+    public EulerAngle getRightLegPose() {
+        return EULER_ANGLE.toLoom(getMinecraftEntity().rightLegPose);
     }
 
     @Override
     public void setRightLegPose(@NotNull EulerAngle eulerAngle) {
-        getMinecraftEntity().setRightLegPose(EulerAngleTransformer.toMinecraft(eulerAngle));
+        getMinecraftEntity().setRightLegPose(EULER_ANGLE.toMinecraft(eulerAngle));
     }
 
     @Override
-    public @NotNull EulerAngle getHeadPose() {
-        return EulerAngleTransformer.toLoom(getMinecraftEntity().getHeadPose());
+    @NotNull
+    public EulerAngle getHeadPose() {
+        return EULER_ANGLE.toLoom(getMinecraftEntity().getHeadPose());
     }
 
     @Override
     public void setHeadPose(@NotNull EulerAngle eulerAngle) {
-        getMinecraftEntity().setHeadPose(EulerAngleTransformer.toMinecraft(eulerAngle));
+        getMinecraftEntity().setHeadPose(EULER_ANGLE.toMinecraft(eulerAngle));
     }
 
     @Override

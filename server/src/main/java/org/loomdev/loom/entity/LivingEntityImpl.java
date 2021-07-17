@@ -18,9 +18,8 @@ import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.entity.player.PlayerImpl;
 import org.loomdev.loom.item.ItemStackImpl;
-import org.loomdev.loom.util.transformer.StatusEffectTransformer;
-import org.loomdev.loom.util.transformer.StatusEffectTypeTransformer;
-import org.loomdev.loom.util.transformer.DamageSourceTransformer;
+import org.loomdev.loom.transformer.Transformer;
+import org.loomdev.loom.transformer.DamageSourceTransformer;
 import org.loomdev.loom.world.WorldImpl;
 
 import java.util.List;
@@ -45,25 +44,25 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
     @NotNull
     public List<StatusEffect> getStatusEffects() {
         return getMinecraftEntity().getActiveEffects().stream()
-                .map(StatusEffectTransformer::toLoom)
+                .map(Transformer.STATUS_EFFECT::toLoom)
                 .collect(Collectors.toList());
     }
 
     @Override
     public void addStatusEffect(@NotNull StatusEffect statusEffect) {
-        getMinecraftEntity().addEffect(StatusEffectTransformer.toMinecraft(statusEffect));
+        getMinecraftEntity().addEffect(Transformer.STATUS_EFFECT.toMinecraft(statusEffect));
     }
 
     @Override
     @NotNull
     public Optional<StatusEffect> getStatusEffect(@NotNull StatusEffectType type) {
-        return Optional.ofNullable(getMinecraftEntity().getEffect(StatusEffectTypeTransformer.toMinecraft(type)))
-                .map(StatusEffectTransformer::toLoom);
+        return Optional.ofNullable(getMinecraftEntity().getEffect(Transformer.STATUS_EFFECT_TYPE.toMinecraft(type)))
+                .map(Transformer.STATUS_EFFECT::toLoom);
     }
 
     @Override
     public void removeStatusEffect(@NotNull StatusEffectType statusEffectType) {
-        getMinecraftEntity().removeEffect(StatusEffectTypeTransformer.toMinecraft(statusEffectType));
+        getMinecraftEntity().removeEffect(Transformer.STATUS_EFFECT_TYPE.toMinecraft(statusEffectType));
     }
 
     @Override
@@ -73,7 +72,7 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
 
     @Override
     public boolean hasStatusEffect(@NotNull StatusEffectType statusEffectType) {
-        return getMinecraftEntity().hasEffect(StatusEffectTypeTransformer.toMinecraft(statusEffectType));
+        return getMinecraftEntity().hasEffect(Transformer.STATUS_EFFECT_TYPE.toMinecraft(statusEffectType));
     }
 
     @Override
@@ -316,7 +315,7 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
 
     @Override
     public void damage(float damage, org.loomdev.api.entity.damage.DamageSource source) {
-        getMinecraftEntity().hurt(DamageSourceTransformer.toMinecraft(source), damage);
+        getMinecraftEntity().hurt(Transformer.DAMAGE_SOURCE.toMinecraft(source), damage);
     }
 
     @Override

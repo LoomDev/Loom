@@ -9,7 +9,7 @@ import org.loomdev.api.item.property.ItemProperty;
 import org.loomdev.api.item.property.data.NameData;
 import org.loomdev.loom.item.ItemStackImpl;
 import org.loomdev.loom.item.property.data.NameDataImpl;
-import org.loomdev.loom.util.transformer.TextTransformer;
+import org.loomdev.loom.transformer.Transformer;
 
 public class NameItemProperty implements ItemProperty<NameData> {
 
@@ -19,9 +19,9 @@ public class NameItemProperty implements ItemProperty<NameData> {
     @Override
     public NameData get(@NotNull ItemStack itemStack) {
         var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
-        Component itemName = TextTransformer.toLoom(mcStack.getItem().getName(mcStack));
+        Component itemName = Transformer.COMPONENT.toLoom(mcStack.getItem().getName(mcStack));
         Component customName = null;
-        Component hoverText = TextTransformer.toLoom(mcStack.getHoverName());
+        Component hoverText = Transformer.COMPONENT.toLoom(mcStack.getHoverName());
 
         CompoundTag displayTag = mcStack.getTagElement(TAG_DISPLAY);
         if (displayTag != null && displayTag.contains(TAG_NAME, 8)) {
@@ -36,7 +36,7 @@ public class NameItemProperty implements ItemProperty<NameData> {
         var mcStack = ((ItemStackImpl) itemStack).getMinecraftItemStack();
 
         if (nameData.hasCustomName()) {
-            mcStack.setHoverName(TextTransformer.toMinecraft(nameData.getName()));
+            mcStack.setHoverName(Transformer.COMPONENT.toMinecraft(nameData.getName()));
         } else {
             mcStack.resetHoverName();
         }

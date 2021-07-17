@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.vehicle.minecart.SpawnerMinecart;
+import org.loomdev.loom.transformer.Transformer;
 
 import java.util.Optional;
 
@@ -37,7 +38,10 @@ public class SpawnerMinecartImpl extends AbstractMinecartImpl implements Spawner
 
     @Override
     public void setEntityType(@Nullable EntityType<?> entityType) {
-        if (entityType == null) return;
-        getMinecraftEntity().spawner.setEntityId(Registry.ENTITY_TYPE.get(new ResourceLocation(entityType.getKey().toString())));
+        if (entityType == null) {
+            return;
+        }
+
+        getMinecraftEntity().spawner.setEntityId(Registry.ENTITY_TYPE.get(Transformer.NAMESPACED_KEY.toMinecraft(entityType.getKey())));
     }
 }

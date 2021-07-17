@@ -1,13 +1,13 @@
 package org.loomdev.loom.tag;
 
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.EntityTypeTags;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.tag.EntityTypeTag;
 import org.loomdev.api.util.NamespacedKey;
 import org.loomdev.loom.entity.EntityTypeImpl;
+import org.loomdev.loom.transformer.Transformer;
 import org.loomdev.loom.util.registry.GenericWrapped;
 
 import java.util.Random;
@@ -19,7 +19,7 @@ public class EntityTypeTagImpl extends GenericWrapped implements EntityTypeTag {
 
     public EntityTypeTagImpl(NamespacedKey key) {
         super(key);
-        this.tag = EntityTypeTags.HELPER.getAllTags().getTag(new ResourceLocation(key.getNamespace(), key.getKey()));
+        this.tag = EntityTypeTags.HELPER.getAllTags().getTag(Transformer.NAMESPACED_KEY.toMinecraft(key));
 
         if (this.tag == null) {
             throw new IllegalArgumentException();

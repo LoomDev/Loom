@@ -1,7 +1,6 @@
 package org.loomdev.loom.tag;
 
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
@@ -9,6 +8,7 @@ import org.loomdev.api.block.BlockType;
 import org.loomdev.api.tag.BlockTag;
 import org.loomdev.api.util.NamespacedKey;
 import org.loomdev.loom.block.BlockTypeImpl;
+import org.loomdev.loom.transformer.Transformer;
 import org.loomdev.loom.util.registry.GenericWrapped;
 
 import java.util.Random;
@@ -20,7 +20,7 @@ public class BlockTagImpl extends GenericWrapped implements BlockTag {
 
     public BlockTagImpl(NamespacedKey key) {
         super(key);
-        this.tag = BlockTags.HELPER.getAllTags().getTag(new ResourceLocation(key.getNamespace(), key.getKey()));
+        this.tag = BlockTags.HELPER.getAllTags().getTag(Transformer.NAMESPACED_KEY.toMinecraft(key));
 
         if (this.tag == null) {
             throw new IllegalArgumentException();

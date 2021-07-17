@@ -7,8 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.event.entity.PlayerEvent;
 import org.loomdev.loom.event.EventImpl;
-import org.loomdev.loom.util.transformer.ResourcePackActionTransformer;
-import org.loomdev.loom.util.transformer.TextTransformer;
+import org.loomdev.loom.transformer.Transformer;
 
 public class PlayerEventImpl extends EventImpl implements PlayerEvent {
 
@@ -70,7 +69,7 @@ public class PlayerEventImpl extends EventImpl implements PlayerEvent {
 
         @NotNull
         public net.minecraft.network.chat.Component getMinecraftComponent() {
-            return TextTransformer.toMinecraft(getFormat().apply(getPlayer().getDisplayName(), getMessage()));
+            return Transformer.COMPONENT.toMinecraft(getFormat().apply(getPlayer().getDisplayName(), getMessage()));
         }
     }
 
@@ -80,7 +79,7 @@ public class PlayerEventImpl extends EventImpl implements PlayerEvent {
 
         public JoinImpl(ServerPlayer player, net.minecraft.network.chat.Component component) {
             super((Player) player.getLoomEntity());
-            this.message = TextTransformer.toLoom(component);
+            this.message = Transformer.COMPONENT.toLoom(component);
         }
 
         @Override
@@ -101,7 +100,7 @@ public class PlayerEventImpl extends EventImpl implements PlayerEvent {
 
         public DisconnectImpl(ServerPlayer player, net.minecraft.network.chat.Component component) {
             super((Player) player.getLoomEntity());
-            this.message = TextTransformer.toLoom(component);
+            this.message = Transformer.COMPONENT.toLoom(component);
         }
 
         @Override
@@ -123,7 +122,7 @@ public class PlayerEventImpl extends EventImpl implements PlayerEvent {
 
         public ResourcePackStatusImpl(ServerPlayer player, ServerboundResourcePackPacket.Action action, boolean resourcePackRequired) {
             super((Player) player.getLoomEntity());
-            this.status = ResourcePackActionTransformer.toLoom(action);
+            this.status = Transformer.RESOURCE_PACK_STATUS.toLoom(action);
             this.required = resourcePackRequired;
         }
 

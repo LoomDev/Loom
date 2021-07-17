@@ -1,7 +1,6 @@
 package org.loomdev.loom.bossbar;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.Entity;
@@ -10,11 +9,9 @@ import org.loomdev.api.bossbar.BossBar;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.math.MathHelper;
 import org.loomdev.loom.entity.player.PlayerImpl;
-import org.loomdev.loom.util.transformer.TextTransformer;
+import org.loomdev.loom.transformer.Transformer;
 
-import java.util.Collection;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class BossBarImpl implements BossBar {
@@ -39,7 +36,7 @@ public class BossBarImpl implements BossBar {
     @Override
     @NotNull
     public Component getText() {
-        return TextTransformer.toLoom(mcBar.getName());
+        return Transformer.COMPONENT.toLoom(mcBar.getName());
     }
 
     @Override
@@ -49,7 +46,7 @@ public class BossBarImpl implements BossBar {
 
     @Override
     public void setText(@NotNull Component text) {
-        mcBar.setName(TextTransformer.toMinecraft(text));
+        mcBar.setName(Transformer.COMPONENT.toMinecraft(text));
     }
 
     @Override

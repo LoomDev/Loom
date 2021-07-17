@@ -14,6 +14,7 @@ import org.loomdev.api.item.property.ItemProperty;
 import org.loomdev.api.item.property.data.EnchantmentData;
 import org.loomdev.loom.item.ItemStackImpl;
 import org.loomdev.loom.item.property.data.EnchantmentDataImpl;
+import org.loomdev.loom.transformer.Transformer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +49,8 @@ public class EnchantmentsItemProperty implements ItemProperty<EnchantmentData> {
         }
 
         for (Map.Entry<Enchantment, Integer> enchantments : enchantmentData.getEnchantments().entrySet()) {
-            var mcEnchantment = Registry.ENCHANTMENT.get(new ResourceLocation(enchantments.getKey().getKey().getKey()));
+            var mcEnchantment = Registry.ENCHANTMENT.get(Transformer.NAMESPACED_KEY.toMinecraft(enchantments.getKey().getKey()));
+
             if (itemStack.getType() == ItemType.ENCHANTED_BOOK) {
                 EnchantedBookItem.addEnchantment(mcStack, new EnchantmentInstance(mcEnchantment, enchantments.getValue()));
             } else {

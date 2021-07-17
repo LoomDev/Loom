@@ -8,6 +8,7 @@ import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.monster.zombie.ZombieVillager;
 import org.loomdev.api.village.VillagerProfession;
 import org.loomdev.api.village.VillagerVariant;
+import org.loomdev.loom.transformer.Transformer;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -39,7 +40,7 @@ public class ZombieVillagerImpl extends ZombieImpl implements ZombieVillager {
 
     @Override
     public void setVillagerVariant(@NotNull VillagerVariant villagerVariant) {
-        var type = Registry.VILLAGER_TYPE.get(new ResourceLocation(villagerVariant.getKey().toString()));
+        var type = Registry.VILLAGER_TYPE.get(Transformer.NAMESPACED_KEY.toMinecraft(villagerVariant.getKey()));
         getMinecraftEntity().setVillagerData(getMinecraftEntity().getVillagerData().setType(type));
     }
 

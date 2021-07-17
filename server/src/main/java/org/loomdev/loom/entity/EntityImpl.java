@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import org.jetbrains.annotations.NotNull;
@@ -19,8 +18,7 @@ import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
 import org.loomdev.loom.command.CommandSourceImpl;
 import org.loomdev.loom.item.ItemStackImpl;
-import org.loomdev.loom.util.transformer.TextTransformer;
-import org.loomdev.loom.util.transformer.DamageSourceTransformer;
+import org.loomdev.loom.transformer.Transformer;
 import org.loomdev.loom.world.WorldImpl;
 
 import java.util.Optional;
@@ -55,25 +53,25 @@ public abstract class EntityImpl extends CommandSourceImpl implements Entity {
     @Override
     @NotNull
     public Component getName() {
-        return TextTransformer.toLoom(getMinecraftEntity().getName());
+        return Transformer.COMPONENT.toLoom(getMinecraftEntity().getName());
     }
 
     @Override
     @NotNull
     public Component getDisplayName() {
-        return TextTransformer.toLoom(getMinecraftEntity().getDisplayName());
+        return Transformer.COMPONENT.toLoom(getMinecraftEntity().getDisplayName());
     }
 
     @Override
     @NotNull
     public Optional<Component> getCustomName() {
         return Optional.ofNullable(getMinecraftEntity().getCustomName())
-                .map(TextTransformer::toLoom);
+                .map(Transformer.COMPONENT::toLoom);
     }
 
     @Override
     public void setCustomName(@Nullable Component component) {
-        getMinecraftEntity().setCustomName(component == null ? null : TextTransformer.toMinecraft(component));
+        getMinecraftEntity().setCustomName(component == null ? null : Transformer.COMPONENT.toMinecraft(component));
     }
 
     @Override
@@ -351,7 +349,7 @@ public abstract class EntityImpl extends CommandSourceImpl implements Entity {
 
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        return getMinecraftEntity().isInvulnerableTo(DamageSourceTransformer.toMinecraft(damageSource));
+        return getMinecraftEntity().isInvulnerableTo(Transformer.DAMAGE_SOURCE.toMinecraft(damageSource));
     }
 
     @Override
@@ -367,7 +365,8 @@ public abstract class EntityImpl extends CommandSourceImpl implements Entity {
 
     @Override
     public void emitSound(@NotNull SoundEvent sound, float volume, float pitch) {
-        getMinecraftEntity().playSound(Registry.SOUND_EVENT.get(new ResourceLocation(sound.getKey().toString())), volume, pitch);
+        var mcSound = Registry.SOUND_EVENT.get(Transformer.NAMESPACED_KEY.toMinecraft(sound.getKey()));
+        getMinecraftEntity().playSound(mcSound, volume, pitch);
     }
 
     @Override

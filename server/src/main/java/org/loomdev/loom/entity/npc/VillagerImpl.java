@@ -8,7 +8,7 @@ import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.npc.Villager;
 import org.loomdev.api.village.VillagerProfession;
 import org.loomdev.api.village.VillagerVariant;
-import org.loomdev.loom.util.transformer.TextTransformer;
+import org.loomdev.loom.transformer.Transformer;
 
 public class VillagerImpl extends AbstractVillagerImpl implements Villager {
 
@@ -48,7 +48,7 @@ public class VillagerImpl extends AbstractVillagerImpl implements Villager {
 
     @Override
     public void setProfession(@NotNull VillagerProfession villagerProfession) {
-        var profession = Registry.VILLAGER_PROFESSION.get(new ResourceLocation(villagerProfession.getKey().toString()));
+        var profession = Registry.VILLAGER_PROFESSION.get(Transformer.NAMESPACED_KEY.toMinecraft(villagerProfession.getKey()));
         getMinecraftEntity().setVillagerData(getMinecraftEntity().getVillagerData().setProfession(profession));
     }
 
@@ -69,6 +69,6 @@ public class VillagerImpl extends AbstractVillagerImpl implements Villager {
 
     @Override
     public Component getDefaultName() {
-        return TextTransformer.toLoom(getMinecraftEntity().getTypeName());
+        return Transformer.COMPONENT.toLoom(getMinecraftEntity().getTypeName());
     }
 }

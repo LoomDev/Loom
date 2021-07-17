@@ -9,8 +9,8 @@ import org.loomdev.api.block.BlockType;
 import org.loomdev.api.entity.Entity;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.SpawnGroup;
+import org.loomdev.loom.transformer.Transformer;
 import org.loomdev.loom.util.registry.GenericWrapped;
-import org.loomdev.loom.util.transformer.TextTransformer;
 
 import java.util.Optional;
 
@@ -63,7 +63,7 @@ public class EntityTypeImpl extends GenericWrapped implements EntityType<Entity>
     @Override
     @NotNull
     public Optional<Component> getName() {
-        return Optional.ofNullable(getMinecraftEntity().getDescription())
-                .map(TextTransformer::toLoom);
+        return Optional.of(getMinecraftEntity().getDescription())
+                .map(Transformer.COMPONENT::toLoom);
     }
 }

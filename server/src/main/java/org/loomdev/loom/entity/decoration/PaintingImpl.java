@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.decoration.Painting;
+import org.loomdev.loom.transformer.Transformer;
 import org.loomdev.loom.util.registry.GenericWrapped;
 
 public class PaintingImpl extends AbstractHangingEntityImpl implements Painting {
@@ -33,7 +34,7 @@ public class PaintingImpl extends AbstractHangingEntityImpl implements Painting 
 
     @Override
     public void setMotive(@NotNull Motive motive) {
-        getMinecraftEntity().motive = Registry.MOTIVE.get(new ResourceLocation(motive.getKey().toString()));
+        getMinecraftEntity().motive = Registry.MOTIVE.get(Transformer.NAMESPACED_KEY.toMinecraft(motive.getKey()));
     }
 
     public static class MotiveImpl extends GenericWrapped implements Motive {

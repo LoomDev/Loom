@@ -2,15 +2,14 @@ package org.loomdev.loom.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.block.BlockPointer;
 import org.loomdev.api.block.BlockState;
 import org.loomdev.api.block.BlockType;
-import org.loomdev.api.world.Chunk;
 import org.loomdev.api.world.Location;
 import org.loomdev.api.world.World;
+import org.loomdev.loom.transformer.Transformer;
 
 public class BlockPointerImpl implements BlockPointer {
 
@@ -58,7 +57,7 @@ public class BlockPointerImpl implements BlockPointer {
 
     @Override
     public void setBlockType(@NotNull BlockType type, int updatePriority) {
-        var block = Registry.BLOCK.get(new ResourceLocation(type.getKey().toString()));
+        var block = Registry.BLOCK.get(Transformer.NAMESPACED_KEY.toMinecraft(type.getKey()));
         getMinecraftWorld().setBlock(getMinecraftPos(), block.defaultBlockState(), updatePriority);
     }
 

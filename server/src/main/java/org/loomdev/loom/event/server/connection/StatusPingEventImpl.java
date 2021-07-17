@@ -6,7 +6,7 @@ import net.minecraft.network.protocol.status.ServerStatus;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.event.server.connection.StatusPingEvent;
 import org.loomdev.loom.event.EventImpl;
-import org.loomdev.loom.util.transformer.TextTransformer;
+import org.loomdev.loom.transformer.Transformer;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -72,12 +72,12 @@ public class StatusPingEventImpl extends EventImpl implements StatusPingEvent {
     @Override
     @NotNull
     public Component getMotd() {
-        return TextTransformer.toLoom(serverStatus.getDescription());
+        return Transformer.COMPONENT.toLoom(serverStatus.getDescription());
     }
 
     @Override
     public void setMotd(@NotNull Component motd) {
-        serverStatus.setDescription(TextTransformer.toMinecraft(motd));
+        serverStatus.setDescription(Transformer.COMPONENT.toMinecraft(motd));
     }
 
     @Override

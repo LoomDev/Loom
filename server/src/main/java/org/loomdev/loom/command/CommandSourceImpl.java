@@ -9,7 +9,7 @@ import org.loomdev.api.command.CommandSourceConsumable;
 import org.loomdev.api.command.ConsoleCommandSource;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.loom.server.ServerImpl;
-import org.loomdev.loom.util.transformer.TextTransformer;
+import org.loomdev.loom.transformer.Transformer;
 
 import java.util.function.Consumer;
 import java.util.UUID;
@@ -85,7 +85,7 @@ public class CommandSourceImpl implements CommandSource {
 
     @Override
     public void sendMessage(@NotNull Component message, @NotNull UUID sender) {
-        source.sendMessage(TextTransformer.toMinecraft(message), sender);
+        source.sendMessage(Transformer.COMPONENT.toMinecraft(message), sender);
     }
 
     @Override

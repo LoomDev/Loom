@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.effect.StatusEffect;
 import org.loomdev.api.entity.animal.Mooshroom;
-import org.loomdev.loom.util.transformer.StatusEffectTypeTransformer;
+import org.loomdev.loom.transformer.Transformer;
 
 import java.util.Optional;
 
@@ -33,7 +33,7 @@ public class MooshroomImpl extends CowImpl implements Mooshroom {
     @NotNull
     public Optional<StatusEffect> getStewEffect() {
         return Optional.ofNullable(getMinecraftEntity().effect)
-                .map(effect -> StatusEffect.builder(StatusEffectTypeTransformer.toLoom(effect))
+                .map(effect -> StatusEffect.builder(Transformer.STATUS_EFFECT_TYPE.toLoom(effect))
                         .duration(getMinecraftEntity().effectDuration)
                         .build());
     }
@@ -46,7 +46,7 @@ public class MooshroomImpl extends CowImpl implements Mooshroom {
             return;
         }
 
-        getMinecraftEntity().effect = StatusEffectTypeTransformer.toMinecraft(statusEffect.getType());
+        getMinecraftEntity().effect = Transformer.STATUS_EFFECT_TYPE.toMinecraft(statusEffect.getType());
         getMinecraftEntity().effectDuration = statusEffect.getDuration();
     }
 

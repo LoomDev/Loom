@@ -2,7 +2,6 @@ package org.loomdev.loom.item;
 
 import net.kyori.adventure.text.Component;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,6 +10,7 @@ import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.ItemType;
 import org.loomdev.api.item.property.ItemProperty;
 import org.loomdev.api.item.property.data.ItemPropertyData;
+import org.loomdev.loom.transformer.Transformer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +41,7 @@ public class ItemStackImpl implements ItemStack {
 
     @Override
     public void setType(@NotNull ItemType item) {
-        mcStack.item = Registry.ITEM.get(new ResourceLocation(item.getKey().toString()));
+        mcStack.item = Registry.ITEM.get(Transformer.NAMESPACED_KEY.toMinecraft(item.getKey()));
         mcStack.updateEmptyCacheFlag();
     }
 

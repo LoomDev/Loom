@@ -1,13 +1,13 @@
 package org.loomdev.loom.tag;
 
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.GameEventTags;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.tag.GameEventTag;
 import org.loomdev.api.util.NamespacedKey;
 import org.loomdev.api.world.event.GameEventType;
+import org.loomdev.loom.transformer.Transformer;
 import org.loomdev.loom.util.registry.GenericWrapped;
 import org.loomdev.loom.world.event.GameEventTypeImpl;
 
@@ -20,7 +20,7 @@ public class GameEventTagImpl extends GenericWrapped implements GameEventTag {
 
     public GameEventTagImpl(NamespacedKey key) {
         super(key);
-        this.tag = GameEventTags.HELPER.getAllTags().getTag(new ResourceLocation(key.getNamespace(), key.getKey()));
+        this.tag = GameEventTags.HELPER.getAllTags().getTag(Transformer.NAMESPACED_KEY.toMinecraft(key));
 
         if (this.tag == null) {
             throw new IllegalArgumentException();

@@ -11,6 +11,7 @@ import org.loomdev.api.item.property.data.LeatherDyeData;
 import org.loomdev.api.util.Color;
 import org.loomdev.loom.item.ItemStackImpl;
 import org.loomdev.loom.item.property.data.LeatherDyeDataImpl;
+import org.loomdev.loom.transformer.Transformer;
 
 public class LeatherDyeProperty implements ItemProperty<LeatherDyeData> {
 
@@ -43,7 +44,7 @@ public class LeatherDyeProperty implements ItemProperty<LeatherDyeData> {
 
     @Override
     public boolean canApplyTo(@NotNull ItemStack itemStack) {
-        var mcItem = Registry.ITEM.get(new ResourceLocation(itemStack.getType().getKey().toString()));
+        var mcItem = Registry.ITEM.get(Transformer.NAMESPACED_KEY.toMinecraft(itemStack.getType().getKey()));
         return mcItem instanceof DyeableLeatherItem;
     }
 }

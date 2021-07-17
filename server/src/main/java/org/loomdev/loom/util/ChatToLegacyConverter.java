@@ -1,6 +1,5 @@
 package org.loomdev.loom.util;
 
-import org.loomdev.loom.util.transformer.TextTransformer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;

@@ -7,8 +7,8 @@ import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.item.ItemStack;
 import org.loomdev.api.item.ItemType;
+import org.loomdev.loom.transformer.Transformer;
 import org.loomdev.loom.util.registry.GenericWrapped;
-import org.loomdev.loom.util.transformer.TextTransformer;
 
 public class ItemTypeImpl extends GenericWrapped implements ItemType {
 
@@ -53,7 +53,7 @@ public class ItemTypeImpl extends GenericWrapped implements ItemType {
 
     @Override
     public Component getName(ItemStack itemStack) {
-        return TextTransformer.toLoom(this.mcItem.getName(((ItemStackImpl) itemStack).getMinecraftItemStack()));
+        return Transformer.COMPONENT.toLoom(this.mcItem.getName(((ItemStackImpl) itemStack).getMinecraftItemStack()));
     }
 
     @Override

@@ -6,8 +6,8 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.loomdev.api.item.Enchantment;
 import org.loomdev.api.item.ItemStack;
+import org.loomdev.loom.transformer.Transformer;
 import org.loomdev.loom.util.registry.GenericWrapped;
-import org.loomdev.loom.util.transformer.TextTransformer;
 
 public final class EnchantmentImpl extends GenericWrapped implements Enchantment {
 
@@ -20,7 +20,7 @@ public final class EnchantmentImpl extends GenericWrapped implements Enchantment
 
     @Override
     public @NotNull Component getName(int level) {
-        return TextTransformer.toLoom(mcEnchant.getFullname(level));
+        return Transformer.COMPONENT.toLoom(mcEnchant.getFullname(level));
     }
 
     @Override
@@ -40,7 +40,7 @@ public final class EnchantmentImpl extends GenericWrapped implements Enchantment
 
     @Override
     public boolean canCombineWith(@NotNull Enchantment enchantment) {
-        return mcEnchant.isCompatibleWith(Registry.ENCHANTMENT.get(new ResourceLocation(enchantment.getKey().toString())));
+        return mcEnchant.isCompatibleWith(Registry.ENCHANTMENT.get(Transformer.NAMESPACED_KEY.toMinecraft(enchantment.getKey())));
     }
 
     @Override

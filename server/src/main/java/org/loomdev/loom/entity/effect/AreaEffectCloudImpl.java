@@ -11,9 +11,7 @@ import org.loomdev.api.entity.effect.StatusEffectType;
 import org.loomdev.api.particle.Particle;
 import org.loomdev.loom.entity.EntityImpl;
 import org.loomdev.loom.entity.LivingEntityImpl;
-import org.loomdev.loom.util.transformer.ParticleTransformer;
-import org.loomdev.loom.util.transformer.StatusEffectTransformer;
-import org.loomdev.loom.util.transformer.StatusEffectTypeTransformer;
+import org.loomdev.loom.transformer.Transformer;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -40,7 +38,7 @@ public class AreaEffectCloudImpl extends EntityImpl implements AreaEffectCloud {
     @NotNull
     public Stream<StatusEffect> getStatusEffects() {
         return getMinecraftEntity().effects.stream()
-                .map(StatusEffectTransformer::toLoom);
+                .map(Transformer.STATUS_EFFECT::toLoom);
     }
 
     @Override
@@ -53,12 +51,12 @@ public class AreaEffectCloudImpl extends EntityImpl implements AreaEffectCloud {
 
     @Override
     public void addStatusEffect(@NotNull StatusEffect effect) {
-        getMinecraftEntity().addEffect(StatusEffectTransformer.toMinecraft(effect));
+        getMinecraftEntity().addEffect(Transformer.STATUS_EFFECT.toMinecraft(effect));
     }
 
     @Override
     public void removeStatusEffect(@NotNull StatusEffectType type) {
-        getMinecraftEntity().effects.removeIf(effect -> effect.getEffect().equals(StatusEffectTypeTransformer.toMinecraft(type)));
+        getMinecraftEntity().effects.removeIf(effect -> effect.getEffect().equals(Transformer.STATUS_EFFECT_TYPE.toMinecraft(type)));
     }
 
     @Override
@@ -174,6 +172,6 @@ public class AreaEffectCloudImpl extends EntityImpl implements AreaEffectCloud {
 
     @Override
     public void setParticle(@NotNull Particle particle) {
-        getMinecraftEntity().setParticle(ParticleTransformer.toMinecraft(particle));
+        getMinecraftEntity().setParticle(Transformer.PARTICLE.toMinecraft(particle));
     }
 }
