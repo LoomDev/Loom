@@ -1,7 +1,6 @@
 package org.loomdev.api.entity;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.effect.StatusEffect;
 import org.loomdev.api.entity.effect.StatusEffectType;
 import org.loomdev.api.item.ItemStack;
@@ -77,7 +76,7 @@ public interface LivingEntity extends Damageable {
     boolean isHolding(@NotNull Predicate<ItemType> predicate);
 
     @NotNull
-    Optional<ItemStack> getEquipment(@NotNull EquipmentSlot slot);
+    ItemStack getEquipment(@NotNull EquipmentSlot slot);
 
     void setEquipment(@NotNull EquipmentSlot slot, @NotNull ItemStack equipment);
 

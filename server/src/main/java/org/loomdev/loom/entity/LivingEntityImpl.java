@@ -178,20 +178,19 @@ public abstract class LivingEntityImpl extends EntityImpl implements LivingEntit
     @Override
     public boolean isHolding(@NotNull Predicate<ItemType> predicate) {
         var mainHand = getEquipment(EquipmentSlot.MAIN_HAND);
-        var offHand = getEquipment(EquipmentSlot.OFF_HAND);
 
-        if (mainHand.isPresent() && predicate.test(mainHand.get().getType())) {
+        if (!mainHand.isEmpty() && predicate.test(mainHand.getType())) {
             return true;
         }
 
-        return offHand.isPresent() && predicate.test(offHand.get().getType());
+        var offHand = getEquipment(EquipmentSlot.OFF_HAND);
+        return !offHand.isEmpty() && predicate.test(offHand.getType());
     }
 
     @Override
     @NotNull
-    public Optional<ItemStack> getEquipment(@NotNull EquipmentSlot slot) {
-        return Optional.ofNullable(getMinecraftEntity().getItemBySlot(getMinecraftEquipmentSlot(slot)))
-                .map(ItemStackImpl::of);
+    public ItemStack getEquipment(@NotNull EquipmentSlot slot) {
+        return ItemStackImpl.of(getMinecraftEntity().getItemBySlot(getMinecraftEquipmentSlot(slot)));
     }
 
     @Override
