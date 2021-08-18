@@ -4,9 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.ChatType;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Pose;
@@ -16,11 +14,13 @@ import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.EntityType;
 import org.loomdev.api.entity.player.Player;
 import org.loomdev.api.math.MathHelper;
+import org.loomdev.api.network.PlayerConnection;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.GameMode;
 import org.loomdev.api.util.ResourcePackStatus;
 import org.loomdev.api.util.Weather;
 import org.loomdev.loom.entity.LivingEntityImpl;
+import org.loomdev.loom.network.PlayerConnectionImpl;
 import org.loomdev.loom.server.ServerImpl;
 import org.loomdev.loom.transformer.Transformer;
 import org.loomdev.loom.world.WorldImpl;
@@ -30,6 +30,7 @@ import java.util.Optional;
 
 public class PlayerImpl extends LivingEntityImpl implements Player {
 
+    private final PlayerConnection playerConnection;
     private Component tabListName;
     private Component tabListHeader;
     private Component tabListFooter;
@@ -38,6 +39,7 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
 
     public PlayerImpl(ServerPlayer entity) {
         super(entity);
+        this.playerConnection = new PlayerConnectionImpl(getMinecraftEntity().connection);
         this.resourcePackStatus = ResourcePackStatus.UNKNOWN;
     }
 
@@ -54,8 +56,9 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     }
 
     @Override
-    public boolean isConnected() {
-        return getMinecraftEntity().connection != null;
+    @NotNull
+    public PlayerConnection getConnection() {
+        return playerConnection;
     }
 
     @Override
@@ -145,17 +148,6 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
         getMinecraftEntity().connection.send(new ClientboundSetTitlesAnimationPacket(fadeIn, stay, fadeOut));
         getMinecraftEntity().connection.send(new ClientboundSetTitleTextPacket(Transformer.COMPONENT.toMinecraft(title)));
         getMinecraftEntity().connection.send(new ClientboundSetSubtitleTextPacket(Transformer.COMPONENT.toMinecraft(subtitle)));
-    }
-
-    @Override
-    @NotNull
-    public Optional<InetSocketAddress> getRemoteAddress() {
-        if (!isConnected()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(getMinecraftEntity().connection.connection.getRemoteAddress())
-                .map(InetSocketAddress.class::cast);
     }
 
     @Override
@@ -306,16 +298,6 @@ public class PlayerImpl extends LivingEntityImpl implements Player {
     @NotNull
     public ResourcePackStatus getLastResourcePackStatus() {
         return resourcePackStatus;
-    }
-
-    @Override
-    public void kick() {
-        getMinecraftEntity().connection.disconnect(TextComponent.EMPTY);
-    }
-
-    @Override
-    public void kick(@NotNull Component reason) {
-        getMinecraftEntity().connection.disconnect(Transformer.COMPONENT.toMinecraft(reason));
     }
 
     public void setLastResourcePackStatus(ServerboundResourcePackPacket.Action action) {

@@ -4,17 +4,18 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.loomdev.api.entity.LivingEntity;
+import org.loomdev.api.network.PlayerConnection;
 import org.loomdev.api.sound.Sound;
 import org.loomdev.api.util.GameMode;
 import org.loomdev.api.util.ResourcePackStatus;
 import org.loomdev.api.util.Weather;
 
-import java.net.InetSocketAddress;
 import java.util.Optional;
 
 public interface Player extends LivingEntity {
 
-    boolean isConnected();
+    @NotNull
+    PlayerConnection getConnection();
 
     boolean isCrouching();
 
@@ -111,9 +112,6 @@ public interface Player extends LivingEntity {
      */
     void sendTitle(@NotNull Component title, @NotNull Component subtitle, int fadeIn, int stay, int fadeOut);
 
-    @NotNull
-    Optional<InetSocketAddress> getRemoteAddress();
-
     /**
      * Gets the player's protocol version.
      *
@@ -203,9 +201,4 @@ public interface Player extends LivingEntity {
      */
     @NotNull
     ResourcePackStatus getLastResourcePackStatus();
-
-    void kick();
-
-    void kick(@NotNull Component reason);
-
 }

@@ -215,7 +215,7 @@ public class WorldImpl implements World {
         ((ServerLevel) getMinecraftWorld()).setDayTime(getAbsoluteTime() + event.getSkippedTicks());
 
         getPlayers()
-                .filter(Player::isConnected)
+                .filter(player -> player.getConnection().isConnected())
                 .map(PlayerImpl.class::cast)
                 .forEach(player -> {
                     Level level = ((WorldImpl) player.getWorld()).getMinecraftWorld();
